@@ -185,12 +185,12 @@ kept_count=0
 for file in $patterns_files; do
     if printf '%s\n' "${modified_files[@]}" | grep -q "^patterns/$file$" && [ "$KEEP_MODIFIED" = true ]; then
         echo "  ${YELLOW}⊙${NC} Kept patterns/$file (modified)"
-        ((kept_count++))
+        kept_count=$((kept_count + 1))
     else
         if [ -f "agent/patterns/$file" ]; then
             rm "agent/patterns/$file"
             echo "  ${GREEN}✓${NC} Removed patterns/$file"
-            ((removed_count++))
+            removed_count=$((removed_count + 1))
         fi
     fi
 done
@@ -198,12 +198,12 @@ done
 for file in $commands_files; do
     if printf '%s\n' "${modified_files[@]}" | grep -q "^commands/$file$" && [ "$KEEP_MODIFIED" = true ]; then
         echo "  ${YELLOW}⊙${NC} Kept commands/$file (modified)"
-        ((kept_count++))
+        kept_count=$((kept_count + 1))
     else
         if [ -f "agent/commands/$file" ]; then
             rm "agent/commands/$file"
             echo "  ${GREEN}✓${NC} Removed commands/$file"
-            ((removed_count++))
+            removed_count=$((removed_count + 1))
         fi
     fi
 done
@@ -211,12 +211,12 @@ done
 for file in $designs_files; do
     if printf '%s\n' "${modified_files[@]}" | grep -q "^design/$file$" && [ "$KEEP_MODIFIED" = true ]; then
         echo "  ${YELLOW}⊙${NC} Kept design/$file (modified)"
-        ((kept_count++))
+        kept_count=$((kept_count + 1))
     else
         if [ -f "agent/design/$file" ]; then
             rm "agent/design/$file"
             echo "  ${GREEN}✓${NC} Removed design/$file"
-            ((removed_count++))
+            removed_count=$((removed_count + 1))
         fi
     fi
 done
