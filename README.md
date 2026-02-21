@@ -2,6 +2,7 @@
 
 A documentation-first development methodology that enables AI agents to understand, build, and maintain complex software projects through structured knowledge capture.
 
+> *[Search ACP packages](https://prmichaelsen.github.io/agent-context-protocol/)*
 ---
 
 ## Quick Start
