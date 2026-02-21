@@ -86,7 +86,7 @@ Identify discrepancies between docs and code.
 
 **Actions**:
 - Compare documented features with implemented features
-- **Compare documented tools (e.g., yq) with actual tools (e.g., acp.yaml.sh)**
+- **Compare documented tools (e.g., yq) with actual tools (e.g., acp.yaml-parser.sh)**
 - **Compare documented functions with actual implementations**
 - **Check if task code examples match actual code in scripts**
 - Check if documented patterns match actual patterns
@@ -108,7 +108,7 @@ Determine which documents need updates.
 - Note patterns that don't match code
 - Identify missing documentation for new features
 - Flag incorrect technical specifications
-- **Flag task documents referencing wrong tools (e.g., yq vs acp.yaml.sh)**
+- **Flag task documents referencing wrong tools (e.g., yq vs acp.yaml-parser.sh)**
 - Prioritize updates by importance
 
 **Expected Outcome**: Update priorities established
@@ -186,7 +186,7 @@ Update progress.yaml to reflect sync activity.
 - [ ] All design documents reviewed
 - [ ] **All task documents reviewed for code examples**
 - [ ] Source code reviewed and compared
-- [ ] **Scripts reviewed for actual tool usage (acp.yaml.sh vs yq, etc.)**
+- [ ] **Scripts reviewed for actual tool usage (acp.yaml-parser.sh vs yq, etc.)**
 - [ ] Documentation drift identified
 - [ ] **Task document code examples checked against actual scripts**
 - [ ] Stale documents updated

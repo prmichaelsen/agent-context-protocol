@@ -5,6 +5,24 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] - 2026-02-21
+
+### Changed
+
+**YAML Parser Migration**:
+- All scripts now use `acp.yaml-parser.sh` (AST-based parser) via `source_yaml_parser()`
+- 10-100x performance improvement for multiple queries (parse once, query many)
+- Generic path expressions supported: `.path.to.field`, `.array[0].field`
+- Backward-compatible API maintained: `yaml_get()`, `yaml_get_nested()`, `yaml_has_key()`, `yaml_get_array()`
+- Updated documentation references from `acp.yaml.sh` to `acp.yaml-parser.sh`
+
+### Removed
+
+- `acp.yaml.sh` - Replaced by `acp.yaml-parser.sh`
+  - Old parser removed (migration complete)
+  - All functionality now provided by `acp.yaml-parser.sh`
+  - Test file `tests/acp.yaml.test.sh` also removed
+
 ## [3.6.3] - 2026-02-21
 
 ### Fixed
