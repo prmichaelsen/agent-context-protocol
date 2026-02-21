@@ -76,12 +76,14 @@ This will:
 
 ### Resume a Previous Session
 
-Type: **`@acp.init.md @report-2026-02-21-session-3.md @acp.proceed`**
+Type: **`@acp.resume`** ⭐ Recommended
 
-This will:
-- Load the initialization command
-- Review the previous session report
-- Load the proceed command to continue work
+This convenient command automatically:
+- Initializes context (`@acp.init`)
+- Reviews latest session report
+- Continues with next task (`@acp.proceed`)
+
+Perfect for starting new sessions or returning after breaks.
 
 ### Check Project Status
 
@@ -94,9 +96,13 @@ This will:
 
 ### Available Commands
 
+**Workflow Commands**:
+- **`@acp.resume`** ⭐ - Resume work (init + report + proceed)
 - **`@acp.init`** - Initialize agent context
 - **`@acp.proceed`** - Continue with next task
 - **`@acp.status`** - Display project status
+
+**Version Commands**:
 - **`@acp.version-check`** - Show current ACP version
 - **`@acp.version-check-for-updates`** - Check for updates
 - **`@acp.version-update`** - Update ACP to latest version
