@@ -453,7 +453,7 @@ yaml_get_nested() {
     yaml_query ".$path"
 }
 
-# Check if key exists
+# Check if key exists (checks if node exists, not if it has a value)
 yaml_has_key() {
     local file="$1"
     local key="$2"
@@ -462,9 +462,62 @@ yaml_has_key() {
         yaml_parse "$file" || return 1
     fi
     
-    local result
-    result=$(yaml_query ".$key" 2>/dev/null)
-    [ -n "$result" ]
+    # Try to find the node (returns empty string on failure, but exit code tells us)
+    path=$(echo "$key" | sed 's/^\.//')
+    local current_node="$AST_ROOT_ID"
+    
+    local IFS='.'
+    for segment in $path; do
+        if echo "$segment" | grep -q '\['; then
+            local k index
+            k=$(echo "$segment" | sed 's/\[.*//')
+            index=$(echo "$segment" | sed 's/.*\[\([0-9]*\)\].*/\1/')
+            
+            current_node=$(find_child_by_key "$current_node" "$k" 2>/dev/null)
+            [ -z "$current_node" ] && return 1
+            
+            current_node=$(find_child_by_index "$current_node" "$index" 2>/dev/null)
+            [ -z "$current_node" ] && return 1
+        else
+            current_node=$(find_child_by_key "$current_node" "$segment" 2>/dev/null)
+            [ -z "$current_node" ] && return 1
+        fi
+    done
+    
+    # Node exists
+    return 0
+}
+
+# Get array count (for object arrays)
+# Usage: yaml_get_array file.yaml "contents.commands"
+# Returns: count of array elements
+yaml_get_array() {
+    local file="$1"
+    local path="$2"
+    
+    if [ "$YAML_CURRENT_FILE" != "$file" ]; then
+        yaml_parse "$file" || return 1
+    fi
+    
+    # Find the array node
+    path=$(echo "$path" | sed 's/^\.//')
+    local current_node="$AST_ROOT_ID"
+    
+    local IFS='.'
+    for segment in $path; do
+        current_node=$(find_child_by_key "$current_node" "$segment")
+        [ -z "$current_node" ] && return 1
+    done
+    
+    # Get children count
+    local children
+    children=$(get_node_field "$current_node" 6)
+    
+    if [ -z "$children" ]; then
+        echo "0"
+    else
+        echo "$children" | tr ',' '\n' | wc -l
+    fi
 }
 
 # ============================================================================

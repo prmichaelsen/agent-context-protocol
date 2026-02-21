@@ -5,6 +5,20 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.2] - 2026-02-21
+
+### Fixed
+
+**YAML Parser Integration Bug**:
+- Fixed `yaml_has_key()` to check node existence instead of value presence
+- Added `yaml_get_array()` function for array element counting
+- Resolves BR-2026-02-21-008: validation script now correctly reads package.yaml contents
+- Validation now shows "All X files in contents exist" instead of "All 0 files"
+- Package files are now properly validated for namespace consistency
+- Bug was caused by `yaml_has_key()` returning false for keys with no direct value (arrays, maps)
+
+**Impact**: Package validation now works correctly in all contexts
+
 ## [3.5.1] - 2026-02-21
 
 ### Fixed
