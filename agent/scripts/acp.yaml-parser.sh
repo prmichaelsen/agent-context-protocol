@@ -453,13 +453,28 @@ yaml_get_nested() {
     yaml_query ".$path"
 }
 
+# Check if key exists
+yaml_has_key() {
+    local file="$1"
+    local key="$2"
+    
+    if [ "$YAML_CURRENT_FILE" != "$file" ]; then
+        yaml_parse "$file" || return 1
+    fi
+    
+    local result
+    result=$(yaml_query ".$key" 2>/dev/null)
+    [ -n "$result" ]
+}
+
 # ============================================================================
 # MAIN
 # ============================================================================
 
 trap cleanup_ast EXIT INT TERM
 
-if [ -n "$1" ] && [ "$1" != "-" ]; then
+# Only run main if script is executed directly (not sourced)
+if [ -n "$1" ] && [ "$1" != "-" ] && [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     case "$1" in
         parse)
             yaml_parse "$2"

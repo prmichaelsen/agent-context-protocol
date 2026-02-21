@@ -5,6 +5,17 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.1] - 2026-02-21
+
+### Fixed
+
+**YAML Validation Integration**:
+- Updated `agent/scripts/acp.yaml-validate.sh` to use new generic YAML parser
+- Added `yaml_has_key()` function to `acp.yaml-parser.sh` for backward compatibility
+- Fixed sourcing behavior to prevent main section execution when sourced
+- All validation functions now use AST-based parser for better performance
+- Zero breaking changes - drop-in replacement maintains full compatibility
+
 ## [3.5.0] - 2026-02-21
 
 ### Added

@@ -3,9 +3,9 @@
 # Pure bash YAML validation against schema definitions
 # Zero external dependencies
 
-# Source YAML parser
+# Source YAML parser (using new generic AST-based parser)
 SCRIPT_DIR="$(dirname "$0")"
-. "${SCRIPT_DIR}/acp.yaml.sh"
+. "${SCRIPT_DIR}/acp.yaml-parser.sh"
 . "${SCRIPT_DIR}/acp.common.sh"
 
 # Initialize colors
