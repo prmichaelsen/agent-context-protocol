@@ -428,6 +428,8 @@ cat > "README.md" << EOF
 
 ${DESCRIPTION}
 
+> **This package is designed for use with the [Agent Context Protocol](https://github.com/prmichaelsen/agent-context-protocol). Read more about ACP [here](https://github.com/prmichaelsen/agent-context-protocol).**
+
 ## Installation
 
 ### Quick Start (Bootstrap New Project)

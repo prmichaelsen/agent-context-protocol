@@ -5,6 +5,12 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.1] - 2026-02-21
+
+### Changed
+- Package creation script now includes ACP attribution link in generated README files
+- Generated package READMEs now have blockquote with link to Agent Context Protocol repository
+
 ## [3.6.0] - 2026-02-21
 
 ### Added
