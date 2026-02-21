@@ -5,6 +5,35 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.1] - 2026-02-21
+
+### Fixed
+
+**Critical Bug Fixes in Package Management Scripts**:
+- Fixed `(( VAR++ ))` arithmetic expressions causing early exit with `set -e`
+  - `acp.package-list.sh` - 2 occurrences fixed
+  - `acp.package-search.sh` - 1 occurrence fixed
+  - `acp.package-remove.sh` - 8 occurrences fixed
+- Fixed file counting in `acp.package-remove.sh` (grep -c returning multiple lines)
+- Fixed JSON parsing in `acp.package-search.sh` (handle spaces in JSON)
+- Disabled `set -e` in `acp.package-search.sh` (incompatible with while-read subshell)
+
+**Package Search Now Working**:
+- Search successfully finds and displays ACP packages
+- Tested with real repositories (acp-tanstack-cloudflare, acp-mcp-auth-server-base)
+- All search modes working (keyword, topic, user, limit)
+
+### Added
+
+**E2E Test Infrastructure**:
+- Created `e2e/` directory for end-to-end tests
+- Created `e2e/acp.package-list.test.sh` (10/10 assertions passing)
+- Created `e2e/acp.package-info.test.sh` (13/13 assertions passing)
+- Created `e2e/acp.package-remove.test.sh` (8/8 assertions passing)
+- Created `e2e/acp.package-search.test.sh` (8/8 assertions passing)
+- Enhanced `tests/common.sh` with test helper functions
+- Total: 39/39 assertions passing (100%)
+
 ## [3.7.0] - 2026-02-21
 
 ### Changed
