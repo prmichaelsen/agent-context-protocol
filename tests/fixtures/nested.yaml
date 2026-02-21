@@ -1,0 +1,6 @@
+project:
+  name: test-project
+  version: 1.0.0
+  metadata:
+    author: Test Author
+    license: MIT
