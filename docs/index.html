@@ -292,9 +292,13 @@
             resultsDiv.innerHTML = '<div class="loading">🔍 Searching...</div>';
             
             try {
-                // Search GitHub for repositories with topic "acp-package" and query in name
-                // Use "in:name" to search within repository names
-                const searchQuery = `${query}+topic:acp-package+in:name`;
+                // Search GitHub for repositories with topic "acp-package"
+                // If query provided, add it to search; otherwise show all
+                let searchQuery = 'topic:acp-package';
+                if (query && query !== '*') {
+                    searchQuery = `${query} ${searchQuery}`;
+                }
+                
                 const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&sort=${currentSort}&per_page=20`;
                 
                 console.log('Searching:', url);
