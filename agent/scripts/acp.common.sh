@@ -67,10 +67,10 @@ get_script_dir() {
 source_yaml_parser() {
     local script_dir
     script_dir=$(get_script_dir)
-    if [ -f "${script_dir}/acp.yaml.sh" ]; then
-        . "${script_dir}/acp.yaml.sh"
+    if [ -f "${script_dir}/acp.yaml-parser.sh" ]; then
+        . "${script_dir}/acp.yaml-parser.sh"
     else
-        echo "${RED}Error: acp.yaml.sh not found${NC}" >&2
+        echo "${RED}Error: acp.yaml-parser.sh not found${NC}" >&2
         return 1
     fi
 }
@@ -128,12 +128,8 @@ update_manifest_timestamp() {
     local timestamp
     timestamp=$(get_timestamp)
     
-    # Source YAML parser if not already loaded
-    if ! command -v yaml_set >/dev/null 2>&1; then
-        source_yaml_parser || return 1
-    fi
-    
-    yaml_set "$manifest" "last_updated" "$timestamp"
+    # Update timestamp using sed
+    sed -i "s/^last_updated: .*/last_updated: $timestamp/" "$manifest"
 }
 
 # Check if package exists in manifest
@@ -285,17 +281,41 @@ add_package_to_manifest() {
     
     local manifest="agent/manifest.yaml"
     
-    # Source YAML parser if not already loaded
-    if ! command -v yaml_set >/dev/null 2>&1; then
-        source_yaml_parser || return 1
+    # Add package metadata using direct YAML appending (new parser doesn't support yaml_set for new keys)
+    # Check if package already exists
+    if grep -q "^  ${package_name}:" "$manifest" 2>/dev/null; then
+        # Update existing package
+        sed -i "/^  ${package_name}:/,/^  [a-z]/ {
+            s|source: .*|source: $source_url|
+            s|package_version: .*|package_version: $package_version|
+            s|commit: .*|commit: $commit_hash|
+            s|updated_at: .*|updated_at: $timestamp|
+        }" "$manifest"
+    else
+        # Add new package entry
+        # Find the packages: line and append after it
+        awk -v pkg="$package_name" -v src="$source_url" -v ver="$package_version" -v commit="$commit_hash" -v ts="$timestamp" '
+            /^packages:/ {
+                print
+                if ($2 == "{}") {
+                    # Empty packages, replace line
+                    next
+                }
+                print "  " pkg ":"
+                print "    source: " src
+                print "    package_version: " ver
+                print "    commit: " commit
+                print "    installed_at: " ts
+                print "    updated_at: " ts
+                print "    files:"
+                print "      patterns: []"
+                print "      commands: []"
+                print "      designs: []"
+                next
+            }
+            { print }
+        ' "$manifest" > "$manifest.tmp" && mv "$manifest.tmp" "$manifest"
     fi
-    
-    # Add package metadata
-    yaml_set "$manifest" "packages.${package_name}.source" "$source_url"
-    yaml_set "$manifest" "packages.${package_name}.package_version" "$package_version"
-    yaml_set "$manifest" "packages.${package_name}.commit" "$commit_hash"
-    yaml_set "$manifest" "packages.${package_name}.installed_at" "$timestamp"
-    yaml_set "$manifest" "packages.${package_name}.updated_at" "$timestamp"
     
     # Update manifest timestamp
     update_manifest_timestamp

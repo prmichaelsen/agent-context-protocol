@@ -8,12 +8,12 @@ set -e
 # Source common utilities
 SCRIPT_DIR="$(dirname "$0")"
 . "${SCRIPT_DIR}/acp.common.sh"
+. "${SCRIPT_DIR}/acp.yaml-parser.sh"
 
 # Initialize colors
 init_colors
 
 # Parse arguments
-SKIP_CONFIRM=false
 REPO_URL=""
 INSTALL_PATTERNS=false
 INSTALL_COMMANDS=false
@@ -22,18 +22,23 @@ PATTERN_FILES=()
 COMMAND_FILES=()
 DESIGN_FILES=()
 LIST_ONLY=false
+GLOBAL_INSTALL=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -y|--yes)
-            SKIP_CONFIRM=true
+        --repo)
+            REPO_URL="$2"
+            shift 2
+            ;;
+        --global)
+            GLOBAL_INSTALL=true
             shift
             ;;
         --patterns)
             INSTALL_PATTERNS=true
             shift
-            # Collect pattern file names until next flag or end
-            while [[ $# -gt 0 && ! $1 =~ ^-- && ! $1 =~ ^-[a-z] ]]; do
+            # Collect pattern file names until next flag
+            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
                 PATTERN_FILES+=("$1")
                 shift
             done
@@ -41,8 +46,8 @@ while [[ $# -gt 0 ]]; do
         --commands)
             INSTALL_COMMANDS=true
             shift
-            # Collect command file names until next flag or end
-            while [[ $# -gt 0 && ! $1 =~ ^-- && ! $1 =~ ^-[a-z] ]]; do
+            # Collect command file names until next flag
+            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
                 COMMAND_FILES+=("$1")
                 shift
             done
@@ -50,8 +55,8 @@ while [[ $# -gt 0 ]]; do
         --designs)
             INSTALL_DESIGNS=true
             shift
-            # Collect design file names until next flag or end
-            while [[ $# -gt 0 && ! $1 =~ ^-- && ! $1 =~ ^-[a-z] ]]; do
+            # Collect design file names until next flag
+            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
                 DESIGN_FILES+=("$1")
                 shift
             done
@@ -61,8 +66,9 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         *)
-            REPO_URL="$1"
-            shift
+            echo "${RED}Error: Unknown option: $1${NC}"
+            echo "Use --repo to specify repository URL"
+            exit 1
             ;;
     esac
 done
@@ -70,10 +76,13 @@ done
 # Check if repository URL provided
 if [ -z "$REPO_URL" ]; then
     echo "${RED}Error: Repository URL required${NC}"
-    echo "Usage: $0 [options] <repository-url>"
+    echo "Usage: $0 --repo <repository-url> [options]"
+    echo ""
+    echo "Required:"
+    echo "  --repo <url>           Repository URL to install from"
     echo ""
     echo "Options:"
-    echo "  -y, --yes              Skip confirmation prompts"
+    echo "  --global               Install to ~/.acp/packages/ instead of ./agent/"
     echo "  --patterns [files...]  Install patterns (all if no files specified)"
     echo "  --commands [files...]  Install commands (all if no files specified)"
     echo "  --designs [files...]   Install designs (all if no files specified)"

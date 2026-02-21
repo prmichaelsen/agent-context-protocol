@@ -119,6 +119,19 @@ if [ -f "$TEMP_DIR/agent/package.template.yaml" ]; then
     cp "$TEMP_DIR/agent/package.template.yaml" "$TARGET_DIR/agent/"
 fi
 
+# Create initial manifest.yaml if it doesn't exist
+if [ ! -f "$TARGET_DIR/agent/manifest.yaml" ]; then
+    cat > "$TARGET_DIR/agent/manifest.yaml" << 'EOF'
+# ACP Package Manifest
+# Tracks installed packages and their versions
+
+packages: {}
+
+manifest_version: 1.0.0
+last_updated: null
+EOF
+fi
+
 # Copy schemas
 if [ -f "$TEMP_DIR/agent/schemas/package.schema.yaml" ]; then
     cp "$TEMP_DIR/agent/schemas/package.schema.yaml" "$TARGET_DIR/agent/schemas/"
