@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Package creation script now includes ACP attribution link in generated README files
 - Generated package READMEs now have blockquote with link to Agent Context Protocol repository
 
+### Fixed
+- Repository URL validation: automatically appends `.git` suffix if missing
+- ACP version constraint in package.yaml: removed quotes (was `">=2.8.0"`, now `>=2.8.0`)
+- Bootstrap script location: moved from `scripts/` to `agent/scripts/` for consistency
+
 ## [3.6.0] - 2026-02-21
 
 ### Added

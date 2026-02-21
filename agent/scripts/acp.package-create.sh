@@ -192,6 +192,12 @@ if [ -z "$REPO_URL" ]; then
     exit 1
 fi
 
+# Ensure repository URL ends with .git
+if [[ ! "$REPO_URL" =~ \.git$ ]]; then
+    REPO_URL="${REPO_URL}.git"
+    echo "${YELLOW}Note: Added .git suffix to repository URL: ${REPO_URL}${NC}"
+fi
+
 # Tags
 if [ "$NON_INTERACTIVE" = false ] && [ -z "$TAGS_INPUT" ]; then
     read -p "Tags (comma-separated): " TAGS_INPUT
@@ -329,7 +335,7 @@ contents:
 
 # Compatibility
 requires:
-  acp: ">=2.8.0"
+  acp: >=2.8.0
 
 # Tags for discovery
 tags:
@@ -437,7 +443,7 @@ ${DESCRIPTION}
 Install ACP and this package in one command:
 
 \`\`\`bash
-curl -fsSL ${REPO_URL%.git}/raw/${RELEASE_BRANCH}/scripts/bootstrap.sh | bash
+curl -fsSL ${REPO_URL%.git}/raw/${RELEASE_BRANCH}/agent/scripts/bootstrap.sh | bash
 \`\`\`
 
 This will:
@@ -632,12 +638,12 @@ echo "${GREEN}✓${NC} Created .gitignore"
 echo ""
 
 # Step 8.5: Create bootstrap.sh script
-mkdir -p scripts
+mkdir -p agent/scripts
 
-cat > "scripts/bootstrap.sh" << 'BOOTSTRAP_EOF'
+cat > "agent/scripts/bootstrap.sh" << 'BOOTSTRAP_EOF'
 #!/bin/bash
 # Bootstrap script for installing ACP and this package in one command
-# Usage: curl -fsSL https://github.com/{owner}/{repo}/raw/{branch}/scripts/bootstrap.sh | bash
+# Usage: curl -fsSL https://github.com/{owner}/{repo}/raw/{branch}/agent/scripts/bootstrap.sh | bash
 
 set -e
 
@@ -681,7 +687,7 @@ fi
 BOOTSTRAP_EOF
 
 # Add package-specific installation command
-cat >> "scripts/bootstrap.sh" << EOF
+cat >> "agent/scripts/bootstrap.sh" << EOF
 echo "\${BLUE}Installing ${PACKAGE_NAME} package...\${NC}"
 echo ""
 
@@ -719,9 +725,9 @@ echo "  2. Start working with your AI agent"
 echo ""
 EOF
 
-chmod +x scripts/bootstrap.sh
+chmod +x agent/scripts/bootstrap.sh
 
-echo "${GREEN}✓${NC} Created scripts/bootstrap.sh"
+echo "${GREEN}✓${NC} Created agent/scripts/bootstrap.sh"
 echo ""
 
 # Step 9: Install pre-commit hook
@@ -830,14 +836,14 @@ echo "  ${GREEN}✓${NC} Full ACP installation (all templates and commands)"
 echo "  ${GREEN}✓${NC} Pre-commit hook (validates package.yaml before commits)"
 echo "  ${GREEN}✓${NC} Release branch configured (${RELEASE_BRANCH})"
 echo "  ${GREEN}✓${NC} Git repository initialized"
-echo "  ${GREEN}✓${NC} Bootstrap script (scripts/bootstrap.sh)"
+echo "  ${GREEN}✓${NC} Bootstrap script (agent/scripts/bootstrap.sh)"
 echo "  ${GREEN}✓${NC} Progress tracking (agent/progress.yaml)"
 echo ""
 echo "${BOLD}💡 Bootstrap Installation:${NC}"
 echo ""
 echo "Once published, users can install ACP + your package in one command:"
 echo ""
-echo "  ${YELLOW}curl -fsSL ${REPO_URL%.git}/raw/${RELEASE_BRANCH}/scripts/bootstrap.sh | bash${NC}"
+echo "  ${YELLOW}curl -fsSL ${REPO_URL%.git}/raw/${RELEASE_BRANCH}/agent/scripts/bootstrap.sh | bash${NC}"
 echo ""
 echo "This is perfect for bootstrapping new projects!"
 echo ""
