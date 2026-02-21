@@ -103,10 +103,25 @@ designs_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_designs && /^        - name:/ { print $3 }
 ' agent/manifest.yaml)
 
-# Count files
-patterns_count=$(echo "$patterns_files" | grep -c . || echo 0)
-commands_count=$(echo "$commands_files" | grep -c . || echo 0)
-designs_count=$(echo "$designs_files" | grep -c . || echo 0)
+# Count files (handle empty strings properly)
+if [ -n "$patterns_files" ]; then
+    patterns_count=$(echo "$patterns_files" | wc -l)
+else
+    patterns_count=0
+fi
+
+if [ -n "$commands_files" ]; then
+    commands_count=$(echo "$commands_files" | wc -l)
+else
+    commands_count=0
+fi
+
+if [ -n "$designs_files" ]; then
+    designs_count=$(echo "$designs_files" | wc -l)
+else
+    designs_count=0
+fi
+
 total_files=$((patterns_count + commands_count + designs_count))
 
 echo "${YELLOW}⚠️  This will remove:${NC}"
