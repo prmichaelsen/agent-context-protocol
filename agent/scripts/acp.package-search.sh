@@ -3,7 +3,9 @@
 # Agent Context Protocol (ACP) Package Search Script
 # Search for ACP packages on GitHub using the GitHub API
 
-set -e
+# Note: set -e disabled because while loop runs in subshell
+# and some commands may return non-zero without being errors
+# set -e
 
 # Source common utilities
 SCRIPT_DIR="$(dirname "$0")"
@@ -91,8 +93,8 @@ if echo "$RESPONSE" | grep -q '"message"'; then
     die "GitHub API error: $ERROR_MSG"
 fi
 
-# Parse results
-TOTAL_COUNT=$(echo "$RESPONSE" | grep -o '"total_count":[0-9]*' | cut -d':' -f2)
+# Parse results (handle spaces in JSON)
+TOTAL_COUNT=$(echo "$RESPONSE" | grep -o '"total_count"[: ]*[0-9]*' | grep -o '[0-9]*$')
 
 if [ -z "$TOTAL_COUNT" ] || [ "$TOTAL_COUNT" -eq 0 ]; then
     echo "${YELLOW}No packages found matching your search${NC}"
@@ -110,14 +112,14 @@ echo ""
 # Parse and display each result
 REPO_COUNT=0
 
-echo "$RESPONSE" | grep -o '"full_name":"[^"]*"' | cut -d'"' -f4 | while read -r full_name; do
+echo "$RESPONSE" | grep -o '"full_name": "[^"]*"' | cut -d'"' -f4 | while read -r full_name; do
     REPO_COUNT=$((REPO_COUNT + 1))
     
     # Extract repo info from response
     REPO_DATA=$(echo "$RESPONSE" | grep -A 20 "\"full_name\":\"$full_name\"")
     
-    DESCRIPTION=$(echo "$REPO_DATA" | grep -o '"description":"[^"]*"' | head -1 | cut -d'"' -f4)
-    STARS=$(echo "$REPO_DATA" | grep -o '"stargazers_count":[0-9]*' | head -1 | cut -d':' -f2)
+    DESCRIPTION=$(echo "$REPO_DATA" | grep -o '"description"[: ]*"[^"]*"' | head -1 | sed 's/"description"[: ]*"//' | sed 's/"$//')
+    STARS=$(echo "$REPO_DATA" | grep -o '"stargazers_count"[: ]*[0-9]*' | head -1 | grep -o '[0-9]*$')
     URL="https://github.com/$full_name"
     
     # Fetch package.yaml to get version and tags
