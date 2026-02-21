@@ -101,11 +101,35 @@ This will:
 - **`@acp.init`** - Initialize agent context
 - **`@acp.proceed`** - Continue with next task
 - **`@acp.status`** - Display project status
+- **`@acp.sync`** - Sync documentation with code
+- **`@acp.validate`** - Validate ACP structure
+- **`@acp.report`** - Generate session report
+
+**Package Management**:
+- **`@acp.package-install`** - Install packages
+- **`@acp.package-list`** - List installed packages
+- **`@acp.package-info`** - Show package details
+- **`@acp.package-update`** - Update packages
+- **`@acp.package-remove`** - Remove packages
+- **`@acp.package-search`** - Search for packages
+- **`@acp.package-validate`** - Validate package structure
+- **`@acp.package-publish`** - Publish package
+- **`@acp.package-create`** - Create new package
+
+**Entity Creation**:
+- **`@acp.command-create`** - Create command files
+- **`@acp.pattern-create`** - Create pattern files
+- **`@acp.design-create`** - Create design documents
+- **`@acp.task-create`** - Create task files
 
 **Version Commands**:
 - **`@acp.version-check`** - Show current ACP version
 - **`@acp.version-check-for-updates`** - Check for updates
 - **`@acp.version-update`** - Update ACP to latest version
+
+**Git Commands**:
+- **`@git.commit`** - Intelligent version-aware commits
+- **`@git.init`** - Initialize git repository
 
 See [AGENT.md](./AGENT.md) for complete command documentation and methodology.
 
