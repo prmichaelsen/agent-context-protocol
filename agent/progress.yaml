@@ -624,6 +624,17 @@ tasks:
         - Updated acp.version-update.sh to update acp-core version
         - Updated acp.package-validate.sh to check manifest for files
         - No more false warnings about core commands
+    
+    - id: task-34
+      name: Build Generic YAML Parser with AST
+      status: not_started
+      file: agent/tasks/task-34-build-generic-yaml-parser.md
+      estimated_hours: 80-160
+      completed_date: null
+      notes: |
+        Build truly generic YAML parser in pure POSIX shell using AST approach.
+        Parse once into tree, query with path expressions (.path.to.field, .array[0].field).
+        Significant project (1-2 weeks), could be separate open-source project (yaml-sh).
 
 documentation:
   design_documents: 6
