@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACP Package Browser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            border-color: #667eea;
+            background: #f0f0ff;
+        }
+        
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .results {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .package-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .package-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+        
+        .package-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .package-version {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .package-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .package-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        
+        .package-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .install-command {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+        
+        .copy-btn.copied {
+            background: #10b981;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: #fee;
+            border: 2px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .stats {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📦 ACP Package Browser</h1>
+            <p class="subtitle">Discover and install Agent Context Protocol packages</p>
+        </header>
+        
+        <div class="search-box">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="Search for packages... (e.g., firebase, git, mcp)"
+                autocomplete="off"
+            >
+            <div class="filters">
+                <button class="filter-btn active" data-sort="stars">⭐ Most Stars</button>
+                <button class="filter-btn" data-sort="updated">🕐 Recently Updated</button>
+                <button class="filter-btn" data-sort="name">🔤 Name</button>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <div class="loading">
+                <p>🔍 Enter a search term to find ACP packages</p>
+                <p style="margin-top: 10px; font-size: 0.9em;">Try: <strong>firebase</strong>, <strong>git</strong>, <strong>mcp</strong>, or <strong>auth</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const resultsDiv = document.getElementById('results');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        let currentSort = 'stars';
+        let searchTimeout;
+        
+        // Handle filter button clicks
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSort = btn.dataset.sort;
+                if (searchInput.value.trim()) {
+                    searchPackages(searchInput.value.trim());
+                }
+            });
+        });
+        
+        // Handle search input
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            
+            if (!query) {
+                resultsDiv.innerHTML = `
+                    <div class="loading">
+                        <p>🔍 Enter a search term to find ACP packages</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">Try: <strong>firebase</strong>, <strong>git</strong>, <strong>mcp</strong>, or <strong>auth</strong></p>
+                    </div>
+                `;
+                return;
+            }
+            
+            searchTimeout = setTimeout(() => {
+                searchPackages(query);
+            }, 500);
+        });
+        
+        async function searchPackages(query) {
+            resultsDiv.innerHTML = '<div class="loading">🔍 Searching...</div>';
+            
+            try {
+                // Search GitHub for repositories with topic "acp-package" and query in name
+                // Use "in:name" to search within repository names
+                const searchQuery = `${query}+topic:acp-package+in:name`;
+                const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&sort=${currentSort}&per_page=20`;
+                
+                console.log('Searching:', url);
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                console.log('API Response:', data);
+                
+                if (data.message) {
+                    resultsDiv.innerHTML = `
+                        <div class="error">
+                            <strong>Error:</strong> ${data.message}
+                            ${data.message.includes('rate limit') ? '<br><br>GitHub API rate limit reached. Please try again in a few minutes.' : ''}
+                        </div>
+                    `;
+                    return;
+                }
+                
+                if (!data.items || data.items.length === 0) {
+                    resultsDiv.innerHTML = `
+                        <div class="no-results">
+                            <p>📭 No packages found for "${query}"</p>
+                            <p style="margin-top: 10px; font-size: 0.9em;">Try different search terms or browse all packages by searching for "*"</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Fetch package.yaml for each result
+                const packages = await Promise.all(
+                    data.items.map(async (repo) => {
+                        try {
+                            const packageYamlUrl = `https://raw.githubusercontent.com/${repo.full_name}/main/package.yaml`;
+                            const packageResponse = await fetch(packageYamlUrl);
+                            
+                            if (packageResponse.ok) {
+                                const packageYaml = await packageResponse.text();
+                                return {
+                                    repo,
+                                    packageYaml,
+                                    hasPackageYaml: true
+                                };
+                            }
+                        } catch (e) {
+                            // Ignore errors
+                        }
+                        return { repo, hasPackageYaml: false };
+                    })
+                );
+                
+                // Filter to only packages with package.yaml
+                const validPackages = packages.filter(p => p.hasPackageYaml);
+                
+                if (validPackages.length === 0) {
+                    resultsDiv.innerHTML = `
+                        <div class="no-results">
+                            <p>📭 No valid ACP packages found</p>
+                            <p style="margin-top: 10px; font-size: 0.9em;">Found ${data.items.length} repositories, but none have a package.yaml file</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Display results
+                displayResults(validPackages, data.total_count);
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="error">
+                        <strong>Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        function parsePackageYaml(yaml) {
+            const lines = yaml.split('\n');
+            const pkg = {};
+            
+            for (const line of lines) {
+                if (line.match(/^name:/)) {
+                    pkg.name = line.split(':')[1].trim();
+                } else if (line.match(/^version:/)) {
+                    pkg.version = line.split(':')[1].trim();
+                } else if (line.match(/^description:/)) {
+                    pkg.description = line.split(':').slice(1).join(':').trim();
+                } else if (line.match(/^author:/)) {
+                    pkg.author = line.split(':').slice(1).join(':').trim();
+                }
+            }
+            
+            return pkg;
+        }
+        
+        function displayResults(packages, totalCount) {
+            const packagesHtml = packages.map((p, index) => {
+                const pkg = parsePackageYaml(p.packageYaml);
+                const repo = p.repo;
+                const installCmd = `./agent/scripts/acp.package-install.sh ${repo.html_url}.git`;
+                
+                return `
+                    <div class="package-card">
+                        <div class="package-header">
+                            <div>
+                                <div class="package-name">${pkg.name || repo.name}</div>
+                                <div class="package-description">${pkg.description || repo.description || 'No description'}</div>
+                            </div>
+                            <div class="package-version">${pkg.version || '1.0.0'}</div>
+                        </div>
+                        
+                        <div class="package-meta">
+                            <span>⭐ ${repo.stargazers_count} stars</span>
+                            <span>👤 ${pkg.author || repo.owner.login}</span>
+                            <span>📅 Updated ${new Date(repo.updated_at).toLocaleDateString()}</span>
+                        </div>
+                        
+                        <div class="install-command">
+                            <code>${installCmd}</code>
+                            <button class="copy-btn" onclick="copyInstallCommand(this, '${installCmd}')">Copy</button>
+                        </div>
+                        
+                        <div style="margin-top: 10px;">
+                            <a href="${repo.html_url}" target="_blank">View on GitHub →</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            resultsDiv.innerHTML = `
+                ${packagesHtml}
+                <div class="stats">
+                    Showing ${packages.length} of ${totalCount} package(s)
+                </div>
+            `;
+        }
+        
+        function copyInstallCommand(btn, command) {
+            navigator.clipboard.writeText(command).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        // Search on page load if there's a query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialQuery = urlParams.get('q');
+        if (initialQuery) {
+            searchInput.value = initialQuery;
+            searchPackages(initialQuery);
+        }
+    </script>
+</body>
+</html>
