@@ -8,7 +8,7 @@ set -e
 # Source common utilities
 SCRIPT_DIR="$(dirname "$0")"
 . "${SCRIPT_DIR}/acp.common.sh"
-. "${SCRIPT_DIR}/acp.yaml.sh"
+. "${SCRIPT_DIR}/acp.yaml-parser.sh"
 
 # Initialize colors
 init_colors

@@ -1,0 +1,7 @@
+packages:
+  test-package:
+    source: https://github.com/test/package.git
+    version: 1.0.0
+    files:
+      patterns: []
+      commands: []

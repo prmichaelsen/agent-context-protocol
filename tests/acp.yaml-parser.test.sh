@@ -557,6 +557,119 @@ TESTS_RUN=$((TESTS_RUN + 1))
 
 echo ""
 
+# ============================================================================
+# Test Group 16: Array Append Operations
+# ============================================================================
+echo -e "${BLUE}${BOLD}Test Group 16: Array Append Operations${NC}"
+echo ""
+
+cp tests/fixtures/array.yaml tests/fixtures/append-test-work.yaml
+yaml_parse "tests/fixtures/append-test-work.yaml"
+
+# Append item (capture node ID to avoid printing to stdout)
+node_id=$(yaml_array_append ".tags" "tag4")
+
+# Verify in AST (before write)
+result=$(yaml_query ".tags[3]")
+assert_equals "tag4" "$result" "Array append: new item at index 3 (in AST)"
+
+# Append another
+node_id=$(yaml_array_append ".tags" "tag5")
+
+# Verify in AST
+result=$(yaml_query ".tags[4]")
+assert_equals "tag5" "$result" "Array append: new item at index 4 (in AST)"
+
+# Write and verify persistence
+yaml_write "tests/fixtures/append-test-work.yaml"
+yaml_parse "tests/fixtures/append-test-work.yaml"
+
+result=$(yaml_query ".tags[3]")
+assert_equals "tag4" "$result" "Array append: item 4 persisted to file"
+
+result=$(yaml_query ".tags[4]")
+assert_equals "tag5" "$result" "Array append: item 5 persisted to file"
+
+rm tests/fixtures/append-test-work.yaml
+
+echo ""
+
+# ============================================================================
+# Test Group 17: Object Array Append
+# ============================================================================
+echo -e "${BLUE}${BOLD}Test Group 17: Object Array Append${NC}"
+echo ""
+
+cp tests/fixtures/mixed.yaml tests/fixtures/object-append-work.yaml
+yaml_parse "tests/fixtures/object-append-work.yaml"
+
+# Append new object (capture all node IDs)
+obj_node=$(yaml_array_append_object ".items")
+field1=$(yaml_object_set "$obj_node" "name" "item3")
+field2=$(yaml_object_set "$obj_node" "value" "300")
+
+# Verify in AST
+result=$(yaml_query ".items[2].name")
+assert_equals "item3" "$result" "Object append: new object name (in AST)"
+
+result=$(yaml_query ".items[2].value")
+assert_equals "300" "$result" "Object append: new object value (in AST)"
+
+# Write and verify persistence
+yaml_write "tests/fixtures/object-append-work.yaml"
+yaml_parse "tests/fixtures/object-append-work.yaml"
+
+result=$(yaml_query ".items[2].name")
+assert_equals "item3" "$result" "Object append: new object name (persisted)"
+
+result=$(yaml_query ".items[2].value")
+assert_equals "300" "$result" "Object append: new object value (persisted)"
+
+rm tests/fixtures/object-append-work.yaml
+
+echo ""
+
+# ============================================================================
+# Test Group 18: Mixed Operations (Read, Modify, Append, Write)
+# ============================================================================
+echo -e "${BLUE}${BOLD}Test Group 18: Mixed Operations${NC}"
+echo ""
+
+cp tests/fixtures/mixed.yaml tests/fixtures/mixed-work.yaml
+yaml_parse "tests/fixtures/mixed-work.yaml"
+
+# Read existing value
+result=$(yaml_query ".items[0].name")
+assert_equals "item1" "$result" "Mixed: read existing value"
+
+# Modify existing value
+yaml_set ".items[0].value" "150"
+
+# Append to array
+obj_node=$(yaml_array_append_object ".items")
+field1=$(yaml_object_set "$obj_node" "name" "item3")
+field2=$(yaml_object_set "$obj_node" "value" "300")
+
+# Write and re-read
+yaml_write "tests/fixtures/mixed-work.yaml"
+yaml_parse "tests/fixtures/mixed-work.yaml"
+
+# Verify modification
+result=$(yaml_query ".items[0].value")
+assert_equals "150" "$result" "Mixed: modified value persisted"
+
+# Verify append
+result=$(yaml_query ".items[2].name")
+assert_equals "item3" "$result" "Mixed: appended object persisted"
+
+# Verify original items still there
+result=$(yaml_query ".items[1].name")
+assert_equals "item2" "$result" "Mixed: original item 2 still present"
+
+rm tests/fixtures/mixed-work.yaml
+
+echo ""
+
 # Cleanup
 cleanup_test_files
 

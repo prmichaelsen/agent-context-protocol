@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Generic YAML Parser with AST
 # Pure POSIX shell implementation
 # Version: 1.0.0
@@ -373,15 +373,22 @@ yaml_write() {
 serialize_node() {
     local node_id="$1"
     local indent_level="$2"
+    local parent_type="${3:-}"
     
     local node
     node=$(get_node "$node_id")
     
-    local type key value children
+    local type key value children parent_id
     type=$(echo "$node" | cut -d'|' -f2)
     key=$(echo "$node" | cut -d'|' -f3)
     value=$(echo "$node" | cut -d'|' -f4)
+    parent_id=$(echo "$node" | cut -d'|' -f5)
     children=$(echo "$node" | cut -d'|' -f6)
+    
+    # Determine parent type if not provided
+    if [ -z "$parent_type" ] && [ "$parent_id" -ge 0 ]; then
+        parent_type=$(get_node_field "$parent_id" 2)
+    fi
     
     local indent=""
     local i=0
@@ -395,19 +402,46 @@ serialize_node() {
             if [ -n "$key" ]; then
                 echo "$indent$key: $value"
             else
-                echo "$indent- $value"
+                echo "$indent-  $value"
             fi
             ;;
         
         map)
+            # If this map is in an array, first child gets dash prefix
+            local is_first_child=true
+            
             if [ "$node_id" -ne 0 ] && [ -n "$key" ]; then
                 echo "$indent$key:"
             fi
             
             if [ -n "$children" ]; then
                 local IFS=','
+                local next_indent
+                # Root node (id=0) doesn't add indentation
+                if [ "$node_id" -eq 0 ]; then
+                    next_indent="$indent_level"
+                else
+                    next_indent="$((indent_level + 1))"
+                fi
+                
                 for child_id in $children; do
-                    serialize_node "$child_id" "$((indent_level + 1))"
+                    # If parent is array and this is first child, use dash
+                    if [ "$parent_type" = "array" ] && [ "$is_first_child" = true ]; then
+                        # Serialize first field with dash
+                        local child_node
+                        child_node=$(get_node "$child_id")
+                        local child_type child_key child_value
+                        child_type=$(echo "$child_node" | cut -d'|' -f2)
+                        child_key=$(echo "$child_node" | cut -d'|' -f3)
+                        child_value=$(echo "$child_node" | cut -d'|' -f4)
+                        
+                        if [ "$child_type" = "scalar" ] && [ -n "$child_key" ]; then
+                            echo "$indent- $child_key: $child_value"
+                        fi
+                        is_first_child=false
+                    else
+                        serialize_node "$child_id" "$next_indent" "$type"
+                    fi
                 done
             fi
             ;;
@@ -419,8 +453,9 @@ serialize_node() {
             
             if [ -n "$children" ]; then
                 local IFS=','
+                # Array children need to be indented
                 for child_id in $children; do
-                    serialize_node "$child_id" "$indent_level"
+                    serialize_node "$child_id" "$((indent_level + 1))" "array"
                 done
             fi
             ;;
@@ -518,6 +553,144 @@ yaml_get_array() {
     else
         echo "$children" | tr ',' '\n' | wc -l
     fi
+}
+
+# Append scalar item to array
+# Usage: yaml_array_append ".path.to.array" "value"
+# Returns: node_id of new item
+yaml_array_append() {
+    local path="$1"
+    local value="$2"
+    
+    if [ -z "$AST_FILE" ] || [ ! -f "$AST_FILE" ]; then
+        echo "Error: No AST loaded. Call yaml_parse first." >&2
+        return 1
+    fi
+    
+    # Find the array node
+    path=$(echo "$path" | sed 's/^\.//')
+    local current_node="$AST_ROOT_ID"
+    
+    local IFS='.'
+    for segment in $path; do
+        if echo "$segment" | grep -q '\['; then
+            local key index
+            key=$(echo "$segment" | sed 's/\[.*//')
+            index=$(echo "$segment" | sed 's/.*\[\([0-9]*\)\].*/\1/')
+            
+            current_node=$(find_child_by_key "$current_node" "$key")
+            [ -z "$current_node" ] && return 1
+            
+            current_node=$(find_child_by_index "$current_node" "$index")
+            [ -z "$current_node" ] && return 1
+        else
+            current_node=$(find_child_by_key "$current_node" "$segment")
+            [ -z "$current_node" ] && return 1
+        fi
+    done
+    
+    # Verify it's an array
+    local node_type
+    node_type=$(get_node_field "$current_node" 2)
+    
+    if [ "$node_type" != "array" ]; then
+        echo "Error: Path does not point to an array" >&2
+        return 1
+    fi
+    
+    # Create new scalar node
+    local new_node
+    new_node=$(create_node "scalar" "" "$value" "$current_node")
+    
+    # Add as child
+    add_child "$current_node" "$new_node"
+    
+    echo "$new_node"
+}
+
+# Append object to array
+# Usage: yaml_array_append_object ".path.to.array"
+# Returns: node_id of new object (use yaml_object_set to add fields)
+yaml_array_append_object() {
+    local path="$1"
+    
+    if [ -z "$AST_FILE" ] || [ ! -f "$AST_FILE" ]; then
+        echo "Error: No AST loaded. Call yaml_parse first." >&2
+        return 1
+    fi
+    
+    # Find the node
+    path=$(echo "$path" | sed 's/^\.//')
+    local current_node="$AST_ROOT_ID"
+    
+    local IFS='.'
+    for segment in $path; do
+        if echo "$segment" | grep -q '\['; then
+            local key index
+            key=$(echo "$segment" | sed 's/\[.*//')
+            index=$(echo "$segment" | sed 's/.*\[\([0-9]*\)\].*/\1/')
+            
+            current_node=$(find_child_by_key "$current_node" "$key")
+            [ -z "$current_node" ] && return 1
+            
+            current_node=$(find_child_by_index "$current_node" "$index")
+            [ -z "$current_node" ] && return 1
+        else
+            current_node=$(find_child_by_key "$current_node" "$segment")
+            [ -z "$current_node" ] && return 1
+        fi
+    done
+    
+    # Check node type
+    local node_type
+    node_type=$(get_node_field "$current_node" 2)
+    
+    # If it's a map with no children, convert to array
+    if [ "$node_type" = "map" ]; then
+        local children
+        children=$(get_node_field "$current_node" 6)
+        if [ -z "$children" ]; then
+            # Empty map - convert to array
+            update_node_type "$current_node" "array"
+        else
+            echo "Error: Path points to non-empty map, not array" >&2
+            return 1
+        fi
+    elif [ "$node_type" != "array" ]; then
+        echo "Error: Path does not point to an array" >&2
+        return 1
+    fi
+    
+    # Create new map node (object)
+    local new_node
+    new_node=$(create_node "map" "" "" "$current_node")
+    
+    # Add as child
+    add_child "$current_node" "$new_node"
+    
+    echo "$new_node"
+}
+
+# Set field on object (for building objects in arrays)
+# Usage: yaml_object_set node_id "field_name" "value"
+yaml_object_set() {
+    local object_node="$1"
+    local field_name="$2"
+    local field_value="$3"
+    
+    if [ -z "$AST_FILE" ] || [ ! -f "$AST_FILE" ]; then
+        echo "Error: No AST loaded. Call yaml_parse first." >&2
+        return 1
+    fi
+    
+    # Create scalar field
+    local field_node
+    field_node=$(create_node "scalar" "$field_name" "$field_value" "$object_node")
+    
+    # Add as child
+    add_child "$object_node" "$field_node"
+    
+    echo "$field_node"
 }
 
 # ============================================================================

@@ -346,29 +346,30 @@ add_file_to_manifest() {
         checksum="unknown"
     fi
     
-    # Source YAML parser if not already loaded
-    if ! command -v yaml_append >/dev/null 2>&1; then
+    # Source YAML parser
+    if ! command -v yaml_parse >/dev/null 2>&1; then
         source_yaml_parser || return 1
     fi
     
-    # Create file entry (using YAML multiline format)
-    # Note: acp.yaml.sh may not support array append, so we'll use a workaround
-    # We'll append to the YAML file directly
-    local file_entry="    - name: $filename
-      version: $file_version
-      installed_at: $timestamp
-      modified: false
-      checksum: sha256:$checksum"
+    # Convert empty arrays [] to proper format first (workaround for parser limitation)
+    sed -i "s/^      ${file_type}: \\[\\]$/      ${file_type}:/" "$manifest"
     
-    # Check if the section exists, if not create it
-    if ! grep -q "packages.${package_name}.installed.${file_type}:" "$manifest" 2>/dev/null; then
-        # Add section header
-        echo "  installed:" >> "$manifest"
-        echo "    ${file_type}:" >> "$manifest"
-    fi
+    # Parse manifest
+    yaml_parse "$manifest"
     
-    # Append file entry
-    echo "$file_entry" >> "$manifest"
+    # Append object to array
+    local obj_node
+    obj_node=$(yaml_array_append_object ".packages.${package_name}.files.${file_type}")
+    
+    # Set object fields
+    yaml_object_set "$obj_node" "name" "$filename" >/dev/null
+    yaml_object_set "$obj_node" "version" "$file_version" >/dev/null
+    yaml_object_set "$obj_node" "installed_at" "$timestamp" >/dev/null
+    yaml_object_set "$obj_node" "modified" "false" >/dev/null
+    yaml_object_set "$obj_node" "checksum" "sha256:$checksum" >/dev/null
+    
+    # Write back
+    yaml_write "$manifest"
     
     return 0
 }

@@ -1,7 +1,7 @@
 # Task 32: Fix package.yaml Schema Mismatch and Add Template
 
 **Milestone**: Future Enhancement
-**Estimated Time**: 2-3 hours
+**Estimated Time**: 4-6 hours
 **Dependencies**: None
 **Status**: Not Started
 
@@ -9,30 +9,31 @@
 
 ## Objective
 
-Fix the mismatch between `package.yaml` schema documentation and actual validation/installation script expectations, and create a `package.template.yaml` file to guide package creators.
+Enhance the YAML parser to support nested objects and array indexing (e.g., `contents.commands[0].name`), fix validation to use the enhanced parser, and create a `package.template.yaml` file to guide package creators.
 
 ---
 
 ## Context
 
-There's a critical mismatch between what the schema says and what the scripts expect:
+**Root Cause Discovered**: The YAML parser (`acp.yaml.sh`) doesn't support array indexing or nested objects!
 
-**Schema Says** (agent/schemas/package.schema.yaml):
-- Contents arrays can be simple strings: `["pattern1.md", "pattern2.md"]`
+**Current Limitation**:
+- yaml-parser library says: "Arrays are not supported"
+- Can't read `contents.commands[0].name`
+- File existence check (lines 125, 143, 161 in acp.package-validate.sh) doesn't work
+- Reports "All 0 files in contents exist"
 
-**Scripts Expect** (acp.package-validate.sh, acp.package-install.sh):
-- Contents arrays must be objects with `.name` field: `[{name: "pattern1.md"}]`
-
-**Result**:
-- Validation can't read files: "All 0 files in contents exist"
-- False warnings about "unlisted files"
-- Package creators must guess the correct format
-- No template to reference
-
-**Decision**: Use object pattern `{name: "file.md"}` for contents
+**Why Object Format**:
 - Enables tracking entity names and their specifically installed versions
 - More structured and extensible for future enhancements
-- Matches what scripts already expect
+- Consistent with manifest.yaml format
+
+**The Fix**:
+1. Enhance YAML parser to support nested objects generically
+2. Support array indexing: `array[0].field`
+3. Support nested paths: `parent.child.array[0].field`
+4. Update validation to use enhanced parser
+5. Create package.template.yaml showing correct format
 
 ---
 

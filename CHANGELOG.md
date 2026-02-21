@@ -5,6 +5,43 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - 2026-02-21
+
+### Added
+
+**YAML Parser Modification Operations**:
+- Added `yaml_array_append()` - Append scalar values to arrays
+- Added `yaml_array_append_object()` - Append objects to arrays
+- Added `yaml_object_set()` - Set fields on objects
+- Full modification support: parse → modify → append → write cycle
+- Auto-converts empty maps to arrays for seamless array operations
+- Proper serialization with correct indentation for all structures
+- Objects in arrays serialize with dash prefix on first field
+
+**Manifest Integration**:
+- `add_file_to_manifest()` now uses YAML parser exclusively (no awk!)
+- All installed files tracked with complete metadata
+- Verified with real package installations
+
+**Parser Enhancements**:
+- Changed shebang to `#!/bin/bash` for BASH_SOURCE compatibility
+- Fixed root node serialization (no extra indentation)
+- Fixed array item serialization (proper spacing: `-  value`)
+- Fixed object-in-array serialization (dash prefix for first field)
+- Parent type tracking for context-aware serialization
+
+**Test Coverage**:
+- Added 10+ modification operation tests to test suite
+- All tests consolidated in single file
+- 50+ total tests, 100% passing
+
+**Known Limitations**:
+- Inline empty arrays (`patterns: []`) parse as scalars
+- Workaround: sed converts `[]` to proper format before parsing
+- This is acceptable for ACP's use cases
+
+**Impact**: YAML parser now supports full CRUD operations on complex structures using the parser itself
+
 ## [3.5.2] - 2026-02-21
 
 ### Fixed
