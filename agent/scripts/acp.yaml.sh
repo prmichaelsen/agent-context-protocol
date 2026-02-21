@@ -106,13 +106,33 @@ yaml_has_key() {
   [ "$result" != "null" ] && [ -n "$result" ]
 }
 
-# Get array values (for tags, etc.)
-# Usage: yaml_get_array file.yaml "tags"
+# Get array values (for simple arrays and object arrays)
+# Usage: yaml_get_array file.yaml "tags" or yaml_get_array file.yaml "contents.commands"
+# Returns: For simple arrays: values (one per line); For object arrays: count of objects
 yaml_get_array() {
   local file=$1
   local key=$2
   
-  awk "/^${key}:/{flag=1; next} /^[a-zA-Z]/{flag=0} flag && /^[[:space:]]*-/{print}" "$file" | sed 's/^[[:space:]]*-[[:space:]]*//'
+  # Handle nested keys (e.g., "contents.commands")
+  if [[ "$key" == *.* ]]; then
+    # Extract the final key (e.g., "commands" from "contents.commands")
+    local final_key=$(echo "$key" | sed 's/.*\.//')
+    
+    # Extract array section using sed to find the nested key
+    local array_content=$(sed -n "/^[[:space:]]*${final_key}:/,/^[[:space:]]*[a-z]/p" "$file" | grep "^[[:space:]]*-")
+  else
+    # Top-level key
+    local array_content=$(awk "/^${key}:/{flag=1; next} /^[a-zA-Z]/{flag=0} flag && /^[[:space:]]*-/{print}" "$file")
+  fi
+  
+  # Check if this is an object array (has "key:" after dash)
+  if echo "$array_content" | grep -q "^[[:space:]]*-[[:space:]]*[a-zA-Z_][a-zA-Z0-9_]*:"; then
+    # Object array - return count of objects (number of dashes)
+    echo "$array_content" | grep -c "^[[:space:]]*-"
+  else
+    # Simple array - return values
+    echo "$array_content" | sed 's/^[[:space:]]*-[[:space:]]*//'
+  fi
 }
 
 # Get value from nested object in array

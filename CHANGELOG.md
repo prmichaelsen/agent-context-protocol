@@ -5,14 +5,21 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.4.2] - 2026-02-21
+## [3.4.3] - 2026-02-21
 
 ### Fixed
 
 **Template Distribution**:
 - `acp.install.sh` now copies `package.template.yaml`
 - `acp.version-update.sh` now copies `package.template.yaml` and `manifest.template.yaml`
-- Ensures all template files are distributed correctly
+- Ensures all template files are distributed correctly during installation and updates
+
+## [3.4.2] - 2026-02-21
+
+### Fixed
+
+**Template Distribution** (partial):
+- Initial fix for template distribution
 
 ## [3.4.1] - 2026-02-21
 

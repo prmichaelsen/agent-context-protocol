@@ -168,8 +168,24 @@ assert_equals "3" "$result" "yaml_get_array: count elements"
 
 echo ""
 
-# Test 3: Object arrays with yaml_get_nested (NEW FEATURE)
-echo -e "${BLUE}Test Group: Object Arrays (yaml_get_nested)${NC}"
+# Test 3: yaml_get_array with object arrays (ENHANCED FEATURE)
+echo -e "${BLUE}Test Group: Object Arrays (yaml_get_array enhanced)${NC}"
+echo ""
+
+# yaml_get_array should return count for object arrays
+result=$(yaml_get_array "test/fixtures/object-array.yaml" "contents.patterns")
+assert_equals "2" "$result" "yaml_get_array: count object array (patterns)"
+
+result=$(yaml_get_array "test/fixtures/object-array.yaml" "contents.commands")
+assert_equals "2" "$result" "yaml_get_array: count object array (commands)"
+
+result=$(yaml_get_array "test/fixtures/object-array.yaml" "contents.designs")
+assert_equals "1" "$result" "yaml_get_array: count object array (designs)"
+
+echo ""
+
+# Test 4: Object array indexing with yaml_get_nested
+echo -e "${BLUE}Test Group: Object Array Indexing (yaml_get_nested)${NC}"
 echo ""
 
 result=$(yaml_get_nested "test/fixtures/object-array.yaml" "contents.patterns[0].name")
@@ -189,7 +205,7 @@ assert_equals "namespace.design1.md" "$result" "yaml_get_nested: first design"
 
 echo ""
 
-# Test 4: Complex nested structures (manifest.yaml)
+# Test 5: Complex nested structures (manifest.yaml)
 echo -e "${BLUE}Test Group: Complex Nested Structures${NC}"
 echo ""
 
@@ -204,7 +220,7 @@ assert_not_empty "$result" "yaml_get_nested: manifest patterns from different pa
 
 echo ""
 
-# Test 5: Edge cases
+# Test 6: Edge cases
 echo -e "${BLUE}Test Group: Edge Cases${NC}"
 echo ""
 
