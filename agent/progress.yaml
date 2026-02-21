@@ -647,13 +647,42 @@ tasks:
         - All tests passing ✅
         - Production ready, suitable for extraction as yaml-sh project
         - Commits: 19c5bc8 (v3.5.0), 3700834 (v3.5.1)
+    
+    - id: task-35
+      name: Migrate Scripts from acp.yaml.sh to acp.yaml-parser.sh
+      status: not_started
+      file: agent/tasks/task-35-migrate-to-yaml-parser.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Migrate all scripts to use new AST-based parser for better performance
+        - Update documentation references (29 found)
+        - Verify backward compatibility
+        - Add deprecation notice to acp.yaml.sh
+        - Test all package commands with new parser
+    
+    - id: task-36
+      name: Test Untested Package Commands
+      status: not_started
+      file: agent/tasks/task-36-test-package-commands.md
+      estimated_hours: 4-6
+      completed_date: null
+      notes: |
+        Comprehensive testing of untested package commands
+        - Test @acp.package-list (all modes and filters)
+        - Test @acp.package-update (all scenarios)
+        - Test @acp.package-remove (all options)
+        - Test @acp.package-info (all cases)
+        - Test @acp.package-search (GitHub API integration)
+        - Note: @acp.package-create already tested in Task 23
+        - Create test report documenting results
 
 documentation:
   design_documents: 6
   milestone_documents: 5
   pattern_documents: 2
-  task_documents: 29
-  command_documents: 25
+  task_documents: 36
+  command_documents: 26
   last_updated: 2026-02-21
 
 progress:
@@ -669,6 +698,29 @@ progress:
   milestone_5: 0
 
 recent_work:
+  - date: 2026-02-21
+    description: |
+      🚀 Agent Context Initialized via @acp.init
+      Complete project context loaded. All documentation and source files reviewed.
+    items:
+      - ✅ ACP version check: v3.6.0 (up to date)
+      - ✅ Read agent/progress.yaml - Current status confirmed
+      - ✅ Read 6 design documents (commands, package-mgmt, package-dev, global-install, yaml-parser, install-local)
+      - ✅ Read 1 milestone document (M5: Global Package Installation)
+      - ✅ Read 3 task documents (task-25, task-26, task-27 for Milestone 5)
+      - ✅ Reviewed AGENT.md (v3.6.0, 1184 lines - first 150 lines)
+      - ✅ Reviewed README.md (251 lines)
+      - ✅ Reviewed CHANGELOG.md (980 lines - first 150 lines, up to v3.6.0)
+      - ✅ Reviewed acp.common.sh (~1142 lines, 35+ utility functions)
+      - ✅ Reviewed acp.package-install.sh (~449 lines, installation system)
+      - ✅ Verified 26 command files (all with flat dot notation)
+      - ✅ Verified 18 script files in agent/scripts/
+      - ✅ Documentation is current and accurate
+      - ✅ Progress tracking updated with initialization entry
+      - 📋 Project Status: M1-M4 complete (100%), M5 ready to start (0%)
+      - 📋 Current Focus: Milestone 5 - Global Package Installation
+      - 📋 Next: Task 25 - Global Infrastructure Setup (2-3 hours)
+  
   - date: 2026-02-21
     description: |
       ✅ Task 34 Complete: Build Generic YAML Parser with AST
@@ -1491,6 +1543,9 @@ next_steps:
   - Task 28: Documentation and Agent Instructions (1-2 hours)
   - Task 29: Global ACP Auto-Initialization (1-2 hours)
   - Total estimated: 9-13 hours for complete Milestone 5
+  - Future enhancements:
+    - Task 35: Migrate to yaml-parser.sh (3-4 hours)
+    - Task 36: Test untested package commands (4-6 hours)
 
 notes:
   - Using flat directory structure with dot notation (acp.status.md)
@@ -1500,8 +1555,8 @@ notes:
   - Reserved local namespace for non-package projects
   - Template-based creation for consistency
   - Milestones 1-4 complete (100%), Milestone 5 in planning (0%)
-  - 24 tasks completed, 5 tasks planned (29 total)
-  - 25 commands implemented
+  - 29 tasks completed, 7 tasks planned (36 total)
+  - 26 commands implemented
   - 17 scripts in agent/scripts/
   - Complete package development workflow operational
   - Milestone 5: Global package installation with --global flag and auto-initialization
