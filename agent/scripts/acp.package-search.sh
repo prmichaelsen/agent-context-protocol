@@ -111,7 +111,7 @@ echo ""
 REPO_COUNT=0
 
 echo "$RESPONSE" | grep -o '"full_name":"[^"]*"' | cut -d'"' -f4 | while read -r full_name; do
-    ((REPO_COUNT++)) || true
+    REPO_COUNT=$((REPO_COUNT + 1))
     
     # Extract repo info from response
     REPO_DATA=$(echo "$RESPONSE" | grep -A 20 "\"full_name\":\"$full_name\"")

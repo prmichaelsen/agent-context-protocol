@@ -64,7 +64,7 @@ PACKAGE_COUNT=0
 DISPLAYED_COUNT=0
 
 for package in $INSTALLED_PACKAGES; do
-    ((PACKAGE_COUNT++))
+    PACKAGE_COUNT=$((PACKAGE_COUNT + 1))
     
     # Get package info from manifest
     version=$(awk -v pkg="$package" '
@@ -175,8 +175,8 @@ for package in $INSTALLED_PACKAGES; do
             continue
         fi
     fi
+    DISPLAYED_COUNT=$((DISPLAYED_COUNT + 1))
     
-    ((DISPLAYED_COUNT++))
     
     # Display package info
     echo "${GREEN}$package${NC} ($version) - $total_files file(s)"

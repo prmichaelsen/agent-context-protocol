@@ -131,6 +131,94 @@ assert_contains() {
     else
         echo -e "${RED}✗${NC} $test_name"
         echo -e "  Expected to contain: ${YELLOW}$needle${NC}"
+        echo -e "  Actual: ${YELLOW}$haystack${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
+# Print test suite header
+print_suite_header() {
+    local suite_name="$1"
+    echo ""
+    echo -e "${BOLD}${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BOLD}${BLUE}  $suite_name${NC}"
+    echo -e "${BOLD}${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+}
+
+# Print test header
+print_test_header() {
+    local test_name="$1"
+    echo ""
+    echo -e "${BOLD}Test: $test_name${NC}"
+}
+
+# Print test result
+print_test_result() {
+    local exit_code="$1"
+    if [ "$exit_code" -eq 0 ]; then
+        echo -e "${GREEN}✓ Test passed${NC}"
+    else
+        echo -e "${RED}✗ Test failed${NC}"
+    fi
+}
+
+# Print test suite summary
+print_suite_summary() {
+    echo ""
+    echo -e "${BOLD}${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BOLD}Test Summary${NC}"
+    echo -e "${BOLD}${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "  Tests run:    ${BOLD}$TESTS_RUN${NC}"
+    echo -e "  Tests passed: ${GREEN}${BOLD}$TESTS_PASSED${NC}"
+    echo -e "  Tests failed: ${RED}${BOLD}$TESTS_FAILED${NC}"
+    echo ""
+    
+    if [ $TESTS_FAILED -eq 0 ]; then
+        echo -e "${GREEN}${BOLD}✓ All tests passed!${NC}"
+    else
+        echo -e "${RED}${BOLD}✗ Some tests failed${NC}"
+    fi
+    echo ""
+}
+
+# Original assert_false implementation continues here
+_assert_false_original() {
+    local test_name="$1"
+    local exit_code="$2"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if [ "$exit_code" -ne 0 ]; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected: ${YELLOW}false (non-zero exit)${NC}"
+        echo -e "  Actual:   ${YELLOW}true (exit 0)${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
+# Assert that string contains substring
+assert_contains() {
+    local haystack="$1"
+    local needle="$2"
+    local test_name="$3"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if echo "$haystack" | grep -q "$needle"; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected to contain: ${YELLOW}$needle${NC}"
         echo -e "  Actual:              ${YELLOW}$haystack${NC}"
         TESTS_FAILED=$((TESTS_FAILED + 1))
         return 1
