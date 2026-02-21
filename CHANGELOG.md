@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.2] - 2026-02-21
+
+### Added
+- Package creation now includes local-only directories: `agent/clarifications/` and `agent/feedback/`
+- Created `.gitkeep` files in local directories to track structure while keeping content local
+- Copied clarification template to new packages for easy use
+- Added comprehensive documentation in package README about local development directories
+- Updated `.gitignore` to exclude content files while tracking `.gitkeep` and templates
+
+### Changed
+- Package `.gitignore` now explicitly documents local-only pattern (clarifications, feedback, reports)
+- Improved consistency with existing reports directory pattern
+
 ## [3.6.1] - 2026-02-21
 
 ### Changed
