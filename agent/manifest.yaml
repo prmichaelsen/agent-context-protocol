@@ -1,0 +1,17 @@
+packages:
+  test-package:
+    name: test-package
+    version: 1.0.0
+    source: https://github.com/test/test-package.git
+    commit: abc123
+    installed_at: 2026-02-21T00:00:00Z
+    files:
+      patterns:
+        - name: test.pattern.md
+          version: 1.0.0
+          checksum: sha256:abc123
+      commands: []
+      designs: []
+
+manifest_version: 1.0.0
+last_updated: 2026-02-21T00:00:00Z
