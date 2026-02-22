@@ -18,7 +18,9 @@
 
 ## What This Command Does
 
-This command searches GitHub for ACP packages using the GitHub API. It finds repositories tagged with `acp-package`, fetches their `package.yaml` metadata, and displays comprehensive results including version, description, tags, stars, and installation commands.
+This command searches GitHub for ACP packages using the GitHub API. **By default, it only searches repositories with the `acp-package` topic**, ensuring you only see actual ACP packages and not unrelated repositories.
+
+It fetches `package.yaml` metadata from each result and displays comprehensive information including version, description, tags, stars, and installation commands.
 
 Use this command when you want to discover available ACP packages, find packages for specific technologies (via tags), or browse community-created patterns and commands.
 
@@ -226,9 +228,11 @@ export GITHUB_TOKEN="your_github_token"
 
 ## Package Discovery Requirements
 
-For packages to be discoverable:
+For packages to be discoverable via `@acp.package-search`:
 
-1. **GitHub Topic**: Add `acp-package` topic to repository
+1. **GitHub Topic** (REQUIRED): Add `acp-package` topic to repository
+   - This is the canonical way to identify ACP packages
+   - Without this topic, packages will NOT appear in search results
 2. **package.yaml**: Include in repository root with:
    ```yaml
    name: package-name
@@ -240,6 +244,8 @@ For packages to be discoverable:
    ```
 3. **Clear Description**: Add description to GitHub repository
 4. **ACP Structure**: Follow standard `agent/` directory structure
+
+**Note**: The `topic:acp-package` filter is always applied to ensure search results contain only actual ACP packages, not unrelated repositories with "acp" in the name.
 
 ---
 

@@ -56,11 +56,11 @@ echo "========================================"
 echo ""
 
 # Build search query
-# Search for repos with "acp-" prefix (convention for ACP packages)
+# Always filter by topic:acp-package to ensure only actual ACP packages are returned
 if [ -n "$QUERY" ]; then
-    SEARCH_QUERY="acp-${QUERY}"
+    SEARCH_QUERY="${QUERY}+topic:acp-package"
 else
-    SEARCH_QUERY="acp-"
+    SEARCH_QUERY="topic:acp-package"
 fi
 
 if [ -n "$TAG" ]; then

@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.9.1
+  version: 3.9.2
   started: 2026-02-16
   status: in_progress
   current_milestone: M5
@@ -51,8 +51,8 @@ milestones:
     started: 2026-02-18
     completed: 2026-02-18
     estimated_weeks: 5-7
-    tasks_completed: 9
-    tasks_total: 9
+    tasks_completed: 10
+    tasks_total: 10
     notes: |
       ✅ Milestone 3 Complete! Full package management system implemented.
       ✅ Task 5 complete - Manifest system foundation implemented
@@ -668,6 +668,23 @@ tasks:
       notes: |
         Create projects in ~/.acp/projects/ with guided setup for project metadata
   
+  milestone_3:
+    - id: task-50
+      name: "Package Search Default Topic Filter"
+      status: completed
+      file: agent/tasks/task-50-package-search-default-topic-filter.md
+      estimated_hours: 1
+      actual_hours: 0.5
+      completed_date: 2026-02-22
+      notes: |
+        ✅ Package search now filters by topic:acp-package by default
+        - Updated agent/scripts/acp.package-search.sh query logic
+        - Default search: topic:acp-package (returns 3 results, not 11,356)
+        - With query: {query}+topic:acp-package (combines user query with filter)
+        - Updated agent/commands/acp.package-search.md documentation
+        - Tested: Default search returns only ACP packages
+        - Tested: Query search combines with topic filter correctly
+  
   milestone_6:
     - id: task-37
       name: Preference Loading Infrastructure
@@ -875,7 +892,35 @@ progress:
 recent_work:
   - date: 2026-02-22
     description: |
-      🚀 Agent Context Initialized via @acp.init
+      ✅ Task 50 Complete: Package Search Default Topic Filter
+      Fixed @acp.package-search to return only actual ACP packages by default.
+    items:
+      - ✅ Updated agent/scripts/acp.package-search.sh query construction
+      - ✅ Default search now uses topic:acp-package (not acp-)
+      - ✅ Results: 3 actual ACP packages (not 11,356 irrelevant repos)
+      - ✅ With query: Combines user query + topic:acp-package filter
+      - ✅ Updated agent/commands/acp.package-search.md documentation
+      - ✅ Added note about required acp-package topic for discovery
+      - ✅ Tested default search: Returns only ACP packages ✓
+      - ✅ Tested with query: Filters correctly ✓
+      - 📋 Task completed in 0.5 hours (estimated: 1 hour)
+      - 📋 Milestone 3: 90% → 100% complete (10/10 tasks)
+  
+  - date: 2026-02-22
+    description: |
+      📋 Task 49 & 50 Created via @acp.task-create
+      Created two new tasks from draft files with proper structure.
+    items:
+      - ✅ Task 49: @acp.project-create Command (M5, 3-4 hours)
+      - ✅ Task 50: Package Search Default Topic Filter (M3, 1 hour)
+      - ✅ Updated progress.yaml with both tasks
+      - ✅ Updated M5 tasks_total: 6 → 7
+      - ✅ Updated M3 tasks_total: 9 → 10
+      - ✅ Both tasks linked to appropriate milestones
+  
+  - date: 2026-02-22
+    description: |
+      � Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
       - ✅ ACP version check: v3.9.0 (up to date)

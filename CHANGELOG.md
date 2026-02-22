@@ -5,6 +5,23 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.2] - 2026-02-22
+
+### Fixed
+
+**Package Search**:
+- Fixed `@acp.package-search` to filter by `topic:acp-package` by default
+- Default search now returns 3 actual ACP packages (not 11,356 irrelevant repos)
+- Search query construction: `topic:acp-package` (default) or `{query}+topic:acp-package` (with query)
+- Updated command documentation to explain topic filter requirement
+- Package discovery now requires `acp-package` topic on GitHub repository
+
+### Changed
+
+**Progress Tracking**:
+- Completed Task 50: Package Search Default Topic Filter (0.5 hours)
+- Milestone 3: 90% → 100% complete (10/10 tasks)
+
 ## [3.9.1] - 2026-02-22
 
 ### Added
@@ -15,11 +32,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Projects use `local` namespace (not configurable, unlike packages)
 - Projects don't include package.yaml, release branches, or pre-commit hooks
 - Estimated 3-4 hours implementation time
+- Created Task 50: Package Search Default Topic Filter (1 hour)
 
 ### Changed
 
 **Progress Tracking**:
 - Updated Milestone 5 tasks_total: 6 → 7 (added task-49)
+- Updated Milestone 3 tasks_total: 9 → 10 (added task-50)
 - Added initialization entry to recent_work (context loaded via `@acp.init`)
 
 ## [3.9.0] - 2026-02-22
