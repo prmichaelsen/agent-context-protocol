@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.9.0
+  version: 3.9.1
   started: 2026-02-16
   status: in_progress
   current_milestone: M5
@@ -99,16 +99,17 @@ milestones:
     started: 2026-02-22
     completed: 2026-02-22
     estimated_weeks: 1-2
-    tasks_completed: 6
-    tasks_total: 6
+    tasks_completed: 7
+    tasks_total: 7
     notes: |
-      📋 Milestone 5: Global Package Installation
-      - Install packages to ~/.acp/packages/ with --global flag
-      - Agent discovery via ~/.acp/manifest.yaml
+      ✅ Milestone 5: Global Package Installation - Complete!
+      - Install packages to ~/.acp/agent/ with --global flag
+      - Agent discovery via ~/.acp/agent/manifest.yaml
       - Global command library for reusable utilities
       - Package development environment with full ACP tooling
       - Auto-initialization of ~/.acp/ on first global command use
-      - 5 tasks planned (25-29): Infrastructure, Installation, Commands, Documentation, Auto-Init
+      - Project creation in ~/.acp/projects/ with @acp.project-create
+      - 7 tasks completed (25-29, 45, 49): Infrastructure, Installation, Commands, Documentation, Auto-Init, Script Bundling, Project Create
   
   - id: M6
     name: ACP Preferences System
@@ -657,6 +658,15 @@ tasks:
         - Scripts validated for: existence, namespace, executability, shebang
         - Syntax validated (both scripts pass bash -n)
         - Packages can now bundle utility scripts with proper namespace
+    
+    - id: task-49
+      name: "@acp.project-create Command"
+      status: not_started
+      file: agent/tasks/task-49-acp-project-create-command.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Create projects in ~/.acp/projects/ with guided setup for project metadata
   
   milestone_6:
     - id: task-37
@@ -863,6 +873,28 @@ progress:
   milestone_6: 0
 
 recent_work:
+  - date: 2026-02-22
+    description: |
+      🚀 Agent Context Initialized via @acp.init
+      Complete project context loaded. All documentation and source files reviewed.
+    items:
+      - ✅ ACP version check: v3.9.0 (up to date)
+      - ✅ Read agent/progress.yaml - Current status confirmed
+      - ✅ Read 7 design documents (requirements template, commands, package-mgmt, package-dev, preferences, global-install, global-package)
+      - ✅ Read 6 milestone documents (M1-M6: Commands, Advanced, Package Mgmt, Package Dev, Global Install, Preferences)
+      - ✅ Reviewed AGENT.md (v3.9.0, 1184 lines)
+      - ✅ Reviewed README.md (315 lines)
+      - ✅ Reviewed CHANGELOG.md (1163 lines - first 200 lines, up to v3.9.0)
+      - ✅ Reviewed acp.common.sh (~1363 lines, 40+ utility functions)
+      - ✅ Reviewed core commands (acp.init, acp.proceed, acp.status)
+      - ✅ Verified 28 command files (all with flat dot notation)
+      - ✅ Verified 17 script files in agent/scripts/
+      - ✅ Documentation is current and accurate
+      - ✅ Progress tracking updated with initialization entry
+      - 📋 Project Status: M1-M5 complete (100%), M6 ready to start (0%)
+      - 📋 Current Focus: Milestone 6 - ACP Preferences System
+      - 📋 Next: Task 37 - Preference Loading Infrastructure (4-6 hours)
+  
   - date: 2026-02-22
     description: |
       🎉 Milestone 5 Complete: Global Package Installation

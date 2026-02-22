@@ -5,6 +5,23 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.1] - 2026-02-22
+
+### Added
+
+**Task Planning**:
+- Created Task 49: `@acp.project-create` command for bootstrapping generic ACP projects
+- Task document includes comparison with `@acp.package-create` (packages vs projects)
+- Projects use `local` namespace (not configurable, unlike packages)
+- Projects don't include package.yaml, release branches, or pre-commit hooks
+- Estimated 3-4 hours implementation time
+
+### Changed
+
+**Progress Tracking**:
+- Updated Milestone 5 tasks_total: 6 → 7 (added task-49)
+- Added initialization entry to recent_work (context loaded via `@acp.init`)
+
 ## [3.9.0] - 2026-02-22
 
 ### Added
