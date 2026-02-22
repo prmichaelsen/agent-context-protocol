@@ -39,6 +39,18 @@ Use this command when starting a new ACP package that you plan to share with oth
 
 ---
 
+## Auto-Initialization
+
+When creating packages in `~/.acp/projects/` for the first time, the system automatically initializes `~/.acp/` infrastructure:
+- Creates `~/.acp/` directory
+- Installs full ACP (templates, scripts, schemas)
+- Creates `~/.acp/projects/` directory
+- Creates `~/.acp/agent/manifest.yaml` for package tracking
+
+This happens automatically - no manual setup required.
+
+---
+
 ## Prerequisites
 
 - [ ] ACP installed in current directory (to access the script)

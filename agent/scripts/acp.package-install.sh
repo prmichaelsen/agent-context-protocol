@@ -146,17 +146,11 @@ if [ "$GLOBAL_INSTALL" = true ]; then
     echo "${BLUE}Installing globally to ~/.acp/agent/${NC}"
     echo ""
     
-    # Initialize global ACP if needed
-    if [ ! -d "$HOME/.acp/agent" ]; then
-        echo "${YELLOW}Global ACP not initialized. Initializing ~/.acp/...${NC}"
-        # This will be handled by init_global_acp() in Task 29
-        mkdir -p "$HOME/.acp/agent"
-    fi
-    
-    # Initialize global manifest if needed
-    if [ ! -f "$MANIFEST_FILE" ]; then
-        init_global_manifest
-    fi
+    # Initialize global ACP infrastructure (auto-initialization)
+    init_global_acp || {
+        echo "${RED}Error: Failed to initialize global infrastructure${NC}" >&2
+        exit 1
+    }
 else
     # Local installation (existing behavior)
     INSTALL_BASE_DIR="./agent"

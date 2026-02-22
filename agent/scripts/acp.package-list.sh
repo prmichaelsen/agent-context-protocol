@@ -44,8 +44,14 @@ done
 
 # Determine manifest file based on mode
 if [ "$GLOBAL_MODE" = true ]; then
-    MANIFEST_FILE="$HOME/.acp/manifest.yaml"
-    echo "${BLUE}📦 Global Packages (installed to ~/.acp/packages/):${NC}"
+    # Initialize global ACP infrastructure if needed
+    init_global_acp || {
+        echo "${RED}Error: Failed to initialize global infrastructure${NC}" >&2
+        exit 1
+    }
+    
+    MANIFEST_FILE="$HOME/.acp/agent/manifest.yaml"
+    echo "${BLUE}📦 Global Packages (installed to ~/.acp/agent/):${NC}"
 else
     MANIFEST_FILE="./agent/manifest.yaml"
     echo "${BLUE}📦 Installed ACP Packages${NC}"

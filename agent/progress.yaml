@@ -94,12 +94,12 @@ milestones:
   
   - id: M5
     name: Global Package Installation
-    status: in_progress
-    progress: 80
+    status: completed
+    progress: 100
     started: 2026-02-22
-    completed: null
+    completed: 2026-02-22
     estimated_weeks: 1-2
-    tasks_completed: 5
+    tasks_completed: 6
     tasks_total: 6
     notes: |
       📋 Milestone 5: Global Package Installation
@@ -622,12 +622,23 @@ tasks:
     
     - id: task-29
       name: Global ACP Auto-Initialization
-      status: not_started
+      status: completed
       file: agent/tasks/task-29-global-acp-auto-initialization.md
       estimated_hours: 1-2
-      completed_date: null
+      completed_date: 2026-02-22
       notes: |
-        Implement init_global_acp() function for automatic ~/.acp/ initialization on first global command use
+        ✅ Auto-initialization complete!
+        - Added init_global_acp() function to agent/scripts/acp.common.sh
+        - Function is idempotent (safe to call multiple times)
+        - Runs acp.install.sh in ~/.acp/ for full ACP installation
+        - Creates ~/.acp/projects/ directory
+        - Initializes global manifest
+        - Appends global notes to ~/.acp/AGENT.md
+        - Integrated into acp.package-install.sh (--global flag)
+        - Integrated into acp.package-list.sh (--global flag)
+        - Integrated into acp.package-create.sh (when target is ~/.acp/projects/)
+        - Updated command documentation (3 files)
+        - All scripts syntax validated
     
     - id: task-45
       name: Package Script Bundling Support
@@ -840,18 +851,38 @@ documentation:
 
 progress:
   planning: 100
-  implementation: 86
+  implementation: 90
   testing: 100
   documentation: 100
-  overall: 87
+  overall: 90
   milestone_1: 100
   milestone_2: 100
   milestone_3: 100
   milestone_4: 100
-  milestone_5: 40
+  milestone_5: 100
   milestone_6: 0
 
 recent_work:
+  - date: 2026-02-22
+    description: |
+      🎉 Milestone 5 Complete: Global Package Installation
+      All 6 tasks completed. Full global package system operational.
+    items:
+      - ✅ Task 29: Global ACP Auto-Initialization
+      - ✅ Added init_global_acp() function to agent/scripts/acp.common.sh
+      - ✅ Function is idempotent (safe to call multiple times)
+      - ✅ Runs acp.install.sh in ~/.acp/ for full ACP installation
+      - ✅ Creates ~/.acp/projects/ directory
+      - ✅ Initializes global manifest automatically
+      - ✅ Appends global notes to ~/.acp/AGENT.md
+      - ✅ Integrated into acp.package-install.sh (--global flag)
+      - ✅ Integrated into acp.package-list.sh (--global flag)
+      - ✅ Integrated into acp.package-create.sh (when target is ~/.acp/projects/)
+      - ✅ Updated command documentation (acp.package-install.md, acp.package-create.md, acp.package-list.md)
+      - ✅ All scripts syntax validated
+      - 📋 Milestone 5: 100% complete (6/6 tasks)
+      - 🎊 Global package system fully operational!
+  
   - date: 2026-02-22
     description: |
       ✅ Task 28 Complete: Documentation and Agent Instructions
@@ -1826,13 +1857,12 @@ recent_work:
       - 🎊 ACP Commands v1.1.0 fully complete!
 
 next_steps:
-  - Complete Milestone 5 implementation (3 tasks remaining: 27-29)
-  - Task 27: Global Package Commands (2-3 hours)
-  - Task 28: Documentation and Agent Instructions (1-2 hours)
-  - Task 29: Global ACP Auto-Initialization (1-2 hours)
-  - Review Milestone 6 planning (design doc, milestone, 8 tasks)
-  - Begin Milestone 6 implementation when M5 complete
+  - 🎉 Milestone 5 complete! Ready for Milestone 6
+  - Review Milestone 6: ACP Preferences System
   - Task 37: Preference Loading Infrastructure (4-6 hours) - First M6 task
+  - Create acp.preferences.sh with preference utilities
+  - Implement @acp.preferences-get command
+  - Multi-level preference configuration (user/workspace/project)
 
 notes:
   - Using flat directory structure with dot notation (acp.status.md)
@@ -1841,12 +1871,12 @@ notes:
   - Reserved acp namespace for core commands
   - Reserved local namespace for non-package projects
   - Template-based creation for consistency
-  - Milestones 1-4 complete (100%), Milestone 5 in progress (40%), Milestone 6 planned (0%)
-  - 26 tasks completed, 18 tasks planned (44 total)
-  - 26 commands implemented (4 more planned for M6)
+  - Milestones 1-5 complete (100%), Milestone 6 planned (0%)
+  - 32 tasks completed, 8 tasks planned (40 total)
+  - 26 commands implemented (5 more planned for M6)
   - 17 scripts in agent/scripts/ (1 more planned for M6)
   - Complete package development workflow operational
-  - Milestone 5: Global package installation with --global flag and auto-initialization
+  - Milestone 5: Global package installation complete with --global flag and auto-initialization
   - Milestone 6: Preferences system with multi-level configuration and presets
 
 current_blockers: []

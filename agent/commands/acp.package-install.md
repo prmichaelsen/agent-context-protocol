@@ -71,6 +71,18 @@ packages:
 
 ---
 
+## Auto-Initialization
+
+When using the `--global` flag for the first time, the system automatically initializes `~/.acp/` infrastructure:
+- Creates `~/.acp/` directory
+- Installs full ACP (templates, scripts, schemas)
+- Creates `~/.acp/projects/` directory for package development
+- Creates `~/.acp/agent/manifest.yaml` for package tracking
+
+This happens automatically - no manual setup required.
+
+---
+
 ## Prerequisites
 
 - [ ] ACP installed in project

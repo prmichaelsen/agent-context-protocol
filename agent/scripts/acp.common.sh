@@ -265,6 +265,109 @@ get_global_package_location() {
     ' "$manifest_path"
 }
 
+# Initialize global ACP infrastructure if it doesn't exist
+# This function is idempotent - safe to call multiple times
+# Usage: init_global_acp
+# Returns: 0 on success, 1 on failure
+init_global_acp() {
+    local global_dir="$HOME/.acp"
+    
+    # Check if already initialized
+    if [ -d "$global_dir/agent" ] && [ -f "$global_dir/AGENT.md" ]; then
+        return 0  # Already initialized, nothing to do
+    fi
+    
+    echo "${BLUE}Initializing global ACP infrastructure at ~/.acp/...${NC}"
+    echo ""
+    
+    # Create ~/.acp directory
+    mkdir -p "$global_dir"
+    
+    # Get the directory where this script is located
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Run standard ACP installation in ~/.acp/
+    # This installs all templates, scripts, and schemas
+    if [ -f "$script_dir/acp.install.sh" ]; then
+        # Use local install script
+        (
+            cd "$global_dir" || exit 1
+            bash "$script_dir/acp.install.sh"
+        ) || {
+            echo "${RED}Error: Failed to initialize global ACP infrastructure${NC}" >&2
+            return 1
+        }
+    else
+        # Fallback: Download from repository
+        (
+            cd "$global_dir" || exit 1
+            curl -fsSL https://raw.githubusercontent.com/prmichaelsen/agent-context-protocol/mainline/agent/scripts/acp.install.sh | bash
+        ) || {
+            echo "${RED}Error: Failed to initialize global ACP infrastructure${NC}" >&2
+            return 1
+        }
+    fi
+    
+    # Create additional global directories
+    mkdir -p "$global_dir/projects"
+    
+    # Initialize global manifest if it doesn't exist
+    if [ ! -f "$global_dir/agent/manifest.yaml" ]; then
+        init_global_manifest
+    fi
+    
+    # Append global installation notes to AGENT.md
+    if [ -f "$global_dir/AGENT.md" ] && ! grep -q "## Global Installation" "$global_dir/AGENT.md"; then
+        cat >> "$global_dir/AGENT.md" << 'EOF'
+
+---
+
+## Global Installation
+
+This is a global ACP installation located at `~/.acp/`.
+
+### Purpose
+
+This installation provides:
+- **Global packages** in `~/.acp/agent/` - Packages installed with `@acp.package-install --global`
+- **Project workspace** in `~/.acp/projects/` - Optional location for package development
+- **Global manifest** in `~/.acp/agent/manifest.yaml` - Tracks globally installed packages
+- **Templates and scripts** in `~/.acp/agent/` - All ACP templates and utilities
+
+### Usage
+
+**Install packages globally**:
+```bash
+@acp.package-install --global https://github.com/user/acp-package.git
+```
+
+**Create packages**:
+```bash
+cd ~/.acp/projects
+@acp.package-create
+```
+
+**List global packages**:
+```bash
+@acp.package-list --global
+```
+
+### Discovery
+
+Agents can discover globally installed packages by reading `~/.acp/agent/manifest.yaml`. Local packages always take precedence over global packages.
+EOF
+    fi
+    
+    echo ""
+    echo "${GREEN}✓ Global ACP infrastructure initialized${NC}"
+    echo ""
+    echo "Location: $global_dir"
+    echo "Templates: $global_dir/agent/"
+    echo "Projects: $global_dir/projects/"
+    echo ""
+}
+
 # Print error message and exit
 # Usage: die "Error message"
 die() {

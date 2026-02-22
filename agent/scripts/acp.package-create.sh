@@ -234,6 +234,14 @@ echo ""
 echo "${GREEN}✓${NC} Package information collected"
 echo ""
 
+# Initialize global infrastructure if creating in ~/.acp/projects/
+if [[ "$TARGET_DIR" == "$HOME/.acp/projects/"* ]] || [[ "$TARGET_DIR" == ~/.acp/projects/* ]]; then
+    init_global_acp || {
+        echo "${RED}Error: Failed to initialize global infrastructure${NC}" >&2
+        exit 1
+    }
+fi
+
 # Display summary
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
