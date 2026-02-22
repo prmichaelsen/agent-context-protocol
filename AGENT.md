@@ -886,7 +886,27 @@ Run ./agent/scripts/unacp.install.sh to remove all ACP files (agent/ directory a
    - Update percentages
    - Add recent work notes
 
-8. **CRITICAL: Always update CHANGELOG.md for version changes**
+8. **Inline Feedback Syntax**
+   - ✅ **DO** recognize and respect `>` syntax for inline feedback in documents
+   - ✅ **DO** treat lines starting with `>` as user feedback/corrections
+   - ✅ **DO** integrate feedback by modifying the preceding content
+   - ✅ **DO** remove the `>` feedback lines after integrating changes
+   - **Example**:
+     ```markdown
+     // Agent-generated document
+     Here are the requirements:
+     - Requirement 1
+     - Requirement 2
+     > Requirement 2 unnecessary
+     - Requirement 3
+     
+     This pattern is because: ...
+     > Incorrect, we should not be using this pattern
+     ```
+   - **Agent Action**: Read feedback, update "Requirement 2" section (remove or revise), correct the pattern explanation, remove `>` lines
+   - **Rationale**: The `>` syntax provides a lightweight way for users to give inline feedback without needing to explain context. Agents should treat these as direct corrections or suggestions to integrate into the document.
+
+9. **CRITICAL: Always update CHANGELOG.md for version changes**
    - ❌ **DO NOT** commit version changes without updating CHANGELOG.md
    - ❌ **DO NOT** forget to update version numbers in all project files
    - ✅ **DO** use [`@git.commit`](agent/commands/git.commit.md) for version-aware commits
