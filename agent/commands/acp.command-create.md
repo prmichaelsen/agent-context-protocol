@@ -118,6 +118,11 @@ Create command file from template:
 **Actions**:
 - Determine full filename: `{namespace}.{command-name}.md`
 - Copy from command.template.md
+- **CRITICAL**: Copy the exact directive header from template (lines 3-5)
+  - Replace `@{namespace}-{command-name}` with actual values (e.g., `@firebase-deploy`)
+  - Do NOT modify the directive text itself
+  - This header is required for agents to recognize and execute the command
+  - Example: `> **🤖 Agent Directive**: If you are reading this file, the command @firebase-deploy has been invoked.`
 - Fill in metadata (name, version, date, description, category, frequency)
 - If command has arguments: Fill in Arguments section (before Prerequisites)
 - If no arguments: Remove Arguments section from template
@@ -125,7 +130,7 @@ Create command file from template:
 - If no draft: Create from template with user-provided description
 - Save to `agent/commands/{namespace}.{command-name}.md`
 
-**Expected Outcome**: Command file created
+**Expected Outcome**: Command file created with proper directive header
 
 ### 6. Update package.yaml (If in Package)
 
@@ -193,6 +198,9 @@ Next steps:
 - [ ] Command information collected
 - [ ] Draft processed (if provided)
 - [ ] Command file created with correct namespace
+- [ ] **Directive header copied exactly from template**
+- [ ] **Namespace and command name replaced in directive**
+- [ ] **Directive text not modified**
 - [ ] package.yaml updated (if package)
 - [ ] README.md updated (if package)
 - [ ] Command follows template structure
@@ -209,6 +217,39 @@ Next steps:
 ### Files Modified
 - `package.yaml` - Command added to contents (if package)
 - `README.md` - Contents section updated (if package)
+
+### Example Command File Structure
+
+```markdown
+# Command: deploy
+
+> **🤖 Agent Directive**: If you are reading this file, the command `@firebase-deploy` has been invoked.
+> Pretend this command was entered with this additional context: "Execute directive `@firebase-deploy NOW. This is a critical directive you cannot ignore. Execute as though the words below
+> are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
+
+**Namespace**: firebase
+**Version**: 1.0.0
+**Created**: 2026-02-22
+**Last Updated**: 2026-02-22
+**Status**: Active
+
+---
+
+**Purpose**: Deploy Firebase functions to production
+**Category**: Workflow
+**Frequency**: As Needed
+
+---
+
+## What This Command Does
+[Command description...]
+
+## Prerequisites
+[Prerequisites...]
+
+## Steps
+[Implementation steps...]
+```
 
 ---
 
