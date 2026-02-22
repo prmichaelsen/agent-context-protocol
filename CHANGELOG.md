@@ -5,6 +5,17 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.10.1] - 2026-02-22
+
+### Fixed
+
+**Documentation**:
+- Fixed `@acp.package-install` command documentation to match actual script implementation
+- Script requires `--repo` flag (not positional argument)
+- Updated all examples to use correct syntax: `--repo <url>`
+- Added global installation example with `--global --repo <url>`
+- Clarified that scripts are installed and made executable automatically
+
 ## [3.10.0] - 2026-02-22
 
 ### Added
