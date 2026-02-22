@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.9.0
+  version: 3.9.1
   started: 2026-02-16
   status: in_progress
   current_milestone: M5
@@ -124,7 +124,7 @@ milestones:
       - Multi-level preference configuration (user/workspace/project)
       - Configurables system for preference definitions
       - Preset configurations for common workflows
-      - Command integration (@acp.plan, @acp.task-create)
+      - "Command integration (@acp.plan, @acp.task-create)"
       - Package preference support
       - 8 tasks planned (37-44): Infrastructure, Configurables, Integration, Management, Package Support, Presets, Testing, Documentation
 
@@ -412,7 +412,7 @@ tasks:
       estimated_hours: 5-6
       completed_date: 2026-02-21
       notes: |
-        ✅ @acp.command-create complete!
+        "✅ @acp.command-create complete!"
         - Created agent/commands/acp.command-create.md
         - LLM-based command creation (no script needed)
         - Collects command-specific fields (category, frequency)
@@ -426,7 +426,7 @@ tasks:
       estimated_hours: 4-5
       completed_date: 2026-02-21
       notes: |
-        ✅ @acp.design-create complete!
+        "✅ @acp.design-create complete!"
         - Created agent/commands/acp.design-create.md
         - LLM-based design creation (no script needed)
         - Context-aware namespace enforcement
@@ -439,7 +439,7 @@ tasks:
       estimated_hours: 7-9
       completed_date: 2026-02-21
       notes: |
-        ✅ @acp.package-validate complete!
+        "✅ @acp.package-validate complete!"
         - Created agent/commands/acp.package-validate.md (comprehensive command doc)
         - Created agent/scripts/acp.package-validate.sh (shell validation script)
         - Shell validation: YAML structure, file existence, unlisted files, namespace, git, README
@@ -456,7 +456,7 @@ tasks:
       estimated_hours: 3-4
       completed_date: 2026-02-21
       notes: |
-        ✅ Enhanced @acp.validate complete!
+        "✅ Enhanced @acp.validate complete!"
         - Updated agent/commands/acp.validate.md with namespace validation
         - Added computer roleplay directive to agent directive
         - Added Step 8: Validate Namespace Conventions
@@ -465,7 +465,7 @@ tasks:
         - Context-aware (package vs project detection)
         - Updated verification checklist
         - Updated example output with namespace section
-        - Added @acp.package-validate to related commands
+        - "Added @acp.package-validate to related commands"
         - Version bump: 1.0.0 → 2.0.0
     
     - id: task-22
@@ -475,11 +475,11 @@ tasks:
       estimated_hours: 8-10
       completed_date: 2026-02-21
       notes: |
-        ✅ @acp.package-publish complete!
+        "✅ @acp.package-publish complete!"
         - Created agent/commands/acp.package-publish.md (comprehensive command doc)
         - Created agent/scripts/acp.package-publish.sh (publishing automation script)
         - Implemented 13-step publishing workflow:
-          1. Validation (runs @acp.package-validate)
+          "1. Validation (runs @acp.package-validate)"
           2. Git status check (working directory, branch validation)
           3. Remote status check (fetch, check if behind)
           4. Version analysis (Conventional Commits parsing)
@@ -504,7 +504,7 @@ tasks:
       estimated_hours: 6-8
       completed_date: 2026-02-21
       notes: |
-        ✅ @acp.package-create v2.0.0 complete!
+        "✅ @acp.package-create v2.0.0 complete!"
         - Updated agent/commands/acp.package-create.md (comprehensive rewrite)
         - Rewritten agent/scripts/acp.package-create.sh (new workflow)
         - Added install_precommit_hook() to acp.common.sh
@@ -520,7 +520,7 @@ tasks:
           8. Initialize git repository and create initial commit
           9. Display comprehensive next steps
         - Removed example file creation (use templates instead)
-        - Default directory: ~/.acp/packages/{package-name} or $HOME/.acp/packages/{package-name}
+        - "Default directory: ~/.acp/packages/{package-name} or $HOME/.acp/packages/{package-name}"
         - Pre-commit hook validates package.yaml before every commit
         - Tested successfully with multiple test packages
         - Version bump: 1.0.0 → 2.0.0 (breaking - complete rewrite)
@@ -595,7 +595,7 @@ tasks:
         - Added --global flag to acp.package-update.sh
         - Fixed all hardcoded agent/manifest.yaml references in acp.package-list.sh
         - acp.package-list.sh already had --global support (enhanced)
-        - Updated @acp.init with Step 2.5 (global package discovery)
+        - "Updated @acp.init with Step 2.5 (global package discovery)"
         - Updated command documentation (acp.package-list.md, acp.package-info.md, acp.package-update.md, acp.package-remove.md)
         - All scripts use $MANIFEST_FILE variable for global/local manifest selection
         - Added 2 test cases to e2e/acp.package-list.test.sh (global empty, global with packages)
@@ -666,7 +666,7 @@ tasks:
       estimated_hours: 4-6
       completed_date: null
       notes: |
-        Create acp.preferences.sh with all preference utilities and @acp.preferences-get command
+        "Create acp.preferences.sh with all preference utilities and @acp.preferences-get command"
     
     - id: task-38
       name: Configurables System Enhancement
@@ -678,13 +678,13 @@ tasks:
         Enhance configurables.yaml with comprehensive preference definitions for core ACP commands
     
     - id: task-39
-      name: Command Integration - @acp.plan
+      name: "Command Integration - @acp.plan"
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-39-command-integration-acp-plan.md
       estimated_hours: 4-5
       completed_date: null
       notes: |
-        Integrate preferences into @acp.plan command (plan.draft.create_mode)
+        "Integrate preferences into @acp.plan command (plan.draft.create_mode)"
     
     - id: task-40
       name: Preference Management Commands
@@ -739,7 +739,7 @@ tasks:
       estimated_hours: 1-2
       completed_date: 2026-02-21
       notes: |
-        ✅ Fixed @acp.package-validate namespace validation
+        "✅ Fixed @acp.package-validate namespace validation"
         - Only validates files in package.yaml contents
         - Skips files not in contents (installed dependencies)
         - Added informational output for skipped files
@@ -753,7 +753,7 @@ tasks:
       estimated_hours: 1-2
       completed_date: 2026-02-21
       notes: |
-        ✅ Added progress.yaml creation to @acp.package-create
+        "✅ Added progress.yaml creation to @acp.package-create"
         - Creates minimal progress.yaml (no predefined milestones/tasks)
         - Enables full ACP workflow for package development
         - Updated success message to mention progress tracking
@@ -909,12 +909,12 @@ recent_work:
       Complete planning for preferences system with design document, milestone, and 8 tasks.
     items:
       - ✅ Created agent/design/acp-preferences-system.md (comprehensive design)
-      - ✅ Integrated user feedback (acp.preferences.sh naming, @acp.preferences-create pattern)
+      - "✅ Integrated user feedback (acp.preferences.sh naming, @acp.preferences-create pattern)"
       - ✅ Created agent/milestones/milestone-6-preferences-system.md
       - ✅ Created 8 task documents in milestone-6-preferences-system/ directory:
         - Task 37: Preference Loading Infrastructure (4-6 hours)
         - Task 38: Configurables System Enhancement (3-4 hours)
-        - Task 39: Command Integration - @acp.plan (4-5 hours)
+        - "Task 39: Command Integration - @acp.plan (4-5 hours)"
         - Task 40: Preference Management Commands (8-10 hours) - 5 commands
         - Task 41: Package Preference Support (4-5 hours)
         - Task 42: Preset Configuration System (3-4 hours)
@@ -929,7 +929,7 @@ recent_work:
   - date: 2026-02-22
     description: |
       ✅ Task 26 Complete: Global Installation Implementation
-      Added --global flag support to @acp.package-install for installing packages to ~/.acp/packages/.
+      "Added --global flag support to @acp.package-install for installing packages to ~/.acp/packages/."
     items:
       - ✅ Modified agent/scripts/acp.package-install.sh with global installation logic
       - ✅ Added installation directory determination (global vs local)
@@ -1005,7 +1005,7 @@ recent_work:
   
   - date: 2026-02-21
     description: |
-      🔄 Documentation Sync Complete - All ACP documentation synchronized with codebase via @acp.sync command.
+      "🔄 Documentation Sync Complete - All ACP documentation synchronized with codebase via @acp.sync command."
       Reviewed 85 documents across all categories. No discrepancies found - all documentation is current.
     items:
       - ✅ Reviewed 7 design documents (all current)
@@ -1021,7 +1021,7 @@ recent_work:
   
   - date: 2026-02-21
     description: |
-      � Agent Context Initialized via @acp.init
+      "🚀 Agent Context Initialized via @acp.init"
       Complete project context loaded. All documentation and source files reviewed.
     items:
       - ✅ ACP version check: v3.6.0 (up to date)
@@ -1115,10 +1115,10 @@ recent_work:
       - ✅ Creates minimal progress.yaml (no predefined milestones/tasks)
       - ✅ Includes project metadata, empty milestones, empty tasks
       - ✅ Updated success message to mention progress tracking
-      - ✅ Added helpful output about ACP commands (@acp.init, @acp.status, @acp.proceed)
+      - "✅ Added helpful output about ACP commands (@acp.init, @acp.status, @acp.proceed)"
       - ✅ progress.yaml excluded via .gitignore (not installed to users)
       - 📋 Package developers can now use full ACP workflow
-      - 📋 Enables @acp.init, @acp.proceed, @acp.status in packages
+      - "📋 Enables @acp.init, @acp.proceed, @acp.status in packages"
       - 📋 Consistent experience between projects and packages
   
   - date: 2026-02-21
@@ -1219,7 +1219,7 @@ recent_work:
       - ✅ Progress tracking updated with initialization entry
       - 📋 Project Status: M1-M3 complete (100%), M4 in progress (91%)
       - 📋 Current Focus: Milestone 4 - ACP Package Development System
-      - 📋 Next: Task 17 (@acp.pattern-create) or Task 24 (Pre-Commit Hook System)
+      - "📋 Next: Task 17 (@acp.pattern-create) or Task 24 (Pre-Commit Hook System)"
   
   - date: 2026-02-21
     description: |
@@ -1240,7 +1240,7 @@ recent_work:
         - Install pre-commit hook (validates package.yaml)
         - Initialize git and create initial commit
       - ✅ Removed example file creation (use templates from ACP installation)
-      - ✅ Default directory: ~/.acp/packages/{package-name} or $HOME/.acp/packages/{package-name}
+      - "✅ Default directory: ~/.acp/packages/{package-name} or $HOME/.acp/packages/{package-name}"
       - ✅ Pre-commit hook validates package.yaml before commits
       - ✅ Tested successfully with multiple test packages
       - ✅ Version bump: 1.0.0 → 2.0.0 (breaking - complete rewrite)
@@ -1256,7 +1256,7 @@ recent_work:
       - ✅ Created agent/commands/acp.package-publish.md (comprehensive command doc)
       - ✅ Created agent/scripts/acp.package-publish.sh (publishing automation)
       - ✅ Implemented 13-step publishing workflow:
-        - Validation phase (runs @acp.package-validate)
+        - "Validation phase (runs @acp.package-validate)"
         - Git status and branch validation
         - Remote status checking (fetch, check if behind)
         - Version analysis (Conventional Commits parsing)
@@ -1275,7 +1275,7 @@ recent_work:
       - ✅ Made script executable (chmod +x)
       - 📋 Milestone 4 progress: 82% (9/11 tasks complete)
       - 📋 Phase 4 (Publishing) complete! (1/1 task done)
-      - 📋 Next: Task 23 - Rewrite @acp.package-create (6-8 hours)
+      - "📋 Next: Task 23 - Rewrite @acp.package-create (6-8 hours)"
   
   - date: 2026-02-21
     description: |
@@ -1290,11 +1290,11 @@ recent_work:
       - ✅ Validates reserved namespace usage (acp, local, core, system, global)
       - ✅ Updated verification checklist with namespace checks
       - ✅ Updated example output with namespace validation section
-      - ✅ Added @acp.package-validate to related commands
+      - "✅ Added @acp.package-validate to related commands"
       - ✅ Version bump: 1.0.0 → 2.0.0 (breaking - new validation checks)
       - 📋 Milestone 4 progress: 73% (8/11 tasks complete)
       - 📋 Phase 3 (Validation) complete! (2/2 tasks done)
-      - 📋 Next: Task 22 - @acp.package-publish (8-10 hours)
+      - "📋 Next: Task 22 - @acp.package-publish (8-10 hours)"
   
   - date: 2026-02-21
     description: |
@@ -1328,7 +1328,7 @@ recent_work:
       - ✅ Tested successfully (correctly detects non-package directory)
       - 📋 LLM validation and auto-fix to be implemented via command directives
       - 📋 Milestone 4 progress: 64% (7/11 tasks complete)
-      - 📋 Next: Task 21 - Enhanced @acp.validate (3-4 hours)
+      - "📋 Next: Task 21 - Enhanced @acp.validate (3-4 hours)"
   
   - date: 2026-02-21
     description: |
@@ -1351,7 +1351,7 @@ recent_work:
       - ✅ Progress tracking updated with initialization entry
       - 📋 Project Status: M1-M3 complete (100%), M4 in progress (55%)
       - 📋 Current Focus: Milestone 4 - ACP Package Development System
-      - 📋 Next: Task 20 - @acp.package-validate (7-9 hours)
+      - "📋 Next: Task 20 - @acp.package-validate (7-9 hours)"
   
   - date: 2026-02-21
     description: |
@@ -1364,7 +1364,7 @@ recent_work:
       - 📊 Version history: 2.1.4 → 2.4.0 (7 version bumps)
       - 📊 Files created: 33 files this session
       - 📊 Duration: ~5.5 hours
-      - 📊 Next: Task 20 - @acp.package-validate (7-9 hours)
+      - "📊 Next: Task 20 - @acp.package-validate (7-9 hours)"
   
   - date: 2026-02-20
     description: |
@@ -1377,12 +1377,12 @@ recent_work:
         - add_file_to_readme() - Convenience wrapper
       - ✅ Uses HTML comment markers for section boundaries
       - ✅ Extracts file names and descriptions from package.yaml contents
-      - ✅ Formats as brief lists: `filename` - Description
+      - "✅ Formats as brief lists: `filename` - Description"
       - ✅ Handles commands, patterns, and designs sections
       - ✅ Tested with sample package.yaml
       - ✅ Ready for integration in entity creation commands
       - 📋 Milestone 4 progress: 27% (3/11 tasks complete)
-      - 📋 Next: Task 17 - @acp.pattern-create Command (6-8 hours)
+      - "📋 Next: Task 17 - @acp.pattern-create Command (6-8 hours)"
   
   - date: 2026-02-20
     description: |
@@ -1435,18 +1435,18 @@ recent_work:
       - ✅ Added 11 tasks to progress.yaml (tasks 14-24)
       - 📦 Milestone 4 scope:
         - Infrastructure: YAML schema system, namespace utilities, README updates
-        - Entity creation: @acp.pattern-create, @acp.command-create, @acp.design-create
-        - Validation: @acp.package-validate with auto-fix
-        - Publishing: @acp.package-publish with version management
-        - Rewrite: @acp.package-create with full ACP installation
+        - "Entity creation: @acp.pattern-create, @acp.command-create, @acp.design-create"
+        - "Validation: @acp.package-validate with auto-fix"
+        - "Publishing: @acp.package-publish with version management"
+        - "Rewrite: @acp.package-create with full ACP installation"
         - Hooks: Pre-commit validation hooks
       - ⏱️ Estimated effort: 45-58 hours over 6-8 weeks
-      - 📋 Project status: in_progress, current_milestone: M4
+      - "📋 Project status: in_progress, current_milestone: M4"
       - 📋 Next: Begin Task 14 - YAML Schema System
   
   - date: 2026-02-20
     description: |
-      ✨ New Feature: @acp.package-create Command
+      "✨ New Feature: @acp.package-create Command"
       Interactive wizard to help users create new ACP packages from scratch.
     items:
       - ✅ Created agent/commands/acp.package-create.md (comprehensive command documentation)
@@ -1471,7 +1471,7 @@ recent_work:
       - ✅ ACP version check: v2.1.4 (up to date)
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 2 design documents (acp-commands-design.md, acp-package-management-system.md)
-      - ✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)
+      - "✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)"
       - ✅ Read 4 task documents (tasks 1-4 for Milestone 1)
       - ✅ Reviewed AGENT.md (v2.1.4, 1177 lines)
       - ✅ Reviewed README.md (242 lines)
@@ -1530,7 +1530,7 @@ recent_work:
       - ✅ ACP version check: v2.0.0 (up to date)
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 2 design documents (acp-commands-design.md, acp-package-management-system.md)
-      - ✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)
+      - "✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)"
       - ✅ Read 13 task documents (tasks 1-13)
       - ✅ Reviewed AGENT.md (v2.0.0, 1166 lines)
       - ✅ Reviewed README.md (242 lines)

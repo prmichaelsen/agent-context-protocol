@@ -228,6 +228,17 @@ else
     TARGET_DIR="${TARGET_DIR/#\~/$HOME}"
     # Expand $HOME
     TARGET_DIR=$(eval echo "$TARGET_DIR")
+    
+    # If target ends with / or is a common parent directory, append acp-{package-name}
+    # This handles cases like:
+    #   ~/.acp/projects/ → ~/.acp/projects/acp-package-name
+    #   ~/.acp/projects  → ~/.acp/projects/acp-package-name (parent dir)
+    if [[ "$TARGET_DIR" == */ ]] || [[ "$TARGET_DIR" == */projects ]] || [[ "$TARGET_DIR" == */packages ]]; then
+        # Remove trailing slash if present
+        TARGET_DIR="${TARGET_DIR%/}"
+        # Append package name with prefix
+        TARGET_DIR="${TARGET_DIR}/acp-${PACKAGE_NAME}"
+    fi
 fi
 
 echo ""

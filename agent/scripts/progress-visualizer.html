@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACP Progress Visualizer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent-color: #2563eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --progress-bg: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-card: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: #404040;
+            --progress-bg: #404040;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        button, .file-input-label {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        button:hover, .file-input-label:hover {
+            opacity: 0.9;
+        }
+
+        .file-input-label {
+            display: inline-block;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .milestone-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .milestone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .milestone-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .milestone-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-not-started {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        [data-theme="dark"] .status-completed {
+            background: #065f46;
+            color: #d1fae5;
+        }
+
+        [data-theme="dark"] .status-in-progress {
+            background: #92400e;
+            color: #fef3c7;
+        }
+
+        [data-theme="dark"] .status-not-started {
+            background: #374151;
+            color: #e5e7eb;
+        }
+
+        .progress-bar-container {
+            background: var(--progress-bg);
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--success-color));
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .milestone-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .task-list {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .task-list.expanded {
+            display: block;
+        }
+
+        .task-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-icon {
+            font-size: 1.2rem;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .task-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            margin: 40px 0;
+            background: var(--bg-secondary);
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--accent-color);
+            background: var(--bg-card);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .error-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .error-stack {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #fca5a5;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        [data-theme="dark"] .error {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        [data-theme="dark"] .error-stack {
+            border-top-color: #991b1b;
+        }
+
+        @media print {
+            .header-controls, .task-list {
+                display: block !important;
+            }
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎯 ACP Progress Visualizer</h1>
+            <p style="color: var(--text-secondary);">Interactive visualization of Agent Context Protocol project progress</p>
+            <div class="header-controls">
+                <label class="file-input-label">
+                    📁 Load progress.yaml
+                    <input type="file" id="fileInput" accept=".yaml,.yml">
+                </label>
+                <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+                <button onclick="window.print()">🖨️ Print</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="dropZone" class="drop-zone">
+            <h2>📂 Drop progress.yaml here</h2>
+            <p style="color: var(--text-secondary); margin-top: 10px;">or click "Load progress.yaml" above</p>
+        </div>
+
+        <div id="content" class="hidden">
+            <div id="stats" class="stats-grid"></div>
+            <div id="milestones"></div>
+        </div>
+
+        <div id="error" class="error hidden"></div>
+    </div>
+
+    <script>
+        let progressData = null;
+
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            localStorage.setItem('theme', currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // File input handler
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        progressData = jsyaml.load(event.target.result);
+                        renderVisualization();
+                    } catch (error) {
+                        showError('Failed to parse YAML file', error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Drag and drop handlers
+        const dropZone = document.getElementById('dropZone');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        progressData = jsyaml.load(event.target.result);
+                        renderVisualization();
+                    } catch (error) {
+                        showError('Failed to parse YAML from dropped file', error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function showError(message, error) {
+            const errorDiv = document.getElementById('error');
+            
+            let errorHTML = `<div class="error-title">❌ Error</div><div>${message}</div>`;
+            
+            if (error) {
+                if (error.stack) {
+                    errorHTML += `<div class="error-stack"><strong>Stack Trace:</strong>\n${error.stack}</div>`;
+                } else if (error.message) {
+                    errorHTML += `<div class="error-stack"><strong>Details:</strong>\n${error.message}</div>`;
+                }
+            }
+            
+            errorDiv.innerHTML = errorHTML;
+            errorDiv.classList.remove('hidden');
+            document.getElementById('content').classList.add('hidden');
+        }
+
+        function renderVisualization() {
+            document.getElementById('dropZone').classList.add('hidden');
+            document.getElementById('error').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+
+            renderStats();
+            renderMilestones();
+        }
+
+        function renderStats() {
+            const stats = document.getElementById('stats');
+            const milestones = progressData.milestones || [];
+            const completedMilestones = milestones.filter(m => m.status === 'completed').length;
+            const overallProgress = progressData.progress?.overall || 0;
+            
+            // Count total tasks
+            let totalTasks = 0;
+            let completedTasks = 0;
+            Object.values(progressData.tasks || {}).forEach(taskList => {
+                taskList.forEach(task => {
+                    totalTasks++;
+                    if (task.status === 'completed') completedTasks++;
+                });
+            });
+
+            stats.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${overallProgress}%</div>
+                    <div class="stat-label">Overall Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${completedMilestones}/${milestones.length}</div>
+                    <div class="stat-label">Milestones Complete</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${completedTasks}/${totalTasks}</div>
+                    <div class="stat-label">Tasks Complete</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${progressData.project?.version || 'N/A'}</div>
+                    <div class="stat-label">Version</div>
+                </div>
+            `;
+        }
+
+        function renderMilestones() {
+            const milestonesDiv = document.getElementById('milestones');
+            const milestones = progressData.milestones || [];
+            
+            milestonesDiv.innerHTML = milestones.map((milestone, index) => {
+                const statusClass = `status-${milestone.status.replace('_', '-')}`;
+                const statusText = milestone.status.replace('_', ' ').toUpperCase();
+                const progress = milestone.progress || 0;
+                
+                // Get tasks for this milestone
+                const milestoneKey = `milestone_${index + 1}`;
+                const tasks = progressData.tasks?.[milestoneKey] || [];
+                
+                return `
+                    <div class="milestone-card">
+                        <div class="milestone-header" onclick="toggleTasks('milestone-${index}')">
+                            <div>
+                                <div class="milestone-title">${milestone.id}: ${milestone.name}</div>
+                                <div class="milestone-meta">
+                                    <span>📅 ${milestone.started || 'Not started'}</span>
+                                    <span>📊 ${milestone.tasks_completed}/${milestone.tasks_total} tasks</span>
+                                    ${milestone.estimated_weeks ? `<span>⏱️ Est: ${milestone.estimated_weeks} weeks</span>` : ''}
+                                </div>
+                            </div>
+                            <span class="milestone-status ${statusClass}">${statusText}</span>
+                        </div>
+                        
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${progress}%">
+                                ${progress}%
+                            </div>
+                        </div>
+                        
+                        <div id="milestone-${index}" class="task-list">
+                            ${tasks.map(task => renderTask(task)).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTask(task) {
+            const icon = task.status === 'completed' ? '✅' : 
+                        task.status === 'in_progress' ? '⏳' : '⭕';
+            
+            const estimatedHours = task.estimated_hours || 'N/A';
+            const actualHours = task.actual_hours || 'N/A';
+            const variance = task.actual_hours && task.estimated_hours ? 
+                calculateVariance(task.estimated_hours, task.actual_hours) : '';
+            
+            return `
+                <div class="task-item">
+                    <span class="task-icon">${icon}</span>
+                    <div class="task-info">
+                        <div class="task-name">${task.name}</div>
+                        <div class="task-meta">
+                            Est: ${estimatedHours}h | Actual: ${actualHours}h ${variance}
+                            ${task.completed_date ? `| Completed: ${task.completed_date}` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function calculateVariance(estimated, actual) {
+            // Handle range estimates (e.g., "2-3")
+            const estNum = typeof estimated === 'string' && estimated.includes('-') ?
+                (estimated.split('-').map(Number).reduce((a, b) => a + b) / 2) :
+                Number(estimated);
+            
+            const variance = ((actual - estNum) / estNum * 100).toFixed(0);
+            if (variance > 10) return `<span style="color: var(--warning-color)">⚠️ +${variance}%</span>`;
+            if (variance < -10) return `<span style="color: var(--success-color)">✅ ${variance}%</span>`;
+            return `<span style="color: var(--success-color)">✅ On target</span>`;
+        }
+
+        function toggleTasks(milestoneId) {
+            const taskList = document.getElementById(milestoneId);
+            taskList.classList.toggle('expanded');
+        }
+
+        // Auto-load if progress.yaml is in URL hash
+        window.addEventListener('load', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                try {
+                    const decoded = atob(hash);
+                    progressData = jsyaml.load(decoded);
+                    renderVisualization();
+                } catch (error) {
+                    console.error('Failed to load from URL hash:', error);
+                    showError('Failed to load from URL hash', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

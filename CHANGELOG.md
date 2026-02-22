@@ -5,6 +5,31 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.1] - 2026-02-22
+
+### Fixed
+
+**Package Creation Bug**:
+- Fixed `acp.package-create.sh` to correctly append `acp-` prefix when target directory ends with `/`
+- Target directories like `~/.acp/projects/` now correctly create `~/.acp/projects/acp-{package-name}/`
+- Script already uses `mkdir -p` for parent directory creation (no changes needed)
+
+**YAML Syntax Errors**:
+- Fixed 18+ lines in `progress.yaml` containing `@acp.` commands (@ is a YAML directive marker)
+- Quoted lines with `$HOME` variables, backticks, and multiple colons
+- YAML now parses correctly in strict parsers like js-yaml
+
+**JavaScript Syntax Error**:
+- Fixed operator precedence in `progress-visualizer.html` calculateVariance function
+- Enhanced error display to show full error messages and stack traces
+
+### Added
+
+**Testing**:
+- Created `e2e/acp.package-create.test.sh` with 5 comprehensive path logic tests
+- All tests passing (5/5, 100%)
+- Validates bug fix with no regressions
+
 ## [3.9.0] - 2026-02-22
 
 ### Added
