@@ -5,6 +5,30 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.10.0] - 2026-02-22
+
+### Added
+
+**New Command**:
+- Created `@acp.project-create` command for bootstrapping generic ACP projects
+- Creates projects without package.yaml (not for distribution)
+- No release branches or pre-commit hooks (simpler than packages)
+- Always uses `local` namespace (not configurable)
+- Collects project metadata (name, description, type, author, license)
+- Installs full ACP in new directory
+- Creates project-focused README.md with development section
+- Creates appropriate .gitignore for project type
+- Initializes git repository with initial commit
+- Creates progress.yaml with project metadata
+- Comprehensive documentation with comparison to `@acp.package-create`
+
+### Changed
+
+**Progress Tracking**:
+- Completed Task 49: @acp.project-create Command (1 hour)
+- Milestone 5: 86% → 100% complete (7/7 tasks) 🎉
+- Updated current_milestone: M5 → M6 (ready for Preferences System)
+
 ## [3.9.3] - 2026-02-22
 
 ### Added

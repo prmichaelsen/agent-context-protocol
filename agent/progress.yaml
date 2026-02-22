@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 3.9.3
+  version: 3.10.0
   started: 2026-02-16
   status: in_progress
-  current_milestone: M5
+  current_milestone: M6
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -670,12 +670,25 @@ tasks:
     
     - id: task-49
       name: "@acp.project-create Command"
-      status: not_started
+      status: completed
       file: agent/tasks/task-49-acp-project-create-command.md
       estimated_hours: 3-4
-      completed_date: null
+      actual_hours: 1
+      completed_date: 2026-02-22
       notes: |
-        Create projects in ~/.acp/projects/ with guided setup for project metadata
+        ✅ @acp.project-create command complete!
+        - Created agent/commands/acp.project-create.md
+        - LLM-based project creation (no script needed)
+        - Creates generic ACP projects (not packages)
+        - No package.yaml, no release branches, no pre-commit hooks
+        - Always uses 'local' namespace (not configurable)
+        - Collects project metadata (name, description, type, author, license)
+        - Installs full ACP in new directory
+        - Creates project-focused README.md
+        - Creates appropriate .gitignore
+        - Initializes git repository
+        - Creates progress.yaml with project metadata
+        - Comprehensive examples and documentation
   
   milestone_3:
     - id: task-50
@@ -899,6 +912,30 @@ progress:
   milestone_6: 0
 
 recent_work:
+  - date: 2026-02-22
+    description: |
+      ✅ Task 49 Complete: @acp.project-create Command
+      Created command for bootstrapping generic ACP projects (not packages).
+    items:
+      - ✅ Created agent/commands/acp.project-create.md
+      - ✅ LLM-based project creation (no shell script needed)
+      - ✅ Collects project metadata via chat (name, description, type, author, license)
+      - ✅ Creates in ~/.acp/projects/ or custom location
+      - ✅ Installs full ACP (templates, commands, scripts)
+      - ✅ Creates project-focused README.md
+      - ✅ Creates appropriate .gitignore
+      - ✅ Initializes git repository with initial commit
+      - ✅ Creates progress.yaml with project metadata
+      - ✅ No package.yaml (not a package)
+      - ✅ No release branches (not for distribution)
+      - ✅ No pre-commit hooks (no package.yaml to validate)
+      - ✅ Always uses 'local' namespace (not configurable)
+      - ✅ Comprehensive documentation with examples
+      - ✅ Comparison table with @acp.package-create
+      - 📋 Task completed in 1 hour (estimated: 3-4 hours)
+      - 📋 Milestone 5: 86% → 100% complete (7/7 tasks)
+      - 🎊 Milestone 5 Complete!
+  
   - date: 2026-02-22
     description: |
       ✅ Task 50 Complete: Package Search Default Topic Filter
