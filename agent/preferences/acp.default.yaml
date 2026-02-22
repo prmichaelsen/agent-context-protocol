@@ -1,0 +1,42 @@
+# Implements a preferences instance.
+# Preference can be stored per user globally,
+# per project, or per workspace. Workspace
+# preference location is determined by user's
+# preferred editor
+
+acp:
+    # three part dot path of preference
+    plan.draft.create_mode: 'structured'
+    # ... other preferences
+
+# Preferences should be organized intuitively, with
+# the first portion of the path defining the 
+# general scope of the feature, the next 
+# narrowing the scope, and the last defining
+# the actual preference name. The preference
+# name should inform the function of the preference
+# clearly, in conjunction with the first two segments
+# of the preference path.
+# Preference documents are instances of configurables.yaml
+# definitions.
+
+# Packages support namespaced configurables,
+# for instance, agent/preferences/mcp-auth-server-base.default.yaml might define
+# some preferences for commands in that package.
+# Consider agent/commands/mcp-auth-server-base.init, which 
+# may support server type, auth type, etc.
+# The command could be instructed to read some preferences
+# from a local mcp-auth-server-base.preferences.yaml, then use
+# the values in that document to inform decisions during guided
+# workflows. This enables predefined preference workflows,
+# such as mcp-auth-server-base.init.server.type: ['static', 'static_credentials', 'dynamic'].
+# Then mcp-auth-server-base ACP package may provide a 
+# agent/preferences/mcp-auth-server-base.static-jwt-auth.yaml, mcp-auth-server-base.dynamic-firebase-auth.yaml
+# mcp-auth-server-base.static-credentials-jwt-auth.yaml, etc,
+# which are presents that can define the behavior of init.
+# This can be passed to the agent like 
+# `@mcp-auth-server-base.init @mcp-auth-server-base.static-credentials-jwt-auth.yaml`
+# to load context for preferred settings when moving through `@mcp-auth-server-base.init`'s
+# guided steps, substituting known values where applicable without requiring 
+# explicit user instruction. If not defined in the given preferences, the system
+# will offer the user an option with the default being inferred from mcp-auth-server-base.default.yaml

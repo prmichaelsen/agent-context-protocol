@@ -1,0 +1,41 @@
+# Consider a preferences feature
+
+acp:
+  plan:
+    draft:
+      create_mode:
+        id: 'plan.draft.create_mode'
+        description: Define your agent's default behavior when creating draft documents.
+        default: structured
+        options:
+          - name: unstructured
+            description: |
+              Drafts will be created as empty documents placed in the 
+              appropriate location with appropriate filenames
+            value: unstructured
+          - name: structured
+            description: | 
+              Drafts will be created as structured documents with clear
+              template sections and placeholders for user input,
+              placed in the appropriate location with appropriate filenames
+            value: structured
+          - name: guided
+            description: | 
+              Draft contents should be collected via chat conversation,
+              then no draft need be created because the interactive guided session
+              should have completed all context required to handle 
+              the user's current goal. No draft document is actually
+              crated. The draft summary is provided to the user in chat.
+            value: guided
+          - name: contextual
+            description: | 
+              Draft contents should be inferred by existing context.
+              and the inferred current user goal. No clarification questions are 
+              asked, no draft document is actually
+              crated. Instead, the draft summary is provided to the user in chat
+              generated exclusively from the agent's current understanding of the task.
+            value: contextual
+            
+
+# agent/configurables/mcp-auth-server-base.yaml may define definitions
+# for preferences that can be configured for the mcp-auth-server-base ACP package
