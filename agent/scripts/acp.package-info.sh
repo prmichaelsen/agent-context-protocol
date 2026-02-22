@@ -13,28 +13,57 @@ SCRIPT_DIR="$(dirname "$0")"
 init_colors
 
 # Parse arguments
-PACKAGE_NAME="$1"
+GLOBAL_MODE=false
+PACKAGE_NAME=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --global|-g)
+            GLOBAL_MODE=true
+            shift
+            ;;
+        *)
+            PACKAGE_NAME="$1"
+            shift
+            ;;
+    esac
+done
 
 if [ -z "$PACKAGE_NAME" ]; then
     echo "${RED}Error: Package name required${NC}"
-    echo "Usage: $0 <package-name>"
+    echo "Usage: $0 [--global] <package-name>"
     echo ""
     echo "Example: $0 firebase"
+    echo "Example: $0 --global firebase"
     echo ""
-    echo "To see installed packages: ./agent/scripts/acp.package-list.sh"
+    echo "To see installed packages: ./agent/scripts/acp.package-list.sh [--global]"
     exit 1
 fi
 
+# Determine manifest file based on mode
+if [ "$GLOBAL_MODE" = true ]; then
+    MANIFEST_FILE="$HOME/.acp/manifest.yaml"
+    echo "${BLUE}📦 Global Package Information:${NC}"
+else
+    MANIFEST_FILE="./agent/manifest.yaml"
+    echo "${BLUE}📦 Package Information:${NC}"
+fi
+echo ""
+
 # Check if manifest exists
-if [ ! -f "agent/manifest.yaml" ]; then
-    die "No manifest found. No packages installed."
+if [ ! -f "$MANIFEST_FILE" ]; then
+    if [ "$GLOBAL_MODE" = true ]; then
+        die "No global manifest found. No global packages installed."
+    else
+        die "No manifest found. No packages installed."
+    fi
 fi
 
 # Source YAML parser
 source_yaml_parser
 
 # Check if package is installed
-if ! package_exists "$PACKAGE_NAME"; then
+if ! package_exists "$PACKAGE_NAME" "$MANIFEST_FILE"; then
     die "Package not installed: $PACKAGE_NAME"
 fi
 
@@ -43,36 +72,48 @@ version=$(awk -v pkg="$PACKAGE_NAME" '
     $0 ~ "^  " pkg ":" { in_pkg=1; next }
     in_pkg && /^  [a-z]/ { in_pkg=0 }
     in_pkg && /^    package_version:/ { print $2; exit }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 source_url=$(awk -v pkg="$PACKAGE_NAME" '
     $0 ~ "^  " pkg ":" { in_pkg=1; next }
     in_pkg && /^  [a-z]/ { in_pkg=0 }
     in_pkg && /^    source:/ { print $2; exit }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 commit_hash=$(awk -v pkg="$PACKAGE_NAME" '
     $0 ~ "^  " pkg ":" { in_pkg=1; next }
     in_pkg && /^  [a-z]/ { in_pkg=0 }
     in_pkg && /^    commit:/ { print $2; exit }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 installed_at=$(awk -v pkg="$PACKAGE_NAME" '
     $0 ~ "^  " pkg ":" { in_pkg=1; next }
     in_pkg && /^  [a-z]/ { in_pkg=0 }
     in_pkg && /^    installed_at:/ { print $2; exit }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 updated_at=$(awk -v pkg="$PACKAGE_NAME" '
     $0 ~ "^  " pkg ":" { in_pkg=1; next }
     in_pkg && /^  [a-z]/ { in_pkg=0 }
     in_pkg && /^    updated_at:/ { print $2; exit }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
+
+# Get location for global packages
+location=""
+if [ "$GLOBAL_MODE" = true ]; then
+    location=$(awk -v pkg="$PACKAGE_NAME" '
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ { in_pkg=0 }
+        in_pkg && /^    location:/ { print $2; exit }
+    ' "$MANIFEST_FILE")
+fi
 
 # Display header
-echo ""
 echo "${BLUE}📦 $PACKAGE_NAME${NC} (${GREEN}$version${NC})"
 echo ""
+if [ "$GLOBAL_MODE" = true ] && [ -n "$location" ]; then
+    echo "${BLUE}Location:${NC} $location"
+fi
 echo "${BLUE}Source:${NC} $source_url"
 echo "${BLUE}Commit:${NC} $commit_hash"
 echo "${BLUE}Installed:${NC} $installed_at"
@@ -89,7 +130,7 @@ patterns_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_pkg && /^      patterns:/ { in_patterns=1; next }
     in_patterns && /^      [a-z]/ { in_patterns=0 }
     in_patterns && /^        - name:/ { print $3 }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 commands_files=$(awk -v pkg="$PACKAGE_NAME" '
     BEGIN { in_pkg=0; in_commands=0 }
@@ -98,7 +139,7 @@ commands_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_pkg && /^      commands:/ { in_commands=1; next }
     in_commands && /^      [a-z]/ { in_commands=0 }
     in_commands && /^        - name:/ { print $3 }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 designs_files=$(awk -v pkg="$PACKAGE_NAME" '
     BEGIN { in_pkg=0; in_designs=0 }
@@ -107,7 +148,7 @@ designs_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_pkg && /^      designs:/ { in_designs=1; next }
     in_designs && /^      [a-z]/ { in_designs=0 }
     in_designs && /^        - name:/ { print $3 }
-' agent/manifest.yaml)
+' "$MANIFEST_FILE")
 
 # Count files
 patterns_count=$(echo "$patterns_files" | grep -c . || echo 0)
@@ -134,7 +175,7 @@ if [ "$patterns_count" -gt 0 ]; then
                 next
             }
             in_file && /^          version:/ { print $2; exit }
-        ' agent/manifest.yaml)
+        ' "$MANIFEST_FILE")
         
         # Check if modified
         if is_file_modified "$PACKAGE_NAME" "patterns" "$file"; then
@@ -162,7 +203,7 @@ if [ "$commands_count" -gt 0 ]; then
                 next
             }
             in_file && /^          version:/ { print $2; exit }
-        ' agent/manifest.yaml)
+        ' "$MANIFEST_FILE")
         
         # Check if modified
         if is_file_modified "$PACKAGE_NAME" "commands" "$file"; then
@@ -190,7 +231,7 @@ if [ "$designs_count" -gt 0 ]; then
                 next
             }
             in_file && /^          version:/ { print $2; exit }
-        ' agent/manifest.yaml)
+        ' "$MANIFEST_FILE")
         
         # Check if modified
         if is_file_modified "$PACKAGE_NAME" "design" "$file"; then

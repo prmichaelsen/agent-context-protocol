@@ -16,9 +16,14 @@ init_colors
 VERBOSE=false
 OUTDATED=false
 MODIFIED=false
+GLOBAL_MODE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
+        --global|-g)
+            GLOBAL_MODE=true
+            shift
+            ;;
         -v|--verbose)
             VERBOSE=true
             shift
@@ -37,12 +42,29 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Determine manifest file based on mode
+if [ "$GLOBAL_MODE" = true ]; then
+    MANIFEST_FILE="$HOME/.acp/manifest.yaml"
+    echo "${BLUE}📦 Global Packages (installed to ~/.acp/packages/):${NC}"
+else
+    MANIFEST_FILE="./agent/manifest.yaml"
+    echo "${BLUE}📦 Installed ACP Packages${NC}"
+fi
+echo ""
+
 # Check if manifest exists
-if [ ! -f "agent/manifest.yaml" ]; then
-    echo "${YELLOW}No packages installed${NC}"
-    echo ""
-    echo "To install a package:"
-    echo "  ./agent/scripts/acp.package-install.sh <repository-url>"
+if [ ! -f "$MANIFEST_FILE" ]; then
+    if [ "$GLOBAL_MODE" = true ]; then
+        echo "${YELLOW}No global packages installed${NC}"
+        echo ""
+        echo "To install a package globally:"
+        echo "  ./agent/scripts/acp.package-install.sh --global <repository-url>"
+    else
+        echo "${YELLOW}No packages installed${NC}"
+        echo ""
+        echo "To install a package:"
+        echo "  ./agent/scripts/acp.package-install.sh <repository-url>"
+    fi
     exit 0
 fi
 
@@ -50,15 +72,16 @@ fi
 source_yaml_parser
 
 # Get list of installed packages
-INSTALLED_PACKAGES=$(awk '/^  [a-z]/ && !/^    / && /:$/ {gsub(/:/, ""); print $1}' agent/manifest.yaml)
+INSTALLED_PACKAGES=$(awk '/^  [a-z]/ && !/^    / && /:$/ {gsub(/:/, ""); print $1}' "$MANIFEST_FILE")
 
 if [ -z "$INSTALLED_PACKAGES" ]; then
-    echo "${YELLOW}No packages installed${NC}"
+    if [ "$GLOBAL_MODE" = true ]; then
+        echo "${YELLOW}No global packages installed${NC}"
+    else
+        echo "${YELLOW}No packages installed${NC}"
+    fi
     exit 0
 fi
-
-echo "${BLUE}📦 Installed ACP Packages${NC}"
-echo ""
 
 PACKAGE_COUNT=0
 DISPLAYED_COUNT=0
@@ -71,25 +94,25 @@ for package in $INSTALLED_PACKAGES; do
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    package_version:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     source_url=$(awk -v pkg="$package" '
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    source:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     installed_at=$(awk -v pkg="$package" '
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    installed_at:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     updated_at=$(awk -v pkg="$package" '
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    updated_at:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     # Count files
     patterns_count=$(awk -v pkg="$package" '
@@ -100,7 +123,7 @@ for package in $INSTALLED_PACKAGES; do
         in_patterns && /^      [a-z]/ { in_patterns=0 }
         in_patterns && /^        - name:/ { count++ }
         END { print count }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     commands_count=$(awk -v pkg="$package" '
         BEGIN { in_pkg=0; in_commands=0; count=0 }
@@ -110,7 +133,7 @@ for package in $INSTALLED_PACKAGES; do
         in_commands && /^      [a-z]/ { in_commands=0 }
         in_commands && /^        - name:/ { count++ }
         END { print count }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     designs_count=$(awk -v pkg="$package" '
         BEGIN { in_pkg=0; in_designs=0; count=0 }
@@ -120,7 +143,7 @@ for package in $INSTALLED_PACKAGES; do
         in_designs && /^      [a-z]/ { in_designs=0 }
         in_designs && /^        - name:/ { count++ }
         END { print count }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     total_files=$((patterns_count + commands_count + designs_count))
     
@@ -160,7 +183,7 @@ for package in $INSTALLED_PACKAGES; do
                 in_pkg && $0 ~ "^      " type ":" { in_type=1; next }
                 in_type && /^      [a-z]/ { in_type=0 }
                 in_type && /^        - name:/ { print $3 }
-            ' agent/manifest.yaml)
+            ' "$MANIFEST_FILE")
             
             for file_name in $files; do
                 if is_file_modified "$package" "$file_type" "$file_name"; then
@@ -203,7 +226,7 @@ for package in $INSTALLED_PACKAGES; do
                     in_pkg && $0 ~ "^      " type ":" { in_type=1; next }
                     in_type && /^      [a-z]/ { in_type=0 }
                     in_type && /^        - name:/ { print $3 }
-                ' agent/manifest.yaml)
+                ' "$MANIFEST_FILE")
                 
                 for file_name in $files; do
                     if is_file_modified "$package" "$file_type" "$file_name"; then

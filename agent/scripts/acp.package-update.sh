@@ -18,9 +18,14 @@ CHECK_ONLY=false
 SKIP_MODIFIED=false
 FORCE=false
 AUTO_CONFIRM=false
+GLOBAL_MODE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
+        --global|-g)
+            GLOBAL_MODE=true
+            shift
+            ;;
         --check)
             CHECK_ONLY=true
             shift
@@ -56,14 +61,14 @@ check_package_for_updates() {
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    package_version:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     local source_url
     source_url=$(awk -v pkg="$package_name" '
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    source:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     if [ -z "$current_version" ] || [ -z "$source_url" ]; then
         warn "Could not read package metadata for $package_name"
@@ -117,7 +122,7 @@ update_package() {
         $0 ~ "^  " pkg ":" { in_pkg=1; next }
         in_pkg && /^  [a-z]/ { in_pkg=0 }
         in_pkg && /^    source:/ { print $2; exit }
-    ' agent/manifest.yaml)
+    ' "$MANIFEST_FILE")
     
     # Clone latest version
     local temp_dir
@@ -148,7 +153,7 @@ update_package() {
             in_pkg && $0 ~ "^      " type ":" { in_type=1; next }
             in_type && /^      [a-z]/ { in_type=0 }
             in_type && /^        - name:/ { print $3 }
-        ' agent/manifest.yaml)
+        ' "$MANIFEST_FILE")
         
         for file_name in $files; do
             if is_file_modified "$package_name" "$file_type" "$file_name"; then
@@ -189,7 +194,7 @@ update_package() {
             in_pkg && $0 ~ "^      " type ":" { in_type=1; next }
             in_type && /^      [a-z]/ { in_type=0 }
             in_type && /^        - name:/ { print $3 }
-        ' agent/manifest.yaml)
+        ' "$MANIFEST_FILE")
         
         for file_name in $files; do
             # Check if file should be skipped
@@ -241,9 +246,9 @@ update_package() {
         in_pkg && /^    commit:/ { print "    commit: " commit; next }
         in_pkg && /^    updated_at:/ { print "    updated_at: " ts; next }
         { print }
-    ' agent/manifest.yaml > "$temp_file"
+    ' "$MANIFEST_FILE" > "$temp_file"
     
-    mv "$temp_file" agent/manifest.yaml
+    mv "$temp_file" "$MANIFEST_FILE"
     
     # Update manifest timestamp
     update_manifest_timestamp
@@ -260,16 +265,31 @@ echo "${BLUE}📦 ACP Package Updater${NC}"
 echo "========================================"
 echo ""
 
+# Determine manifest file based on mode
+if [ "$GLOBAL_MODE" = true ]; then
+    MANIFEST_FILE="$HOME/.acp/manifest.yaml"
+    echo "${BLUE}Updating global packages...${NC}"
+    echo ""
+else
+    MANIFEST_FILE="./agent/manifest.yaml"
+    echo "${BLUE}Updating packages...${NC}"
+    echo ""
+fi
+
 # Check if manifest exists
-if [ ! -f "agent/manifest.yaml" ]; then
-    die "No manifest found. No packages installed."
+if [ ! -f "$MANIFEST_FILE" ]; then
+    if [ "$GLOBAL_MODE" = true ]; then
+        die "No global manifest found. No global packages installed."
+    else
+        die "No manifest found. No packages installed."
+    fi
 fi
 
 # Source YAML parser
 source_yaml_parser
 
 # Get list of installed packages
-INSTALLED_PACKAGES=$(awk '/^  [a-z]/ && !/^    / && /:$/ {gsub(/:/, ""); print $1}' agent/manifest.yaml)
+INSTALLED_PACKAGES=$(awk '/^  [a-z]/ && !/^    / && /:$/ {gsub(/:/, ""); print $1}' "$MANIFEST_FILE")
 
 if [ -z "$INSTALLED_PACKAGES" ]; then
     echo "${YELLOW}No packages installed${NC}"

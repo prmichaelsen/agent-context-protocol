@@ -133,11 +133,11 @@ update_manifest_timestamp() {
 }
 
 # Check if package exists in manifest
-# Usage: if package_exists "package-name"; then ...
+# Usage: if package_exists "package-name" ["manifest-path"]; then ...
 # Returns: 0 if exists, 1 if not
 package_exists() {
     local package_name="$1"
-    local manifest="agent/manifest.yaml"
+    local manifest="${2:-agent/manifest.yaml}"
     
     # Source YAML parser if not already loaded
     if ! command -v yaml_has_key >/dev/null 2>&1; then
@@ -145,6 +145,124 @@ package_exists() {
     fi
     
     yaml_has_key "$manifest" "packages.${package_name}.source"
+}
+
+# ============================================================================
+# Global Manifest Functions
+# ============================================================================
+
+# Get global manifest path
+# Usage: manifest_path=$(get_global_manifest_path)
+# Returns: Path to global manifest
+get_global_manifest_path() {
+    echo "$HOME/.acp/manifest.yaml"
+}
+
+# Check if global manifest exists
+# Usage: if global_manifest_exists; then ...
+# Returns: 0 if exists, 1 if not
+global_manifest_exists() {
+    local manifest_path
+    manifest_path=$(get_global_manifest_path)
+    [ -f "$manifest_path" ]
+}
+
+# Initialize global manifest if it doesn't exist
+# Usage: init_global_manifest
+init_global_manifest() {
+    local manifest_path
+    manifest_path=$(get_global_manifest_path)
+    
+    if [ -f "$manifest_path" ]; then
+        return 0
+    fi
+    
+    # Create ~/.acp directory if needed
+    mkdir -p "$HOME/.acp/packages"
+    mkdir -p "$HOME/.acp/projects"
+    
+    # Create manifest
+    local timestamp
+    timestamp=$(get_timestamp)
+    
+    cat > "$manifest_path" << EOF
+# Global ACP Package Manifest
+# This file tracks all globally installed ACP packages
+
+version: 1.0.0
+updated: $timestamp
+
+packages: {}
+EOF
+    
+    success "Initialized global manifest at $manifest_path"
+}
+
+# Read global manifest (returns full content)
+# Usage: content=$(read_global_manifest)
+read_global_manifest() {
+    local manifest_path
+    manifest_path=$(get_global_manifest_path)
+    
+    if [ ! -f "$manifest_path" ]; then
+        echo "Error: Global manifest not found at $manifest_path" >&2
+        return 1
+    fi
+    
+    cat "$manifest_path"
+}
+
+# Update global manifest timestamp
+# Usage: update_global_manifest_timestamp
+update_global_manifest_timestamp() {
+    local manifest_path
+    manifest_path=$(get_global_manifest_path)
+    
+    if [ ! -f "$manifest_path" ]; then
+        echo "Error: Global manifest not found" >&2
+        return 1
+    fi
+    
+    # Update timestamp using sed
+    local timestamp
+    timestamp=$(get_timestamp)
+    sed -i "s/^updated: .*/updated: $timestamp/" "$manifest_path"
+}
+
+# Check if package exists in global manifest
+# Usage: if global_package_exists "package-name"; then ...
+# Returns: 0 if exists, 1 if not
+global_package_exists() {
+    local package_name="$1"
+    local manifest_path
+    manifest_path=$(get_global_manifest_path)
+    
+    if [ ! -f "$manifest_path" ]; then
+        return 1
+    fi
+    
+    # Check if package exists in manifest
+    grep -q "^  $package_name:" "$manifest_path"
+}
+
+# Get global package location
+# Usage: location=$(get_global_package_location "package-name")
+# Returns: Package installation path
+get_global_package_location() {
+    local package_name="$1"
+    local manifest_path
+    manifest_path=$(get_global_manifest_path)
+    
+    if [ ! -f "$manifest_path" ]; then
+        return 1
+    fi
+    
+    # Extract location using awk
+    awk -v pkg="$package_name" '
+        $0 ~ "^  " pkg ":" { in_package=1; next }
+        in_package && /^    location:/ { print $2; exit }
+        /^  [a-z]/ && in_package { exit }
+    ' "$manifest_path"
 }
 
 # Print error message and exit

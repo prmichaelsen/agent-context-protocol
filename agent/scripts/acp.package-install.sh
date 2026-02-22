@@ -137,8 +137,30 @@ if [ ! -d "$TEMP_DIR/agent" ]; then
     exit 1
 fi
 
-# Initialize manifest
-init_manifest
+# Determine installation directory and manifest based on --global flag
+if [ "$GLOBAL_INSTALL" = true ]; then
+    # Global installation
+    INSTALL_BASE_DIR="$HOME/.acp/packages/$PACKAGE_NAME"
+    MANIFEST_FILE="$HOME/.acp/manifest.yaml"
+    
+    echo "${BLUE}Installing globally to ~/.acp/packages/$PACKAGE_NAME/${NC}"
+    echo ""
+    
+    # Initialize global manifest if needed
+    if [ ! -f "$MANIFEST_FILE" ]; then
+        init_global_manifest
+    fi
+else
+    # Local installation (existing behavior)
+    INSTALL_BASE_DIR="./agent"
+    MANIFEST_FILE="./agent/manifest.yaml"
+    
+    echo "${BLUE}Installing locally to ./agent/${NC}"
+    echo ""
+    
+    # Initialize local manifest
+    init_manifest
+fi
 
 # Parse package metadata
 parse_package_metadata "$TEMP_DIR"
@@ -294,7 +316,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
         fi
         
         # Check for conflicts
-        if [ -f "agent/$dir/$filename" ]; then
+        if [ -f "$INSTALL_BASE_DIR/$dir/$filename" ]; then
             echo "  ${YELLOW}⚠${NC}  $filename (will overwrite existing)"
         else
             echo "  ${GREEN}✓${NC} $filename"
@@ -340,16 +362,66 @@ echo "Installing files..."
 # Add package to manifest
 add_package_to_manifest "$PACKAGE_NAME" "$REPO_URL" "$PACKAGE_VERSION" "$COMMIT_HASH"
 
-# Install files from each directory
-for dir in "${INSTALL_DIRS[@]}"; do
-    SOURCE_DIR="$TEMP_DIR/agent/$dir"
-    
-    if [ ! -d "$SOURCE_DIR" ]; then
-        continue
-    fi
+# Handle global vs local installation differently
+if [ "$GLOBAL_INSTALL" = true ]; then
+    # Global installation - copy entire package structure
+    echo "${BLUE}Copying entire package to global location...${NC}"
     
     # Create target directory
-    mkdir -p "agent/$dir"
+    mkdir -p "$INSTALL_BASE_DIR"
+    
+    # Copy entire package
+    cp -r "$TEMP_DIR"/* "$INSTALL_BASE_DIR/"
+    
+    # Add location to manifest
+    local timestamp
+    timestamp=$(get_timestamp)
+    
+    # Update manifest with location field
+    awk -v pkg="$PACKAGE_NAME" -v loc="$INSTALL_BASE_DIR" -v ts="$timestamp" '
+        BEGIN { in_pkg=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; print; print "    location: " loc; next }
+        in_pkg && /^  [a-z]/ { in_pkg=0 }
+        { print }
+    ' "$MANIFEST_FILE" > "$MANIFEST_FILE.tmp"
+    mv "$MANIFEST_FILE.tmp" "$MANIFEST_FILE"
+    
+    echo "${GREEN}✓${NC} Package copied to $INSTALL_BASE_DIR"
+    echo ""
+    
+    # Track files in manifest (scan what was copied)
+    for dir in "${INSTALL_DIRS[@]}"; do
+        SOURCE_DIR="$INSTALL_BASE_DIR/agent/$dir"
+        
+        if [ ! -d "$SOURCE_DIR" ]; then
+            continue
+        fi
+        
+        # Find all files
+        while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            filename=$(basename "$file")
+            
+            # Get file version
+            FILE_VERSION=$(get_file_version "$INSTALL_BASE_DIR/package.yaml" "$dir" "$filename")
+            
+            # Add to manifest
+            add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "$file"
+            
+            echo "  ${GREEN}✓${NC} Tracked $dir/$filename (v$FILE_VERSION)"
+        done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
+    done
+else
+    # Local installation - copy files individually (existing behavior)
+    for dir in "${INSTALL_DIRS[@]}"; do
+        SOURCE_DIR="$TEMP_DIR/agent/$dir"
+        
+        if [ ! -d "$SOURCE_DIR" ]; then
+            continue
+        fi
+        
+        # Create target directory
+        mkdir -p "agent/$dir"
     
     # Determine which files to install based on selective flags
     declare -n FILE_LIST
@@ -396,30 +468,49 @@ for dir in "${INSTALL_DIRS[@]}"; do
             fi
         fi
         
-        # Copy file
-        cp "$file" "agent/$dir/$filename"
+            # Copy file
+            cp "$file" "agent/$dir/$filename"
+            
+            # Get file version from package.yaml
+            FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "$dir" "$filename")
+            
+            # Add file to manifest
+            add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "agent/$dir/$filename"
+            
+            echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION)"
+        done
         
-        # Get file version from package.yaml
-        FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "$dir" "$filename")
-        
-        # Add file to manifest
-        add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "agent/$dir/$filename"
-        
-        echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION)"
+        unset -n FILE_LIST
     done
-    
-    unset -n FILE_LIST
-done
+fi
 
 echo ""
-echo "${GREEN}✅ Installation complete!${NC}"
-echo ""
-echo "Installed $INSTALLED_COUNT file(s) from:"
-echo "  $REPO_URL"
-echo ""
-echo "Package: $PACKAGE_NAME ($PACKAGE_VERSION)"
-echo "Manifest: agent/manifest.yaml updated"
-echo ""
+
+# Success message based on installation mode
+if [ "$GLOBAL_INSTALL" = true ]; then
+    echo "${GREEN}✅ Package installed globally!${NC}"
+    echo ""
+    echo "Location: $INSTALL_BASE_DIR"
+    echo "Manifest: $MANIFEST_FILE"
+    echo ""
+    echo "Agents can now discover this package by reading ~/.acp/manifest.yaml"
+    echo ""
+    echo "To use in any project:"
+    echo "  1. Run @acp.init to discover global packages"
+    echo "  2. Reference commands via @namespace.command"
+    echo ""
+    echo "To list global packages: @acp.package-list --global"
+    echo ""
+else
+    echo "${GREEN}✅ Installation complete!${NC}"
+    echo ""
+    echo "Installed $INSTALLED_COUNT file(s) from:"
+    echo "  $REPO_URL"
+    echo ""
+    echo "Package: $PACKAGE_NAME ($PACKAGE_VERSION)"
+    echo "Manifest: agent/manifest.yaml updated"
+    echo ""
+fi
 
 # List installed commands
 if [ -d "$TEMP_DIR/agent/commands" ]; then

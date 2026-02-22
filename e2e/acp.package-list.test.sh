@@ -157,6 +157,86 @@ EOF
     print_test_result $?
 }
 
+# Test: List global packages (empty)
+test_list_global_empty() {
+    print_test_header "List global packages (empty)"
+    
+    # Create fake home directory for testing
+    local fake_home=$(mktemp -d)
+    mkdir -p "$fake_home/.acp"
+    
+    # Create empty global manifest
+    cat > "$fake_home/.acp/manifest.yaml" << 'EOF'
+packages: {}
+manifest_version: 1.0.0
+last_updated: null
+EOF
+    
+    # Run with --global flag
+    local output
+    local exit_code
+    set +e
+    output=$(HOME="$fake_home" "$PROJECT_ROOT/agent/scripts/acp.package-list.sh" --global 2>&1)
+    exit_code=$?
+    set -e
+    
+    # Verify
+    assert_equals 0 $exit_code "Exit code should be 0"
+    assert_contains "$output" "Global Packages" "Should indicate global mode"
+    assert_contains "$output" "No global packages installed" "Should show empty message"
+    
+    rm -rf "$fake_home"
+    
+    print_test_result $?
+}
+
+# Test: List global packages with packages
+test_list_global_with_packages() {
+    print_test_header "List global packages with packages"
+    
+    # Create fake home directory
+    local fake_home=$(mktemp -d)
+    mkdir -p "$fake_home/.acp/packages/test-global-package"
+    
+    # Create global manifest with package
+    cat > "$fake_home/.acp/manifest.yaml" << 'EOF'
+packages:
+  test-global-package:
+    package_version: 1.0.0
+    source: https://github.com/test/test-global-package
+    commit: abc123
+    installed_at: 2026-02-22
+    updated_at: 2026-02-22
+    location: ~/.acp/packages/test-global-package
+    files:
+      commands:
+        - name: test.command.md
+          version: 1.0.0
+          checksum: def456
+manifest_version: 1.0.0
+last_updated: 2026-02-22
+EOF
+    
+    # Run with --global flag
+    local output
+    local exit_code
+    set +e
+    output=$(HOME="$fake_home" "$PROJECT_ROOT/agent/scripts/acp.package-list.sh" --global 2>&1)
+    exit_code=$?
+    set -e
+    
+    # Verify
+    assert_equals 0 $exit_code "Exit code should be 0"
+    assert_contains "$output" "Global Packages" "Should indicate global mode"
+    assert_contains "$output" "test-global-package" "Should show package name"
+    assert_contains "$output" "1.0.0" "Should show version"
+    assert_contains "$output" "~/.acp/packages" "Should show global location"
+    
+    rm -rf "$fake_home"
+    
+    print_test_result $?
+}
+
 # Run all tests
 main() {
     print_suite_header "Package List Command Tests"
@@ -164,6 +244,8 @@ main() {
     test_list_empty
     test_list_single_package
     test_list_verbose
+    test_list_global_empty
+    test_list_global_with_packages
     
     print_suite_summary
     

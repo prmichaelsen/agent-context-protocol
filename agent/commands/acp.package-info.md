@@ -3,14 +3,14 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-info` has been invoked. Follow the steps below to execute this command.
 
 **Namespace**: acp
-**Version**: 1.0.0
+**Version**: 2.0.0
 **Created**: 2026-02-18
-**Last Updated**: 2026-02-18
+**Last Updated**: 2026-02-22
 **Status**: Active
 
 ---
 
-**Purpose**: Display detailed information about a specific installed package
+**Purpose**: Display detailed information about a specific installed package (local or global)
 **Category**: Information
 **Frequency**: As Needed
 
@@ -18,9 +18,9 @@
 
 ## What This Command Does
 
-This command shows comprehensive information about an installed ACP package, including metadata (source, version, commit), all installed files with their versions, and modification status for each file.
+This command shows comprehensive information about an installed ACP package, including metadata (source, version, commit, location), all installed files with their versions, and modification status for each file. Supports both local packages (`./agent/`) and global packages (`~/.acp/packages/`).
 
-Use this command when you need detailed information about a package, want to see which files are installed, check for local modifications, or verify package metadata before updating or removing.
+Use this command when you need detailed information about a package (local or global), want to see which files are installed, check for local modifications, or verify package metadata before updating or removing.
 
 ---
 
@@ -40,8 +40,18 @@ Use this command when you need detailed information about a package, want to see
 Execute the info script with the package name.
 
 **Actions**:
-- Run `./agent/scripts/acp.package-info.sh <package-name>`
+- Run `./agent/scripts/acp.package-info.sh [--global] <package-name>`
 - Script will display all package information
+- Use `--global` flag to show global package info
+
+**Examples**:
+```bash
+# Show local package info
+./agent/scripts/acp.package-info.sh firebase
+
+# Show global package info
+./agent/scripts/acp.package-info.sh --global firebase
+```
 
 **Expected Outcome**: Detailed package information displayed
 

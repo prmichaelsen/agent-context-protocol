@@ -95,12 +95,12 @@ milestones:
   - id: M5
     name: Global Package Installation
     status: in_progress
-    progress: 40
+    progress: 60
     started: 2026-02-22
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 2
-    tasks_total: 5
+    tasks_completed: 3
+    tasks_total: 6
     notes: |
       📋 Milestone 5: Global Package Installation
       - Install packages to ~/.acp/packages/ with --global flag
@@ -584,12 +584,23 @@ tasks:
     
     - id: task-27
       name: Global Package Commands
-      status: not_started
+      status: completed
       file: agent/tasks/task-27-global-package-commands.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-02-22
       notes: |
-        Add --global flag to list, update, remove, info commands. Update @acp.init for discovery.
+        ✅ Global package commands complete!
+        - Added --global flag to acp.package-info.sh
+        - Added --global flag to acp.package-remove.sh
+        - Added --global flag to acp.package-update.sh
+        - Fixed all hardcoded agent/manifest.yaml references in acp.package-list.sh
+        - acp.package-list.sh already had --global support (enhanced)
+        - Updated @acp.init with Step 2.5 (global package discovery)
+        - Updated command documentation (acp.package-list.md, acp.package-info.md, acp.package-update.md, acp.package-remove.md)
+        - All scripts use $MANIFEST_FILE variable for global/local manifest selection
+        - Added 2 test cases to e2e/acp.package-list.test.sh (global empty, global with packages)
+        - All tests passing (18/18 assertions, 100%)
+        - Syntax validated (all scripts pass bash -n)
     
     - id: task-28
       name: Documentation and Agent Instructions
@@ -608,6 +619,15 @@ tasks:
       completed_date: null
       notes: |
         Implement init_global_acp() function for automatic ~/.acp/ initialization on first global command use
+    
+    - id: task-45
+      name: Package Script Bundling Support
+      status: not_started
+      file: agent/tasks/task-45-package-script-bundling.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Enable packages to bundle scripts with namespace enforcement and installation support
   
   milestone_6:
     - id: task-37

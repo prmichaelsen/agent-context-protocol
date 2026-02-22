@@ -3,9 +3,9 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-update` has been invoked. Follow the steps below to execute this command.
 
 **Namespace**: acp
-**Version**: 1.0.0
+**Version**: 2.0.0
 **Created**: 2026-02-18
-**Last Updated**: 2026-02-18
+**Last Updated**: 2026-02-22
 **Status**: Active
 
 ---

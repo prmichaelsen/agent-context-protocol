@@ -18,9 +18,9 @@
 
 ## What This Command Does
 
-This command displays all installed ACP packages by reading `agent/manifest.yaml` and showing package names, versions, and file counts. It provides optional verbose mode for detailed information and filters for outdated or modified packages.
+This command displays all installed ACP packages by reading `agent/manifest.yaml` (local) or `~/.acp/manifest.yaml` (global) and showing package names, versions, and file counts. It provides optional verbose mode for detailed information and filters for outdated or modified packages.
 
-Use this command when you want to see what packages are installed, check package versions, identify packages with updates available, or find packages with local modifications.
+Use this command when you want to see what packages are installed locally or globally, check package versions, identify packages with updates available, or find packages with local modifications.
 
 ---
 
@@ -41,8 +41,11 @@ Execute the list script with desired options.
 **Actions**:
 - Run `./agent/scripts/acp.package-list.sh` with optional flags:
   ```bash
-  # Basic list
+  # Basic list (local packages)
   ./agent/scripts/acp.package-list.sh
+  
+  # List global packages
+  ./agent/scripts/acp.package-list.sh --global
   
   # Verbose mode (detailed information)
   ./agent/scripts/acp.package-list.sh --verbose
@@ -52,6 +55,9 @@ Execute the list script with desired options.
   
   # Show only packages with local modifications
   ./agent/scripts/acp.package-list.sh --modified
+  
+  # Combine flags
+  ./agent/scripts/acp.package-list.sh --global --verbose
   ```
 
 **Expected Outcome**: Package list displayed

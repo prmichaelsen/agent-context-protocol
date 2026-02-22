@@ -189,6 +189,53 @@ test_info_no_arguments() {
     print_test_result $?
 }
 
+# Test: Show global package info
+test_info_global_package() {
+    print_test_header "Show global package info"
+    
+    # Create fake home directory
+    local fake_home=$(mktemp -d)
+    mkdir -p "$fake_home/.acp/packages/test-global"
+    
+    # Create global manifest
+    cat > "$fake_home/.acp/manifest.yaml" << 'EOF'
+packages:
+  test-global:
+    package_version: 1.0.0
+    source: https://github.com/test/test-global
+    commit: abc123
+    installed_at: 2026-02-22
+    updated_at: 2026-02-22
+    location: ~/.acp/packages/test-global
+    files:
+      commands:
+        - name: test.command.md
+          version: 1.0.0
+          checksum: def456
+manifest_version: 1.0.0
+last_updated: 2026-02-22
+EOF
+    
+    # Run with --global flag
+    local output
+    local exit_code
+    set +e
+    output=$(HOME="$fake_home" "$PROJECT_ROOT/agent/scripts/acp.package-info.sh" --global test-global 2>&1)
+    exit_code=$?
+    set -e
+    
+    # Verify
+    assert_equals 0 $exit_code "Exit code should be 0"
+    assert_contains "$output" "Global Package Information" "Should indicate global mode"
+    assert_contains "$output" "test-global" "Should show package name"
+    assert_contains "$output" "Location:" "Should show location for global package"
+    assert_contains "$output" "~/.acp/packages/test-global" "Should show global path"
+    
+    rm -rf "$fake_home"
+    
+    print_test_result $?
+}
+
 # Run all tests
 main() {
     print_suite_header "Package Info Command Tests"
@@ -197,6 +244,7 @@ main() {
     test_info_nonexistent
     test_info_installed_package
     test_info_with_modified_files
+    test_info_global_package
     
     print_suite_summary
     

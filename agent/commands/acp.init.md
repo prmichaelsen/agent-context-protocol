@@ -63,6 +63,40 @@ Load complete context from the agent/ directory.
 
 **Expected Outcome**: Complete documentation context loaded
 
+### 2.5. Discover Global Packages (Optional)
+
+Check for globally installed ACP packages.
+
+**Actions**:
+- Check if `~/.acp/manifest.yaml` exists
+- If exists, read global manifest
+- List globally installed packages with versions
+- Report available commands and patterns from global packages
+- Note that local packages take precedence over global packages
+
+**Expected Outcome**: Global packages discovered and reported (if any)
+
+**Example Output**:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 Global Packages Discovered...
+  ✓ Read ~/.acp/manifest.yaml
+  
+  Found 2 global packages:
+    • @prmichaelsen/acp-git (v1.0.0)
+      Location: ~/.acp/packages/@prmichaelsen/acp-git
+      2 commands: git.commit, git.init
+    
+    • @prmichaelsen/acp-firebase (v1.2.0)
+      Location: ~/.acp/packages/@prmichaelsen/acp-firebase
+      3 patterns, 2 commands
+  
+  ℹ️  Local packages take precedence over global packages
+```
+
+**Note**: This step is optional and graceful - if no global packages exist or manifest is not found, continue without error.
+
 ### 3. Identify Key Source Files
 
 Determine which source files are most important to review.
