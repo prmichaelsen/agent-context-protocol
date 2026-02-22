@@ -106,11 +106,11 @@ This will:
 - **`@acp.report`** - Generate session report
 
 **Package Management**:
-- **`@acp.package-install`** - Install packages
-- **`@acp.package-list`** - List installed packages
-- **`@acp.package-info`** - Show package details
-- **`@acp.package-update`** - Update packages
-- **`@acp.package-remove`** - Remove packages
+- **`@acp.package-install`** - Install packages (supports `--global` flag)
+- **`@acp.package-list`** - List installed packages (supports `--global` flag)
+- **`@acp.package-info`** - Show package details (supports `--global` flag)
+- **`@acp.package-update`** - Update packages (supports `--global` flag)
+- **`@acp.package-remove`** - Remove packages (supports `--global` flag)
 - **`@acp.package-search`** - Search for packages
 - **`@acp.package-validate`** - Validate package structure
 - **`@acp.package-publish`** - Publish package
@@ -132,6 +132,40 @@ This will:
 - **`@git.init`** - Initialize git repository
 
 See [AGENT.md](./AGENT.md) for complete command documentation and methodology.
+
+---
+
+## Global Package Installation
+
+Install packages globally to `~/.acp/agent/` for package development or global command libraries:
+
+```bash
+# Install package globally
+./agent/scripts/acp.package-install.sh --global https://github.com/user/acp-firebase.git
+
+# Or via command
+@acp.package-install --global https://github.com/user/acp-firebase.git
+
+# List global packages
+@acp.package-list --global
+
+# Update global packages
+@acp.package-update --global firebase
+
+# Remove global packages
+@acp.package-remove --global firebase
+```
+
+**Global vs Local**:
+- **Global**: Installed to `~/.acp/agent/`, available for discovery in any project
+- **Local**: Installed to `./agent/`, only available in current project
+- **Precedence**: Local packages always override global packages
+
+**Use cases for global installation**:
+- Package development with full ACP tooling
+- Common utilities used across many projects
+- Building a personal command library
+- Experimenting with packages before local installation
 
 ---
 

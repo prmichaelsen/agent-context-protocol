@@ -5,6 +5,42 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.0] - 2026-02-22
+
+### Added
+
+**Global Package Installation System**:
+- Global package installation to `~/.acp/agent/` with `--global` flag
+- Packages installed directly into global ACP structure (not separate packages directory)
+- Global package discovery via `~/.acp/agent/manifest.yaml`
+- Global infrastructure: `~/.acp/` with full ACP installation at root
+- Global manifest functions in `acp.common.sh` (7 functions)
+- Enhanced [`@acp.init`](agent/commands/acp.init.md) with automatic global package discovery
+- Namespace precedence rules (local always overrides global)
+
+**Global Package Commands**:
+- [`@acp.package-install`](agent/commands/acp.package-install.md) supports `--global` flag
+- [`@acp.package-list`](agent/commands/acp.package-list.md) supports `--global` flag
+- [`@acp.package-update`](agent/commands/acp.package-update.md) supports `--global` flag
+- [`@acp.package-remove`](agent/commands/acp.package-remove.md) supports `--global` flag
+- [`@acp.package-info`](agent/commands/acp.package-info.md) supports `--global` flag
+
+### Changed
+
+- **Global installation architecture**: Packages install directly to `~/.acp/agent/` (not `~/.acp/packages/`)
+- **Manifest location**: Global manifest at `~/.acp/agent/manifest.yaml` (following ACP structure)
+- **AGENT.md**: Added "Global Package Discovery" section with discovery workflow, precedence rules, and examples
+- **README.md**: Added "Global Package Installation" section with usage examples and use cases
+- All package command documentation updated with `--global` flag examples
+
+### Documentation
+
+- Documented namespace precedence rules (local > global)
+- Added global ACP structure diagram
+- Documented when to use global vs local installation
+- Added comprehensive examples for global package workflows
+- Updated all package management command documentation
+
 ## [3.8.0] - 2026-02-22
 
 ### Added

@@ -155,7 +155,7 @@ package_exists() {
 # Usage: manifest_path=$(get_global_manifest_path)
 # Returns: Path to global manifest
 get_global_manifest_path() {
-    echo "$HOME/.acp/manifest.yaml"
+    echo "$HOME/.acp/agent/manifest.yaml"
 }
 
 # Check if global manifest exists

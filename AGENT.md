@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 3.8.0
+**Version**: 3.9.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -641,6 +641,81 @@ See [`agent/commands/command.template.md`](agent/commands/command.template.md) f
 Use `@acp.install` to install command packages from git repositories (available in future release).
 
 **Security Note**: Third-party commands can instruct agents to modify files and execute scripts. Always review command files before installation.
+
+## Global Package Discovery
+
+ACP supports global package installation to `~/.acp/agent/` for package development and global command libraries.
+
+### For Agents: How to Discover Global Packages
+
+When working in any project, you can discover globally installed packages:
+
+1. **Check if global manifest exists**: `~/.acp/agent/manifest.yaml`
+2. **Read global manifest**: Contains all globally installed packages
+3. **Navigate to package files**: Files are installed directly into `~/.acp/agent/`
+4. **Use commands/patterns**: Reference via `@namespace.command` syntax
+
+**Automatic Discovery**: The [`@acp.init`](agent/commands/acp.init.md) command automatically reads `~/.acp/agent/manifest.yaml` and reports globally installed packages.
+
+### Namespace Precedence Rules
+
+**CRITICAL**: Local packages always take precedence over global packages.
+
+**Resolution order**:
+1. Check local: `./agent/commands/{namespace}.{command}.md`
+2. If not found, check global: `~/.acp/agent/commands/{namespace}.{command}.md`
+3. Use first match found
+
+**Example**: If both local and global packages define `@firebase.deploy`:
+- ✅ Use `./agent/commands/firebase.deploy.md` (local takes precedence)
+- ❌ Ignore `~/.acp/agent/commands/firebase.deploy.md`
+
+### Global ACP Structure
+
+```
+~/.acp/
+├── AGENT.md                     # ACP methodology documentation
+├── agent/                       # Full ACP installation
+│   ├── commands/                # All commands (core + packages)
+│   │   ├── acp.init.md         # Core ACP commands
+│   │   ├── firebase.deploy.md  # From @user/acp-firebase package
+│   │   └── git.commit.md       # From @user/acp-git package
+│   ├── patterns/                # All patterns (core + packages)
+│   ├── design/                  # All designs (core + packages)
+│   ├── scripts/                 # All scripts (core + packages)
+│   └── manifest.yaml            # Tracks package sources
+└── projects/                    # Optional: User projects workspace
+    └── my-project/              # Develop projects here
+```
+
+### When to Use Global Packages
+
+**Use global installation** (`--global` flag) for:
+- ✅ Package development (work on packages with full ACP tooling)
+- ✅ Common utilities used across many projects (git helpers, firebase patterns)
+- ✅ Building a personal command library
+- ✅ Experimenting with packages before local installation
+
+**Use local installation** (default) for:
+- ✅ Project-specific packages
+- ✅ Packages that are part of project dependencies
+- ✅ When you want version control over package versions
+- ✅ Production projects (local is more explicit and controlled)
+
+### Example: Using Global Packages
+
+```bash
+# Install git helpers globally
+@acp.package-install --global https://github.com/prmichaelsen/acp-git.git
+
+# In any project, discover global packages
+@acp.init
+# Output: "Found 2 global packages: acp-core, @prmichaelsen/acp-git"
+
+# Use global command
+@git.commit
+# Agent reads: ~/.acp/agent/commands/git.commit.md
+```
 
 ---
 

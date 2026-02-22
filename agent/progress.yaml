@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.7.3
+  version: 3.9.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M5
@@ -95,11 +95,11 @@ milestones:
   - id: M5
     name: Global Package Installation
     status: in_progress
-    progress: 60
+    progress: 80
     started: 2026-02-22
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 4
+    tasks_completed: 5
     tasks_total: 6
     notes: |
       📋 Milestone 5: Global Package Installation
@@ -604,12 +604,21 @@ tasks:
     
     - id: task-28
       name: Documentation and Agent Instructions
-      status: not_started
+      status: completed
       file: agent/tasks/task-28-global-documentation.md
       estimated_hours: 1-2
-      completed_date: null
+      completed_date: 2026-02-22
       notes: |
-        Update AGENT.md, README.md, CHANGELOG.md with global package documentation
+        ✅ Documentation complete!
+        - Updated AGENT.md with "Global Package Discovery" section
+        - Updated README.md with "Global Package Installation" section
+        - Updated CHANGELOG.md with v3.9.0 entry
+        - Updated version to 3.9.0 across all files
+        - Fixed global installation architecture (packages install to ~/.acp/agent/)
+        - Fixed manifest path (~/.acp/agent/manifest.yaml)
+        - Updated acp.common.sh with correct manifest path
+        - Updated acp.package-install.sh to install directly into ~/.acp/agent/
+        - All documentation consistent with new architecture
     
     - id: task-29
       name: Global ACP Auto-Initialization
@@ -843,6 +852,26 @@ progress:
   milestone_6: 0
 
 recent_work:
+  - date: 2026-02-22
+    description: |
+      ✅ Task 28 Complete: Documentation and Agent Instructions
+      Updated all documentation for global package installation with corrected architecture.
+    items:
+      - ✅ Fixed global installation architecture (packages install to ~/.acp/agent/ not ~/.acp/packages/)
+      - ✅ Fixed manifest path (~/.acp/agent/manifest.yaml following ACP structure)
+      - ✅ Updated agent/scripts/acp.common.sh with correct manifest path
+      - ✅ Updated agent/scripts/acp.package-install.sh to install directly into ~/.acp/agent/
+      - ✅ Updated AGENT.md with "Global Package Discovery" section
+      - ✅ Updated README.md with "Global Package Installation" section
+      - ✅ Updated CHANGELOG.md with v3.9.0 entry
+      - ✅ Updated version to 3.9.0 across all files (AGENT.md, progress.yaml)
+      - ✅ Documented namespace precedence rules (local > global)
+      - ✅ Added global ACP structure diagram
+      - ✅ Documented when to use global vs local installation
+      - ✅ Added comprehensive examples for global package workflows
+      - 📋 Milestone 5 progress: 60% → 80% (5/6 tasks complete)
+      - 📋 Next: Task 29 - Global ACP Auto-Initialization (1-2 hours)
+  
   - date: 2026-02-22
     description: |
       📋 Milestone 6 Planned: ACP Preferences System
