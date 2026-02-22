@@ -630,10 +630,15 @@ generate_report() {
     echo "Errors: ${#ERRORS[@]}"
     echo ""
     
-    # Calculate score
+    # Calculate score (clean checks / total * 100)
+    # Clean checks = checks that passed without errors or warnings
     local score=0
     if [ "$TOTAL_CHECKS" -gt 0 ]; then
-        score=$((PASSED_CHECKS * 100 / TOTAL_CHECKS))
+        local clean_checks=$((TOTAL_CHECKS - ${#ERRORS[@]} - ${#WARNINGS[@]}))
+        if [ "$clean_checks" -lt 0 ]; then
+            clean_checks=0
+        fi
+        score=$((clean_checks * 100 / TOTAL_CHECKS))
     fi
     
     # Determine status
