@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.7.1
+  version: 3.7.3
   started: 2026-02-16
   status: in_progress
   current_milestone: M5
@@ -666,19 +666,19 @@ tasks:
     
     - id: task-36
       name: Test Untested Package Commands
-      status: not_started
+      status: completed
       file: agent/tasks/task-36-test-package-commands.md
       estimated_hours: 4-6
-      completed_date: null
+      completed_date: 2026-02-22
       notes: |
-        Comprehensive testing of untested package commands
-        - Test @acp.package-list (all modes and filters)
-        - Test @acp.package-update (all scenarios)
-        - Test @acp.package-remove (all options)
-        - Test @acp.package-info (all cases)
-        - Test @acp.package-search (GitHub API integration)
-        - Note: @acp.package-create already tested in Task 23
-        - Create test report documenting results
+        ✅ Comprehensive E2E testing complete!
+        - ✅ Created e2e/acp.package-update.test.sh (13/13 assertions passing)
+        - ✅ Fixed bug in acp.package-update.sh (function ordering)
+        - ✅ Added assert_not_equals() to tests/common.sh
+        - ✅ All 5 test suites passing (52/52 assertions, 100%)
+        - ✅ Test coverage: list (10), info (13), remove (8), search (8), update (13)
+        - ✅ Fixed exit code capture in tests (removed || true, used set +e)
+        - 📋 Bug found and fixed: Functions defined after use in update script
 
 documentation:
   design_documents: 6
@@ -691,9 +691,9 @@ documentation:
 progress:
   planning: 100
   implementation: 86
-  testing: 95
+  testing: 100
   documentation: 100
-  overall: 86
+  overall: 87
   milestone_1: 100
   milestone_2: 100
   milestone_3: 100
@@ -701,6 +701,27 @@ progress:
   milestone_5: 0
 
 recent_work:
+  - date: 2026-02-22
+    description: |
+      ✅ Task 36 Complete: Test Untested Package Commands
+      Comprehensive E2E testing complete with 52/52 assertions passing (100%).
+    items:
+      - ✅ Created e2e/acp.package-update.test.sh (13 test cases)
+      - ✅ Added assert_not_equals() function to tests/common.sh
+      - ✅ Fixed bug in agent/scripts/acp.package-update.sh (function ordering)
+      - ✅ Fixed exit code capture in tests (removed || true, used set +e)
+      - ✅ All 5 E2E test suites passing:
+        - acp.package-list: 10/10 assertions ✅
+        - acp.package-info: 13/13 assertions ✅
+        - acp.package-remove: 8/8 assertions ✅
+        - acp.package-search: 8/8 assertions ✅
+        - acp.package-update: 13/13 assertions ✅
+      - ✅ Total: 52/52 assertions passing (100%)
+      - ✅ Bug found and fixed: Functions were defined after use in update script
+      - 📋 Testing progress: 95% → 100%
+      - 📋 Overall progress: 86% → 87%
+      - 📋 All package commands now comprehensively tested
+  
   - date: 2026-02-21
     description: |
       ✅ Task 35 Complete: Migrate to acp.yaml-parser.sh

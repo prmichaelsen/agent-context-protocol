@@ -5,6 +5,34 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.3] - 2026-02-22
+
+### Added
+
+**E2E Test Suite for Package Update Command**:
+- Created `e2e/acp.package-update.test.sh` with 13 comprehensive test cases
+- Tests all update scenarios: empty manifest, non-existent package, flags (--check, --skip-modified, --force, -y)
+- Tests specific package updates and manifest validation
+- All 13 assertions passing (100%)
+
+**Test Utilities Enhancement**:
+- Added `assert_not_equals()` function to `tests/common.sh`
+- Enables negative assertions in test suites
+- Used across all E2E tests for error case validation
+
+### Fixed
+
+**Critical Bug in Package Update Script**:
+- Fixed function ordering in `agent/scripts/acp.package-update.sh`
+- Functions `check_package_for_updates()` and `update_package()` were defined after use (lines 129, 188)
+- Moved function definitions before main script logic
+- Script now executes correctly without "command not found" errors
+
+**Test Coverage Complete**:
+- All 5 package management commands now have E2E tests
+- Total: 52/52 assertions passing (100%)
+- Commands tested: list (10), info (13), remove (8), search (8), update (13)
+
 ## [3.7.2] - 2026-02-22
 
 ### Changed

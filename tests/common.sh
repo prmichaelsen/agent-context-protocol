@@ -36,6 +36,27 @@ assert_equals() {
     fi
 }
 
+# Assert that two values are not equal
+assert_not_equals() {
+    local expected="$1"
+    local actual="$2"
+    local test_name="$3"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if [ "$expected" != "$actual" ]; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected NOT: ${YELLOW}$expected${NC}"
+        echo -e "  Actual:       ${YELLOW}$actual${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
 # Assert that value is not empty
 assert_not_empty() {
     local actual="$1"

@@ -44,85 +44,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "${BLUE}📦 ACP Package Updater${NC}"
-echo "========================================"
-echo ""
-
-# Check if manifest exists
-if [ ! -f "agent/manifest.yaml" ]; then
-    die "No manifest found. No packages installed."
-fi
-
-# Source YAML parser
-source_yaml_parser
-
-# Get list of installed packages
-INSTALLED_PACKAGES=$(awk '/^  [a-z]/ && !/^    / && /:$/ {gsub(/:/, ""); print $1}' agent/manifest.yaml)
-
-if [ -z "$INSTALLED_PACKAGES" ]; then
-    echo "${YELLOW}No packages installed${NC}"
-    exit 0
-fi
-
-# If no package specified, update all
-if [ -z "$PACKAGE_NAME" ]; then
-    echo "Checking all packages for updates..."
-    echo ""
-    
-    UPDATES_AVAILABLE=false
-    for pkg in $INSTALLED_PACKAGES; do
-        if check_package_for_updates "$pkg"; then
-            UPDATES_AVAILABLE=true
-        fi
-    done
-    
-    if [ "$UPDATES_AVAILABLE" = false ]; then
-        echo "${GREEN}✓${NC} All packages are up to date"
-        exit 0
-    fi
-    
-    if [ "$CHECK_ONLY" = true ]; then
-        echo ""
-        echo "To update all packages: $0"
-        echo "To update specific package: $0 <package-name>"
-        exit 0
-    fi
-    
-    # Update all packages
-    echo ""
-    if [ "$AUTO_CONFIRM" = false ]; then
-        read -p "Update all packages? (y/N) " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            echo "Update cancelled"
-            exit 0
-        fi
-    fi
-    
-    echo ""
-    for pkg in $INSTALLED_PACKAGES; do
-        update_package "$pkg"
-        echo ""
-    done
-else
-    # Update specific package
-    if ! echo "$INSTALLED_PACKAGES" | grep -q "^${PACKAGE_NAME}$"; then
-        die "Package not installed: $PACKAGE_NAME"
-    fi
-    
-    if check_package_for_updates "$PACKAGE_NAME"; then
-        if [ "$CHECK_ONLY" = false ]; then
-            echo ""
-            update_package "$PACKAGE_NAME"
-        fi
-    else
-        echo "${GREEN}✓${NC} Package is up to date"
-    fi
-fi
-
-echo ""
-echo "${GREEN}✅ Update complete!${NC}"
-
 # Check for updates for a package
 # Usage: check_package_for_updates "package_name"
 # Returns: 0 if updates available, 1 if up to date
@@ -333,3 +254,83 @@ update_package() {
         echo "  Skipped: $skipped_count file(s)"
     fi
 }
+
+# Main script execution
+echo "${BLUE}📦 ACP Package Updater${NC}"
+echo "========================================"
+echo ""
+
+# Check if manifest exists
+if [ ! -f "agent/manifest.yaml" ]; then
+    die "No manifest found. No packages installed."
+fi
+
+# Source YAML parser
+source_yaml_parser
+
+# Get list of installed packages
+INSTALLED_PACKAGES=$(awk '/^  [a-z]/ && !/^    / && /:$/ {gsub(/:/, ""); print $1}' agent/manifest.yaml)
+
+if [ -z "$INSTALLED_PACKAGES" ]; then
+    echo "${YELLOW}No packages installed${NC}"
+    exit 0
+fi
+
+# If no package specified, update all
+if [ -z "$PACKAGE_NAME" ]; then
+    echo "Checking all packages for updates..."
+    echo ""
+    
+    UPDATES_AVAILABLE=false
+    for pkg in $INSTALLED_PACKAGES; do
+        if check_package_for_updates "$pkg"; then
+            UPDATES_AVAILABLE=true
+        fi
+    done
+    
+    if [ "$UPDATES_AVAILABLE" = false ]; then
+        echo "${GREEN}✓${NC} All packages are up to date"
+        exit 0
+    fi
+    
+    if [ "$CHECK_ONLY" = true ]; then
+        echo ""
+        echo "To update all packages: $0"
+        echo "To update specific package: $0 <package-name>"
+        exit 0
+    fi
+    
+    # Update all packages
+    echo ""
+    if [ "$AUTO_CONFIRM" = false ]; then
+        read -p "Update all packages? (y/N) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "Update cancelled"
+            exit 0
+        fi
+    fi
+    
+    echo ""
+    for pkg in $INSTALLED_PACKAGES; do
+        update_package "$pkg"
+        echo ""
+    done
+else
+    # Update specific package
+    if ! echo "$INSTALLED_PACKAGES" | grep -q "^${PACKAGE_NAME}$"; then
+        die "Package not installed: $PACKAGE_NAME"
+    fi
+    
+    if check_package_for_updates "$PACKAGE_NAME"; then
+        if [ "$CHECK_ONLY" = false ]; then
+            echo ""
+            update_package "$PACKAGE_NAME"
+        fi
+    else
+        echo "${GREEN}✓${NC} Package is up to date"
+    fi
+fi
+
+echo ""
+echo "${GREEN}✅ Update complete!${NC}"
