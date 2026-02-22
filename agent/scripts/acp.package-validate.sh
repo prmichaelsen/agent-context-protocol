@@ -266,6 +266,31 @@ check_unlisted_files() {
         done
     fi
     
+    # Check scripts directory
+    if [ -d "agent/scripts" ]; then
+        for file in agent/scripts/*.sh; do
+            [ -f "$file" ] || continue
+            local basename=$(basename "$file")
+            
+            # Skip templates, acp core scripts, and common utilities
+            [[ "$basename" == *.template.sh ]] && continue
+            [[ "$basename" == acp.* ]] && continue
+            [[ "$basename" == "acp.common.sh" ]] && continue
+            
+            # Skip if in manifest (installed from another package)
+            if echo "$manifest_files" | grep -q "^${basename}$"; then
+                continue
+            fi
+            
+            # Check if listed in package.yaml
+            if ! grep -q "name: $basename" package.yaml 2>/dev/null; then
+                warning "Found unlisted file: scripts/$basename"
+                fixable "Add scripts/$basename to package.yaml"
+                unlisted=$((unlisted + 1))
+            fi
+        done
+    fi
+    
     check
     if [ "$unlisted" -eq 0 ]; then
         pass "No unlisted files found"

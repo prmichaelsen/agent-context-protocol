@@ -114,6 +114,17 @@ fields:
             type: string
             required: true
             description: "Design filename (e.g., namespace.design-name.md)"
+      scripts:
+        type: array
+        item_type: object
+        required: false
+        description: "List of script files (each with 'name' field)"
+        item_fields:
+          name:
+            type: string
+            required: true
+            pattern: "^[a-z0-9-]+\\.[a-z0-9-]+\\.sh$"
+            description: "Script filename with namespace (e.g., namespace.script-name.sh)"
     
   requires:
     type: object

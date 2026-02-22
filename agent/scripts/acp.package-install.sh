@@ -235,6 +235,7 @@ INSTALL_DIRS=()
 [ "$INSTALL_PATTERNS" = true ] && INSTALL_DIRS+=("patterns")
 [ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("commands")
 [ "$INSTALL_DESIGNS" = true ] && INSTALL_DIRS+=("design")
+[ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("scripts")  # Scripts installed with commands
 
 INSTALLED_COUNT=0
 SKIPPED_COUNT=0
@@ -262,6 +263,9 @@ for dir in "${INSTALL_DIRS[@]}"; do
         design)
             FILE_LIST=DESIGN_FILES
             ;;
+        scripts)
+            FILE_LIST=COMMAND_FILES  # Scripts use command files list (empty array if no specific files)
+            ;;
     esac
     
     # If specific files requested, use those; otherwise find all
@@ -269,8 +273,12 @@ for dir in "${INSTALL_DIRS[@]}"; do
         # Selective file installation
         FILES_TO_PROCESS=()
         for file_name in "${FILE_LIST[@]}"; do
-            # Add .md extension if not present
-            [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
+            # Add appropriate extension if not present
+            if [ "$dir" = "scripts" ]; then
+                [[ "$file_name" != *.sh ]] && file_name="${file_name}.sh"
+            else
+                [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
+            fi
             
             file_path="$SOURCE_DIR/$file_name"
             if [ -f "$file_path" ]; then
@@ -283,9 +291,17 @@ for dir in "${INSTALL_DIRS[@]}"; do
     else
         # Install all files from directory
         FILES_TO_PROCESS=()
-        while IFS= read -r file; do
-            [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
-        done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
+        if [ "$dir" = "scripts" ]; then
+            # For scripts, find .sh files
+            while IFS= read -r file; do
+                [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
+            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.sh" ! -name "*.template.sh" -type f)
+        else
+            # For other types, find .md files
+            while IFS= read -r file; do
+                [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
+            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
+        fi
     fi
     
     if [ ${#FILES_TO_PROCESS[@]} -eq 0 ]; then
@@ -312,6 +328,21 @@ for dir in "${INSTALL_DIRS[@]}"; do
                 echo "  ${YELLOW}⚠${NC}  $filename (missing agent directive - skipping)"
                 SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
                 continue
+            fi
+        fi
+        
+        # Special validation for scripts
+        if [ "$dir" = "scripts" ]; then
+            # Check for reserved 'acp' namespace
+            if [[ "$filename" =~ ^acp\. ]]; then
+                echo "  ${RED}✗${NC} $filename (reserved namespace 'acp')"
+                SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+                continue
+            fi
+            
+            # Check for shebang
+            if ! head -n1 "$file" | grep -q "^#!/"; then
+                echo "  ${YELLOW}⚠${NC}  $filename (missing shebang)"
             fi
         fi
         
@@ -409,7 +440,12 @@ if [ "$GLOBAL_INSTALL" = true ]; then
             add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "$file"
             
             echo "  ${GREEN}✓${NC} Tracked $dir/$filename (v$FILE_VERSION)"
-        done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
+        done < <(find "$SOURCE_DIR" -maxdepth 1 \( -name "*.md" -o -name "*.sh" \) ! \( -name "*.template.md" -o -name "*.template.sh" \) -type f)
+        
+        # Make scripts executable
+        if [ "$dir" = "scripts" ]; then
+            find "$SOURCE_DIR" -maxdepth 1 -name "*.sh" -type f -exec chmod +x {} \;
+        fi
     done
 else
     # Local installation - copy files individually (existing behavior)
@@ -435,6 +471,9 @@ else
         design)
             FILE_LIST=DESIGN_FILES
             ;;
+        scripts)
+            FILE_LIST=COMMAND_FILES  # Scripts use command files list
+            ;;
     esac
     
     # If specific files requested, use those; otherwise find all
@@ -442,8 +481,12 @@ else
         # Selective file installation
         FILES_TO_INSTALL=()
         for file_name in "${FILE_LIST[@]}"; do
-            # Add .md extension if not present
-            [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
+            # Add appropriate extension if not present
+            if [ "$dir" = "scripts" ]; then
+                [[ "$file_name" != *.sh ]] && file_name="${file_name}.sh"
+            else
+                [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
+            fi
             
             file_path="$SOURCE_DIR/$file_name"
             if [ -f "$file_path" ]; then
@@ -453,9 +496,15 @@ else
     else
         # Install all files from directory
         FILES_TO_INSTALL=()
-        while IFS= read -r file; do
-            [ -n "$file" ] && FILES_TO_INSTALL+=("$file")
-        done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
+        if [ "$dir" = "scripts" ]; then
+            while IFS= read -r file; do
+                [ -n "$file" ] && FILES_TO_INSTALL+=("$file")
+            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.sh" ! -name "*.template.sh" -type f)
+        else
+            while IFS= read -r file; do
+                [ -n "$file" ] && FILES_TO_INSTALL+=("$file")
+            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
+        fi
     fi
     
     for file in "${FILES_TO_INSTALL[@]}"; do
@@ -468,8 +517,20 @@ else
             fi
         fi
         
+        # Skip invalid scripts
+        if [ "$dir" = "scripts" ]; then
+            if [[ "$filename" =~ ^acp\. ]]; then
+                continue
+            fi
+        fi
+        
             # Copy file
             cp "$file" "agent/$dir/$filename"
+            
+            # Make scripts executable
+            if [ "$dir" = "scripts" ]; then
+                chmod +x "agent/$dir/$filename"
+            fi
             
             # Get file version from package.yaml
             FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "$dir" "$filename")
@@ -477,7 +538,11 @@ else
             # Add file to manifest
             add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "agent/$dir/$filename"
             
-            echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION)"
+            if [ "$dir" = "scripts" ]; then
+                echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION) [executable]"
+            else
+                echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION)"
+            fi
         done
         
         unset -n FILE_LIST

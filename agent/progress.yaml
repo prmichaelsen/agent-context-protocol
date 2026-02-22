@@ -99,7 +99,7 @@ milestones:
     started: 2026-02-22
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 6
     notes: |
       📋 Milestone 5: Global Package Installation
@@ -622,12 +622,21 @@ tasks:
     
     - id: task-45
       name: Package Script Bundling Support
-      status: not_started
+      status: completed
       file: agent/tasks/task-45-package-script-bundling.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-02-22
       notes: |
-        Enable packages to bundle scripts with namespace enforcement and installation support
+        ✅ Package script bundling complete!
+        - Updated agent/schemas/package.schema.yaml with scripts field
+        - Updated agent/scripts/acp.package-install.sh to copy scripts
+        - Scripts are made executable automatically (chmod +x)
+        - Added namespace validation for scripts (reserved 'acp' namespace)
+        - Added shebang validation (warns if missing)
+        - Updated agent/scripts/acp.package-validate.sh to validate scripts
+        - Scripts validated for: existence, namespace, executability, shebang
+        - Syntax validated (both scripts pass bash -n)
+        - Packages can now bundle utility scripts with proper namespace
   
   milestone_6:
     - id: task-37
