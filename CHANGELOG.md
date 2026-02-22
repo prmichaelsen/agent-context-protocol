@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.2] - 2026-02-22
+
+### Changed
+
+**Package Browser UI Improvements**:
+- Reduced vertical spacing throughout for better screen efficiency
+- Smaller header (3em → 2em title, 1.2em → 1em subtitle)
+- Compact search box (30px → 15px padding)
+- Tighter package cards (20px → 12px padding, 20px → 12px margins)
+- Smaller fonts (package name 1.5em → 1.2em, meta 0.9em → 0.85em)
+- More packages visible per screen (~30% space reduction)
+- Maintained readability while improving information density
+
 ## [3.7.1] - 2026-02-21
 
 ### Fixed
