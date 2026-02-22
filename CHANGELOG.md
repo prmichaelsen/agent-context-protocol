@@ -5,6 +5,23 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.3] - 2026-02-22
+
+### Added
+
+**Task Planning**:
+- Created Task 51: Pattern Reading in Commands for context awareness
+- Updates 6 commands to read `agent/patterns/` during execution
+- Intelligent pattern selection based on context
+- Ensures agents understand project patterns before making decisions
+- Estimated 2-3 hours implementation time
+
+### Changed
+
+**Progress Tracking**:
+- Updated Milestone 2 tasks_total: 3 → 4 (added task-51)
+- Deleted 3 draft files (acp-project-create, acp-search-enhancement, read-patterns-enhancement)
+
 ## [3.9.2] - 2026-02-22
 
 ### Fixed

@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.9.2
+  version: 3.9.3
   started: 2026-02-16
   status: in_progress
   current_milestone: M5
@@ -37,7 +37,7 @@ milestones:
     completed: 2026-02-16
     estimated_weeks: 1
     tasks_completed: 3
-    tasks_total: 3
+    tasks_total: 4
     notes: |
       ✅ Milestone 2 Complete! All documentation and utility commands implemented.
       - 5 commands implemented: update, sync, validate, report, install
@@ -178,6 +178,15 @@ tasks:
         ✅ Documented command invocation with dot notation
   
   milestone_2:
+    - id: task-51
+      name: "Pattern Reading in Commands"
+      status: not_started
+      file: agent/tasks/task-51-pattern-reading-in-commands.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Update 6 commands to read agent/patterns/ for context awareness
+    
     - id: task-5
       name: Implement Documentation Commands
       status: completed
