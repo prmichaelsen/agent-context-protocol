@@ -277,33 +277,31 @@
             clearTimeout(searchTimeout);
             const query = e.target.value.trim();
             
-            if (!query) {
-                resultsDiv.innerHTML = `
-                    <div class="loading">
-                        <p>🔍 Enter a search term to find ACP packages</p>
-                        <p style="margin-top: 10px; font-size: 0.9em;">Try: <strong>firebase</strong>, <strong>git</strong>, <strong>mcp</strong>, or <strong>auth</strong></p>
-                    </div>
-                `;
-                return;
-            }
-            
             searchTimeout = setTimeout(() => {
                 searchPackages(query);
             }, 500);
         });
         
         async function searchPackages(query) {
-            resultsDiv.innerHTML = '<div class="loading">🔍 Searching...</div>';
+            // Show appropriate loading message
+            if (query) {
+                resultsDiv.innerHTML = '<div class="loading">🔍 Searching...</div>';
+            } else {
+                resultsDiv.innerHTML = '<div class="loading">📦 Loading top packages...</div>';
+            }
             
             try {
                 // Search GitHub for repositories with topic "acp-package"
-                // If query provided, add it to search; otherwise show all
+                // If query provided, add it to search; otherwise show top 10 by stars
                 let searchQuery = 'topic:acp-package';
-                if (query && query !== '*') {
+                if (query) {
                     searchQuery = `${query} ${searchQuery}`;
                 }
                 
-                const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&sort=${currentSort}&per_page=20`;
+                // Default to stars sort, limit to 10 for initial load
+                const sortParam = query ? currentSort : 'stars';
+                const limitParam = query ? 20 : 10;
+                const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(searchQuery)}&sort=${sortParam}&per_page=${limitParam}`;
                 
                 console.log('Searching:', url);
                 
@@ -323,12 +321,21 @@
                 }
                 
                 if (!data.items || data.items.length === 0) {
-                    resultsDiv.innerHTML = `
-                        <div class="no-results">
-                            <p>📭 No packages found for "${query}"</p>
-                            <p style="margin-top: 10px; font-size: 0.9em;">Try different search terms or browse all packages by searching for "*"</p>
-                        </div>
-                    `;
+                    if (query) {
+                        resultsDiv.innerHTML = `
+                            <div class="no-results">
+                                <p>📭 No packages found for "${query}"</p>
+                                <p style="margin-top: 10px; font-size: 0.9em;">Try different search terms</p>
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="no-results">
+                                <p>📭 No ACP packages found</p>
+                                <p style="margin-top: 10px; font-size: 0.9em;">Be the first to create one!</p>
+                            </div>
+                        `;
+                    }
                     return;
                 }
                 
@@ -358,17 +365,26 @@
                 const validPackages = packages.filter(p => p.hasPackageYaml);
                 
                 if (validPackages.length === 0) {
-                    resultsDiv.innerHTML = `
-                        <div class="no-results">
-                            <p>📭 No valid ACP packages found</p>
-                            <p style="margin-top: 10px; font-size: 0.9em;">Found ${data.items.length} repositories, but none have a package.yaml file</p>
-                        </div>
-                    `;
+                    if (query) {
+                        resultsDiv.innerHTML = `
+                            <div class="no-results">
+                                <p>📭 No valid ACP packages found</p>
+                                <p style="margin-top: 10px; font-size: 0.9em;">Found ${data.items.length} repositories, but none have a package.yaml file</p>
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="no-results">
+                                <p>📭 No ACP packages available yet</p>
+                                <p style="margin-top: 10px; font-size: 0.9em;">Create the first package!</p>
+                            </div>
+                        `;
+                    }
                     return;
                 }
                 
                 // Display results
-                displayResults(validPackages, data.total_count);
+                displayResults(validPackages, data.total_count, query);
                 
             } catch (error) {
                 resultsDiv.innerHTML = `
@@ -398,7 +414,7 @@
             return pkg;
         }
         
-        function displayResults(packages, totalCount) {
+        function displayResults(packages, totalCount, query) {
             const packagesHtml = packages.map((p, index) => {
                 const pkg = parsePackageYaml(p.packageYaml);
                 const repo = p.repo;
@@ -432,10 +448,14 @@
                 `;
             }).join('');
             
+            const statsText = query
+                ? `Showing ${packages.length} of ${totalCount} package(s) matching "${query}"`
+                : `Top ${packages.length} ACP packages by stars`;
+            
             resultsDiv.innerHTML = `
                 ${packagesHtml}
                 <div class="stats">
-                    Showing ${packages.length} of ${totalCount} package(s)
+                    ${statsText}
                 </div>
             `;
         }
@@ -453,12 +473,15 @@
             });
         }
         
-        // Search on page load if there's a query parameter
+        // Search on page load - show top packages by default
         const urlParams = new URLSearchParams(window.location.search);
         const initialQuery = urlParams.get('q');
         if (initialQuery) {
             searchInput.value = initialQuery;
             searchPackages(initialQuery);
+        } else {
+            // Load top 10 packages by stars on initial page load
+            searchPackages('');
         }
     </script>
 </body>
