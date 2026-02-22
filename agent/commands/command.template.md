@@ -18,6 +18,47 @@
 
 ---
 
+## Arguments
+
+[If your command accepts arguments, document them here. Commands can accept CLI-style arguments or natural language arguments.]
+
+**CLI-Style Arguments** (optional):
+- `--flag` or `-f` - Description of what this flag does
+- `--option <value>` - Description of option that takes a value
+- `--another-flag` - Another flag description
+
+**Natural Language Arguments** (optional):
+- `@{namespace}.{command} for specific item` - Description
+- `@{namespace}.{command} with custom setting` - Description
+
+**Argument Mapping**:
+Arguments are inferred from chat context. The agent will:
+1. Parse explicit CLI-style flags if present
+2. Extract intent from natural language
+3. Ask for clarification if ambiguous
+4. Default to interactive mode if unclear
+
+**Example**:
+```markdown
+## Arguments
+
+**CLI-Style Arguments**:
+- `--global` or `-g` - Operate on global packages instead of local
+- `--verbose` or `-v` - Show detailed output
+- `--force` - Skip confirmations and proceed
+
+**Natural Language Arguments**:
+- `@acp.package-list global packages` - List global packages
+- `@acp.package-list with details` - Verbose mode
+
+**Argument Mapping**:
+The agent infers intent from context. "Show me global packages" maps to `--global` flag.
+```
+
+**Note**: If your command has no arguments, you can omit this section entirely.
+
+---
+
 ## What This Command Does
 
 [2-3 paragraph explanation of:

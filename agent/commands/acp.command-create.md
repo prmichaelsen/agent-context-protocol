@@ -93,6 +93,10 @@ Gather information from user via chat:
   - Per Session
   - As Needed
   - Continuous
+- **Command arguments** (optional):
+  - Ask: "Does this command accept arguments? (yes/no)"
+  - If yes: Collect CLI-style flags and natural language mappings
+  - If no: Skip Arguments section in generated command
 - **Command version** (default: 1.0.0)
 
 **If no draft provided**:
@@ -115,6 +119,8 @@ Create command file from template:
 - Determine full filename: `{namespace}.{command-name}.md`
 - Copy from command.template.md
 - Fill in metadata (name, version, date, description, category, frequency)
+- If command has arguments: Fill in Arguments section (before Prerequisites)
+- If no arguments: Remove Arguments section from template
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
 - Save to `agent/commands/{namespace}.{command-name}.md`

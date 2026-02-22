@@ -5,6 +5,35 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] - 2026-02-22
+
+### Added
+
+**New @acp.plan Command**:
+- Created `agent/commands/acp.plan.md` - Systematic milestone and task planning command
+- Scans progress.yaml for undefined milestones/tasks
+- Supports multiple planning workflows (design first, requirements first, chat, drafts)
+- Invokes `@acp.milestone-create`, `@acp.task-create`, `@acp.design-create` as subroutines
+- New task structure: `agent/tasks/milestone-{N}-{title}/task-{M}-{title}.md`
+- Orphaned tasks: `agent/tasks/unassigned/task-{M}-{title}.md`
+- CLI and natural language argument support
+- Batch and interactive modes
+- Structured draft questions for each entity type (3 questions each)
+- Created `agent/clarifications/clarification-6-acp-plan-command.md` with design requirements
+
+**Command Template Enhancement**:
+- Added Arguments section to `agent/commands/command.template.md`
+- Documents CLI-style and natural language arguments
+- Includes argument mapping approach
+- Placed before Prerequisites section
+- Optional section (omit if command has no arguments)
+
+**Command Creation Enhancement**:
+- Updated `agent/commands/acp.command-create.md` to handle Arguments section
+- Asks if command accepts arguments during creation
+- Fills or removes Arguments section accordingly
+- Ensures Arguments placed before Prerequisites
+
 ## [3.7.3] - 2026-02-22
 
 ### Added
