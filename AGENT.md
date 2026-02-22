@@ -296,6 +296,7 @@ tasks:
       status: not_started | in_progress | completed
       file: agent/tasks/task-1-name.md
       estimated_hours: N
+      actual_hours: null
       completed_date: YYYY-MM-DD | null
       notes: |
         Task notes

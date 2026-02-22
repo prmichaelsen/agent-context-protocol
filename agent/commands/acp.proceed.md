@@ -131,6 +131,7 @@ When you invoke `@acp.proceed`, you are commanding the agent to:
 **Only after implementing**, update `agent/progress.yaml`:
 - Mark task as `completed` (if done) or `in_progress` (if partial)
 - Add completion date (if done)
+- **Ask user for actual hours spent**: "How many hours did this task take? (estimated: X hours)" - Update `actual_hours` field
 - Update milestone progress percentage
 - Add `recent_work` entry describing what was IMPLEMENTED
 - Update `next_steps`

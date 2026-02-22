@@ -45,6 +45,7 @@ tasks:
       status: not_started               # not_started | in_progress | completed
       file: agent/tasks/task-1-name.md  # Path to task document
       estimated_hours: 4                # Estimated time in hours
+      actual_hours: null                # Actual time spent (null until completed)
       completed_date: null              # YYYY-MM-DD when completed, null if not completed
       notes: |                          # Task-specific notes
         Any important notes about this task.
@@ -54,6 +55,7 @@ tasks:
       status: not_started
       file: agent/tasks/task-2-name.md
       estimated_hours: 2
+      actual_hours: null
       completed_date: null
       notes: |
         Depends on task-1 completion.
@@ -64,6 +66,7 @@ tasks:
       status: not_started
       file: agent/tasks/task-3-name.md
       estimated_hours: 6
+      actual_hours: null
       completed_date: null
       notes: |
         First task of second milestone.
