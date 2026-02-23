@@ -150,11 +150,11 @@ milestones:
   - id: M8
     name: Experimental Features System
     status: in_progress
-    progress: 50
+    progress: 75
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 4
     notes: |
       📋 Milestone 8: Experimental Features System
@@ -942,12 +942,21 @@ tasks:
     
     - id: task-63
       name: Update Handling for Experimental Features
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-8-experimental-features/task-63-update-handling.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1
+      completed_date: 2026-02-23
       notes: |
-        Handle experimental features in update script (installed vs new)
+        ✅ Update handling complete!
+        - Added is_experimental_installed() helper function
+        - Added check_graduation() helper function
+        - Integrated experimental filtering into update loop
+        - Already-installed experimental features update normally
+        - New experimental features are skipped with clear message
+        - Graduated features detected and marked with 🎓 indicator
+        - Manifest experimental flags updated during graduation
+        - No syntax errors in update script
     
     - id: task-64
       name: Documentation and Examples
@@ -1092,6 +1101,25 @@ progress:
   milestone_8: 0
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      ✅ Task 63 Complete: Update Handling for Experimental Features
+      Smart update handling for experimental features implemented.
+    items:
+      - ✅ Added is_experimental_installed() to acp.package-update.sh
+      - ✅ Function checks manifest for already-installed files
+      - ✅ Added check_graduation() to detect experimental → stable transitions
+      - ✅ Integrated experimental filtering into update loop (line ~247)
+      - ✅ Already-installed experimental features update normally (no flag required)
+      - ✅ New experimental features skipped with ⊘ indicator
+      - ✅ Graduated features detected with 🎓 indicator
+      - ✅ Manifest experimental flags updated during graduation
+      - ✅ Clear visual indicators for all update types
+      - ✅ No syntax errors in update script
+      - 📋 Task 63: 100% complete (1 hour)
+      - 📋 Milestone 8: 75% complete (3/4 tasks)
+      - 📋 Next: Task 64 - Documentation and Examples (3-4 hours)
+  
   - date: 2026-02-23
     description: |
       ✅ Task 62 Complete: Installation Filtering

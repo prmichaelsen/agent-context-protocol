@@ -49,6 +49,58 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Check if experimental feature is already installed
+is_experimental_installed() {
+    local file_name="$1"
+    local file_type="$2"
+    local package_name="$3"
+    
+    # Check manifest to see if this file is already installed
+    local installed=$(awk -v pkg="$package_name" -v type="$file_type" -v fname="$file_name" '
+        BEGIN { in_pkg=0; in_type=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ { in_pkg=0 }
+        in_pkg && $0 ~ "^      " type ":" { in_type=1; next }
+        in_type && /^      [a-z]/ { in_type=0 }
+        in_type && /^        - name:/ && $3 == fname { print "found"; exit }
+    ' "$MANIFEST_FILE")
+    
+    if [ -n "$installed" ]; then
+        return 0  # Already installed
+    fi
+    
+    return 1  # Not installed
+}
+
+# Check if feature graduated from experimental to stable
+check_graduation() {
+    local file_name="$1"
+    local file_type="$2"
+    local package_name="$3"
+    local package_yaml_path="$4"
+    
+    # Check if was experimental in manifest
+    local was_experimental=$(awk -v pkg="$package_name" -v type="$file_type" -v fname="$file_name" '
+        BEGIN { in_pkg=0; in_type=0; in_file=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ { in_pkg=0 }
+        in_pkg && $0 ~ "^      " type ":" { in_type=1; next }
+        in_type && /^      [a-z]/ { in_type=0 }
+        in_type && /^        - name:/ && $3 == fname { in_file=1; next }
+        in_file && /^        - name:/ { in_file=0 }
+        in_file && /^          experimental:/ { print $2; exit }
+    ' "$MANIFEST_FILE")
+    
+    # Check if is experimental in new package.yaml
+    local is_experimental=$(grep -A 1000 "^  ${file_type}:" "$package_yaml_path" 2>/dev/null | grep -A 2 "name: ${file_name}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+    
+    if [ "$was_experimental" = "true" ] && [ -z "$is_experimental" ]; then
+        return 0  # Graduated
+    fi
+    
+    return 1  # Not graduated
+}
+
 # Check for updates for a package
 # Usage: check_package_for_updates "package_name"
 # Returns: 0 if updates available, 1 if up to date
@@ -197,7 +249,7 @@ update_package() {
         ' "$MANIFEST_FILE")
         
         for file_name in $files; do
-            # Check if file should be skipped
+            # Check if file should be skipped due to local modifications
             if [ "$SKIP_MODIFIED" = true ]; then
                 if printf '%s\n' "${modified_files[@]}" | grep -q "^${file_type}/${file_name}$"; then
                     echo "  ${YELLOW}⊘${NC} Skipped $file_type/$file_name (modified locally)"
@@ -213,6 +265,27 @@ update_package() {
                 continue
             fi
             
+            # Check if this is a new experimental feature
+            local is_experimental=$(grep -A 1000 "^  ${file_type}:" "$temp_dir/package.yaml" 2>/dev/null | grep -A 2 "name: ${file_name}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+            
+            if [ -n "$is_experimental" ]; then
+                # This is an experimental feature
+                if ! is_experimental_installed "$file_name" "$file_type" "$package_name"; then
+                    # Not installed, skip it
+                    echo "  ${DIM}⊘${NC} Skipping new experimental: $file_type/$file_name (use --experimental with install to add)"
+                    ((skipped_count++))
+                    continue
+                fi
+                # Already installed, update it
+                echo "  ${YELLOW}↻${NC} Updating experimental: $file_type/$file_name"
+            else
+                # Check if graduated from experimental to stable
+                if check_graduation "$file_name" "$file_type" "$package_name" "$temp_dir/package.yaml"; then
+                    echo "  ${GREEN}🎓${NC} Graduated to stable: $file_type/$file_name"
+                fi
+                echo "  ${BLUE}↻${NC} Updating: $file_type/$file_name"
+            fi
+            
             # Copy file
             cp "$temp_dir/agent/$file_type/$file_name" "agent/$file_type/"
             
@@ -222,8 +295,17 @@ update_package() {
             local new_checksum
             new_checksum=$(calculate_checksum "agent/$file_type/$file_name")
             
-            # Update manifest
+            # Update manifest (including experimental status)
             update_file_in_manifest "$package_name" "$file_type" "$file_name" "$new_version" "$new_checksum"
+            
+            # Update experimental flag in manifest if needed
+            if [ -n "$is_experimental" ]; then
+                # Still experimental, ensure flag is set
+                sed -i "/packages:/{:a;N;/name: ${file_name}/!ba;s/\(name: ${file_name}\)/\1\n          experimental: true/;}" "$MANIFEST_FILE" 2>/dev/null || true
+            elif check_graduation "$file_name" "$file_type" "$package_name" "$temp_dir/package.yaml"; then
+                # Graduated, remove experimental flag
+                sed -i "/name: ${file_name}/{N;s/\n *experimental: true//;}" "$MANIFEST_FILE" 2>/dev/null || true
+            fi
             
             echo "  ${GREEN}✓${NC} Updated $file_type/$file_name (v$new_version)"
             ((updated_count++))
