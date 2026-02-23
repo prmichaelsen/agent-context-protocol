@@ -128,6 +128,24 @@ milestones:
       - Command integration (@acp.plan, @acp.task-create)
       - Package preference support
       - 8 tasks planned (37-44): Infrastructure, Configurables, Integration, Management, Package Support, Presets, Testing, Documentation
+  
+  - id: M7
+    name: Global ACP Project Registry
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1-2
+    tasks_completed: 0
+    tasks_total: 9
+    notes: |
+      📋 Milestone 7: Global ACP Project Registry
+      - Centralized project registry at ~/.acp/projects.yaml
+      - Project discovery and metadata tracking
+      - Context switching via @acp.project-set
+      - 6 management commands (list, set, info, update, remove, sync)
+      - Automatic registration on project creation
+      - 9 tasks planned (52-60): Infrastructure, Commands (6), Testing, Documentation
 
 tasks:
   milestone_1:
@@ -710,12 +728,13 @@ tasks:
   milestone_6:
     - id: task-37
       name: Preference Loading Infrastructure
-      status: not_started
+      status: in_progress
       file: agent/tasks/milestone-6-preferences-system/task-37-preference-loading-infrastructure.md
       estimated_hours: 4-6
+      actual_hours: null
       completed_date: null
       notes: |
-        Create acp.preferences.sh with all preference utilities and @acp.preferences-get command
+        Core infrastructure implemented - functions created, tests need refinement
     
     - id: task-38
       name: Configurables System Enhancement
@@ -779,6 +798,88 @@ tasks:
       completed_date: null
       notes: |
         Update AGENT.md, README.md, CHANGELOG.md with preferences documentation
+  
+  milestone_7:
+    - id: task-52
+      name: Project Registry Infrastructure
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-52-registry-infrastructure.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Create registry structure, schema, and utility functions
+    
+    - id: task-53
+      name: "@acp.project-list Command"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-53-project-list.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        List registered projects with filtering
+    
+    - id: task-54
+      name: "@acp.project-set Command"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-54-project-set.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Context switching between projects
+    
+    - id: task-55
+      name: "@acp.project-info Command"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-55-project-info.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Show detailed project information
+    
+    - id: task-56
+      name: "@acp.project-update Command"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-56-project-update.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Update project metadata
+    
+    - id: task-57
+      name: "@acp.project-remove Command"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-57-project-remove.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Remove projects from registry
+    
+    - id: task-58
+      name: "@acp.projects-sync Command"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-58-projects-sync.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Sync registry with filesystem (discover unregistered projects)
+    
+    - id: task-59
+      name: "Integration & Testing"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-59-integration-testing.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Comprehensive test suite for project registry
+    
+    - id: task-60
+      name: "Documentation Updates"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-60-documentation.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Update AGENT.md, README.md, CHANGELOG.md
   
   future_enhancements:
     - id: task-30
@@ -910,8 +1011,36 @@ progress:
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
+  milestone_7: 0
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      📋 Milestone 7 Planned: Global ACP Project Registry
+      Complete planning for project registry system with design document, milestone, and 9 tasks.
+    items:
+      - ✅ Created agent/design/local.projects-yaml-feature.md (comprehensive design)
+      - ✅ Converted draft to complete design following template
+      - ✅ Added @acp.project-set command for context switching
+      - ✅ Created agent/milestones/milestone-7-project-registry.md
+      - ✅ Created 9 task documents in milestone-7-project-registry/ directory:
+        - Task 52: Project Registry Infrastructure (2-3 hours)
+        - Task 53: @acp.project-list Command (2-3 hours)
+        - Task 54: @acp.project-set Command (2-3 hours)
+        - Task 55: @acp.project-info Command (1-2 hours)
+        - Task 56: @acp.project-update Command (1-2 hours)
+        - Task 57: @acp.project-remove Command (1-2 hours)
+        - Task 58: @acp.projects-sync Command (2-3 hours)
+        - Task 59: Integration & Testing (3-4 hours)
+        - Task 60: Documentation Updates (2-3 hours)
+      - ✅ Updated progress.yaml with M7 and all tasks
+      - ✅ Renamed @acp.project-scan to @acp.projects-sync (consistent with @acp.sync)
+      - ✅ Created git commit for planning work (7eecc89)
+      - 📋 Milestone 7: 0% complete (0/9 tasks)
+      - 📋 Total estimated effort: 16-25 hours (1-2 weeks)
+      - 📋 Key feature: Context switching via @acp.project-set
+      - 📋 Next: Review milestone and tasks, then begin implementation
+  
   - date: 2026-02-23
     description: |
       🚀 Agent Context Initialized via @acp.init
