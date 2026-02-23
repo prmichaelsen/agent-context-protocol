@@ -822,22 +822,28 @@ Run ./agent/scripts/unacp.install.sh to remove all ACP files (agent/ directory a
    - What milestone is current
    - What task is next
 
-2. **Read requirements.md**
+2. **Check for installed packages**
+   - Read `agent/manifest.yaml` to see what packages are installed
+   - Check `~/.acp/agent/manifest.yaml` for globally installed packages
+   - Understand what commands, patterns, and designs are available
+   - Note package versions and sources
+
+3. **Read requirements.md**
    - Understand project goals
    - Learn constraints
    - Know success criteria
 
-3. **Review current milestone**
+4. **Review current milestone**
    - Understand current phase
    - Know deliverables
    - Check success criteria
 
-4. **Read next task**
+5. **Read next task**
    - Understand what to do
    - Follow steps
    - Verify completion
 
-5. **Check relevant patterns**
+6. **Check relevant patterns**
    - Learn coding standards
    - Understand architectural patterns
    - Follow best practices
