@@ -1115,7 +1115,7 @@ recent_work:
   - date: 2026-02-23
     description: |
       🎉 Milestone 8 Complete: Experimental Features System
-      Full experimental features system implemented with schema, validation, installation, updates, and documentation.
+      Full experimental features system implemented with schema, validation, installation, updates, documentation, and E2E tests.
     items:
       - ✅ Task 64: Documentation and Examples complete
       - ✅ Updated agent/commands/acp.package-install.md with --experimental flag
@@ -1125,14 +1125,19 @@ recent_work:
       - ✅ Added experimental features examples to README.md
       - ✅ Updated CHANGELOG.md with v3.12.0 entry
       - ✅ Updated version to 3.12.0 in AGENT.md and progress.yaml
+      - ✅ Created e2e/acp.experimental-features.test.sh (18/18 tests passing, 100%)
+      - ✅ Added assert_file_not_exists() to tests/common.sh
+      - ✅ Added -y/--yes flag to acp.package-install.sh for test automation
+      - ✅ Added local directory path support for testing
       - ✅ Milestone 8: 100% complete (4/4 tasks)
-      - 🎊 All tasks completed in 3.5 hours (estimated: 10-14 hours)
+      - 🎊 All tasks completed in 4 hours (estimated: 10-14 hours)
       - 📋 System features:
         - Dual marking (package.yaml + file metadata)
         - Installation control via --experimental flag
         - Smart update handling
         - Consistency validation
         - Graduation detection
+        - Comprehensive E2E test coverage
   
   - date: 2026-02-23
     description: |
