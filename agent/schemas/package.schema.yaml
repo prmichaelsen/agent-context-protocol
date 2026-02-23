@@ -94,6 +94,15 @@ fields:
             type: string
             required: true
             description: "Pattern filename (e.g., namespace.pattern-name.md)"
+          description:
+            type: string
+            required: false
+            description: "Pattern description"
+          experimental:
+            type: boolean
+            required: false
+            default: false
+            description: "Mark as experimental (requires --experimental flag to install)"
       commands:
         type: array
         item_type: object
@@ -104,6 +113,15 @@ fields:
             type: string
             required: true
             description: "Command filename (e.g., namespace.command-name.md)"
+          description:
+            type: string
+            required: false
+            description: "Command description"
+          experimental:
+            type: boolean
+            required: false
+            default: false
+            description: "Mark as experimental (requires --experimental flag to install)"
       designs:
         type: array
         item_type: object
@@ -114,6 +132,15 @@ fields:
             type: string
             required: true
             description: "Design filename (e.g., namespace.design-name.md)"
+          description:
+            type: string
+            required: false
+            description: "Design description"
+          experimental:
+            type: boolean
+            required: false
+            default: false
+            description: "Mark as experimental (requires --experimental flag to install)"
       scripts:
         type: array
         item_type: object
@@ -125,6 +152,15 @@ fields:
             required: true
             pattern: "^[a-z0-9-]+\\.[a-z0-9-]+\\.sh$"
             description: "Script filename with namespace (e.g., namespace.script-name.sh)"
+          description:
+            type: string
+            required: false
+            description: "Script description"
+          experimental:
+            type: boolean
+            required: false
+            default: false
+            description: "Mark as experimental (requires --experimental flag to install)"
     
   requires:
     type: object

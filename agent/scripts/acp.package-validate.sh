@@ -706,6 +706,94 @@ display_fixable_issues() {
     fi
 }
 
+# Validate experimental feature consistency
+validate_experimental_consistency() {
+    echo ""
+    echo "${BOLD}Experimental Features${NC}"
+    
+    local errors=0
+    local checked=0
+    
+    # Check each content type
+    for type in commands patterns designs scripts; do
+        # Determine directory path
+        local dir_path
+        case "$type" in
+            designs)
+                dir_path="agent/design"
+                ;;
+            *)
+                dir_path="agent/${type}"
+                ;;
+        esac
+        
+        # Skip if directory doesn't exist
+        if [ ! -d "$dir_path" ]; then
+            continue
+        fi
+        
+        # Get all .md or .sh files in directory
+        local files
+        if [ "$type" = "scripts" ]; then
+            files=$(find "$dir_path" -maxdepth 1 -name "*.sh" -type f 2>/dev/null | xargs -r basename -a)
+        else
+            files=$(find "$dir_path" -maxdepth 1 -name "*.md" -type f 2>/dev/null | xargs -r basename -a)
+        fi
+        
+        # Check each file
+        for file_name in $files; do
+            if [ -z "$file_name" ]; then
+                continue
+            fi
+            
+            local file_path="${dir_path}/${file_name}"
+            
+            # Check if file is in package.yaml contents
+            local in_contents=$(grep -A 1000 "^  ${type}:" package.yaml 2>/dev/null | grep -A 1 "name: ${file_name}" | head -1)
+            if [ -z "$in_contents" ]; then
+                continue  # File not in package.yaml, skip
+            fi
+            
+            # Check if marked experimental in package.yaml (exclude comments)
+            local is_experimental=$(grep -A 1000 "^  ${type}:" package.yaml 2>/dev/null | grep -A 2 "name: ${file_name}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+            
+            # Check if file has Status: Experimental
+            local has_experimental_status=$(grep "^\*\*Status\*\*: Experimental" "$file_path" 2>/dev/null)
+            
+            if [ -n "$is_experimental" ]; then
+                # Marked experimental in package.yaml
+                checked=$((checked + 1))
+                check
+                if [ -z "$has_experimental_status" ]; then
+                    error "${file_path}: Marked experimental in package.yaml but missing 'Status: Experimental' in file"
+                    fixable "Add '**Status**: Experimental' to ${file_path}"
+                    errors=$((errors + 1))
+                else
+                    pass "${file_name}: Experimental marking consistent"
+                fi
+            elif [ -n "$has_experimental_status" ]; then
+                # Has Status: Experimental but not marked in package.yaml
+                checked=$((checked + 1))
+                check
+                error "${file_path}: Has 'Status: Experimental' but not marked in package.yaml"
+                fixable "Add 'experimental: true' to ${file_name} in package.yaml"
+                errors=$((errors + 1))
+            fi
+        done
+    done
+    
+    if [ $checked -eq 0 ]; then
+        check
+        pass "No experimental features to validate"
+    elif [ $errors -eq 0 ] && [ $checked -gt 0 ]; then
+        pass "All experimental features marked consistently"
+    fi
+    
+    echo ""
+    
+    return $errors
+}
+
 # Main validation function
 main() {
     echo "${BLUE}🔍 ACP Package Validation${NC}"
@@ -720,6 +808,7 @@ main() {
     validate_file_existence
     check_unlisted_files
     validate_namespace_consistency
+    validate_experimental_consistency
     validate_git_repository
     validate_readme
     

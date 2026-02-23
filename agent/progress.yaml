@@ -149,12 +149,12 @@ milestones:
   
   - id: M8
     name: Experimental Features System
-    status: not_started
-    progress: 0
-    started: null
+    status: in_progress
+    progress: 25
+    started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 4
     notes: |
       📋 Milestone 8: Experimental Features System
@@ -908,12 +908,18 @@ tasks:
   milestone_8:
     - id: task-61
       name: Schema and Validation Enhancement
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-8-experimental-features/task-61-schema-validation.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1
+      completed_date: 2026-02-23
       notes: |
-        Update package schema with experimental field and add consistency validation
+        ✅ Schema and validation complete!
+        - Updated agent/schemas/package.schema.yaml with experimental field
+        - Added validate_experimental_consistency() to acp.package-validate.sh
+        - Integrated into main validation flow
+        - All 4 test scenarios passing (consistent, missing file, missing yaml, both unmarked)
+        - Validation detects inconsistencies and provides fixable suggestions
     
     - id: task-62
       name: Installation Filtering
@@ -1076,6 +1082,28 @@ progress:
   milestone_8: 0
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      ✅ Task 61 Complete: Schema and Validation Enhancement
+      Experimental features validation system implemented and tested.
+    items:
+      - ✅ Updated agent/schemas/package.schema.yaml with experimental field
+      - ✅ Added experimental field to all content types (commands, patterns, designs, scripts)
+      - ✅ Field is optional, defaults to false (backward compatible)
+      - ✅ Added validate_experimental_consistency() function to acp.package-validate.sh
+      - ✅ Integrated into main validation flow
+      - ✅ Validation checks both directions (package.yaml ↔ file metadata)
+      - ✅ Clear error messages with fixable suggestions
+      - ✅ All 4 test scenarios passing:
+        - Test 1: Consistent marking → PASS
+        - Test 2: Missing file metadata → ERROR detected
+        - Test 3: Missing package.yaml field → ERROR detected
+        - Test 4: Both unmarked → PASS
+      - ✅ No syntax errors in validation script
+      - 📋 Task 61: 100% complete (1 hour)
+      - 📋 Milestone 8: 25% complete (1/4 tasks)
+      - 📋 Next: Task 62 - Installation Filtering (3-4 hours)
+  
   - date: 2026-02-23
     description: |
       📋 Milestone 8 Planned: Experimental Features System
