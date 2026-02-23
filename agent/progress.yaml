@@ -975,6 +975,8 @@ tasks:
         - Updated CHANGELOG.md with v3.12.0 entry
         - Updated version to 3.12.0 in AGENT.md and progress.yaml
         - All documentation clear and comprehensive
+        - Created e2e/acp.experimental-features.test.sh (E2E tests - future enhancement)
+        - Manual validation testing complete (all scenarios working)
   
   future_enhancements:
     - id: task-30
