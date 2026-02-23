@@ -146,6 +146,23 @@ milestones:
       - 6 management commands (list, set, info, update, remove, sync)
       - Automatic registration on project creation
       - 9 tasks planned (52-60): Infrastructure, Commands (6), Testing, Documentation
+  
+  - id: M8
+    name: Experimental Features System
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1-2
+    tasks_completed: 0
+    tasks_total: 4
+    notes: |
+      📋 Milestone 8: Experimental Features System
+      - Dual marking system (package.yaml + file metadata)
+      - Installation control via --experimental flag
+      - Smart update handling for experimental features
+      - Validation for experimental marking consistency
+      - 4 tasks planned (61-64): Schema & Validation, Installation Filtering, Update Handling, Documentation
 
 tasks:
   milestone_1:
@@ -888,6 +905,43 @@ tasks:
       notes: |
         Update AGENT.md, README.md, CHANGELOG.md
   
+  milestone_8:
+    - id: task-61
+      name: Schema and Validation Enhancement
+      status: not_started
+      file: agent/tasks/milestone-8-experimental-features/task-61-schema-validation.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Update package schema with experimental field and add consistency validation
+    
+    - id: task-62
+      name: Installation Filtering
+      status: not_started
+      file: agent/tasks/milestone-8-experimental-features/task-62-installation-filtering.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Implement --experimental flag and filtering logic in installation script
+    
+    - id: task-63
+      name: Update Handling for Experimental Features
+      status: not_started
+      file: agent/tasks/milestone-8-experimental-features/task-63-update-handling.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Handle experimental features in update script (installed vs new)
+    
+    - id: task-64
+      name: Documentation and Examples
+      status: not_started
+      file: agent/tasks/milestone-8-experimental-features/task-64-documentation.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Update all documentation with experimental features system
+  
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -999,12 +1053,12 @@ tasks:
         - 📋 Bug found and fixed: Functions defined after use in update script
 
 documentation:
-  design_documents: 7
-  milestone_documents: 6
+  design_documents: 8
+  milestone_documents: 8
   pattern_documents: 2
-  task_documents: 44
+  task_documents: 64
   command_documents: 26
-  last_updated: 2026-02-22
+  last_updated: 2026-02-23
 
 progress:
   planning: 100
@@ -1018,9 +1072,31 @@ progress:
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
-  milestone_7: 0
+  milestone_7: 11
+  milestone_8: 0
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      📋 Milestone 8 Planned: Experimental Features System
+      Complete planning for experimental features with design document, milestone, and 4 tasks.
+    items:
+      - ✅ Created agent/design/local.experimental-features-system.md (comprehensive design)
+      - ✅ Created agent/milestones/milestone-8-experimental-features.md
+      - ✅ Created 4 task documents in milestone-8-experimental-features/ directory:
+        - Task 61: Schema and Validation Enhancement (2-3 hours)
+        - Task 62: Installation Filtering (3-4 hours)
+        - Task 63: Update Handling for Experimental Features (2-3 hours)
+        - Task 64: Documentation and Examples (3-4 hours)
+      - ✅ Updated progress.yaml with M8 and all tasks
+      - ✅ Dual marking system (package.yaml + file metadata)
+      - ✅ Installation control via --experimental flag
+      - ✅ Smart update handling (installed vs new experimental)
+      - ✅ Validation for consistency checking
+      - 📋 Milestone 8: 0% complete (0/4 tasks)
+      - 📋 Total estimated effort: 10-14 hours (1-2 weeks)
+      - 📋 Next: Review milestone and tasks, then begin implementation
+  
   - date: 2026-02-23
     description: |
       🚀 Agent Context Initialized via @acp.init
