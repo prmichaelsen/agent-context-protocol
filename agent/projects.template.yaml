@@ -1,0 +1,12 @@
+# ACP Project Registry
+# Tracks projects in global workspace (~/.acp/projects/)
+
+# Current active project (set by @acp.project-set)
+current_project: null
+
+# Project entries
+projects:
+
+# Registry metadata
+registry_version: 1.0.0
+last_updated: null

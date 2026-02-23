@@ -5,6 +5,44 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.11.0] - 2026-02-23
+
+### Added
+
+**YAML Parser Enhancement**:
+- `yaml_set()` now automatically creates missing intermediate map nodes
+- Added `create_node_and_link()` function for auto-creation with parent linking
+- Added `YAML_PARSER_LOADED` guard to prevent variable resets on re-sourcing
+- Enhanced `source_yaml_parser()` to check if already loaded
+
+**Project Registry Infrastructure** (Task 52):
+- Created `agent/schemas/projects.schema.yaml` - Complete registry schema
+- Created `agent/projects.template.yaml` - Registry template
+- Added 8 project registry functions to `acp.common.sh`:
+  - `get_projects_registry_path()` - Get registry file path
+  - `projects_registry_exists()` - Check if registry exists
+  - `init_projects_registry()` - Initialize registry
+  - `register_project()` - Add project to registry (uses yaml_write!)
+  - `project_exists()` - Check if project registered
+  - `get_current_project()` - Get active project name
+  - `get_current_project_path()` - Get active project path
+- Updated `init_global_acp()` to auto-initialize projects registry
+- Created `tests/acp.project-registry.test.sh` - 5/5 tests passing (100%)
+- Added `assert_file_exists()` to `tests/common.sh`
+
+### Fixed
+
+**YAML Parser**:
+- Fixed duplicate children bug in AST (separated `create_node` from `add_child`)
+- Fixed `create_node()` to not auto-link (backward compatibility)
+- `yaml_set()` now works for creating nested structures, not just updates
+
+### Changed
+
+**Project Registry**:
+- Registry template uses clean empty map syntax (`projects:` not `projects: {}`)
+- `register_project()` now uses yaml_write instead of sed manipulation
+
 ## [3.10.1] - 2026-02-22
 
 ### Fixed

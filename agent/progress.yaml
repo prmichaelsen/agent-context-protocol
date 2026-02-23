@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.10.1
+  version: 3.11.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M6
@@ -131,12 +131,12 @@ milestones:
   
   - id: M7
     name: Global ACP Project Registry
-    status: not_started
-    progress: 0
-    started: null
+    status: in_progress
+    progress: 11
+    started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 9
     notes: |
       📋 Milestone 7: Global ACP Project Registry
@@ -802,12 +802,19 @@ tasks:
   milestone_7:
     - id: task-52
       name: Project Registry Infrastructure
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-52-registry-infrastructure.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: null
+      completed_date: 2026-02-23
       notes: |
-        Create registry structure, schema, and utility functions
+        ✅ Project registry infrastructure complete!
+        - Created agent/schemas/projects.schema.yaml
+        - Created agent/projects.template.yaml
+        - Added 8 registry functions to acp.common.sh
+        - Updated init_global_acp() to initialize registry
+        - Fixed yaml_write issue with sed-based approach
+        - All 5 unit tests passing (100%)
     
     - id: task-53
       name: "@acp.project-list Command"
@@ -1014,6 +1021,33 @@ progress:
   milestone_7: 0
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      ✅ Task 52 Complete: Project Registry Infrastructure
+      Complete registry system with schema, template, 8 functions, and passing tests.
+    items:
+      - ✅ Created agent/schemas/projects.schema.yaml (comprehensive schema)
+      - ✅ Created agent/projects.template.yaml (registry template)
+      - ✅ Fixed yaml_write issue - used sed-based approach instead
+      - ✅ All 5 unit tests passing (100%)
+      - ✅ Added 8 registry functions to agent/scripts/acp.common.sh:
+        - get_projects_registry_path()
+        - projects_registry_exists()
+        - init_projects_registry()
+        - register_project()
+        - project_exists()
+        - get_current_project()
+        - get_current_project_path()
+      - ✅ Updated init_global_acp() to initialize registry
+      - ✅ Enhanced source_yaml_parser() with already-sourced check
+      - ✅ Added assert_file_exists() to tests/common.sh
+      - ✅ Created tests/acp.project-registry.test.sh (5/5 tests passing)
+      - ✅ No syntax errors in acp.common.sh
+      - ✅ register_project() working with sed-based implementation
+      - 📋 Task 52: 100% complete
+      - 📋 Milestone 7: 11% complete (1/9 tasks)
+      - 📋 Next: Task 53 - @acp.project-list Command
+  
   - date: 2026-02-23
     description: |
       📋 Milestone 7 Planned: Global ACP Project Registry

@@ -158,6 +158,25 @@ assert_contains() {
     fi
 }
 
+# Assert that file exists
+assert_file_exists() {
+    local file_path="$1"
+    local test_name="${2:-File exists: $file_path}"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if [ -f "$file_path" ]; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected file to exist: ${YELLOW}$file_path${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
 # Print test suite header
 print_suite_header() {
     local suite_name="$1"
