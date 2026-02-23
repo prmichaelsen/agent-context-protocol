@@ -24,6 +24,7 @@ DESIGN_FILES=()
 LIST_ONLY=false
 GLOBAL_INSTALL=false
 INSTALL_EXPERIMENTAL=false
+SKIP_CONFIRM=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -37,6 +38,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --experimental)
             INSTALL_EXPERIMENTAL=true
+            shift
+            ;;
+        -y|--yes)
+            SKIP_CONFIRM=true
             shift
             ;;
         --patterns)
@@ -114,10 +119,10 @@ echo ""
 echo "Repository: $REPO_URL"
 echo ""
 
-# Validate URL format
-if [[ ! "$REPO_URL" =~ ^https?:// ]]; then
+# Validate URL format (allow local paths for testing)
+if [[ ! "$REPO_URL" =~ ^https?:// ]] && [[ ! "$REPO_URL" =~ ^file:// ]] && [[ ! -d "$REPO_URL" ]]; then
     echo "${RED}Error: Invalid repository URL${NC}"
-    echo "URL must start with http:// or https://"
+    echo "URL must start with http://, https://, file://, or be a local directory path"
     exit 1
 fi
 
