@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 3.11.0
+**Version**: 3.12.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -717,6 +717,83 @@ When working in any project, you can discover globally installed packages:
 @git.commit
 # Agent reads: ~/.acp/agent/commands/git.commit.md
 ```
+
+---
+
+## Experimental Features
+
+ACP supports marking features as "experimental" to enable safe innovation without affecting stable installations.
+
+### What are Experimental Features?
+
+Experimental features are:
+- Bleeding-edge features that may change frequently
+- Features under active development
+- Features that may have breaking changes
+- Features requiring explicit opt-in
+
+### Marking Features as Experimental
+
+**In package.yaml**:
+```yaml
+contents:
+  commands:
+    - name: stable-command.md
+      description: A stable command
+    
+    - name: experimental-command.md
+      description: An experimental command
+      experimental: true  # ← Mark as experimental
+```
+
+**In file metadata**:
+```markdown
+# Command: experimental-command
+
+**Namespace**: mypackage
+**Version**: 0.1.0
+**Status**: Experimental  # ← Mark as experimental
+```
+
+### Installing Experimental Features
+
+```bash
+# Install only stable features (default)
+@acp.package-install --repo https://github.com/user/package.git
+
+# Install all features including experimental
+@acp.package-install --repo https://github.com/user/package.git --experimental
+```
+
+### Updating Experimental Features
+
+Once installed, experimental features update normally:
+```bash
+@acp.package-update package-name  # Updates experimental features if already installed
+```
+
+### Graduating Features
+
+To graduate a feature from experimental to stable:
+1. Remove `experimental: true` from package.yaml
+2. Change `**Status**: Experimental` to `**Status**: Active` in file
+3. Bump version to 1.0.0 (semantic versioning)
+4. Update CHANGELOG.md noting the graduation
+
+### Validation
+
+Validation ensures consistency:
+```bash
+@acp.package-validate  # Checks experimental marking is synchronized
+```
+
+### Best Practices
+
+1. **Use sparingly** - Only mark truly experimental features
+2. **Document risks** - Explain what might change in file documentation
+3. **Graduate promptly** - Move to stable once proven
+4. **Version appropriately** - Use 0.x.x versions for experimental
+5. **Communicate clearly** - Note experimental status in README.md
 
 ---
 

@@ -5,6 +5,68 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.12.0] - 2026-02-23
+
+### Added
+
+**Experimental Features System** (Milestone 8):
+- Added `experimental` field to package.yaml schema for marking experimental features
+- Added `--experimental` flag to `@acp.package-install` for opt-in installation
+- Experimental features require explicit opt-in during installation
+- Once installed, experimental features update normally (no flag required)
+- Validation checks consistency between package.yaml and file metadata
+- Graduated features (experimental → stable) automatically detected during updates
+- Clear visual indicators for experimental features (⊘ skipped, ⚠ experimental, 🎓 graduated)
+
+**Schema Enhancement**:
+- `agent/schemas/package.schema.yaml` now supports optional `experimental: true` field in all content types
+- Field is optional and defaults to false (backward compatible)
+
+**Validation**:
+- Added `validate_experimental_consistency()` to `agent/scripts/acp.package-validate.sh`
+- Checks if `experimental: true` in package.yaml → file MUST have `**Status**: Experimental`
+- Checks if file has `**Status**: Experimental` → package.yaml MUST have `experimental: true`
+- Provides fixable suggestions for inconsistencies
+
+**Installation**:
+- Added `should_install_file()` filtering function to `agent/scripts/acp.package-install.sh`
+- Without `--experimental`: Skips features marked `experimental: true`
+- With `--experimental`: Installs all features including experimental
+- Manifest tracks experimental status for update handling
+
+**Updates**:
+- Added `is_experimental_installed()` to `agent/scripts/acp.package-update.sh`
+- Added `check_graduation()` to detect experimental → stable transitions
+- Already-installed experimental features update normally
+- New experimental features are skipped (use --experimental with install)
+- Graduated features automatically marked as stable
+
+**Documentation**:
+- Created `agent/design/local.experimental-features-system.md` (comprehensive design)
+- Created `agent/milestones/milestone-8-experimental-features.md`
+- Created 4 task documents for implementation
+- Updated `@acp.package-install` command documentation with --experimental flag
+- Updated `@acp.package-update` command documentation with experimental behavior
+- Updated `@acp.package-validate` command documentation with consistency checks
+- Added "Experimental Features" section to AGENT.md
+- Added experimental features examples to README.md
+
+### Changed
+
+**Installation Behavior**:
+- Default installation now skips experimental features
+- `--experimental` flag required to install experimental features
+- Clear visual indicators for skipped and experimental files
+
+**Update Behavior**:
+- Smart handling based on installation status
+- Installed experimental features update without flag
+- New experimental features require explicit installation
+
+**Manifest Structure**:
+- Files can now have `experimental: true` field
+- Enables tracking of experimental status across updates
+
 ## [3.11.0] - 2026-02-23
 
 ### Added

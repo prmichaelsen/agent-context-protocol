@@ -279,6 +279,10 @@ Show validation results to user.
   ✓ All command files use 'firebase' namespace
   ✓ All pattern files use 'firebase' namespace
 
+✅ Experimental Features
+  ✓ experimental-command.md: Experimental marking consistent
+  ✓ All experimental features marked consistently
+
 ✅ Git Repository
   ✓ Git repository initialized
   ✓ Remote configured: https://github.com/user/acp-firebase.git

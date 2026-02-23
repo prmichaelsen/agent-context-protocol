@@ -169,6 +169,27 @@ Install packages globally to `~/.acp/agent/` for package development or global c
 
 ---
 
+## Experimental Features
+
+Install packages with experimental features:
+
+```bash
+# Install only stable features (default)
+@acp.package-install --repo https://github.com/user/acp-firebase.git
+
+# Install including experimental features
+@acp.package-install --repo https://github.com/user/acp-firebase.git --experimental
+```
+
+**What are experimental features?**
+- Bleeding-edge features that may change
+- Require explicit opt-in via --experimental flag
+- Once installed, update normally
+
+See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
+
+---
+
 ## Examples
 
 ### Sample ACP Projects

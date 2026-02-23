@@ -74,6 +74,56 @@ Updates only the specified package.
 ./agent/scripts/acp.package-update.sh -y
 ```
 
+**E. Global Package Updates**:
+```bash
+# Update global packages
+./agent/scripts/acp.package-update.sh --global
+
+# Update specific global package
+./agent/scripts/acp.package-update.sh --global <package-name>
+```
+
+---
+
+## Experimental Features Behavior
+
+The update command handles experimental features intelligently:
+
+**Already-installed experimental features**: Updated normally (no flag required)
+**New experimental features**: Skipped (use --experimental with install to add)
+**Graduated features** (experimental → stable): Updated and marked as stable
+
+**Example**:
+```bash
+@acp.package-update firebase
+
+Output:
+  ↻ Updating: stable-command.md
+  ✓ Updated to version 1.2.0
+  
+  ↻ Updating experimental: experimental-command.md  # Already installed
+  ✓ Updated to version 0.3.0
+  
+  ⊘ Skipping new experimental: new-feature.md       # Not installed
+  
+  🎓 Graduated to stable: formerly-experimental.md   # Now stable
+  ↻ Updating: formerly-experimental.md
+  ✓ Updated to version 1.0.0
+
+✓ Update complete!
+Updated:
+  • 3 commands
+  • 1 experimental features
+  • 1 graduated to stable
+
+Note: 1 new experimental features were skipped
+      Use --experimental with install to add them
+```
+
+**Rationale**: Users who opted into experimental features continue receiving updates. Users who haven't opted in are protected from new experimental features.
+
+---
+
 ### 2. Run Package Update Script
 
 Execute the update script with chosen options.

@@ -146,6 +146,37 @@ Shows available files without installing anything.
 
 **Note**: File names can be specified with or without `.md` extension.
 
+**F. Experimental Features Installation**:
+```bash
+# Install only stable features (default)
+./agent/scripts/acp.package-install.sh --repo <repository-url>
+
+# Install all features including experimental
+./agent/scripts/acp.package-install.sh --experimental --repo <repository-url>
+```
+
+**What are experimental features?**
+- Features marked as `experimental: true` in package.yaml
+- Bleeding-edge features that may change or break
+- Require explicit opt-in via `--experimental` flag
+- Once installed, update normally (no flag required)
+
+**Output without --experimental**:
+```
+Installing commands...
+  ✓ Installed: stable-command.md
+  ⊘ Skipping experimental: experimental-command.md (use --experimental to install)
+```
+
+**Output with --experimental**:
+```
+Installing commands...
+  ✓ Installed: stable-command.md
+  ⚠  Installing experimental: experimental-command.md
+```
+
+**Note**: Experimental features can be combined with other installation modes (global, selective, etc.).
+
 ### 2. Run Package Install Script
 
 Execute the package installation script with chosen options.

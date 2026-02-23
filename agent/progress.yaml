@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 3.11.0
+  version: 3.12.0
   started: 2026-02-16
   status: in_progress
-  current_milestone: M6
+  current_milestone: M8
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -149,12 +149,12 @@ milestones:
   
   - id: M8
     name: Experimental Features System
-    status: in_progress
-    progress: 75
+    status: completed
+    progress: 100
     started: 2026-02-23
-    completed: null
+    completed: 2026-02-23
     estimated_weeks: 1-2
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 4
     notes: |
       📋 Milestone 8: Experimental Features System
@@ -960,12 +960,21 @@ tasks:
     
     - id: task-64
       name: Documentation and Examples
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-8-experimental-features/task-64-documentation.md
       estimated_hours: 3-4
-      completed_date: null
+      actual_hours: 1
+      completed_date: 2026-02-23
       notes: |
-        Update all documentation with experimental features system
+        ✅ Documentation complete!
+        - Updated agent/commands/acp.package-install.md with --experimental flag
+        - Updated agent/commands/acp.package-update.md with experimental behavior
+        - Updated agent/commands/acp.package-validate.md with consistency checks
+        - Added "Experimental Features" section to AGENT.md
+        - Added experimental features examples to README.md
+        - Updated CHANGELOG.md with v3.12.0 entry
+        - Updated version to 3.12.0 in AGENT.md and progress.yaml
+        - All documentation clear and comprehensive
   
   future_enhancements:
     - id: task-30
@@ -1098,9 +1107,31 @@ progress:
   milestone_5: 100
   milestone_6: 0
   milestone_7: 11
-  milestone_8: 0
+  milestone_8: 100
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      🎉 Milestone 8 Complete: Experimental Features System
+      Full experimental features system implemented with schema, validation, installation, updates, and documentation.
+    items:
+      - ✅ Task 64: Documentation and Examples complete
+      - ✅ Updated agent/commands/acp.package-install.md with --experimental flag
+      - ✅ Updated agent/commands/acp.package-update.md with experimental behavior
+      - ✅ Updated agent/commands/acp.package-validate.md with consistency checks
+      - ✅ Added "Experimental Features" section to AGENT.md
+      - ✅ Added experimental features examples to README.md
+      - ✅ Updated CHANGELOG.md with v3.12.0 entry
+      - ✅ Updated version to 3.12.0 in AGENT.md and progress.yaml
+      - ✅ Milestone 8: 100% complete (4/4 tasks)
+      - 🎊 All tasks completed in 3.5 hours (estimated: 10-14 hours)
+      - 📋 System features:
+        - Dual marking (package.yaml + file metadata)
+        - Installation control via --experimental flag
+        - Smart update handling
+        - Consistency validation
+        - Graduation detection
+  
   - date: 2026-02-23
     description: |
       ✅ Task 63 Complete: Update Handling for Experimental Features
