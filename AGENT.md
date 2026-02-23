@@ -823,27 +823,33 @@ Run ./agent/scripts/unacp.install.sh to remove all ACP files (agent/ directory a
    - What task is next
 
 2. **Check for installed packages**
-   - Read `agent/manifest.yaml` to see what packages are installed
+   - Read `agent/manifest.yaml` to see what packages are installed locally
    - Check `~/.acp/agent/manifest.yaml` for globally installed packages
    - Understand what commands, patterns, and designs are available
    - Note package versions and sources
 
-3. **Read requirements.md**
+3. **Check project registry** (if in global workspace)
+   - Read `~/.acp/projects.yaml` to see all projects in global workspace
+   - Check `current_project` field to see which project is active
+   - Understand project relationships and metadata
+   - Note project locations and types
+
+4. **Read requirements.md**
    - Understand project goals
    - Learn constraints
    - Know success criteria
 
-4. **Review current milestone**
+5. **Review current milestone**
    - Understand current phase
    - Know deliverables
    - Check success criteria
 
-5. **Read next task**
+6. **Read next task**
    - Understand what to do
    - Follow steps
    - Verify completion
 
-6. **Check relevant patterns**
+7. **Check relevant patterns**
    - Learn coding standards
    - Understand architectural patterns
    - Follow best practices
