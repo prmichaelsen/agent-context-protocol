@@ -23,6 +23,7 @@ COMMAND_FILES=()
 DESIGN_FILES=()
 LIST_ONLY=false
 GLOBAL_INSTALL=false
+INSTALL_EXPERIMENTAL=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -32,6 +33,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --global)
             GLOBAL_INSTALL=true
+            shift
+            ;;
+        --experimental)
+            INSTALL_EXPERIMENTAL=true
             shift
             ;;
         --patterns)
@@ -391,6 +396,37 @@ fi
 echo ""
 echo "Installing files..."
 
+# Parse package.yaml for experimental checking
+if [ -f "$TEMP_DIR/package.yaml" ]; then
+    yaml_parse "$TEMP_DIR/package.yaml"
+fi
+
+# Check if file should be installed based on experimental status
+should_install_file() {
+    local filename="$1"
+    local file_type="$2"  # commands, patterns, designs, scripts
+    
+    # If no package.yaml, install everything
+    if [ ! -f "$TEMP_DIR/package.yaml" ]; then
+        return 0
+    fi
+    
+    # Check if file is marked experimental in package.yaml
+    local is_experimental=$(grep -A 1000 "^  ${file_type}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+    
+    if [ -n "$is_experimental" ]; then
+        if [ "$INSTALL_EXPERIMENTAL" = true ]; then
+            echo "  ${YELLOW}⚠${NC}  Installing experimental: ${filename}"
+            return 0  # Install it
+        else
+            echo "  ${DIM}⊘${NC}  Skipping experimental: ${filename} (use --experimental to install)"
+            return 1  # Skip it
+        fi
+    fi
+    
+    return 0  # Install non-experimental files
+}
+
 # Add package to manifest
 add_package_to_manifest "$PACKAGE_NAME" "$REPO_URL" "$PACKAGE_VERSION" "$COMMIT_HASH"
 
@@ -470,6 +506,11 @@ for dir in "${INSTALL_DIRS[@]}"; do
             fi
         fi
         
+        # Check if should install based on experimental status
+        if ! should_install_file "$filename" "$dir"; then
+            continue
+        fi
+        
         # Copy file
         cp "$file" "$INSTALL_BASE_DIR/$dir/$filename"
         
@@ -481,8 +522,8 @@ for dir in "${INSTALL_DIRS[@]}"; do
         # Get file version from package.yaml
         FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "$dir" "$filename")
         
-        # Add file to manifest
-        add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "$INSTALL_BASE_DIR/$dir/$filename"
+        # Add file to manifest (pass package.yaml path for experimental tracking)
+        add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "$INSTALL_BASE_DIR/$dir/$filename" "$TEMP_DIR/package.yaml"
         
         if [ "$dir" = "scripts" ]; then
             echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION) [executable]"

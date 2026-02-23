@@ -150,11 +150,11 @@ milestones:
   - id: M8
     name: Experimental Features System
     status: in_progress
-    progress: 25
+    progress: 50
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 4
     notes: |
       📋 Milestone 8: Experimental Features System
@@ -923,12 +923,22 @@ tasks:
     
     - id: task-62
       name: Installation Filtering
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-8-experimental-features/task-62-installation-filtering.md
       estimated_hours: 3-4
-      completed_date: null
+      actual_hours: 1.5
+      completed_date: 2026-02-23
       notes: |
-        Implement --experimental flag and filtering logic in installation script
+        ✅ Installation filtering complete!
+        - Added --experimental flag to acp.package-install.sh
+        - Implemented should_install_file() filtering function
+        - Filter checks experimental field in package.yaml
+        - Without --experimental: Skips experimental features
+        - With --experimental: Installs experimental features
+        - Updated add_file_to_manifest() to track experimental status
+        - Manifest now includes experimental: true for experimental files
+        - Clear visual indicators (⊘ for skipped, ⚠ for experimental)
+        - No syntax errors in scripts
     
     - id: task-63
       name: Update Handling for Experimental Features
@@ -1082,6 +1092,27 @@ progress:
   milestone_8: 0
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      ✅ Task 62 Complete: Installation Filtering
+      Experimental features installation filtering implemented with --experimental flag.
+    items:
+      - ✅ Added INSTALL_EXPERIMENTAL=false variable to acp.package-install.sh
+      - ✅ Added --experimental flag parsing to argument handling
+      - ✅ Implemented should_install_file() filtering function
+      - ✅ Function checks experimental field in package.yaml (handles any indentation, excludes comments)
+      - ✅ Without --experimental: Skips experimental features with ⊘ indicator
+      - ✅ With --experimental: Installs experimental features with ⚠ indicator
+      - ✅ Updated add_file_to_manifest() in acp.common.sh
+      - ✅ Added optional package_yaml_path parameter (6th parameter)
+      - ✅ Function checks experimental status and adds to manifest
+      - ✅ Updated acp.package-install.sh to pass package.yaml path
+      - ✅ Manifest now tracks experimental: true for experimental files
+      - ✅ No syntax errors in both scripts
+      - 📋 Task 62: 100% complete (1.5 hours)
+      - 📋 Milestone 8: 50% complete (2/4 tasks)
+      - 📋 Next: Task 63 - Update Handling (2-3 hours)
+  
   - date: 2026-02-23
     description: |
       ✅ Task 61 Complete: Schema and Validation Enhancement

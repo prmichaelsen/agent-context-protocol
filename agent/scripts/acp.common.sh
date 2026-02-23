@@ -573,6 +573,7 @@ add_file_to_manifest() {
     local filename="$3"
     local file_version="$4"
     local file_path="$5"
+    local package_yaml_path="$6"  # Optional: path to package.yaml for experimental checking
     local timestamp
     timestamp=$(get_timestamp)
     
@@ -585,6 +586,12 @@ add_file_to_manifest() {
     if [ $? -ne 0 ]; then
         warn "Failed to calculate checksum for $filename"
         checksum="unknown"
+    fi
+    
+    # Check if experimental (if package.yaml provided)
+    local is_experimental=""
+    if [ -n "$package_yaml_path" ] && [ -f "$package_yaml_path" ]; then
+        is_experimental=$(grep -A 1000 "^  ${file_type}:" "$package_yaml_path" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
     fi
     
     # Source YAML parser
@@ -608,6 +615,11 @@ add_file_to_manifest() {
     yaml_object_set "$obj_node" "installed_at" "$timestamp" >/dev/null
     yaml_object_set "$obj_node" "modified" "false" >/dev/null
     yaml_object_set "$obj_node" "checksum" "sha256:$checksum" >/dev/null
+    
+    # Add experimental field if marked
+    if [ -n "$is_experimental" ]; then
+        yaml_object_set "$obj_node" "experimental" "true" >/dev/null
+    fi
     
     # Write back
     yaml_write "$manifest"
