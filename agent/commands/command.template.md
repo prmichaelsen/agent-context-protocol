@@ -9,6 +9,11 @@
 **Created**: YYYY-MM-DD
 **Last Updated**: YYYY-MM-DD
 **Status**: [Draft | Active | Deprecated]
+**Scripts**: {namespace}.{command-name}.sh, acp.common.sh, acp.yaml-parser.sh
+
+---
+
+**Note**: The `**Scripts**:` field is REQUIRED and must list ALL script dependencies (direct + shared utilities). This must match the `scripts` array in package.yaml exactly. If the command has no script dependencies, use `**Scripts**: None`.
 
 ---
 

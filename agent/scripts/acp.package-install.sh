@@ -122,9 +122,15 @@ TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
 echo "Cloning repository..."
-if ! git clone --depth 1 "$REPO_URL" "$TEMP_DIR" &>/dev/null; then
+if [ -d "$REPO_URL" ]; then
+    # Local directory - copy contents instead of clone
+    cp -r "$REPO_URL"/* "$TEMP_DIR/" 2>/dev/null || cp -r "$REPO_URL"/.[!.]* "$TEMP_DIR/" 2>/dev/null || true
+    echo "${GREEN}✓${NC} Local directory copied"
+elif ! git clone --depth 1 "$REPO_URL" "$TEMP_DIR" &>/dev/null; then
     echo "${RED}Error: Failed to clone repository${NC}"
     exit 1
+else
+    echo "${GREEN}✓${NC} Repository cloned"
 fi
 
 echo "${GREEN}✓${NC} Repository cloned"
@@ -192,6 +198,9 @@ declare -A MANIFEST_KEYS=(
 # Arrays to hold all files to install
 declare -A ALL_FILES_TO_INSTALL  # Key: dir, Value: space-separated file paths
 declare -A FILE_METADATA  # Key: "dir/filename", Value: "version|experimental"
+
+# Track installed commands for script-command binding resolution
+INSTALLED_COMMANDS=()
 
 INSTALLED_COUNT=0
 SKIPPED_COUNT=0
@@ -406,9 +415,14 @@ echo "Installing files..."
 # Add package to manifest once
 add_package_to_manifest "$PACKAGE_NAME" "$REPO_URL" "$PACKAGE_VERSION" "$COMMIT_HASH"
 
-# Batch copy all files
+# Batch copy all files (skip scripts — handled via script-command binding below)
 for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
     SOURCE_DIR="$TEMP_DIR/agent/$dir"
+
+    # Skip scripts in first pass — install selectively after commands via script-command binding
+    if [ "$dir" = "scripts" ]; then
+        continue
+    fi
 
     # Copy all files
     for file in ${ALL_FILES_TO_INSTALL[$dir]}; do
@@ -422,14 +436,124 @@ for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
             mkdir -p "$INSTALL_BASE_DIR/$dir"
             filename=$(basename "$file")
             cp "$file" "$INSTALL_BASE_DIR/$dir/$filename"
+        fi
 
-            # Make scripts executable
-            if [ "$dir" = "scripts" ]; then
-                chmod +x "$INSTALL_BASE_DIR/$dir/$filename"
-            fi
+        # Track installed commands for script dependency resolution
+        if [ "$dir" = "commands" ]; then
+            filename=$(basename "$file")
+            INSTALLED_COMMANDS+=("$filename")
         fi
     done
 done
+
+# ============================================================================
+# Script-Command Binding: Install scripts based on command dependencies
+# ============================================================================
+
+if [ -f "$TEMP_DIR/package.yaml" ] && [ ${#INSTALLED_COMMANDS[@]} -gt 0 ]; then
+    echo "Resolving script dependencies..."
+    echo "  Installed commands: ${INSTALLED_COMMANDS[@]}"
+
+    # Collect required scripts from installed commands using YAML parser
+    REQUIRED_SCRIPTS=()
+    for cmd in "${INSTALLED_COMMANDS[@]}"; do
+        # Find the command index in the array
+        cmd_index=0
+        while true; do
+            cmd_name=$(yaml_get_nested "$TEMP_DIR/package.yaml" "contents.commands[$cmd_index].name" 2>/dev/null || echo "")
+            if [ -z "$cmd_name" ] || [ "$cmd_name" = "null" ]; then
+                break
+            fi
+
+            if [ "$cmd_name" = "$cmd" ]; then
+                # Found the command, now get its scripts
+                script_index=0
+                while true; do
+                    script=$(yaml_get_nested "$TEMP_DIR/package.yaml" "contents.commands[$cmd_index].scripts[$script_index]" 2>/dev/null || echo "")
+                    if [ -z "$script" ] || [ "$script" = "null" ]; then
+                        break
+                    fi
+
+                    # Add to required scripts (with deduplication)
+                    already_added=false
+                    for existing in "${REQUIRED_SCRIPTS[@]}"; do
+                        if [ "$existing" = "$script" ]; then
+                            already_added=true
+                            break
+                        fi
+                    done
+
+                    if [ "$already_added" = false ]; then
+                        REQUIRED_SCRIPTS+=("$script")
+                    fi
+
+                    script_index=$((script_index + 1))
+                done
+                break
+            fi
+
+            cmd_index=$((cmd_index + 1))
+        done
+    done
+
+    echo "  Found ${#REQUIRED_SCRIPTS[@]} required script(s): ${REQUIRED_SCRIPTS[@]}"
+
+    # Install required scripts and add to ALL_FILES_TO_INSTALL for batch manifest update
+    SCRIPT_FILES_LIST=""
+    if [ ${#REQUIRED_SCRIPTS[@]} -gt 0 ]; then
+        mkdir -p "$INSTALL_BASE_DIR/scripts"
+        for script in "${REQUIRED_SCRIPTS[@]}"; do
+            script_path="$TEMP_DIR/agent/scripts/$script"
+
+            # Check if script exists
+            if [ ! -f "$script_path" ]; then
+                echo "  ${RED}✗${NC} Script not found: $script (declared in package.yaml)"
+                continue
+            fi
+
+            # Check if should install based on experimental status
+            if ! should_install_file "$script" "scripts"; then
+                continue
+            fi
+
+            # Copy script and make executable
+            cp "$script_path" "$INSTALL_BASE_DIR/scripts/$script"
+            chmod +x "$INSTALL_BASE_DIR/scripts/$script"
+
+            # Get file version and store metadata
+            FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "scripts" "$script")
+
+            # Check experimental status
+            is_experimental=""
+            if [ -f "$TEMP_DIR/package.yaml" ]; then
+                is_experimental=$(grep -A 1000 "^  scripts:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${script}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+            fi
+            FILE_METADATA["scripts/$script"]="$FILE_VERSION|$is_experimental"
+
+            # Track for batch processing
+            if [ -n "$SCRIPT_FILES_LIST" ]; then
+                SCRIPT_FILES_LIST="$SCRIPT_FILES_LIST $script_path"
+            else
+                SCRIPT_FILES_LIST="$script_path"
+            fi
+        done
+    fi
+
+    # Update ALL_FILES_TO_INSTALL with resolved scripts
+    if [ -n "$SCRIPT_FILES_LIST" ]; then
+        ALL_FILES_TO_INSTALL["scripts"]="$SCRIPT_FILES_LIST"
+    fi
+    echo ""
+elif [ -d "$TEMP_DIR/agent/scripts" ] && [ -n "${ALL_FILES_TO_INSTALL[scripts]+x}" ]; then
+    # Scripts were collected during scan but no package.yaml script-command binding
+    # Install all scripts that passed validation (backward compatibility)
+    for file in ${ALL_FILES_TO_INSTALL[scripts]}; do
+        filename=$(basename "$file")
+        mkdir -p "$INSTALL_BASE_DIR/scripts"
+        cp "$file" "$INSTALL_BASE_DIR/scripts/$filename"
+        chmod +x "$INSTALL_BASE_DIR/scripts/$filename"
+    done
+fi
 
 # ============================================================================
 # OPTIMIZATION: Batch checksum calculation

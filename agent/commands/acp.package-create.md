@@ -9,6 +9,7 @@
 **Created**: 2026-02-20
 **Last Updated**: 2026-02-21
 **Status**: Active
+**Scripts**: acp.package-create.sh, acp.common.sh, acp.yaml-parser.sh
 
 ---
 

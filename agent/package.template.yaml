@@ -19,12 +19,29 @@ release:
 contents:
   patterns:
     - name: namespace.pattern-name.md
+      description: Pattern description
   
   commands:
     - name: namespace.command-name.md
+      description: Command description
+      scripts:  # REQUIRED: Must match command frontmatter **Scripts**: field
+        - namespace.command-name.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
   
   designs:
     - name: namespace.design-name.md
+      description: Design description
+  
+  scripts:
+    - name: namespace.command-name.sh
+      description: Main command script
+    - name: acp.common.sh
+      description: Shared utility functions
+      type: utility
+    - name: acp.yaml-parser.sh
+      description: YAML parsing utilities
+      type: utility
 
 # Compatibility requirements
 requires:

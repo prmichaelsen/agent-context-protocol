@@ -8,6 +8,7 @@
 **Created**: 2026-02-23
 **Last Updated**: 2026-02-23
 **Status**: Experimental
+**Scripts**: acp.project-list.sh, acp.common.sh, acp.yaml-parser.sh
 
 ---
 

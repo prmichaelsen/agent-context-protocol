@@ -150,11 +150,91 @@ fi
 # Copy AGENT.md
 cp "$TEMP_DIR/AGENT.md" "$TARGET_DIR/"
 
-# Copy all scripts (*.sh files)
-# This ensures all current and future scripts are copied
+# Copy scripts - selective installation based on command dependencies
 if [ -d "$TEMP_DIR/agent/scripts" ]; then
-    find "$TEMP_DIR/agent/scripts" -maxdepth 1 -name "*.sh" -exec cp {} "$TARGET_DIR/agent/scripts/" \;
-    chmod +x "$TARGET_DIR/agent/scripts"/*.sh
+    # Check if this is ACP core (has package.yaml) or direct install
+    if [ -f "$TEMP_DIR/package.yaml" ]; then
+        # ACP core with package.yaml - selective script installation
+        echo "Resolving script dependencies from package.yaml..."
+        
+        # Copy YAML parser first (needed for parsing)
+        if [ -f "$TEMP_DIR/agent/scripts/acp.yaml-parser.sh" ]; then
+            cp "$TEMP_DIR/agent/scripts/acp.yaml-parser.sh" "$TARGET_DIR/agent/scripts/"
+            chmod +x "$TARGET_DIR/agent/scripts/acp.yaml-parser.sh"
+        fi
+        
+        # Copy common utilities first (needed for parsing)
+        if [ -f "$TEMP_DIR/agent/scripts/acp.common.sh" ]; then
+            cp "$TEMP_DIR/agent/scripts/acp.common.sh" "$TARGET_DIR/agent/scripts/"
+            chmod +x "$TARGET_DIR/agent/scripts/acp.common.sh"
+        fi
+        
+        # Source YAML parser for querying
+        if [ -f "$TARGET_DIR/agent/scripts/acp.yaml-parser.sh" ]; then
+            . "$TARGET_DIR/agent/scripts/acp.yaml-parser.sh"
+            yaml_parse "$TEMP_DIR/package.yaml"
+        fi
+        
+        # Find all NON-experimental commands in package (or all if no experimental filtering)
+        PACKAGE_COMMANDS=()
+        while IFS= read -r cmd; do
+            if [ -n "$cmd" ] && [ "$cmd" != "null" ]; then
+                # Check if command is experimental
+                is_exp=$(yaml_query ".contents.commands[] | select(.name == \"$cmd\") | .experimental?" 2>/dev/null || echo "false")
+                if [ "$is_exp" != "true" ]; then
+                    PACKAGE_COMMANDS+=("$cmd")
+                fi
+            fi
+        done < <(yaml_query ".contents.commands[].name" 2>/dev/null || echo "")
+        
+        # Collect required scripts from non-experimental commands
+        REQUIRED_SCRIPTS=()
+        for cmd in "${PACKAGE_COMMANDS[@]}"; do
+            # Read scripts array from package.yaml for this command
+            cmd_scripts=$(yaml_query ".contents.commands[] | select(.name == \"$cmd\") | .scripts[]?" 2>/dev/null || echo "")
+            
+            # Add each script to required list (with deduplication)
+            while IFS= read -r script; do
+                if [ -n "$script" ] && [ "$script" != "null" ]; then
+                    # Check if already in list
+                    already_added=false
+                    for existing in "${REQUIRED_SCRIPTS[@]}"; do
+                        if [ "$existing" = "$script" ]; then
+                            already_added=true
+                            break
+                        fi
+                    done
+                    
+                    if [ "$already_added" = false ]; then
+                        REQUIRED_SCRIPTS+=("$script")
+                    fi
+                fi
+            done <<< "$cmd_scripts"
+        done
+        
+        # Install required scripts (excluding common.sh and yaml-parser.sh already copied)
+        for script in "${REQUIRED_SCRIPTS[@]}"; do
+            if [ "$script" = "acp.common.sh" ] || [ "$script" = "acp.yaml-parser.sh" ]; then
+                continue  # Already copied
+            fi
+            
+            if [ -f "$TEMP_DIR/agent/scripts/$script" ]; then
+                # Check if script is experimental
+                is_exp=$(yaml_query ".contents.scripts[] | select(.name == \"$script\") | .experimental?" 2>/dev/null || echo "false")
+                if [ "$is_exp" != "true" ]; then
+                    cp "$TEMP_DIR/agent/scripts/$script" "$TARGET_DIR/agent/scripts/"
+                    chmod +x "$TARGET_DIR/agent/scripts/$script"
+                fi
+            fi
+        done
+        
+        echo "${GREEN}✓${NC} Installed ${#REQUIRED_SCRIPTS[@]} required script(s)"
+    else
+        # Direct install mode (no package.yaml) - copy all scripts
+        find "$TEMP_DIR/agent/scripts" -maxdepth 1 -name "*.sh" -exec cp {} "$TARGET_DIR/agent/scripts/" \;
+        chmod +x "$TARGET_DIR/agent/scripts"/*.sh 2>/dev/null || true
+        echo "${GREEN}✓${NC} Installed all scripts"
+    fi
 fi
 
 # Clean up deprecated scripts (from versions < 2.0.0)

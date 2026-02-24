@@ -117,6 +117,12 @@ fields:
             type: string
             required: false
             description: "Command description"
+          scripts:
+            type: array
+            item_type: string
+            required: true
+            description: "Script dependencies for this command (must match command frontmatter)"
+            pattern: "^[a-z0-9-]+\\.[a-z0-9-]+\\.sh$"
           experimental:
             type: boolean
             required: false

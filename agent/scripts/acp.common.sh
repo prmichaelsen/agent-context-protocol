@@ -637,7 +637,7 @@ get_commit_hash() {
     
     if [ ! -d "$repo_dir/.git" ]; then
         echo "unknown"
-        return 1
+        return 0
     fi
     
     (cd "$repo_dir" && git rev-parse HEAD 2>/dev/null) || echo "unknown"

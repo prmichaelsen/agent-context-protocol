@@ -168,6 +168,56 @@ Closes #6
 
 **Impact**: This restructuring may affect how agents interpret and apply ACP methodology. The new hierarchical organization provides clearer categorization but represents a significant change to the documentation structure that agents rely on.
 
+## [3.14.0] - 2026-02-24
+
+### Added
+
+**Script-Command Binding System** (Milestone 3 - Tasks 65-68):
+- Added `scripts` field to package.yaml schema (REQUIRED for command entries)
+- Commands now declare script dependencies in frontmatter (`**Scripts**:` field)
+- Dual declaration system: frontmatter + package.yaml (validated for consistency)
+- Selective script installation based on installed commands
+- Reference counting for shared utilities (acp.common.sh, acp.yaml-parser.sh)
+- Scripts only installed when their commands are installed
+- Experimental filtering applies to scripts (respects `--experimental` flag)
+- Added `validate_script_dependencies()` to `acp.package-validate.sh`
+- Validation ensures frontmatter matches package.yaml scripts arrays
+- Validation verifies all declared scripts exist in scripts section
+- Created `package.yaml` for ACP core with complete script declarations
+- Added **Scripts**: field to all 30 ACP commands (14 with scripts, 16 without)
+
+**Installation Enhancements**:
+- Updated `acp.package-install.sh` with selective script installation logic
+- Updated `acp.install.sh` with selective installation for ACP core
+- Scripts collected from package.yaml for each installed command
+- Deduplication ensures shared utilities installed once
+- Backward compatibility maintained (installs all if no package.yaml)
+
+**Template Updates**:
+- Updated `command.template.md` with **Scripts**: field and documentation
+- Updated `package.template.yaml` with scripts array examples
+- Updated `package.schema.yaml` with required scripts field definition
+
+### Changed
+
+**Installation Behavior**:
+- Scripts no longer installed indiscriminately
+- Only scripts needed by installed commands are copied
+- Experimental commands don't install their scripts (unless `--experimental` used)
+- Cleaner installations with no unused script files
+
+**Validation**:
+- Package validation now checks script-command binding consistency
+- Clear error messages for missing or mismatched script declarations
+- Fixable suggestions provided for common issues
+
+### Fixed
+
+**Script Installation**:
+- Fixed script clutter from unused files in experimental packages
+- Fixed scripts being installed even when commands were skipped
+- Fixed lack of dependency tracking between commands and scripts
+
 ## [3.13.0] - 2026-02-24
 
 ### Added
