@@ -46,13 +46,13 @@ milestones:
   
   - id: M3
     name: ACP Package Management System
-    status: completed
-    progress: 100
+    status: in_progress
+    progress: 91
     started: 2026-02-18
-    completed: 2026-02-18
+    completed: null
     estimated_weeks: 5-7
     tasks_completed: 10
-    tasks_total: 10
+    tasks_total: 11
     notes: |
       ✅ Milestone 3 Complete! Full package management system implemented.
       ✅ Task 5 complete - Manifest system foundation implemented
@@ -393,6 +393,16 @@ tasks:
         - Provides yaml_get(), yaml_set(), yaml_has_key(), yaml_get_array()
         - Used throughout package management system
         - No additional work needed - task was already complete
+    
+    - id: task-65
+      name: Script-Command Binding and Selective Installation
+      status: not_started
+      file: agent/tasks/task-65-script-command-binding.md
+      estimated_hours: 4-6
+      completed_date: null
+      notes: |
+        Implement selective script installation based on command installation.
+        Scripts should only be installed when their corresponding commands are installed.
   
   milestone_4:
     - id: task-14
@@ -1139,6 +1149,21 @@ progress:
   milestone_8: 100
 
 recent_work:
+  - date: 2026-02-24
+    description: |
+      📋 Task 65 Created: Script-Command Binding and Selective Installation
+      Identified issue with script installation and created comprehensive task for solution.
+    items:
+      - 📋 Issue: Scripts installed even when commands are skipped (experimental/selective)
+      - 📋 Created agent/tasks/task-65-script-command-binding.md
+      - 📋 Created agent/drafts/script-command-binding.draft.md (analysis and solutions)
+      - 📋 Proposed hybrid approach: package.yaml + naming convention
+      - 📋 Added to Milestone 3 (Package Management System)
+      - 📋 Estimated: 4-6 hours
+      - 📋 M3 reopened: 100% → 91% (10/11 tasks, Task 65 added)
+      - 📋 Affects: acp.install.sh, acp.package-install.sh, acp.package-update.sh
+      - 📋 Solution: Selective script installation based on command installation status
+  
   - date: 2026-02-24
     description: |
       ✅ Task 54 Complete: @acp.project-set Command + E2E Tests
