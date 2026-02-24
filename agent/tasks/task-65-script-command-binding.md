@@ -1,7 +1,7 @@
-# Task 65: Script-Command Binding and Selective Installation
+# Task 65: Script-Command Binding - Schema and Templates
 
 **Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)
-**Estimated Time**: 4-6 hours
+**Estimated Time**: 1-2 hours
 **Dependencies**: Task 45 (Package Script Bundling), Task 62 (Installation Filtering)
 **Status**: Not Started
 
@@ -9,177 +9,102 @@
 
 ## Objective
 
-Implement selective script installation based on command installation status. Scripts should only be installed when their corresponding commands are installed, preventing clutter from unused scripts in experimental or selectively-installed packages.
+Update schemas and templates to support script-command binding with dual declaration. This is Phase 1 of the script-command binding system implementation.
 
 ---
 
 ## Context
 
-Currently, installation scripts copy ALL scripts without checking if their corresponding commands are installed. This creates several issues:
+This task implements the foundation for script-command binding by updating schemas and templates. The accepted solution (Dual Declaration) requires:
 
-1. **Experimental commands** are skipped, but their scripts are still installed
-2. **Selective installation** (e.g., `--commands command1`) installs all scripts, not just needed ones
-3. **Script directory clutter** with unused files
-4. **No binding** between commands and their required scripts
+1. Commands declare script dependencies in frontmatter (`**Scripts**:` field)
+2. package.yaml requires `scripts` array in command entries
+3. Both sources must match (validated)
 
-**Example Problem**:
-```bash
-# Install only one command
-@acp.package-install repo --commands firebase.init
+**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)
 
-# Result: firebase.init.md installed, but ALL scripts copied
-# Including: firebase.deploy.sh, firebase.migrate.sh (unused)
-```
-
-**Related Work**:
-- Task 45: Scripts ARE in package.yaml schema with experimental support
-- Task 62: Experimental filtering works for commands, not scripts
-- Design: [`agent/drafts/script-command-binding.draft.md`](../../drafts/script-command-binding.draft.md)
+**This is Part 1 of 5** in the script-command binding implementation.
 
 ---
 
 ## Steps
 
-### 1. Design Script-Command Binding System
+### 1. Update package.schema.yaml
 
-Choose and document binding approach:
-
-**Recommended: Hybrid Approach**
-- Explicit listing in package.yaml scripts section
-- Naming convention fallback (command.md → command.sh)
-- Utility scripts explicitly listed
+Make `scripts` field REQUIRED in command entries:
 
 **Actions**:
-- Review draft document
-- Finalize binding approach
-- Document in design document
-
-### 2. Update package.yaml Schema
-
-Enhance scripts section if needed:
-
-**Actions**:
-- Review current schema (already supports scripts)
-- Add `for_command` field (optional) to explicitly bind scripts
-- Update schema documentation
+- Open `agent/schemas/package.schema.yaml`
+- Find `contents.commands.items.properties` section
+- Add `scripts` field with `required: true`
+- Set type to array of strings
+- Add pattern validation for script names
 
 **Example**:
 ```yaml
 contents:
-  scripts:
-    - name: acp.project-set.sh
-      description: Context switching script
-      experimental: true
-      for_command: acp.project-set.md  # Optional explicit binding
+  commands:
+    items:
+      properties:
+        scripts:
+          type: array
+          required: true  # ✅ NEW: Make this required
+          description: "Script dependencies for this command"
+          items:
+            type: string
+            pattern: "^[a-z0-9-]+\\.[a-z0-9-]+\\.sh$"
 ```
 
-### 3. Update acp.install.sh
+### 2. Update command.template.md
 
-Modify to selectively copy scripts:
+Add **Scripts**: field to command template:
 
 **Actions**:
-- Check if package.yaml exists (ACP as package vs direct install)
-- If package.yaml: Only copy scripts listed in contents.scripts
-- If no package.yaml: Copy all scripts (direct ACP install)
-- Apply naming convention fallback for unlisted scripts
+- Open `agent/commands/command.template.md`
+- Add `**Scripts**:` field after `**Status**:` field
+- Document that it's REQUIRED
+- Provide example with shared utilities
 
-**Implementation**:
-```bash
-if [ -f "$TEMP_DIR/package.yaml" ]; then
-  # Package mode - selective installation
-  install_scripts_from_package_yaml
-else
-  # Direct install mode - install all
-  cp "$TEMP_DIR/agent/scripts"/*.sh "$TARGET_DIR/agent/scripts/"
-fi
+**Example**:
+```markdown
+**Namespace**: {namespace}
+**Version**: 1.0.0
+**Status**: Active | Experimental
+**Scripts**: {namespace}.{command-name}.sh, acp.common.sh  # REQUIRED: List all script dependencies
+
+---
 ```
 
-### 4. Update acp.package-install.sh
+### 3. Update package.template.yaml
 
-Implement script-command binding logic:
+Add scripts array example in command entries:
 
 **Actions**:
-- Read scripts section from package.yaml
-- For each script, check if it should be installed:
-  - If experimental and no --experimental flag: Skip
-  - If bound to command (naming convention): Check if command installed
-  - If utility script: Install if any command installed
-- Copy only needed scripts
-- Track in manifest
+- Open `agent/package.template.yaml`
+- Update commands section to include scripts array
+- Add example with shared utilities
+- Document that scripts field is REQUIRED
 
-**Implementation**:
-```bash
-# Install scripts from package.yaml
-for script in scripts_list; do
-  if should_install_script "$script"; then
-    install_script "$script"
-  fi
-done
-
-should_install_script() {
-  local script="$1"
-  
-  # Check experimental
-  if is_experimental "$script" && ! has_experimental_flag; then
-    return 1  # Skip
-  fi
-  
-  # Check if bound to installed command (naming convention)
-  local cmd="${script%.sh}.md"
-  if command_exists_in_package "$cmd"; then
-    if command_is_installed "$cmd"; then
-      return 0  # Install
-    else
-      return 1  # Skip
-    fi
-  fi
-  
-  # Utility script (no matching command) - install if listed in package.yaml
-  return 0
-}
+**Example**:
+```yaml
+contents:
+  commands:
+    - name: namespace.command-name.md
+      description: Command description
+      scripts:  # REQUIRED: Must match command frontmatter
+        - namespace.command-name.sh
+        - acp.common.sh
 ```
 
-### 5. Update acp.package-update.sh
+### 4. Validate Changes
 
-Apply same logic for updates:
-
-**Actions**:
-- Update scripts based on command installation status
-- Remove scripts when commands are removed
-- Add scripts when commands are added
-
-### 6. Create ACP Core package.yaml
-
-Create package.yaml for ACP core to enable selective installation:
+Ensure schema and templates are correct:
 
 **Actions**:
-- Create package.yaml in repository root
-- List all commands with experimental marking
-- List all scripts with bindings
-- Mark experimental commands and scripts
-
-**Location**: `package.yaml` (repository root)
-
-### 7. Test Selective Script Installation
-
-Create E2E tests:
-
-**Test Scenarios**:
-- Install command without --experimental → script not installed
-- Install command with --experimental → script installed
-- Install selective commands → only those scripts installed
-- Install utility script → always installed
-- Update removes unused scripts
-
-### 8. Update Documentation
-
-Document script-command binding:
-
-**Actions**:
-- Update AGENT.md with script binding explanation
-- Update package.template.yaml with scripts example
-- Update command creation docs to mention script binding
-- Update CHANGELOG.md
+- Run `bash -n` on any modified scripts
+- Validate YAML syntax
+- Check that examples are consistent
+- Verify documentation is clear
 
 ---
 

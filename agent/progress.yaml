@@ -47,12 +47,12 @@ milestones:
   - id: M3
     name: ACP Package Management System
     status: in_progress
-    progress: 91
+    progress: 67
     started: 2026-02-18
     completed: null
     estimated_weeks: 5-7
     tasks_completed: 10
-    tasks_total: 11
+    tasks_total: 15
     notes: |
       ✅ Milestone 3 Complete! Full package management system implemented.
       ✅ Task 5 complete - Manifest system foundation implemented
@@ -395,14 +395,54 @@ tasks:
         - No additional work needed - task was already complete
     
     - id: task-65
-      name: Script-Command Binding and Selective Installation
+      name: Script-Command Binding - Schema and Templates
       status: not_started
       file: agent/tasks/task-65-script-command-binding.md
-      estimated_hours: 4-6
+      estimated_hours: 1-2
       completed_date: null
       notes: |
-        Implement selective script installation based on command installation.
-        Scripts should only be installed when their corresponding commands are installed.
+        Phase 1: Update schemas and templates for script-command binding.
+        Make scripts field REQUIRED in package.yaml command entries.
+    
+    - id: task-66
+      name: Script-Command Binding - Installation Logic
+      status: not_started
+      file: agent/tasks/task-66-script-installation-logic.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Phase 2: Implement selective script installation in acp.install.sh and acp.package-install.sh.
+        Reference counting for shared utilities.
+    
+    - id: task-67
+      name: Script-Command Binding - Validation Logic
+      status: not_started
+      file: agent/tasks/task-67-script-validation-logic.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Phase 3: Add validation to ensure frontmatter and package.yaml match.
+        Validate all declared scripts exist.
+    
+    - id: task-68
+      name: Script-Command Binding - Update Existing Commands
+      status: not_started
+      file: agent/tasks/task-68-update-existing-commands.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Phase 4: Add Scripts field to all existing ACP commands.
+        Create package.yaml for ACP core.
+    
+    - id: task-69
+      name: Script-Command Binding - Testing and Documentation
+      status: not_started
+      file: agent/tasks/task-69-script-testing-documentation.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Phase 5: Create E2E tests, update acp.package-update.sh, complete documentation.
+        Version bump to 3.14.0.
   
   milestone_4:
     - id: task-14
@@ -1126,12 +1166,12 @@ tasks:
         - 📋 Bug found and fixed: Functions defined after use in update script
 
 documentation:
-  design_documents: 8
+  design_documents: 9
   milestone_documents: 8
   pattern_documents: 2
-  task_documents: 64
+  task_documents: 69
   command_documents: 26
-  last_updated: 2026-02-23
+  last_updated: 2026-02-24
 
 progress:
   planning: 100
@@ -1141,7 +1181,7 @@ progress:
   overall: 90
   milestone_1: 100
   milestone_2: 100
-  milestone_3: 100
+  milestone_3: 67
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
@@ -1151,18 +1191,24 @@ progress:
 recent_work:
   - date: 2026-02-24
     description: |
-      📋 Task 65 Created: Script-Command Binding and Selective Installation
-      Identified issue with script installation and created comprehensive task for solution.
+      📋 Tasks 65-69 Created: Script-Command Binding System (5 tasks)
+      Broke down complex feature into 5 focused tasks based on design phases.
     items:
-      - 📋 Issue: Scripts installed even when commands are skipped (experimental/selective)
-      - 📋 Created agent/tasks/task-65-script-command-binding.md
-      - 📋 Created agent/drafts/script-command-binding.draft.md (analysis and solutions)
-      - 📋 Proposed hybrid approach: package.yaml + naming convention
-      - 📋 Added to Milestone 3 (Package Management System)
-      - 📋 Estimated: 4-6 hours
-      - 📋 M3 reopened: 100% → 91% (10/11 tasks, Task 65 added)
-      - 📋 Affects: acp.install.sh, acp.package-install.sh, acp.package-update.sh
-      - 📋 Solution: Selective script installation based on command installation status
+      - ✅ Created agent/design/local.script-command-binding.md (design specification)
+      - ✅ Updated Task 65: Schema and Templates (1-2 hours, Phase 1)
+      - ✅ Created Task 66: Installation Logic (2-3 hours, Phase 2)
+      - ✅ Created Task 67: Validation Logic (1-2 hours, Phase 3)
+      - ✅ Created Task 68: Update Existing Commands (2-3 hours, Phase 4)
+      - ✅ Created Task 69: Testing and Documentation (2-3 hours, Phase 5)
+      - ✅ All tasks linked to design document
+      - ✅ Total estimated: 8-13 hours (5 tasks)
+      - ✅ M3 updated: 100% → 67% (10/15 tasks, 5 new tasks added)
+      - ✅ Git commit: a1b1442 (design + task 65 planning)
+      - 📋 Accepted solution: Dual Declaration with Required Field
+      - 📋 Commands declare dependencies in frontmatter AND package.yaml
+      - 📋 scripts field REQUIRED in package.yaml (consistency validation)
+      - 📋 Reference counting for shared utilities (acp.common.sh, acp.yaml-parser.sh)
+      - 📋 Installation reads from package.yaml (authoritative source)
   
   - date: 2026-02-24
     description: |
