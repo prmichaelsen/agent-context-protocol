@@ -1,0 +1,264 @@
+# ACP Core Package Definition
+# This file defines the Agent Context Protocol core package
+
+name: acp-core
+version: 3.14.0
+description: Agent Context Protocol - Core commands, patterns, and utilities for AI agent development
+author: Patrick Michaelsen
+license: MIT
+homepage: https://github.com/prmichaelsen/agent-context-protocol
+repository: https://github.com/prmichaelsen/agent-context-protocol.git
+
+# Release configuration
+release:
+  branch: mainline
+
+# Package contents
+contents:
+  commands:
+    # Package Management Commands
+    - name: acp.package-create.md
+      description: Create new ACP packages
+      scripts:
+        - acp.package-create.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-info.md
+      description: Display package information
+      scripts:
+        - acp.package-info.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-install.md
+      description: Install packages from repositories
+      scripts:
+        - acp.package-install.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-list.md
+      description: List installed packages
+      scripts:
+        - acp.package-list.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-publish.md
+      description: Publish packages to repositories
+      scripts:
+        - acp.package-publish.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-remove.md
+      description: Remove installed packages
+      scripts:
+        - acp.package-remove.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-search.md
+      description: Search for packages on GitHub
+      scripts:
+        - acp.package-search.sh
+        - acp.common.sh
+    
+    - name: acp.package-update.md
+      description: Update installed packages
+      scripts:
+        - acp.package-update.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.package-validate.md
+      description: Validate package structure
+      scripts:
+        - acp.package-validate.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+        - acp.yaml-validate.sh
+    
+    # Project Registry Commands (Experimental)
+    - name: acp.project-list.md
+      description: List registered projects
+      experimental: true
+      scripts:
+        - acp.project-list.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    - name: acp.project-set.md
+      description: Switch to a project
+      experimental: true
+      scripts:
+        - acp.project-set.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+    
+    # Version Management Commands
+    - name: acp.version-check.md
+      description: Display current ACP version
+      scripts:
+        - acp.version-check.sh
+    
+    - name: acp.version-check-for-updates.md
+      description: Check for ACP updates
+      scripts:
+        - acp.version-check-for-updates.sh
+    
+    - name: acp.version-update.md
+      description: Update ACP to latest version
+      scripts:
+        - acp.version-update.sh
+        - acp.common.sh
+    
+    # Entity Creation Commands (LLM-based, no scripts)
+    - name: acp.command-create.md
+      description: Create new commands
+      scripts: []
+    
+    - name: acp.design-create.md
+      description: Create design documents
+      scripts: []
+    
+    - name: acp.pattern-create.md
+      description: Create pattern documents
+      scripts: []
+    
+    - name: acp.task-create.md
+      description: Create task documents
+      scripts: []
+    
+    - name: acp.project-create.md
+      description: Create new ACP projects
+      scripts: []
+    
+    # Workflow Commands (LLM-based, no scripts)
+    - name: acp.init.md
+      description: Initialize agent context
+      scripts: []
+    
+    - name: acp.proceed.md
+      description: Proceed with current task
+      scripts: []
+    
+    - name: acp.resume.md
+      description: Resume work on project
+      scripts: []
+    
+    - name: acp.status.md
+      description: Display project status
+      scripts: []
+    
+    - name: acp.plan.md
+      description: Create project plans
+      scripts: []
+    
+    - name: acp.report.md
+      description: Generate session reports
+      scripts: []
+    
+    - name: acp.sync.md
+      description: Sync documentation with code
+      scripts: []
+    
+    - name: acp.update.md
+      description: Update progress tracking
+      scripts: []
+    
+    - name: acp.validate.md
+      description: Validate ACP structure
+      scripts: []
+    
+    # Git Commands (LLM-based, no scripts)
+    - name: git.commit.md
+      description: Intelligent version-aware commits
+      scripts: []
+    
+    - name: git.init.md
+      description: Initialize git repository
+      scripts: []
+  
+  scripts:
+    # Package Management Scripts
+    - name: acp.package-create.sh
+      description: Package creation script
+    
+    - name: acp.package-info.sh
+      description: Package info display script
+    
+    - name: acp.package-install.sh
+      description: Package installation script
+    
+    - name: acp.package-list.sh
+      description: Package listing script
+    
+    - name: acp.package-publish.sh
+      description: Package publishing script
+    
+    - name: acp.package-remove.sh
+      description: Package removal script
+    
+    - name: acp.package-search.sh
+      description: Package search script
+    
+    - name: acp.package-update.sh
+      description: Package update script
+    
+    - name: acp.package-validate.sh
+      description: Package validation script
+    
+    # Project Registry Scripts (Experimental)
+    - name: acp.project-list.sh
+      description: Project listing script
+      experimental: true
+    
+    - name: acp.project-set.sh
+      description: Context switching script
+      experimental: true
+    
+    # Version Management Scripts
+    - name: acp.version-check.sh
+      description: Version check script
+    
+    - name: acp.version-check-for-updates.sh
+      description: Update check script
+    
+    - name: acp.version-update.sh
+      description: Version update script
+    
+    # Installation Scripts
+    - name: acp.install.sh
+      description: ACP installation script
+    
+    - name: acp.uninstall.sh
+      description: ACP uninstallation script
+    
+    # Utility Scripts (Shared)
+    - name: acp.common.sh
+      description: Shared utility functions
+      type: utility
+    
+    - name: acp.yaml-parser.sh
+      description: YAML parsing utilities
+      type: utility
+    
+    - name: acp.yaml-validate.sh
+      description: YAML schema validation
+      type: utility
+
+# Compatibility requirements
+requires:
+  acp: >=3.13.0
+
+# Tags for package discovery
+tags:
+  - acp-package
+  - acp
+  - core
+  - commands
+  - agent
+  - ai
+  - documentation

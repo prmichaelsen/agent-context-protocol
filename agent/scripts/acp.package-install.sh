@@ -48,7 +48,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_PATTERNS=true
             shift
             # Collect pattern file names until next flag
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^--(repo|global|experimental|patterns|commands|designs|list)$ && ! $1 =~ ^(-y|--yes)$ ]]; do
                 PATTERN_FILES+=("$1")
                 shift
             done
@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_COMMANDS=true
             shift
             # Collect command file names until next flag
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^--(repo|global|experimental|patterns|commands|designs|list)$ && ! $1 =~ ^(-y|--yes)$ ]]; do
                 COMMAND_FILES+=("$1")
                 shift
             done
@@ -66,7 +66,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_DESIGNS=true
             shift
             # Collect design file names until next flag
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^--(repo|global|experimental|patterns|commands|designs|list)$ && ! $1 =~ ^(-y|--yes)$ ]]; do
                 DESIGN_FILES+=("$1")
                 shift
             done
@@ -131,10 +131,16 @@ TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
 echo "Cloning repository..."
-if ! git clone --depth 1 "$REPO_URL" "$TEMP_DIR" &>/dev/null; then
+if [ -d "$REPO_URL" ]; then
+    # Local directory - copy contents instead of clone
+    cp -r "$REPO_URL"/* "$TEMP_DIR/" 2>/dev/null || cp -r "$REPO_URL"/.[!.]* "$TEMP_DIR/" 2>/dev/null || true
+    echo "${GREEN}✓${NC} Local directory copied"
+elif ! git clone --depth 1 "$REPO_URL" "$TEMP_DIR" &>/dev/null; then
     echo "${RED}Error: Failed to clone repository${NC}"
     echo "Please check the URL and your internet connection."
     exit 1
+else
+    echo "${GREEN}✓${NC} Repository cloned"
 fi
 
 echo "${GREEN}✓${NC} Repository cloned"
@@ -246,7 +252,7 @@ INSTALL_DIRS=()
 [ "$INSTALL_PATTERNS" = true ] && INSTALL_DIRS+=("patterns")
 [ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("commands")
 [ "$INSTALL_DESIGNS" = true ] && INSTALL_DIRS+=("design")
-[ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("scripts")  # Scripts installed with commands
+# Note: scripts handled separately after commands (script-command binding)
 
 INSTALLED_COUNT=0
 SKIPPED_COUNT=0
@@ -435,6 +441,9 @@ should_install_file() {
 # Add package to manifest
 add_package_to_manifest "$PACKAGE_NAME" "$REPO_URL" "$PACKAGE_VERSION" "$COMMIT_HASH"
 
+# Collect installed commands for script dependency resolution
+INSTALLED_COMMANDS=()
+
 # Install files (same logic for both global and local)
 for dir in "${INSTALL_DIRS[@]}"; do
     SOURCE_DIR="$TEMP_DIR/agent/$dir"
@@ -445,6 +454,11 @@ for dir in "${INSTALL_DIRS[@]}"; do
     
     # Create target directory
     mkdir -p "$INSTALL_BASE_DIR/$dir"
+
+    # Skip scripts directory in first pass - handle after commands
+    if [ "$dir" = "scripts" ]; then
+        continue
+    fi
 
     # Determine which files to install based on selective flags
     declare -n FILE_LIST
@@ -458,9 +472,6 @@ for dir in "${INSTALL_DIRS[@]}"; do
         design)
             FILE_LIST=DESIGN_FILES
             ;;
-        scripts)
-            FILE_LIST=COMMAND_FILES  # Scripts use command files list
-            ;;
     esac
     
     # If specific files requested, use those; otherwise find all
@@ -469,11 +480,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
         FILES_TO_INSTALL=()
         for file_name in "${FILE_LIST[@]}"; do
             # Add appropriate extension if not present
-            if [ "$dir" = "scripts" ]; then
-                [[ "$file_name" != *.sh ]] && file_name="${file_name}.sh"
-            else
-                [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
-            fi
+            [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
             
             file_path="$SOURCE_DIR/$file_name"
             if [ -f "$file_path" ]; then
@@ -483,15 +490,9 @@ for dir in "${INSTALL_DIRS[@]}"; do
     else
         # Install all files from directory
         FILES_TO_INSTALL=()
-        if [ "$dir" = "scripts" ]; then
-            while IFS= read -r file; do
-                [ -n "$file" ] && FILES_TO_INSTALL+=("$file")
-            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.sh" ! -name "*.template.sh" -type f)
-        else
-            while IFS= read -r file; do
-                [ -n "$file" ] && FILES_TO_INSTALL+=("$file")
-            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
-        fi
+        while IFS= read -r file; do
+            [ -n "$file" ] && FILES_TO_INSTALL+=("$file")
+        done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.md" ! -name "*.template.md" -type f)
     fi
     
     for file in "${FILES_TO_INSTALL[@]}"; do
@@ -499,14 +500,12 @@ for dir in "${INSTALL_DIRS[@]}"; do
         
         # Skip invalid files
         if [ "$dir" = "commands" ]; then
-            if [[ "$filename" =~ ^acp\. ]] || ! grep -q "🤖 Agent Directive" "$file"; then
+            # Skip acp.* commands (reserved for core)
+            if [[ "$filename" =~ ^acp\. ]]; then
                 continue
             fi
-        fi
-        
-        # Skip invalid scripts
-        if [ "$dir" = "scripts" ]; then
-            if [[ "$filename" =~ ^acp\. ]]; then
+            # Skip files without Agent Directive
+            if ! grep -q "🤖 Agent Directive" "$file"; then
                 continue
             fi
         fi
@@ -519,27 +518,142 @@ for dir in "${INSTALL_DIRS[@]}"; do
         # Copy file
         cp "$file" "$INSTALL_BASE_DIR/$dir/$filename"
         
-        # Make scripts executable
-        if [ "$dir" = "scripts" ]; then
-            chmod +x "$INSTALL_BASE_DIR/$dir/$filename"
-        fi
-        
         # Get file version from package.yaml
         FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "$dir" "$filename")
         
         # Add file to manifest (pass package.yaml path for experimental tracking)
         add_file_to_manifest "$PACKAGE_NAME" "$dir" "$filename" "$FILE_VERSION" "$INSTALL_BASE_DIR/$dir/$filename" "$TEMP_DIR/package.yaml"
         
-        if [ "$dir" = "scripts" ]; then
-            echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION) [executable]"
-        else
-            echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION)"
+        echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$FILE_VERSION)"
+        
+        # Track installed commands for script dependency resolution
+        if [ "$dir" = "commands" ]; then
+            INSTALLED_COMMANDS+=("$filename")
         fi
     done
     
     unset -n FILE_LIST
     echo ""
 done
+
+echo "DEBUG: INSTALLED_COMMANDS count: ${#INSTALLED_COMMANDS[@]}"
+echo "DEBUG: INSTALLED_COMMANDS: ${INSTALLED_COMMANDS[@]}"
+echo "DEBUG: package.yaml exists: $([ -f "$TEMP_DIR/package.yaml" ] && echo "yes" || echo "no")"
+
+# Now install scripts based on command dependencies
+if [ -f "$TEMP_DIR/package.yaml" ] && [ ${#INSTALLED_COMMANDS[@]} -gt 0 ]; then
+    echo "Resolving script dependencies..."
+    echo "  Installed commands: ${INSTALLED_COMMANDS[@]}"
+    
+    # Collect required scripts from installed commands using YAML parser
+    REQUIRED_SCRIPTS=()
+    for cmd in "${INSTALLED_COMMANDS[@]}"; do
+        # Find the command index in the array
+        cmd_index=0
+        while true; do
+            cmd_name=$(yaml_get_nested "$TEMP_DIR/package.yaml" "contents.commands[$cmd_index].name" 2>/dev/null || echo "")
+            if [ -z "$cmd_name" ] || [ "$cmd_name" = "null" ]; then
+                break
+            fi
+            
+            if [ "$cmd_name" = "$cmd" ]; then
+                # Found the command, now get its scripts
+                script_index=0
+                while true; do
+                    script=$(yaml_get_nested "$TEMP_DIR/package.yaml" "contents.commands[$cmd_index].scripts[$script_index]" 2>/dev/null || echo "")
+                    if [ -z "$script" ] || [ "$script" = "null" ]; then
+                        break
+                    fi
+                    
+                    # Add to required scripts (with deduplication)
+                    already_added=false
+                    for existing in "${REQUIRED_SCRIPTS[@]}"; do
+                        if [ "$existing" = "$script" ]; then
+                            already_added=true
+                            break
+                        fi
+                    done
+                    
+                    if [ "$already_added" = false ]; then
+                        REQUIRED_SCRIPTS+=("$script")
+                    fi
+                    
+                    script_index=$((script_index + 1))
+                done
+                break
+            fi
+            
+            cmd_index=$((cmd_index + 1))
+        done
+    done
+    
+    echo "  Found ${#REQUIRED_SCRIPTS[@]} required script(s): ${REQUIRED_SCRIPTS[@]}"
+    
+    # Install required scripts
+    if [ ${#REQUIRED_SCRIPTS[@]} -gt 0 ]; then
+        echo "  Installing scripts..."
+        echo ""
+        
+        for script in "${REQUIRED_SCRIPTS[@]}"; do
+            script_path="$TEMP_DIR/agent/scripts/$script"
+            
+            # Check if script exists
+            if [ ! -f "$script_path" ]; then
+                echo "  ${RED}✗${NC} Script not found: $script (declared in package.yaml)"
+                continue
+            fi
+            
+            # Check if should install based on experimental status
+            if ! should_install_file "$script" "scripts"; then
+                continue
+            fi
+            
+            # Copy script
+            cp "$script_path" "$INSTALL_BASE_DIR/scripts/$script"
+            chmod +x "$INSTALL_BASE_DIR/scripts/$script"
+            
+            # Get file version
+            FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "scripts" "$script")
+            
+            # Add to manifest
+            add_file_to_manifest "$PACKAGE_NAME" "scripts" "$script" "$FILE_VERSION" "$INSTALL_BASE_DIR/scripts/$script" "$TEMP_DIR/package.yaml"
+            
+            echo "  ${GREEN}✓${NC} Installed scripts/$script (v$FILE_VERSION) [executable]"
+        done
+        echo ""
+    else
+        echo "  ${DIM}No script dependencies${NC}"
+        echo ""
+    fi
+elif [ -d "$TEMP_DIR/agent/scripts" ]; then
+    # No package.yaml or no commands installed - install all scripts (backward compatibility)
+    echo "Installing all scripts (no package.yaml or no commands)..."
+    
+    while IFS= read -r script_file; do
+        if [ -n "$script_file" ]; then
+            filename=$(basename "$script_file")
+            
+            # Skip acp.* scripts (core scripts)
+            if [[ "$filename" =~ ^acp\. ]]; then
+                continue
+            fi
+            
+            # Check experimental status
+            if ! should_install_file "$filename" "scripts"; then
+                continue
+            fi
+            
+            cp "$script_file" "$INSTALL_BASE_DIR/scripts/$filename"
+            chmod +x "$INSTALL_BASE_DIR/scripts/$filename"
+            
+            FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "scripts" "$filename")
+            add_file_to_manifest "$PACKAGE_NAME" "scripts" "$filename" "$FILE_VERSION" "$INSTALL_BASE_DIR/scripts/$filename" "$TEMP_DIR/package.yaml"
+            
+            echo "  ${GREEN}✓${NC} Installed scripts/$filename (v$FILE_VERSION) [executable]"
+        fi
+    done < <(find "$TEMP_DIR/agent/scripts" -maxdepth 1 -name "*.sh" ! -name "*.template.sh" -type f)
+    echo ""
+fi
 
 echo ""
 

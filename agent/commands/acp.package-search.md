@@ -7,6 +7,7 @@
 **Created**: 2026-02-18
 **Last Updated**: 2026-02-18
 **Status**: Active
+**Scripts**: acp.package-search.sh, acp.common.sh
 
 ---
 
