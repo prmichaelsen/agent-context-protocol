@@ -66,7 +66,7 @@ get_script_dir() {
 # Usage: source_yaml_parser
 source_yaml_parser() {
     # Check if already loaded (don't re-source to preserve AST_FILE)
-    if [ -n "$YAML_PARSER_LOADED" ]; then
+    if [ -n "${YAML_PARSER_LOADED:-}" ]; then
         return 0
     fi
     

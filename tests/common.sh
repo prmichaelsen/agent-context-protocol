@@ -284,6 +284,27 @@ assert_contains() {
     fi
 }
 
+# Assert that string does not contain substring
+assert_not_contains() {
+    local haystack="$1"
+    local needle="$2"
+    local test_name="$3"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if ! echo "$haystack" | grep -q "$needle"; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected NOT to contain: ${YELLOW}$needle${NC}"
+        echo -e "  Actual:                  ${YELLOW}$haystack${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
 # Print test summary
 print_test_summary() {
     echo ""

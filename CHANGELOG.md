@@ -5,6 +5,40 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.13.0] - 2026-02-24
+
+### Added
+
+**Project Registry Commands** (Milestone 7 - Tasks 53-54):
+- Added `@acp.project-set` command for seamless context switching between projects
+- Command updates `current_project` in `~/.acp/projects.yaml` registry
+- Command updates `last_accessed` timestamp for project tracking
+- Command changes working directory to project path (interactive mode)
+- Command validates project exists in registry and directory exists on filesystem
+- Comprehensive error messages with helpful suggestions and available project lists
+- Tilde (`~`) expansion support in project paths
+- Created `agent/commands/acp.project-set.md` (command documentation)
+- Created `agent/scripts/acp.project-set.sh` (context switching script)
+- Created `e2e/acp.project-set.test.sh` (8 tests, 29 assertions, 100% passing)
+
+**Test Utilities**:
+- Added `assert_not_contains()` function to `tests/common.sh` for negative assertions
+
+### Fixed
+
+**YAML Parser Enhancements** (Task 53):
+- Fixed `set -euo pipefail` compatibility in `agent/scripts/acp.common.sh` (line 69)
+- Fixed `set -euo pipefail` compatibility in `agent/scripts/acp.yaml-parser.sh` (lines 12, 817)
+- Fixed `yaml_query()` to return children keys for map/array nodes (previously returned empty)
+- Map/array nodes now return YAML-formatted children list (e.g., "project-1:\nproject-2:\n")
+- Scalar values continue to return normally
+
+### Changed
+
+**Project Registry Progress**:
+- Milestone 7: 22% → 33% complete (3/9 tasks done)
+- Task 54 completed with full E2E test coverage
+
 ## [3.12.0] - 2026-02-23
 
 ### Added

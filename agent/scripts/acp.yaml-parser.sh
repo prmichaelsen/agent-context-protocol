@@ -9,7 +9,7 @@
 # ============================================================================
 
 # Prevent variable reset on re-sourcing
-if [ -z "$YAML_PARSER_LOADED" ]; then
+if [ -z "${YAML_PARSER_LOADED:-}" ]; then
     YAML_PARSER_LOADED=1
     AST_FILE=""
     AST_ROOT_ID=0
@@ -314,7 +314,28 @@ yaml_query() {
         fi
     done
     
-    get_node_field "$current_node" 4
+    # Check node type
+    local node_type
+    node_type=$(get_node_field "$current_node" 2)
+    
+    # For map or array nodes, return children keys in YAML format
+    if [ "$node_type" = "map" ] || [ "$node_type" = "array" ]; then
+        local children
+        children=$(get_node_field "$current_node" 6)
+        
+        if [ -n "$children" ]; then
+            # Split by comma and iterate
+            local IFS=','
+            for child_id in $children; do
+                local child_key
+                child_key=$(get_node_field "$child_id" 3)
+                echo "${child_key}:"
+            done
+        fi
+    else
+        # For scalar nodes, return the value
+        get_node_field "$current_node" 4
+    fi
 }
 
 # Create a new node in the AST (used by yaml_set for auto-creation)
@@ -796,7 +817,7 @@ yaml_object_set() {
 trap cleanup_ast EXIT INT TERM
 
 # Only run main if script is executed directly (not sourced)
-if [ -n "$1" ] && [ "$1" != "-" ] && [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+if [ -n "${1:-}" ] && [ "${1:-}" != "-" ] && [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     case "$1" in
         parse)
             yaml_parse "$2"

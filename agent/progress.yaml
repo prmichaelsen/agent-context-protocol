@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 3.12.0
+  version: 3.13.0
   started: 2026-02-16
   status: in_progress
-  current_milestone: M8
+  current_milestone: M7
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -132,11 +132,11 @@ milestones:
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
-    progress: 11
+    progress: 33
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 1
+    tasks_completed: 3
     tasks_total: 9
     notes: |
       📋 Milestone 7: Global ACP Project Registry
@@ -146,6 +146,9 @@ milestones:
       - 6 management commands (list, set, info, update, remove, sync)
       - Automatic registration on project creation
       - 9 tasks planned (52-60): Infrastructure, Commands (6), Testing, Documentation
+      - ✅ Task 52: Registry Infrastructure complete
+      - ✅ Task 53: @acp.project-list Command complete
+      - ✅ Task 54: @acp.project-set Command complete
   
   - id: M8
     name: Experimental Features System
@@ -835,21 +838,45 @@ tasks:
     
     - id: task-53
       name: "@acp.project-list Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-53-project-list.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-02-23
       notes: |
-        List registered projects with filtering
+        ✅ @acp.project-list command complete!
+        - Created agent/scripts/acp.project-list.sh
+        - Created agent/commands/acp.project-list.md
+        - Script handles empty registry gracefully
+        - Displays projects with type, status, description
+        - Marks current project with ⭐
+        - Supports --type and --status filtering
+        - No syntax errors (bash -n passed)
     
     - id: task-54
       name: "@acp.project-set Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-54-project-set.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1.5
+      completed_date: 2026-02-24
       notes: |
-        Context switching between projects
+        ✅ @acp.project-set command complete!
+        - Created agent/scripts/acp.project-set.sh (context switching script)
+        - Created agent/commands/acp.project-set.md (command documentation)
+        - Created e2e/acp.project-set.test.sh (8 comprehensive tests, 29 assertions)
+        - Validates project exists in registry
+        - Validates project directory exists on filesystem
+        - Updates current_project in registry
+        - Updates last_accessed timestamp
+        - Updates registry last_updated timestamp
+        - Expands tilde (~) in project paths
+        - Changes working directory to project path (interactive mode only)
+        - Clear error messages with helpful suggestions
+        - Lists available projects when project not found
+        - All 8 E2E tests passing (29/29 assertions, 100%)
+        - No syntax errors (bash -n passed)
+        - Marked as Experimental (M7 incomplete)
     
     - id: task-55
       name: "@acp.project-info Command"
@@ -1108,10 +1135,71 @@ progress:
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
-  milestone_7: 11
+  milestone_7: 33
   milestone_8: 100
 
 recent_work:
+  - date: 2026-02-24
+    description: |
+      ✅ Task 54 Complete: @acp.project-set Command + E2E Tests
+      Context switching command implemented with comprehensive test coverage (29/29 assertions passing).
+    items:
+      - ✅ Created agent/scripts/acp.project-set.sh (context switching script)
+      - ✅ Created agent/commands/acp.project-set.md (command documentation)
+      - ✅ Created e2e/acp.project-set.test.sh (8 comprehensive tests, 29 assertions)
+      - ✅ Fixed yaml_set usage (no file path parameter, operates on loaded AST)
+      - ✅ Fixed exit code capture in tests (declare variable first, then assign)
+      - ✅ Fixed test invocations (use absolute path, not cd &&)
+      - ✅ Fixed assert_equals parameter order (expected, actual, message)
+      - ✅ All 8 E2E tests passing (100%):
+        - Test 1: Set project successfully (6 assertions)
+        - Test 2: Project not found in registry (5 assertions)
+        - Test 3: Project directory not found (4 assertions)
+        - Test 4: No arguments provided (3 assertions)
+        - Test 5: Registry file not found (3 assertions)
+        - Test 6: Switch between projects (2 assertions)
+        - Test 7: Tilde expansion in path (2 assertions)
+        - Test 8: Registry timestamp updates (4 assertions)
+      - ✅ Script validates project exists in registry
+      - ✅ Script validates project directory exists
+      - ✅ Script updates current_project, last_accessed, last_updated
+      - ✅ Script expands tilde (~) in paths correctly
+      - ✅ Script provides clear error messages with suggestions
+      - ✅ No syntax errors (bash -n passed)
+      - ✅ Marked as Experimental (M7 incomplete)
+      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours)
+      - 📋 Milestone 7: 22% → 33% complete (3/9 tasks)
+      - 📋 Next: Task 55 - @acp.project-info Command (1-2 hours)
+  
+  - date: 2026-02-23
+    description: |
+      ✅ Task 53 Complete: @acp.project-list Command + yaml_query Enhancement
+      Project listing command implemented with 21 E2E tests (100% passing) + fixed yaml_query to return map children.
+    items:
+      - ✅ Created agent/scripts/acp.project-list.sh (shell script using yaml_query)
+      - ✅ Created agent/commands/acp.project-list.md (command documentation)
+      - ✅ Created e2e/acp.project-list.test.sh (8 comprehensive tests, 21 assertions)
+      - ✅ Fixed critical set -euo pipefail bugs in 3 core scripts:
+        - agent/scripts/acp.common.sh:69 (YAML_PARSER_LOADED check)
+        - agent/scripts/acp.yaml-parser.sh:12 (YAML_PARSER_LOADED check)
+        - agent/scripts/acp.yaml-parser.sh:799 (parameter check)
+      - ✅ Added assert_not_contains() to tests/common.sh
+      - ✅ Enhanced yaml_query() to return children keys for map/array nodes:
+        - Previously: yaml_query(".projects") returned empty
+        - Now: Returns "project-1:\nproject-2:\n" (YAML format)
+        - Scalar values still return normally
+        - Fixes fundamental limitation in YAML parser
+      - ✅ All 21 test assertions passing (100%)
+      - ✅ Tests cover: empty registry, single/multiple projects, filtering, error handling
+      - ✅ Script handles empty registry gracefully
+      - ✅ Displays projects with type, status, description, last accessed
+      - ✅ Marks current project with ⭐ indicator
+      - ✅ Supports --type and --status filtering
+      - ✅ Marked command as Experimental (M7 incomplete)
+      - 📋 Task completed in 2.5 hours total (0.5h implementation + 2h testing/debugging/yaml_query fix)
+      - 📋 Milestone 7: 11% → 22% complete (2/9 tasks)
+      - 📋 Next: Task 54 - @acp.project-set Command (2-3 hours)
+  
   - date: 2026-02-23
     description: |
       🎉 Milestone 8 Complete: Experimental Features System
