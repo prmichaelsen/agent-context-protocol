@@ -5,6 +5,53 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-02-25
+
+### Changed
+
+**BREAKING: AGENT.md Best Practices Consolidation**
+- Consolidated all best practices into single section with 3-level hierarchy (## > ### > ####)
+- Removed duplicate "For Adding New Features" section (was in 2 locations)
+- Moved orphaned subsections (Documentation, Organization, Progress Tracking, Quality) into Best Practices
+- Restructured "Best Practices for Agents" from numbered list to hierarchical categories
+- Updated table of contents with expanded Best Practices subcategories
+- Added 4 strategic cross-references linking workflows to best practices
+
+**Best Practices Structure**:
+- Critical Rules (5 practices): Never reject requests, update CHANGELOG, no secrets, respect edits, respect re-execution
+- Workflow Best Practices (8 practices): Read first, document, verify, be explicit, organize, track progress, inline feedback, format commands
+- Documentation Best Practices (4 practices): Write for agents, focus, link, update
+- Organization Best Practices (3 practices): Naming, structure, DRY
+- Progress Tracking Best Practices (3 practices): Update frequently, be objective, look forward/back
+- Quality Best Practices (3 practices): Verification, patterns, refine
+
+**Entity Creation Simplification**:
+- Replaced detailed creation instructions with `@acp.{entity}-create` command references
+- Removed step-by-step guides, template copying examples, and manual file creation steps
+- Simplified to: "Invoke [`@acp.{entity}-create`](agent/commands/acp.{entity}-create.md) and follow directives"
+- Applies to: design documents, tasks, patterns, commands
+
+### Added
+
+**New Best Practice**: Format Commands for User Execution
+- Chain commands with `&& \` for dependent execution
+- Chain commands with `;` for independent execution
+- Don't include `#` comment lines in command blocks
+- Don't include EOF newlines in command blocks
+- Ensures copy-paste friendliness for users
+
+**Command Version Updates**:
+- `@git.commit` bumped to v2.0.0 with version history section documenting AGENT.md restructuring impact
+
+### Fixed
+
+**Documentation Clarity**:
+- Eliminated ~15% duplication by consolidating scattered best practices
+- Improved navigation with hierarchical structure and cross-references
+- Single source of truth for all agent behavior guidelines
+
+**Impact**: This restructuring may affect how agents interpret and apply ACP methodology. The new hierarchical organization provides clearer categorization but represents a significant change to the documentation structure that agents rely on.
+
 ## [3.13.0] - 2026-02-24
 
 ### Added

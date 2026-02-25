@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 3.13.0
+  version: 4.0.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M7
@@ -1189,6 +1189,27 @@ progress:
   milestone_8: 100
 
 recent_work:
+  - date: 2026-02-25
+    description: |
+      🚀 Agent Context Initialized via @acp.init
+      Complete project context loaded. All documentation and source files reviewed.
+    items:
+      - ✅ ACP version check: v3.13.0 (up to date)
+      - ✅ Read agent/progress.yaml - Current status confirmed (2577 lines)
+      - ✅ Read agent/manifest.template.yaml - Package tracking structure
+      - ✅ Read CHANGELOG.md - Version history (1289 lines, v3.13.0 latest)
+      - ✅ Read README.md - Project overview (337 lines)
+      - ✅ Read design documents (requirements template, projects-yaml feature)
+      - ✅ Read milestone documents (M7: Project Registry - 33% complete)
+      - ✅ Read task documents (task-55: project-info - not started)
+      - ✅ Discovered 31 commands in agent/commands/ directory
+      - ✅ Verified flat dot notation structure (acp.*, git.*)
+      - ✅ Documentation is current and accurate
+      - ✅ Progress tracking updated with initialization entry
+      - 📋 Project Status: M1-M5 complete (100%), M8 complete (100%), M7 in progress (33%)
+      - 📋 Current Focus: Milestone 7 - Global ACP Project Registry
+      - 📋 Next: Task 55 - @acp.project-info Command (1-2 hours)
+  
   - date: 2026-02-24
     description: |
       📋 Tasks 65-69 Created: Script-Command Binding System (5 tasks)
