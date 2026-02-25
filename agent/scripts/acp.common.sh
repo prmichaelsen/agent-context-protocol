@@ -483,7 +483,7 @@ get_file_version() {
     
     if [ ! -f "$package_yaml" ]; then
         echo "0.0.0"
-        return 1
+        return 0
     fi
     
     # Use awk to parse YAML array (acp.yaml.sh doesn't support array queries)
@@ -508,6 +508,8 @@ get_file_version() {
     else
         echo "$version"
     fi
+    
+    return 0
 }
 
 # Add package to manifest

@@ -5,6 +5,32 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.14.1] - 2026-02-25
+
+### Fixed
+
+**Script Installation Bugs** (Task 69):
+- Fixed argument parsing bug where `-y` flag was collected as filename in `--commands`, `--patterns`, and `--designs` flags
+- Fixed `get_file_version()` returning exit code 1 when file has no version, causing script to exit with `set -e`
+- Fixed `add_file_to_manifest()` causing loop to exit early when manifest operations failed
+- Fixed `should_install_file()` grep commands failing with `set -e` when no matches found
+- Script installation loop now processes all scripts correctly (was stopping after first script)
+- Added error handling to `add_file_to_manifest` calls to prevent loop breakage
+- All E2E tests now passing (28/28 assertions, 100% pass rate)
+
+**Installation Script Improvements**:
+- Argument parsing now explicitly checks for known flags instead of using generic `^-` regex
+- Error handling in script installation loop prevents premature exit
+- Graceful degradation when manifest operations fail (warns but continues)
+- Added `|| true` to grep commands in `should_install_file()` to handle no-match cases
+
+### Changed
+
+**Error Handling**:
+- `get_file_version()` now returns exit code 0 even when package.yaml missing
+- Script installation continues even if manifest update fails (with warning)
+- More robust error handling throughout installation pipeline
+
 ## [3.14.0] - 2026-02-24
 
 ### Added

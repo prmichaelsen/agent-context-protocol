@@ -423,7 +423,9 @@ should_install_file() {
     fi
     
     # Check if file is marked experimental in package.yaml
-    local is_experimental=$(grep -A 1000 "^  ${file_type}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+    # Extract only the relevant section, then find the specific entry
+    local section=$(grep -A 1000 "^  ${file_type}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -B 1000 "^  [a-z]" 2>/dev/null | head -n -1 || true)
+    local is_experimental=$(echo "$section" | grep -A 3 "^    - name: ${filename}$" 2>/dev/null | grep "^ *experimental: true" 2>/dev/null | grep -v "^[[:space:]]*#" | head -1 || true)
     
     if [ -n "$is_experimental" ]; then
         if [ "$INSTALL_EXPERIMENTAL" = true ]; then
@@ -536,9 +538,6 @@ for dir in "${INSTALL_DIRS[@]}"; do
     echo ""
 done
 
-echo "DEBUG: INSTALLED_COMMANDS count: ${#INSTALLED_COMMANDS[@]}"
-echo "DEBUG: INSTALLED_COMMANDS: ${INSTALLED_COMMANDS[@]}"
-echo "DEBUG: package.yaml exists: $([ -f "$TEMP_DIR/package.yaml" ] && echo "yes" || echo "no")"
 
 # Now install scripts based on command dependencies
 if [ -f "$TEMP_DIR/package.yaml" ] && [ ${#INSTALLED_COMMANDS[@]} -gt 0 ]; then
@@ -615,8 +614,10 @@ if [ -f "$TEMP_DIR/package.yaml" ] && [ ${#INSTALLED_COMMANDS[@]} -gt 0 ]; then
             # Get file version
             FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "scripts" "$script")
             
-            # Add to manifest
-            add_file_to_manifest "$PACKAGE_NAME" "scripts" "$script" "$FILE_VERSION" "$INSTALL_BASE_DIR/scripts/$script" "$TEMP_DIR/package.yaml"
+            # Add to manifest (handle errors gracefully to not break loop)
+            if ! add_file_to_manifest "$PACKAGE_NAME" "scripts" "$script" "$FILE_VERSION" "$INSTALL_BASE_DIR/scripts/$script" "$TEMP_DIR/package.yaml"; then
+                echo "  ${YELLOW}⚠${NC}  Warning: Failed to add $script to manifest, but file was installed"
+            fi
             
             echo "  ${GREEN}✓${NC} Installed scripts/$script (v$FILE_VERSION) [executable]"
         done
