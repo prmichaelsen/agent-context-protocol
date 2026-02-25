@@ -131,9 +131,12 @@ If draft file was provided, create clarification if needed:
 Create task file from template:
 
 **Actions**:
-- Determine full filename: `task-{N}-{name}.md`
-  - N = task number from Step 2
+- Determine full filename and path:
+  - If milestone assigned: `milestone-{N}-{title}/task-{M}-{name}.md`
+  - If no milestone: `unassigned/task-{M}-{name}.md`
+  - N = milestone number, M = task number from Step 2
   - name = kebab-case version of task name
+- Create milestone subdirectory if it doesn't exist
 - Copy from task template (agent/tasks/task-1-{title}.template.md)
 - Fill in metadata:
   - Task number and name
@@ -146,9 +149,11 @@ Create task file from template:
   - Context (from collected info or draft)
   - Steps (from draft/clarification or template structure)
   - Verification checklist
-- Save to `agent/tasks/task-{N}-{name}.md`
+- Save to appropriate path (milestone subdirectory or unassigned/)
 
-**Expected Outcome**: Task file created
+**Note**: Older tasks may use flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons. New tasks should use milestone subdirectories.
+
+**Expected Outcome**: Task file created in milestone subdirectory
 
 ### 7. Update progress.yaml
 
@@ -162,7 +167,7 @@ Add task to progress.yaml:
   - id: task-{N}
     name: {Task Name}
     status: not_started
-    file: agent/tasks/task-{N}-{name}.md
+    file: agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md
     estimated_hours: {hours}
     completed_date: null
     notes: |
@@ -192,8 +197,8 @@ Display what was created:
 ```
 ✅ Task Created Successfully!
 
-File: agent/tasks/task-{N}-{name}.md
-Task Number: {N}
+File: agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md
+Task Number: {M}
 Milestone: M{X} - {Milestone Name}
 Estimated Time: {hours}
 Status: Not Started
@@ -230,11 +235,14 @@ Next steps:
 ## Expected Output
 
 ### Files Created
-- `agent/tasks/task-{N}-{name}.md` - Task file
+- `agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md` - Task file (in milestone subdirectory)
+- `agent/tasks/unassigned/task-{M}-{name}.md` - Task file (if no milestone assigned)
 - `agent/clarifications/clarification-{N}-task-{name}.md` - Clarification (if draft was ambiguous)
 
 ### Files Modified
 - `agent/progress.yaml` - Task added to milestone section
+
+**Note**: Older tasks may exist in flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons.
 
 ---
 
@@ -269,7 +277,7 @@ User: Needs GitHub API integration for repository search
 
 ✅ Task Created Successfully!
 
-File: agent/tasks/task-11-package-search-command.md
+File: agent/tasks/milestone-3-package-management/task-11-package-search-command.md
 Task Number: 11
 Milestone: M3 - ACP Package Management System
 Estimated Time: 6-8 hours

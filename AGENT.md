@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 4.1.0
+**Version**: 4.1.1
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -117,9 +117,12 @@ project-root/
 │   │
 │   ├── tasks/                      # Granular tasks
 │   │   ├── .gitkeep
-│   │   ├── task-1-{name}.md
-│   │   ├── task-2-{name}.md
-│   │   └── ...
+│   │   ├── milestone-{N}-{title}/  # Tasks grouped by milestone (standard)
+│   │   │   ├── task-{M}-{name}.md
+│   │   │   └── ...
+│   │   ├── unassigned/             # Tasks without milestone
+│   │   │   └── task-{M}-{name}.md
+│   │   └── task-{N}-{name}.md      # Legacy flat structure (older tasks)
 │   │
 │   └── progress.yaml               # Progress tracking
 │
@@ -301,7 +304,7 @@ tasks:
     - id: task-1
       name: Task Name
       status: not_started | in_progress | completed
-      file: agent/tasks/task-1-name.md
+      file: agent/tasks/milestone-{N}-{title}/task-{M}-name.md
       estimated_hours: N
       actual_hours: null
       completed_date: YYYY-MM-DD | null

@@ -5,6 +5,21 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.1] - 2026-02-25
+
+### Changed
+
+**Task Structure Documentation**:
+- Updated AGENT.md directory structure to show milestone subdirectories as standard
+- Updated task structure: `agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md` (standard)
+- Added unassigned directory: `agent/tasks/unassigned/task-{M}-{name}.md` (tasks without milestone)
+- Noted legacy flat structure: `agent/tasks/task-{N}-{name}.md` (older tasks)
+- Updated progress.yaml example to show subdirectory file paths
+- Updated `@acp.task-create` command to use milestone subdirectories
+- Added note about older tasks using flat structure for historical reasons
+
+**Impact**: Documentation now accurately reflects the current task organization structure used in Milestones 6-8.
+
 ## [4.1.0] - 2026-02-25
 
 ### Added
