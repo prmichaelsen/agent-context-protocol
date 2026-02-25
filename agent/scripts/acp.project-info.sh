@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # acp.project-info.sh - Display detailed project information from registry
 # Part of Agent Context Protocol (ACP)
 # Usage: ./acp.project-info.sh <project-name>
 
-set -euo pipefail
+set -e
 
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -45,17 +45,23 @@ main() {
   fi
   
   # Parse registry
-  yaml_parse "$registry_path"
+  if ! yaml_parse "$registry_path"; then
+    echo "Error: Failed to parse registry at: $registry_path" >&2
+    return 1
+  fi
   
-  # Check if project exists
-  if ! yaml_query ".projects.${project_name}" >/dev/null 2>&1 || [ "$(yaml_query ".projects.${project_name}")" = "null" ]; then
+  # Check if project exists by trying to query it
+  local project_type
+  project_type=$(yaml_query ".projects.${project_name}.type" 2>&1 || echo "")
+  
+  if [ -z "$project_type" ] || [ "$project_type" = "null" ] || echo "$project_type" | grep -q "Error:"; then
     echo "Error: Project '${project_name}' not found in registry"
     echo ""
     echo "Available projects:"
     
     # List available projects
     local projects
-    projects=$(yaml_query ".projects")
+    projects=$(yaml_query ".projects" 2>/dev/null || echo "")
     
     if [ -z "$projects" ] || [ "$projects" = "null" ]; then
       echo "  (none)"
@@ -80,13 +86,13 @@ main() {
   
   # Get optional fields
   local tags related_projects dependencies
-  tags=$(yaml_query ".projects.${project_name}.tags")
-  related_projects=$(yaml_query ".projects.${project_name}.related_projects")
-  dependencies=$(yaml_query ".projects.${project_name}.dependencies")
+  tags=$(yaml_query ".projects.${project_name}.tags" 2>/dev/null || echo "")
+  related_projects=$(yaml_query ".projects.${project_name}.related_projects" 2>/dev/null || echo "")
+  dependencies=$(yaml_query ".projects.${project_name}.dependencies" 2>/dev/null || echo "")
   
   # Check if this is the current project
   local current_project
-  current_project=$(yaml_query ".current_project")
+  current_project=$(yaml_query ".current_project" 2>/dev/null || echo "")
   local is_current=""
   if [ "$current_project" = "$project_name" ]; then
     is_current=" ⭐ Current"
