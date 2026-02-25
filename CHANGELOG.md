@@ -5,6 +5,27 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] - 2026-02-25
+
+### Added
+
+**New Command**: `@acp.clarification-create`
+- Create structured clarification documents from file input or chat
+- Automatic clarification numbering (finds next available number)
+- Accepts file path or interactive chat input
+- Generates questions organized into Items > Questions > Bullet points
+- Follows clarification template structure
+- Includes response markers (`>`) for inline user answers
+- Supports `--file`, `--title`, and `--auto` arguments
+- Can analyze existing files (drafts, designs) to identify gaps
+- Interactive mode for chat-based question generation
+
+**Use Cases**:
+- Gather detailed requirements for ambiguous specifications
+- Analyze draft files before converting to formal documents
+- Create structured question documents for stakeholder input
+- Clarify design decisions and implementation details
+
 ## [4.0.0] - 2026-02-25
 
 ### Changed
