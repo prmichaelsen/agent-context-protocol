@@ -1,0 +1,20 @@
+# Agent Context Protocol - Root .gitignore
+
+# Debug files (created during development/debugging)
+debug.sh
+debug-output.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
