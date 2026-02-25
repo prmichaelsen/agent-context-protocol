@@ -132,12 +132,12 @@ milestones:
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
-    progress: 56
+    progress: 50
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
     tasks_completed: 5
-    tasks_total: 9
+    tasks_total: 10
     notes: |
       📋 Milestone 7: Global ACP Project Registry
       - Centralized project registry at ~/.acp/projects.yaml
@@ -988,6 +988,15 @@ tasks:
       completed_date: null
       notes: |
         Sync registry with filesystem (discover unregistered projects)
+    
+    - id: task-70
+      name: "Fix YAML Parser Array Operations"
+      status: not_started
+      file: agent/tasks/milestone-7-project-registry/task-70-fix-yaml-array-operations.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Fix yaml_array_append to enable tag/related project operations in @acp.project-update
     
     - id: task-59
       name: "Integration & Testing"
