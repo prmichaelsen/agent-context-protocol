@@ -412,6 +412,34 @@ echo "Installing files..."
 # OPTIMIZATION: Batch file operations
 # ============================================================================
 
+# Check if file should be installed based on experimental status
+should_install_file() {
+    local filename="$1"
+    local file_type="$2"  # commands, patterns, designs, scripts
+
+    # If no package.yaml, install everything
+    if [ ! -f "$TEMP_DIR/package.yaml" ]; then
+        return 0
+    fi
+
+    # Check if file is marked experimental in package.yaml
+    # Extract only the relevant section, then find the specific entry
+    local section=$(grep -A 1000 "^  ${file_type}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -B 1000 "^  [a-z]" 2>/dev/null | head -n -1 || true)
+    local is_experimental=$(echo "$section" | grep -A 3 "^    - name: ${filename}$" 2>/dev/null | grep "^ *experimental: true" 2>/dev/null | grep -v "^[[:space:]]*#" | head -1 || true)
+
+    if [ -n "$is_experimental" ]; then
+        if [ "$INSTALL_EXPERIMENTAL" = true ]; then
+            echo "  ${YELLOW}⚠${NC}  Installing experimental: ${filename}"
+            return 0  # Install it
+        else
+            echo "  ${DIM}⊘${NC}  Skipping experimental: ${filename} (use --experimental to install)"
+            return 1  # Skip it
+        fi
+    fi
+
+    return 0  # Install non-experimental files
+}
+
 # Add package to manifest once
 add_package_to_manifest "$PACKAGE_NAME" "$REPO_URL" "$PACKAGE_VERSION" "$COMMIT_HASH"
 

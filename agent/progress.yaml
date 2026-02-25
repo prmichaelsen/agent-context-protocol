@@ -46,15 +46,15 @@ milestones:
   
   - id: M3
     name: ACP Package Management System
-    status: in_progress
-    progress: 69
+    status: completed
+    progress: 100
     started: 2026-02-18
-    completed: null
+    completed: 2026-02-25
     estimated_weeks: 5-7
-    tasks_completed: 11
-    tasks_total: 16
+    tasks_completed: 15
+    tasks_total: 15
     notes: |
-      ✅ Milestone 3 Complete! Full package management system implemented.
+      ✅ Milestone 3 Complete! Full package management system with script-command binding.
       ✅ Task 5 complete - Manifest system foundation implemented
       ✅ Task 6 complete - Selective installation implemented
       ✅ Task 7 complete - Update system with conflict detection
@@ -484,22 +484,23 @@ tasks:
     
     - id: task-69
       name: Script-Command Binding - Testing and Documentation
-      status: in_progress
+      status: completed
       file: agent/tasks/task-69-script-testing-documentation.md
       estimated_hours: 2-3
-      actual_hours: null
-      completed_date: null
+      actual_hours: 4
+      completed_date: 2026-02-25
       notes: |
-        Phase 5: Create E2E tests, update acp.package-update.sh, complete documentation.
-        Version bump to 3.14.0.
-        🔄 Phase 5 in progress: E2E tests created, needs debugging.
-        - Created e2e/acp.script-command-binding.test.sh (8 test scenarios)
-        - Tests failing (7/28 passing, 25% pass rate)
-        - Issue: Scripts not being installed in test scenarios
-        - Need to debug installation logic
-        - Version bump to 3.14.0 complete
-        - CHANGELOG.md updated
-        - Git commit created (5e28564)
+        ✅ Phase 5 complete: E2E tests passing, bugs fixed!
+        - Created e2e/acp.script-command-binding.test.sh (8 test scenarios, 28 assertions)
+        - Fixed 4 critical bugs in installation logic:
+          1. Argument parsing: -y flag collected as filename
+          2. get_file_version: returned exit code 1 causing script exit
+          3. add_file_to_manifest: failures broke loop with set -e
+          4. should_install_file: grep failures caused exit
+        - All E2E tests passing (28/28 assertions, 100%)
+        - Version bump to 3.14.1 (patch - bug fixes)
+        - CHANGELOG.md updated with v3.14.1 entry
+        - Created debug.sh for streamlined debugging workflow
 
     - id: task-70
       name: Optimize Package Install Performance
@@ -1362,13 +1363,13 @@ documentation:
 
 progress:
   planning: 100
-  implementation: 90
+  implementation: 95
   testing: 100
   documentation: 100
-  overall: 90
+  overall: 92
   milestone_1: 100
   milestone_2: 100
-  milestone_3: 67
+  milestone_3: 100
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
@@ -1393,7 +1394,7 @@ recent_work:
       - 📋 Task completed in 1.5 hours (estimated: 2-3 hours)
       - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
       - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
-  
+
   - date: 2026-02-26
     description: |
       ✅ Task 57 Complete: @acp.project-remove Command
@@ -1422,7 +1423,7 @@ recent_work:
       - 📋 Task completed in 1 hour (estimated: 1-2 hours)
       - 📋 Milestone 7: 50% → 60% complete (6/10 tasks)
       - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
-  
+
   - date: 2026-02-26
     description: |
       📋 Milestone 9 Planned: Template Source Files Support
@@ -1445,7 +1446,7 @@ recent_work:
       - 📋 Milestone 9: 0% complete (0/6 tasks)
       - 📋 Total estimated effort: 24-32 hours (2-3 weeks)
       - 📋 Next: Review milestone and tasks, then begin implementation
-  
+
   - date: 2026-02-26
     description: |
       🚀 Agent Context Initialized via @acp.init
@@ -1469,7 +1470,7 @@ recent_work:
       - 📋 Project Status: M1-M5, M8 complete (100%), M7 in progress (50%)
       - 📋 Current Focus: Milestone 7 - Global ACP Project Registry
       - 📋 Also Pending: Milestone 3 tasks 65-69 (Script-Command Binding)
-  
+
   - date: 2026-02-26
     description: |
       ✅ Task 70 Complete: Package Install Performance Optimization Deployed
@@ -1486,7 +1487,26 @@ recent_work:
       - ✅ Git commits: 6aa8af3 (investigation), f0399fe (deployment)
       - 📋 Task completed in 1 hour (estimated: 2-3 hours)
       - 📋 Milestone 3: 63% → 69% complete (11/16 tasks)
-  
+
+  - date: 2026-02-25
+    description: |
+      ✅ Task 69 Complete: Script-Command Binding - Testing and Bug Fixes
+      Fixed 4 critical installation bugs and achieved 100% E2E test pass rate. Milestone 3 complete!
+    items:
+      - ✅ Created e2e/acp.script-command-binding.test.sh (8 tests, 28 assertions)
+      - ✅ Fixed argument parsing bug (--commands flag collecting -y as filename)
+      - ✅ Fixed get_file_version() returning exit code 1 (changed to return 0)
+      - ✅ Fixed add_file_to_manifest() breaking loop with set -e (added error handling)
+      - ✅ Fixed should_install_file() grep failures causing exit (added || true)
+      - ✅ All E2E tests passing (28/28 assertions, 100% pass rate)
+      - ✅ Created debug.sh for streamlined debugging workflow
+      - ✅ Version bump: 3.14.0 → 3.14.1 (patch - bug fixes)
+      - ✅ Updated CHANGELOG.md with v3.14.1 entry
+      - ✅ Updated AGENT.md, package.yaml, progress.yaml versions
+      - 🎊 Milestone 3: 93% → 100% complete (15/15 tasks)
+      - 📋 Task completed in 4 hours (estimated: 2-3 hours, included extensive debugging)
+      - 📋 Next: Continue with M7 (Project Registry) or start M6 (Preferences System)
+
   - date: 2026-02-25
     description: |
       ✅ Tasks 55-56 Complete: @acp.project-info + @acp.project-update Commands
