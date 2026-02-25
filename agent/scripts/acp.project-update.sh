@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # acp.project-update.sh - Update project metadata in registry
 # Part of Agent Context Protocol (ACP)
 # Usage: ./acp.project-update.sh <project-name> [options]
 
-set -euo pipefail
+set -e
 
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -121,10 +121,16 @@ main() {
   fi
   
   # Parse registry
-  yaml_parse "$registry_path"
+  yaml_parse "$registry_path" || {
+    echo "Error: Failed to parse registry"
+    return 1
+  }
   
-  # Check if project exists
-  if ! yaml_query ".projects.${PROJECT_NAME}" >/dev/null 2>&1 || [ "$(yaml_query ".projects.${PROJECT_NAME}")" = "null" ]; then
+  # Check if project exists by trying to query it
+  local project_type_check
+  project_type_check=$(yaml_query ".projects.${PROJECT_NAME}.type" 2>/dev/null || echo "")
+  
+  if [ -z "$project_type_check" ] || [ "$project_type_check" = "null" ]; then
     echo "Error: Project '${PROJECT_NAME}' not found in registry"
     echo ""
     echo "Run 'acp.project-list.sh' to see available projects"
@@ -171,16 +177,27 @@ main() {
     for tag in "${ADD_TAGS[@]}"; do
       # Get current tags
       local current_tags
-      current_tags=$(yaml_query ".projects.${PROJECT_NAME}.tags")
+      current_tags=$(yaml_query ".projects.${PROJECT_NAME}.tags" 2>/dev/null || echo "")
       
       # Check if tag already exists
-      if echo "$current_tags" | grep -q "^${tag}$"; then
+      if [ -n "$current_tags" ] && [ "$current_tags" != "null" ] && echo "$current_tags" | grep -q "^${tag}$"; then
         echo "⊘ Tag already exists: ${tag}"
       else
+        # Ensure tags field exists (create empty array if missing)
+        if [ -z "$current_tags" ] || [ "$current_tags" = "null" ]; then
+          local registry_path
+          registry_path=$(get_projects_registry_path)
+          sed -i "/^  ${PROJECT_NAME}:/a\\    tags: []" "$registry_path"
+          yaml_parse "$registry_path"
+        fi
+
         # Use yaml_array_append to add tag
-        yaml_array_append ".projects.${PROJECT_NAME}.tags" "$tag"
-        echo "✓ Added tag: ${tag}"
-        updates_made=$((updates_made + 1))
+        if yaml_array_append ".projects.${PROJECT_NAME}.tags" "$tag" 2>/dev/null; then
+          echo "✓ Added tag: ${tag}"
+          updates_made=$((updates_made + 1))
+        else
+          echo "⚠️  Warning: Failed to add tag: ${tag}"
+        fi
       fi
     done
   fi
@@ -190,7 +207,7 @@ main() {
     for tag in "${REMOVE_TAGS[@]}"; do
       # Get current tags
       local current_tags
-      current_tags=$(yaml_query ".projects.${PROJECT_NAME}.tags")
+      current_tags=$(yaml_query ".projects.${PROJECT_NAME}.tags" 2>/dev/null || echo "")
       
       # Check if tag exists
       if ! echo "$current_tags" | grep -q "^${tag}$"; then
@@ -223,16 +240,19 @@ main() {
     for related in "${ADD_RELATED[@]}"; do
       # Get current related projects
       local current_related
-      current_related=$(yaml_query ".projects.${PROJECT_NAME}.related_projects")
+      current_related=$(yaml_query ".projects.${PROJECT_NAME}.related_projects" 2>/dev/null || echo "")
       
       # Check if already exists
-      if echo "$current_related" | grep -q "^${related}$"; then
+      if [ -n "$current_related" ] && [ "$current_related" != "null" ] && echo "$current_related" | grep -q "^${related}$"; then
         echo "⊘ Related project already exists: ${related}"
       else
         # Use yaml_array_append to add related project
-        yaml_array_append ".projects.${PROJECT_NAME}.related_projects" "$related"
-        echo "✓ Added related project: ${related}"
-        updates_made=$((updates_made + 1))
+        if yaml_array_append ".projects.${PROJECT_NAME}.related_projects" "$related" 2>/dev/null; then
+          echo "✓ Added related project: ${related}"
+          updates_made=$((updates_made + 1))
+        else
+          echo "⚠️  Warning: Failed to add related project: ${related}"
+        fi
       fi
     done
   fi
@@ -242,7 +262,7 @@ main() {
     for related in "${REMOVE_RELATED[@]}"; do
       # Get current related projects
       local current_related
-      current_related=$(yaml_query ".projects.${PROJECT_NAME}.related_projects")
+      current_related=$(yaml_query ".projects.${PROJECT_NAME}.related_projects" 2>/dev/null || echo "")
       
       # Check if exists
       if ! echo "$current_related" | grep -q "^${related}$"; then
