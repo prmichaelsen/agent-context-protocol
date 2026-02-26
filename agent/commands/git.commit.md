@@ -252,12 +252,20 @@ Analyze the working directory and stage relevant files:
 - Stage version files that were updated (AGENT.md, package.json, etc.)
 - Stage CHANGELOG.md
 - Stage source files that are part of this commit
+- **CRITICAL**: Skip gitignored files - never use `git add -f`
 - Optionally exclude unrelated changes (use `git add <specific-files>` instead of `git add -A`)
 
 **Decision Logic**:
 - If all changes are related to this commit: `git add -A`
 - If some changes are unrelated: `git add <file1> <file2> ...` (specific files only)
 - Always include: version files, CHANGELOG.md, and files related to the feature/fix
+- **Never force-add gitignored files**: If `git add` fails due to `.gitignore`, acknowledge and skip the file
+
+**Gitignore Handling**:
+- ❌ **NEVER** use `git add -f` to force-add gitignored files
+- ✅ If a file is gitignored, acknowledge it and skip it
+- ✅ Assume gitignored files were intentionally excluded
+- ✅ Only commit non-gitignored files
 
 **Example**:
 ```bash
@@ -266,9 +274,13 @@ git add -A
 
 # If only specific files should be committed:
 git add AGENT.md CHANGELOG.md agent/commands/git.commit.md
+
+# If git add fails due to .gitignore:
+# ❌ DON'T: git add -f ignored-file.txt
+# ✅ DO: Acknowledge file is gitignored and skip it
 ```
 
-**Action**: Intelligently stage files based on what's relevant to this commit.
+**Action**: Intelligently stage files based on what's relevant to this commit, respecting `.gitignore` rules.
 
 ### 8. Create Commit
 

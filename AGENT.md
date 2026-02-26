@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 4.2.0
+**Version**: 4.2.1
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -1035,6 +1035,23 @@ Run ./agent/scripts/unacp.install.sh to remove all ACP files (agent/ directory a
 **Examples**: "Run `@git.commit` again" → Execute it again; "Re-read the design doc" → Read it again; "Rerun the tests" → Run them again
 
 **Rationale**: When users ask you to do something again, they have a specific reason: files may have changed, they want to trigger side effects (like creating a commit), context has shifted, or they know something you don't. Always respect these requests and execute them with intention.
+
+#### Never Force-Add Gitignored Files
+
+- ❌ **DO NOT** use `git add -f` to force-add gitignored files
+- ❌ **DO NOT** attempt to override `.gitignore` rules
+- ❌ **DO NOT** suggest removing files from `.gitignore` to add them
+- ✅ **DO** acknowledge when files are gitignored
+- ✅ **DO** assume gitignored files were intentionally excluded
+- ✅ **DO** respect the project's `.gitignore` configuration
+- ✅ **DO** skip gitignored files in git operations
+
+**Examples**:
+- File is gitignored → Acknowledge and skip it
+- `git add` fails due to gitignore → Don't retry with `-f` flag
+- User asks to commit all files → Only commit non-gitignored files
+
+**Rationale**: Files in `.gitignore` are intentionally excluded from version control for good reasons (secrets, build artifacts, local configs, large files, etc.). Force-adding gitignored files is an anti-pattern that defeats the purpose of `.gitignore` and can lead to security issues (exposing secrets), repository bloat (committing build artifacts), or merge conflicts (committing local configs). Always respect `.gitignore` rules.
 
 ### Workflow Best Practices
 

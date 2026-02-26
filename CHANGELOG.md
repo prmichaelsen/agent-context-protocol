@@ -5,6 +5,24 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.1] - 2026-02-26
+
+### Added
+
+**Critical Rule**: Never Force-Add Gitignored Files
+- Added new critical rule to AGENT.md prohibiting use of `git add -f`
+- Agents must never attempt to override `.gitignore` rules
+- Gitignored files should be acknowledged and skipped
+- Rationale: Prevents security issues (exposing secrets), repository bloat (build artifacts), and merge conflicts (local configs)
+
+**@git.commit Enhancement**: Gitignore Handling
+- Updated Step 7 "Intelligently Stage Changes" with gitignore handling
+- Added explicit instructions to skip gitignored files
+- Added "Gitignore Handling" subsection with DO/DON'T examples
+- Clarified that `git add -f` should never be used
+
+**Impact**: All future agents will respect `.gitignore` rules and never force-add gitignored files, preventing common anti-patterns in version control.
+
 ## [4.1.1] - 2026-02-25
 
 ### Changed
