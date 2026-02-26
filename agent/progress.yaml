@@ -150,11 +150,11 @@ milestones:
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
-    progress: 50
+    progress: 60
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 5
+    tasks_completed: 6
     tasks_total: 10
     notes: |
       📋 Milestone 7: Global ACP Project Registry
@@ -163,12 +163,13 @@ milestones:
       - Context switching via @acp.project-set
       - 6 management commands (list, set, info, update, remove, sync)
       - Automatic registration on project creation
-      - 9 tasks planned (52-60): Infrastructure, Commands (6), Testing, Documentation
+      - 10 tasks planned (52-60, 70): Infrastructure, Commands (6), Testing, Documentation, YAML Fix
       - ✅ Task 52: Registry Infrastructure complete
       - ✅ Task 53: @acp.project-list Command complete
       - ✅ Task 54: @acp.project-set Command complete
       - ✅ Task 55: @acp.project-info Command complete
       - ✅ Task 56: @acp.project-update Command complete
+      - ✅ Task 57: @acp.project-remove Command complete
   
   - id: M8
     name: Experimental Features System
@@ -1004,12 +1005,25 @@ tasks:
     
     - id: task-57
       name: "@acp.project-remove Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-57-project-remove.md
       estimated_hours: 1-2
-      completed_date: null
+      actual_hours: 1
+      completed_date: 2026-02-26
       notes: |
-        Remove projects from registry
+        ✅ @acp.project-remove command complete!
+        - Created agent/scripts/acp.project-remove.sh (removal script)
+        - Created agent/commands/acp.project-remove.md (command documentation)
+        - Created e2e/acp.project-remove.test.sh (8 comprehensive tests, 25 assertions)
+        - Removes projects from registry with optional directory deletion
+        - Safety features: confirmation prompts, extra DELETE confirmation
+        - Warns when removing current project
+        - Clears current_project if removing current
+        - --delete-files flag for complete removal
+        - -y/--yes flag for automation
+        - All 8 E2E tests passing (25/25 assertions, 100%)
+        - Added assert_dir_exists() and assert_dir_not_exists() to tests/common.sh
+        - No syntax errors (bash -n passed)
     
     - id: task-58
       name: "@acp.projects-sync Command"
@@ -1305,11 +1319,40 @@ progress:
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
-  milestone_7: 56
+  milestone_7: 60
   milestone_8: 100
   milestone_9: 0
 
 recent_work:
+  - date: 2026-02-26
+    description: |
+      ✅ Task 57 Complete: @acp.project-remove Command
+      Project removal command implemented with comprehensive E2E tests (25/25 assertions passing).
+    items:
+      - ✅ Created agent/scripts/acp.project-remove.sh (removal script)
+      - ✅ Created agent/commands/acp.project-remove.md (command documentation)
+      - ✅ Created e2e/acp.project-remove.test.sh (8 tests, 25 assertions)
+      - ✅ Removes projects from registry with optional directory deletion
+      - ✅ Safety features: confirmation prompts, extra DELETE confirmation for files
+      - ✅ Warns when removing current project
+      - ✅ Clears current_project if removing current
+      - ✅ --delete-files flag for complete removal
+      - ✅ -y/--yes flag for automation
+      - ✅ All 8 E2E tests passing (100%):
+        - Test 1: Remove from registry only (6 assertions)
+        - Test 2: Remove with directory deletion (5 assertions)
+        - Test 3: Remove non-current project (3 assertions)
+        - Test 4: Project not found (3 assertions)
+        - Test 5: No arguments (2 assertions)
+        - Test 6: Registry not found (2 assertions)
+        - Test 7: Missing directory (3 assertions)
+        - Test 8: Timestamp updates (1 assertion)
+      - ✅ Added assert_dir_exists() and assert_dir_not_exists() to tests/common.sh
+      - ✅ No syntax errors (bash -n passed)
+      - 📋 Task completed in 1 hour (estimated: 1-2 hours)
+      - 📋 Milestone 7: 50% → 60% complete (6/10 tasks)
+      - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
+  
   - date: 2026-02-26
     description: |
       📋 Milestone 9 Planned: Template Source Files Support

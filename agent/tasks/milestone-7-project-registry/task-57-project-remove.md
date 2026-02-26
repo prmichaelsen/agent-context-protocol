@@ -3,7 +3,7 @@
 **Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
 **Estimated Time**: 1-2 hours
 **Dependencies**: Task 52 (Registry Infrastructure)
-**Status**: Not Started
+**Status**: Completed
 
 ---
 

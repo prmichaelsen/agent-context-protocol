@@ -196,6 +196,44 @@ assert_file_not_exists() {
     fi
 }
 
+# Assert that directory exists
+assert_dir_exists() {
+    local dir_path="$1"
+    local test_name="${2:-Directory exists: $dir_path}"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if [ -d "$dir_path" ]; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected directory to exist: ${YELLOW}$dir_path${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
+# Assert that directory does not exist
+assert_dir_not_exists() {
+    local dir_path="$1"
+    local test_name="${2:-Directory does not exist: $dir_path}"
+    
+    TESTS_RUN=$((TESTS_RUN + 1))
+    
+    if [ ! -d "$dir_path" ]; then
+        echo -e "${GREEN}✓${NC} $test_name"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+        return 0
+    else
+        echo -e "${RED}✗${NC} $test_name"
+        echo -e "  Expected directory to NOT exist: ${YELLOW}$dir_path${NC}"
+        TESTS_FAILED=$((TESTS_FAILED + 1))
+        return 1
+    fi
+}
+
 # Print test suite header
 print_suite_header() {
     local suite_name="$1"
