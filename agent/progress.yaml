@@ -170,6 +170,7 @@ milestones:
       - ✅ Task 55: @acp.project-info Command complete
       - ✅ Task 56: @acp.project-update Command complete
       - ✅ Task 57: @acp.project-remove Command complete
+      - ✅ Task 58: @acp.projects-sync Command complete
       - ✅ Task 70: Fix YAML Parser Array Operations complete
   
   - id: M8
@@ -1064,12 +1065,25 @@ tasks:
     
     - id: task-58
       name: "@acp.projects-sync Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-58-projects-sync.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1.5
+      completed_date: 2026-02-26
       notes: |
-        Sync registry with filesystem (discover unregistered projects)
+        ✅ @acp.projects-sync command complete!
+        - Created agent/scripts/acp.projects-sync.sh (filesystem scanner)
+        - Created agent/commands/acp.projects-sync.md (comprehensive documentation)
+        - Created e2e/acp.projects-sync.test.sh (8 test scenarios)
+        - Scans ~/.acp/projects/ for ACP projects
+        - Detects projects with agent/progress.yaml
+        - Skips already-registered projects
+        - Prompts user for each unregistered project
+        - Extracts metadata from progress.yaml
+        - Registers selected projects
+        - Displays summary statistics
+        - No syntax errors (bash -n passed)
+        - Manual testing successful
     
     - id: task-70
       name: "Fix YAML Parser Array Operations"
@@ -1394,6 +1408,29 @@ recent_work:
       - 📋 Task completed in 1.5 hours (estimated: 2-3 hours)
       - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
       - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
+
+  - date: 2026-02-26
+    description: |
+      ✅ Task 58 Complete: @acp.projects-sync Command
+      Project discovery and registration command implemented with comprehensive documentation.
+    items:
+      - ✅ Task 58: @acp.projects-sync Command complete
+      - ✅ Created agent/scripts/acp.projects-sync.sh (filesystem scanner, 105 lines)
+      - ✅ Created agent/commands/acp.projects-sync.md (comprehensive documentation, 377 lines)
+      - ✅ Created e2e/acp.projects-sync.test.sh (8 test scenarios, 35 assertions)
+      - ✅ Scans ~/.acp/projects/ for ACP projects (has agent/progress.yaml)
+      - ✅ Skips already-registered projects automatically
+      - ✅ Prompts user for each unregistered project
+      - ✅ Extracts metadata from progress.yaml (type, description)
+      - ✅ Registers selected projects with timestamps
+      - ✅ Displays summary statistics (found, registered)
+      - ✅ Handles edge cases (empty dir, non-ACP dirs, malformed YAML)
+      - ✅ Auto-initializes registry if needed
+      - ✅ No syntax errors (bash -n passed)
+      - ✅ Manual testing successful
+      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours, 150% efficiency)
+      - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
+      - 📋 Next: Task 59 - Integration & Testing (3-4 hours)
 
   - date: 2026-02-26
     description: |
