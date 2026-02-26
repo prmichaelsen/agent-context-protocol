@@ -677,6 +677,85 @@ When working in any project, you can discover globally installed packages:
 
 ---
 
+## Project Registry System
+
+ACP supports a global project registry at `~/.acp/projects.yaml` that tracks all projects in the `~/.acp/projects/` workspace. This enables project discovery, context switching, and metadata management across your entire ACP workspace.
+
+### Key Features
+
+- **Project Discovery**: List all registered projects with filtering options
+- **Context Switching**: Quickly switch between projects using `@acp.project-set`
+- **Metadata Tracking**: Track project type, status, tags, and relationships
+- **Automatic Registration**: Projects auto-register when created via `@acp.project-create`
+- **Sync Discovery**: Find and register existing projects with `@acp.projects-sync`
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| [`@acp.project-list`](agent/commands/acp.project-list.md) | List all registered projects with optional filtering |
+| [`@acp.project-set`](agent/commands/acp.project-set.md) | Switch to a project (set as current) |
+| [`@acp.project-info`](agent/commands/acp.project-info.md) | Show detailed project information |
+| [`@acp.project-update`](agent/commands/acp.project-update.md) | Update project metadata |
+| [`@acp.project-remove`](agent/commands/acp.project-remove.md) | Remove project from registry |
+| [`@acp.projects-sync`](agent/commands/acp.projects-sync.md) | Discover and register existing projects |
+
+### Registry Structure
+
+The `~/.acp/projects.yaml` file tracks all registered projects:
+
+```yaml
+projects:
+  - name: my-project
+    path: /home/user/.acp/projects/my-project
+    type: library
+    status: in_progress
+    registered: 2026-02-23T10:00:00Z
+    last_accessed: 2026-02-26T15:30:00Z
+    tags:
+      - typescript
+      - npm
+    related_projects: []
+    description: My awesome project
+
+current_project: my-project
+```
+
+### Example Workflow
+
+```bash
+# List all projects
+@acp.project-list
+
+# Switch to a specific project
+@acp.project-set my-project
+
+# View project details
+@acp.project-info
+
+# Update project metadata
+@acp.project-update --tags "typescript,api,rest"
+
+# Discover unregistered projects
+@acp.projects-sync
+
+# Remove a project from registry (keeps files)
+@acp.project-remove old-project
+```
+
+### For Agents: How to Use the Registry
+
+When working in any ACP project, you can:
+
+1. **Check current project**: Read `~/.acp/projects.yaml` and find `current_project`
+2. **List available projects**: Use `@acp.project-list` to see all projects
+3. **Switch context**: Use `@acp.project-set <name>` to change projects
+4. **Get project info**: Use `@acp.project-info` for detailed metadata
+
+**Automatic Tracking**: The `@acp.init` command automatically reads the registry and reports the current project context.
+
+---
+
 ## Experimental Features
 
 ACP supports marking features as "experimental" to enable safe innovation without affecting stable installations.

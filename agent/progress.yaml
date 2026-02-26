@@ -149,21 +149,21 @@ milestones:
   
   - id: M7
     name: Global ACP Project Registry
-    status: in_progress
-    progress: 80
+    status: completed
+    progress: 100
     started: 2026-02-23
-    completed: null
+    completed: 2026-02-26
     estimated_weeks: 1-2
-    tasks_completed: 8
+    tasks_completed: 10
     tasks_total: 10
     notes: |
-      📋 Milestone 7: Global ACP Project Registry
+      ✅ Milestone 7: Global ACP Project Registry - COMPLETE!
       - Centralized project registry at ~/.acp/projects.yaml
       - Project discovery and metadata tracking
       - Context switching via @acp.project-set
       - 6 management commands (list, set, info, update, remove, sync)
       - Automatic registration on project creation
-      - 10 tasks planned (52-60, 70): Infrastructure, Commands (6), Testing, Documentation, YAML Fix
+      - 10 tasks completed (52-60, 70): Infrastructure, Commands (6), Testing, Documentation, YAML Fix
       - ✅ Task 52: Registry Infrastructure complete
       - ✅ Task 53: @acp.project-list Command complete
       - ✅ Task 54: @acp.project-set Command complete
@@ -173,6 +173,7 @@ milestones:
       - ✅ Task 58: @acp.projects-sync Command complete
       - ✅ Task 59: Integration & Testing complete
       - ✅ Task 70: Fix YAML Parser Array Operations complete
+      - ✅ Task 60: Documentation Updates complete
   
   - id: M8
     name: Experimental Features System
@@ -1121,12 +1122,18 @@ tasks:
     
     - id: task-60
       name: "Documentation Updates"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-60-documentation.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-02-26
       notes: |
-        Update AGENT.md, README.md, CHANGELOG.md
+        ✅ Documentation updates complete!
+        - Added "Project Registry System" section to AGENT.md
+        - Added "Project Registry" section to README.md
+        - Added Project Registry commands to command list in README.md
+        - Added v4.3.0 changelog entry to CHANGELOG.md
+        - Updated version numbers (4.2.0 → 4.3.0)
   
   milestone_8:
     - id: task-61
