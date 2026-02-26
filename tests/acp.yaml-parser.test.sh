@@ -670,6 +670,83 @@ rm tests/fixtures/mixed-work.yaml
 
 echo ""
 
+# ============================================================================
+# Test Group 19: yaml_delete Function
+# ============================================================================
+echo -e "${BLUE}${BOLD}Test Group 19: yaml_delete Function${NC}"
+echo ""
+
+# Test 1: Delete simple scalar
+cat > tests/fixtures/delete-test.yaml << 'EOF'
+name: test
+version: 1.0.0
+description: Test package
+EOF
+
+yaml_parse tests/fixtures/delete-test.yaml
+yaml_delete ".description"
+yaml_write tests/fixtures/delete-test.yaml
+
+yaml_parse tests/fixtures/delete-test.yaml
+result=$(yaml_query ".description" 2>/dev/null || echo "")
+assert_equals "" "$result" "Delete: simple scalar removed"
+assert_equals "test" "$(yaml_query '.name')" "Delete: other fields remain"
+
+# Test 2: Delete nested field
+cat > tests/fixtures/delete-test.yaml << 'EOF'
+project:
+  name: test
+  version: 1.0.0
+  metadata:
+    author: Test
+    license: MIT
+EOF
+
+yaml_parse tests/fixtures/delete-test.yaml
+yaml_delete ".project.metadata.license"
+yaml_write tests/fixtures/delete-test.yaml
+
+yaml_parse tests/fixtures/delete-test.yaml
+result=$(yaml_query ".project.metadata.license" 2>/dev/null || echo "")
+assert_equals "" "$result" "Delete: nested field removed"
+assert_equals "Test" "$(yaml_query '.project.metadata.author')" "Delete: sibling fields remain"
+
+# Test 3: Delete entire object
+cat > tests/fixtures/delete-test.yaml << 'EOF'
+projects:
+  project1:
+    name: Project 1
+    type: web
+  project2:
+    name: Project 2
+    type: cli
+EOF
+
+yaml_parse tests/fixtures/delete-test.yaml
+yaml_delete ".projects.project1"
+yaml_write tests/fixtures/delete-test.yaml
+
+yaml_parse tests/fixtures/delete-test.yaml
+result=$(yaml_query ".projects.project1.name" 2>/dev/null || echo "")
+assert_equals "" "$result" "Delete: entire object removed"
+assert_equals "Project 2" "$(yaml_query '.projects.project2.name')" "Delete: other objects remain"
+
+# Test 4: Delete non-existent field (should error)
+cat > tests/fixtures/delete-test.yaml << 'EOF'
+name: test
+EOF
+
+yaml_parse tests/fixtures/delete-test.yaml
+set +e
+yaml_delete ".nonexistent" 2>/dev/null
+exit_code=$?
+set -e
+assert_not_equals 0 "$exit_code" "Delete: non-existent field returns error"
+
+rm -f tests/fixtures/delete-test.yaml
+
+echo ""
+
 # Cleanup
 cleanup_test_files
 
