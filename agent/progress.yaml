@@ -2620,23 +2620,13 @@ recent_work:
       - 🎊 ACP Commands v1.1.0 fully complete!
 
 next_steps:
-<<<<<<< HEAD
-  - Continue Milestone 7: Global ACP Project Registry (44% complete)
-  - Task 56: @acp.project-update Command (1-2 hours) - Update project metadata
-  - Task 57: @acp.project-remove Command (1-2 hours) - Remove projects from registry
-  - Task 58: @acp.projects-sync Command (2-3 hours) - Sync registry with filesystem
-  - Task 59: Integration & Testing (3-4 hours) - Comprehensive test suite
-  - Task 60: Documentation Updates (2-3 hours) - Update AGENT.md, README.md, CHANGELOG.md
-=======
-  - 📋 Continue Milestone 7: Global ACP Project Registry (33% complete)
-  - Next: Task 55 - @acp.project-info Command (1-2 hours)
-  - Then: Task 56 - @acp.project-update Command (1-2 hours)
-  - Then: Task 57 - @acp.project-remove Command (1-2 hours)
+  - 📋 Continue Milestone 7: Global ACP Project Registry (56% complete)
+  - Next: Task 57 - @acp.project-remove Command (1-2 hours)
   - Then: Task 58 - @acp.projects-sync Command (2-3 hours)
   - Then: Task 59 - Integration & Testing (3-4 hours)
   - Then: Task 60 - Documentation Updates (2-3 hours)
   - Also pending: Milestone 3 tasks 65-69 (Script-Command Binding, 8-13 hours)
->>>>>>> 6aa8af3 (perf(package-install): optimize installation with batch operations for 10-20x speedup)
+  - Also pending: Milestone 3 task 70 complete (Package Install Optimization)
 
 notes:
   - Using flat directory structure with dot notation (acp.status.md)
