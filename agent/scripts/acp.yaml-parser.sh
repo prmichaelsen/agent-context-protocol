@@ -492,10 +492,16 @@ yaml_set() {
     parent=$(echo "$node" | cut -d'|' -f5)
     children=$(echo "$node" | cut -d'|' -f6)
     
-    new_value=$(echo "$new_value" | sed 's/|/\\|/g')
-    
-    local updated="$id|$type|$key|$new_value|$parent|$children"
-    sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    # Check if converting to empty array
+    if [ "$new_value" = "[]" ]; then
+        # Convert node to array type and clear children
+        local updated="$id|array|$key||$parent|"
+        sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    else
+        new_value=$(echo "$new_value" | sed 's/|/\\|/g')
+        local updated="$id|$type|$key|$new_value|$parent|$children"
+        sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    fi
 }
 
 yaml_write() {
