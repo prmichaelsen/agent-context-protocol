@@ -129,6 +129,24 @@ milestones:
       - Package preference support
       - 8 tasks planned (37-44): Infrastructure, Configurables, Integration, Management, Package Support, Presets, Testing, Documentation
   
+  - id: M9
+    name: Template Source Files Support
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 2-3
+    tasks_completed: 0
+    tasks_total: 6
+    notes: |
+      📋 Milestone 9: Template Source Files Support
+      - Extend package system to bundle actual code files and configs
+      - Templates install to project root (not agent/ directory)
+      - Variable substitution for personalization
+      - Selective installation via --templates flag
+      - Conflict detection and safety warnings
+      - 6 tasks planned (71-76): Schema, Installation, Manifest, Commands, Testing, Documentation
+  
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
@@ -1102,6 +1120,61 @@ tasks:
         - Created e2e/acp.experimental-features.test.sh (E2E tests - future enhancement)
         - Manual validation testing complete (all scenarios working)
   
+  milestone_9:
+    - id: task-71
+      name: Schema Extension for Templates
+      status: not_started
+      file: agent/tasks/milestone-9-template-source-files/task-71-schema-extension.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Extend package.yaml schema to support templates with metadata fields
+    
+    - id: task-72
+      name: Template Installation System
+      status: not_started
+      file: agent/tasks/milestone-9-template-source-files/task-72-installation-system.md
+      estimated_hours: 6-8
+      completed_date: null
+      notes: |
+        Implement template scanning, installation, variable substitution, target path handling
+    
+    - id: task-73
+      name: Manifest Tracking for Templates
+      status: not_started
+      file: agent/tasks/milestone-9-template-source-files/task-73-manifest-tracking.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Track installed templates in manifest with versions, targets, checksums, variables
+    
+    - id: task-74
+      name: Command Updates for Templates
+      status: not_started
+      file: agent/tasks/milestone-9-template-source-files/task-74-command-updates.md
+      estimated_hours: 4-5
+      completed_date: null
+      notes: |
+        Update all package commands to support templates (install, update, remove, validate, list)
+    
+    - id: task-75
+      name: Testing Suite for Templates
+      status: not_started
+      file: agent/tasks/milestone-9-template-source-files/task-75-testing-suite.md
+      estimated_hours: 6-8
+      completed_date: null
+      notes: |
+        Comprehensive unit, integration, and E2E tests for template system
+    
+    - id: task-76
+      name: Documentation for Templates
+      status: not_started
+      file: agent/tasks/milestone-9-template-source-files/task-76-documentation.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Update AGENT.md, README.md, CHANGELOG.md with template documentation
+  
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -1214,11 +1287,11 @@ tasks:
 
 documentation:
   design_documents: 9
-  milestone_documents: 8
+  milestone_documents: 10
   pattern_documents: 2
-  task_documents: 69
+  task_documents: 81
   command_documents: 26
-  last_updated: 2026-02-24
+  last_updated: 2026-02-26
 
 progress:
   planning: 100
@@ -1234,8 +1307,56 @@ progress:
   milestone_6: 0
   milestone_7: 56
   milestone_8: 100
+  milestone_9: 0
 
 recent_work:
+  - date: 2026-02-26
+    description: |
+      📋 Milestone 9 Planned: Template Source Files Support
+      Complete planning for template system with milestone and 6 tasks.
+    items:
+      - ✅ Analyzed design document: local.acp-template-source-files.md
+      - ✅ Created agent/milestones/milestone-9-template-source-files.md
+      - ✅ Created 6 task documents in milestone-9-template-source-files/ directory:
+        - Task 71: Schema Extension (3-4 hours)
+        - Task 72: Installation System (6-8 hours)
+        - Task 73: Manifest Tracking (2-3 hours)
+        - Task 74: Command Updates (4-5 hours)
+        - Task 75: Testing Suite (6-8 hours)
+        - Task 76: Documentation (3-4 hours)
+      - ✅ Updated progress.yaml with M9 and all tasks
+      - ✅ Template system extends package management to actual code files
+      - ✅ Enables distribution of TypeScript configs, build scripts, source templates
+      - ✅ Variable substitution for personalization
+      - ✅ Selective installation via --templates flag
+      - 📋 Milestone 9: 0% complete (0/6 tasks)
+      - 📋 Total estimated effort: 24-32 hours (2-3 weeks)
+      - 📋 Next: Review milestone and tasks, then begin implementation
+  
+  - date: 2026-02-26
+    description: |
+      🚀 Agent Context Initialized via @acp.init
+      Complete project context loaded. All documentation and source files reviewed.
+    items:
+      - ✅ ACP version check: v4.1.1 (up to date)
+      - ✅ Read agent/progress.yaml - Current status confirmed (2653 lines)
+      - ✅ No local manifest.yaml (this is ACP core project)
+      - ✅ No global packages installed at ~/.acp/manifest.yaml
+      - ✅ Read 14 design documents (commands, package-mgmt, package-dev, script-binding, etc.)
+      - ✅ Read 8 milestone documents (M1-M8, all phases documented)
+      - ✅ Read 69+ task documents across all milestones
+      - ✅ Reviewed README.md (337 lines)
+      - ✅ Reviewed CHANGELOG.md (1468 lines - first 300 lines, up to v4.1.1)
+      - ✅ Reviewed acp.common.sh (1537 lines, 40+ utility functions)
+      - ✅ Reviewed acp.package-install.sh (455 lines, optimized version)
+      - ✅ Verified 35 command files (all with flat dot notation)
+      - ✅ Verified 23 script files in agent/scripts/
+      - ✅ Documentation is current and accurate
+      - ✅ Progress tracking updated with initialization entry
+      - 📋 Project Status: M1-M5, M8 complete (100%), M7 in progress (50%)
+      - 📋 Current Focus: Milestone 7 - Global ACP Project Registry
+      - 📋 Also Pending: Milestone 3 tasks 65-69 (Script-Command Binding)
+  
   - date: 2026-02-26
     description: |
       ✅ Task 70 Complete: Package Install Performance Optimization Deployed
