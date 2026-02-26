@@ -5,6 +5,35 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0] - 2026-02-26
+
+### Added
+
+**New Command**: `@acp.projects-sync`
+- Discover unregistered ACP projects in `~/.acp/projects/` directory
+- Automatically detect projects with `agent/progress.yaml` file
+- Skip already-registered projects with clear indicators
+- Prompt user for each unregistered project found
+- Extract metadata from `progress.yaml` (type, description)
+- Register selected projects with timestamps
+- Display summary statistics (projects found, newly registered)
+- Handle edge cases (empty directory, non-ACP directories, malformed YAML)
+- Auto-initialize registry if needed
+- Interactive prompts with Y/n confirmation
+
+**Use Cases**:
+- Migrate existing projects to registry system
+- Discover manually created projects
+- Organize all ACP projects in one registry
+- Bulk registration of multiple projects
+
+**Implementation**:
+- Script: `agent/scripts/acp.projects-sync.sh` (105 lines)
+- Documentation: `agent/commands/acp.projects-sync.md` (377 lines)
+- Tests: `e2e/acp.projects-sync.test.sh` (8 scenarios, 35 assertions)
+
+**Milestone Progress**: M7 (Global ACP Project Registry) - 70% complete (7/10 tasks)
+
 ## [4.1.1] - 2026-02-25
 
 ### Changed

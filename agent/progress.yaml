@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 4.1.1
+  version: 4.2.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M7
@@ -132,11 +132,11 @@ milestones:
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
-    progress: 60
+    progress: 70
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 6
+    tasks_completed: 7
     tasks_total: 10
     notes: |
       📋 Milestone 7: Global ACP Project Registry
@@ -152,7 +152,8 @@ milestones:
       - ✅ Task 55: @acp.project-info Command complete
       - ✅ Task 56: @acp.project-update Command complete
       - ✅ Task 57: @acp.project-remove Command complete
-      - 📋 Next: Task 58 - @acp.projects-sync Command
+      - ✅ Task 58: @acp.projects-sync Command complete
+      - 📋 Next: Task 70 - Fix YAML Parser Array Operations (already complete)
   
   - id: M8
     name: Experimental Features System
@@ -993,21 +994,40 @@ tasks:
     
     - id: task-58
       name: "@acp.projects-sync Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-58-projects-sync.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1.5
+      completed_date: 2026-02-26
       notes: |
-        Sync registry with filesystem (discover unregistered projects)
+        ✅ @acp.projects-sync command complete!
+        - Created agent/scripts/acp.projects-sync.sh (filesystem scanner)
+        - Created agent/commands/acp.projects-sync.md (comprehensive documentation)
+        - Created e2e/acp.projects-sync.test.sh (8 test scenarios)
+        - Scans ~/.acp/projects/ for ACP projects
+        - Detects projects with agent/progress.yaml
+        - Skips already-registered projects
+        - Prompts user for each unregistered project
+        - Extracts metadata from progress.yaml
+        - Registers selected projects
+        - Displays summary statistics
+        - No syntax errors (bash -n passed)
+        - Manual testing successful
     
     - id: task-70
       name: "Fix YAML Parser Array Operations"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-70-fix-yaml-array-operations.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1.5
+      completed_date: 2026-02-26
       notes: |
-        Fix yaml_array_append to enable tag/related project operations in @acp.project-update
+        ✅ Task 70 complete! (Completed before Task 58)
+        - Fixed yaml_set() to create array nodes for "[]" value
+        - Unblocked yaml_array_append() functionality
+        - Added Test Group 20 with 6 comprehensive tests
+        - Deployed to mainline for ecosystem availability
+        - Cherry-picked to project-registry branch
     
     - id: task-59
       name: "Integration & Testing"
@@ -1230,10 +1250,33 @@ progress:
   milestone_4: 100
   milestone_5: 100
   milestone_6: 0
-  milestone_7: 56
+  milestone_7: 70
   milestone_8: 100
 
 recent_work:
+  - date: 2026-02-26
+    description: |
+      ✅ Task 58 Complete: @acp.projects-sync Command
+      Project discovery and registration command implemented with comprehensive documentation.
+    items:
+      - ✅ Task 58: @acp.projects-sync Command complete
+      - ✅ Created agent/scripts/acp.projects-sync.sh (filesystem scanner, 105 lines)
+      - ✅ Created agent/commands/acp.projects-sync.md (comprehensive documentation, 377 lines)
+      - ✅ Created e2e/acp.projects-sync.test.sh (8 test scenarios, 35 assertions)
+      - ✅ Scans ~/.acp/projects/ for ACP projects (has agent/progress.yaml)
+      - ✅ Skips already-registered projects automatically
+      - ✅ Prompts user for each unregistered project
+      - ✅ Extracts metadata from progress.yaml (type, description)
+      - ✅ Registers selected projects with timestamps
+      - ✅ Displays summary statistics (found, registered)
+      - ✅ Handles edge cases (empty dir, non-ACP dirs, malformed YAML)
+      - ✅ Auto-initializes registry if needed
+      - ✅ No syntax errors (bash -n passed)
+      - ✅ Manual testing successful
+      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours, 150% efficiency)
+      - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
+      - 📋 Next: Task 59 - Integration & Testing (3-4 hours)
+  
   - date: 2026-02-26
     description: |
       ✅ Task 57 Complete: @acp.project-remove Command + yaml_delete Function
