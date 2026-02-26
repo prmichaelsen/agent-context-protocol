@@ -226,10 +226,23 @@ yaml_parse() {
                 prev_indent="$indent"
                 last_key_node="$node_id"
             else
-                # Scalar value
-                local node_id
-                node_id=$(create_node "scalar" "$key" "$value" "$current_parent")
-                add_child "$current_parent" "$node_id"
+                # Check for empty array [] or empty map {}
+                if [ "$value" = "[]" ]; then
+                    # Empty array
+                    local node_id
+                    node_id=$(create_node "array" "$key" "" "$current_parent")
+                    add_child "$current_parent" "$node_id"
+                elif [ "$value" = "{}" ]; then
+                    # Empty map
+                    local node_id
+                    node_id=$(create_node "map" "$key" "" "$current_parent")
+                    add_child "$current_parent" "$node_id"
+                else
+                    # Scalar value
+                    local node_id
+                    node_id=$(create_node "scalar" "$key" "$value" "$current_parent")
+                    add_child "$current_parent" "$node_id"
+                fi
             fi
         fi
     done < "$file"
@@ -445,8 +458,17 @@ yaml_set() {
             if [ -z "$child_node" ]; then
                 # Create missing node
                 if [ "$is_last" -eq 1 ]; then
-                    # Last segment - create scalar with value
-                    child_node=$(create_node_and_link "scalar" "$segment" "$new_value" "$current_node")
+                    # Last segment - check for empty array/map
+                    if [ "$new_value" = "[]" ]; then
+                        # Create empty array
+                        child_node=$(create_node_and_link "array" "$segment" "" "$current_node")
+                    elif [ "$new_value" = "{}" ]; then
+                        # Create empty map
+                        child_node=$(create_node_and_link "map" "$segment" "" "$current_node")
+                    else
+                        # Create scalar with value
+                        child_node=$(create_node_and_link "scalar" "$segment" "$new_value" "$current_node")
+                    fi
                     return 0
                 else
                     # Intermediate segment - create map

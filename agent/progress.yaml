@@ -150,11 +150,11 @@ milestones:
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
-    progress: 60
+    progress: 70
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 6
+    tasks_completed: 7
     tasks_total: 10
     notes: |
       📋 Milestone 7: Global ACP Project Registry
@@ -170,6 +170,7 @@ milestones:
       - ✅ Task 55: @acp.project-info Command complete
       - ✅ Task 56: @acp.project-update Command complete
       - ✅ Task 57: @acp.project-remove Command complete
+      - ✅ Task 70: Fix YAML Parser Array Operations complete
   
   - id: M8
     name: Experimental Features System
@@ -1036,12 +1037,19 @@ tasks:
     
     - id: task-70
       name: "Fix YAML Parser Array Operations"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-70-fix-yaml-array-operations.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 1.5
+      completed_date: 2026-02-26
       notes: |
-        Fix yaml_array_append to enable tag/related project operations in @acp.project-update
+        ✅ YAML parser array operations fixed!
+        - Fixed parser to detect [] as empty array (not scalar)
+        - Fixed yaml_set to create array nodes for [] values
+        - Created comprehensive test suite (11/11 tests passing, 100%)
+        - Updated acp.project-update.sh to use yaml_array_append
+        - Removed workarounds, clean implementation using parser API
+        - Real-world testing confirms fix works correctly
     
     - id: task-59
       name: "Integration & Testing"
@@ -1324,6 +1332,23 @@ progress:
   milestone_9: 0
 
 recent_work:
+  - date: 2026-02-26
+    description: |
+      ✅ Task 70 Complete: Fix YAML Parser Array Operations
+      Critical fix enabling proper array operations in YAML parser.
+    items:
+      - ✅ Analyzed yaml_array_append function - found root cause
+      - ✅ Created comprehensive test suite (tests/yaml-array-operations.test.sh)
+      - ✅ Fixed parser to detect [] as empty array (not scalar)
+      - ✅ Fixed yaml_set to create array nodes for [] values
+      - ✅ All 11 unit tests passing (100%)
+      - ✅ Updated acp.project-update.sh to use yaml_array_append
+      - ✅ Removed workarounds (lines 185, 241)
+      - ✅ Real-world testing confirms fix works correctly
+      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours)
+      - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
+      - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
+  
   - date: 2026-02-26
     description: |
       ✅ Task 57 Complete: @acp.project-remove Command

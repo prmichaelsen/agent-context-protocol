@@ -177,12 +177,8 @@ main() {
       if echo "$current_tags" | grep -q "^${tag}$"; then
         echo "⊘ Tag already exists: ${tag}"
       else
-        # Add tag to array
-        local tag_index=0
-        if [ -n "$current_tags" ] && [ "$current_tags" != "null" ]; then
-          tag_index=$(echo "$current_tags" | wc -l)
-        fi
-        yaml_set ".projects.${PROJECT_NAME}.tags[${tag_index}]" "$tag"
+        # Use yaml_array_append to add tag
+        yaml_array_append ".projects.${PROJECT_NAME}.tags" "$tag"
         echo "✓ Added tag: ${tag}"
         updates_made=$((updates_made + 1))
       fi
@@ -233,12 +229,8 @@ main() {
       if echo "$current_related" | grep -q "^${related}$"; then
         echo "⊘ Related project already exists: ${related}"
       else
-        # Add to array
-        local related_index=0
-        if [ -n "$current_related" ] && [ "$current_related" != "null" ]; then
-          related_index=$(echo "$current_related" | wc -l)
-        fi
-        yaml_set ".projects.${PROJECT_NAME}.related_projects[${related_index}]" "$related"
+        # Use yaml_array_append to add related project
+        yaml_array_append ".projects.${PROJECT_NAME}.related_projects" "$related"
         echo "✓ Added related project: ${related}"
         updates_made=$((updates_made + 1))
       fi
