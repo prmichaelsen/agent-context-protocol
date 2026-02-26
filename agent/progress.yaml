@@ -132,11 +132,11 @@ milestones:
   - id: M7
     name: Global ACP Project Registry
     status: in_progress
-    progress: 50
+    progress: 60
     started: 2026-02-23
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 5
+    tasks_completed: 6
     tasks_total: 10
     notes: |
       📋 Milestone 7: Global ACP Project Registry
@@ -145,12 +145,14 @@ milestones:
       - Context switching via @acp.project-set
       - 6 management commands (list, set, info, update, remove, sync)
       - Automatic registration on project creation
-      - 9 tasks planned (52-60): Infrastructure, Commands (6), Testing, Documentation
+      - 10 tasks planned (52-60, 70): Infrastructure, Commands (6), Testing, Documentation, YAML fixes
       - ✅ Task 52: Registry Infrastructure complete
       - ✅ Task 53: @acp.project-list Command complete
       - ✅ Task 54: @acp.project-set Command complete
       - ✅ Task 55: @acp.project-info Command complete
       - ✅ Task 56: @acp.project-update Command complete
+      - ✅ Task 57: @acp.project-remove Command complete
+      - 📋 Next: Task 58 - @acp.projects-sync Command
   
   - id: M8
     name: Experimental Features System
@@ -973,12 +975,21 @@ tasks:
     
     - id: task-57
       name: "@acp.project-remove Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-7-project-registry/task-57-project-remove.md
       estimated_hours: 1-2
-      completed_date: null
+      actual_hours: 2
+      completed_date: 2026-02-26
       notes: |
-        Remove projects from registry
+        ✅ @acp.project-remove command complete!
+        - Created agent/scripts/acp.project-remove.sh (258 lines)
+        - Created agent/commands/acp.project-remove.md (337 lines)
+        - Implemented yaml_delete() in acp.yaml-parser.sh (95 lines)
+        - Added yaml_delete tests to acp.yaml-parser.test.sh
+        - Created e2e/acp.project-remove.test.sh (10 tests, 36/37 passing 97%)
+        - Removes from registry with optional file deletion
+        - Clears current_project if removing active project
+        - Comprehensive error handling and safety features
     
     - id: task-58
       name: "@acp.projects-sync Command"
@@ -1223,6 +1234,26 @@ progress:
   milestone_8: 100
 
 recent_work:
+  - date: 2026-02-26
+    description: |
+      ✅ Task 57 Complete: @acp.project-remove Command + yaml_delete Function
+      Project removal command implemented with new YAML parser deletion capability.
+    items:
+      - ✅ Task 57: @acp.project-remove Command complete
+      - ✅ Implemented yaml_delete() function in acp.yaml-parser.sh (95 lines)
+      - ✅ Added yaml_delete tests to acp.yaml-parser.test.sh (4 test cases)
+      - ✅ Created agent/scripts/acp.project-remove.sh (258 lines)
+      - ✅ Created agent/commands/acp.project-remove.md (337 lines)
+      - ✅ Created e2e/acp.project-remove.test.sh (10 tests, 36/37 passing 97%)
+      - ✅ Removes projects from registry with optional file deletion
+      - ✅ Clears current_project if removing active project
+      - ✅ Safety features: confirmation prompts, clear warnings
+      - ✅ Comprehensive error handling and validation
+      - ✅ No syntax errors (bash -n passed)
+      - 📋 Task completed in 2 hours (estimated: 1-2 hours)
+      - 📋 Milestone 7: 50% → 60% complete (6/10 tasks)
+      - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
+  
   - date: 2026-02-25
     description: |
       ✅ Tasks 55-56 Complete: @acp.project-info + @acp.project-update Commands
