@@ -445,8 +445,14 @@ yaml_set() {
             if [ -z "$child_node" ]; then
                 # Create missing node
                 if [ "$is_last" -eq 1 ]; then
-                    # Last segment - create scalar with value
-                    child_node=$(create_node_and_link "scalar" "$segment" "$new_value" "$current_node")
+                    # Last segment - check if value is empty array
+                    if [ "$new_value" = "[]" ]; then
+                        # Create empty array node
+                        child_node=$(create_node_and_link "array" "$segment" "" "$current_node")
+                    else
+                        # Create scalar with value
+                        child_node=$(create_node_and_link "scalar" "$segment" "$new_value" "$current_node")
+                    fi
                     return 0
                 else
                     # Intermediate segment - create map
@@ -470,10 +476,16 @@ yaml_set() {
     parent=$(echo "$node" | cut -d'|' -f5)
     children=$(echo "$node" | cut -d'|' -f6)
     
-    new_value=$(echo "$new_value" | sed 's/|/\\|/g')
-    
-    local updated="$id|$type|$key|$new_value|$parent|$children"
-    sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    # Check if converting to empty array
+    if [ "$new_value" = "[]" ]; then
+        # Convert node to array type and clear children
+        local updated="$id|array|$key||$parent|"
+        sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    else
+        new_value=$(echo "$new_value" | sed 's/|/\\|/g')
+        local updated="$id|$type|$key|$new_value|$parent|$children"
+        sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    fi
 }
 
 yaml_write() {

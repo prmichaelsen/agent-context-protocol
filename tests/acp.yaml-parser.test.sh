@@ -747,6 +747,88 @@ rm -f tests/fixtures/delete-test.yaml
 
 echo ""
 
+# ============================================================================
+# Test Group 20: Array Operations with yaml_set and yaml_array_append
+# ============================================================================
+echo -e "${BOLD}Test Group 20: Array Operations${NC}"
+echo "Testing yaml_set with [] and yaml_array_append..."
+
+# Test 1: Create empty array with yaml_set
+cat > tests/fixtures/array-ops.yaml << 'EOF'
+project:
+  name: test
+  version: 1.0.0
+EOF
+
+yaml_parse tests/fixtures/array-ops.yaml
+yaml_set ".project.tags" "[]"
+yaml_write tests/fixtures/array-ops.yaml
+
+yaml_parse tests/fixtures/array-ops.yaml
+# Check node type is array
+node_type=$(grep "tags" "$AST_FILE" | cut -d'|' -f2)
+assert_equals "array" "$node_type" "Array ops: yaml_set creates array node for []"
+
+# Test 2: Append to empty array
+yaml_array_append ".project.tags" "production"
+yaml_write tests/fixtures/array-ops.yaml
+
+yaml_parse tests/fixtures/array-ops.yaml
+result=$(yaml_query ".project.tags")
+assert_contains "$result" "production" "Array ops: append to empty array works"
+
+# Test 3: Append second item
+yaml_array_append ".project.tags" "staging"
+yaml_write tests/fixtures/array-ops.yaml
+
+yaml_parse tests/fixtures/array-ops.yaml
+result=$(yaml_query ".project.tags")
+assert_contains "$result" "production" "Array ops: first item preserved"
+assert_contains "$result" "staging" "Array ops: second item added"
+
+# Test 4: Convert existing scalar to empty array
+cat > tests/fixtures/array-ops.yaml << 'EOF'
+project:
+  name: test
+  tags: old-value
+EOF
+
+yaml_parse tests/fixtures/array-ops.yaml
+yaml_set ".project.tags" "[]"
+yaml_write tests/fixtures/array-ops.yaml
+
+yaml_parse tests/fixtures/array-ops.yaml
+node_type=$(grep "tags" "$AST_FILE" | cut -d'|' -f2)
+assert_equals "array" "$node_type" "Array ops: convert scalar to array"
+
+# Verify old value is gone
+result=$(yaml_query ".project.tags")
+assert_not_contains "$result" "old-value" "Array ops: old scalar value removed"
+
+# Test 5: Append after conversion
+yaml_array_append ".project.tags" "new-tag"
+yaml_write tests/fixtures/array-ops.yaml
+
+yaml_parse tests/fixtures/array-ops.yaml
+result=$(yaml_query ".project.tags")
+assert_contains "$result" "new-tag" "Array ops: append after conversion works"
+
+# Test 6: Multiple appends in sequence
+yaml_array_append ".project.tags" "tag1"
+yaml_array_append ".project.tags" "tag2"
+yaml_array_append ".project.tags" "tag3"
+yaml_write tests/fixtures/array-ops.yaml
+
+yaml_parse tests/fixtures/array-ops.yaml
+result=$(yaml_query ".project.tags")
+assert_contains "$result" "tag1" "Array ops: multiple appends - tag1"
+assert_contains "$result" "tag2" "Array ops: multiple appends - tag2"
+assert_contains "$result" "tag3" "Array ops: multiple appends - tag3"
+
+rm -f tests/fixtures/array-ops.yaml
+
+echo ""
+
 # Cleanup
 cleanup_test_files
 
