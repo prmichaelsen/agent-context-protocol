@@ -127,6 +127,14 @@ This will:
 - **`@acp.version-check-for-updates`** - Check for updates
 - **`@acp.version-update`** - Update ACP to latest version
 
+**Project Registry**:
+- **`@acp.project-list`** - List registered projects
+- **`@acp.project-set`** - Switch to a project
+- **`@acp.project-info`** - Show project details
+- **`@acp.project-update`** - Update project metadata
+- **`@acp.project-remove`** - Remove project from registry
+- **`@acp.projects-sync`** - Discover unregistered projects
+
 **Git Commands**:
 - **`@git.commit`** - Intelligent version-aware commits
 - **`@git.init`** - Initialize git repository
@@ -187,6 +195,40 @@ Install packages with experimental features:
 - Once installed, update normally
 
 See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
+
+---
+
+## Project Registry
+
+Manage multiple ACP projects with the global project registry at `~/.acp/projects.yaml`:
+
+```bash
+# List all registered projects
+@acp.project-list
+
+# Switch to a specific project
+@acp.project-set my-project
+
+# View current project details
+@acp.project-info
+
+# Update project metadata (tags, status, description)
+@acp.project-update --tags "typescript,api" --status in_progress
+
+# Discover unregistered projects in ~/.acp/projects/
+@acp.projects-sync
+
+# Remove project from registry (keeps files)
+@acp.project-remove old-project
+```
+
+**Key Features**:
+- **Project Discovery**: List and filter projects by type, status, or tags
+- **Context Switching**: Quickly switch between projects
+- **Metadata Tracking**: Track type, status, tags, and relationships
+- **Auto-Registration**: Projects auto-register when created via `@acp.project-create`
+
+See [AGENT.md](./AGENT.md#project-registry-system) for complete documentation.
 
 ---
 

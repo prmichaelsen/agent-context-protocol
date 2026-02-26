@@ -5,6 +5,29 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.0] - 2026-02-26
+
+### Added
+
+**Project Registry System**:
+- Global project registry at `~/.acp/projects.yaml` for tracking all ACP projects
+- `@acp.project-list` - List all registered projects with filtering by type, status, tags
+- `@acp.project-set` - Switch between projects (context switching)
+- `@acp.project-info` - Show detailed project information including metadata
+- `@acp.project-update` - Update project metadata (type, status, tags, description, related projects)
+- `@acp.project-remove` - Remove projects from registry (keeps project files)
+- `@acp.projects-sync` - Discover and register existing projects in `~/.acp/projects/`
+- Automatic project registration on creation via `@acp.project-create`
+- Current project tracking for context-aware operations
+- Relationship and dependency tracking between projects
+
+**Documentation**:
+- Added "Project Registry System" section to AGENT.md with commands, examples, and workflow
+- Added "Project Registry" section to README.md with quick examples
+- Updated command list in README.md with all6 project registry commands
+
+**Milestone Progress**: M7 (Global ACP Project Registry) - 100% complete (10/10 tasks)
+
 ## [4.2.0] - 2026-02-26
 
 ### Added
