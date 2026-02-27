@@ -18,9 +18,11 @@ REPO_URL=""
 INSTALL_PATTERNS=false
 INSTALL_COMMANDS=false
 INSTALL_DESIGNS=false
+INSTALL_FILES=false
 PATTERN_FILES=()
 COMMAND_FILES=()
 DESIGN_FILES=()
+FILE_FILES=()
 LIST_ONLY=false
 GLOBAL_INSTALL=false
 INSTALL_EXPERIMENTAL=false
@@ -68,6 +70,14 @@ while [[ $# -gt 0 ]]; do
                 shift
             done
             ;;
+        --files)
+            INSTALL_FILES=true
+            shift
+            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+                FILE_FILES+=("$1")
+                shift
+            done
+            ;;
         --list)
             LIST_ONLY=true
             shift
@@ -88,10 +98,11 @@ if [ -z "$REPO_URL" ]; then
 fi
 
 # Default: install everything if no selective flags specified
-if [[ "$INSTALL_PATTERNS" == false && "$INSTALL_COMMANDS" == false && "$INSTALL_DESIGNS" == false ]]; then
+if [[ "$INSTALL_PATTERNS" == false && "$INSTALL_COMMANDS" == false && "$INSTALL_DESIGNS" == false && "$INSTALL_FILES" == false ]]; then
     INSTALL_PATTERNS=true
     INSTALL_COMMANDS=true
     INSTALL_DESIGNS=true
+    INSTALL_FILES=true
 fi
 
 echo "${BLUE}📦 ACP Package Installer (Optimized)${NC}"
@@ -169,6 +180,16 @@ INSTALL_DIRS=()
 [ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("commands")
 [ "$INSTALL_DESIGNS" = true ] && INSTALL_DIRS+=("design")
 [ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("scripts")
+[ "$INSTALL_FILES" = true ] && INSTALL_DIRS+=("files")
+
+# Mapping from dir names to manifest keys (dir → manifest key)
+declare -A MANIFEST_KEYS=(
+    ["patterns"]="patterns"
+    ["commands"]="commands"
+    ["design"]="designs"
+    ["scripts"]="scripts"
+    ["files"]="files"
+)
 
 # ============================================================================
 # OPTIMIZATION: Collect all files first, then batch process
@@ -204,8 +225,9 @@ for dir in "${INSTALL_DIRS[@]}"; do
         commands) FILE_LIST=COMMAND_FILES ;;
         design) FILE_LIST=DESIGN_FILES ;;
         scripts) FILE_LIST=COMMAND_FILES ;;
+        files) FILE_LIST=FILE_FILES ;;
     esac
-    
+
     # Collect files
     FILES_TO_PROCESS=()
     if [ ${#FILE_LIST[@]} -gt 0 ]; then
@@ -213,10 +235,10 @@ for dir in "${INSTALL_DIRS[@]}"; do
         for file_name in "${FILE_LIST[@]}"; do
             if [ "$dir" = "scripts" ]; then
                 [[ "$file_name" != *.sh ]] && file_name="${file_name}.sh"
-            else
+            elif [ "$dir" != "files" ]; then
                 [[ "$file_name" != *.md ]] && file_name="${file_name}.md"
             fi
-            
+
             file_path="$SOURCE_DIR/$file_name"
             if [ -f "$file_path" ]; then
                 FILES_TO_PROCESS+=("$file_path")
@@ -227,7 +249,12 @@ for dir in "${INSTALL_DIRS[@]}"; do
         done
     else
         # Install all files
-        if [ "$dir" = "scripts" ]; then
+        if [ "$dir" = "files" ]; then
+            # files/ directory: recursive scan, all file types
+            while IFS= read -r file; do
+                [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
+            done < <(find "$SOURCE_DIR" -type f)
+        elif [ "$dir" = "scripts" ]; then
             while IFS= read -r file; do
                 [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
             done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.sh" ! -name "*.template.sh" -type f)
@@ -243,14 +270,23 @@ for dir in "${INSTALL_DIRS[@]}"; do
         continue
     fi
     
-    echo "${BLUE}📁 $dir/${NC} (${#FILES_TO_PROCESS[@]} file(s))"
+    if [ "$dir" = "files" ]; then
+        echo "${BLUE}📁 $dir/${NC} (${#FILES_TO_PROCESS[@]} file(s)) → installs to ./"
+    else
+        echo "${BLUE}📁 $dir/${NC} (${#FILES_TO_PROCESS[@]} file(s))"
+    fi
     
     # Validate files
     VALID_FILES=()
     for file in "${FILES_TO_PROCESS[@]}"; do
-        filename=$(basename "$file")
-        
-        # Validation
+        # For files/ dir, use relative path from SOURCE_DIR; otherwise basename
+        if [ "$dir" = "files" ]; then
+            filename="${file#$SOURCE_DIR/}"
+        else
+            filename=$(basename "$file")
+        fi
+
+        # Validation (not applied to files/ directory)
         if [ "$dir" = "commands" ]; then
             if [[ "$filename" =~ ^acp\. ]]; then
                 echo "  ${RED}✗${NC} $filename (reserved namespace 'acp')"
@@ -263,7 +299,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
                 continue
             fi
         fi
-        
+
         if [ "$dir" = "scripts" ]; then
             if [[ "$filename" =~ ^acp\. ]]; then
                 echo "  ${RED}✗${NC} $filename (reserved namespace 'acp')"
@@ -271,34 +307,41 @@ for dir in "${INSTALL_DIRS[@]}"; do
                 continue
             fi
         fi
-        
-        # Check experimental status
+
+        # Check experimental status (skip for files/ — no per-file experimental marking)
         is_experimental=""
-        if [ -f "$TEMP_DIR/package.yaml" ]; then
+        if [ "$dir" != "files" ] && [ -f "$TEMP_DIR/package.yaml" ]; then
             is_experimental=$(grep -A 1000 "^  ${dir}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
         fi
-        
+
         if [ -n "$is_experimental" ] && [ "$INSTALL_EXPERIMENTAL" = false ]; then
             echo "  ${DIM}⊘${NC}  $filename (experimental - use --experimental)"
             SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
             continue
         fi
-        
+
         # Get file version
         FILE_VERSION=$(get_file_version "$TEMP_DIR/package.yaml" "$dir" "$filename")
-        
+
         # Store metadata
         FILE_METADATA["$dir/$filename"]="$FILE_VERSION|$is_experimental"
-        
+
         # Add to valid files
         VALID_FILES+=("$file")
-        
-        if [ -f "$INSTALL_BASE_DIR/$dir/$filename" ]; then
+
+        # Check for overwrites — files/ targets project root, others target agent/
+        if [ "$dir" = "files" ]; then
+            target_path="./$filename"
+        else
+            target_path="$INSTALL_BASE_DIR/$dir/$filename"
+        fi
+
+        if [ -f "$target_path" ]; then
             echo "  ${YELLOW}⚠${NC}  $filename (will overwrite)"
         else
             echo "  ${GREEN}✓${NC} $filename"
         fi
-        
+
         INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
     done
     
@@ -310,6 +353,26 @@ for dir in "${INSTALL_DIRS[@]}"; do
     unset -n FILE_LIST
     echo ""
 done
+
+# Warn about unrecognized directories in the package
+KNOWN_DIRS="patterns commands design scripts files"
+if [ -d "$TEMP_DIR/agent" ]; then
+    UNRECOGNIZED=()
+    while IFS= read -r pkg_dir; do
+        dir_name=$(basename "$pkg_dir")
+        if ! echo " $KNOWN_DIRS " | grep -q " $dir_name "; then
+            UNRECOGNIZED+=("$dir_name")
+        fi
+    done < <(find "$TEMP_DIR/agent" -mindepth 1 -maxdepth 1 -type d)
+
+    if [ ${#UNRECOGNIZED[@]} -gt 0 ]; then
+        echo "${YELLOW}⚠  Unrecognized directories in package (not installed):${NC}"
+        for udir in "${UNRECOGNIZED[@]}"; do
+            echo "    $udir/"
+        done
+        echo ""
+    fi
+fi
 
 # Exit if nothing to install
 if [ $INSTALLED_COUNT -eq 0 ]; then
@@ -346,16 +409,25 @@ add_package_to_manifest "$PACKAGE_NAME" "$REPO_URL" "$PACKAGE_VERSION" "$COMMIT_
 
 # Batch copy all files
 for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
-    mkdir -p "$INSTALL_BASE_DIR/$dir"
-    
-    # Copy all files at once
+    SOURCE_DIR="$TEMP_DIR/agent/$dir"
+
+    # Copy all files
     for file in ${ALL_FILES_TO_INSTALL[$dir]}; do
-        filename=$(basename "$file")
-        cp "$file" "$INSTALL_BASE_DIR/$dir/$filename"
-        
-        # Make scripts executable
-        if [ "$dir" = "scripts" ]; then
-            chmod +x "$INSTALL_BASE_DIR/$dir/$filename"
+        if [ "$dir" = "files" ]; then
+            # files/ installs to project root, preserving subdirectory structure
+            rel_path="${file#$SOURCE_DIR/}"
+            target_dir="$(dirname "./$rel_path")"
+            mkdir -p "$target_dir"
+            cp "$file" "./$rel_path"
+        else
+            mkdir -p "$INSTALL_BASE_DIR/$dir"
+            filename=$(basename "$file")
+            cp "$file" "$INSTALL_BASE_DIR/$dir/$filename"
+
+            # Make scripts executable
+            if [ "$dir" = "scripts" ]; then
+                chmod +x "$INSTALL_BASE_DIR/$dir/$filename"
+            fi
         fi
     done
 done
@@ -369,9 +441,15 @@ echo "  ${BLUE}Calculating checksums...${NC}"
 # Collect all installed files for batch checksum
 ALL_INSTALLED_FILES=()
 for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
+    SOURCE_DIR="$TEMP_DIR/agent/$dir"
     for file in ${ALL_FILES_TO_INSTALL[$dir]}; do
-        filename=$(basename "$file")
-        ALL_INSTALLED_FILES+=("$INSTALL_BASE_DIR/$dir/$filename")
+        if [ "$dir" = "files" ]; then
+            rel_path="${file#$SOURCE_DIR/}"
+            ALL_INSTALLED_FILES+=("./$rel_path")
+        else
+            filename=$(basename "$file")
+            ALL_INSTALLED_FILES+=("$INSTALL_BASE_DIR/$dir/$filename")
+        fi
     done
 done
 
@@ -397,30 +475,41 @@ yaml_parse "$MANIFEST_FILE"
 # Add all files to manifest in memory
 timestamp=$(get_timestamp)
 for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
+    SOURCE_DIR="$TEMP_DIR/agent/$dir"
+    manifest_key="${MANIFEST_KEYS[$dir]:-$dir}"
+
     for file in ${ALL_FILES_TO_INSTALL[$dir]}; do
-        filename=$(basename "$file")
-        filepath="$INSTALL_BASE_DIR/$dir/$filename"
-        
+        # Determine filename and installed filepath based on dir type
+        if [ "$dir" = "files" ]; then
+            filename="${file#$SOURCE_DIR/}"
+            filepath="./$filename"
+        else
+            filename=$(basename "$file")
+            filepath="$INSTALL_BASE_DIR/$dir/$filename"
+        fi
+
         # Get metadata
         IFS='|' read -r file_version is_experimental <<< "${FILE_METADATA[$dir/$filename]}"
-        
+
         # Get checksum
         checksum="${CHECKSUMS[$filepath]:-unknown}"
-        
-        # Append to manifest
-        obj_node=$(yaml_array_append_object ".packages.${PACKAGE_NAME}.files.${dir}")
+
+        # Append to manifest using mapped key
+        obj_node=$(yaml_array_append_object ".packages.${PACKAGE_NAME}.files.${manifest_key}")
         yaml_object_set "$obj_node" "name" "$filename" >/dev/null
         yaml_object_set "$obj_node" "version" "$file_version" >/dev/null
         yaml_object_set "$obj_node" "installed_at" "$timestamp" >/dev/null
         yaml_object_set "$obj_node" "modified" "false" >/dev/null
         yaml_object_set "$obj_node" "checksum" "sha256:$checksum" >/dev/null
-        
+
         if [ -n "$is_experimental" ]; then
             yaml_object_set "$obj_node" "experimental" "true" >/dev/null
         fi
-        
+
         if [ "$dir" = "scripts" ]; then
             echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$file_version) [executable]"
+        elif [ "$dir" = "files" ]; then
+            echo "  ${GREEN}✓${NC} Installed $filename → ./$filename"
         else
             echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$file_version)"
         fi

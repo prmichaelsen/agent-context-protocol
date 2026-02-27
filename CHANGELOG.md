@@ -5,6 +5,22 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.0] - 2026-02-27
+
+### Added
+
+- `agent/files/` directory support in package installer — files install to project root (`.`), preserving subdirectory structure
+- `--files` flag for selective installation of files directory
+- Unrecognized directory warning when packages contain dirs outside the known set (patterns, commands, design, scripts, files)
+- `scripts: []` and `files: []` arrays in manifest package template
+
+### Fixed
+
+- Manifest tracking: `design` directory now correctly maps to `designs` manifest key (was causing empty arrays for all installed files)
+- Manifest template missing `scripts` and `files` arrays — installed scripts were never recorded
+
+Closes #6
+
 ## [4.2.2] - 2026-02-27
 
 ### Fixed

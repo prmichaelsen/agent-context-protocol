@@ -552,6 +552,8 @@ add_package_to_manifest() {
                 print "      patterns: []"
                 print "      commands: []"
                 print "      designs: []"
+                print "      scripts: []"
+                print "      files: []"
                 next
             }
             { print }

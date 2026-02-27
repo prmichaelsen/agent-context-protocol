@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 4.2.2
+  version: 4.3.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M7
@@ -131,13 +131,13 @@ milestones:
   
   - id: M9
     name: Template Source Files Support
-    status: not_started
-    progress: 0
-    started: null
+    status: in_progress
+    progress: 14
+    started: 2026-02-27
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 0
-    tasks_total: 6
+    tasks_completed: 1
+    tasks_total: 7
     notes: |
       📋 Milestone 9: Template Source Files Support
       - Extend package system to bundle actual code files and configs
@@ -145,7 +145,7 @@ milestones:
       - Variable substitution for personalization
       - Selective installation via --templates flag
       - Conflict detection and safety warnings
-      - 6 tasks planned (71-76): Schema, Installation, Manifest, Commands, Testing, Documentation
+      - 7 tasks planned (71-77): Schema, Installation, Manifest, Commands, Testing, Documentation, agent/files/ support (Issue #6)
   
   - id: M7
     name: Global ACP Project Registry
@@ -1196,7 +1196,17 @@ tasks:
       completed_date: null
       notes: |
         Update AGENT.md, README.md, CHANGELOG.md with template documentation
-  
+
+    - id: task-77
+      name: Support agent/files/ Directory in Package Installer
+      status: completed
+      file: agent/tasks/milestone-9-template-source-files/task-77-support-agent-files-directory.md
+      estimated_hours: 4-6
+      completed_date: 2026-02-27
+      notes: |
+        ✅ Add agent/files/ to INSTALL_DIRS, fix manifest file tracking, warn on unrecognized dirs.
+        GitHub Issue #6. Also fixed design→designs manifest key mismatch, added scripts/files to manifest.
+
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
