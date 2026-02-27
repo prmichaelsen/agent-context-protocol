@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.3.1] - 2026-02-27
+
+### Fixed
+
+- Install script now creates `drafts/`, `clarifications/`, `feedback/`, and `preferences/` directories
+- Install script `.gitignore` now includes all local-only directories (was only `reports/`)
+- Install script now copies clarification template to `agent/clarifications/`
+
 ## [4.3.0] - 2026-02-27
 
 ### Added
