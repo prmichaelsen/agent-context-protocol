@@ -5,6 +5,12 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.6.0] - 2026-02-27
+
+### Added
+
+- `--list` flag for package install now shows full file preview (clone → scan → validate → display) without installing
+
 ## [4.5.0] - 2026-02-27
 
 ### Added

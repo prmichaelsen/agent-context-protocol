@@ -160,12 +160,6 @@ COMMIT_HASH=$(get_commit_hash "$TEMP_DIR")
 info "Commit: $COMMIT_HASH"
 echo ""
 
-# List mode (unchanged)
-if [ "$LIST_ONLY" = true ]; then
-    # ... (same as original)
-    exit 0
-fi
-
 # Validate dependencies
 if [ -f "$TEMP_DIR/package.yaml" ]; then
     if ! validate_project_dependencies "$TEMP_DIR/package.yaml"; then
@@ -385,6 +379,11 @@ fi
 echo "Ready to install $INSTALLED_COUNT file(s)"
 [ $SKIPPED_COUNT -gt 0 ] && echo "($SKIPPED_COUNT file(s) will be skipped)"
 echo ""
+
+if [ "$LIST_ONLY" = true ]; then
+    echo "${BLUE}(dry run — no files were installed)${NC}"
+    exit 0
+fi
 
 if [ "$SKIP_CONFIRM" = false ]; then
     read -p "Proceed with installation? (y/N) " -n 1 -r
