@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.5.0] - 2026-02-27
+
+### Added
+
+- `report-html.sh`: standalone HTML report generator with styled metrics and verification tables
+- `report-markdown.sh`: standalone Markdown report generator with diff annotations
+- `serve-reports.sh`: index.html generator and HTTP dev server with hot reload on refresh
+- Benchmark runner now automatically generates HTML and Markdown reports after each run
+
+### Changed
+
+- `run-benchmark.sh` summary output now lists individual report file paths (YAML, Markdown, HTML)
+
 ## [4.4.0] - 2026-02-27
 
 ### Added

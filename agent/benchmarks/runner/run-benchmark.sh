@@ -150,6 +150,12 @@ EOF
     fi
 fi
 
+# --- Generate Markdown report ---
+bash "$SCRIPT_DIR/report-markdown.sh" "$REPORT_DIR" "$TASK" "${MODES[@]}"
+
+# --- Generate HTML report ---
+bash "$SCRIPT_DIR/report-html.sh" "$REPORT_DIR" "$TASK" "${MODES[@]}"
+
 echo ""
 echo "========================================"
 echo "Summary"
@@ -157,5 +163,8 @@ echo "========================================"
 cat "$SUMMARY_FILE"
 echo ""
 echo "========================================"
-echo "Full reports: $REPORT_DIR/"
+echo "Reports:"
+echo "  YAML:     $REPORT_DIR/summary.yaml"
+echo "  Markdown: $REPORT_DIR/report.md"
+echo "  HTML:     $REPORT_DIR/report.html"
 echo "========================================"
