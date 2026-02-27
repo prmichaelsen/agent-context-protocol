@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
         --patterns)
             INSTALL_PATTERNS=true
             shift
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^- ]]; do
                 PATTERN_FILES+=("$1")
                 shift
             done
@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
         --commands)
             INSTALL_COMMANDS=true
             shift
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^- ]]; do
                 COMMAND_FILES+=("$1")
                 shift
             done
@@ -65,7 +65,7 @@ while [[ $# -gt 0 ]]; do
         --designs)
             INSTALL_DESIGNS=true
             shift
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^- ]]; do
                 DESIGN_FILES+=("$1")
                 shift
             done
@@ -73,7 +73,7 @@ while [[ $# -gt 0 ]]; do
         --files)
             INSTALL_FILES=true
             shift
-            while [[ $# -gt 0 && ! $1 =~ ^-- ]]; do
+            while [[ $# -gt 0 && ! $1 =~ ^- ]]; do
                 FILE_FILES+=("$1")
                 shift
             done

@@ -5,6 +5,12 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.6.1] - 2026-02-27
+
+### Fixed
+
+- Argument parsing for `--commands`, `--patterns`, `--designs`, and `--files` now correctly stops on single-dash flags like `-y`, preventing them from being consumed as filenames
+
 ## [4.6.0] - 2026-02-27
 
 ### Added
