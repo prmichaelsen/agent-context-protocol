@@ -5,6 +5,18 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.0] - 2026-02-27
+
+### Added
+
+- Benchmark suite infrastructure for empirically measuring ACP's value
+- `hello-world` benchmark task: simple shell script creation with automated verification
+- `run-benchmark.sh` entry point: runs tasks in ACP vs baseline modes with side-by-side comparison
+- `run-single.sh` executor: isolated workspace creation, Claude CLI invocation, JSON metrics parsing
+- `verify.sh` verification framework: checks file existence, executability, and output correctness
+- Per-run YAML reports and `summary.yaml` with token/turn/cost diff calculations
+- Benchmark reports excluded from version control via `.gitignore`
+
 ## [4.3.1] - 2026-02-27
 
 ### Fixed

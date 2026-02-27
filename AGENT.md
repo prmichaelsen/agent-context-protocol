@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 4.3.1
+**Version**: 4.4.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 

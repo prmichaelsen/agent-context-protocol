@@ -1,0 +1,7 @@
+files:
+  - path: hello_computer.sh
+    executable: true
+    output:
+      command: bash hello_computer.sh
+      expected: "Hello World!\n"
+      exact_match: true

@@ -1,0 +1,9 @@
+name: hello-world
+description: Create a simple shell script that prints "Hello World!"
+complexity: trivial
+timeout: 120
+max_turns: 10
+expected_checks:
+  - file_exists
+  - file_executable
+  - output_correct
