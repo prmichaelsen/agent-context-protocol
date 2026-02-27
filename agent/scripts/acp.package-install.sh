@@ -273,7 +273,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
         fi
         
         # Check experimental status
-        local is_experimental=""
+        is_experimental=""
         if [ -f "$TEMP_DIR/package.yaml" ]; then
             is_experimental=$(grep -A 1000 "^  ${dir}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
         fi
