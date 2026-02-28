@@ -1276,6 +1276,16 @@ This pattern is because: ...
 
 **Rationale**: The `>` syntax provides a lightweight way for users to give inline feedback without needing to explain context. Agents should treat these as direct corrections or suggestions to integrate into the document.
 
+#### Use Direct Git Commits
+
+When creating git commits, always use `git commit -m` directly:
+
+- ✅ **DO** use `git commit -m "message"` to create commits
+- ❌ **DO NOT** use bash tools, subshells, or scripts to generate commits
+- ❌ **DO NOT** use heredocs, `echo`, or `cat` to construct commit messages
+
+**Rationale**: Direct `git commit -m` is simpler, more transparent, and avoids escaping issues. The commit message should be authored directly, not piped through intermediate tools.
+
 #### Format Commands for User Execution
 
 When providing commands for users to copy and paste:
