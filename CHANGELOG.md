@@ -5,6 +5,18 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.5.0] - 2026-02-28
+
+### Added
+
+**Report & Dashboard Enhancement** (Milestone 11 — Task 84):
+- Improvement percentage column in metrics comparison tables (Markdown + HTML)
+- Per-step breakdown tables showing step ID, phase, duration, tokens, turns
+- Radar chart (Chart.js) for 6-dimension evaluation score visualization in HTML reports
+- Evaluation scores written to summary.yaml per task/mode
+- Checks row in verification tables
+- serve-reports.sh index now shows eval scores, multi-task report links with task names
+
 ## [5.4.0] - 2026-02-28
 
 ### Added

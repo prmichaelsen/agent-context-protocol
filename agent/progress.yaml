@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.4.0
+  version: 5.5.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M11
@@ -1436,12 +1436,14 @@ tasks:
 
     - id: task-84
       name: Report & Dashboard Enhancement
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-84-report-dashboard-enhancement.md
       estimated_hours: 4-5
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-02-28
       notes: |
-        Multi-run comparison tables, ACP vs baseline, 5-run averaging, per-step breakdowns, HTML dashboard.
+        Added improvement % to metrics tables, per-step breakdowns, radar chart (Chart.js) for eval scores,
+        eval scores in summary.yaml, checks row in verification, multi-task report links in serve-reports.sh.
 
     - id: task-85
       name: GitHub Actions Workflow
@@ -1595,7 +1597,7 @@ progress:
   milestone_8: 100
   milestone_9: 28
   milestone_10: 100
-  milestone_11: 62
+  milestone_11: 75
 
 recent_work:
   - date: 2026-02-28

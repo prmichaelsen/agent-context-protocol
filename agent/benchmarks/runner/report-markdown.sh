@@ -16,12 +16,12 @@ REPORT_FILE="$REPORT_DIR/report.md"
 get_field() {
     local file="$1"
     local field="$2"
-    grep "${field}:" "$file" | awk '{print $2}'
+    grep "${field}:" "$file" | head -1 | awk '{print $2}'
 }
 
 # --- Load data for each mode ---
 declare -A INPUT_TOKENS OUTPUT_TOKENS NUM_TURNS DURATION COST
-declare -A FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT ALL_PASSED
+declare -A FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT ALL_PASSED CHECKS
 declare -A EVAL_SCORE EVAL_RATING EVAL_CORRECTNESS EVAL_COMPLETENESS EVAL_CODE_STYLE
 declare -A EVAL_DOCUMENTATION EVAL_ARCHITECTURE EVAL_TESTING EVAL_SUMMARY
 
@@ -37,10 +37,12 @@ for mode in "${MODES[@]}"; do
         FILE_EXECUTABLE[$mode]=$(get_field "$file" "file_executable")
         OUTPUT_CORRECT[$mode]=$(get_field "$file" "output_correct")
         ALL_PASSED[$mode]=$(get_field "$file" "all_passed")
+        checks_passed=$(get_field "$file" "checks_passed")
+        checks_total=$(get_field "$file" "checks_total")
+        CHECKS[$mode]="${checks_passed:-0}/${checks_total:-0}"
         # Load evaluation data
         EVAL_SCORE[$mode]=$(get_field "$file" "overall_score")
         EVAL_RATING[$mode]=$(get_field "$file" "overall_rating")
-        # Load per-category eval scores from eval JSON if available
         eval_json="$REPORT_DIR/${TASK}-${mode}.yaml.eval.json"
         if [ -f "$eval_json" ]; then
             EVAL_CORRECTNESS[$mode]=$(jq -r '.correctness.score // empty' "$eval_json" 2>/dev/null || true)
@@ -61,6 +63,10 @@ BOTH=$( [ "${#MODES[@]}" -eq 2 ] && echo "true" || echo "false" )
 diff_str() {
     local acp_val="$1"
     local baseline_val="$2"
+    if ! [[ "$acp_val" =~ ^[0-9]+$ ]] || ! [[ "$baseline_val" =~ ^[0-9]+$ ]]; then
+        echo "—"
+        return
+    fi
     local diff=$((acp_val - baseline_val))
     if [ "$diff" -lt 0 ]; then
         echo "$diff (better)"
@@ -68,6 +74,25 @@ diff_str() {
         echo "+$diff (worse)"
     else
         echo "0"
+    fi
+}
+
+# --- Helper: compute improvement percentage ---
+pct_diff() {
+    local acp_val="$1"
+    local baseline_val="$2"
+    if ! [[ "$acp_val" =~ ^[0-9]+$ ]] || ! [[ "$baseline_val" =~ ^[0-9]+$ ]] || [ "$baseline_val" -eq 0 ]; then
+        echo "—"
+        return
+    fi
+    local diff=$((acp_val - baseline_val))
+    local pct=$(( (diff * 100) / baseline_val ))
+    if [ "$pct" -lt 0 ]; then
+        echo "${pct}%"
+    elif [ "$pct" -gt 0 ]; then
+        echo "+${pct}%"
+    else
+        echo "0%"
     fi
 }
 
@@ -83,23 +108,23 @@ diff_str() {
     echo "## Metrics"
     echo ""
     if [ "$BOTH" = "true" ]; then
-        echo "| Metric | ACP | Baseline | Diff |"
-        echo "|--------|-----|----------|------|"
-        echo "| Input Tokens | ${INPUT_TOKENS[acp]} | ${INPUT_TOKENS[baseline]} | $(diff_str "${INPUT_TOKENS[acp]}" "${INPUT_TOKENS[baseline]}") |"
-        echo "| Output Tokens | ${OUTPUT_TOKENS[acp]} | ${OUTPUT_TOKENS[baseline]} | $(diff_str "${OUTPUT_TOKENS[acp]}" "${OUTPUT_TOKENS[baseline]}") |"
-        echo "| Turns | ${NUM_TURNS[acp]} | ${NUM_TURNS[baseline]} | $(diff_str "${NUM_TURNS[acp]}" "${NUM_TURNS[baseline]}") |"
-        echo "| Duration (s) | ${DURATION[acp]} | ${DURATION[baseline]} | $(diff_str "${DURATION[acp]}" "${DURATION[baseline]}") |"
-        echo "| Cost (USD) | ${COST[acp]} | ${COST[baseline]} | — |"
+        echo "| Metric | ACP | Baseline | Diff | Change |"
+        echo "|--------|-----|----------|------|--------|"
+        echo "| Input Tokens | ${INPUT_TOKENS[acp]:-0} | ${INPUT_TOKENS[baseline]:-0} | $(diff_str "${INPUT_TOKENS[acp]:-0}" "${INPUT_TOKENS[baseline]:-0}") | $(pct_diff "${INPUT_TOKENS[acp]:-0}" "${INPUT_TOKENS[baseline]:-0}") |"
+        echo "| Output Tokens | ${OUTPUT_TOKENS[acp]:-0} | ${OUTPUT_TOKENS[baseline]:-0} | $(diff_str "${OUTPUT_TOKENS[acp]:-0}" "${OUTPUT_TOKENS[baseline]:-0}") | $(pct_diff "${OUTPUT_TOKENS[acp]:-0}" "${OUTPUT_TOKENS[baseline]:-0}") |"
+        echo "| Turns | ${NUM_TURNS[acp]:-0} | ${NUM_TURNS[baseline]:-0} | $(diff_str "${NUM_TURNS[acp]:-0}" "${NUM_TURNS[baseline]:-0}") | $(pct_diff "${NUM_TURNS[acp]:-0}" "${NUM_TURNS[baseline]:-0}") |"
+        echo "| Duration (s) | ${DURATION[acp]:-0} | ${DURATION[baseline]:-0} | $(diff_str "${DURATION[acp]:-0}" "${DURATION[baseline]:-0}") | $(pct_diff "${DURATION[acp]:-0}" "${DURATION[baseline]:-0}") |"
+        echo "| Cost (USD) | ${COST[acp]:-0} | ${COST[baseline]:-0} | — | — |"
     else
         mode="${MODES[0]}"
         label="${mode^}"
         echo "| Metric | $label |"
         echo "|--------|-------|"
-        echo "| Input Tokens | ${INPUT_TOKENS[$mode]} |"
-        echo "| Output Tokens | ${OUTPUT_TOKENS[$mode]} |"
-        echo "| Turns | ${NUM_TURNS[$mode]} |"
-        echo "| Duration (s) | ${DURATION[$mode]} |"
-        echo "| Cost (USD) | ${COST[$mode]} |"
+        echo "| Input Tokens | ${INPUT_TOKENS[$mode]:-0} |"
+        echo "| Output Tokens | ${OUTPUT_TOKENS[$mode]:-0} |"
+        echo "| Turns | ${NUM_TURNS[$mode]:-0} |"
+        echo "| Duration (s) | ${DURATION[$mode]:-0} |"
+        echo "| Cost (USD) | ${COST[$mode]:-0} |"
     fi
 
     echo ""
@@ -110,22 +135,79 @@ diff_str() {
     if [ "$BOTH" = "true" ]; then
         echo "| Check | ACP | Baseline |"
         echo "|-------|-----|----------|"
-        echo "| file_exists | ${FILE_EXISTS[acp]} | ${FILE_EXISTS[baseline]} |"
-        echo "| file_executable | ${FILE_EXECUTABLE[acp]} | ${FILE_EXECUTABLE[baseline]} |"
-        echo "| output_correct | ${OUTPUT_CORRECT[acp]} | ${OUTPUT_CORRECT[baseline]} |"
-        echo "| **Overall** | **${ALL_PASSED[acp]}** | **${ALL_PASSED[baseline]}** |"
+        echo "| file_exists | ${FILE_EXISTS[acp]:-—} | ${FILE_EXISTS[baseline]:-—} |"
+        echo "| file_executable | ${FILE_EXECUTABLE[acp]:-—} | ${FILE_EXECUTABLE[baseline]:-—} |"
+        echo "| output_correct | ${OUTPUT_CORRECT[acp]:-—} | ${OUTPUT_CORRECT[baseline]:-—} |"
+        echo "| Checks | ${CHECKS[acp]:-—} | ${CHECKS[baseline]:-—} |"
+        echo "| **Overall** | **${ALL_PASSED[acp]:-—}** | **${ALL_PASSED[baseline]:-—}** |"
     else
         mode="${MODES[0]}"
         label="${mode^}"
         echo "| Check | $label |"
         echo "|-------|-------|"
-        echo "| file_exists | ${FILE_EXISTS[$mode]} |"
-        echo "| file_executable | ${FILE_EXECUTABLE[$mode]} |"
-        echo "| output_correct | ${OUTPUT_CORRECT[$mode]} |"
-        echo "| **Overall** | **${ALL_PASSED[$mode]}** |"
+        echo "| file_exists | ${FILE_EXISTS[$mode]:-—} |"
+        echo "| file_executable | ${FILE_EXECUTABLE[$mode]:-—} |"
+        echo "| output_correct | ${OUTPUT_CORRECT[$mode]:-—} |"
+        echo "| Checks | ${CHECKS[$mode]:-—} |"
+        echo "| **Overall** | **${ALL_PASSED[$mode]:-—}** |"
     fi
 
     echo ""
+
+    # --- Per-step breakdown (if available) ---
+    has_steps="false"
+    for mode in "${MODES[@]}"; do
+        file="$REPORT_DIR/${TASK}-${mode}.yaml"
+        if [ -f "$file" ] && grep -q '^steps:' "$file" 2>/dev/null; then
+            has_steps="true"
+            break
+        fi
+    done
+
+    if [ "$has_steps" = "true" ]; then
+        echo "## Per-Step Breakdown"
+        echo ""
+        for mode in "${MODES[@]}"; do
+            file="$REPORT_DIR/${TASK}-${mode}.yaml"
+            if [ -f "$file" ] && grep -q '^steps:' "$file" 2>/dev/null; then
+                label="${mode^}"
+                echo "### $label"
+                echo ""
+                echo "| Step | Phase | Duration (s) | Input Tokens | Output Tokens | Turns |"
+                echo "|------|-------|-------------|-------------|--------------|-------|"
+                # Parse step data from YAML
+                in_steps="false"
+                step_id="" step_phase="" step_dur="" step_in="" step_out="" step_turns=""
+                while IFS= read -r line; do
+                    if [[ "$line" =~ ^steps: ]]; then
+                        in_steps="true"
+                        continue
+                    fi
+                    if [ "$in_steps" = "true" ]; then
+                        if [[ "$line" =~ ^[a-z] ]] && [[ ! "$line" =~ ^[[:space:]] ]]; then break; fi
+                        if [[ "$line" =~ "step_id:" ]]; then
+                            # Print previous step if exists
+                            if [ -n "$step_id" ]; then
+                                echo "| $step_id | ${step_phase:-—} | ${step_dur:-—} | ${step_in:-—} | ${step_out:-—} | ${step_turns:-—} |"
+                            fi
+                            step_id=$(echo "$line" | awk '{print $2}')
+                            step_phase="" step_dur="" step_in="" step_out="" step_turns=""
+                        fi
+                        [[ "$line" =~ "phase:" ]] && step_phase=$(echo "$line" | awk '{print $2}')
+                        [[ "$line" =~ "duration_seconds:" ]] && step_dur=$(echo "$line" | awk '{print $2}')
+                        [[ "$line" =~ "input_tokens:" ]] && step_in=$(echo "$line" | awk '{print $2}')
+                        [[ "$line" =~ "output_tokens:" ]] && step_out=$(echo "$line" | awk '{print $2}')
+                        [[ "$line" =~ "num_turns:" ]] && step_turns=$(echo "$line" | awk '{print $2}')
+                    fi
+                done < "$file"
+                # Print last step
+                if [ -n "$step_id" ]; then
+                    echo "| $step_id | ${step_phase:-—} | ${step_dur:-—} | ${step_in:-—} | ${step_out:-—} | ${step_turns:-—} |"
+                fi
+                echo ""
+            fi
+        done
+    fi
 
     # --- Evaluation table (if data available) ---
     has_eval="false"
@@ -160,7 +242,6 @@ diff_str() {
             echo "| **Overall** | **${EVAL_SCORE[$mode]:-—} (${EVAL_RATING[$mode]:-—})** |"
         fi
         echo ""
-        # Print summaries
         for mode in "${MODES[@]}"; do
             if [ -n "${EVAL_SUMMARY[$mode]:-}" ]; then
                 label="${mode^}"

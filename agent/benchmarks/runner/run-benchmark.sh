@@ -190,6 +190,32 @@ EOF
         fi
     done
 
+    # Add evaluation scores to summary if available
+    for run_mode in "${MODES[@]}"; do
+        if [ "$RUNS" -eq 1 ]; then
+            eval_json="$REPORT_DIR/${TASK}-${run_mode}.yaml.eval.json"
+        else
+            eval_json="$REPORT_DIR/runs/${TASK}-${run_mode}-run1.yaml.eval.json"
+        fi
+        if [ -f "$eval_json" ]; then
+            eval_score=$(jq -r '.overall_score // empty' "$eval_json" 2>/dev/null || true)
+            eval_rating=$(jq -r '.overall_rating // empty' "$eval_json" 2>/dev/null || true)
+            if [ -n "$eval_score" ]; then
+                cat >> "$SUMMARY_FILE" << EVALEOF
+  ${run_mode}_evaluation:
+    overall_score: $eval_score
+    overall_rating: $eval_rating
+    correctness: $(jq -r '.correctness.score // 0' "$eval_json" 2>/dev/null || echo 0)
+    completeness: $(jq -r '.completeness.score // 0' "$eval_json" 2>/dev/null || echo 0)
+    code_style: $(jq -r '.code_style.score // 0' "$eval_json" 2>/dev/null || echo 0)
+    documentation: $(jq -r '.documentation.score // 0' "$eval_json" 2>/dev/null || echo 0)
+    architecture: $(jq -r '.architecture.score // 0' "$eval_json" 2>/dev/null || echo 0)
+    testing: $(jq -r '.testing.score // 0' "$eval_json" 2>/dev/null || echo 0)
+EVALEOF
+            fi
+        fi
+    done
+
     # Compute diff if both modes ran (single-run only)
     if [ "${#MODES[@]}" -eq 2 ] && [ "$RUNS" -eq 1 ]; then
         ACP_FILE="$REPORT_DIR/${TASK}-acp.yaml"

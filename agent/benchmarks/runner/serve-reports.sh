@@ -87,7 +87,7 @@ STYLE_EOF
         echo "<p class=\"empty\">No benchmark reports found.</p>"
     else
         echo "<table>"
-        echo "<tr><th>Timestamp</th><th>Task</th><th>Modes</th><th>Result</th><th>Links</th></tr>"
+        echo "<tr><th>Timestamp</th><th>Task(s)</th><th>Modes</th><th>Result</th><th>Eval Score</th><th>Links</th></tr>"
 
         # Reverse sort (newest first) by directory name
         IFS=$'\n' local sorted=($(printf '%s\n' "${dirs[@]}" | sort -r)); unset IFS
@@ -97,10 +97,10 @@ STYLE_EOF
             local summary="$dir/summary.yaml"
 
             if [ ! -f "$summary" ]; then
-                # No summary — show directory with minimal info
                 local timestamp="${dirname#benchmark-}"
                 echo "<tr>"
                 echo "  <td>$timestamp</td>"
+                echo "  <td>&mdash;</td>"
                 echo "  <td>&mdash;</td>"
                 echo "  <td>&mdash;</td>"
                 echo "  <td>&mdash;</td>"
@@ -109,16 +109,19 @@ STYLE_EOF
                 continue
             fi
 
-            local task="$(get_field "$summary" "task")"
+            local tasks_raw="$(get_field "$summary" "tasks")"
             local timestamp="$(get_field "$summary" "timestamp")"
             local modes="$(get_field "$summary" "modes_run")"
 
-            # Determine overall pass/fail from per-mode results
+            # Parse task list (may be comma-separated)
+            local tasks_display="${tasks_raw//,/ }"
+
+            # Determine overall pass/fail
             local overall_pass="true"
             local mode_name
             for mode_name in $(echo "$modes" | tr ',' ' '); do
-                local mode_passed="$(grep -A5 "^  ${mode_name}:" "$summary" 2>/dev/null | grep "passed:" | awk '{print $2}')"
-                if [ "$mode_passed" != "true" ]; then
+                local mode_passed="$(grep -A5 "^  ${mode_name}:" "$summary" 2>/dev/null | grep "passed:" | head -1 | awk '{print $2}')"
+                if [ "$mode_passed" != "true" ] && [ -n "$mode_passed" ]; then
                     overall_pass="false"
                 fi
             done
@@ -132,18 +135,36 @@ STYLE_EOF
                 result_text="FAIL"
             fi
 
-            # Build links
+            # Extract eval scores if available
+            local eval_display="&mdash;"
+            local acp_eval="$(grep 'overall_score:' "$summary" 2>/dev/null | head -1 | awk '{print $2}')"
+            if [ -n "$acp_eval" ]; then
+                local acp_rating="$(grep 'overall_rating:' "$summary" 2>/dev/null | head -1 | awk '{print $2}')"
+                eval_display="${acp_eval} (${acp_rating:-—})"
+            fi
+
+            # Build links — check for multi-task reports
             local links=""
-            [ -f "$dir/report.html" ] && links="$links<a href=\"$dirname/report.html\">HTML</a>"
-            [ -f "$dir/report.md" ] && links="$links<a href=\"$dirname/report.md\">MD</a>"
-            [ -f "$dir/summary.yaml" ] && links="$links<a href=\"$dirname/summary.yaml\">YAML</a>"
+            [ -f "$dir/summary.yaml" ] && links="$links<a href=\"$dirname/summary.yaml\">YAML</a> "
+            if [ -f "$dir/report.html" ]; then
+                links="$links<a href=\"$dirname/report.html\">HTML</a> "
+            else
+                # Check for per-task reports
+                for rpt in "$dir"/report-*.html; do
+                    [ -f "$rpt" ] || continue
+                    local rpt_name="$(basename "$rpt" .html)"
+                    local task_name="${rpt_name#report-}"
+                    links="$links<a href=\"$dirname/$(basename "$rpt")\">$task_name</a> "
+                done
+            fi
             [ -z "$links" ] && links="&mdash;"
 
             echo "<tr>"
             echo "  <td>$timestamp</td>"
-            echo "  <td>$task</td>"
+            echo "  <td>$tasks_display</td>"
             echo "  <td>$modes</td>"
             echo "  <td class=\"$result_class\">$result_text</td>"
+            echo "  <td>$eval_display</td>"
             echo "  <td class=\"links\">$links</td>"
             echo "</tr>"
         done
