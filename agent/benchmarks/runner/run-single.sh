@@ -73,11 +73,11 @@ fi
 MAX_TURNS=10
 TIMEOUT=120
 if [ -f "$TASK_DIR/config.yaml" ]; then
-    config_turns=$(grep '^max_turns:' "$TASK_DIR/config.yaml" | awk '{print $2}')
+    config_turns=$(grep '^max_turns:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
     if [ -n "$config_turns" ]; then
         MAX_TURNS="$config_turns"
     fi
-    config_timeout=$(grep '^timeout:' "$TASK_DIR/config.yaml" | awk '{print $2}')
+    config_timeout=$(grep -E '^timeout(_minutes)?:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
     if [ -n "$config_timeout" ]; then
         TIMEOUT="$config_timeout"
     fi
@@ -89,9 +89,9 @@ fi
 STEPS_MODE="false"
 STEP_COUNT=0
 
-if [ -f "$TASK_DIR/config.yaml" ] && grep -q '^steps:' "$TASK_DIR/config.yaml"; then
+if [ -f "$TASK_DIR/config.yaml" ] && grep -q '^steps:' "$TASK_DIR/config.yaml" 2>/dev/null; then
     STEPS_MODE="true"
-    STEP_COUNT=$(grep -c '^\s*- id:' "$TASK_DIR/config.yaml")
+    STEP_COUNT=$(grep -c '^\s*- id:' "$TASK_DIR/config.yaml" || true)
 fi
 
 # --- Create per-step metrics directory ---
@@ -323,10 +323,13 @@ if type "$VERIFY_FUNC" &>/dev/null; then
 
     # Count checks from exported vars (set by verify functions)
     if [ -f "$TASK_DIR/config.yaml" ]; then
-        CHECKS_TOTAL=$(grep -c '^\s*- ' <(sed -n '/^expected_checks:/,/^[a-z]/p' "$TASK_DIR/config.yaml") 2>/dev/null || echo 0)
+        CHECKS_TOTAL=$(sed -n '/^expected_checks:/,/^[a-z]/p' "$TASK_DIR/config.yaml" 2>/dev/null | grep -c '^\s*- ' || true)
+        # Ensure clean integer
+        CHECKS_TOTAL=$(echo "$CHECKS_TOTAL" | tr -d '[:space:]')
+        CHECKS_TOTAL="${CHECKS_TOTAL:-0}"
     fi
     # Fallback: count from standard check variables
-    if [ "$CHECKS_TOTAL" -eq 0 ]; then
+    if [ "$CHECKS_TOTAL" -eq 0 ] 2>/dev/null; then
         CHECKS_TOTAL=3
     fi
     [ "${FILE_EXISTS:-false}" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))

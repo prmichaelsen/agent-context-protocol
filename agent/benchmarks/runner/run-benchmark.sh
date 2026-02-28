@@ -225,12 +225,29 @@ EOF
     echo "" >> "$SUMMARY_FILE"
 done
 
-# --- Generate reports (single-task, single-run only) ---
-if [ "${#TASKS[@]}" -eq 1 ] && [ "$RUNS" -eq 1 ]; then
-    bash "$SCRIPT_DIR/report-markdown.sh" "$REPORT_DIR" "${TASKS[0]}" "${MODES[@]}"
-    bash "$SCRIPT_DIR/report-html.sh" "$REPORT_DIR" "${TASKS[0]}" "${MODES[@]}"
+# --- Generate per-task reports ---
+if [ "$RUNS" -eq 1 ]; then
+    for TASK in "${TASKS[@]}"; do
+        # Only generate if result files exist for this task
+        has_results="false"
+        for run_mode in "${MODES[@]}"; do
+            if [ -f "$REPORT_DIR/${TASK}-${run_mode}.yaml" ]; then
+                has_results="true"
+                break
+            fi
+        done
+        if [ "$has_results" = "true" ]; then
+            bash "$SCRIPT_DIR/report-markdown.sh" "$REPORT_DIR" "$TASK" "${MODES[@]}"
+            bash "$SCRIPT_DIR/report-html.sh" "$REPORT_DIR" "$TASK" "${MODES[@]}"
+            # For multi-task, rename reports to include task name
+            if [ "${#TASKS[@]}" -gt 1 ]; then
+                [ -f "$REPORT_DIR/report.md" ] && mv "$REPORT_DIR/report.md" "$REPORT_DIR/report-${TASK}.md"
+                [ -f "$REPORT_DIR/report.html" ] && mv "$REPORT_DIR/report.html" "$REPORT_DIR/report-${TASK}.html"
+            fi
+        fi
+    done
 else
-    echo "  (Multi-task/multi-run: see summary.yaml — enhanced reports available in future)"
+    echo "  (Multi-run reports: see summary.yaml — enhanced reports available in future)"
 fi
 
 echo ""
@@ -242,8 +259,15 @@ echo ""
 echo "========================================"
 echo "Reports:"
 echo "  YAML:     $REPORT_DIR/summary.yaml"
-if [ "${#TASKS[@]}" -eq 1 ] && [ "$RUNS" -eq 1 ]; then
-    echo "  Markdown: $REPORT_DIR/report.md"
-    echo "  HTML:     $REPORT_DIR/report.html"
+if [ "$RUNS" -eq 1 ]; then
+    if [ "${#TASKS[@]}" -eq 1 ]; then
+        echo "  Markdown: $REPORT_DIR/report.md"
+        echo "  HTML:     $REPORT_DIR/report.html"
+    else
+        for TASK in "${TASKS[@]}"; do
+            [ -f "$REPORT_DIR/report-${TASK}.md" ] && echo "  Markdown: $REPORT_DIR/report-${TASK}.md"
+            [ -f "$REPORT_DIR/report-${TASK}.html" ] && echo "  HTML:     $REPORT_DIR/report-${TASK}.html"
+        done
+    fi
 fi
 echo "========================================"

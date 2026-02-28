@@ -5,6 +5,15 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.3.1] - 2026-02-28
+
+### Fixed
+
+- `run-single.sh`: grep commands now use `|| true` to prevent `set -euo pipefail` crashes when config fields are missing
+- `run-single.sh`: timeout config parsing now matches both `timeout:` and `timeout_minutes:` field names
+- `run-single.sh`: CHECKS_TOTAL calculation no longer produces multi-line output that breaks integer comparison
+- `run-benchmark.sh`: HTML/Markdown reports now generated for all tasks in `--task all` mode (was skipped for multi-task runs)
+
 ## [5.3.0] - 2026-02-28
 
 ### Added
