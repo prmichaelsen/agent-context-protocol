@@ -185,7 +185,7 @@ class ReloadHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path in ('/', '/index.html'):
             subprocess.run(['bash', SCRIPT, '--generate-only'], check=False)
-        return super().do_GET(self)
+        return super().do_GET()
 
 http.server.HTTPServer(('', $PORT), ReloadHandler).serve_forever()
 "
