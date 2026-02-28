@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.3.2] - 2026-02-28
+
+### Added
+
+- Benchmark runner injects `@acp.plan` directive (plan before building) into first step prompt in ACP mode
+- Benchmark runner injects `@acp.proceed` directive (structured implementation) into subsequent step prompts in ACP mode
+- Single-prompt benchmarks also receive plan directive in ACP mode
+
 ## [5.3.1] - 2026-02-28
 
 ### Fixed

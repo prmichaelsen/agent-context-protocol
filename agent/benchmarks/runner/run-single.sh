@@ -59,6 +59,8 @@ echo "  Workspace: $WORKSPACE"
 (cd "$WORKSPACE" && git init --quiet)
 
 ACP_PREAMBLE=""
+ACP_PLAN_SUFFIX=""
+ACP_PROCEED_SUFFIX=""
 if [ "$MODE" = "acp" ]; then
     echo "  Installing ACP..."
     (cd "$WORKSPACE" && bash "$PROJECT_ROOT/agent/scripts/acp.install.sh") > "$OUTPUT.acp-install.log" 2>&1
@@ -67,6 +69,16 @@ if [ "$MODE" = "acp" ]; then
     ACP_PREAMBLE="@agent/commands/acp.init.md
 
 "
+    # ACP workflow directives injected into step prompts
+    ACP_PLAN_SUFFIX="
+
+---
+ACP Workflow Directive: Before implementing, read @agent/commands/acp.plan.md and follow its planning approach. Create a brief plan (milestones, tasks, design considerations) in agent/ before writing code."
+
+    ACP_PROCEED_SUFFIX="
+
+---
+ACP Workflow Directive: Read @agent/commands/acp.proceed.md and follow its structured implementation approach. Update agent/progress.yaml as you complete work."
 fi
 
 # --- Read config ---
@@ -191,9 +203,15 @@ if [ "$STEPS_MODE" = "true" ]; then
         step_max_turns="${STEP_MAX_TURNS[$i]}"
 
         STEP_PROMPT=$(cat "$TASK_DIR/$step_prompt_file")
-        # Prepend ACP init directive to the first step only
-        if [ "$i" -eq 0 ] && [ -n "$ACP_PREAMBLE" ]; then
-            STEP_PROMPT="${ACP_PREAMBLE}${STEP_PROMPT}"
+        # Inject ACP workflow directives in ACP mode
+        if [ "$MODE" = "acp" ]; then
+            if [ "$i" -eq 0 ]; then
+                # First step: init + plan (read context, plan before building)
+                STEP_PROMPT="${ACP_PREAMBLE}${STEP_PROMPT}${ACP_PLAN_SUFFIX}"
+            else
+                # Subsequent steps: proceed (structured implementation)
+                STEP_PROMPT="${STEP_PROMPT}${ACP_PROCEED_SUFFIX}"
+            fi
         fi
 
         echo "  Step $((i+1))/$STEP_COUNT: $step_id (phase=$step_phase, max_turns=$step_max_turns)"
@@ -274,9 +292,9 @@ STEP_EOF
 else
     # --- Single-prompt mode (backward compatible) ---
     PROMPT=$(cat "$TASK_DIR/prompt.md")
-    # Prepend ACP init directive if in ACP mode
-    if [ -n "$ACP_PREAMBLE" ]; then
-        PROMPT="${ACP_PREAMBLE}${PROMPT}"
+    # Inject ACP workflow directives if in ACP mode
+    if [ "$MODE" = "acp" ]; then
+        PROMPT="${ACP_PREAMBLE}${PROMPT}${ACP_PLAN_SUFFIX}"
     fi
 
     echo "  Running claude (mode=$MODE, max_turns=$MAX_TURNS)..."
