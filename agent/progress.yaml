@@ -194,7 +194,7 @@ milestones:
 
   - id: M10
     name: Command Enhancements
-    status: in_progress
+    status: completed
     progress: 100
     started: 2026-02-28
     completed: 2026-02-28
@@ -207,6 +207,27 @@ milestones:
       - Task 78: @acp.proceed autonomous completion with --complete, --auto, --dry-run flags
       - Natural language argument parsing for commands
       - Per-task git commits in autonomous mode
+
+  - id: M11
+    name: ACP Benchmark Suite
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 3-5
+    tasks_completed: 0
+    tasks_total: 8
+    notes: |
+      📋 Milestone 11: ACP Benchmark Suite
+      - Full E2E benchmark system: ACP vs baseline comparison
+      - Multi-turn conversation steps via Claude CLI --resume
+      - 3 benchmark tasks: simple-cli-tool, medium-rest-api, complex-auth-system
+      - LLM evaluator with 6-category rubric (1-10 + MISS/MEETS/EXCEEDS)
+      - 5-run statistical averaging per configuration
+      - Reports: YAML, Markdown, HTML dashboard
+      - GitHub Actions on-demand workflow
+      - Historical tracking via GitHub Pages
+      - 8 tasks (79-86): Runner, 3 Tasks, Evaluator, Reports, CI/CD, Docs
 
 tasks:
   milestone_1:
@@ -1355,6 +1376,79 @@ tasks:
         - Interruption handling: infer user intent from messages
         - Source: clarification-2-proceed-args.md (18 requirements answered)
 
+  milestone_11:
+    - id: task-79
+      name: Runner Multi-Turn & Metrics Fix
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-79-runner-multi-turn-metrics.md
+      estimated_hours: 6-8
+      completed_date: null
+      notes: |
+        Upgrade runner for multi-turn steps (--resume), fix token metrics, add metrics-collector.sh, 5-run averaging.
+
+    - id: task-80
+      name: Simple CLI Tool Benchmark Task
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-80-simple-cli-tool-benchmark.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Define simple-cli-tool benchmark: 3 steps (build, test, correction), config.yaml, expected structure.
+
+    - id: task-81
+      name: Medium REST API Benchmark Task
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-81-medium-rest-api-benchmark.md
+      estimated_hours: 4-5
+      completed_date: null
+      notes: |
+        Define medium-rest-api benchmark: 4 steps (build, test, correction, refactor), config.yaml, expected structure.
+
+    - id: task-82
+      name: Complex Auth System Benchmark Task
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-82-complex-auth-system-benchmark.md
+      estimated_hours: 5-6
+      completed_date: null
+      notes: |
+        Define complex-auth-system benchmark: 5 steps (scaffold, auth, test, correction, docs), config.yaml, expected structure.
+
+    - id: task-83
+      name: LLM Evaluator Implementation
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-83-llm-evaluator.md
+      estimated_hours: 4-6
+      completed_date: null
+      notes: |
+        Create evaluator-prompt.md, evaluation-schema.json, integrate into runner. 6-category rubric with 1-10 scores.
+
+    - id: task-84
+      name: Report & Dashboard Enhancement
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-84-report-dashboard-enhancement.md
+      estimated_hours: 4-5
+      completed_date: null
+      notes: |
+        Multi-run comparison tables, ACP vs baseline, 5-run averaging, per-step breakdowns, HTML dashboard.
+
+    - id: task-85
+      name: GitHub Actions Workflow
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-85-github-actions-workflow.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        On-demand workflow dispatch, report artifact upload, timeout controls.
+
+    - id: task-86
+      name: Documentation & Historical Tracking
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-86-documentation-historical-tracking.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        AGENT.md, README.md, design doc status, GitHub Pages dashboard, historical version tracking.
+
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -1489,6 +1583,7 @@ progress:
   milestone_8: 100
   milestone_9: 28
   milestone_10: 100
+  milestone_11: 0
 
 recent_work:
   - date: 2026-02-28
