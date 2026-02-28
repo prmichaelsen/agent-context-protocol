@@ -1,0 +1,7 @@
+# ACP Package Manifest
+# Tracks installed packages and their versions
+
+packages: {}
+
+manifest_version: 1.0.0
+last_updated: null

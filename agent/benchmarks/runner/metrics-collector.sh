@@ -30,7 +30,7 @@ fi
 get_field() {
     local file="$1"
     local field="$2"
-    grep "${field}:" "$file" | head -1 | awk '{print $2}'
+    grep "${field}:" "$file" 2>/dev/null | head -1 | awk '{print $2}' || true
 }
 
 # --- Collect per-run values ---

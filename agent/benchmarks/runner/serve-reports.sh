@@ -25,7 +25,7 @@ done
 get_field() {
     local file="$1"
     local field="$2"
-    grep "${field}:" "$file" 2>/dev/null | head -1 | awk '{print $2}' | tr -d '[]'
+    grep "${field}:" "$file" 2>/dev/null | head -1 | awk '{print $2}' | tr -d '[]' || true
 }
 
 # --- Function: generate index.html ---
