@@ -145,12 +145,12 @@ echo "$RESPONSE" | grep -o '"full_name": "[^"]*"' | cut -d'"' -f4 | while read -
     if [ -n "$TAGS" ]; then
         echo "   Tags: $TAGS"
     fi
-    echo "   Install: ./agent/scripts/acp.package-install.sh $URL.git"
+    echo "   Install: ./agent/scripts/acp.package-install.sh --repo $URL.git"
     echo ""
 done
 
 echo "Showing $REPO_COUNT of $TOTAL_COUNT result(s)"
 echo ""
 echo "To install a package:"
-echo "  ./agent/scripts/acp.package-install.sh <repository-url>"
+echo "  ./agent/scripts/acp.package-install.sh --repo <repository-url>"
 echo ""
