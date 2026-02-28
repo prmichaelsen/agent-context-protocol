@@ -32,46 +32,48 @@ repository: https://github.com/test/test-experimental.git
 
 contents:
   commands:
-    - name: stable-command.md
+    - name: test-experimental.stable-command.md
       description: A stable command
     
-    - name: experimental-command.md
+    - name: test-experimental.experimental-command.md
       description: An experimental command
       experimental: true
   
   patterns:
-    - name: stable-pattern.md
+    - name: test-experimental.stable-pattern.md
       description: A stable pattern
     
-    - name: experimental-pattern.md
+    - name: test-experimental.experimental-pattern.md
       description: An experimental pattern
       experimental: true
 EOF
     
     # Create stable command
-    cat > "$package_dir/agent/commands/stable-command.md" <<'EOF'
+    cat > "$package_dir/agent/commands/test-experimental.stable-command.md" <<'EOF'
 # Command: stable-command
 
 > **🤖 Agent Directive**: Test command
 
-**Namespace**: test
+**Namespace**: test-experimental
 **Version**: 1.0.0
 **Status**: Active
+**Scripts**: None
 
 ---
 
 **Purpose**: A stable command for testing
 EOF
-    
+
     # Create experimental command
-    cat > "$package_dir/agent/commands/experimental-command.md" <<'EOF'
+    cat > "$package_dir/agent/commands/test-experimental.experimental-command.md" <<'EOF'
 # Command: experimental-command
 
 > **🤖 Agent Directive**: Test command
 
-**Namespace**: test
+**Namespace**: test-experimental
 **Version**: 0.1.0
 **Status**: Experimental
+**Scripts**: None
 
 ---
 
@@ -79,7 +81,7 @@ EOF
 EOF
     
     # Create stable pattern
-    cat > "$package_dir/agent/patterns/stable-pattern.md" <<'EOF'
+    cat > "$package_dir/agent/patterns/test-experimental.stable-pattern.md" <<'EOF'
 # Pattern: Stable Pattern
 
 **Status**: Active
@@ -92,7 +94,7 @@ A stable pattern for testing
 EOF
     
     # Create experimental pattern
-    cat > "$package_dir/agent/patterns/experimental-pattern.md" <<'EOF'
+    cat > "$package_dir/agent/patterns/test-experimental.experimental-pattern.md" <<'EOF'
 # Pattern: Experimental Pattern
 
 **Status**: Experimental
@@ -110,7 +112,7 @@ EOF
     git add -A
     git commit -q -m "Initial commit"
     git remote add origin https://github.com/test/test-experimental.git
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
 }
 
 # Test: Install without --experimental skips experimental features
@@ -135,16 +137,16 @@ test_install_without_experimental() {
     exit_code=$?
     set -e
     
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
     
     # Assertions
     local test_result=0
     assert_equals "0" "$exit_code" "Installation succeeds" || test_result=1
-    assert_file_exists "$install_dir/agent/commands/stable-command.md" || test_result=1
-    assert_file_not_exists "$install_dir/agent/commands/experimental-command.md" || test_result=1
-    assert_file_exists "$install_dir/agent/patterns/stable-pattern.md" || test_result=1
-    assert_file_not_exists "$install_dir/agent/patterns/experimental-pattern.md" || test_result=1
-    assert_contains "$output" "Skipping experimental" || test_result=1
+    assert_file_exists "$install_dir/agent/commands/test-experimental.stable-command.md" || test_result=1
+    assert_file_not_exists "$install_dir/agent/commands/test-experimental.experimental-command.md" || test_result=1
+    assert_file_exists "$install_dir/agent/patterns/test-experimental.stable-pattern.md" || test_result=1
+    assert_file_not_exists "$install_dir/agent/patterns/test-experimental.experimental-pattern.md" || test_result=1
+    assert_contains "$output" "experimental - use --experimental" "Output mentions experimental skip" || test_result=1
     
     # Cleanup
     rm -rf "$test_dir"
@@ -174,16 +176,16 @@ test_install_with_experimental() {
     exit_code=$?
     set -e
     
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
     
     # Assertions
     local test_result=0
     assert_equals "0" "$exit_code" "Installation succeeds" || test_result=1
-    assert_file_exists "$install_dir/agent/commands/stable-command.md" || test_result=1
-    assert_file_exists "$install_dir/agent/commands/experimental-command.md" || test_result=1
-    assert_file_exists "$install_dir/agent/patterns/stable-pattern.md" || test_result=1
-    assert_file_exists "$install_dir/agent/patterns/experimental-pattern.md" || test_result=1
-    assert_contains "$output" "Installing experimental" || test_result=1
+    assert_file_exists "$install_dir/agent/commands/test-experimental.stable-command.md" || test_result=1
+    assert_file_exists "$install_dir/agent/commands/test-experimental.experimental-command.md" || test_result=1
+    assert_file_exists "$install_dir/agent/patterns/test-experimental.stable-pattern.md" || test_result=1
+    assert_file_exists "$install_dir/agent/patterns/test-experimental.experimental-pattern.md" || test_result=1
+    assert_not_contains "$output" "experimental - use --experimental" "Experimental files not skipped when --experimental set" || test_result=1
     
     # Cleanup
     rm -rf "$test_dir"
@@ -210,16 +212,16 @@ test_manifest_tracking() {
     # Install with --experimental
     "$PROJECT_ROOT/agent/scripts/acp.package-install.sh" --repo "$package_dir" --experimental -y >/dev/null 2>&1
     
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
     
     # Check manifest
     manifest_content=$(cat "$install_dir/agent/manifest.yaml")
     
     # Assertions
     local test_result=0
-    assert_contains "$manifest_content" "experimental-command.md" || test_result=1
+    assert_contains "$manifest_content" "test-experimental.experimental-command.md" || test_result=1
     assert_contains "$manifest_content" "experimental: true" || test_result=1
-    assert_contains "$manifest_content" "stable-command.md" || test_result=1
+    assert_contains "$manifest_content" "test-experimental.stable-command.md" || test_result=1
     
     # Cleanup
     rm -rf "$test_dir"
@@ -242,7 +244,7 @@ test_validation_consistent() {
     set +e
     output=$("$PROJECT_ROOT/agent/scripts/acp.package-validate.sh" 2>&1)
     set -e
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
     
     # Extract just the Experimental Features section
     experimental_section=$(echo "$output" | grep -A 10 "^Experimental Features")
@@ -268,14 +270,14 @@ test_validation_missing_file_metadata() {
     create_test_package "$package_dir"
     
     # Change experimental-command to Active status
-    sed -i 's/\*\*Status\*\*: Experimental/\*\*Status\*\*: Active/' "$package_dir/agent/commands/experimental-command.md"
+    sed -i 's/\*\*Status\*\*: Experimental/\*\*Status\*\*: Active/' "$package_dir/agent/commands/test-experimental.experimental-command.md"
     
     # Run validation
     cd "$package_dir"
     set +e
     output=$("$PROJECT_ROOT/agent/scripts/acp.package-validate.sh" 2>&1)
     set -e
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
     
     # Check for the error message (should appear in output)
     # Assertions
@@ -306,7 +308,7 @@ test_validation_missing_yaml_field() {
     set +e
     output=$("$PROJECT_ROOT/agent/scripts/acp.package-validate.sh" 2>&1)
     set -e
-    cd - >/dev/null
+    cd "$PROJECT_ROOT"
     
     # Extract experimental section
     experimental_section=$(echo "$output" | grep -A 10 "^Experimental Features")
