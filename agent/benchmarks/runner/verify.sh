@@ -1,6 +1,11 @@
 #!/bin/bash
 # verify.sh — Verification functions for benchmark tasks
 # Sourced by run-single.sh
+#
+# Each task should define a verify_<task_name> function (hyphens replaced with underscores).
+# The function receives the workspace directory as $1 and should:
+#   - Set exported variables for individual checks (e.g., FILE_EXISTS, FILE_EXECUTABLE)
+#   - Return 0 if all checks pass, 1 if any fail
 
 # Verify the hello-world benchmark task
 # Args: $1 = workspace directory
@@ -44,3 +49,9 @@ verify_hello_world() {
     export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
     return $all_pass
 }
+
+# --- Add verify functions for future tasks below ---
+
+# verify_simple_cli_tool() { ... }
+# verify_medium_rest_api() { ... }
+# verify_complex_auth_system() { ... }

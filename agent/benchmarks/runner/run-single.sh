@@ -1,5 +1,6 @@
 #!/bin/bash
 # run-single.sh — Execute a single benchmark run (one task, one mode)
+# Supports both single-prompt and multi-turn step modes.
 # Usage: bash run-single.sh --task <name> --mode <acp|baseline> --task-dir <path> --output <path> --project-root <path>
 
 set -euo pipefail
@@ -63,67 +64,267 @@ if [ "$MODE" = "acp" ]; then
     echo "  ACP installed"
 fi
 
-# --- Read prompt ---
-PROMPT=$(cat "$TASK_DIR/prompt.md")
-
-# --- Read max_turns from config ---
+# --- Read config ---
 MAX_TURNS=10
+TIMEOUT=120
 if [ -f "$TASK_DIR/config.yaml" ]; then
     config_turns=$(grep '^max_turns:' "$TASK_DIR/config.yaml" | awk '{print $2}')
     if [ -n "$config_turns" ]; then
         MAX_TURNS="$config_turns"
     fi
+    config_timeout=$(grep '^timeout:' "$TASK_DIR/config.yaml" | awk '{print $2}')
+    if [ -n "$config_timeout" ]; then
+        TIMEOUT="$config_timeout"
+    fi
 fi
 
-# --- Execute claude ---
-echo "  Running claude (mode=$MODE, max_turns=$MAX_TURNS)..."
-STDERR_LOG="$OUTPUT.stderr.log"
-START_TIME=$(date +%s)
+# --- Detect steps mode ---
+# If config.yaml has a steps: section, use multi-turn mode
+# Otherwise, fall back to single-prompt mode using prompt.md
+STEPS_MODE="false"
+STEP_COUNT=0
 
-CLAUDE_OUTPUT=""
-CLAUDE_EXIT=0
-CLAUDE_OUTPUT=$(cd "$WORKSPACE" && claude -p "$PROMPT" \
-    --output-format json \
-    --allowedTools "Bash,Read,Edit,Write,Glob,Grep" \
-    --max-turns "$MAX_TURNS" \
-    2>"$STDERR_LOG") || CLAUDE_EXIT=$?
+if [ -f "$TASK_DIR/config.yaml" ] && grep -q '^steps:' "$TASK_DIR/config.yaml"; then
+    STEPS_MODE="true"
+    STEP_COUNT=$(grep -c '^\s*- id:' "$TASK_DIR/config.yaml")
+fi
 
-END_TIME=$(date +%s)
-DURATION_S=$((END_TIME - START_TIME))
+# --- Create per-step metrics directory ---
+METRICS_DIR="$(dirname "$OUTPUT")/steps-${TASK}-${MODE}"
+mkdir -p "$METRICS_DIR"
 
-echo "  Claude exited with code $CLAUDE_EXIT (${DURATION_S}s)"
+# --- Helper: extract metric from JSON with fallback paths ---
+# Tries .usage.<field> first (nested), then .<field> (top-level), then 0
+extract_metric() {
+    local json="$1"
+    local field="$2"
+    local value
+    # Try nested .usage.<field> first
+    value=$(echo "$json" | jq -r ".usage.${field} // empty" 2>/dev/null || true)
+    if [ -n "$value" ] && [ "$value" != "null" ]; then
+        echo "$value"
+        return
+    fi
+    # Try top-level .<field>
+    value=$(echo "$json" | jq -r ".${field} // 0" 2>/dev/null || echo 0)
+    echo "${value:-0}"
+}
 
-# --- Parse JSON output ---
+# --- Execute ---
 SESSION_ID=""
-INPUT_TOKENS=0
-OUTPUT_TOKENS=0
-NUM_TURNS=0
+TOTAL_INPUT_TOKENS=0
+TOTAL_OUTPUT_TOKENS=0
+TOTAL_NUM_TURNS=0
 TOTAL_COST_USD="0"
+TOTAL_DURATION_S=0
 RESULT_TEXT=""
+CLAUDE_EXIT=0
 
-if [ -n "$CLAUDE_OUTPUT" ]; then
-    SESSION_ID=$(echo "$CLAUDE_OUTPUT" | jq -r '.session_id // empty' 2>/dev/null || true)
-    INPUT_TOKENS=$(echo "$CLAUDE_OUTPUT" | jq -r '.input_tokens // 0' 2>/dev/null || echo 0)
-    OUTPUT_TOKENS=$(echo "$CLAUDE_OUTPUT" | jq -r '.output_tokens // 0' 2>/dev/null || echo 0)
-    NUM_TURNS=$(echo "$CLAUDE_OUTPUT" | jq -r '.num_turns // 0' 2>/dev/null || echo 0)
-    TOTAL_COST_USD=$(echo "$CLAUDE_OUTPUT" | jq -r '.cost_usd // 0' 2>/dev/null || echo 0)
-    RESULT_TEXT=$(echo "$CLAUDE_OUTPUT" | jq -r '.result // empty' 2>/dev/null || true)
+TOOLS="Bash,Read,Edit,Write,Glob,Grep"
+
+if [ "$STEPS_MODE" = "true" ]; then
+    echo "  Multi-turn mode: $STEP_COUNT steps"
+
+    # Parse steps from config.yaml (simple line-by-line parser, no yq needed)
+    STEP_IDS=()
+    STEP_PROMPTS=()
+    STEP_PHASES=()
+    STEP_MAX_TURNS=()
+
+    current_id=""
+    current_prompt_file=""
+    current_phase=""
+    current_max_turns=""
+    in_steps="false"
+
+    while IFS= read -r line; do
+        if echo "$line" | grep -q '^steps:'; then
+            in_steps="true"
+            continue
+        fi
+        if [ "$in_steps" = "true" ]; then
+            # Non-indented line after steps: means we've left the block
+            if [ -n "$line" ] && echo "$line" | grep -qE '^[a-z]'; then
+                in_steps="false"
+                continue
+            fi
+            if echo "$line" | grep -q '^\s*- id:'; then
+                # Save previous step if exists
+                if [ -n "$current_id" ]; then
+                    STEP_IDS+=("$current_id")
+                    STEP_PROMPTS+=("$current_prompt_file")
+                    STEP_PHASES+=("${current_phase:-unknown}")
+                    STEP_MAX_TURNS+=("${current_max_turns:-$MAX_TURNS}")
+                fi
+                current_id=$(echo "$line" | sed 's/.*- id:\s*//' | tr -d '[:space:]')
+                current_prompt_file=""
+                current_phase=""
+                current_max_turns=""
+            elif echo "$line" | grep -q 'prompt_file:'; then
+                current_prompt_file=$(echo "$line" | sed 's/.*prompt_file:\s*//' | tr -d '[:space:]')
+            elif echo "$line" | grep -q 'phase:'; then
+                current_phase=$(echo "$line" | sed 's/.*phase:\s*//' | tr -d '[:space:]')
+            elif echo "$line" | grep -q 'max_turns:'; then
+                current_max_turns=$(echo "$line" | sed 's/.*max_turns:\s*//' | tr -d '[:space:]')
+            fi
+        fi
+    done < "$TASK_DIR/config.yaml"
+
+    # Save last step
+    if [ -n "$current_id" ]; then
+        STEP_IDS+=("$current_id")
+        STEP_PROMPTS+=("$current_prompt_file")
+        STEP_PHASES+=("${current_phase:-unknown}")
+        STEP_MAX_TURNS+=("${current_max_turns:-$MAX_TURNS}")
+    fi
+
+    # Execute each step
+    for i in "${!STEP_IDS[@]}"; do
+        step_id="${STEP_IDS[$i]}"
+        step_prompt_file="${STEP_PROMPTS[$i]}"
+        step_phase="${STEP_PHASES[$i]}"
+        step_max_turns="${STEP_MAX_TURNS[$i]}"
+
+        STEP_PROMPT=$(cat "$TASK_DIR/$step_prompt_file")
+
+        echo "  Step $((i+1))/$STEP_COUNT: $step_id (phase=$step_phase, max_turns=$step_max_turns)"
+
+        STDERR_LOG="$METRICS_DIR/step-${step_id}-stderr.log"
+        STEP_START=$(date +%s)
+
+        STEP_OUTPUT=""
+        STEP_EXIT=0
+
+        if [ -z "$SESSION_ID" ]; then
+            # First step — start new session
+            STEP_OUTPUT=$(cd "$WORKSPACE" && claude -p "$STEP_PROMPT" \
+                --output-format json \
+                --allowedTools "$TOOLS" \
+                --max-turns "$step_max_turns" \
+                2>"$STDERR_LOG") || STEP_EXIT=$?
+        else
+            # Subsequent steps — resume same session
+            STEP_OUTPUT=$(cd "$WORKSPACE" && claude -p "$STEP_PROMPT" \
+                --resume "$SESSION_ID" \
+                --output-format json \
+                --allowedTools "$TOOLS" \
+                --max-turns "$step_max_turns" \
+                2>"$STDERR_LOG") || STEP_EXIT=$?
+        fi
+
+        STEP_END=$(date +%s)
+        STEP_DURATION=$((STEP_END - STEP_START))
+
+        # Save raw JSON for debugging
+        echo "$STEP_OUTPUT" > "$METRICS_DIR/step-${step_id}-raw.json"
+
+        # Extract per-step metrics
+        step_input=0
+        step_output_tokens=0
+        step_turns=0
+        step_cost="0"
+
+        if [ -n "$STEP_OUTPUT" ]; then
+            step_session_id=$(echo "$STEP_OUTPUT" | jq -r '.session_id // empty' 2>/dev/null || true)
+            if [ -n "$step_session_id" ]; then
+                SESSION_ID="$step_session_id"
+            fi
+
+            step_input=$(extract_metric "$STEP_OUTPUT" "input_tokens")
+            step_output_tokens=$(extract_metric "$STEP_OUTPUT" "output_tokens")
+            step_turns=$(echo "$STEP_OUTPUT" | jq -r '.num_turns // 0' 2>/dev/null || echo 0)
+            step_cost=$(extract_metric "$STEP_OUTPUT" "cost_usd")
+            RESULT_TEXT=$(echo "$STEP_OUTPUT" | jq -r '.result // empty' 2>/dev/null || true)
+
+            TOTAL_INPUT_TOKENS=$((TOTAL_INPUT_TOKENS + step_input))
+            TOTAL_OUTPUT_TOKENS=$((TOTAL_OUTPUT_TOKENS + step_output_tokens))
+            TOTAL_NUM_TURNS=$((TOTAL_NUM_TURNS + step_turns))
+            TOTAL_COST_USD=$(echo "$TOTAL_COST_USD $step_cost" | awk '{printf "%.6f", $1 + $2}')
+        fi
+
+        TOTAL_DURATION_S=$((TOTAL_DURATION_S + STEP_DURATION))
+
+        if [ "$STEP_EXIT" -ne 0 ]; then
+            CLAUDE_EXIT=$STEP_EXIT
+        fi
+
+        # Save per-step metrics YAML
+        cat > "$METRICS_DIR/step-${step_id}.yaml" << STEP_EOF
+step_id: $step_id
+phase: $step_phase
+exit_code: $STEP_EXIT
+duration_seconds: $STEP_DURATION
+input_tokens: $step_input
+output_tokens: $step_output_tokens
+num_turns: $step_turns
+cost_usd: $step_cost
+STEP_EOF
+
+        echo "    Done: ${STEP_DURATION}s, turns=$step_turns, tokens=${step_input}/${step_output_tokens}"
+    done
+else
+    # --- Single-prompt mode (backward compatible) ---
+    PROMPT=$(cat "$TASK_DIR/prompt.md")
+
+    echo "  Running claude (mode=$MODE, max_turns=$MAX_TURNS)..."
+    STDERR_LOG="$OUTPUT.stderr.log"
+    START_TIME=$(date +%s)
+
+    CLAUDE_OUTPUT=""
+    CLAUDE_OUTPUT=$(cd "$WORKSPACE" && claude -p "$PROMPT" \
+        --output-format json \
+        --allowedTools "$TOOLS" \
+        --max-turns "$MAX_TURNS" \
+        2>"$STDERR_LOG") || CLAUDE_EXIT=$?
+
+    END_TIME=$(date +%s)
+    TOTAL_DURATION_S=$((END_TIME - START_TIME))
+
+    # Save raw JSON for debugging
+    echo "$CLAUDE_OUTPUT" > "$METRICS_DIR/single-raw.json"
+
+    if [ -n "$CLAUDE_OUTPUT" ]; then
+        SESSION_ID=$(echo "$CLAUDE_OUTPUT" | jq -r '.session_id // empty' 2>/dev/null || true)
+        TOTAL_INPUT_TOKENS=$(extract_metric "$CLAUDE_OUTPUT" "input_tokens")
+        TOTAL_OUTPUT_TOKENS=$(extract_metric "$CLAUDE_OUTPUT" "output_tokens")
+        TOTAL_NUM_TURNS=$(echo "$CLAUDE_OUTPUT" | jq -r '.num_turns // 0' 2>/dev/null || echo 0)
+        TOTAL_COST_USD=$(extract_metric "$CLAUDE_OUTPUT" "cost_usd")
+        RESULT_TEXT=$(echo "$CLAUDE_OUTPUT" | jq -r '.result // empty' 2>/dev/null || true)
+    fi
 fi
+
+echo "  Claude exited with code $CLAUDE_EXIT (${TOTAL_DURATION_S}s)"
 
 # --- Run verification ---
 echo "  Verifying..."
 source "$SCRIPT_DIR/verify.sh"
 
 VERIFY_PASS="false"
-verify_hello_world "$WORKSPACE" && VERIFY_PASS="true"
-
 CHECKS_PASSED=0
-CHECKS_TOTAL=3
-[ "$FILE_EXISTS" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))
-[ "$FILE_EXECUTABLE" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))
-[ "$OUTPUT_CORRECT" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))
+CHECKS_TOTAL=0
 
-echo "  Checks: $CHECKS_PASSED/$CHECKS_TOTAL (exists=$FILE_EXISTS, exec=$FILE_EXECUTABLE, output=$OUTPUT_CORRECT)"
+# Task-aware verification dispatch: call verify_<task_name> (with hyphens replaced by underscores)
+VERIFY_FUNC="verify_${TASK//-/_}"
+if type "$VERIFY_FUNC" &>/dev/null; then
+    "$VERIFY_FUNC" "$WORKSPACE" && VERIFY_PASS="true"
+
+    # Count checks from exported vars (set by verify functions)
+    if [ -f "$TASK_DIR/config.yaml" ]; then
+        CHECKS_TOTAL=$(grep -c '^\s*- ' <(sed -n '/^expected_checks:/,/^[a-z]/p' "$TASK_DIR/config.yaml") 2>/dev/null || echo 0)
+    fi
+    # Fallback: count from standard check variables
+    if [ "$CHECKS_TOTAL" -eq 0 ]; then
+        CHECKS_TOTAL=3
+    fi
+    [ "${FILE_EXISTS:-false}" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))
+    [ "${FILE_EXECUTABLE:-false}" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))
+    [ "${OUTPUT_CORRECT:-false}" = "true" ] && CHECKS_PASSED=$((CHECKS_PASSED + 1))
+else
+    echo "  Warning: No verify function '$VERIFY_FUNC' for task '$TASK', skipping verification"
+    VERIFY_PASS="unknown"
+fi
+
+echo "  Checks: $CHECKS_PASSED/$CHECKS_TOTAL"
 
 # --- Write per-run YAML report ---
 cat > "$OUTPUT" << EOF
@@ -132,12 +333,14 @@ mode: $MODE
 timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 session_id: $SESSION_ID
 claude_exit_code: $CLAUDE_EXIT
+steps_mode: $STEPS_MODE
+step_count: ${STEP_COUNT:-1}
 
 metrics:
-  input_tokens: $INPUT_TOKENS
-  output_tokens: $OUTPUT_TOKENS
-  num_turns: $NUM_TURNS
-  duration_seconds: $DURATION_S
+  input_tokens: $TOTAL_INPUT_TOKENS
+  output_tokens: $TOTAL_OUTPUT_TOKENS
+  num_turns: $TOTAL_NUM_TURNS
+  duration_seconds: $TOTAL_DURATION_S
   total_cost_usd: $TOTAL_COST_USD
 
 verification:
@@ -145,9 +348,32 @@ verification:
   checks_passed: $CHECKS_PASSED
   checks_total: $CHECKS_TOTAL
   details:
-    file_exists: $FILE_EXISTS
-    file_executable: $FILE_EXECUTABLE
-    output_correct: $OUTPUT_CORRECT
+    file_exists: ${FILE_EXISTS:-unknown}
+    file_executable: ${FILE_EXECUTABLE:-unknown}
+    output_correct: ${OUTPUT_CORRECT:-unknown}
 EOF
+
+# Append per-step detail for multi-turn runs
+if [ "$STEPS_MODE" = "true" ]; then
+    {
+        echo ""
+        echo "steps:"
+        for i in "${!STEP_IDS[@]}"; do
+            step_id="${STEP_IDS[$i]}"
+            step_file="$METRICS_DIR/step-${step_id}.yaml"
+            if [ -f "$step_file" ]; then
+                first_line="true"
+                while IFS= read -r line; do
+                    if [ "$first_line" = "true" ]; then
+                        echo "  - $line"
+                        first_line="false"
+                    else
+                        echo "    $line"
+                    fi
+                done < "$step_file"
+            fi
+        done
+    } >> "$OUTPUT"
+fi
 
 echo "  Report written to $OUTPUT"

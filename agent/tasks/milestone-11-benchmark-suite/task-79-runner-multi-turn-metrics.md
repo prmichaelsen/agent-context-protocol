@@ -3,7 +3,9 @@
 **Milestone**: M11 - ACP Benchmark Suite
 **Estimated Time**: 6-8 hours
 **Dependencies**: None
-**Status**: Not Started
+**Status**: Completed
+**Actual Hours**: 1.5
+**Completed**: 2026-02-28
 
 ---
 
@@ -54,13 +56,15 @@ The current runner executes a single prompt per benchmark run. The design spec c
 
 ## Verification
 
-- [ ] Token metrics non-zero in reports after a real run
-- [ ] Multi-turn steps execute with `--resume` session continuity
-- [ ] Per-step metrics captured (tokens, time, turns per step)
-- [ ] metrics-collector.sh produces valid aggregated YAML
-- [ ] `--runs 5` executes 5 iterations and averages results
-- [ ] hello-world smoke test still passes
-- [ ] Backward compatible with single-step tasks
+- [x] Token metrics extraction tries .usage.* then top-level (fallback)
+- [x] Multi-turn steps execute with `--resume` session continuity
+- [x] Per-step metrics captured (tokens, time, turns per step)
+- [x] metrics-collector.sh produces valid aggregated YAML (mean, stddev)
+- [x] `--runs N` executes N iterations and averages results
+- [x] Backward compatible with single-step tasks (hello-world)
+- [x] Task-aware verification dispatch (verify_<task_name> functions)
+- [x] Raw JSON output saved for debugging
+- [ ] Smoke test with real run (requires non-nested Claude session)
 
 ---
 

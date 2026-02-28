@@ -5,6 +5,20 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.2.0] - 2026-02-28
+
+### Added
+
+**Benchmark Runner Multi-Turn & Metrics Fix** (Milestone 11 — Task 79):
+- Multi-turn step loop in run-single.sh with `--resume` session continuity
+- Token metrics extraction fix: tries `.usage.*` (nested) then top-level with fallback
+- Raw JSON output saved per step for debugging
+- `metrics-collector.sh` for multi-run statistical aggregation (mean, stddev)
+- `--runs N` flag in run-benchmark.sh for repeated benchmark execution
+- Task-aware verification dispatch (`verify_<task_name>` functions)
+- Per-step YAML metrics files with phase tagging
+- Backward compatibility: single-prompt tasks (hello-world) work unchanged
+
 ## [5.1.0] - 2026-02-28
 
 ### Added
