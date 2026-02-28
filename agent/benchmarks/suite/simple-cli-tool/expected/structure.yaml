@@ -1,0 +1,8 @@
+files:
+  - csv2json.sh
+  - test_csv2json.sh
+properties:
+  csv2json.sh:
+    executable: true
+  test_csv2json.sh:
+    executable: true

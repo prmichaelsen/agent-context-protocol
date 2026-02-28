@@ -3,7 +3,9 @@
 **Milestone**: M11 - ACP Benchmark Suite
 **Estimated Time**: 4-5 hours
 **Dependencies**: Task 79 (runner must support multi-turn steps)
-**Status**: Not Started
+**Status**: Completed
+**Actual Hours**: 0.5
+**Completed**: 2026-02-28
 
 ---
 
@@ -57,11 +59,11 @@ agent/benchmarks/suite/medium-rest-api/
 
 ## Verification
 
-- [ ] config.yaml valid with 4 steps
-- [ ] Step prompts are clear, each builds on previous context
-- [ ] expected/structure.yaml defines directory and file expectations
-- [ ] verify.sh has verification function for this task
-- [ ] Correction step has a real, detectable bug to fix
+- [x] config.yaml valid with 4 steps (build, test, correction, refactor)
+- [x] Step prompts are clear, each builds on previous context
+- [x] expected/structure.yaml defines directory and file expectations
+- [x] verify.sh has verify_medium_rest_api() function
+- [x] Correction step has two real bugs (DELETE 200→204, PUT missing validation)
 
 ---
 

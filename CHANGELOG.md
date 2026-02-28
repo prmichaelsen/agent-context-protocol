@@ -5,6 +5,26 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.3.0] - 2026-02-28
+
+### Added
+
+**Benchmark Task Suites** (Milestone 11 — Tasks 80-82):
+- `simple-cli-tool` benchmark: 3 steps (build CSV-to-JSON CLI, test suite, fix empty cells bug)
+- `medium-rest-api` benchmark: 4 steps (Express CRUD API, tests, fix DELETE/PUT bugs, refactor routes)
+- `complex-auth-system` benchmark: 5 steps (scaffold, JWT auth, tests, fix security issues, docs)
+- Verification functions for all three tasks in verify.sh
+
+**Benchmark Runner Enhancements**:
+- `--task all` flag to run all benchmark tasks in one command
+- Tasks sorted by complexity (trivial → simple → medium → complex)
+- Per-task error handling: failures don't abort the entire suite
+- ACP init preamble (`@agent/commands/acp.init.md`) prepended to first prompt in ACP mode
+
+### Fixed
+
+- Update script (`acp.version-update.sh`) now writes full `.gitignore` (reports, clarifications, drafts, feedback, preferences) matching install script
+
 ## [5.2.0] - 2026-02-28
 
 ### Added

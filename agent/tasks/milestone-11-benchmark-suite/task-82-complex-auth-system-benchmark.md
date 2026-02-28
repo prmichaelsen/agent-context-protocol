@@ -3,7 +3,9 @@
 **Milestone**: M11 - ACP Benchmark Suite
 **Estimated Time**: 5-6 hours
 **Dependencies**: Task 79 (runner must support multi-turn steps)
-**Status**: Not Started
+**Status**: Completed
+**Actual Hours**: 0.5
+**Completed**: 2026-02-28
 
 ---
 
@@ -59,11 +61,11 @@ agent/benchmarks/suite/complex-auth-system/
 
 ## Verification
 
-- [ ] config.yaml valid with 5 steps
-- [ ] Step prompts build progressively on previous work
-- [ ] Correction step targets real security issues
-- [ ] expected/structure.yaml covers auth-specific files
-- [ ] verify.sh has comprehensive verification for auth features
+- [x] config.yaml valid with 5 steps (scaffold, auth, test, correction, docs)
+- [x] Step prompts build progressively on previous work
+- [x] Correction step targets real security issues (password leak, no token expiry)
+- [x] expected/structure.yaml covers auth-specific files (routes/auth.js, middleware/auth.js, README)
+- [x] verify.sh has verify_complex_auth_system() function
 
 ---
 

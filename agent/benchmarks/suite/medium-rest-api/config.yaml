@@ -1,0 +1,26 @@
+name: medium-rest-api
+description: Build a REST API with CRUD operations for a todo app
+complexity: medium
+domain: web
+timeout_minutes: 30
+max_turns: 30
+
+expected_structure: expected/structure.yaml
+
+steps:
+  - id: build
+    prompt_file: steps/01-build.md
+    phase: coding
+    max_turns: 30
+  - id: test
+    prompt_file: steps/02-test.md
+    phase: testing
+    max_turns: 20
+  - id: correction
+    prompt_file: steps/03-correction.md
+    phase: debugging
+    max_turns: 10
+  - id: refactor
+    prompt_file: steps/04-refactor.md
+    phase: coding
+    max_turns: 15

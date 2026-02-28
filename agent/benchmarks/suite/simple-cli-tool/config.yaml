@@ -1,0 +1,22 @@
+name: simple-cli-tool
+description: Build a CLI tool that converts CSV files to JSON
+complexity: simple
+domain: cli
+timeout_minutes: 10
+max_turns: 15
+
+expected_structure: expected/structure.yaml
+
+steps:
+  - id: build
+    prompt_file: steps/01-build.md
+    phase: coding
+    max_turns: 15
+  - id: test
+    prompt_file: steps/02-test.md
+    phase: testing
+    max_turns: 10
+  - id: correction
+    prompt_file: steps/03-correction.md
+    phase: debugging
+    max_turns: 10

@@ -1,0 +1,30 @@
+name: complex-auth-system
+description: Add JWT authentication to a Node.js/Express application
+complexity: complex
+domain: web/security
+timeout_minutes: 45
+max_turns: 30
+
+expected_structure: expected/structure.yaml
+
+steps:
+  - id: scaffold
+    prompt_file: steps/01-scaffold.md
+    phase: coding
+    max_turns: 20
+  - id: auth
+    prompt_file: steps/02-auth.md
+    phase: coding
+    max_turns: 30
+  - id: test
+    prompt_file: steps/03-test.md
+    phase: testing
+    max_turns: 20
+  - id: correction
+    prompt_file: steps/04-correction.md
+    phase: debugging
+    max_turns: 15
+  - id: docs
+    prompt_file: steps/05-docs.md
+    phase: coding
+    max_turns: 10

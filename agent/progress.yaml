@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.2.0
+  version: 5.3.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M11
@@ -1391,30 +1391,36 @@ tasks:
 
     - id: task-80
       name: Simple CLI Tool Benchmark Task
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-80-simple-cli-tool-benchmark.md
       estimated_hours: 3-4
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-02-28
       notes: |
-        Define simple-cli-tool benchmark: 3 steps (build, test, correction), config.yaml, expected structure.
+        Created simple-cli-tool benchmark: 3 steps (build CSV-to-JSON CLI, test suite, fix empty cells bug).
+        Config.yaml with multi-turn steps, expected/structure.yaml, verify_simple_cli_tool() in verify.sh.
 
     - id: task-81
       name: Medium REST API Benchmark Task
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-81-medium-rest-api-benchmark.md
       estimated_hours: 4-5
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-02-28
       notes: |
-        Define medium-rest-api benchmark: 4 steps (build, test, correction, refactor), config.yaml, expected structure.
+        Created medium-rest-api benchmark: 4 steps (build Express CRUD, test suite, fix DELETE 204 + PUT validation, refactor routes).
+        Config.yaml with multi-turn steps, expected/structure.yaml, verify_medium_rest_api() in verify.sh.
 
     - id: task-82
       name: Complex Auth System Benchmark Task
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-82-complex-auth-system-benchmark.md
       estimated_hours: 5-6
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-02-28
       notes: |
-        Define complex-auth-system benchmark: 5 steps (scaffold, auth, test, correction, docs), config.yaml, expected structure.
+        Created complex-auth-system benchmark: 5 steps (scaffold Express app, JWT auth, test suite,
+        fix password leak + token expiry, API docs). Config.yaml, expected/structure.yaml, verify function.
 
     - id: task-83
       name: LLM Evaluator Implementation
@@ -1586,7 +1592,7 @@ progress:
   milestone_8: 100
   milestone_9: 28
   milestone_10: 100
-  milestone_11: 12
+  milestone_11: 50
 
 recent_work:
   - date: 2026-02-28

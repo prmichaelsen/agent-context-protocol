@@ -1,0 +1,12 @@
+directories:
+  - src/
+  - src/middleware/
+  - src/routes/
+  - tests/
+files:
+  - package.json
+  - src/index.js
+  - src/routes/auth.js
+  - src/middleware/auth.js
+  - tests/*.test.js
+  - README.md

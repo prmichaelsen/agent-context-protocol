@@ -3,7 +3,9 @@
 **Milestone**: M11 - ACP Benchmark Suite
 **Estimated Time**: 3-4 hours
 **Dependencies**: Task 79 (runner must support multi-turn steps)
-**Status**: Not Started
+**Status**: Completed
+**Actual Hours**: 0.5
+**Completed**: 2026-02-28
 
 ---
 
@@ -55,11 +57,11 @@ agent/benchmarks/suite/simple-cli-tool/
 
 ## Verification
 
-- [ ] config.yaml valid with 3 steps
-- [ ] Step prompts are clear and self-contained
-- [ ] expected/structure.yaml defines file expectations
-- [ ] verify.sh has verification function for this task
-- [ ] Task can run end-to-end with runner (hello-world-level confidence)
+- [x] config.yaml valid with 3 steps (build, test, correction)
+- [x] Step prompts are clear and self-contained
+- [x] expected/structure.yaml defines file expectations
+- [x] verify.sh has verify_simple_cli_tool() function
+- [ ] Task can run end-to-end with runner (requires non-nested session)
 
 ---
 

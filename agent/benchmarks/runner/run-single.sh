@@ -58,10 +58,15 @@ echo "  Workspace: $WORKSPACE"
 # --- Setup workspace ---
 (cd "$WORKSPACE" && git init --quiet)
 
+ACP_PREAMBLE=""
 if [ "$MODE" = "acp" ]; then
     echo "  Installing ACP..."
     (cd "$WORKSPACE" && bash "$PROJECT_ROOT/agent/scripts/acp.install.sh") > "$OUTPUT.acp-install.log" 2>&1
     echo "  ACP installed"
+    # Build preamble to trigger ACP init on the first prompt
+    ACP_PREAMBLE="@agent/commands/acp.init.md
+
+"
 fi
 
 # --- Read config ---
@@ -186,6 +191,10 @@ if [ "$STEPS_MODE" = "true" ]; then
         step_max_turns="${STEP_MAX_TURNS[$i]}"
 
         STEP_PROMPT=$(cat "$TASK_DIR/$step_prompt_file")
+        # Prepend ACP init directive to the first step only
+        if [ "$i" -eq 0 ] && [ -n "$ACP_PREAMBLE" ]; then
+            STEP_PROMPT="${ACP_PREAMBLE}${STEP_PROMPT}"
+        fi
 
         echo "  Step $((i+1))/$STEP_COUNT: $step_id (phase=$step_phase, max_turns=$step_max_turns)"
 
@@ -265,6 +274,10 @@ STEP_EOF
 else
     # --- Single-prompt mode (backward compatible) ---
     PROMPT=$(cat "$TASK_DIR/prompt.md")
+    # Prepend ACP init directive if in ACP mode
+    if [ -n "$ACP_PREAMBLE" ]; then
+        PROMPT="${ACP_PREAMBLE}${PROMPT}"
+    fi
 
     echo "  Running claude (mode=$MODE, max_turns=$MAX_TURNS)..."
     STDERR_LOG="$OUTPUT.stderr.log"
