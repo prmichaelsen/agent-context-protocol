@@ -206,13 +206,31 @@ update_package() {
             in_type && /^      [a-z]/ { in_type=0 }
             in_type && /^        - name:/ { print $3 }
         ' "$MANIFEST_FILE")
-        
+
         for file_name in $files; do
             if is_file_modified "$package_name" "$file_type" "$file_name"; then
                 modified_files+=("$file_type/$file_name")
             fi
         done
     done
+
+    # Check template files for modifications
+    local _tmpl_entries
+    _tmpl_entries=$(awk -v pkg="$package_name" '
+        BEGIN { in_pkg=0; in_files=0; name="" }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ { in_pkg=0 }
+        in_pkg && /^      files:$/ { in_files=1; next }
+        in_files && /^      [a-z]/ { in_files=0 }
+        in_files && /^        - name:/ { name=$3 }
+        in_files && /^          target:/ { $1=""; gsub(/^ +/, ""); print name "|" $0 }
+    ' "$MANIFEST_FILE")
+    while IFS='|' read -r _fname _ftarget; do
+        [ -z "$_fname" ] && continue
+        if [ -n "$_ftarget" ] && is_template_file_modified "$package_name" "$_fname" "$_ftarget"; then
+            modified_files+=("files/$_fname → $_ftarget")
+        fi
+    done <<< "$_tmpl_entries"
     
     # Handle modified files
     if [ ${#modified_files[@]} -gt 0 ] && [ "$FORCE" = false ]; then
@@ -311,7 +329,55 @@ update_package() {
             ((updated_count++))
         done
     done
-    
+
+    # Update template files (installed at target paths)
+    while IFS='|' read -r _fname _ftarget; do
+        [ -z "$_fname" ] && continue
+
+        # Check if modified and should skip
+        if [ "$SKIP_MODIFIED" = true ]; then
+            if printf '%s\n' "${modified_files[@]}" | grep -q "^files/$_fname"; then
+                echo "  ${YELLOW}⊘${NC} Skipped files/$_fname (modified locally)"
+                ((skipped_count++))
+                continue
+            fi
+        fi
+
+        # Check if source file exists in new version
+        local _src_file="$temp_dir/agent/files/$_fname"
+        if [ ! -f "$_src_file" ]; then
+            warn "File no longer exists in package: files/$_fname"
+            ((skipped_count++))
+            continue
+        fi
+
+        # Copy to target path
+        mkdir -p "$(dirname "$_ftarget")"
+        cp "$_src_file" "$_ftarget"
+
+        # Re-apply variable substitution if stored
+        local _stored_vars
+        _stored_vars=$(get_template_file_variables "$package_name" "$_fname")
+        if [ -n "$_stored_vars" ]; then
+            while IFS='=' read -r _vname _vval; do
+                [ -z "$_vname" ] && continue
+                local _escaped
+                _escaped=$(printf '%s\n' "$_vval" | sed 's/[&/\]/\\&/g')
+                sed -i "s|{{${_vname}}}|${_escaped}|g" "$_ftarget"
+            done <<< "$_stored_vars"
+        fi
+
+        # Update manifest
+        local _new_checksum
+        _new_checksum=$(calculate_checksum "$_ftarget")
+        local _new_version
+        _new_version=$(get_file_version "$temp_dir/package.yaml" "files" "$_fname")
+        update_template_file_in_manifest "$package_name" "$_fname" "$_new_version" "$_new_checksum"
+
+        echo "  ${GREEN}✓${NC} Updated files/$_fname → $_ftarget"
+        ((updated_count++))
+    done <<< "$_tmpl_entries"
+
     # Update package metadata in manifest
     local timestamp
     timestamp=$(get_timestamp)

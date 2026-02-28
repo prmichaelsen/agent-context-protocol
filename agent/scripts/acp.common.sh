@@ -539,10 +539,11 @@ add_package_to_manifest() {
         # Find the packages: line and append after it
         awk -v pkg="$package_name" -v src="$source_url" -v ver="$package_version" -v commit="$commit_hash" -v ts="$timestamp" '
             /^packages:/ {
-                print
                 if ($2 == "{}") {
-                    # Empty packages, replace line
-                    next
+                    # Empty packages - replace {} with just "packages:"
+                    print "packages:"
+                } else {
+                    print
                 }
                 print "  " pkg ":"
                 print "    source: " src
@@ -759,6 +760,166 @@ update_file_in_manifest() {
         { print }
     ' "$manifest" > "$temp_file"
     
+    mv "$temp_file" "$manifest"
+}
+
+# ============================================================================
+# Template File Manifest Functions
+# ============================================================================
+
+# Check if a template file was modified locally (uses target path, not agent/ path)
+# Usage: is_template_file_modified "package_name" "filename" "target_path"
+# Returns: 0 if modified, 1 if not modified
+is_template_file_modified() {
+    local package_name="$1"
+    local file_name="$2"
+    local target_path="$3"
+    local manifest="agent/manifest.yaml"
+
+    # Get stored checksum from manifest
+    local stored_checksum
+    stored_checksum=$(awk -v pkg="$package_name" -v name="$file_name" '
+        BEGIN { in_pkg=0; in_files=0; in_file=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ && !/^    / { in_pkg=0 }
+        in_pkg && /^      files:/ { in_files=1; next }
+        in_files && /^      [a-z]/ && !/^        / { in_files=0 }
+        in_files && /^        - name:/ {
+            if ($3 == name) { in_file=1 }
+            else { in_file=0 }
+            next
+        }
+        in_file && /^          checksum:/ {
+            gsub(/sha256:/, "", $2)
+            print $2
+            exit
+        }
+    ' "$manifest")
+
+    if [ -z "$stored_checksum" ]; then
+        warn "No checksum found in manifest for files/$file_name"
+        return 1
+    fi
+
+    # Calculate current checksum from target path
+    if [ ! -f "$target_path" ]; then
+        warn "Target file not found: $target_path"
+        return 0  # Missing = modified (deleted)
+    fi
+
+    local current_checksum
+    current_checksum=$(calculate_checksum "$target_path")
+
+    if [ "$stored_checksum" != "$current_checksum" ]; then
+        return 0  # Modified
+    else
+        return 1  # Not modified
+    fi
+}
+
+# Get target path for a template file from manifest
+# Usage: target=$(get_template_file_target "package_name" "filename")
+get_template_file_target() {
+    local package_name="$1"
+    local file_name="$2"
+    local manifest="agent/manifest.yaml"
+
+    awk -v pkg="$package_name" -v name="$file_name" '
+        BEGIN { in_pkg=0; in_files=0; in_file=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ && !/^    / { in_pkg=0 }
+        in_pkg && /^      files:/ { in_files=1; next }
+        in_files && /^      [a-z]/ && !/^        / { in_files=0 }
+        in_files && /^        - name:/ {
+            if ($3 == name) { in_file=1 }
+            else { in_file=0 }
+            next
+        }
+        in_file && /^          target:/ {
+            $1=""
+            gsub(/^ +/, "")
+            print
+            exit
+        }
+    ' "$manifest"
+}
+
+# Get stored variable values for a template file from manifest
+# Usage: vars=$(get_template_file_variables "package_name" "filename")
+# Returns: KEY=VALUE lines (one per line)
+get_template_file_variables() {
+    local package_name="$1"
+    local file_name="$2"
+    local manifest="agent/manifest.yaml"
+
+    awk -v pkg="$package_name" -v name="$file_name" '
+        BEGIN { in_pkg=0; in_files=0; in_file=0; in_vars=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ && !/^    / { in_pkg=0 }
+        in_pkg && /^      files:/ { in_files=1; next }
+        in_files && /^      [a-z]/ && !/^        / { in_files=0 }
+        in_files && /^        - name:/ {
+            if ($3 == name) { in_file=1 }
+            else { in_file=0; in_vars=0 }
+            next
+        }
+        in_file && /^          variables:/ { in_vars=1; next }
+        in_vars && /^            [A-Z]/ {
+            key=$1
+            gsub(/:$/, "", key)
+            $1=""
+            gsub(/^ +/, "")
+            print key "=" $0
+            next
+        }
+        in_vars && /^          [a-z]/ { in_vars=0 }
+        in_vars && /^        -/ { in_vars=0; in_file=0 }
+    ' "$manifest"
+}
+
+# Update template file entry in manifest
+# Usage: update_template_file_in_manifest "package_name" "filename" "new_version" "new_checksum"
+update_template_file_in_manifest() {
+    local package_name="$1"
+    local file_name="$2"
+    local new_version="$3"
+    local new_checksum="$4"
+    local timestamp
+    timestamp=$(get_timestamp)
+
+    local manifest="agent/manifest.yaml"
+
+    local temp_file
+    temp_file=$(mktemp)
+
+    awk -v pkg="$package_name" -v name="$file_name" \
+        -v ver="$new_version" -v chk="sha256:$new_checksum" -v ts="$timestamp" '
+        BEGIN { in_pkg=0; in_files=0; in_file=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; print; next }
+        in_pkg && /^  [a-z]/ && !/^    / { in_pkg=0; print; next }
+        in_pkg && /^      files:/ { in_files=1; print; next }
+        in_files && /^      [a-z]/ && !/^        / { in_files=0; print; next }
+        in_files && /^        - name:/ {
+            if ($3 == name) { in_file=1 }
+            else { in_file=0 }
+            print
+            next
+        }
+        in_file && /^          version:/ {
+            print "          version: " ver
+            next
+        }
+        in_file && /^          checksum:/ {
+            print "          checksum: " chk
+            next
+        }
+        in_file && /^          modified:/ {
+            print "          modified: false"
+            next
+        }
+        { print }
+    ' "$manifest" > "$temp_file"
+
     mv "$temp_file" "$manifest"
 }
 

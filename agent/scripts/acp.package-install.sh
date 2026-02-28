@@ -205,6 +205,12 @@ INSTALLED_COMMANDS=()
 INSTALLED_COUNT=0
 SKIPPED_COUNT=0
 
+# Template file metadata (populated during scanning when contents.files exists)
+declare -A FILE_TARGETS    # Key: "files/relpath", Value: target directory path
+declare -A FILE_VARS       # Key: "files/relpath", Value: "VAR1,VAR2,..."
+declare -A COLLECTED_VARS  # Key: "VARNAME", Value: user-provided value
+HAS_FILE_METADATA=false
+
 echo "Scanning for installable files..."
 echo ""
 
@@ -245,6 +251,31 @@ for dir in "${INSTALL_DIRS[@]}"; do
             file_path="$SOURCE_DIR/$file_name"
             if [ -f "$file_path" ]; then
                 FILES_TO_PROCESS+=("$file_path")
+
+                # For selective files, also collect metadata from package.yaml
+                if [ "$dir" = "files" ] && [ -f "$TEMP_DIR/package.yaml" ]; then
+                    _sel_idx=0
+                    while true; do
+                        _sel_name=$(yaml_query ".contents.files[$_sel_idx].name" 2>/dev/null || echo "")
+                        [ -z "$_sel_name" ] || [ "$_sel_name" = "null" ] && break
+                        if [ "$_sel_name" = "$file_name" ]; then
+                            HAS_FILE_METADATA=true
+                            _sel_target=$(yaml_query ".contents.files[$_sel_idx].target" 2>/dev/null || echo "")
+                            [ -n "$_sel_target" ] && [ "$_sel_target" != "null" ] && FILE_TARGETS["files/$file_name"]="$_sel_target"
+                            _sel_var_idx=0
+                            _sel_vars=""
+                            while true; do
+                                _sel_var=$(yaml_query ".contents.files[$_sel_idx].variables[$_sel_var_idx]" 2>/dev/null || echo "")
+                                [ -z "$_sel_var" ] || [ "$_sel_var" = "null" ] && break
+                                [ -n "$_sel_vars" ] && _sel_vars="$_sel_vars,$_sel_var" || _sel_vars="$_sel_var"
+                                _sel_var_idx=$((_sel_var_idx + 1))
+                            done
+                            [ -n "$_sel_vars" ] && FILE_VARS["files/$file_name"]="$_sel_vars"
+                            break
+                        fi
+                        _sel_idx=$((_sel_idx + 1))
+                    done
+                fi
             else
                 echo "${YELLOW}⚠${NC}  File not found in $dir/: $file_name"
                 SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
@@ -253,10 +284,46 @@ for dir in "${INSTALL_DIRS[@]}"; do
     else
         # Install all files
         if [ "$dir" = "files" ]; then
-            # files/ directory: recursive scan, all file types
-            while IFS= read -r file; do
-                [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
-            done < <(find "$SOURCE_DIR" -type f)
+            # Check if package.yaml has contents.files metadata
+            _first_file=$(yaml_query ".contents.files[0].name" 2>/dev/null || echo "")
+            if [ -f "$TEMP_DIR/package.yaml" ] && [ -n "$_first_file" ] && [ "$_first_file" != "null" ]; then
+                # Use package.yaml contents.files as source of truth
+                HAS_FILE_METADATA=true
+                _file_idx=0
+                while true; do
+                    _fname=$(yaml_query ".contents.files[$_file_idx].name" 2>/dev/null || echo "")
+                    [ -z "$_fname" ] || [ "$_fname" = "null" ] && break
+
+                    if [ -f "$SOURCE_DIR/$_fname" ]; then
+                        FILES_TO_PROCESS+=("$SOURCE_DIR/$_fname")
+
+                        # Store target metadata
+                        _target=$(yaml_query ".contents.files[$_file_idx].target" 2>/dev/null || echo "")
+                        [ -n "$_target" ] && [ "$_target" != "null" ] && FILE_TARGETS["files/$_fname"]="$_target"
+
+                        # Collect variable names
+                        _var_idx=0
+                        _vars=""
+                        while true; do
+                            _var=$(yaml_query ".contents.files[$_file_idx].variables[$_var_idx]" 2>/dev/null || echo "")
+                            [ -z "$_var" ] || [ "$_var" = "null" ] && break
+                            [ -n "$_vars" ] && _vars="$_vars,$_var" || _vars="$_var"
+                            _var_idx=$((_var_idx + 1))
+                        done
+                        [ -n "$_vars" ] && FILE_VARS["files/$_fname"]="$_vars"
+                    else
+                        echo "  ${YELLOW}⚠${NC}  Declared in package.yaml but not found: agent/files/$_fname"
+                        SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+                    fi
+
+                    _file_idx=$((_file_idx + 1))
+                done
+            else
+                # Fallback: recursive scan (backward compat for packages without contents.files)
+                while IFS= read -r file; do
+                    [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
+                done < <(find "$SOURCE_DIR" -type f)
+            fi
         elif [ "$dir" = "scripts" ]; then
             while IFS= read -r file; do
                 [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
@@ -273,7 +340,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
         continue
     fi
     
-    if [ "$dir" = "files" ]; then
+    if [ "$dir" = "files" ] && [ "$HAS_FILE_METADATA" = false ]; then
         echo "${BLUE}📁 $dir/${NC} (${#FILES_TO_PROCESS[@]} file(s)) → installs to ./"
     else
         echo "${BLUE}📁 $dir/${NC} (${#FILES_TO_PROCESS[@]} file(s))"
@@ -311,10 +378,18 @@ for dir in "${INSTALL_DIRS[@]}"; do
             fi
         fi
 
-        # Check experimental status (skip for files/ — no per-file experimental marking)
+        # Check experimental status
         is_experimental=""
-        if [ "$dir" != "files" ] && [ -f "$TEMP_DIR/package.yaml" ]; then
-            is_experimental=$(grep -A 1000 "^  ${dir}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+        if [ -f "$TEMP_DIR/package.yaml" ]; then
+            if [ "$dir" = "files" ] && [ "$HAS_FILE_METADATA" = false ]; then
+                : # No per-file experimental marking without metadata
+            elif [ "$dir" = "files" ]; then
+                # Files entries have more fields (name, description, target, required, experimental)
+                # so need a wider context window (-A 6) to catch experimental: true
+                is_experimental=$(grep -A 1000 "^  ${dir}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 6 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+            else
+                is_experimental=$(grep -A 1000 "^  ${dir}:" "$TEMP_DIR/package.yaml" 2>/dev/null | grep -A 2 "name: ${filename}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
+            fi
         fi
 
         if [ -n "$is_experimental" ] && [ "$INSTALL_EXPERIMENTAL" = false ]; then
@@ -332,17 +407,30 @@ for dir in "${INSTALL_DIRS[@]}"; do
         # Add to valid files
         VALID_FILES+=("$file")
 
-        # Check for overwrites — files/ targets project root, others target agent/
-        if [ "$dir" = "files" ]; then
+        # Determine target path for overwrite check
+        if [ "$dir" = "files" ] && [ "$HAS_FILE_METADATA" = true ]; then
+            _file_target="${FILE_TARGETS[files/$filename]:-./}"
+            _bname=$(basename "$filename")
+            _bname="${_bname%.template}"
+            target_path="${_file_target}${_bname}"
+        elif [ "$dir" = "files" ]; then
             target_path="./$filename"
         else
             target_path="$INSTALL_BASE_DIR/$dir/$filename"
         fi
 
+        # Build display info for files with metadata
+        _display_extra=""
+        if [ "$dir" = "files" ] && [ "$HAS_FILE_METADATA" = true ]; then
+            _file_vars="${FILE_VARS[files/$filename]:-}"
+            _display_extra=" → $target_path"
+            [ -n "$_file_vars" ] && _display_extra="$_display_extra (variables: $_file_vars)"
+        fi
+
         if [ -f "$target_path" ]; then
-            echo "  ${YELLOW}⚠${NC}  $filename (will overwrite)"
+            echo "  ${YELLOW}⚠${NC}  $filename${_display_extra} (will overwrite)"
         else
-            echo "  ${GREEN}✓${NC} $filename"
+            echo "  ${GREEN}✓${NC} $filename${_display_extra}"
         fi
 
         INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
@@ -406,6 +494,33 @@ else
 fi
 
 echo ""
+
+# Collect template variables from user (if any files have variables declared)
+if [ ${#FILE_VARS[@]} -gt 0 ]; then
+    echo "${BLUE}Collecting template variables...${NC}"
+
+    # Build list of unique variables across all templates
+    _all_vars=""
+    for _key in "${!FILE_VARS[@]}"; do
+        IFS=',' read -ra _var_arr <<< "${FILE_VARS[$_key]}"
+        for _var in "${_var_arr[@]}"; do
+            if [[ ! ",$_all_vars," =~ ",$_var," ]]; then
+                [ -n "$_all_vars" ] && _all_vars="$_all_vars,$_var" || _all_vars="$_var"
+            fi
+        done
+    done
+
+    # Prompt for each unique variable
+    IFS=',' read -ra _unique_vars <<< "$_all_vars"
+    for _var in "${_unique_vars[@]}"; do
+        read -p "  Enter $_var: " _value
+        COLLECTED_VARS["$_var"]="$_value"
+    done
+
+    echo "${GREEN}✓${NC} Variables collected"
+    echo ""
+fi
+
 echo "Installing files..."
 
 # ============================================================================
@@ -455,11 +570,44 @@ for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
     # Copy all files
     for file in ${ALL_FILES_TO_INSTALL[$dir]}; do
         if [ "$dir" = "files" ]; then
-            # files/ installs to project root, preserving subdirectory structure
             rel_path="${file#$SOURCE_DIR/}"
-            target_dir="$(dirname "./$rel_path")"
-            mkdir -p "$target_dir"
-            cp "$file" "./$rel_path"
+
+            if [ "$HAS_FILE_METADATA" = true ]; then
+                # Metadata-aware installation: use target path and variable substitution
+                _file_target="${FILE_TARGETS[files/$rel_path]:-./}"
+                _bname=$(basename "$rel_path")
+                _bname="${_bname%.template}"
+                _dest="${_file_target}${_bname}"
+
+                # Safety validation: reject paths that escape project root
+                if [[ "$_dest" =~ \.\. ]] || [[ "$_dest" =~ ^/ ]]; then
+                    echo "  ${RED}✗${NC} Skipping $rel_path (unsafe target: $_dest)"
+                    continue
+                fi
+
+                mkdir -p "$(dirname "$_dest")"
+
+                # Apply variable substitution if template has variables
+                _file_vars="${FILE_VARS[files/$rel_path]:-}"
+                if [ -n "$_file_vars" ] && [ ${#COLLECTED_VARS[@]} -gt 0 ]; then
+                    cp "$file" "$_dest"
+                    IFS=',' read -ra _var_arr <<< "$_file_vars"
+                    for _var in "${_var_arr[@]}"; do
+                        _value="${COLLECTED_VARS[$_var]:-}"
+                        if [ -n "$_value" ]; then
+                            _escaped=$(printf '%s\n' "$_value" | sed 's/[&/\]/\\&/g')
+                            sed -i "s|{{${_var}}}|${_escaped}|g" "$_dest"
+                        fi
+                    done
+                else
+                    cp "$file" "$_dest"
+                fi
+            else
+                # Backward compat: install to project root preserving subdirectory structure
+                target_dir="$(dirname "./$rel_path")"
+                mkdir -p "$target_dir"
+                cp "$file" "./$rel_path"
+            fi
         else
             mkdir -p "$INSTALL_BASE_DIR/$dir"
             filename=$(basename "$file")
@@ -596,7 +744,14 @@ for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
     for file in ${ALL_FILES_TO_INSTALL[$dir]}; do
         if [ "$dir" = "files" ]; then
             rel_path="${file#$SOURCE_DIR/}"
-            ALL_INSTALLED_FILES+=("./$rel_path")
+            if [ "$HAS_FILE_METADATA" = true ]; then
+                _file_target="${FILE_TARGETS[files/$rel_path]:-./}"
+                _bname=$(basename "$rel_path")
+                _bname="${_bname%.template}"
+                ALL_INSTALLED_FILES+=("${_file_target}${_bname}")
+            else
+                ALL_INSTALLED_FILES+=("./$rel_path")
+            fi
         else
             filename=$(basename "$file")
             ALL_INSTALLED_FILES+=("$INSTALL_BASE_DIR/$dir/$filename")
@@ -633,7 +788,14 @@ for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
         # Determine filename and installed filepath based on dir type
         if [ "$dir" = "files" ]; then
             filename="${file#$SOURCE_DIR/}"
-            filepath="./$filename"
+            if [ "$HAS_FILE_METADATA" = true ]; then
+                _file_target="${FILE_TARGETS[files/$filename]:-./}"
+                _bname=$(basename "$filename")
+                _bname="${_bname%.template}"
+                filepath="${_file_target}${_bname}"
+            else
+                filepath="./$filename"
+            fi
         else
             filename=$(basename "$file")
             filepath="$INSTALL_BASE_DIR/$dir/$filename"
@@ -657,10 +819,29 @@ for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
             yaml_object_set "$obj_node" "experimental" "true" >/dev/null
         fi
 
+        # For files with metadata: store target path and variables
+        if [ "$dir" = "files" ] && [ "$HAS_FILE_METADATA" = true ]; then
+            yaml_object_set "$obj_node" "target" "$filepath" >/dev/null
+            # Store variable values if this file had variables
+            _file_vars_manifest="${FILE_VARS[files/$filename]:-}"
+            if [ -n "$_file_vars_manifest" ]; then
+                # Create nested map node for variables
+                _vars_node=$(create_node "map" "variables" "" "$obj_node")
+                add_child "$obj_node" "$_vars_node"
+                IFS=',' read -ra _var_names <<< "$_file_vars_manifest"
+                for _vname in "${_var_names[@]}"; do
+                    _vval="${COLLECTED_VARS[$_vname]:-}"
+                    if [ -n "$_vval" ]; then
+                        yaml_object_set "$_vars_node" "$_vname" "$_vval" >/dev/null
+                    fi
+                done
+            fi
+        fi
+
         if [ "$dir" = "scripts" ]; then
             echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$file_version) [executable]"
         elif [ "$dir" = "files" ]; then
-            echo "  ${GREEN}✓${NC} Installed $filename → ./$filename"
+            echo "  ${GREEN}✓${NC} Installed $filename → $filepath"
         else
             echo "  ${GREEN}✓${NC} Installed $dir/$filename (v$file_version)"
         fi

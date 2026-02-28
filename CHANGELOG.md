@@ -5,6 +5,31 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2026-02-28
+
+### Added
+
+**Template Source Files Support** (Milestone 9):
+- `contents.files` section in package.yaml schema for declaring template files
+- Template files install to project-specified target paths (not agent/)
+- Variable substitution system with `{{PLACEHOLDER}}` format
+- `.template` extension stripping during installation
+- Selective installation via `--files` flag
+- Unsafe target path rejection (no `../` or absolute paths)
+- Manifest tracking for template files: target paths, variable values, checksums
+- Helper functions: `is_template_file_modified()`, `get_template_file_target()`, `get_template_file_variables()`, `update_template_file_in_manifest()`
+- `@acp.package-list` shows template file counts and modification status
+- `@acp.package-remove` removes template files from target paths
+- `@acp.package-update` updates template files with stored variable reuse
+- `@acp.package-validate` validates template file declarations
+- Backward compatibility for packages without `contents.files` metadata
+- 34 E2E tests covering all template features (100% pass rate)
+- AGENT.md documentation for Template Source Files
+
+### Fixed
+
+- Manifest `packages: {}` bug where empty manifest skipped package entry creation
+
 ## [4.6.1] - 2026-02-27
 
 ### Fixed

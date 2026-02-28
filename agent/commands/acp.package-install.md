@@ -44,6 +44,8 @@ When you install a package, `@acp.package-install` creates or updates `agent/man
   - File checksums (SHA-256) for modification detection
   - Installation timestamps
   - Modified status (detected via checksum comparison)
+  - Target paths for template files (installed outside agent/)
+  - Variable values used during template substitution
 
 This enables:
 - ✅ **Smart updates** - Only update changed files
@@ -177,6 +179,22 @@ Installing commands...
 ```
 
 **Note**: Experimental features can be combined with other installation modes (global, selective, etc.).
+
+**G. Template File Installation**:
+```bash
+# Install all files (including template files to project root)
+./agent/scripts/acp.package-install.sh --repo <repository-url>
+
+# Install specific template files only
+./agent/scripts/acp.package-install.sh --files config/tsconfig.json src/schemas/example.schema.ts --repo <repository-url>
+```
+
+Template files (declared in `contents.files` in package.yaml) are installed to target directories outside `agent/`:
+- Files install to their declared `target` path (e.g., `target: ./` installs to project root)
+- `.template` extension is stripped (e.g., `settings.json.template` → `settings.json`)
+- Files with `variables` prompt for values and substitute `{{PLACEHOLDER}}` markers
+- Variable values are stored in the manifest for reproducible updates
+- Unsafe target paths (`../`, absolute paths) are rejected
 
 ### 2. Run Package Install Script
 

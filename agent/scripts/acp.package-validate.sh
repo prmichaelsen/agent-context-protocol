@@ -172,13 +172,31 @@ validate_file_existence() {
         done
     fi
     
+    # Check files (template source files in agent/files/)
+    if yaml_has_key "package.yaml" "contents.files"; then
+        local files_count=$(yaml_get_array "package.yaml" "contents.files")
+        for i in $(seq 0 $((files_count - 1))); do
+            local file_name=$(yaml_get_nested "package.yaml" "contents.files[$i].name")
+            if [ -n "$file_name" ]; then
+                total_files=$((total_files + 1))
+                check
+                if [ -f "agent/files/$file_name" ]; then
+                    pass "agent/files/$file_name ✓"
+                else
+                    error "Missing file: agent/files/$file_name"
+                    missing_files=$((missing_files + 1))
+                fi
+            fi
+        done
+    fi
+
     if [ "$missing_files" -eq 0 ]; then
         pass "All $total_files files in contents exist"
     else
         error "$missing_files of $total_files files missing"
         fixable "Remove missing files from package.yaml"
     fi
-    
+
     echo ""
 }
 

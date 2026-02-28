@@ -43,6 +43,39 @@ contents:
       description: YAML parsing utilities
       type: utility
 
+  # Template source files (code, configs, project scaffolding)
+  # Installed to agent/files/ - users copy to project as needed
+  # Variable substitution: {{VARIABLE_NAME}} placeholders replaced at install time
+  files:
+    # Required configuration template
+    - name: config/tsconfig.json
+      description: TypeScript configuration for core libraries
+      target: ./
+      required: true
+
+    # Template with variable substitution
+    - name: config/package.json.template
+      description: npm package.json with subpath exports
+      target: ./
+      required: true
+      variables:
+        - PACKAGE_NAME
+        - PACKAGE_DESCRIPTION
+        - AUTHOR_NAME
+
+    # Optional source code template
+    - name: src/schemas/example.schema.ts
+      description: Example Zod schema structure for data validation
+      target: src/schemas/
+      required: false
+
+    # Experimental template
+    - name: src/experimental/feature.ts
+      description: Experimental feature template for early testing
+      target: src/experimental/
+      required: false
+      experimental: true
+
 # Compatibility requirements
 requires:
   acp: ">=2.8.0"

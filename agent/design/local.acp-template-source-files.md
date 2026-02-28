@@ -4,8 +4,8 @@
 
 **Created**: 2026-02-26
 **Version**: 1.1.0
-**Status**: Proposal (Revised)
-**Last Updated**: 2026-02-26
+**Status**: Implemented (v5.0.0)
+**Last Updated**: 2026-02-28
 
 ---
 

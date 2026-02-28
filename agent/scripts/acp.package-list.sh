@@ -151,7 +151,17 @@ for package in $INSTALLED_PACKAGES; do
         END { print count }
     ' "$MANIFEST_FILE")
     
-    total_files=$((patterns_count + commands_count + designs_count))
+    files_count=$(awk -v pkg="$package" '
+        BEGIN { in_pkg=0; in_files=0; count=0 }
+        $0 ~ "^  " pkg ":" { in_pkg=1; next }
+        in_pkg && /^  [a-z]/ { in_pkg=0 }
+        in_pkg && /^      files:$/ { in_files=1; next }
+        in_files && /^      [a-z]/ { in_files=0 }
+        in_files && /^        - name:/ { count++ }
+        END { print count }
+    ' "$MANIFEST_FILE")
+
+    total_files=$((patterns_count + commands_count + designs_count + files_count))
     
     # Check if package has updates (for --outdated filter)
     has_updates=false
@@ -190,7 +200,7 @@ for package in $INSTALLED_PACKAGES; do
                 in_type && /^      [a-z]/ { in_type=0 }
                 in_type && /^        - name:/ { print $3 }
             ' "$MANIFEST_FILE")
-            
+
             for file_name in $files; do
                 if is_file_modified "$package" "$file_type" "$file_name"; then
                     has_modified=true
@@ -198,6 +208,27 @@ for package in $INSTALLED_PACKAGES; do
                 fi
             done
         done
+
+        # Also check template files for modifications
+        if [ "$has_modified" = false ]; then
+            _file_entries=$(awk -v pkg="$package" '
+                BEGIN { in_pkg=0; in_files=0; in_entry=0; name="" }
+                $0 ~ "^  " pkg ":" { in_pkg=1; next }
+                in_pkg && /^  [a-z]/ { in_pkg=0 }
+                in_pkg && /^      files:$/ { in_files=1; next }
+                in_files && /^      [a-z]/ { in_files=0 }
+                in_files && /^        - name:/ { name=$3 }
+                in_files && /^          target:/ { $1=""; gsub(/^ +/, ""); print name "|" $0 }
+            ' "$MANIFEST_FILE")
+
+            while IFS='|' read -r _fname _ftarget; do
+                [ -z "$_fname" ] && continue
+                if [ -n "$_ftarget" ] && is_template_file_modified "$package" "$_fname" "$_ftarget"; then
+                    has_modified=true
+                    break
+                fi
+            done <<< "$_file_entries"
+        fi
         
         # Skip if no modifications and filtering for modified
         if [ "$has_modified" = false ]; then
@@ -220,7 +251,8 @@ for package in $INSTALLED_PACKAGES; do
         [ "$patterns_count" -gt 0 ] && echo "    - $patterns_count pattern(s)"
         [ "$commands_count" -gt 0 ] && echo "    - $commands_count command(s)"
         [ "$designs_count" -gt 0 ] && echo "    - $designs_count design(s)"
-        
+        [ "$files_count" -gt 0 ] && echo "    - $files_count file(s)"
+
         # Show modified files if any
         if [ "$has_modified" = true ]; then
             echo "  ${YELLOW}Modified files:${NC}"
@@ -233,13 +265,29 @@ for package in $INSTALLED_PACKAGES; do
                     in_type && /^      [a-z]/ { in_type=0 }
                     in_type && /^        - name:/ { print $3 }
                 ' "$MANIFEST_FILE")
-                
+
                 for file_name in $files; do
                     if is_file_modified "$package" "$file_type" "$file_name"; then
                         echo "    - $file_type/$file_name"
                     fi
                 done
             done
+            # Check template files too
+            _file_entries=$(awk -v pkg="$package" '
+                BEGIN { in_pkg=0; in_files=0; name="" }
+                $0 ~ "^  " pkg ":" { in_pkg=1; next }
+                in_pkg && /^  [a-z]/ { in_pkg=0 }
+                in_pkg && /^      files:$/ { in_files=1; next }
+                in_files && /^      [a-z]/ { in_files=0 }
+                in_files && /^        - name:/ { name=$3 }
+                in_files && /^          target:/ { $1=""; gsub(/^ +/, ""); print name "|" $0 }
+            ' "$MANIFEST_FILE")
+            while IFS='|' read -r _fname _ftarget; do
+                [ -z "$_fname" ] && continue
+                if [ -n "$_ftarget" ] && is_template_file_modified "$package" "$_fname" "$_ftarget"; then
+                    echo "    - files/$_fname → $_ftarget"
+                fi
+            done <<< "$_file_entries"
         fi
         
         # Show update status if checking outdated

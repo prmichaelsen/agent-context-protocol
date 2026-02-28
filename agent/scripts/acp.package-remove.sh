@@ -125,6 +125,17 @@ designs_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_designs && /^        - name:/ { print $3 }
 ' "$MANIFEST_FILE")
 
+# Get template files with their target paths (name|target)
+template_file_entries=$(awk -v pkg="$PACKAGE_NAME" '
+    BEGIN { in_pkg=0; in_files=0; name="" }
+    $0 ~ "^  " pkg ":" { in_pkg=1; next }
+    in_pkg && /^  [a-z]/ { in_pkg=0 }
+    in_pkg && /^      files:$/ { in_files=1; next }
+    in_files && /^      [a-z]/ { in_files=0 }
+    in_files && /^        - name:/ { name=$3 }
+    in_files && /^          target:/ { $1=""; gsub(/^ +/, ""); print name "|" $0 }
+' "$MANIFEST_FILE")
+
 # Count files (handle empty strings properly)
 if [ -n "$patterns_files" ]; then
     patterns_count=$(echo "$patterns_files" | wc -l)
@@ -144,12 +155,19 @@ else
     designs_count=0
 fi
 
-total_files=$((patterns_count + commands_count + designs_count))
+if [ -n "$template_file_entries" ]; then
+    template_files_count=$(echo "$template_file_entries" | wc -l)
+else
+    template_files_count=0
+fi
+
+total_files=$((patterns_count + commands_count + designs_count + template_files_count))
 
 echo "${YELLOW}⚠️  This will remove:${NC}"
 [ "$patterns_count" -gt 0 ] && echo "  - $patterns_count pattern(s)"
 [ "$commands_count" -gt 0 ] && echo "  - $commands_count command(s)"
 [ "$designs_count" -gt 0 ] && echo "  - $designs_count design(s)"
+[ "$template_files_count" -gt 0 ] && echo "  - $template_files_count file(s) (installed to project)"
 echo ""
 echo "Total: $total_files file(s)"
 echo ""
@@ -173,6 +191,14 @@ for file in $designs_files; do
         modified_files+=("design/$file")
     fi
 done
+
+# Check template files for modifications
+while IFS='|' read -r _fname _ftarget; do
+    [ -z "$_fname" ] && continue
+    if [ -n "$_ftarget" ] && is_template_file_modified "$PACKAGE_NAME" "$_fname" "$_ftarget"; then
+        modified_files+=("files/$_fname → $_ftarget")
+    fi
+done <<< "$template_file_entries"
 
 if [ ${#modified_files[@]} -gt 0 ]; then
     echo "${YELLOW}⚠️  Modified files detected:${NC}"
@@ -242,6 +268,21 @@ for file in $designs_files; do
         fi
     fi
 done
+
+# Remove template files (installed at target paths)
+while IFS='|' read -r _fname _ftarget; do
+    [ -z "$_fname" ] && continue
+    if printf '%s\n' "${modified_files[@]}" | grep -q "^files/$_fname" && [ "$KEEP_MODIFIED" = true ]; then
+        echo "  ${YELLOW}⊙${NC} Kept $_ftarget (modified)"
+        kept_count=$((kept_count + 1))
+    else
+        if [ -f "$_ftarget" ]; then
+            rm "$_ftarget"
+            echo "  ${GREEN}✓${NC} Removed $_ftarget (from files/$_fname)"
+            removed_count=$((removed_count + 1))
+        fi
+    fi
+done <<< "$template_file_entries"
 
 # Remove package from manifest
 echo ""

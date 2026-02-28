@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 4.6.1
+**Version**: 5.0.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -123,6 +123,10 @@ project-root/
 │   │   ├── unassigned/             # Tasks without milestone
 │   │   │   └── task-{M}-{name}.md
 │   │   └── task-{N}-{name}.md      # Legacy flat structure (older tasks)
+│   │
+│   ├── files/                      # Template source files (in packages)
+│   │   ├── config/                 # Config templates
+│   │   └── src/                    # Source code templates
 │   │
 │   └── progress.yaml               # Progress tracking
 │
@@ -830,6 +834,84 @@ Validation ensures consistency:
 3. **Graduate promptly** - Move to stable once proven
 4. **Version appropriately** - Use 0.x.x versions for experimental
 5. **Communicate clearly** - Note experimental status in README.md
+
+---
+
+## Template Source Files
+
+ACP packages can bundle template source files (code, configs, etc.) alongside patterns, commands, and designs. Templates are declared in the `contents.files` section of `package.yaml` and stored in the `agent/files/` directory of the package.
+
+### Templates vs Other Content Types
+
+| Type | Location | Purpose |
+|------|----------|---------|
+| Patterns | `agent/patterns/` | Documentation and guidance |
+| Commands | `agent/commands/` | Agent directives |
+| Designs | `agent/design/` | Architecture documentation |
+| Scripts | `agent/scripts/` | Shell utilities |
+| **Files** | **Project root (target paths)** | **Actual code and config files** |
+
+### Installing Template Files
+
+```bash
+# Install all files (templates install to target paths)
+@acp.package-install --repo <url>
+
+# Install specific template files only
+@acp.package-install --files config/tsconfig.json src/schemas/example.schema.ts --repo <url>
+
+# Preview what would be installed
+@acp.package-install --list --repo <url>
+```
+
+### Variable Substitution
+
+Templates with `.template` extension can contain `{{VARIABLE}}` placeholders that are replaced during installation:
+
+```json
+{
+  "name": "{{PACKAGE_NAME}}",
+  "author": "{{AUTHOR_NAME}}"
+}
+```
+
+Variables are declared in `package.yaml` and values are prompted during installation. Variable values are stored in the manifest for reproducible updates.
+
+### Target Paths
+
+Each file declares a `target` path in `package.yaml`:
+- `target: ./` installs to project root
+- `target: src/schemas/` installs to `src/schemas/` directory
+- `.template` extension is stripped (e.g., `settings.json.template` becomes `settings.json`)
+- Unsafe paths (`../`, absolute paths) are rejected
+
+### Security Considerations
+
+Templates install to project directories (not `agent/`):
+- May overwrite existing files
+- Always prompted before installation (unless `-y` flag)
+- Target paths validated for safety
+- Conflict detection warns about overwrites
+- Use `--list` to preview before installing
+
+### Package.yaml Declaration
+
+```yaml
+contents:
+  files:
+    - name: config/tsconfig.json
+      description: TypeScript configuration
+      target: ./
+      required: true
+
+    - name: config/settings.json.template
+      description: Settings with variable substitution
+      target: config/
+      required: false
+      variables:
+        - PROJECT_NAME
+        - AUTHOR_NAME
+```
 
 ---
 

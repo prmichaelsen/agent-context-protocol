@@ -167,6 +167,79 @@ fields:
             required: false
             default: false
             description: "Mark as experimental (requires --experimental flag to install)"
+      # Templates: Source code files, configurations, and project scaffolding
+      #
+      # Templates are installed to agent/files/ (preserving subdirectory structure)
+      # NOT to project root like patterns/commands/designs go to agent/
+      # Users copy files from agent/files/ to their project as needed
+      #
+      # Variable Substitution:
+      #   - Templates can contain {{VARIABLE_NAME}} placeholders
+      #   - User prompted for values during installation
+      #   - Variables must be declared in variables array
+      #
+      # Security:
+      #   - target paths validated (no ../, no absolute paths)
+      #   - User warned when overwriting existing files
+      #   - Conflict detection before overwriting
+      #
+      # Validation Rules:
+      #   1. name must be valid file path (no .., no absolute paths)
+      #   2. target must be relative path (starts with ./ or directory name)
+      #   3. target must not escape project root (no ../)
+      #   4. variables must be UPPER_SNAKE_CASE
+      #   5. File must exist in agent/files/ directory
+      #   6. If experimental: true, file must have appropriate metadata
+      files:
+        type: array
+        item_type: object
+        required: false
+        description: "Template source files (code, configs, etc.) to bundle with package"
+        item_fields:
+          name:
+            type: string
+            required: true
+            pattern: "^[a-zA-Z0-9_/.@-]+$"
+            description: "Path to template file relative to agent/files/ directory"
+            examples:
+              - "config/tsconfig.json"
+              - "src/schemas/example.schema.ts"
+              - "config/package.json.template"
+          description:
+            type: string
+            required: true
+            min_length: 10
+            max_length: 200
+            description: "What this template provides"
+          target:
+            type: string
+            required: true
+            pattern: "^\\./|^[a-zA-Z0-9_/-]+/$"
+            description: "Where to install (relative to project root, must be relative path)"
+            examples:
+              - "./"
+              - "src/schemas/"
+              - "config/"
+          required:
+            type: boolean
+            required: false
+            default: false
+            description: "Must be installed (true) or optional (false)"
+          variables:
+            type: array
+            item_type: string
+            required: false
+            description: "Placeholder variables for {{VARIABLE}} substitution in template"
+            item_pattern: "^[A-Z_][A-Z0-9_]*$"
+            examples:
+              - "PACKAGE_NAME"
+              - "AUTHOR_NAME"
+              - "PROJECT_DESCRIPTION"
+          experimental:
+            type: boolean
+            required: false
+            default: false
+            description: "Mark as experimental (requires --experimental flag to install)"
     
   requires:
     type: object

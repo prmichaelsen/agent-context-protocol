@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 4.3.1
+  version: 5.0.0
   started: 2026-02-16
   status: in_progress
-  current_milestone: M7
+  current_milestone: M9
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -131,12 +131,12 @@ milestones:
   
   - id: M9
     name: Template Source Files Support
-    status: in_progress
-    progress: 14
+    status: completed
+    progress: 100
     started: 2026-02-27
-    completed: null
+    completed: 2026-02-28
     estimated_weeks: 2-3
-    tasks_completed: 1
+    tasks_completed: 7
     tasks_total: 7
     notes: |
       📋 Milestone 9: Template Source Files Support
@@ -1211,57 +1211,100 @@ tasks:
   milestone_9:
     - id: task-71
       name: Schema Extension for Templates
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-9-template-source-files/task-71-schema-extension.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-02-28
       notes: |
-        Extend package.yaml schema to support templates with metadata fields
+        ✅ Schema extension for template files complete!
+        - Added files array to package.schema.yaml contents with 6 metadata fields
+        - Fields: name, description, target, required, variables, experimental
+        - Added validation rules and security documentation as schema comments
+        - Updated package.template.yaml with 4 example templates
+        - Extended acp.package-validate.sh to validate agent/files/ existence
+        - All validation tested: file detection, missing file errors working
     
     - id: task-72
       name: Template Installation System
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-9-template-source-files/task-72-installation-system.md
       estimated_hours: 6-8
-      completed_date: null
+      completed_date: 2026-02-28
       notes: |
-        Implement template scanning, installation, variable substitution, target path handling
+        ✅ Template Installation System complete!
+        - Metadata-aware scanning: reads contents.files from package.yaml for target/variable info
+        - Target path installation: files install to declared target directories
+        - .template extension stripping: foo.json.template → foo.json
+        - Variable substitution: {{PLACEHOLDER}} replaced with user-provided values
+        - Unsafe target path rejection: paths with ../ or absolute paths blocked
+        - Experimental file filtering with -A 6 context for files entries
+        - Selective --files flag with full metadata awareness
+        - Backward compatibility for packages without contents.files
+        - Fixed manifest packages:{} bug in acp.common.sh
+        - E2E tests: 20/20 passing (acp.template-files.test.sh)
     
     - id: task-73
       name: Manifest Tracking for Templates
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-9-template-source-files/task-73-manifest-tracking.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-02-28
       notes: |
-        Track installed templates in manifest with versions, targets, checksums, variables
+        ✅ Manifest Tracking for Templates complete!
+        - Manifest stores target path for files with metadata (target: ./tsconfig.json)
+        - Manifest stores variable values used during substitution (variables: {KEY: value})
+        - Added helper functions to acp.common.sh:
+          - is_template_file_modified(): checks modification via target path checksum
+          - get_template_file_target(): retrieves stored target path from manifest
+          - get_template_file_variables(): retrieves stored variable values from manifest
+          - update_template_file_in_manifest(): updates version/checksum for template files
+        - Fixed local-outside-function bug in batch manifest section
+        - E2E tests: 26/26 passing (3 new manifest tracking tests added)
     
     - id: task-74
       name: Command Updates for Templates
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-9-template-source-files/task-74-command-updates.md
       estimated_hours: 4-5
-      completed_date: null
+      completed_date: 2026-02-28
       notes: |
-        Update all package commands to support templates (install, update, remove, validate, list)
+        ✅ Command Updates for Templates complete!
+        - acp.package-list.sh: Added files count, modified file detection for template files
+        - acp.package-remove.sh: Added template file removal using manifest target paths
+        - acp.package-update.sh: Added template file update with stored variable reuse
+        - acp.package-install.md: Added template file installation docs (Mode G)
+        - acp.package-validate.sh: Already updated in Task 71
+        - All scripts pass syntax checks
     
     - id: task-75
       name: Testing Suite for Templates
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-9-template-source-files/task-75-testing-suite.md
       estimated_hours: 6-8
-      completed_date: null
+      completed_date: 2026-02-28
       notes: |
-        Comprehensive unit, integration, and E2E tests for template system
+        ✅ Testing Suite for Templates complete!
+        - 34/34 E2E tests passing in acp.template-files.test.sh
+        - Tests cover: target paths, .template stripping, variable substitution,
+          experimental skip/install, --list dry run, unsafe path rejection,
+          legacy backward compat, selective --files, manifest target tracking,
+          manifest variable tracking, manifest checksums, special character
+          substitution, package remove with template files, file overwrite
+        - All existing test suites verified: install-list (18/18), experimental (18/18)
     
     - id: task-76
       name: Documentation for Templates
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-9-template-source-files/task-76-documentation.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-02-28
       notes: |
-        Update AGENT.md, README.md, CHANGELOG.md with template documentation
+        ✅ Documentation for Templates complete!
+        - AGENT.md: Added Template Source Files section with target paths, variable substitution, security docs
+        - AGENT.md: Updated directory structure to include agent/files/
+        - CHANGELOG.md: Added v5.0.0 entry with complete M9 feature list
+        - Design document status updated to Implemented (v5.0.0)
+        - acp.package-install.md: Template file installation docs (Mode G) added in Task 74
 
     - id: task-77
       name: Support agent/files/ Directory in Package Installer
@@ -1405,7 +1448,7 @@ progress:
   milestone_6: 0
   milestone_7: 70
   milestone_8: 100
-  milestone_9: 14
+  milestone_9: 28
 
 recent_work:
   - date: 2026-02-26
