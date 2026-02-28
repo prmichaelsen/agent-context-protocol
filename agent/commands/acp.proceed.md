@@ -4,35 +4,102 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 >
-> **YOU MUST IMMEDIATELY BEGIN IMPLEMENTING THE CURRENT OR NEXT TASK.**
+> **STEP 0: CHECK FOR ARGUMENTS FIRST.**
+> If arguments or natural language follow `@acp.proceed`, detect the mode before doing anything else.
+> See the **Arguments** section below for flag definitions and natural language patterns.
 >
-> **DO NOT**:
-> - ❌ Provide status reports or summaries
+> **If no arguments (default mode):**
+> - YOU MUST IMMEDIATELY BEGIN IMPLEMENTING THE CURRENT OR NEXT TASK.
+> - Follow **Steps 1-5** (Single-Task Mode).
+>
+> **If autonomous arguments detected (`--complete`, `--auto`, `--finish-milestone`, or natural language like "finish milestone", "just finish everything", "complete all tasks"):**
+> - Follow **Autonomous Mode** section.
+> - Do NOT start implementing individual tasks until confirmation is received.
+>
+> **If `--dry-run` detected:**
+> - Follow **Autonomous Mode > Dry-Run** section.
+> - Show what would be done, then exit.
+>
+> **DO NOT** (in any mode):
+> - ❌ Provide status reports or summaries instead of action
 > - ❌ Ask about session size, cost, or token limits
-> - ❌ Suggest pushing commits or taking breaks
 > - ❌ End with "ready to proceed" or similar passive statements
->
-> **DO**:
-> - ✅ Read the task document
-> - ✅ START IMPLEMENTING immediately
-> - ✅ Create files, write code, make changes
-> - ✅ Complete the task or make substantial progress
-> - ✅ Update progress.yaml when done
 >
 > **This is an ACTION command, not a STATUS command.**
 
 **Namespace**: acp
-**Version**: 1.1.0
+**Version**: 2.0.0
 **Created**: 2026-02-16
-**Last Updated**: 2026-02-18
+**Last Updated**: 2026-02-28
 **Status**: Active
 **Scripts**: None
 
 ---
 
-**Purpose**: IMMEDIATELY implement the current or next task - NO DELAYS, NO REPORTS, JUST ACTION
+**Purpose**: Implement tasks — single-task (default) or autonomous milestone completion (with arguments)
 **Category**: Workflow
 **Frequency**: As Needed
+
+---
+
+## Arguments
+
+This command supports both CLI-style flags and natural language arguments.
+
+### Completion Flags (all equivalent — trigger autonomous mode)
+
+| Flag | Description |
+|------|-------------|
+| `--complete` | Complete all remaining tasks in current milestone |
+| `--finish-milestone` | Same as `--complete` (explicit name) |
+| `--auto` | Same as `--complete` (short form) |
+
+### Commit Flags (all equivalent — implied by `--complete`)
+
+| Flag | Description |
+|------|-------------|
+| `--commit` | Run `@git.commit` after each task |
+| `--commit-each` | Same as `--commit` (explicit name) |
+| `--with-commits` | Same as `--commit` (modifier style) |
+
+**Note**: `--complete` implies `--commit`. There is no autonomous completion mode without per-task commits.
+
+### Other Flags
+
+| Flag | Description |
+|------|-------------|
+| `--dry-run` | Preview what tasks would be completed without executing |
+
+### Natural Language (Fuzzy Matching)
+
+The agent should detect autonomous intent from natural language following `@acp.proceed`:
+
+| Example | Detected Mode |
+|---------|---------------|
+| `@acp.proceed --complete` | Autonomous |
+| `@acp.proceed finish milestone` | Autonomous |
+| `@acp.proceed finish milestone and iteratively commit` | Autonomous |
+| `@acp.proceed just finish everything` | Autonomous |
+| `@acp.proceed complete the milestone` | Autonomous |
+| `@acp.proceed complete all tasks` | Autonomous |
+| `@acp.proceed --dry-run` | Dry-Run |
+| `@acp.proceed` | Single-Task (default) |
+
+**Matching rules**:
+- Look for keywords: `complete`, `finish`, `auto`, `all tasks`, `everything`, `milestone`
+- Be generous with matching — if the user's intent is clearly "do everything", enter autonomous mode
+- When in doubt, **always show the confirmation prompt** before starting autonomous execution
+- Never enter autonomous mode silently — the confirmation gate is mandatory
+
+### Flag Combinations
+
+| Combination | Behavior |
+|-------------|----------|
+| `--complete` | Autonomous completion with per-task commits |
+| `--complete --dry-run` | Preview task list, no execution |
+| `--dry-run` (alone) | Preview next task only |
+| `--commit` (alone) | Single-task mode, commit after completion |
+| (no flags) | Single-task mode, no auto-commit |
 
 ---
 
@@ -40,24 +107,29 @@
 
 **THIS IS AN IMPLEMENTATION COMMAND.**
 
-When you invoke `@acp.proceed`, you are commanding the agent to:
+### Default Mode (No Arguments)
+
+When you invoke `@acp.proceed` without arguments:
 1. Find the current/next task
 2. **IMMEDIATELY START IMPLEMENTING IT**
 3. Write code, create files, make changes
 4. Complete the task or make substantial progress
 5. Update progress tracking
 
+### Autonomous Mode (With `--complete` or Natural Language)
+
+When you invoke `@acp.proceed --complete` (or equivalent):
+1. Scan remaining tasks in current milestone
+2. Show confirmation prompt with task list
+3. After user confirms, **implement ALL remaining tasks sequentially**
+4. After each task: run full `@git.commit` subroutine (version bump, changelog, progress)
+5. Display progress indicators between tasks
+6. Continue until milestone complete or blocker encountered
+7. Display summary report at end
+
 **This is NOT a status command.** Do not confuse this with `@acp.status`. The purpose of `@acp.proceed` is to **DO WORK**, not report on work.
 
-**Agent Behavior**:
-- Read task document
-- Start implementing within the same response
-- Create files, write code, execute commands
-- Make real progress on the task
-- Only stop when task is complete or substantial progress made
-- Update progress.yaml with what was accomplished
-
-**Forbidden Behaviors**:
+**Forbidden Behaviors** (all modes):
 - Providing status summaries without implementation
 - Asking about token limits or session size
 - Suggesting to "continue later" or "push commits first"
@@ -74,7 +146,10 @@ When you invoke `@acp.proceed`, you are commanding the agent to:
 
 ---
 
-## Steps
+## Steps (Single-Task Mode)
+
+> **These steps apply when `@acp.proceed` is invoked WITHOUT autonomous arguments.**
+> If autonomous mode was detected, skip to **Autonomous Mode** section below.
 
 ### 🚨 CRITICAL: These are IMPLEMENTATION steps, not planning steps
 
@@ -82,7 +157,7 @@ When you invoke `@acp.proceed`, you are commanding the agent to:
 
 **Actions**:
 - Read `agent/progress.yaml`
-- Find first task with status `in_progress` or `not_started`
+- Find first task with status `in_progress` or `not_started` in the current milestone
 - Read the task document
 
 **DO NOT spend time analyzing or planning. MOVE TO STEP 2 IMMEDIATELY.**
@@ -152,8 +227,274 @@ When you invoke `@acp.proceed`, you are commanding the agent to:
 
 ---
 
+## Autonomous Mode
+
+> **These steps apply when `@acp.proceed` is invoked WITH `--complete`, `--auto`, `--finish-milestone`, or natural language indicating autonomous completion.**
+>
+> **🚨 CRITICAL**: Do NOT start implementing tasks until the user confirms the plan.
+
+### A1. Scan Remaining Tasks
+
+**Actions**:
+- Read `agent/progress.yaml`
+- Identify the current milestone (from `current_milestone` field)
+- Collect all tasks in that milestone with status `not_started` or `in_progress`
+- Read each task document to understand scope
+- Order tasks based on: progress.yaml order, next steps, previously defined priorities, and chat context
+
+**Task selection is NOT strictly lowest-ID-first.** Use judgment based on:
+- Dependencies between tasks
+- Progress.yaml ordering and notes
+- Previously defined priorities in milestone or task documents
+- Current chat context (user may have indicated preferences)
+
+### A2. Show Confirmation Prompt
+
+**🚨 MANDATORY**: Always show this confirmation before starting autonomous execution. Never skip this step.
+
+Display the following to the user:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Autonomous Completion Mode
+  M{X} - {Milestone Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  {N} remaining tasks:
+
+    1. Task {id}: {name} ({estimated_hours})
+    2. Task {id}: {name} ({estimated_hours})
+    3. Task {id}: {name} ({estimated_hours})
+    ...
+
+  After each task:
+    - Update progress.yaml, CHANGELOG.md, AGENT.md version
+    - Run @git.commit (full subroutine)
+    - Display progress bar
+
+  At end of run:
+    - Summary report with completion stats
+    - Push NOT automatic (you decide when to push)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Proceed? (yes/no)
+```
+
+**Wait for user confirmation.** If user says no, exit autonomous mode and fall back to single-task mode or stop.
+
+### A3. Autonomous Task Loop
+
+After user confirms, execute the following loop:
+
+```
+FOR each remaining task in planned order:
+
+  1. DISPLAY progress indicator (see A5)
+
+  2. READ task document
+     - Re-read progress.yaml at start of each iteration (context freshness)
+     - Read the task file
+
+  3. IMPLEMENT the task
+     - Follow the same implementation approach as Single-Task Steps 2-3
+     - Create files, write code, execute commands
+     - Run tests if specified in task
+     - Complete the task fully
+
+  4. CHECK for failure
+     - If task fails or encounters blocker → HALT (see A8)
+     - If E2E tests fail → HALT (see A8)
+     - Do NOT commit partial work
+
+  5. UPDATE progress tracking
+     - Mark task as completed in progress.yaml
+     - Add completion date
+     - Update milestone progress percentage
+     - Add recent_work entry
+
+  6. RUN @git.commit subroutine
+     - Determine version bump (patch for most tasks, minor for features)
+     - Update AGENT.md version
+     - Update CHANGELOG.md with task completion entry
+     - Stage all relevant files
+     - Create commit with conventional commit message
+     - Do NOT push (push only at end of entire run)
+
+  7. CONTINUE to next task
+
+END FOR
+```
+
+### A4. Per-Task Git Commit
+
+After each successfully completed task, run the full `@git.commit` subroutine:
+
+1. **Analyze changes** — determine version impact (usually patch for individual tasks)
+2. **Bump version** — update AGENT.md version field
+3. **Update CHANGELOG.md** — add entry describing task completion
+4. **Stage files** — all files modified during the task + version files + progress.yaml
+5. **Commit** — conventional commit message referencing the task
+6. **Do NOT push** — commits accumulate locally; push only at end of run
+
+**Commit message format**:
+```
+{type}({scope}): {task description}
+
+Completed Task {N}: {task name}
+- {change 1}
+- {change 2}
+
+Milestone: M{X} - {milestone name} ({completed}/{total} tasks)
+Version: {new version}
+```
+
+### A5. Progress Indicators
+
+Between each task, display a visual progress update:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ████████████░░░░░░░░ {completed}/{total} tasks ({percent}%)
+
+  ✅ Task {id}: {name}
+  ✅ Task {id}: {name}
+  ✅ Task {id}: {name}
+  ⏳ Task {id}: {name}            ← current
+  ⬚  Task {id}: {name}
+  ⬚  Task {id}: {name}
+
+  Commits: {N} (not pushed)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Symbols**:
+- ✅ = completed
+- ⏳ = in progress (about to start)
+- ⬚ = pending
+- ❌ = failed
+
+### A6. Summary Report
+
+At the end of the autonomous run (whether all tasks complete or halted), display:
+
+```
+═══════════════════════════════════════════════════════
+  Autonomous Run Complete — M{X}: {Milestone Name}
+═══════════════════════════════════════════════════════
+
+  Progress: ████████████████░░░░ {completed}/{total} ({percent}%)
+
+  ✅ Completed ({N}):
+     • Task {id}: {name}
+     • Task {id}: {name}
+     • Task {id}: {name}
+
+  ❌ Failed ({N}):                          ← only if failures
+     • Task {id}: {name} — {reason}
+
+  ⬚  Remaining ({N}):                      ← only if incomplete
+     • Task {id}: {name}
+
+  ─────────────────────────────────────────
+  Commits:   {N} (not pushed)
+  Version:   {old} → {new}
+  ─────────────────────────────────────────
+
+  Next steps:
+    • git push                    ← push all commits
+    • @acp.proceed                ← continue remaining tasks
+    • @acp.status                 ← review project status
+
+═══════════════════════════════════════════════════════
+```
+
+### A7. Dry-Run Mode
+
+When `--dry-run` is specified (alone or with `--complete`):
+
+1. Scan remaining tasks (same as A1)
+2. Display the confirmation prompt (same as A2) but with a `(DRY RUN)` label
+3. **Do NOT execute any tasks**
+4. Display what would happen:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DRY RUN — Autonomous Completion Preview
+  M{X} - {Milestone Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Would complete {N} tasks:
+
+    1. Task {id}: {name} ({hours}h)
+    2. Task {id}: {name} ({hours}h)
+    3. Task {id}: {name} ({hours}h)
+
+  Would create {N} commits (1 per task)
+  Would bump version {N} times
+
+  (dry run — no files were modified)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+5. Exit without making any changes
+
+### A8. Error Handling & Halting
+
+**When to HALT autonomous execution:**
+
+| Condition | Action |
+|-----------|--------|
+| Task fails partway through | HALT. Do NOT commit partial work. Seek user input. |
+| E2E tests fail | HALT. Require user intervention guidance. |
+| Blocker requiring user decision | HALT. Present the blocker and ask for guidance. |
+| Agent cannot make a decision | HALT. Ask user for input. |
+| Git commit fails | HALT. Seek user intervention. |
+
+**On HALT**:
+1. Stop the autonomous loop
+2. Display the summary report (A6) showing what was completed before the halt
+3. Clearly explain the failure:
+   ```
+   ⚠️  Autonomous run halted at Task {id}: {name}
+
+   Reason: {clear explanation of what went wrong}
+
+   What was completed before halt:
+     ✅ Task {id}: {name} (committed)
+     ✅ Task {id}: {name} (committed)
+
+   Uncommitted work:
+     ⚠️  Task {id}: {name} — partial, NOT committed
+
+   Awaiting your guidance to continue.
+   ```
+4. Wait for user to provide guidance before continuing
+
+**NEVER**:
+- ❌ Skip a failed task and move to the next one
+- ❌ Commit partial work from a failed task
+- ❌ Retry a failed task without user guidance
+- ❌ Auto-resolve errors by discarding changes
+
+### A9. Interruption Handling
+
+If the user sends a message during autonomous execution:
+
+- **Infer user intent** from the message content
+- If the user is providing guidance or a correction → incorporate it and continue
+- If the user wants to stop → halt gracefully (show summary report)
+- If unclear → ask the user what they'd like to do
+- **Never ignore user messages** during autonomous execution
+
+---
+
 ## Verification
 
+### Single-Task Mode
 - [ ] Current task identified from progress.yaml
 - [ ] Task document read and understood
 - [ ] Prerequisites checked
@@ -164,15 +505,22 @@ When you invoke `@acp.proceed`, you are commanding the agent to:
 - [ ] Recent work entry added
 - [ ] Next task identified
 
+### Autonomous Mode
+- [ ] Arguments correctly detected (flags or natural language)
+- [ ] Remaining tasks scanned from progress.yaml
+- [ ] Confirmation prompt shown and user approved
+- [ ] Each task implemented fully before moving to next
+- [ ] `@git.commit` ran after each task (version bump, changelog, progress)
+- [ ] Progress indicator displayed between tasks
+- [ ] No push until end of run
+- [ ] Summary report displayed at end
+- [ ] Halted correctly on any failures (no partial commits)
+
 ---
 
 ## Expected Output
 
-### Files Modified
-- `agent/progress.yaml` - Task marked complete, progress updated, recent work added
-- Task-specific files (as defined in task document)
-
-### Console Output
+### Single-Task Mode
 ```
 📋 Current Task: task-3-implement-core-logic
 
@@ -188,20 +536,10 @@ Steps:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Executing task steps...
-
 ✅ Step 1: Created service layer classes
 ✅ Step 2: Implemented data access methods
 ✅ Step 3: Added error handling
 ✅ Step 4: Wrote unit tests
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Verification:
-✅ All service classes created
-✅ Unit tests pass
-✅ TypeScript compiles without errors
-✅ Code follows project patterns
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -219,47 +557,116 @@ File: agent/tasks/task-4-add-integration-tests.md
 Estimated: 3 hours
 ```
 
-### Status Update
-- Task status: `not_started` → `completed`
-- Milestone progress: 40% → 60%
-- Tasks completed: 2 → 3
+### Autonomous Mode — Success
+```
+═══════════════════════════════════════════════════════
+  Autonomous Run Complete — M10: Command Enhancements
+═══════════════════════════════════════════════════════
+
+  Progress: ████████████████████ 3/3 (100%)
+
+  ✅ Completed (3):
+     • Task 78: Implement @acp.proceed Autonomous Completion
+     • Task 79: Add Testing Suite
+     • Task 80: Update Documentation
+
+  ─────────────────────────────────────────
+  Commits:   3 (not pushed)
+  Version:   5.0.1 → 5.0.4
+  ─────────────────────────────────────────
+
+  Next steps:
+    • git push
+
+═══════════════════════════════════════════════════════
+```
+
+### Autonomous Mode — Halted
+```
+═══════════════════════════════════════════════════════
+  Autonomous Run Halted — M10: Command Enhancements
+═══════════════════════════════════════════════════════
+
+  Progress: ████████████░░░░░░░░ 2/3 (67%)
+
+  ✅ Completed (2):
+     • Task 78: Implement @acp.proceed Autonomous Completion
+     • Task 79: Add Testing Suite
+
+  ❌ Failed (1):
+     • Task 80: Update Documentation — E2E test failure
+
+  ─────────────────────────────────────────
+  Commits:   2 (not pushed)
+  Version:   5.0.1 → 5.0.3
+  ─────────────────────────────────────────
+
+  Awaiting your guidance to continue.
+
+═══════════════════════════════════════════════════════
+```
 
 ---
 
 ## Examples
 
-### Example 1: Continuing Current Task
+### Example 1: Single-Task (Default)
 
-**Context**: You're in the middle of task-3 and want to continue working on it
+**Context**: You want to implement the next task
 
-**Invocation**: `@acp-proceed`
+**Invocation**: `@acp.proceed`
 
-**Result**: Loads task-3, shows remaining steps, guides you through completion, updates progress when done
+**Result**: Identifies next task, immediately starts implementing, completes task, updates progress
 
-### Example 2: Starting Next Task
+### Example 2: Autonomous Completion with Flags
 
-**Context**: Just finished task-2, ready to start task-3
+**Context**: Milestone has 5 remaining tasks, you want them all done
 
-**Invocation**: `@acp-proceed`
+**Invocation**: `@acp.proceed --complete`
 
-**Result**: Identifies task-3 as next, loads task document, guides through all steps, marks complete when done
+**Result**: Shows confirmation with 5 tasks listed, user confirms, agent implements all 5 tasks with per-task commits, displays summary
 
-### Example 3: Task with Blockers
+### Example 3: Autonomous with Natural Language
 
-**Context**: Task has unmet prerequisites
+**Context**: Same as above but using natural language
 
-**Invocation**: `@acp-proceed`
+**Invocation**: `@acp.proceed just finish everything`
 
-**Result**: Identifies missing prerequisites, reports blockers, suggests resolution steps, does not proceed until resolved
+**Result**: Same as `--complete` — agent detects autonomous intent, shows confirmation, implements all tasks
+
+### Example 4: Dry-Run Preview
+
+**Context**: You want to see what would be done without executing
+
+**Invocation**: `@acp.proceed --complete --dry-run`
+
+**Result**: Shows task list with estimates, exits without making changes
+
+### Example 5: Autonomous with Halt
+
+**Context**: Milestone has 5 tasks, task 3 fails
+
+**Invocation**: `@acp.proceed --complete`
+
+**Result**: Completes tasks 1-2 with commits, halts at task 3, shows summary with 2 completed + 1 failed, waits for user guidance
+
+### Example 6: Single-Task with Commit
+
+**Context**: You want to implement one task and commit
+
+**Invocation**: `@acp.proceed --commit`
+
+**Result**: Implements next task, runs `@git.commit` after completion
 
 ---
 
 ## Related Commands
 
-- [`@acp-init`](acp.init.md) - Use before proceeding to ensure full context loaded
-- [`@acp-status`](acp.status.md) - Use to check which task is current before proceeding
-- [`@acp-update`](acp.update.md) - Use to manually update progress if needed
-- [`@acp-sync`](acp.sync.md) - Use after completing tasks to sync documentation
+- [`@acp.init`](acp.init.md) - Use before proceeding to ensure full context loaded
+- [`@acp.status`](acp.status.md) - Use to check which task is current before proceeding
+- [`@acp.update`](acp.update.md) - Use to manually update progress if needed
+- [`@acp.sync`](acp.sync.md) - Use after completing tasks to sync documentation
+- [`@git.commit`](git.commit.md) - Git commit subroutine (used per-task in autonomous mode)
 
 ---
 
@@ -287,7 +694,7 @@ Estimated: 3 hours
 
 **Cause**: Task has dependencies that aren't satisfied yet
 
-**Solution**: Complete prerequisite tasks first, or resolve the dependencies, then run `@acp-proceed` again
+**Solution**: Complete prerequisite tasks first, or resolve the dependencies, then run `@acp.proceed` again
 
 ### Issue 4: Verification fails
 
@@ -297,18 +704,34 @@ Estimated: 3 hours
 
 **Solution**: Review the failed verification items, fix issues, then re-run verification steps
 
+### Issue 5: Autonomous mode not detected
+
+**Symptom**: Agent starts single-task mode despite passing `--complete`
+
+**Cause**: Arguments not parsed correctly or natural language not recognized
+
+**Solution**: Use explicit flag `--complete` instead of natural language. Ensure flag appears after `@acp.proceed`.
+
+### Issue 6: Context window exhaustion during autonomous run
+
+**Symptom**: Agent loses context after completing several tasks
+
+**Cause**: Long autonomous runs consume context window
+
+**Solution**: Agent re-reads progress.yaml and task files at the start of each iteration to maintain context freshness. If context is truly exhausted, the run will halt and can be resumed with `@acp.proceed --complete` in a new session.
+
 ---
 
 ## Security Considerations
 
 ### File Access
-- **Reads**: `agent/progress.yaml`, current task document, related design documents
-- **Writes**: `agent/progress.yaml` (updates task status and progress), task-specific files as defined in task document
-- **Executes**: May execute commands as specified in task steps (e.g., `npm test`, `npm run build`)
+- **Reads**: `agent/progress.yaml`, task documents, design documents, AGENT.md, CHANGELOG.md
+- **Writes**: `agent/progress.yaml`, task-specific files, AGENT.md (version), CHANGELOG.md (entries)
+- **Executes**: May execute commands as specified in task steps (e.g., `npm test`, `npm run build`), git commands for commits
 
 ### Network Access
 - **APIs**: May make API calls if task requires it
-- **Repositories**: May interact with git if task requires it
+- **Repositories**: Interacts with git for commits (does NOT push in autonomous mode until end of run)
 
 ### Sensitive Data
 - **Secrets**: Should not access secrets unless task explicitly requires configuration
@@ -318,20 +741,25 @@ Estimated: 3 hours
 
 ## Notes
 
-- This command modifies `agent/progress.yaml` to track progress
-- Task execution may create, modify, or delete files as specified in the task document
-- Always review task steps before proceeding to understand what will be done
-- Use `@acp-status` first to see which task is current
-- If task is complex, consider breaking it into smaller steps
+- **Default behavior unchanged**: `@acp.proceed` without arguments works exactly as before (single-task)
+- **`--complete` implies `--commit`**: There is no autonomous mode without per-task commits
+- **Confirmation is mandatory**: Agent MUST show confirmation prompt before autonomous execution
+- **No max task limit**: Agent runs until milestone complete or blocker encountered
+- **Push only at end**: Commits accumulate locally; agent never pushes during autonomous run
+- **Context freshness**: Agent re-reads progress.yaml at start of each task iteration
+- **Interruption**: Agent infers user intent from any messages received during autonomous run
+- **Error policy**: Halt on any failure, never commit partial work, always seek user guidance
+- Task execution may create, modify, or delete files as specified in task documents
+- Use `@acp.status` first to see which task is current
 - Update progress.yaml manually if command doesn't complete successfully
 
 ---
 
 **Namespace**: acp
 **Command**: proceed
-**Version**: 1.0.0
+**Version**: 2.0.0
 **Created**: 2026-02-16
-**Last Updated**: 2026-02-16
+**Last Updated**: 2026-02-28
 **Status**: Active
-**Compatibility**: ACP 1.0.3+
+**Compatibility**: ACP 5.0.0+
 **Author**: ACP Project
