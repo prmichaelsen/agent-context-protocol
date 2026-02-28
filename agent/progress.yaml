@@ -192,6 +192,22 @@ milestones:
       - Validation for experimental marking consistency
       - 4 tasks planned (61-64): Schema & Validation, Installation Filtering, Update Handling, Documentation
 
+  - id: M10
+    name: Command Enhancements
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 2-4
+    tasks_completed: 0
+    tasks_total: 1
+    notes: |
+      📋 Milestone 10: Command Enhancements
+      - Umbrella milestone for all future command improvements
+      - Task 78: @acp.proceed autonomous completion with --complete, --auto, --dry-run flags
+      - Natural language argument parsing for commands
+      - Per-task git commits in autonomous mode
+
 tasks:
   milestone_1:
     - id: task-1
@@ -1316,6 +1332,18 @@ tasks:
         ✅ Add agent/files/ to INSTALL_DIRS, fix manifest file tracking, warn on unrecognized dirs.
         GitHub Issue #6. Also fixed design→designs manifest key mismatch, added scripts/files to manifest.
 
+  milestone_10:
+    - id: task-78
+      name: Implement @acp.proceed Autonomous Completion Arguments
+      status: not_started
+      file: agent/tasks/milestone-10-command-enhancements/task-78-proceed-autonomous-completion.md
+      estimated_hours: 8-12
+      completed_date: null
+      notes: |
+        Enhance @acp.proceed with --complete, --auto, --finish-milestone flags and natural language args.
+        Autonomous milestone completion with per-task @git.commit, progress indicators, summary report.
+        Source: clarification-2-proceed-args.md, agent/drafts/proceed-args.md
+
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -1449,6 +1477,7 @@ progress:
   milestone_7: 70
   milestone_8: 100
   milestone_9: 28
+  milestone_10: 0
 
 recent_work:
   - date: 2026-02-26
