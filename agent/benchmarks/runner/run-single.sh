@@ -360,6 +360,59 @@ fi
 
 echo "  Checks: $CHECKS_PASSED/$CHECKS_TOTAL"
 
+# --- Run LLM evaluator ---
+EVAL_OUTPUT=""
+EVAL_EXIT=0
+EVAL_SCORE=""
+EVAL_RATING=""
+
+EVALUATOR_PROMPT="$SCRIPT_DIR/evaluator-prompt.md"
+EVALUATOR_SCHEMA="$SCRIPT_DIR/evaluation-schema.json"
+
+if [ -f "$EVALUATOR_PROMPT" ] && [ -f "$EVALUATOR_SCHEMA" ]; then
+    echo "  Running LLM evaluator..."
+    EVAL_STDERR="$OUTPUT.eval-stderr.log"
+
+    EVAL_OUTPUT=$(cd "$WORKSPACE" && claude -p "$(cat "$EVALUATOR_PROMPT")" \
+        --output-format json \
+        --allowedTools "Read,Glob,Grep,Bash" \
+        --max-turns 10 \
+        2>"$EVAL_STDERR") || EVAL_EXIT=$?
+
+    if [ "$EVAL_EXIT" -eq 0 ] && [ -n "$EVAL_OUTPUT" ]; then
+        # Save raw evaluation JSON
+        echo "$EVAL_OUTPUT" > "$OUTPUT.eval-raw.json"
+
+        # Extract result text (contains the structured JSON)
+        EVAL_RESULT=$(echo "$EVAL_OUTPUT" | jq -r '.result // empty' 2>/dev/null || true)
+
+        if [ -n "$EVAL_RESULT" ]; then
+            # Try to parse as JSON directly
+            EVAL_JSON=$(echo "$EVAL_RESULT" | jq '.' 2>/dev/null || true)
+
+            if [ -z "$EVAL_JSON" ]; then
+                # Result may contain markdown code fences — extract JSON block
+                EVAL_JSON=$(echo "$EVAL_RESULT" | sed -n '/^```json/,/^```/p' | sed '1d;$d' | jq '.' 2>/dev/null || true)
+            fi
+
+            if [ -n "$EVAL_JSON" ]; then
+                echo "$EVAL_JSON" > "$OUTPUT.eval.json"
+                EVAL_SCORE=$(echo "$EVAL_JSON" | jq -r '.overall_score // empty' 2>/dev/null || true)
+                EVAL_RATING=$(echo "$EVAL_JSON" | jq -r '.overall_rating // empty' 2>/dev/null || true)
+                echo "  Evaluation: score=$EVAL_SCORE rating=$EVAL_RATING"
+            else
+                echo "  Warning: Could not parse evaluation JSON from result"
+            fi
+        else
+            echo "  Warning: Evaluator returned no result text"
+        fi
+    else
+        echo "  Warning: Evaluator failed (exit=$EVAL_EXIT)"
+    fi
+else
+    echo "  Skipping evaluation (evaluator files not found)"
+fi
+
 # --- Write per-run YAML report ---
 cat > "$OUTPUT" << EOF
 task: $TASK
@@ -386,6 +439,32 @@ verification:
     file_executable: ${FILE_EXECUTABLE:-unknown}
     output_correct: ${OUTPUT_CORRECT:-unknown}
 EOF
+
+# Append evaluation data if available
+if [ -n "$EVAL_SCORE" ] && [ -f "$OUTPUT.eval.json" ]; then
+    {
+        echo ""
+        echo "evaluation:"
+        echo "  overall_score: $EVAL_SCORE"
+        echo "  overall_rating: $EVAL_RATING"
+        # Extract per-category scores
+        for cat in correctness completeness code_style documentation architecture testing; do
+            score=$(jq -r ".${cat}.score // empty" "$OUTPUT.eval.json" 2>/dev/null || true)
+            rating=$(jq -r ".${cat}.rating // empty" "$OUTPUT.eval.json" 2>/dev/null || true)
+            rationale=$(jq -r ".${cat}.rationale // empty" "$OUTPUT.eval.json" 2>/dev/null || true)
+            if [ -n "$score" ]; then
+                echo "  ${cat}:"
+                echo "    score: $score"
+                echo "    rating: $rating"
+                echo "    rationale: \"$rationale\""
+            fi
+        done
+        summary=$(jq -r '.summary // empty' "$OUTPUT.eval.json" 2>/dev/null || true)
+        if [ -n "$summary" ]; then
+            echo "  summary: \"$summary\""
+        fi
+    } >> "$OUTPUT"
+fi
 
 # Append per-step detail for multi-turn runs
 if [ "$STEPS_MODE" = "true" ]; then

@@ -5,6 +5,16 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.4.0] - 2026-02-28
+
+### Added
+
+**LLM Evaluator** (Milestone 11 — Task 83):
+- `evaluator-prompt.md`: 6-category rubric (correctness, completeness, code style, documentation, architecture, testing) with scoring guidelines (1-10, MISS/MEETS/EXCEEDS)
+- `evaluation-schema.json`: JSON schema for structured evaluator output
+- Evaluator integration in `run-single.sh`: runs as separate Claude session after verification, saves per-category scores and rationales
+- Evaluation tables in Markdown and HTML reports with color-coded scores and summaries
+
 ## [5.3.2] - 2026-02-28
 
 ### Added

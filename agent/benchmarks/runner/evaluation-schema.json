@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BenchmarkEvaluation",
+  "description": "Structured evaluation of a benchmark task output",
+  "type": "object",
+  "required": ["correctness", "completeness", "code_style", "documentation", "architecture", "testing", "overall_score", "overall_rating", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "correctness": {
+      "$ref": "#/$defs/category"
+    },
+    "completeness": {
+      "$ref": "#/$defs/category"
+    },
+    "code_style": {
+      "$ref": "#/$defs/category"
+    },
+    "documentation": {
+      "$ref": "#/$defs/category"
+    },
+    "architecture": {
+      "$ref": "#/$defs/category"
+    },
+    "testing": {
+      "$ref": "#/$defs/category"
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Average of all 6 category scores, rounded to 1 decimal"
+    },
+    "overall_rating": {
+      "type": "string",
+      "enum": ["MISS", "MEETS", "EXCEEDS"],
+      "description": "Categorical rating based on overall_score: 1-3=MISS, 4-7=MEETS, 8-10=EXCEEDS"
+    },
+    "summary": {
+      "type": "string",
+      "description": "2-3 sentence overall assessment of the work"
+    }
+  },
+  "$defs": {
+    "category": {
+      "type": "object",
+      "required": ["score", "rating", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Numeric score from 1-10"
+        },
+        "rating": {
+          "type": "string",
+          "enum": ["MISS", "MEETS", "EXCEEDS"],
+          "description": "Categorical rating: 1-3=MISS, 4-7=MEETS, 8-10=EXCEEDS"
+        },
+        "rationale": {
+          "type": "string",
+          "description": "1-2 sentence explanation of the score"
+        }
+      }
+    }
+  }
+}

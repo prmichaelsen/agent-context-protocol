@@ -22,6 +22,8 @@ get_field() {
 # --- Load data for each mode ---
 declare -A INPUT_TOKENS OUTPUT_TOKENS NUM_TURNS DURATION COST
 declare -A FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT ALL_PASSED
+declare -A EVAL_SCORE EVAL_RATING EVAL_CORRECTNESS EVAL_COMPLETENESS EVAL_CODE_STYLE
+declare -A EVAL_DOCUMENTATION EVAL_ARCHITECTURE EVAL_TESTING EVAL_SUMMARY
 
 for mode in "${MODES[@]}"; do
     file="$REPORT_DIR/${TASK}-${mode}.yaml"
@@ -35,6 +37,19 @@ for mode in "${MODES[@]}"; do
         FILE_EXECUTABLE[$mode]=$(get_field "$file" "file_executable")
         OUTPUT_CORRECT[$mode]=$(get_field "$file" "output_correct")
         ALL_PASSED[$mode]=$(get_field "$file" "all_passed")
+        # Load evaluation data
+        EVAL_SCORE[$mode]=$(get_field "$file" "overall_score")
+        EVAL_RATING[$mode]=$(get_field "$file" "overall_rating")
+        eval_json="$REPORT_DIR/${TASK}-${mode}.yaml.eval.json"
+        if [ -f "$eval_json" ]; then
+            EVAL_CORRECTNESS[$mode]=$(jq -r '.correctness.score // empty' "$eval_json" 2>/dev/null || true)
+            EVAL_COMPLETENESS[$mode]=$(jq -r '.completeness.score // empty' "$eval_json" 2>/dev/null || true)
+            EVAL_CODE_STYLE[$mode]=$(jq -r '.code_style.score // empty' "$eval_json" 2>/dev/null || true)
+            EVAL_DOCUMENTATION[$mode]=$(jq -r '.documentation.score // empty' "$eval_json" 2>/dev/null || true)
+            EVAL_ARCHITECTURE[$mode]=$(jq -r '.architecture.score // empty' "$eval_json" 2>/dev/null || true)
+            EVAL_TESTING[$mode]=$(jq -r '.testing.score // empty' "$eval_json" 2>/dev/null || true)
+            EVAL_SUMMARY[$mode]=$(jq -r '.summary // empty' "$eval_json" 2>/dev/null || true)
+        fi
     fi
 done
 
@@ -96,6 +111,10 @@ cat << 'STYLE_EOF'
   .fail { background: #ffeef0; color: #cb2431; font-weight: 600; }
   .better { background: #dcffe4; color: #22863a; }
   .worse { background: #ffeef0; color: #cb2431; }
+  .score-high { background: #dcffe4; color: #22863a; font-weight: 600; }
+  .score-mid { background: #fff8c5; color: #735c0f; font-weight: 600; }
+  .score-low { background: #ffeef0; color: #cb2431; font-weight: 600; }
+  .eval-summary { background: #f6f8fa; border-left: 3px solid #0366d6; padding: 0.8em 1em; margin: 1em 0; font-style: italic; }
 </style>
 STYLE_EOF
 
@@ -150,6 +169,63 @@ else
 fi
 
 echo "</table>"
+
+# --- Evaluation table (if data available) ---
+has_eval="false"
+for mode in "${MODES[@]}"; do
+    if [ -n "${EVAL_SCORE[$mode]:-}" ]; then has_eval="true"; break; fi
+done
+
+# Helper: CSS class for score value
+score_class() {
+    local score="$1"
+    if [ -z "$score" ] || [ "$score" = "—" ]; then echo ""; return; fi
+    # Handle decimal scores by truncating
+    local int_score="${score%%.*}"
+    if [ "$int_score" -ge 8 ] 2>/dev/null; then echo "score-high"
+    elif [ "$int_score" -ge 4 ] 2>/dev/null; then echo "score-mid"
+    else echo "score-low"
+    fi
+}
+
+if [ "$has_eval" = "true" ]; then
+    echo "<h2>LLM Evaluation</h2>"
+    echo "<table>"
+
+    if [ "$BOTH" = "true" ]; then
+        echo "<tr><th>Category</th><th>ACP</th><th>Baseline</th></tr>"
+        for cat_label_var in "Correctness:EVAL_CORRECTNESS" "Completeness:EVAL_COMPLETENESS" "Code Style:EVAL_CODE_STYLE" "Documentation:EVAL_DOCUMENTATION" "Architecture:EVAL_ARCHITECTURE" "Testing:EVAL_TESTING"; do
+            cat_label="${cat_label_var%%:*}"
+            cat_var="${cat_label_var##*:}"
+            eval "acp_val=\${${cat_var}[acp]:-—}"
+            eval "base_val=\${${cat_var}[baseline]:-—}"
+            echo "<tr><td>$cat_label</td><td class=\"$(score_class "$acp_val")\">$acp_val</td><td class=\"$(score_class "$base_val")\">$base_val</td></tr>"
+        done
+        echo "<tr><td><strong>Overall</strong></td><td class=\"$(score_class "${EVAL_SCORE[acp]:-}")\"><strong>${EVAL_SCORE[acp]:-—} (${EVAL_RATING[acp]:-—})</strong></td><td class=\"$(score_class "${EVAL_SCORE[baseline]:-}")\"><strong>${EVAL_SCORE[baseline]:-—} (${EVAL_RATING[baseline]:-—})</strong></td></tr>"
+    else
+        mode="${MODES[0]}"
+        label="${mode^}"
+        echo "<tr><th>Category</th><th>$label</th></tr>"
+        for cat_label_var in "Correctness:EVAL_CORRECTNESS" "Completeness:EVAL_COMPLETENESS" "Code Style:EVAL_CODE_STYLE" "Documentation:EVAL_DOCUMENTATION" "Architecture:EVAL_ARCHITECTURE" "Testing:EVAL_TESTING"; do
+            cat_label="${cat_label_var%%:*}"
+            cat_var="${cat_label_var##*:}"
+            eval "val=\${${cat_var}[$mode]:-—}"
+            echo "<tr><td>$cat_label</td><td class=\"$(score_class "$val")\">$val</td></tr>"
+        done
+        echo "<tr><td><strong>Overall</strong></td><td class=\"$(score_class "${EVAL_SCORE[$mode]:-}")\"><strong>${EVAL_SCORE[$mode]:-—} (${EVAL_RATING[$mode]:-—})</strong></td></tr>"
+    fi
+
+    echo "</table>"
+
+    # Print summaries
+    for mode in "${MODES[@]}"; do
+        if [ -n "${EVAL_SUMMARY[$mode]:-}" ]; then
+            label="${mode^}"
+            echo "<div class=\"eval-summary\"><strong>${label}:</strong> ${EVAL_SUMMARY[$mode]}</div>"
+        fi
+    done
+fi
+
 echo "</body>"
 echo "</html>"
 
