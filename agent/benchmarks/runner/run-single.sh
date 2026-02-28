@@ -373,8 +373,10 @@ if [ -f "$EVALUATOR_PROMPT" ] && [ -f "$EVALUATOR_SCHEMA" ]; then
     echo "  Running LLM evaluator..."
     EVAL_STDERR="$OUTPUT.eval-stderr.log"
 
+    EVAL_SCHEMA_JSON=$(cat "$EVALUATOR_SCHEMA")
     EVAL_OUTPUT=$(cd "$WORKSPACE" && claude -p "$(cat "$EVALUATOR_PROMPT")" \
         --output-format json \
+        --json-schema "$EVAL_SCHEMA_JSON" \
         --allowedTools "Read,Glob,Grep,Bash" \
         --max-turns 10 \
         2>"$EVAL_STDERR") || EVAL_EXIT=$?
