@@ -6,7 +6,7 @@ project:
   version: 5.7.3
   started: 2026-02-16
   status: in_progress
-  current_milestone: M11
+  current_milestone: M12
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -229,6 +229,25 @@ milestones:
       - Historical tracking via GitHub Pages
       - 12 tasks (79-90): Runner, 8 Tasks, Evaluator, Reports, CI/CD, Docs
       - Runner supports dual-seed (seed_dir + seed_dir_acp), mode-specific prompts, skip_acp_install
+
+  - id: M12
+    name: Sessions System
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1-2
+    tasks_completed: 0
+    tasks_total: 4
+    notes: |
+      📋 Milestone 12: Sessions System
+      - Global ~/.acp/sessions.yaml for tracking concurrent agent sessions
+      - Self-contained acp.sessions.sh (6 subcommands: register, deregister, list, clean, heartbeat, count)
+      - Dedicated @acp.sessions command with NLP argument parsing
+      - Directive-level integration in @acp.init, @acp.status, @acp.report
+      - Advisory only, no locking or coordination
+      - 4 tasks (91-94): Infrastructure, Integration, Command, Testing/Docs
+      - Design: agent/design/local.sessions-system.md
 
 tasks:
   milestone_1:
@@ -1521,6 +1540,43 @@ tasks:
         mode-specific prompt files (prompt_file_acp/prompt_file_baseline). ACP prompts: 5 lines
         total. Baseline prompts: 120 lines total. Verify function, GH Actions choice added.
 
+  milestone_12:
+    - id: task-91
+      name: Sessions Infrastructure
+      status: not_started
+      file: agent/tasks/milestone-12-sessions-system/task-91-sessions-infrastructure.md
+      estimated_hours: 4-6
+      completed_date: null
+      notes: |
+        Schema, template, acp.sessions.sh with 6 subcommands (register, deregister, list, clean, heartbeat, count)
+
+    - id: task-92
+      name: Init and Report Integration
+      status: not_started
+      file: agent/tasks/milestone-12-sessions-system/task-92-sessions-init-integration.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Directive-level integration in @acp.init, @acp.status, @acp.report (optional steps, graceful skip)
+
+    - id: task-93
+      name: "@acp.sessions Command"
+      status: not_started
+      file: agent/tasks/milestone-12-sessions-system/task-93-sessions-command.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Dedicated command with NLP argument parsing, CLI flags, natural language support
+
+    - id: task-94
+      name: Testing and Documentation
+      status: not_started
+      file: agent/tasks/milestone-12-sessions-system/task-94-sessions-testing-documentation.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        E2E tests (15+ scenarios), AGENT.md, README.md, CHANGELOG.md, version bump
+
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -1633,9 +1689,9 @@ tasks:
 
 documentation:
   design_documents: 11
-  milestone_documents: 11
+  milestone_documents: 12
   pattern_documents: 4
-  task_documents: 90
+  task_documents: 94
   command_documents: 36
   last_updated: 2026-03-01
 
