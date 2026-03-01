@@ -80,17 +80,30 @@ Register projects that user confirms.
 
 **Expected Outcome**: Selected projects added to registry
 
-### 4. Display Summary
+### 4. Backfill Git Info
+
+For already-registered projects, detect and backfill missing `git_origin` and `git_branch`.
+
+**Actions**:
+- Iterate registered projects missing `git_origin`
+- Auto-detect from `git remote get-url origin`
+- Auto-detect branch from `git branch --show-current`
+- Write backfilled data to registry
+
+**Expected Outcome**: Existing projects gain git_origin/git_branch fields
+
+### 5. Display Summary
 
 Show sync results.
 
 **Actions**:
 - Count total projects found
 - Count newly registered projects
+- Count backfilled git origins
 - Display summary statistics
 - Suggest running `@acp.project-list`
 
-**Expected Outcome**: User knows what was registered
+**Expected Outcome**: User knows what was registered and backfilled
 
 ---
 
@@ -195,6 +208,7 @@ Run @acp.project-list to see all registered projects
 - [`@acp.project-info`](acp.project-info.md) - View project details
 - [`@acp.project-set`](acp.project-set.md) - Switch to a project
 - [`@acp.project-create`](acp.project-create.md) - Create new project (auto-registers)
+- [`@acp.projects-restore`](acp.projects-restore.md) - Restore projects from git origins
 
 ---
 
@@ -282,6 +296,8 @@ chmod 644 ~/.acp/projects.yaml
 - Safe to run multiple times (idempotent)
 - Does not modify project files, only registry
 - Multiline descriptions are truncated to 80 characters
+- Automatically detects and stores `git_origin` and `git_branch` for new registrations
+- Backfills `git_origin`/`git_branch` for already-registered projects missing them
 
 ---
 

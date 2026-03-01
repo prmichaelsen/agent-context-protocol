@@ -5,6 +5,22 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.8.0] - 2026-03-01
+
+### Added
+- `get_git_origin()` and `get_git_branch()` utility functions in `acp.common.sh`
+- `git_origin` and `git_branch` fields auto-detected and stored in project registry
+- `@acp.projects-restore` command — clone missing projects from stored git origins
+- `acp.projects-restore.sh` script with `--dry-run` and `--install-acp` flags
+- Git origin backfill pass in `@acp.projects-sync` for existing registered projects
+- `--git-origin` and `--git-branch` flags on `@acp.project-update`
+- Git origin display in `@acp.project-info` and `@acp.project-list` output
+
+### Changed
+- `register_project()` now accepts optional 5th/6th args for git_origin/git_branch with auto-detection fallback
+- `@acp.projects-sync` detects and shows git origin during discovery, backfills missing origins
+- Updated command docs: project-create, project-info, project-list, project-update, projects-sync
+
 ## [5.7.3] - 2026-03-01
 
 ### Added

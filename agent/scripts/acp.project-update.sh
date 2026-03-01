@@ -20,11 +20,13 @@ parse_args() {
   UPDATE_STATUS=""
   UPDATE_DESCRIPTION=""
   UPDATE_TYPE=""
+  UPDATE_GIT_ORIGIN=""
+  UPDATE_GIT_BRANCH=""
   ADD_TAGS=()
   REMOVE_TAGS=()
   ADD_RELATED=()
   REMOVE_RELATED=()
-  
+
   while [[ $# -gt 0 ]]; do
     case $1 in
       --status)
@@ -37,6 +39,14 @@ parse_args() {
         ;;
       --type)
         UPDATE_TYPE="$2"
+        shift 2
+        ;;
+      --git-origin)
+        UPDATE_GIT_ORIGIN="$2"
+        shift 2
+        ;;
+      --git-branch)
+        UPDATE_GIT_BRANCH="$2"
         shift 2
         ;;
       --add-tag)
@@ -87,6 +97,8 @@ main() {
     echo "  --status <status>           Update project status (active|archived|paused)"
     echo "  --description <text>        Update project description"
     echo "  --type <type>               Update project type"
+    echo "  --git-origin <url>          Set git remote origin URL"
+    echo "  --git-branch <branch>       Set git branch name"
     echo "  --add-tag <tag>             Add a tag (can be used multiple times)"
     echo "  --remove-tag <tag>          Remove a tag (can be used multiple times)"
     echo "  --add-related <project>     Add related project (can be used multiple times)"
@@ -101,6 +113,7 @@ main() {
   
   # Check if any updates specified
   if [ -z "$UPDATE_STATUS" ] && [ -z "$UPDATE_DESCRIPTION" ] && [ -z "$UPDATE_TYPE" ] && \
+     [ -z "$UPDATE_GIT_ORIGIN" ] && [ -z "$UPDATE_GIT_BRANCH" ] && \
      [ ${#ADD_TAGS[@]} -eq 0 ] && [ ${#REMOVE_TAGS[@]} -eq 0 ] && \
      [ ${#ADD_RELATED[@]} -eq 0 ] && [ ${#REMOVE_RELATED[@]} -eq 0 ]; then
     echo "Error: No updates specified"
@@ -171,7 +184,21 @@ main() {
     echo "✓ Updated type: ${UPDATE_TYPE}"
     updates_made=$((updates_made + 1))
   fi
-  
+
+  # Update git origin
+  if [ -n "$UPDATE_GIT_ORIGIN" ]; then
+    yaml_set "projects.${PROJECT_NAME}.git_origin" "$UPDATE_GIT_ORIGIN"
+    echo "✓ Updated git_origin: ${UPDATE_GIT_ORIGIN}"
+    updates_made=$((updates_made + 1))
+  fi
+
+  # Update git branch
+  if [ -n "$UPDATE_GIT_BRANCH" ]; then
+    yaml_set "projects.${PROJECT_NAME}.git_branch" "$UPDATE_GIT_BRANCH"
+    echo "✓ Updated git_branch: ${UPDATE_GIT_BRANCH}"
+    updates_made=$((updates_made + 1))
+  fi
+
   # Add tags
   if [ ${#ADD_TAGS[@]} -gt 0 ]; then
     for tag in "${ADD_TAGS[@]}"; do

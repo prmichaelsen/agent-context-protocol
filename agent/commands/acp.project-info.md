@@ -74,6 +74,7 @@ Read all project fields from registry.
 
 **Actions**:
 - Extract required fields: path, type, description, status, timestamps
+- Extract git fields: git_origin, git_branch
 - Extract optional fields: tags, related_projects, dependencies
 - Check if project is current project (marked with ⭐)
 
@@ -87,6 +88,7 @@ Format and display comprehensive project details.
 - Display project name with current indicator
 - Show type, status, path, description
 - Display timestamps (created, modified, accessed)
+- Display git info (origin, branch) if available
 - Show tags (if present)
 - Show related projects (if present)
 - Show dependencies by package manager (npm, pip, cargo, go)
@@ -229,6 +231,7 @@ Dependencies:
 - [`@acp.project-set`](acp.project-set.md) - Switch to a project
 - [`@acp.project-update`](acp.project-update.md) - Update project metadata
 - [`@acp.projects-sync`](acp.projects-sync.md) - Sync registry with filesystem
+- [`@acp.projects-restore`](acp.projects-restore.md) - Restore projects from git origins
 
 ---
 

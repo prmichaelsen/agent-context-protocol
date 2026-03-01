@@ -84,6 +84,11 @@ main() {
   last_modified=$(yaml_query ".projects.${project_name}.last_modified")
   last_accessed=$(yaml_query ".projects.${project_name}.last_accessed")
   
+  # Get git fields
+  local git_origin git_branch
+  git_origin=$(yaml_query ".projects.${project_name}.git_origin" 2>/dev/null || echo "")
+  git_branch=$(yaml_query ".projects.${project_name}.git_branch" 2>/dev/null || echo "")
+
   # Get optional fields
   local tags related_projects dependencies
   tags=$(yaml_query ".projects.${project_name}.tags" 2>/dev/null || echo "")
@@ -124,7 +129,19 @@ main() {
   echo "  Last Modified: ${last_modified}"
   echo "  Last Accessed: ${last_accessed}"
   echo ""
-  
+
+  # Git info (if present)
+  if [ -n "$git_origin" ] && [ "$git_origin" != "null" ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Git:"
+    echo "  Origin: ${git_origin}"
+    if [ -n "$git_branch" ] && [ "$git_branch" != "null" ]; then
+      echo "  Branch: ${git_branch}"
+    fi
+    echo ""
+  fi
+
   # Tags (if present)
   if [ -n "$tags" ] && [ "$tags" != "null" ]; then
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

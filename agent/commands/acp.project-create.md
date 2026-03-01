@@ -600,6 +600,7 @@ Location: ~/dev/experiments/experiment/
 - [`@acp.init`](acp.init.md) - Initialize context in created project
 - [`@acp.plan`](acp.plan.md) - Plan milestones and tasks
 - [`@git.init`](git.init.md) - Initialize git repository
+- [`@acp.projects-restore`](acp.projects-restore.md) - Restore projects from git origins on new machines
 
 ---
 
@@ -660,6 +661,7 @@ Location: ~/dev/experiments/experiment/
 - Projects can be created anywhere, not just ~/.acp/projects/
 - Full ACP installation means all commands and templates are available
 - progress.yaml starts empty (plan milestones with @acp.plan)
+- After adding a git remote, run `@acp.projects-sync` to record `git_origin` in the registry for `@acp.projects-restore` support
 
 ---
 

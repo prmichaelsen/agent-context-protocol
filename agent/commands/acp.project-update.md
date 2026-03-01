@@ -42,7 +42,7 @@ Extract project name and update options.
 
 **Actions**:
 - Parse project name (required)
-- Parse update flags (--status, --description, --type, etc.)
+- Parse update flags (--status, --description, --type, --git-origin, --git-branch, etc.)
 - Validate at least one update option provided
 
 **Expected Outcome**: Arguments parsed successfully
@@ -77,6 +77,8 @@ Update registry with new values.
 - Update status (if provided)
 - Update description (if provided)
 - Update type (if provided)
+- Update git_origin (if provided)
+- Update git_branch (if provided)
 - Add tags (if provided)
 - Remove tags (if provided)
 - Add related projects (if provided)
@@ -185,7 +187,15 @@ Run 'acp.project-info.sh remember-mcp-server' to see updated information
 
 **Result**: remember-mcp added to related_projects array
 
-### Example 5: Multiple Updates
+### Example 5: Set Git Origin
+
+**Context**: Manually set git remote URL for a project
+
+**Invocation**: `@acp.project-update my-project --git-origin git@github.com:user/my-project.git --git-branch main`
+
+**Result**: git_origin and git_branch set in registry, enabling `@acp.projects-restore`
+
+### Example 6: Multiple Updates
 
 **Context**: Update several fields at once
 
@@ -193,7 +203,7 @@ Run 'acp.project-info.sh remember-mcp-server' to see updated information
 
 **Result**: Status updated, production tag added, development tag removed
 
-### Example 6: Remove Tag
+### Example 7: Remove Tag
 
 **Context**: Remove obsolete tag
 
@@ -209,6 +219,7 @@ Run 'acp.project-info.sh remember-mcp-server' to see updated information
 - [`@acp.project-list`](acp.project-list.md) - List all projects
 - [`@acp.project-set`](acp.project-set.md) - Switch to a project
 - [`@acp.projects-sync`](acp.projects-sync.md) - Sync registry with filesystem
+- [`@acp.projects-restore`](acp.projects-restore.md) - Restore projects from git origins
 
 ---
 

@@ -192,7 +192,6 @@ init_global_manifest() {
     fi
     
     # Create ~/.acp directory if needed
-    mkdir -p "$HOME/.acp/packages"
     mkdir -p "$HOME/.acp/projects"
     
     # Create manifest
@@ -296,7 +295,22 @@ init_global_acp() {
     
     # Create ~/.acp directory
     mkdir -p "$global_dir"
-    
+
+    # Create .gitignore for global ACP directory
+    if [ ! -f "$global_dir/.gitignore" ]; then
+        cat > "$global_dir/.gitignore" << 'GITIGNORE'
+# Project repos have their own git
+projects/
+
+# Claude Code session data
+.claude/
+
+# Common noise
+*.log
+node_modules/
+GITIGNORE
+    fi
+
     # Get the directory where this script is located
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -1600,14 +1614,41 @@ last_updated: ${timestamp}
 EOF
 }
 
+# Get git remote origin URL for a directory
+# Usage: origin=$(get_git_origin "/path/to/repo")
+# Returns: Git remote origin URL, or empty string if not a git repo or no origin
+get_git_origin() {
+    local dir="${1:-.}"
+    if [ -d "$dir/.git" ] || git -C "$dir" rev-parse --git-dir >/dev/null 2>&1; then
+        git -C "$dir" remote get-url origin 2>/dev/null || echo ""
+    else
+        echo ""
+    fi
+}
+
+# Get current git branch for a directory
+# Usage: branch=$(get_git_branch "/path/to/repo")
+# Returns: Current branch name, or empty string if not a git repo
+get_git_branch() {
+    local dir="${1:-.}"
+    if [ -d "$dir/.git" ] || git -C "$dir" rev-parse --git-dir >/dev/null 2>&1; then
+        git -C "$dir" branch --show-current 2>/dev/null || echo ""
+    else
+        echo ""
+    fi
+}
+
 # Register project in registry
-# Usage: register_project "project-name" "/path/to/project" "project-type" "description"
+# Usage: register_project "project-name" "/path/to/project" "project-type" "description" ["git_origin"] ["git_branch"]
 # NOTE: Caller must source acp.yaml-parser.sh before calling this function
+# git_origin and git_branch are optional; if omitted, auto-detected from project path
 register_project() {
     local project_name="$1"
     local project_path="$2"
     local project_type="$3"
     local project_description="$4"
+    local git_origin="${5:-}"
+    local git_branch="${6:-}"
     local registry_path
     registry_path=$(get_projects_registry_path)
     
@@ -1634,7 +1675,24 @@ register_project() {
     yaml_set "projects.${project_name}.last_modified" "$timestamp"
     yaml_set "projects.${project_name}.last_accessed" "$timestamp"
     yaml_set "projects.${project_name}.status" "active"
-    
+
+    # Auto-detect git origin/branch if not provided
+    local expanded_path="${project_path/#\~/$HOME}"
+    if [ -z "$git_origin" ] && [ -d "$expanded_path" ]; then
+        git_origin=$(get_git_origin "$expanded_path")
+    fi
+    if [ -z "$git_branch" ] && [ -d "$expanded_path" ]; then
+        git_branch=$(get_git_branch "$expanded_path")
+    fi
+
+    # Set git fields if available
+    if [ -n "$git_origin" ]; then
+        yaml_set "projects.${project_name}.git_origin" "$git_origin"
+    fi
+    if [ -n "$git_branch" ]; then
+        yaml_set "projects.${project_name}.git_branch" "$git_branch"
+    fi
+
     # Set as current project if first project
     local current
     current=$(yaml_get "$registry_path" "current_project" 2>/dev/null || echo "")

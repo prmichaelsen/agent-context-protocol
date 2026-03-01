@@ -20,7 +20,7 @@
 
 ## What This Command Does
 
-Lists all projects registered in `~/.acp/projects.yaml` with their metadata. Shows project type, status, description, and last accessed time. Highlights the current active project with a ⭐ marker.
+Lists all projects registered in `~/.acp/projects.yaml` with their metadata. Shows project type, status, description, git origin (when available), and last accessed time. Highlights the current active project with a ⭐ marker.
 
 **Key Distinction**: This command lists projects IN the registry. Use `@acp.projects-sync` to discover projects NOT YET registered.
 
@@ -174,6 +174,7 @@ Showing 2 of 3 projects
 - [`@acp.project-set`](acp.project-set.md) - Switch to project
 - [`@acp.projects-sync`](acp.projects-sync.md) - Discover unregistered projects
 - [`@acp.project-info`](acp.project-info.md) - Show project details
+- [`@acp.projects-restore`](acp.projects-restore.md) - Restore projects from git origins
 
 ---
 

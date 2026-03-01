@@ -75,15 +75,23 @@ for project_dir in "$PROJECTS_DIR"/*; do
         project_desc=$(echo "$project_desc" | tr '\n' ' ' | sed 's/  */ /g' | cut -c1-80)
     fi
     
+    # Detect git info
+    local git_origin git_branch
+    git_origin=$(get_git_origin "$project_dir")
+    git_branch=$(get_git_branch "$project_dir")
+
     # Prompt to register
     echo "  Type: $project_type"
     echo "  Description: $project_desc"
+    if [ -n "$git_origin" ]; then
+        echo "  Git Origin: $git_origin"
+    fi
     echo ""
     read -p "  Register this project? (Y/n) " -n 1 -r
     echo ""
-    
+
     if [[ $REPLY =~ ^[Yy]$ ]] || [ -z "$REPLY" ]; then
-        register_project "$project_name" "$project_dir" "$project_type" "$project_desc"
+        register_project "$project_name" "$project_dir" "$project_type" "$project_desc" "$git_origin" "$git_branch"
         echo "${GREEN}  ✓ Registered${NC}"
         REGISTERED_COUNT=$((REGISTERED_COUNT + 1))
     else
@@ -92,13 +100,56 @@ for project_dir in "$PROJECTS_DIR"/*; do
     echo ""
 done
 
+# Backfill git_origin/git_branch for already-registered projects missing them
+BACKFILL_COUNT=0
+
+source_yaml_parser
+yaml_parse "$REGISTRY_PATH"
+
+PROJECT_NAMES=$(yaml_query ".projects" 2>/dev/null | grep -E "^[a-z0-9-]+:" | sed 's/:$//' || true)
+
+for project_name in $PROJECT_NAMES; do
+    existing_origin=$(yaml_query ".projects.${project_name}.git_origin" 2>/dev/null || echo "")
+    if [ -n "$existing_origin" ] && [ "$existing_origin" != "null" ]; then
+        continue
+    fi
+
+    # Resolve project path
+    project_path=$(yaml_query ".projects.${project_name}.path" 2>/dev/null || echo "")
+    expanded_path="${project_path/#\~/$HOME}"
+
+    if [ ! -d "$expanded_path" ]; then
+        continue
+    fi
+
+    git_origin=$(get_git_origin "$expanded_path")
+    git_branch=$(get_git_branch "$expanded_path")
+
+    if [ -n "$git_origin" ]; then
+        yaml_set "projects.${project_name}.git_origin" "$git_origin"
+        if [ -n "$git_branch" ]; then
+            yaml_set "projects.${project_name}.git_branch" "$git_branch"
+        fi
+        BACKFILL_COUNT=$((BACKFILL_COUNT + 1))
+        echo "${GREEN}✓${NC} ${project_name} (backfilled git_origin)"
+    fi
+done
+
+if [ $BACKFILL_COUNT -gt 0 ]; then
+    yaml_set "last_updated" "$(get_timestamp)"
+    yaml_write "$REGISTRY_PATH"
+    echo ""
+    echo "${GREEN}✓${NC} Backfilled git info for $BACKFILL_COUNT existing projects"
+fi
+
 # Summary
 echo ""
 echo "${BOLD}Sync Complete${NC}"
 echo "  Found: $FOUND_COUNT projects"
 echo "  Registered: $REGISTERED_COUNT new projects"
+echo "  Backfilled: $BACKFILL_COUNT git origins"
 echo ""
 
-if [ $REGISTERED_COUNT -gt 0 ]; then
+if [ $REGISTERED_COUNT -gt 0 ] || [ $BACKFILL_COUNT -gt 0 ]; then
     echo "Run ${BOLD}@acp.project-list${NC} to see all registered projects"
 fi

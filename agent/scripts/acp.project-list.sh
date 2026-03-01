@@ -108,6 +108,10 @@ for project_name in $PROJECT_NAMES; do
     fi
     
     echo "  ${project_desc}"
+    project_origin=$(yaml_query ".projects.${project_name}.git_origin" 2>/dev/null || echo "")
+    if [ -n "$project_origin" ] && [ "$project_origin" != "null" ]; then
+        echo "  Git: ${project_origin}"
+    fi
     echo "  Last accessed: ${project_accessed}"
     echo ""
 done
