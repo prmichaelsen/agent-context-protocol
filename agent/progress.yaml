@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.9.2
+  version: 5.9.3
   started: 2026-02-16
   status: in_progress
   current_milestone: M12
@@ -233,11 +233,11 @@ milestones:
   - id: M12
     name: Sessions System
     status: in_progress
-    progress: 50
+    progress: 75
     started: 2026-03-01
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 4
     notes: |
       📋 Milestone 12: Sessions System
@@ -1572,12 +1572,18 @@ tasks:
 
     - id: task-93
       name: "@acp.sessions Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-12-sessions-system/task-93-sessions-command.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-01
       notes: |
-        Dedicated command with NLP argument parsing, CLI flags, natural language support
+        ✅ @acp.sessions command complete
+        - Created acp.sessions.md with full template structure
+        - CLI arguments: list, clean, deregister, count, --project, --id
+        - Natural language mapping: "what's running?", "stop my session", "clean up", etc.
+        - Output formats for list, clean, deregister, count
+        - Added to package.yaml (command + script, both experimental)
+        - 5 examples covering common use cases
 
     - id: task-94
       name: Testing and Documentation

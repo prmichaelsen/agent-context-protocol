@@ -172,6 +172,15 @@ contents:
       description: Validate ACP structure
       scripts: []
     
+    # Sessions Command (Experimental)
+    - name: acp.sessions.md
+      description: Manage and view active agent sessions
+      experimental: true
+      scripts:
+        - acp.sessions.sh
+        - acp.common.sh
+        - acp.yaml-parser.sh
+
     # Git Commands (LLM-based, no scripts)
     - name: git.commit.md
       description: Intelligent version-aware commits
@@ -229,6 +238,11 @@ contents:
     - name: acp.version-update.sh
       description: Version update script
     
+    # Sessions Scripts (Experimental)
+    - name: acp.sessions.sh
+      description: Session tracking and management script
+      experimental: true
+
     # Installation Scripts
     - name: acp.install.sh
       description: ACP installation script
