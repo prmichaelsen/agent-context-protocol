@@ -1465,13 +1465,15 @@ tasks:
 
     - id: task-87
       name: Legacy Codebase Refactor Benchmark Task
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-87-legacy-refactor-benchmark.md
       estimated_hours: 4-6
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-03-01
       notes: |
-        6-step benchmark: inherit messy Express app, analyze, refactor structure, add tests,
-        fix bugs, add search/filter feature, document. Tests planning under constraints.
+        Created legacy-refactor benchmark: seed app (messy server.js with 3 bugs), 6 steps
+        (understand, refactor, test, fix-bugs, add-feature, docs), config.yaml with seed_dir,
+        expected structure, verify function. Added seed directory support to run-single.sh.
 
     - id: task-88
       name: Event-Driven Order Pipeline Benchmark Task

@@ -1,0 +1,10 @@
+directories:
+  - routes/
+  - middleware/
+  - tests/
+files:
+  - package.json
+  - routes/notes.js
+  - tests/*.test.js
+  - README.md
+  - REFACTOR_PLAN.md

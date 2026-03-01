@@ -1,0 +1,35 @@
+name: legacy-refactor
+description: Refactor a legacy Express app, add tests, fix bugs, and extend with new features
+complexity: complex
+domain: web/refactoring
+timeout_minutes: 60
+max_turns: 40
+
+expected_structure: expected/structure.yaml
+seed_dir: seed/
+
+steps:
+  - id: understand
+    prompt_file: steps/01-understand.md
+    phase: planning
+    max_turns: 15
+  - id: refactor-structure
+    prompt_file: steps/02-refactor-structure.md
+    phase: coding
+    max_turns: 30
+  - id: add-tests
+    prompt_file: steps/03-add-tests.md
+    phase: testing
+    max_turns: 25
+  - id: fix-bugs
+    prompt_file: steps/04-fix-bugs.md
+    phase: debugging
+    max_turns: 20
+  - id: add-feature
+    prompt_file: steps/05-add-feature.md
+    phase: coding
+    max_turns: 25
+  - id: documentation
+    prompt_file: steps/06-documentation.md
+    phase: coding
+    max_turns: 10

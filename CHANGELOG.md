@@ -5,6 +5,16 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.6.1] - 2026-03-01
+
+### Added
+
+**Legacy Refactor Benchmark** (Milestone 11 — Task 87):
+- `legacy-refactor` benchmark task: 6-step refactoring challenge starting from messy seed app
+- Seed application: working but poorly structured Express CRUD app with intentional bugs
+- Seed directory support in run-single.sh (copies seed files + runs npm install before step 1)
+- Verification function `verify_legacy_refactor()` in verify.sh
+
 ## [5.6.0] - 2026-03-01
 
 ### Added

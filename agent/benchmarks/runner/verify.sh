@@ -179,3 +179,42 @@ verify_complex_auth_system() {
     export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
     return $all_pass
 }
+
+# Verify the legacy-refactor benchmark task
+# Args: $1 = workspace directory
+# Sets: FILE_EXISTS, FILE_EXECUTABLE, OUTPUT_CORRECT
+# Returns: 0 if all checks pass, 1 if any fail
+verify_legacy_refactor() {
+    local workspace="$1"
+    local all_pass=0
+
+    FILE_EXISTS="false"
+    FILE_EXECUTABLE="false"
+    OUTPUT_CORRECT="false"
+
+    # Check 1: refactored structure exists (routes dir, REFACTOR_PLAN.md, README.md)
+    if [ -f "$workspace/package.json" ] && [ -d "$workspace/routes" ] && \
+       [ -f "$workspace/REFACTOR_PLAN.md" ] && [ -f "$workspace/README.md" ]; then
+        FILE_EXISTS="true"
+    else
+        all_pass=1
+    fi
+
+    # Check 2: middleware and tests directories exist
+    if [ -d "$workspace/middleware" ] && [ -d "$workspace/tests" ]; then
+        FILE_EXECUTABLE="true"
+    else
+        all_pass=1
+    fi
+
+    # Check 3: tests exist and pass
+    if [ -f "$workspace/package.json" ] && [ -d "$workspace/tests" ]; then
+        local test_result
+        test_result=$(cd "$workspace" && npm test 2>&1) && OUTPUT_CORRECT="true" || all_pass=1
+    else
+        all_pass=1
+    fi
+
+    export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
+    return $all_pass
+}

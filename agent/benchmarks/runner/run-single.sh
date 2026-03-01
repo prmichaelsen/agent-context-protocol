@@ -58,6 +58,26 @@ echo "  Workspace: $WORKSPACE"
 # --- Setup workspace ---
 (cd "$WORKSPACE" && git init --quiet)
 
+# --- Copy seed files if configured ---
+if [ -f "$TASK_DIR/config.yaml" ]; then
+    SEED_DIR=$(grep '^seed_dir:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
+    if [ -n "$SEED_DIR" ]; then
+        SEED_PATH="$TASK_DIR/$SEED_DIR"
+        if [ -d "$SEED_PATH" ]; then
+            echo "  Copying seed files from $SEED_DIR..."
+            cp -r "$SEED_PATH"/* "$WORKSPACE/"
+            # Install npm dependencies if package.json exists
+            if [ -f "$WORKSPACE/package.json" ]; then
+                echo "  Installing seed dependencies..."
+                (cd "$WORKSPACE" && npm install --quiet 2>/dev/null) || true
+            fi
+            echo "  Seed files ready"
+        else
+            echo "  Warning: seed_dir '$SEED_DIR' not found at $SEED_PATH"
+        fi
+    fi
+fi
+
 ACP_PREAMBLE=""
 ACP_PLAN_SUFFIX=""
 ACP_PROCEED_SUFFIX=""
