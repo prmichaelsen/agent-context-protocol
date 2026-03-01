@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.9.1
+  version: 5.9.2
   started: 2026-02-16
   status: in_progress
   current_milestone: M12
@@ -233,11 +233,11 @@ milestones:
   - id: M12
     name: Sessions System
     status: in_progress
-    progress: 25
+    progress: 50
     started: 2026-03-01
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 4
     notes: |
       📋 Milestone 12: Sessions System
@@ -1558,12 +1558,17 @@ tasks:
 
     - id: task-92
       name: Init and Report Integration
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-12-sessions-system/task-92-sessions-init-integration.md
       estimated_hours: 1-2
-      completed_date: null
+      completed_date: 2026-03-01
       notes: |
-        Directive-level integration in @acp.init, @acp.status, @acp.report (optional steps, graceful skip)
+        ✅ Directive-level integration complete
+        - @acp.init: Step 1.5 — register session + show sibling sessions
+        - @acp.status: Step 5.5 — display session count
+        - @acp.report: Step 10 — deregister session
+        - All steps have "if script exists" guard
+        - No changes to .sh files for existing commands
 
     - id: task-93
       name: "@acp.sessions Command"

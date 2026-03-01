@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.9.2] - 2026-03-01
+
+### Added
+- Session registration step in `@acp.init` (Step 1.5 — register + show siblings)
+- Session count display in `@acp.status` (Step 5.5 — "Sessions: N active")
+- Session deregistration step in `@acp.report` (Step 10 — end session)
+- All integration steps guarded with "if script exists" for graceful degradation
+
 ## [5.9.1] - 2026-03-01
 
 ### Added

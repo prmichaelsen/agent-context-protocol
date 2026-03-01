@@ -49,6 +49,25 @@ Check if newer version of ACP is available.
 
 **Expected Outcome**: User informed of ACP version status
 
+### 1.5. Register Session and Show Siblings (Optional)
+
+Register this agent session and display any active sibling sessions.
+
+**Actions**:
+- If `./agent/scripts/acp.sessions.sh` exists, run `./agent/scripts/acp.sessions.sh register --project <current-project> --pid <agent-pid>`
+- If `./agent/scripts/acp.sessions.sh` exists, run `./agent/scripts/acp.sessions.sh list` and display active sibling sessions
+
+**Display format** (compact, one line per sibling):
+```
+Active Sessions: 2 others
+  remember-core — task-12 (Implement Auth) — 20m ago
+  agentbase.me — task-5 (Fix API Routes) — 8m ago
+```
+
+**Expected Outcome**: Session registered, sibling sessions displayed
+
+**Note**: If `./agent/scripts/acp.sessions.sh` does not exist, skip this step silently.
+
 ### 2. Read All Agent Documentation
 
 Load complete context from the agent/ directory.
