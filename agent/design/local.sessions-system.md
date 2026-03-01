@@ -2,7 +2,7 @@
 
 **Concept**: Global session tracking for concurrent multi-project agent work from a single IDE instance
 **Created**: 2026-03-01
-**Status**: Design Specification
+**Status**: Implemented
 
 ---
 
@@ -220,8 +220,8 @@ No migration needed. This is a new feature with a new file (`~/.acp/sessions.yam
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Create M12 milestone and implement MVP (4 tasks)
+**Status**: Implemented
+**Recommendation**: M12 milestone complete — sessions system implemented
 **Related Documents**:
 - [Clarification 3: Sessions YAML](../clarifications/clarification-3-sessions-yaml.md)
 - [Clarification 4: Sessions YAML Open Questions](../clarifications/clarification-4-sessions-yaml-open-qs.md)

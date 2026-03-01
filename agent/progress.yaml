@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.9.3
+  version: 5.10.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M12
@@ -232,12 +232,12 @@ milestones:
 
   - id: M12
     name: Sessions System
-    status: in_progress
-    progress: 75
+    status: completed
+    progress: 100
     started: 2026-03-01
-    completed: null
+    completed: 2026-03-01
     estimated_weeks: 1-2
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 4
     notes: |
       📋 Milestone 12: Sessions System
@@ -1587,12 +1587,18 @@ tasks:
 
     - id: task-94
       name: Testing and Documentation
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-12-sessions-system/task-94-sessions-testing-documentation.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-01
       notes: |
-        E2E tests (15+ scenarios), AGENT.md, README.md, CHANGELOG.md, version bump
+        ✅ Testing and documentation complete
+        - Created e2e/acp.sessions.test.sh (16 tests, 40 assertions, 100% pass rate)
+        - Updated AGENT.md with Sessions System section
+        - Updated README.md with @acp.sessions command
+        - Updated CHANGELOG.md with version entries
+        - Design doc status changed to Implemented
+        - Version bumped to 5.10.0 (minor — new feature)
 
   future_enhancements:
     - id: task-30

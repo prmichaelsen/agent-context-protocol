@@ -587,33 +587,76 @@ do_heartbeat() {
         return 1
     fi
 
-    local i=0
-    while [ "$i" -lt "$count" ]; do
-        local sid
-        sid=$(yaml_query ".sessions[${i}].id" 2>/dev/null || echo "")
-        if [ "$sid" = "$target_id" ]; then
-            local now
-            now=$(get_timestamp)
-            yaml_set ".sessions[${i}].last_activity" "$now"
-            yaml_set ".sessions[${i}].status" "active"
+    # Find the session and rebuild with updated fields
+    local now
+    now=$(get_timestamp)
+    local found=false
 
-            if [ -n "$new_task" ]; then
-                yaml_set ".sessions[${i}].current_task" "$new_task"
+    local tmp_file="${SESSIONS_FILE}.tmp"
+    {
+        echo "# ~/.acp/sessions.yaml"
+        echo "# Managed by acp.sessions.sh — do not edit manually"
+        echo ""
+        echo "sessions:"
+
+        local i=0
+        while [ "$i" -lt "$count" ]; do
+            local id proj desc started last_activity status milestone task pid terminal remote_url
+            id=$(yaml_query ".sessions[${i}].id" 2>/dev/null || echo "")
+            proj=$(yaml_query ".sessions[${i}].project" 2>/dev/null || echo "")
+            desc=$(yaml_query ".sessions[${i}].description" 2>/dev/null || echo "")
+            started=$(yaml_query ".sessions[${i}].started" 2>/dev/null || echo "")
+            last_activity=$(yaml_query ".sessions[${i}].last_activity" 2>/dev/null || echo "")
+            status=$(yaml_query ".sessions[${i}].status" 2>/dev/null || echo "active")
+            milestone=$(yaml_query ".sessions[${i}].current_milestone" 2>/dev/null || echo "")
+            task=$(yaml_query ".sessions[${i}].current_task" 2>/dev/null || echo "")
+            pid=$(yaml_query ".sessions[${i}].pid" 2>/dev/null || echo "")
+            terminal=$(yaml_query ".sessions[${i}].terminal" 2>/dev/null || echo "")
+            remote_url=$(yaml_query ".sessions[${i}].remote_url" 2>/dev/null || echo "")
+
+            # Normalize nulls
+            [ "$milestone" = "null" ] && milestone=""
+            [ "$task" = "null" ] && task=""
+            [ "$remote_url" = "null" ] && remote_url=""
+            [ "$desc" = "null" ] && desc=""
+
+            # Apply updates to the target session
+            if [ "$id" = "$target_id" ]; then
+                found=true
+                last_activity="$now"
+                status="active"
+                [ -n "$new_task" ] && task="$new_task"
+                [ -n "$new_description" ] && desc="$new_description"
             fi
-            if [ -n "$new_description" ]; then
-                yaml_set ".sessions[${i}].description" "$new_description"
-            fi
 
-            yaml_set ".last_updated" "$now"
-            yaml_write "$SESSIONS_FILE"
-            echo "Session ${target_id} updated."
-            return 0
-        fi
-        i=$((i + 1))
-    done
+            echo "  - id: ${id}"
+            echo "    project: ${proj}"
+            echo "    description: ${desc}"
+            echo "    started: ${started}"
+            echo "    last_activity: ${last_activity}"
+            echo "    status: ${status}"
+            echo "    current_milestone: ${milestone}"
+            echo "    current_task: ${task}"
+            echo "    pid: ${pid}"
+            echo "    terminal: ${terminal}"
+            echo "    remote_url: ${remote_url}"
 
-    echo "Session ${target_id} not found."
-    return 1
+            i=$((i + 1))
+        done
+
+        echo ""
+        echo "last_updated: ${now}"
+    } > "$tmp_file"
+
+    if [ "$found" = "true" ]; then
+        mv "$tmp_file" "$SESSIONS_FILE"
+        echo "Session ${target_id} updated."
+        return 0
+    else
+        rm -f "$tmp_file"
+        echo "Session ${target_id} not found."
+        return 1
+    fi
 }
 
 # ============================================================================

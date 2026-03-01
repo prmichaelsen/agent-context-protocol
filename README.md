@@ -137,6 +137,9 @@ This will:
 - **`@acp.project-remove`** - Remove project from registry
 - **`@acp.projects-sync`** - Discover unregistered projects
 
+**Sessions** (Experimental):
+- **`@acp.sessions`** - Manage and view active agent sessions across projects
+
 **Git Commands**:
 - **`@git.commit`** - Intelligent version-aware commits
 - **`@git.init`** - Initialize git repository

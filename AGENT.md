@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.9.3
+**Version**: 5.10.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -757,6 +757,44 @@ When working in any ACP project, you can:
 4. **Get project info**: Use `@acp.project-info` for detailed metadata
 
 **Automatic Tracking**: The `@acp.init` command automatically reads the registry and reports the current project context.
+
+---
+
+## Sessions System
+
+ACP supports global session tracking via `~/.acp/sessions.yaml` for awareness of concurrent agent work across projects. When multiple `claude` terminals run from a single IDE instance, sessions give each agent visibility into what other agents are doing.
+
+This is an advisory-only visibility layer — no locking or coordination. Sessions are registered at `@acp.init` and deregistered at `@acp.report`, with automatic stale cleanup for crashed terminals.
+
+### What sessions.yaml Tracks
+
+Each session entry contains: session ID, project name, description, timestamps (started, last_activity), status (active/idle), current milestone and task, PID (for stale detection), terminal, and optional remote URL.
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| [`@acp.sessions`](agent/commands/acp.sessions.md) | List, clean, deregister, or count sessions |
+| `@acp.sessions list` | Show all active sessions |
+| `@acp.sessions clean` | Remove stale sessions (dead PIDs, timeouts) |
+| `@acp.sessions deregister` | End current session |
+
+### Integration with Other Commands
+
+| Command | Integration |
+|---------|-------------|
+| `@acp.init` | Registers session and displays active siblings |
+| `@acp.status` | Shows session count ("Sessions: N active") |
+| `@acp.report` | Deregisters session on completion |
+
+All integrations are optional — if `acp.sessions.sh` is missing, commands skip the session step silently.
+
+### Session Lifecycle
+
+1. **Register**: `@acp.init` registers a session with project, PID, timestamps
+2. **Heartbeat**: Activity updates via `acp.sessions.sh heartbeat`
+3. **Deregister**: `@acp.report` ends the session, or manual via `@acp.sessions deregister`
+4. **Stale Cleanup**: Dead PIDs removed immediately; inactive >2h removed; inactive >30m marked idle
 
 ---
 

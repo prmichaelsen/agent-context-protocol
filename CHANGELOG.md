@@ -5,13 +5,18 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.9.3] - 2026-03-01
+## [5.10.0] - 2026-03-01
 
 ### Added
-- `@acp.sessions` command — dedicated session management with NLP support
-- CLI arguments: `list`, `clean`, `deregister`, `count`, `--project`, `--id`
-- Natural language argument mapping ("what's running?", "stop my session", etc.)
-- Added `acp.sessions.md` and `acp.sessions.sh` to `package.yaml`
+- **Sessions System** (M12) — global session tracking for concurrent multi-project agent work
+  - `acp.sessions.sh` — self-contained script with 6 subcommands (register, deregister, list, clean, heartbeat, count)
+  - `@acp.sessions` command — dedicated session management with NLP argument support
+  - `sessions.template.yaml` — template for `~/.acp/sessions.yaml`
+  - Directive-level integration: `@acp.init` (register), `@acp.status` (count), `@acp.report` (deregister)
+  - PPID-based stale detection with dead-PID cleanup and timeout removal
+  - E2E test suite: 16 tests, 40 assertions, 100% pass rate
+  - AGENT.md Sessions System documentation section
+  - Advisory-only — no locking or coordination
 
 ## [5.9.2] - 2026-03-01
 
