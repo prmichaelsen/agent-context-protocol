@@ -59,7 +59,6 @@ echo "  Workspace: $WORKSPACE"
 (cd "$WORKSPACE" && git init --quiet)
 
 # --- Copy seed files if configured ---
-SKIP_ACP_INSTALL="false"
 if [ -f "$TASK_DIR/config.yaml" ]; then
     SEED_DIR=$(grep '^seed_dir:' "$TASK_DIR/config.yaml" | head -1 | awk '{print $2}' || true)
     if [ -n "$SEED_DIR" ]; then
@@ -73,8 +72,23 @@ if [ -f "$TASK_DIR/config.yaml" ]; then
         fi
     fi
 
-    # Copy ACP seed overlay (only in ACP mode)
-    if [ "$MODE" = "acp" ]; then
+    # Install npm dependencies if package.json exists
+    if [ -f "$WORKSPACE/package.json" ]; then
+        echo "  Installing seed dependencies..."
+        (cd "$WORKSPACE" && npm install --quiet 2>/dev/null) || true
+    fi
+fi
+
+ACP_PREAMBLE=""
+ACP_PLAN_SUFFIX=""
+ACP_PROCEED_SUFFIX=""
+if [ "$MODE" = "acp" ]; then
+    echo "  Installing ACP..."
+    (cd "$WORKSPACE" && bash "$PROJECT_ROOT/agent/scripts/acp.install.sh") > "$OUTPUT.acp-install.log" 2>&1
+    echo "  ACP installed"
+
+    # Copy ACP seed overlay AFTER ACP install (project-specific docs on top of ACP framework)
+    if [ -f "$TASK_DIR/config.yaml" ]; then
         SEED_DIR_ACP=$(grep '^seed_dir_acp:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
         if [ -n "$SEED_DIR_ACP" ]; then
             SEED_ACP_PATH="$TASK_DIR/$SEED_DIR_ACP"
@@ -88,30 +102,6 @@ if [ -f "$TASK_DIR/config.yaml" ]; then
         fi
     fi
 
-    # Install npm dependencies if package.json exists (after all seeds copied)
-    if [ -f "$WORKSPACE/package.json" ]; then
-        echo "  Installing seed dependencies..."
-        (cd "$WORKSPACE" && npm install --quiet 2>/dev/null) || true
-    fi
-
-    # Check if ACP install should be skipped (pre-initialized projects)
-    skip_flag=$(grep '^skip_acp_install:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
-    if [ "$skip_flag" = "true" ]; then
-        SKIP_ACP_INSTALL="true"
-    fi
-fi
-
-ACP_PREAMBLE=""
-ACP_PLAN_SUFFIX=""
-ACP_PROCEED_SUFFIX=""
-if [ "$MODE" = "acp" ]; then
-    if [ "$SKIP_ACP_INSTALL" = "true" ]; then
-        echo "  ACP pre-installed (skip_acp_install=true)"
-    else
-        echo "  Installing ACP..."
-        (cd "$WORKSPACE" && bash "$PROJECT_ROOT/agent/scripts/acp.install.sh") > "$OUTPUT.acp-install.log" 2>&1
-        echo "  ACP installed"
-    fi
     # Build preamble to trigger ACP init on the first prompt
     ACP_PREAMBLE="@agent/commands/acp.init.md
 

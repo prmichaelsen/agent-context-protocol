@@ -8,7 +8,6 @@ max_turns: 40
 expected_structure: expected/structure.yaml
 seed_dir: seed-base/
 seed_dir_acp: seed-acp/
-skip_acp_install: true
 
 steps:
   - id: implement-tasks
