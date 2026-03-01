@@ -1,0 +1,38 @@
+name: acp-project
+description: Pre-initialized ACP project benchmark — tests value of existing documentation vs no docs
+complexity: complex
+domain: fullstack/api
+timeout_minutes: 120
+max_turns: 40
+
+expected_structure: expected/structure.yaml
+seed_dir: seed-base/
+seed_dir_acp: seed-acp/
+skip_acp_install: true
+
+steps:
+  - id: implement-tasks
+    prompt_file_acp: steps/01-acp-implement-tasks.md
+    prompt_file_baseline: steps/01-baseline-implement-tasks.md
+    phase: coding
+    max_turns: 20
+  - id: implement-projects
+    prompt_file_acp: steps/02-acp-implement-projects.md
+    prompt_file_baseline: steps/02-baseline-implement-projects.md
+    phase: coding
+    max_turns: 15
+  - id: add-tests
+    prompt_file_acp: steps/03-acp-add-tests.md
+    prompt_file_baseline: steps/03-baseline-add-tests.md
+    phase: testing
+    max_turns: 25
+  - id: notifications
+    prompt_file_acp: steps/04-acp-notifications.md
+    prompt_file_baseline: steps/04-baseline-notifications.md
+    phase: coding
+    max_turns: 25
+  - id: documentation
+    prompt_file_acp: steps/05-acp-documentation.md
+    prompt_file_baseline: steps/05-baseline-documentation.md
+    phase: coding
+    max_turns: 10

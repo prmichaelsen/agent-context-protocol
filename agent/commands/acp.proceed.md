@@ -12,7 +12,7 @@
 > - YOU MUST IMMEDIATELY BEGIN IMPLEMENTING THE CURRENT OR NEXT TASK.
 > - Follow **Steps 1-5** (Single-Task Mode).
 >
-> **If autonomous arguments detected (`--complete`, `--auto`, `--finish-milestone`, or natural language like "finish milestone", "just finish everything", "complete all tasks"):**
+> **If autonomous arguments detected (`--complete`, `--auto`, `--autonomous`, `--finish-milestone`, or natural language like "finish milestone", "just finish everything", "complete all tasks"):**
 > - Follow **Autonomous Mode** section.
 > - Do NOT start implementing individual tasks until confirmation is received.
 >
@@ -53,6 +53,7 @@ This command supports both CLI-style flags and natural language arguments.
 | `--complete` | Complete all remaining tasks in current milestone |
 | `--finish-milestone` | Same as `--complete` (explicit name) |
 | `--auto` | Same as `--complete` (short form) |
+| `--autonomous` | Same as `--complete` (explicit form) |
 
 ### Commit Flags (all equivalent — implied by `--complete`)
 
@@ -86,7 +87,7 @@ The agent should detect autonomous intent from natural language following `@acp.
 | `@acp.proceed` | Single-Task (default) |
 
 **Matching rules**:
-- Look for keywords: `complete`, `finish`, `auto`, `all tasks`, `everything`, `milestone`
+- Look for keywords: `complete`, `finish`, `auto`, `autonomous`, `all tasks`, `everything`, `milestone`
 - Be generous with matching — if the user's intent is clearly "do everything", enter autonomous mode
 - When in doubt, **always show the confirmation prompt** before starting autonomous execution
 - Never enter autonomous mode silently — the confirmation gate is mandatory
@@ -229,7 +230,7 @@ When you invoke `@acp.proceed --complete` (or equivalent):
 
 ## Autonomous Mode
 
-> **These steps apply when `@acp.proceed` is invoked WITH `--complete`, `--auto`, `--finish-milestone`, or natural language indicating autonomous completion.**
+> **These steps apply when `@acp.proceed` is invoked WITH `--complete`, `--auto`, `--autonomous`, `--finish-milestone`, or natural language indicating autonomous completion.**
 >
 > **🚨 CRITICAL**: Do NOT start implementing tasks until the user confirms the plan.
 

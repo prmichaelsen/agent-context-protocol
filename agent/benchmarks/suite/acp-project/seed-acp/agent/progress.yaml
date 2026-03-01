@@ -1,0 +1,54 @@
+project: taskflow-api
+version: 0.1.0
+current_milestone: M1
+
+milestones:
+  - id: M1
+    name: MVP
+    status: in_progress
+    progress: 20
+    tasks_completed: 0
+    tasks_total: 5
+    notes: |
+      Auth and health endpoints working.
+      All other features stubbed. Need to implement task CRUD,
+      project CRUD, tests, notifications, and documentation.
+
+tasks:
+  milestone_1:
+    - id: task-1
+      name: Implement Task CRUD
+      status: not_started
+      file: agent/tasks/task-1-complete-task-crud.md
+      estimated_hours: 3
+
+    - id: task-2
+      name: Implement Project CRUD
+      status: not_started
+      file: agent/tasks/task-2-complete-project-crud.md
+      estimated_hours: 2
+
+    - id: task-3
+      name: Comprehensive Test Suite
+      status: not_started
+      file: agent/tasks/task-3-add-tests.md
+      estimated_hours: 4
+
+    - id: task-4
+      name: Notification System
+      status: not_started
+      file: agent/tasks/task-4-notifications.md
+      estimated_hours: 3
+
+    - id: task-5
+      name: API Documentation
+      status: not_started
+      file: agent/tasks/task-5-documentation.md
+      estimated_hours: 2
+
+next_steps:
+  - Implement task CRUD following agent/design/api-design.md
+  - Implement project CRUD following agent/design/api-design.md
+  - Write tests following agent/patterns/testing.md
+  - Build notification system following agent/design/notification-system.md
+  - Write README with full API docs

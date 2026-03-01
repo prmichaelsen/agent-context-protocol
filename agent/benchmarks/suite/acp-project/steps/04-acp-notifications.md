@@ -1,0 +1,1 @@
+Read agent/tasks/task-4-notifications.md and implement the notification system following agent/design/notification-system.md. Create the notification model, rewrite notification routes, and add triggers to task and project route handlers.

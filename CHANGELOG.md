@@ -5,6 +5,23 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.7.3] - 2026-03-01
+
+### Added
+
+**ACP-Initialized Project Benchmark** (Milestone 11 — Task 90):
+- Dual-seed benchmark: seed-base (Express app, 9 files) + seed-acp (agent/ directory, 14 files)
+- ACP mode gets pre-loaded designs, patterns, tasks, progress; baseline gets nothing
+- Mode-specific step prompts: ACP prompts are 1 line each, baseline prompts are 15-44 lines each
+- Runner enhanced: `seed_dir_acp` overlay, `skip_acp_install` config, `prompt_file_acp`/`prompt_file_baseline` support
+- Verify function and GitHub Actions workflow choice added
+- M11 complete (12/12 tasks)
+
+## [5.7.2] - 2026-03-01
+
+### Changed
+- Add `--autonomous` flag alias to `@acp.proceed` command (equivalent to `--complete` and `--auto`)
+
 ## [5.7.1] - 2026-03-01
 
 ### Added

@@ -1,0 +1,1 @@
+Read the project status in agent/progress.yaml and the task document for task-1. Follow the designs in agent/design/api-design.md and agent/design/data-model.md to implement full task CRUD. Use the error handling pattern from agent/patterns/error-handling.md and pagination from agent/patterns/api-conventions.md.

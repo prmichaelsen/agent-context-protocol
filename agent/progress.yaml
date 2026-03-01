@@ -210,25 +210,25 @@ milestones:
 
   - id: M11
     name: ACP Benchmark Suite
-    status: in_progress
-    progress: 92
+    status: completed
+    progress: 100
     started: 2026-02-28
-    completed: null
+    completed: 2026-03-01
     estimated_weeks: 3-5
-    tasks_completed: 11
+    tasks_completed: 12
     tasks_total: 12
     notes: |
-      📋 Milestone 11: ACP Benchmark Suite
+      📋 Milestone 11: ACP Benchmark Suite — Complete
       - Full E2E benchmark system: ACP vs baseline comparison
       - Multi-turn conversation steps via Claude CLI --resume
-      - 7 benchmark tasks: simple-cli-tool, medium-rest-api, complex-auth-system, legacy-refactor, order-pipeline, enterprise-task-manager
+      - 8 benchmark tasks: simple-cli-tool, medium-rest-api, complex-auth-system, legacy-refactor, order-pipeline, enterprise-task-manager, acp-project
       - LLM evaluator with 6-category rubric (1-10 + MISS/MEETS/EXCEEDS)
       - 5-run statistical averaging per configuration
       - Reports: YAML, Markdown, HTML dashboard
       - GitHub Actions on-demand workflow
       - Historical tracking via GitHub Pages
-      - 12 tasks (79-90): Runner, 7 Tasks, Evaluator, Reports, CI/CD, Docs
-      - Task 90 (acp-initialized-project benchmark) planned, not yet implemented
+      - 12 tasks (79-90): Runner, 8 Tasks, Evaluator, Reports, CI/CD, Docs
+      - Runner supports dual-seed (seed_dir + seed_dir_acp), mode-specific prompts, skip_acp_install
 
 tasks:
   milestone_1:
@@ -1508,14 +1508,18 @@ tasks:
 
     - id: task-90
       name: ACP-Initialized Project Benchmark Task
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-90-acp-initialized-project-benchmark.md
       estimated_hours: 8-12
+      actual_hours: 0.5
+      completed_date: 2026-03-01
       notes: |
-        Benchmark with dual-seed design: seed-base (both modes) + seed-acp (ACP mode only).
-        ACP seed includes full agent/ directory (AGENT.md, progress.yaml, designs, patterns,
-        milestones, tasks). Tests whether pre-existing ACP documentation helps agent produce
-        more consistent, higher quality output vs baseline with no docs.
+        Implemented acp-project benchmark with dual-seed design. Seed-base: 9-file Express app
+        with working auth/health and stubbed task/project/notification endpoints. Seed-acp:
+        14-file agent/ directory with AGENT.md, progress.yaml, 3 design docs, 3 pattern docs,
+        milestone, 5 task files. Runner enhanced: seed_dir_acp overlay, skip_acp_install,
+        mode-specific prompt files (prompt_file_acp/prompt_file_baseline). ACP prompts: 5 lines
+        total. Baseline prompts: 120 lines total. Verify function, GH Actions choice added.
 
   future_enhancements:
     - id: task-30

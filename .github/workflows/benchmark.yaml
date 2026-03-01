@@ -17,6 +17,7 @@ on:
           - legacy-refactor
           - order-pipeline
           - enterprise-task-manager
+          - acp-project
       mode:
         description: 'Mode to benchmark'
         required: true

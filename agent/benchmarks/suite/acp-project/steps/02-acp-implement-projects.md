@@ -1,0 +1,1 @@
+Read agent/tasks/task-2-complete-project-crud.md and implement project CRUD following the designs in agent/design/api-design.md and agent/design/data-model.md. Pay attention to the cascade delete behavior documented in the data model.

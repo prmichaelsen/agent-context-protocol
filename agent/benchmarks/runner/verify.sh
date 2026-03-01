@@ -304,3 +304,69 @@ verify_enterprise_task_manager() {
     export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
     return $all_pass
 }
+
+# Verify the acp-project benchmark task
+# Args: $1 = workspace directory
+# Sets: FILE_EXISTS, FILE_EXECUTABLE, OUTPUT_CORRECT
+# Returns: 0 if all checks pass, 1 if any fail
+verify_acp_project() {
+    local workspace="$1"
+    local all_pass=0
+
+    FILE_EXISTS="false"
+    FILE_EXECUTABLE="false"
+    OUTPUT_CORRECT="false"
+
+    # Check 1: key files exist (task model, project model, README)
+    if [ -f "$workspace/package.json" ] && [ -f "$workspace/src/index.js" ] && \
+       [ -f "$workspace/README.md" ]; then
+        # Check for task and project models (may be in src/models/ or other locations)
+        local task_model_found="false"
+        local project_model_found="false"
+        for candidate in "$workspace/src/models/task.js" "$workspace/src/models/tasks.js" \
+                          "$workspace/models/task.js" "$workspace/src/task.js"; do
+            if [ -f "$candidate" ]; then
+                task_model_found="true"
+                break
+            fi
+        done
+        for candidate in "$workspace/src/models/project.js" "$workspace/src/models/projects.js" \
+                          "$workspace/models/project.js" "$workspace/src/project.js"; do
+            if [ -f "$candidate" ]; then
+                project_model_found="true"
+                break
+            fi
+        done
+        if [ "$task_model_found" = "true" ] && [ "$project_model_found" = "true" ]; then
+            FILE_EXISTS="true"
+        else
+            all_pass=1
+        fi
+    else
+        all_pass=1
+    fi
+
+    # Check 2: tests directory exists with test files
+    if [ -d "$workspace/tests" ] || [ -d "$workspace/__tests__" ]; then
+        local test_count
+        test_count=$(find "$workspace/tests" "$workspace/__tests__" -name "*.test.js" -o -name "*.spec.js" 2>/dev/null | wc -l)
+        if [ "$test_count" -ge 2 ]; then
+            FILE_EXECUTABLE="true"
+        else
+            all_pass=1
+        fi
+    else
+        all_pass=1
+    fi
+
+    # Check 3: tests pass
+    if [ "$FILE_EXISTS" = "true" ] && [ "$FILE_EXECUTABLE" = "true" ]; then
+        local test_result
+        test_result=$(cd "$workspace" && npm test 2>&1) && OUTPUT_CORRECT="true" || all_pass=1
+    else
+        all_pass=1
+    fi
+
+    export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
+    return $all_pass
+}

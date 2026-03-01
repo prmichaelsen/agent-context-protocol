@@ -1,0 +1,24 @@
+required_files:
+  - package.json
+  - src/index.js
+  - src/models/task.js
+  - src/models/project.js
+  - src/routes/tasks.js
+  - src/routes/projects.js
+  - README.md
+
+required_directories:
+  - src
+  - src/routes
+  - src/models
+  - tests
+
+checks:
+  - name: task_model_exists
+    description: Task model with CRUD functions
+  - name: project_model_exists
+    description: Project model with CRUD functions
+  - name: tests_pass
+    description: All tests pass (npm test)
+  - name: readme_exists
+    description: README.md with API documentation

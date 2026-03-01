@@ -59,22 +59,45 @@ echo "  Workspace: $WORKSPACE"
 (cd "$WORKSPACE" && git init --quiet)
 
 # --- Copy seed files if configured ---
+SKIP_ACP_INSTALL="false"
 if [ -f "$TASK_DIR/config.yaml" ]; then
-    SEED_DIR=$(grep '^seed_dir:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
+    SEED_DIR=$(grep '^seed_dir:' "$TASK_DIR/config.yaml" | head -1 | awk '{print $2}' || true)
     if [ -n "$SEED_DIR" ]; then
         SEED_PATH="$TASK_DIR/$SEED_DIR"
         if [ -d "$SEED_PATH" ]; then
             echo "  Copying seed files from $SEED_DIR..."
             cp -r "$SEED_PATH"/* "$WORKSPACE/"
-            # Install npm dependencies if package.json exists
-            if [ -f "$WORKSPACE/package.json" ]; then
-                echo "  Installing seed dependencies..."
-                (cd "$WORKSPACE" && npm install --quiet 2>/dev/null) || true
-            fi
             echo "  Seed files ready"
         else
             echo "  Warning: seed_dir '$SEED_DIR' not found at $SEED_PATH"
         fi
+    fi
+
+    # Copy ACP seed overlay (only in ACP mode)
+    if [ "$MODE" = "acp" ]; then
+        SEED_DIR_ACP=$(grep '^seed_dir_acp:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
+        if [ -n "$SEED_DIR_ACP" ]; then
+            SEED_ACP_PATH="$TASK_DIR/$SEED_DIR_ACP"
+            if [ -d "$SEED_ACP_PATH" ]; then
+                echo "  Copying ACP seed overlay from $SEED_DIR_ACP..."
+                cp -r "$SEED_ACP_PATH"/* "$WORKSPACE/"
+                echo "  ACP seed overlay ready"
+            else
+                echo "  Warning: seed_dir_acp '$SEED_DIR_ACP' not found at $SEED_ACP_PATH"
+            fi
+        fi
+    fi
+
+    # Install npm dependencies if package.json exists (after all seeds copied)
+    if [ -f "$WORKSPACE/package.json" ]; then
+        echo "  Installing seed dependencies..."
+        (cd "$WORKSPACE" && npm install --quiet 2>/dev/null) || true
+    fi
+
+    # Check if ACP install should be skipped (pre-initialized projects)
+    skip_flag=$(grep '^skip_acp_install:' "$TASK_DIR/config.yaml" | awk '{print $2}' || true)
+    if [ "$skip_flag" = "true" ]; then
+        SKIP_ACP_INSTALL="true"
     fi
 fi
 
@@ -82,9 +105,13 @@ ACP_PREAMBLE=""
 ACP_PLAN_SUFFIX=""
 ACP_PROCEED_SUFFIX=""
 if [ "$MODE" = "acp" ]; then
-    echo "  Installing ACP..."
-    (cd "$WORKSPACE" && bash "$PROJECT_ROOT/agent/scripts/acp.install.sh") > "$OUTPUT.acp-install.log" 2>&1
-    echo "  ACP installed"
+    if [ "$SKIP_ACP_INSTALL" = "true" ]; then
+        echo "  ACP pre-installed (skip_acp_install=true)"
+    else
+        echo "  Installing ACP..."
+        (cd "$WORKSPACE" && bash "$PROJECT_ROOT/agent/scripts/acp.install.sh") > "$OUTPUT.acp-install.log" 2>&1
+        echo "  ACP installed"
+    fi
     # Build preamble to trigger ACP init on the first prompt
     ACP_PREAMBLE="@agent/commands/acp.init.md
 
@@ -170,6 +197,8 @@ if [ "$STEPS_MODE" = "true" ]; then
 
     current_id=""
     current_prompt_file=""
+    current_prompt_file_acp=""
+    current_prompt_file_baseline=""
     current_phase=""
     current_max_turns=""
     in_steps="false"
@@ -188,15 +217,28 @@ if [ "$STEPS_MODE" = "true" ]; then
             if echo "$line" | grep -q '^\s*- id:'; then
                 # Save previous step if exists
                 if [ -n "$current_id" ]; then
+                    # Resolve prompt file: mode-specific takes priority over generic
+                    resolved_prompt="$current_prompt_file"
+                    if [ "$MODE" = "acp" ] && [ -n "$current_prompt_file_acp" ]; then
+                        resolved_prompt="$current_prompt_file_acp"
+                    elif [ "$MODE" = "baseline" ] && [ -n "$current_prompt_file_baseline" ]; then
+                        resolved_prompt="$current_prompt_file_baseline"
+                    fi
                     STEP_IDS+=("$current_id")
-                    STEP_PROMPTS+=("$current_prompt_file")
+                    STEP_PROMPTS+=("$resolved_prompt")
                     STEP_PHASES+=("${current_phase:-unknown}")
                     STEP_MAX_TURNS+=("${current_max_turns:-$MAX_TURNS}")
                 fi
                 current_id=$(echo "$line" | sed 's/.*- id:\s*//' | tr -d '[:space:]')
                 current_prompt_file=""
+                current_prompt_file_acp=""
+                current_prompt_file_baseline=""
                 current_phase=""
                 current_max_turns=""
+            elif echo "$line" | grep -q 'prompt_file_acp:'; then
+                current_prompt_file_acp=$(echo "$line" | sed 's/.*prompt_file_acp:\s*//' | tr -d '[:space:]')
+            elif echo "$line" | grep -q 'prompt_file_baseline:'; then
+                current_prompt_file_baseline=$(echo "$line" | sed 's/.*prompt_file_baseline:\s*//' | tr -d '[:space:]')
             elif echo "$line" | grep -q 'prompt_file:'; then
                 current_prompt_file=$(echo "$line" | sed 's/.*prompt_file:\s*//' | tr -d '[:space:]')
             elif echo "$line" | grep -q 'phase:'; then
@@ -209,8 +251,14 @@ if [ "$STEPS_MODE" = "true" ]; then
 
     # Save last step
     if [ -n "$current_id" ]; then
+        resolved_prompt="$current_prompt_file"
+        if [ "$MODE" = "acp" ] && [ -n "$current_prompt_file_acp" ]; then
+            resolved_prompt="$current_prompt_file_acp"
+        elif [ "$MODE" = "baseline" ] && [ -n "$current_prompt_file_baseline" ]; then
+            resolved_prompt="$current_prompt_file_baseline"
+        fi
         STEP_IDS+=("$current_id")
-        STEP_PROMPTS+=("$current_prompt_file")
+        STEP_PROMPTS+=("$resolved_prompt")
         STEP_PHASES+=("${current_phase:-unknown}")
         STEP_MAX_TURNS+=("${current_max_turns:-$MAX_TURNS}")
     fi
