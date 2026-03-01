@@ -5,6 +5,24 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.7.0] - 2026-03-01
+
+### Added
+
+**Documentation & Historical Tracking — M11 Complete** (Milestone 11 — Task 86):
+- Benchmark Suite section in AGENT.md (quick start, task table, architecture, key files)
+- Benchmark section in README.md with quick-start commands
+- Historical run comparison script (`compare-runs.sh`)
+- Design document status updated to Implemented
+
+**Milestone 11 Complete**: ACP Benchmark Suite — 10/10 tasks
+- Full E2E benchmark system: ACP vs baseline comparison
+- 6 benchmark tasks (simple → complex, including legacy refactor and event-driven pivot)
+- LLM evaluator with 6-category rubric
+- HTML dashboard with radar charts
+- GitHub Actions on-demand workflow
+- Historical tracking and documentation
+
 ## [5.6.3] - 2026-03-01
 
 ### Added

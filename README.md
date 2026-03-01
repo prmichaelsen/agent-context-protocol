@@ -200,6 +200,27 @@ See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
 
 ---
 
+## Benchmark Suite
+
+ACP includes an automated benchmark system that measures the impact of ACP on AI-driven development. It runs identical tasks with and without ACP, comparing metrics like token usage, code quality, and task completion.
+
+```bash
+# Run all benchmarks
+bash agent/benchmarks/runner/run-benchmark.sh
+
+# Run a specific task
+bash agent/benchmarks/runner/run-benchmark.sh --task complex-auth-system
+
+# View HTML reports
+bash agent/benchmarks/runner/serve-reports.sh
+```
+
+**6 benchmark tasks** ranging from simple (hello-world) to complex (order pipeline with event-driven refactor). Each task includes automated verification and LLM-based quality evaluation.
+
+See [AGENT.md](./AGENT.md#benchmark-suite) for complete documentation. On-demand CI via GitHub Actions (`workflow_dispatch`).
+
+---
+
 ## Project Registry
 
 Manage multiple ACP projects with the global project registry at `~/.acp/projects.yaml`:

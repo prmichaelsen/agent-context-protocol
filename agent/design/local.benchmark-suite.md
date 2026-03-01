@@ -2,7 +2,7 @@
 
 **Concept**: E2E benchmark system comparing project outcomes with and without ACP to generate quantitative success metrics
 **Created**: 2026-02-27
-**Status**: Design Specification
+**Status**: Implemented
 
 ---
 
@@ -452,7 +452,7 @@ This is a new feature — no migration needed. Implementation phases:
 
 ---
 
-**Status**: Design Specification
+**Status**: Implemented
 **Recommendation**: Create milestone and task breakdown for implementation
 **Related Documents**:
 - [Clarification 1: Benchmark Suite Requirements](../clarifications/clarification-1-benchmark-suite-requirements.md)

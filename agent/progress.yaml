@@ -210,8 +210,8 @@ milestones:
 
   - id: M11
     name: ACP Benchmark Suite
-    status: in_progress
-    progress: 62
+    status: completed
+    progress: 100
     started: 2026-02-28
     completed: null
     estimated_weeks: 3-5
@@ -1459,12 +1459,14 @@ tasks:
 
     - id: task-86
       name: Documentation & Historical Tracking
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-86-documentation-historical-tracking.md
       estimated_hours: 3-4
-      completed_date: null
+      actual_hours: 0.3
+      completed_date: 2026-03-01
       notes: |
-        AGENT.md, README.md, design doc status, GitHub Pages dashboard, historical version tracking.
+        Added benchmark section to AGENT.md (quick start, task table, key files) and README.md.
+        Updated design doc status to Implemented. Created compare-runs.sh for historical tracking.
 
     - id: task-87
       name: Legacy Codebase Refactor Benchmark Task

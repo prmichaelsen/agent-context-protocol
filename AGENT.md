@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.6.3
+**Version**: 5.7.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -834,6 +834,61 @@ Validation ensures consistency:
 3. **Graduate promptly** - Move to stable once proven
 4. **Version appropriately** - Use 0.x.x versions for experimental
 5. **Communicate clearly** - Note experimental status in README.md
+
+---
+
+## Benchmark Suite
+
+ACP includes an automated E2E benchmark system that compares project outcomes with and without ACP to generate quantitative success metrics.
+
+### Quick Start
+
+```bash
+# Run all benchmarks (ACP vs baseline)
+bash agent/benchmarks/runner/run-benchmark.sh
+
+# Run a specific task
+bash agent/benchmarks/runner/run-benchmark.sh --task complex-auth-system
+
+# Run ACP mode only, 3 runs for statistical averaging
+bash agent/benchmarks/runner/run-benchmark.sh --task medium-rest-api --acp-only --runs 3
+
+# Serve HTML reports
+bash agent/benchmarks/runner/serve-reports.sh
+```
+
+### Benchmark Tasks
+
+| Task | Complexity | Steps | Description |
+|------|-----------|-------|-------------|
+| hello-world | simple | 1 | Basic script creation |
+| simple-cli-tool | medium | 3 | CSV-to-JSON CLI tool |
+| medium-rest-api | medium | 4 | Express CRUD API with refactoring |
+| complex-auth-system | complex | 5 | JWT authentication system |
+| legacy-refactor | complex | 6 | Refactor messy legacy app (seed-based) |
+| order-pipeline | complex | 7 | Order system with event-driven pivot |
+
+### How It Works
+
+1. Each task runs in an isolated temp directory using `claude -p` (non-interactive mode)
+2. Multi-turn conversations use `--resume` for step-by-step execution
+3. ACP mode installs ACP and injects `@acp.plan` / `@acp.proceed` directives
+4. After execution: automated verification checks + LLM evaluator (6-category rubric)
+5. Reports generated in Markdown and HTML (with Chart.js radar charts)
+
+### Key Files
+
+- `agent/benchmarks/runner/run-benchmark.sh` — Main entry point
+- `agent/benchmarks/runner/run-single.sh` — Single task/mode runner
+- `agent/benchmarks/runner/verify.sh` — Verification functions per task
+- `agent/benchmarks/runner/evaluator-prompt.md` — LLM evaluator rubric
+- `agent/benchmarks/suite/` — Benchmark task definitions
+- `agent/benchmarks/reports/` — Generated reports (gitignored)
+- `.github/workflows/benchmark.yaml` — On-demand CI workflow
+
+### Design Document
+
+See [agent/design/local.benchmark-suite.md](agent/design/local.benchmark-suite.md) for the full design specification.
 
 ---
 
