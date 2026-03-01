@@ -214,7 +214,6 @@ fi
 
 # Target directory (optional)
 # Default: ~/.acp/projects/acp-{package-name}
-# Note: ~/.acp/projects/ is for development, ~/.acp/packages/ is for installed packages
 DEFAULT_TARGET_DIR="$HOME/.acp/projects/acp-${PACKAGE_NAME}"
 if [ "$NON_INTERACTIVE" = false ] && [ -z "$TARGET_DIR" ]; then
     read -p "Target directory [${DEFAULT_TARGET_DIR}]: " TARGET_DIR
