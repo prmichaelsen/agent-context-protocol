@@ -16,6 +16,7 @@ on:
           - complex-auth-system
           - legacy-refactor
           - order-pipeline
+          - enterprise-task-manager
       mode:
         description: 'Mode to benchmark'
         required: true

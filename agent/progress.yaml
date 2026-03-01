@@ -210,24 +210,25 @@ milestones:
 
   - id: M11
     name: ACP Benchmark Suite
-    status: completed
-    progress: 100
+    status: in_progress
+    progress: 92
     started: 2026-02-28
     completed: null
     estimated_weeks: 3-5
-    tasks_completed: 0
-    tasks_total: 10
+    tasks_completed: 11
+    tasks_total: 12
     notes: |
       📋 Milestone 11: ACP Benchmark Suite
       - Full E2E benchmark system: ACP vs baseline comparison
       - Multi-turn conversation steps via Claude CLI --resume
-      - 5 benchmark tasks: simple-cli-tool, medium-rest-api, complex-auth-system, legacy-refactor, order-pipeline
+      - 7 benchmark tasks: simple-cli-tool, medium-rest-api, complex-auth-system, legacy-refactor, order-pipeline, enterprise-task-manager
       - LLM evaluator with 6-category rubric (1-10 + MISS/MEETS/EXCEEDS)
       - 5-run statistical averaging per configuration
       - Reports: YAML, Markdown, HTML dashboard
       - GitHub Actions on-demand workflow
       - Historical tracking via GitHub Pages
-      - 8 tasks (79-86): Runner, 3 Tasks, Evaluator, Reports, CI/CD, Docs
+      - 12 tasks (79-90): Runner, 7 Tasks, Evaluator, Reports, CI/CD, Docs
+      - Task 90 (acp-initialized-project benchmark) planned, not yet implemented
 
 tasks:
   milestone_1:
@@ -1491,6 +1492,30 @@ tasks:
         Created order-pipeline benchmark: 7 steps (catalog, cart, state machine, tests,
         event-driven refactor, notifications+retry, integration+docs), config.yaml,
         expected structure, verify function with event bus detection.
+
+    - id: task-89
+      name: Enterprise Task Manager Benchmark Task
+      status: completed
+      file: agent/tasks/milestone-11-benchmark-suite/task-89-enterprise-task-manager-benchmark.md
+      estimated_hours: 8-12
+      actual_hours: 0.5
+      completed_date: 2026-03-01
+      notes: |
+        Created enterprise-task-manager benchmark: seed project (670+ lines, 12 files) with
+        5 unlabeled bugs, circular deps, inconsistent patterns. 10 steps: analysis, bug fixes,
+        refactor, 50+ tests, teams, activity feed, RBAC, performance, security audit, docs.
+        Verify function, GH Actions choice added. Designed for 2-4hr runtime per mode.
+
+    - id: task-90
+      name: ACP-Initialized Project Benchmark Task
+      status: not_started
+      file: agent/tasks/milestone-11-benchmark-suite/task-90-acp-initialized-project-benchmark.md
+      estimated_hours: 8-12
+      notes: |
+        Benchmark with dual-seed design: seed-base (both modes) + seed-acp (ACP mode only).
+        ACP seed includes full agent/ directory (AGENT.md, progress.yaml, designs, patterns,
+        milestones, tasks). Tests whether pre-existing ACP documentation helps agent produce
+        more consistent, higher quality output vs baseline with no docs.
 
   future_enhancements:
     - id: task-30

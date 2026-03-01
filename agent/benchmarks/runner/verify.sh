@@ -266,3 +266,41 @@ verify_order_pipeline() {
     export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
     return $all_pass
 }
+
+# Verify the enterprise-task-manager benchmark task
+verify_enterprise_task_manager() {
+    local workspace="$1"
+    local all_pass=0
+
+    FILE_EXISTS="false"
+    FILE_EXECUTABLE="false"
+    OUTPUT_CORRECT="false"
+
+    # Check 1: key documentation files exist
+    if [ -f "$workspace/package.json" ] && [ -f "$workspace/README.md" ] && \
+       [ -f "$workspace/ANALYSIS.md" ] && [ -f "$workspace/MIGRATION.md" ] && \
+       [ -f "$workspace/ARCHITECTURE.md" ]; then
+        FILE_EXISTS="true"
+    else
+        all_pass=1
+    fi
+
+    # Check 2: proper structure (routes, models, middleware, tests dirs)
+    if [ -d "$workspace/routes" ] && [ -d "$workspace/models" ] && \
+       [ -d "$workspace/middleware" ] && [ -d "$workspace/tests" ]; then
+        FILE_EXECUTABLE="true"
+    else
+        all_pass=1
+    fi
+
+    # Check 3: tests exist and pass
+    if [ -f "$workspace/package.json" ] && [ -d "$workspace/tests" ]; then
+        local test_result
+        test_result=$(cd "$workspace" && npm test 2>&1) && OUTPUT_CORRECT="true" || all_pass=1
+    else
+        all_pass=1
+    fi
+
+    export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
+    return $all_pass
+}

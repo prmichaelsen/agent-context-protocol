@@ -1,0 +1,51 @@
+name: enterprise-task-manager
+description: Large-scale refactor, feature addition, and hardening of a task management platform
+complexity: expert
+domain: fullstack/architecture
+timeout_minutes: 240
+max_turns: 80
+
+expected_structure: expected/structure.yaml
+seed_dir: seed/
+
+steps:
+  - id: deep-analysis
+    prompt_file: steps/01-deep-analysis.md
+    phase: planning
+    max_turns: 20
+  - id: fix-critical-bugs
+    prompt_file: steps/02-fix-critical-bugs.md
+    phase: debugging
+    max_turns: 30
+  - id: refactor-architecture
+    prompt_file: steps/03-refactor-architecture.md
+    phase: coding
+    max_turns: 40
+  - id: comprehensive-tests
+    prompt_file: steps/04-comprehensive-tests.md
+    phase: testing
+    max_turns: 35
+  - id: add-teams
+    prompt_file: steps/05-add-teams.md
+    phase: coding
+    max_turns: 40
+  - id: activity-feed
+    prompt_file: steps/06-activity-feed.md
+    phase: coding
+    max_turns: 30
+  - id: rbac
+    prompt_file: steps/07-rbac.md
+    phase: coding
+    max_turns: 40
+  - id: performance
+    prompt_file: steps/08-performance.md
+    phase: coding
+    max_turns: 30
+  - id: security-audit
+    prompt_file: steps/09-security-audit.md
+    phase: coding
+    max_turns: 30
+  - id: migration-docs
+    prompt_file: steps/10-migration-docs.md
+    phase: coding
+    max_turns: 15

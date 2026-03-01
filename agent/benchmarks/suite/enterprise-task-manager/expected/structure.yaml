@@ -1,0 +1,12 @@
+directories:
+  - routes/
+  - models/
+  - middleware/
+  - tests/
+files:
+  - package.json
+  - README.md
+  - ANALYSIS.md
+  - MIGRATION.md
+  - ARCHITECTURE.md
+  - tests/*.test.js

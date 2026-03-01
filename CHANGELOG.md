@@ -5,6 +5,21 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.7.1] - 2026-03-01
+
+### Added
+
+**Enterprise Task Manager Benchmark** (Milestone 11 — Task 89):
+- Large-scope benchmark: 670+ line seed project (12 files) with 5 unlabeled bugs
+- Circular dependencies, inconsistent patterns, missing auth on routes
+- 10 step prompts: deep analysis, bug fixes, refactoring, 50+ tests, teams, activity feed, RBAC, security audit, migration docs
+- Designed for 2-4 hour runtime per mode — punishes "dive in without planning"
+- Verification function and GitHub Actions workflow choice added
+
+**ACP-Initialized Project Benchmark Task** (Milestone 11 — Task 90):
+- Task specification for dual-seed benchmark (planned, not yet implemented)
+- Tests value of pre-existing ACP documentation vs no docs
+
 ## [5.7.0] - 2026-03-01
 
 ### Added
