@@ -1,0 +1,127 @@
+name: ACP Benchmark Suite
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Benchmark task to run (or "all" for all tasks)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - hello-world
+          - simple-cli-tool
+          - medium-rest-api
+          - complex-auth-system
+          - legacy-refactor
+          - order-pipeline
+      mode:
+        description: 'Mode to benchmark'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - acp
+          - baseline
+      runs:
+        description: 'Number of runs per configuration (statistical averaging)'
+        required: true
+        default: '1'
+        type: choice
+        options:
+          - '1'
+          - '3'
+          - '5'
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Install Claude CLI
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          echo "Claude CLI installed"
+
+      - name: Configure Claude authentication
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "ANTHROPIC_API_KEY is configured"
+
+      - name: Run benchmark suite
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          TASK="${{ github.event.inputs.task }}"
+          MODE="${{ github.event.inputs.mode }}"
+          RUNS="${{ github.event.inputs.runs }}"
+
+          ARGS=""
+
+          # Task selection
+          if [ "$TASK" != "all" ]; then
+            ARGS="$ARGS --task $TASK"
+          fi
+
+          # Mode selection
+          if [ "$MODE" = "acp" ]; then
+            ARGS="$ARGS --acp-only"
+          elif [ "$MODE" = "baseline" ]; then
+            ARGS="$ARGS --baseline-only"
+          fi
+
+          # Runs
+          ARGS="$ARGS --runs $RUNS"
+
+          echo "Running: bash agent/benchmarks/runner/run-benchmark.sh $ARGS"
+          bash agent/benchmarks/runner/run-benchmark.sh $ARGS
+        timeout-minutes: 90
+
+      - name: Generate report index
+        if: always()
+        run: |
+          bash agent/benchmarks/runner/serve-reports.sh --generate-only 2>/dev/null || true
+
+      - name: Upload benchmark reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-reports-${{ github.run_number }}
+          path: agent/benchmarks/reports/
+          retention-days: 90
+
+      - name: Post summary
+        if: always()
+        run: |
+          LATEST=$(ls -td agent/benchmarks/reports/benchmark-*/ 2>/dev/null | head -1)
+          if [ -n "$LATEST" ] && [ -f "$LATEST/summary.yaml" ]; then
+            echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Task**: ${{ github.event.inputs.task }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Mode**: ${{ github.event.inputs.mode }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Runs**: ${{ github.event.inputs.runs }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo '```yaml' >> $GITHUB_STEP_SUMMARY
+            cat "$LATEST/summary.yaml" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
+            echo "No summary.yaml found. Check artifacts for detailed reports." >> $GITHUB_STEP_SUMMARY
+          fi

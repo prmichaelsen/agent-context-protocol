@@ -1447,12 +1447,15 @@ tasks:
 
     - id: task-85
       name: GitHub Actions Workflow
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-85-github-actions-workflow.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 0.3
+      completed_date: 2026-03-01
       notes: |
-        On-demand workflow dispatch, report artifact upload, timeout controls.
+        Created .github/workflows/benchmark.yaml with workflow_dispatch trigger,
+        configurable inputs (task, mode, runs), report artifact upload, job summary,
+        90-min task timeout + 2hr job timeout. Uses ANTHROPIC_API_KEY secret.
 
     - id: task-86
       name: Documentation & Historical Tracking
