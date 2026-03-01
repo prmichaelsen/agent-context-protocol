@@ -5,6 +5,15 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.9.1] - 2026-03-01
+
+### Added
+- `acp.sessions.sh` — self-contained sessions infrastructure script (6 subcommands)
+- `sessions.template.yaml` — template for `~/.acp/sessions.yaml`
+- Session management: register, deregister, list, clean, heartbeat, count
+- PPID-based stale detection with dead-PID cleanup and 2h timeout removal
+- `--pid` flag on register for explicit PID control
+
 ## [5.9.0] - 2026-03-01
 
 ### Added

@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.8.0
+  version: 5.9.1
   started: 2026-02-16
   status: in_progress
   current_milestone: M12
@@ -232,12 +232,12 @@ milestones:
 
   - id: M12
     name: Sessions System
-    status: not_started
-    progress: 0
-    started: null
+    status: in_progress
+    progress: 25
+    started: 2026-03-01
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 4
     notes: |
       📋 Milestone 12: Sessions System
@@ -1543,12 +1543,18 @@ tasks:
   milestone_12:
     - id: task-91
       name: Sessions Infrastructure
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-12-sessions-system/task-91-sessions-infrastructure.md
       estimated_hours: 4-6
-      completed_date: null
+      completed_date: 2026-03-01
       notes: |
-        Schema, template, acp.sessions.sh with 6 subcommands (register, deregister, list, clean, heartbeat, count)
+        ✅ Sessions infrastructure complete
+        - Created sessions.template.yaml and acp.sessions.sh (470+ lines)
+        - All 6 subcommands: register, deregister, list, clean, heartbeat, count
+        - Session ID generation (sess_ + hex), PPID-based stale detection
+        - Rebuild-based deletion (bypasses yaml_delete array limitations)
+        - Stale cleanup: dead PID removal + 2h timeout + 30m idle marking
+        - Full E2E verification: 15 test scenarios passing
 
     - id: task-92
       name: Init and Report Integration
@@ -1714,6 +1720,26 @@ progress:
   milestone_11: 100
 
 recent_work:
+  - date: 2026-03-01
+    description: |
+      ✅ Task 91 Complete: Sessions Infrastructure
+      Core sessions system implemented with all 6 subcommands.
+    items:
+      - ✅ Created agent/sessions.template.yaml (empty sessions array)
+      - ✅ Created agent/scripts/acp.sessions.sh (470+ lines, 6 subcommands)
+      - ✅ register: creates session with 11 fields, auto-generates sess_* ID
+      - ✅ deregister: removes by ID or auto-detects by PPID
+      - ✅ list: formatted display with relative times, project filter, (this session) indicator
+      - ✅ clean: dead PID detection + 2h timeout removal + 30m idle marking
+      - ✅ heartbeat: updates last_activity, task, description
+      - ✅ count: integer output for embedding
+      - ✅ PPID-based stale detection (tracks parent process, not script PID)
+      - ✅ Rebuild-based deletion (bypasses yaml_delete array index limitation)
+      - ✅ --pid flag for explicit PID control (testing/automation)
+      - ✅ bash -n syntax validation passing
+      - ✅ Full E2E verification: 15 test scenarios passing
+      - 📋 Milestone M12: 25% complete (1/4 tasks)
+
   - date: 2026-03-01
     description: |
       🚀 Agent Context Initialized via @acp.init
