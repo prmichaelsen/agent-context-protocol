@@ -385,28 +385,27 @@ if [ -f "$EVALUATOR_PROMPT" ] && [ -f "$EVALUATOR_SCHEMA" ]; then
         # Save raw evaluation JSON
         echo "$EVAL_OUTPUT" > "$OUTPUT.eval-raw.json"
 
-        # Extract result text (contains the structured JSON)
-        EVAL_RESULT=$(echo "$EVAL_OUTPUT" | jq -r '.result // empty' 2>/dev/null || true)
+        # Extract structured output (--json-schema puts data in .structured_output)
+        EVAL_JSON=$(echo "$EVAL_OUTPUT" | jq '.structured_output // empty' 2>/dev/null || true)
 
-        if [ -n "$EVAL_RESULT" ]; then
-            # Try to parse as JSON directly
-            EVAL_JSON=$(echo "$EVAL_RESULT" | jq '.' 2>/dev/null || true)
-
-            if [ -z "$EVAL_JSON" ]; then
-                # Result may contain markdown code fences — extract JSON block
-                EVAL_JSON=$(echo "$EVAL_RESULT" | sed -n '/^```json/,/^```/p' | sed '1d;$d' | jq '.' 2>/dev/null || true)
+        # Fallback: try .result field (for non-schema responses)
+        if [ -z "$EVAL_JSON" ] || [ "$EVAL_JSON" = "null" ]; then
+            EVAL_RESULT=$(echo "$EVAL_OUTPUT" | jq -r '.result // empty' 2>/dev/null || true)
+            if [ -n "$EVAL_RESULT" ]; then
+                EVAL_JSON=$(echo "$EVAL_RESULT" | jq '.' 2>/dev/null || true)
+                if [ -z "$EVAL_JSON" ]; then
+                    EVAL_JSON=$(echo "$EVAL_RESULT" | sed -n '/^```json/,/^```/p' | sed '1d;$d' | jq '.' 2>/dev/null || true)
+                fi
             fi
+        fi
 
-            if [ -n "$EVAL_JSON" ]; then
-                echo "$EVAL_JSON" > "$OUTPUT.eval.json"
-                EVAL_SCORE=$(echo "$EVAL_JSON" | jq -r '.overall_score // empty' 2>/dev/null || true)
-                EVAL_RATING=$(echo "$EVAL_JSON" | jq -r '.overall_rating // empty' 2>/dev/null || true)
-                echo "  Evaluation: score=$EVAL_SCORE rating=$EVAL_RATING"
-            else
-                echo "  Warning: Could not parse evaluation JSON from result"
-            fi
+        if [ -n "$EVAL_JSON" ] && [ "$EVAL_JSON" != "null" ]; then
+            echo "$EVAL_JSON" > "$OUTPUT.eval.json"
+            EVAL_SCORE=$(echo "$EVAL_JSON" | jq -r '.overall_score // empty' 2>/dev/null || true)
+            EVAL_RATING=$(echo "$EVAL_JSON" | jq -r '.overall_rating // empty' 2>/dev/null || true)
+            echo "  Evaluation: score=$EVAL_SCORE rating=$EVAL_RATING"
         else
-            echo "  Warning: Evaluator returned no result text"
+            echo "  Warning: Could not parse evaluation JSON from result"
         fi
     else
         echo "  Warning: Evaluator failed (exit=$EVAL_EXIT)"

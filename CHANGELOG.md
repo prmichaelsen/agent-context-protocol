@@ -5,6 +5,17 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.6.0] - 2026-03-01
+
+### Added
+
+**New Benchmark Tasks & Evaluator Fix** (Milestone 11 — Tasks 87, 88):
+- Legacy Codebase Refactor benchmark (task-87): 6-step task starting from pre-built messy Express app, tests planning under constraints
+- Event-Driven Order Pipeline benchmark (task-88): 7-step task with mid-stream sync-to-event-driven architectural pivot
+
+### Fixed
+- Evaluator JSON extraction now reads `.structured_output` (where `--json-schema` places data) instead of empty `.result` field
+
 ## [5.5.0] - 2026-02-28
 
 ### Added
