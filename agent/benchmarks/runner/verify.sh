@@ -218,3 +218,51 @@ verify_legacy_refactor() {
     export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
     return $all_pass
 }
+
+# Verify the order-pipeline benchmark task
+# Args: $1 = workspace directory
+# Sets: FILE_EXISTS, FILE_EXECUTABLE, OUTPUT_CORRECT
+# Returns: 0 if all checks pass, 1 if any fail
+verify_order_pipeline() {
+    local workspace="$1"
+    local all_pass=0
+
+    FILE_EXISTS="false"
+    FILE_EXECUTABLE="false"
+    OUTPUT_CORRECT="false"
+
+    # Check 1: key files exist (package.json, README.md, event bus module)
+    if [ -f "$workspace/package.json" ] && [ -f "$workspace/README.md" ]; then
+        FILE_EXISTS="true"
+    else
+        all_pass=1
+    fi
+
+    # Check 2: event bus exists (proves the event-driven refactor happened)
+    local eventbus_found="false"
+    for candidate in "$workspace/events/event-bus.js" "$workspace/eventbus/index.js" \
+                      "$workspace/src/events/event-bus.js" "$workspace/src/eventbus.js" \
+                      "$workspace/lib/event-bus.js" "$workspace/events/eventBus.js" \
+                      "$workspace/src/events/eventBus.js"; do
+        if [ -f "$candidate" ]; then
+            eventbus_found="true"
+            break
+        fi
+    done
+    if [ "$eventbus_found" = "true" ]; then
+        FILE_EXECUTABLE="true"
+    else
+        all_pass=1
+    fi
+
+    # Check 3: tests exist and pass
+    if [ -f "$workspace/package.json" ] && [ -d "$workspace/tests" ]; then
+        local test_result
+        test_result=$(cd "$workspace" && npm test 2>&1) && OUTPUT_CORRECT="true" || all_pass=1
+    else
+        all_pass=1
+    fi
+
+    export FILE_EXISTS FILE_EXECUTABLE OUTPUT_CORRECT
+    return $all_pass
+}

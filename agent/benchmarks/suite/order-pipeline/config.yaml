@@ -1,0 +1,38 @@
+name: order-pipeline
+description: Build an order processing pipeline, then refactor from synchronous to event-driven architecture
+complexity: complex
+domain: backend/architecture
+timeout_minutes: 60
+max_turns: 50
+
+expected_structure: expected/structure.yaml
+
+steps:
+  - id: catalog-inventory
+    prompt_file: steps/01-catalog-inventory.md
+    phase: coding
+    max_turns: 25
+  - id: cart-orders
+    prompt_file: steps/02-cart-orders.md
+    phase: coding
+    max_turns: 30
+  - id: order-state-machine
+    prompt_file: steps/03-order-state-machine.md
+    phase: coding
+    max_turns: 25
+  - id: tests
+    prompt_file: steps/04-tests.md
+    phase: testing
+    max_turns: 25
+  - id: event-driven-refactor
+    prompt_file: steps/05-event-driven-refactor.md
+    phase: coding
+    max_turns: 35
+  - id: notifications-retry
+    prompt_file: steps/06-notifications-retry.md
+    phase: coding
+    max_turns: 25
+  - id: integration-docs
+    prompt_file: steps/07-integration-docs.md
+    phase: coding
+    max_turns: 15

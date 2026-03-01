@@ -5,6 +5,15 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.6.2] - 2026-03-01
+
+### Added
+
+**Order Pipeline Benchmark** (Milestone 11 — Task 88):
+- `order-pipeline` benchmark task: 7-step challenge with mid-stream sync-to-event-driven pivot
+- Steps cover: catalog/inventory, cart/orders, state machine, tests, event-driven refactor, notifications+retry, integration+docs
+- Verification function with event bus module detection (multiple naming conventions)
+
 ## [5.6.1] - 2026-03-01
 
 ### Added

@@ -1,0 +1,6 @@
+directories:
+  - tests/
+files:
+  - package.json
+  - README.md
+  - tests/*.test.js

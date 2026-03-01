@@ -1477,13 +1477,15 @@ tasks:
 
     - id: task-88
       name: Event-Driven Order Pipeline Benchmark Task
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-88-order-pipeline-benchmark.md
       estimated_hours: 4-6
-      completed_date: null
+      actual_hours: 0.5
+      completed_date: 2026-03-01
       notes: |
-        7-step benchmark: build order processing system, then refactor sync to event-driven.
-        Tests architectural pivots and complex multi-module interactions.
+        Created order-pipeline benchmark: 7 steps (catalog, cart, state machine, tests,
+        event-driven refactor, notifications+retry, integration+docs), config.yaml,
+        expected structure, verify function with event bus detection.
 
   future_enhancements:
     - id: task-30
