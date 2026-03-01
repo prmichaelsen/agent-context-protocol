@@ -1,0 +1,1 @@
+Read agent/tasks/task-3-refactor-architecture.md for requirements. Follow agent/patterns/error-handling.md for the error middleware pattern and agent/patterns/api-conventions.md for response format conventions. Extract a service layer, centralize error handling, and move inline routes from server.js to proper route files.

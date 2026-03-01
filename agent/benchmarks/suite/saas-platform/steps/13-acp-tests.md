@@ -1,0 +1,1 @@
+Read agent/tasks/task-13-test-suite.md and agent/patterns/testing.md for the test structure and helpers. Write comprehensive tests covering all features: authentication, task CRUD, project CRUD, workspace management, RBAC permissions, status state machine, comments, notifications, search, webhooks, and audit logging. All tests must pass with npm test.

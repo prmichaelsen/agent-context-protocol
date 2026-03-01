@@ -1,0 +1,1 @@
+Read agent/tasks/task-14-api-docs.md for the documentation requirements. Write README.md covering setup and all API endpoints, ARCHITECTURE.md describing the system design and component relationships, and MIGRATION.md with an upgrade guide from the original v0.1 codebase.

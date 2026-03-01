@@ -110,6 +110,7 @@ STYLE_EOF
             fi
 
             local tasks_raw="$(get_field "$summary" "tasks")"
+            [ -z "$tasks_raw" ] && tasks_raw="$(get_field "$summary" "task")"
             local timestamp="$(get_field "$summary" "timestamp")"
             local modes="$(get_field "$summary" "modes_run")"
 

@@ -1,0 +1,100 @@
+project:
+  name: saas-platform
+  version: 0.1.0
+  started: 2026-03-01
+  status: in_progress
+  current_milestone: M1
+  description: |
+    Multi-tenant SaaS collaboration platform API. Legacy codebase with bugs
+    needs rescue: fix bugs, refactor architecture, add workspaces, RBAC,
+    real-time events, webhooks, audit logging, and comprehensive testing.
+
+milestones:
+  - id: M1
+    name: Foundation & Stabilization
+    status: not_started
+    progress: 0
+    tasks_completed: 0
+    tasks_total: 5
+  - id: M2
+    name: Core Features
+    status: not_started
+    progress: 0
+    tasks_completed: 0
+    tasks_total: 5
+  - id: M3
+    name: Production Hardening
+    status: not_started
+    progress: 0
+    tasks_completed: 0
+    tasks_total: 5
+
+tasks:
+  milestone_1:
+    - id: task-1
+      name: Architecture Analysis & Audit
+      status: not_started
+      estimated_hours: 2
+    - id: task-2
+      name: Fix Critical Bugs
+      status: not_started
+      estimated_hours: 3
+    - id: task-3
+      name: Refactor to Service Architecture
+      status: not_started
+      estimated_hours: 4
+    - id: task-4
+      name: Workspace Multi-tenancy
+      status: not_started
+      estimated_hours: 4
+    - id: task-5
+      name: RBAC Permission System
+      status: not_started
+      estimated_hours: 4
+  milestone_2:
+    - id: task-6
+      name: Task State Machine
+      status: not_started
+      estimated_hours: 3
+    - id: task-7
+      name: Comments & Activity Feed
+      status: not_started
+      estimated_hours: 3
+    - id: task-8
+      name: Real-time Events (SSE)
+      status: not_started
+      estimated_hours: 3
+    - id: task-9
+      name: Notification System
+      status: not_started
+      estimated_hours: 3
+    - id: task-10
+      name: Search & Filtering
+      status: not_started
+      estimated_hours: 3
+  milestone_3:
+    - id: task-11
+      name: Webhook Integration
+      status: not_started
+      estimated_hours: 3
+    - id: task-12
+      name: Audit Logging
+      status: not_started
+      estimated_hours: 3
+    - id: task-13
+      name: Comprehensive Test Suite
+      status: not_started
+      estimated_hours: 5
+    - id: task-14
+      name: API Documentation
+      status: not_started
+      estimated_hours: 2
+    - id: task-15
+      name: Security Hardening
+      status: not_started
+      estimated_hours: 4
+
+next_steps:
+  - Start with task-1: analyze codebase, document all bugs and architecture issues
+  - Read design docs in agent/design/ for full system specifications
+  - Follow patterns in agent/patterns/ for consistent implementation

@@ -1,0 +1,1 @@
+Read agent/tasks/task-9-notifications.md and agent/design/notification-pipeline.md for the full specification. Implement the notification model, auto-triggers, user preferences, and all notification API endpoints. Wire notifications through the EventBus from agent/patterns/event-patterns.md.

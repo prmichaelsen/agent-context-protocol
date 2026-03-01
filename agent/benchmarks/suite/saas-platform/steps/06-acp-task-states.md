@@ -1,0 +1,1 @@
+Read agent/tasks/task-6-task-state-machine.md and agent/design/task-state-machine.md for the state transition rules and StatusHistory model. Implement validated status transitions with history tracking.

@@ -1,0 +1,1 @@
+Read agent/tasks/task-5-rbac-permissions.md and agent/design/rbac-system.md for the role definitions and permission matrix. Implement the permission middleware pattern from agent/patterns/permission-patterns.md. Add role-based authorization to all endpoints.

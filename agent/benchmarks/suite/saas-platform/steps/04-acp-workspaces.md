@@ -1,0 +1,1 @@
+Read agent/tasks/task-4-workspace-multitenancy.md and agent/design/workspace-architecture.md for the full specification. Follow agent/patterns/api-conventions.md for the x-workspace-id header scoping pattern. Implement workspace multi-tenancy with membership, tenant isolation, and all workspace API endpoints.

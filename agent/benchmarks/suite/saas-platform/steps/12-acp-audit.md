@@ -1,0 +1,1 @@
+Read agent/tasks/task-12-audit-logging.md and agent/design/audit-logging.md for the audit specification. Implement an immutable audit log that records all data mutations and authentication events. Add the audit query API.

@@ -5,6 +5,18 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.9.0] - 2026-03-01
+
+### Added
+- `saas-platform` massive benchmark — 15-step expert-complexity dual-seed benchmark
+  - 20 buggy Express/Node.js seed files (auth bypass, plaintext passwords, filter bugs, wrong status codes)
+  - 32 ACP documentation overlay files (8 design docs, 5 patterns, 3 milestones, 15 tasks)
+  - 30 step prompts (15 ACP + 15 baseline) covering analysis through security hardening
+  - `verify_saas_platform()` verification function in runner/verify.sh
+
+### Fixed
+- Baseline task names missing in benchmark report chart (task vs tasks YAML field fallback)
+
 ## [5.8.0] - 2026-03-01
 
 ### Added

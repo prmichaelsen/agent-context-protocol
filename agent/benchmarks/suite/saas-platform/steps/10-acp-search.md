@@ -1,0 +1,1 @@
+Read agent/tasks/task-10-search-filtering.md and agent/design/search-architecture.md for the search specification. Follow agent/patterns/api-conventions.md for pagination and filtering conventions. Implement the unified search endpoint with workspace scoping.

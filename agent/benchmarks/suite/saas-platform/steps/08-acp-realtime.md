@@ -1,0 +1,1 @@
+Read agent/tasks/task-8-realtime-events.md and agent/design/realtime-events.md for the SSE specification. Implement the EventBus pattern from agent/patterns/event-patterns.md. Wire all mutations to emit events and deliver them via SSE streams.

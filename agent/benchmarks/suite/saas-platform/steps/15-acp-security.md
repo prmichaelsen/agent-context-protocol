@@ -1,0 +1,1 @@
+Read agent/tasks/task-15-security-hardening.md for the security requirements. Implement rate limiting, input sanitization, security headers, CORS configuration, and authentication hardening. Ensure all security measures work with the existing RBAC and workspace isolation.

@@ -1,0 +1,88 @@
+name: saas-platform
+description: Massive multi-tenant SaaS platform — rescue a buggy legacy codebase, add workspaces, RBAC, real-time events, webhooks, audit logging
+complexity: expert
+domain: fullstack/saas
+timeout_minutes: 360
+max_turns: 120
+
+seed_dir: seed-base/
+seed_dir_acp: seed-acp/
+
+expected_structure: expected/structure.yaml
+
+steps:
+  - id: analysis
+    prompt_file_acp: steps/01-acp-analysis.md
+    prompt_file_baseline: steps/01-baseline-analysis.md
+    phase: planning
+    max_turns: 15
+  - id: fix-bugs
+    prompt_file_acp: steps/02-acp-fix-bugs.md
+    prompt_file_baseline: steps/02-baseline-fix-bugs.md
+    phase: debugging
+    max_turns: 20
+  - id: refactor
+    prompt_file_acp: steps/03-acp-refactor.md
+    prompt_file_baseline: steps/03-baseline-refactor.md
+    phase: coding
+    max_turns: 25
+  - id: workspaces
+    prompt_file_acp: steps/04-acp-workspaces.md
+    prompt_file_baseline: steps/04-baseline-workspaces.md
+    phase: coding
+    max_turns: 20
+  - id: rbac
+    prompt_file_acp: steps/05-acp-rbac.md
+    prompt_file_baseline: steps/05-baseline-rbac.md
+    phase: coding
+    max_turns: 20
+  - id: task-states
+    prompt_file_acp: steps/06-acp-task-states.md
+    prompt_file_baseline: steps/06-baseline-task-states.md
+    phase: coding
+    max_turns: 15
+  - id: comments
+    prompt_file_acp: steps/07-acp-comments.md
+    prompt_file_baseline: steps/07-baseline-comments.md
+    phase: coding
+    max_turns: 15
+  - id: realtime
+    prompt_file_acp: steps/08-acp-realtime.md
+    prompt_file_baseline: steps/08-baseline-realtime.md
+    phase: coding
+    max_turns: 15
+  - id: notifications
+    prompt_file_acp: steps/09-acp-notifications.md
+    prompt_file_baseline: steps/09-baseline-notifications.md
+    phase: coding
+    max_turns: 15
+  - id: search
+    prompt_file_acp: steps/10-acp-search.md
+    prompt_file_baseline: steps/10-baseline-search.md
+    phase: coding
+    max_turns: 15
+  - id: webhooks
+    prompt_file_acp: steps/11-acp-webhooks.md
+    prompt_file_baseline: steps/11-baseline-webhooks.md
+    phase: coding
+    max_turns: 15
+  - id: audit
+    prompt_file_acp: steps/12-acp-audit.md
+    prompt_file_baseline: steps/12-baseline-audit.md
+    phase: coding
+    max_turns: 15
+  - id: tests
+    prompt_file_acp: steps/13-acp-tests.md
+    prompt_file_baseline: steps/13-baseline-tests.md
+    phase: testing
+    max_turns: 25
+  - id: docs
+    prompt_file_acp: steps/14-acp-docs.md
+    prompt_file_baseline: steps/14-baseline-docs.md
+    phase: coding
+    max_turns: 10
+  - id: security
+    prompt_file_acp: steps/15-acp-security.md
+    prompt_file_baseline: steps/15-baseline-security.md
+    phase: coding
+    max_turns: 20

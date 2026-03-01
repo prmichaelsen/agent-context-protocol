@@ -1,0 +1,1 @@
+Read agent/tasks/task-2-fix-bugs.md for the full bug list. Apply the error handling pattern from agent/patterns/error-handling.md to standardize all error responses. Fix every critical bug identified in your ANALYSIS.md. Ensure all authentication, validation, and data integrity issues are resolved.

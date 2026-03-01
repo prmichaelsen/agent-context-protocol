@@ -1,0 +1,1 @@
+Read agent/tasks/task-11-webhooks.md and agent/design/webhook-system.md for the webhook specification. Subscribe to events through the EventBus from agent/patterns/event-patterns.md. Implement webhook registration, delivery with HMAC signatures, retry logic, and delivery logging.

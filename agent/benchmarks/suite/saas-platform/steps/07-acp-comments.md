@@ -1,0 +1,1 @@
+Read agent/tasks/task-7-comments-activity.md for requirements. Follow the pagination pattern from agent/patterns/api-conventions.md and the event pattern from agent/patterns/event-patterns.md. Implement the full comment model, CRUD endpoints on tasks, and a workspace activity feed.

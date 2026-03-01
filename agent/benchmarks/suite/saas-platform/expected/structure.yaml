@@ -1,0 +1,24 @@
+required_files:
+  - package.json
+  - server.js
+  - README.md
+  - ANALYSIS.md
+  - ARCHITECTURE.md
+  - MIGRATION.md
+
+required_directories:
+  - models
+  - routes
+  - services
+  - middleware
+  - tests
+
+checks:
+  - name: core_files_exist
+    description: Key model/route/service files present
+  - name: proper_structure
+    description: Services layer, middleware, tests directories
+  - name: tests_pass
+    description: npm test passes
+  - name: documentation_complete
+    description: README, ANALYSIS, ARCHITECTURE, MIGRATION docs exist
