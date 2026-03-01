@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.10.0
+  version: 5.10.1
   started: 2026-02-16
   status: in_progress
   current_milestone: M12
@@ -210,12 +210,12 @@ milestones:
 
   - id: M11
     name: ACP Benchmark Suite
-    status: in_progress
-    progress: 92
+    status: completed
+    progress: 100
     started: 2026-02-28
-    completed: null
+    completed: 2026-03-01
     estimated_weeks: 3-5
-    tasks_completed: 12
+    tasks_completed: 13
     tasks_total: 13
     notes: |
       📋 Milestone 11: ACP Benchmark Suite — Complete
@@ -1542,14 +1542,18 @@ tasks:
 
     - id: task-95
       name: Add Deliverables Verification Gate to @acp.proceed
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-95-deliverables-verification-gate.md
       estimated_hours: 3-4
-      completed_date: null
+      actual_hours: 0.3
+      completed_date: 2026-03-01
       notes: |
-        Enhance @acp.proceed with mandatory deliverables verification gate (Step 3.5),
-        milestone completion sweep (Step A3.5), and documentation parity guidance.
-        Motivated by saas-platform benchmark failure (missing README.md).
+        ✅ Deliverables verification gate complete
+        - Added Step 3.5 to single-task mode: mandatory deliverables check before marking complete
+        - Added Step A3.5 to autonomous mode: milestone completion sweep after all tasks
+        - Added documentation parity guidance to AGENT.md Quality Best Practices
+        - Updated both verification checklists with file existence checks
+        - Renumbered autonomous loop steps (4-8) for new VERIFY DELIVERABLES step
 
   milestone_12:
     - id: task-91

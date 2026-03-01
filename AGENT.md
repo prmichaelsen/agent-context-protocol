@@ -1489,6 +1489,13 @@ touch acp.init.md
 - Include anti-patterns
 - Provide examples
 
+#### Documentation is a First-Class Deliverable
+
+- README.md, architecture docs, and migration guides are deliverables equal to source code
+- A project with passing tests but missing required documentation is INCOMPLETE
+- Verify documentation files exist and contain required sections before marking tasks complete
+- Documentation tasks deserve the same rigor as implementation tasks
+
 #### Review and Refine
 
 - Update docs as understanding improves

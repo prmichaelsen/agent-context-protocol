@@ -203,9 +203,27 @@ When you invoke `@acp.proceed --complete` (or equivalent):
 - Providing status updates
 - Asking questions that could be answered by reading docs
 
+### 3.5. Verify All Deliverables Exist
+
+**Before marking a task complete, you MUST verify every expected deliverable:**
+
+1. **Re-read the task document** — specifically the "Expected Output", "Acceptance Criteria", and "Verification" sections
+2. **Check file existence** — for every file listed in "Files Created", verify it exists on disk (ls or stat)
+3. **Check file content** — for files with specific content requirements (README, docs, configs), verify they contain the required sections
+4. **Check modifications** — for every file listed in "Files Modified", verify the expected changes are present
+5. **Walk the verification checklist** — go through each checkbox item and confirm it passes
+
+**If ANY deliverable is missing:**
+- DO NOT mark the task complete
+- DO NOT move to progress update
+- Create the missing deliverable first, then re-verify
+- Only proceed to Step 4 when ALL deliverables confirmed
+
+**This step is NON-NEGOTIABLE.** A task with passing tests but missing files is NOT complete.
+
 ### 4. Update Progress Tracking
 
-**Only after implementing**, update `agent/progress.yaml`:
+**Only after verifying all deliverables**, update `agent/progress.yaml`:
 - Mark task as `completed` (if done) or `in_progress` (if partial)
 - Add completion date (if done)
 - **Ask user for actual hours spent**: "How many hours did this task take? (estimated: X hours)" - Update `actual_hours` field
@@ -303,18 +321,26 @@ FOR each remaining task in planned order:
      - Run tests if specified in task
      - Complete the task fully
 
-  4. CHECK for failure
+  4. VERIFY DELIVERABLES
+     - Re-read the task's "Expected Output" and "Verification" sections
+     - Confirm every file in "Files Created" exists on disk
+     - Confirm every file in "Files Modified" has the expected changes
+     - Walk each verification checkbox and confirm it passes
+     - If anything is missing: create it before proceeding
+     - Do NOT skip this step — a task with passing tests but missing files is NOT complete
+
+  5. CHECK for failure
      - If task fails or encounters blocker → HALT (see A8)
      - If E2E tests fail → HALT (see A8)
      - Do NOT commit partial work
 
-  5. UPDATE progress tracking
+  6. UPDATE progress tracking
      - Mark task as completed in progress.yaml
      - Add completion date
      - Update milestone progress percentage
      - Add recent_work entry
 
-  6. RUN @git.commit subroutine
+  7. RUN @git.commit subroutine
      - Determine version bump (patch for most tasks, minor for features)
      - Update AGENT.md version
      - Update CHANGELOG.md with task completion entry
@@ -322,10 +348,30 @@ FOR each remaining task in planned order:
      - Create commit with conventional commit message
      - Do NOT push (push only at end of entire run)
 
-  7. CONTINUE to next task
+  8. CONTINUE to next task
 
 END FOR
 ```
+
+### A3.5. Milestone Completion Sweep
+
+**After ALL tasks in the autonomous loop are done, perform a final deliverables audit:**
+
+1. **Re-read each completed task's Expected Output section**
+2. **Verify all files exist** — ls/stat every file listed across all tasks
+3. **Run the full test suite** one final time
+4. **Check for common omissions:**
+   - README.md or project documentation
+   - Configuration files (.env.example, etc.)
+   - Architecture/design documentation if specified
+   - Migration guides if specified
+
+**If any deliverable from any task is missing:**
+- Create it before generating the Summary Report
+- Re-run verification for the affected task
+- Only proceed to Summary Report when all tasks' deliverables are confirmed
+
+This sweep catches files that may have been missed during individual task execution, especially documentation artifacts that are easy to overlook during coding-heavy milestones.
 
 ### A4. Per-Task Git Commit
 
@@ -500,6 +546,9 @@ If the user sends a message during autonomous execution:
 - [ ] Task document read and understood
 - [ ] Prerequisites checked
 - [ ] All task steps executed
+- [ ] All files in task's "Expected Output > Files Created" confirmed to exist
+- [ ] All files in task's "Expected Output > Files Modified" confirmed to have changes
+- [ ] Documentation deliverables (README, docs) contain required sections
 - [ ] Verification checklist completed
 - [ ] progress.yaml updated with completion
 - [ ] Milestone progress percentage updated
@@ -511,8 +560,10 @@ If the user sends a message during autonomous execution:
 - [ ] Remaining tasks scanned from progress.yaml
 - [ ] Confirmation prompt shown and user approved
 - [ ] Each task implemented fully before moving to next
+- [ ] Deliverables verified for each task before marking complete
 - [ ] `@git.commit` ran after each task (version bump, changelog, progress)
 - [ ] Progress indicator displayed between tasks
+- [ ] Milestone completion sweep performed (all deliverables across all tasks verified)
 - [ ] No push until end of run
 - [ ] Summary report displayed at end
 - [ ] Halted correctly on any failures (no partial commits)

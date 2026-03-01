@@ -5,6 +5,16 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.10.1] - 2026-03-01
+
+### Added
+- **Deliverables Verification Gate** (Task 95) — mandatory verification before task completion
+  - `@acp.proceed` Step 3.5: verify all expected files exist before marking task complete
+  - `@acp.proceed` Step A3.5: milestone completion sweep after autonomous task loop
+  - Autonomous loop Step 4: VERIFY DELIVERABLES in per-task loop (renumbered 4-8)
+  - Updated single-task and autonomous verification checklists with file existence checks
+  - AGENT.md: added "Documentation is a First-Class Deliverable" to Quality Best Practices
+
 ## [5.10.0] - 2026-03-01
 
 ### Added
