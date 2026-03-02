@@ -3,6 +3,20 @@
 # Agent Context Protocol (ACP) Update Script
 # This script updates AGENT.md, template files, and utility scripts from the repository
 
+# Self-relocation guard: this script overwrites itself during the update
+# (it copies the latest version from the repo to agent/scripts/). Bash reads
+# files lazily by byte offset, so the overwrite garbles execution. Fix: re-exec
+# from a temp copy so the file on disk can safely change.
+if [ -z "$_ACP_UPDATE_RELOCATED" ]; then
+    _tmp_copy=$(mktemp)
+    cp "$0" "$_tmp_copy"
+    export _ACP_UPDATE_RELOCATED=1
+    bash "$_tmp_copy" "$@"
+    _rc=$?
+    rm -f "$_tmp_copy"
+    exit $_rc
+fi
+
 set -e
 
 # Colors for output using tput (more reliable than ANSI codes)
