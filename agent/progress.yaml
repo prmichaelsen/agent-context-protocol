@@ -6,7 +6,7 @@ project:
   version: 5.10.1
   started: 2026-02-16
   status: in_progress
-  current_milestone: M12
+  current_milestone: M14
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -269,12 +269,12 @@ milestones:
 
   - id: M14
     name: Key File Index System
-    status: not_started
-    progress: 0
-    started: null
+    status: in_progress
+    progress: 14
+    started: 2026-03-02
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1684,12 +1684,15 @@ tasks:
   milestone_14:
     - id: task-99
       name: Index Directory Infrastructure
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-99-index-directory-infrastructure.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        Create agent/index/ directory, local.main.template.yaml, schema definition, update acp.install.sh
+        ✅ Created agent/index/ directory with .gitkeep
+        - local.main.template.yaml with full schema documentation
+        - local.main.yaml with 5 ACP project key files
+        - Updated acp.install.sh to create agent/index/ and copy templates
 
     - id: task-100
       name: Command Directive Integration

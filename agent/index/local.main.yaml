@@ -1,0 +1,60 @@
+# agent/index/local.main.yaml
+# Key file index for the Agent Context Protocol project
+# See: agent/design/local.key-file-index-system.md
+
+local:
+  index:
+    - path: agent/design/acp-commands-design.md
+      weight: 0.9
+      kind: design
+      description: |
+        Core design document for the ACP command system. Defines how
+        commands are structured, discovered, and executed by agents.
+      rationale: |
+        Essential context for creating or modifying any ACP command.
+        Ensures new commands follow established conventions.
+      applies: acp.command-create, acp.design-create, acp.plan
+
+    - path: agent/design/acp-package-management-system.md
+      weight: 0.8
+      kind: design
+      description: |
+        Package management system design. Covers install, update,
+        remove, validate, and manifest tracking.
+      rationale: |
+        Required reading before any package system changes to
+        maintain consistency with the established architecture.
+      applies: acp.design-create, acp.plan, acp.proceed
+
+    - path: agent/patterns/local.e2e-testing.md
+      weight: 0.8
+      kind: pattern
+      description: |
+        E2E testing pattern used across all test suites.
+        Defines test structure, assertions, and fixture patterns.
+      rationale: |
+        Prevents agents from writing tests that don't follow
+        established project conventions.
+      applies: acp.task-create, acp.proceed
+
+    - path: agent/patterns/local.tracked-untracked-directories.md
+      weight: 0.7
+      kind: pattern
+      description: |
+        Defines which agent/ directories are tracked in git vs
+        generated locally. Critical for install and gitignore setup.
+      rationale: |
+        Prevents accidental commits of local-only files and ensures
+        new directories are correctly categorized.
+      applies: acp.proceed, acp.plan
+
+    - path: agent/design/local.key-file-index-system.md
+      weight: 0.7
+      kind: design
+      description: |
+        Design specification for the key file index system itself.
+        Defines schema, loading, validation, and integration points.
+      rationale: |
+        Required when working on index-related features or when
+        understanding how key file loading works.
+      applies: acp.proceed, acp.design-create, acp.plan

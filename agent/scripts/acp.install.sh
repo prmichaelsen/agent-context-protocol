@@ -71,6 +71,7 @@ mkdir -p "$TARGET_DIR/agent/drafts"
 mkdir -p "$TARGET_DIR/agent/clarifications"
 mkdir -p "$TARGET_DIR/agent/feedback"
 mkdir -p "$TARGET_DIR/agent/preferences"
+mkdir -p "$TARGET_DIR/agent/index"
 
 # Create .gitkeep files
 touch "$TARGET_DIR/agent/design/.gitkeep"
@@ -78,6 +79,7 @@ touch "$TARGET_DIR/agent/milestones/.gitkeep"
 touch "$TARGET_DIR/agent/patterns/.gitkeep"
 touch "$TARGET_DIR/agent/tasks/.gitkeep"
 touch "$TARGET_DIR/agent/clarifications/.gitkeep"
+touch "$TARGET_DIR/agent/index/.gitkeep"
 
 # Create agent/.gitignore to exclude local-only directories from version control
 cat > "$TARGET_DIR/agent/.gitignore" << 'EOF'
@@ -104,6 +106,11 @@ find "$TEMP_DIR/agent/milestones" -maxdepth 1 -name "*.template.md" -exec cp {} 
 find "$TEMP_DIR/agent/patterns" -maxdepth 1 -name "*.template.md" -exec cp {} "$TARGET_DIR/agent/patterns/" \;
 find "$TEMP_DIR/agent/tasks" -maxdepth 1 -name "*.template.md" -exec cp {} "$TARGET_DIR/agent/tasks/" \;
 find "$TEMP_DIR/agent/clarifications" -maxdepth 1 -name "*.template.md" -exec cp {} "$TARGET_DIR/agent/clarifications/" \;
+
+# Copy index template files
+if [ -d "$TEMP_DIR/agent/index" ]; then
+    find "$TEMP_DIR/agent/index" -maxdepth 1 -name "*.template.yaml" -exec cp {} "$TARGET_DIR/agent/index/" \;
+fi
 
 # Copy command template
 cp "$TEMP_DIR/agent/commands/command.template.md" "$TARGET_DIR/agent/commands/"
