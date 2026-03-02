@@ -274,7 +274,7 @@ milestones:
     started: 2026-03-02
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1708,12 +1708,14 @@ tasks:
 
     - id: task-101
       name: Creation Command Integration
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-101-creation-command-integration.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        Update creation commands with contextual pre-read and post-creation index prompt
+        ✅ Updated @acp.design-create, @acp.task-create, @acp.pattern-create, @acp.command-create
+        - Added step 2.5 (contextual pre-read) to each
+        - Added step 10 (post-creation index prompt) to each
 
     - id: task-102
       name: "@acp.index Command"

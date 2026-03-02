@@ -63,6 +63,19 @@ Check if draft file was provided as argument (same as pattern-create and command
 
 **Expected Outcome**: Draft file read (if provided)
 
+### 2.5. Read Contextual Key Files
+
+Before creating content, load relevant key files from the index.
+
+**Actions**:
+- Check if `agent/index/` directory exists
+- If exists, scan for all `*.yaml` files (excluding `*.template.yaml`)
+- Filter entries where `applies` includes `acp.design-create`
+- Sort by weight descending, read matching files
+- Produce visible output
+
+**Note**: If `agent/index/` does not exist, skip silently.
+
 ### 3. Collect Design Information
 
 Gather information from user via chat:
@@ -124,6 +137,23 @@ If draft file was used, ask to delete it.
 Display what was created.
 
 **Expected Outcome**: User knows design was created successfully
+
+### 10. Prompt to Add to Key File Index
+
+After successful creation, offer to add the new file to the index.
+
+**Display**:
+```
+Would you like to add this to the key file index?
+  - Yes, add to agent/index/local.main.yaml
+  - No, skip
+```
+
+If yes:
+- Prompt for weight (suggest 0.7 for designs), description, rationale, and applies values
+- Add entry to `agent/index/local.main.yaml` (create file from template if it doesn't exist)
+
+**Note**: If `agent/index/` does not exist, skip this step.
 
 ---
 

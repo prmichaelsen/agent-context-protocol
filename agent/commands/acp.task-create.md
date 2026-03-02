@@ -73,6 +73,19 @@ Find the next available task number:
 
 **Expected Outcome**: Next task number determined (e.g., task-25)
 
+### 2.5. Read Contextual Key Files
+
+Before creating content, load relevant key files from the index.
+
+**Actions**:
+- Check if `agent/index/` directory exists
+- If exists, scan for all `*.yaml` files (excluding `*.template.yaml`)
+- Filter entries where `applies` includes `acp.task-create`
+- Sort by weight descending, read matching files
+- Produce visible output
+
+**Note**: If `agent/index/` does not exist, skip silently.
+
 ### 3. Check for Draft File
 
 Check if draft file was provided as argument:
@@ -215,6 +228,21 @@ Next steps:
 ```
 
 **Expected Outcome**: User knows task was created successfully
+
+### 10. Prompt to Add to Key File Index
+
+After successful creation, offer to add the new file to the index (if `agent/index/` exists).
+
+**Display**:
+```
+Would you like to add this to the key file index?
+  - Yes, add to agent/index/local.main.yaml
+  - No, skip
+```
+
+If yes, prompt for weight, description, rationale, and applies values. Add entry to `agent/index/local.main.yaml`.
+
+**Note**: Skip silently if `agent/index/` does not exist.
 
 ---
 
