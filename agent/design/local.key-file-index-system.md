@@ -342,6 +342,42 @@ See: agent/design/local.key-file-index-system.md
 **Status**: Design Specification
 **Recommendation**: Create milestone and tasks for implementation
 **Related Documents**:
-- [Clarification 5: Key File Directive](../clarifications/clarification-5-key-file-directive.md)
-- [Draft: Key File Directive](../drafts/key-file-directive.md)
 - [ACP Commands Design](acp-commands-design.md)
+
+---
+
+## Appendix: Clarification Summary
+
+The following decisions were made via clarification-5-key-file-directive (18 questions, all answered).
+
+### File Format & Location
+- **Project-level only** — no global `~/.acp/key-files.yaml`; key files are project-specific
+- **Package-shipped indices** — packages define their own index files in `agent/index/{namespace}.{qualifier}.yaml`; `agent/index/local.main.yaml` carries highest precedence
+- **Schema** — namespaced YAML with `path`, `weight` (0.0-1.0), `description`, `kind`, `rationale`, `applies`; requirements/architecture docs should always be included by default
+- **No globs** — explicit paths only to maintain laser focus and avoid context overload
+- **Description + rationale** — `description` explains what the file contains; `rationale` explains why it's in the index (both required)
+
+### Integration Points
+- **Contextual command reading** — only commands that need intelligence read key files; agent uses `description`, `rationale`, and `weight` to decide which files are relevant to the current operation
+- **Lightweight commands skip** — `@acp.status`, `@acp.report` do not read key files
+- **Context compaction** — agent proposes which files to re-read with user confirmation (options: keep as-is, read less, add files, broader search, present options)
+- **Token cost managed** — the compaction prompt mitigates excessive re-reading
+
+### Content & Scope
+- **Mostly patterns and designs** — limited source files allowed (essential ones only, e.g., core state machine)
+- **Recommended limit** — yes, to prevent context bloat
+- **AGENT.md and progress.yaml are implicit** — not listed in index, but AGENT.md should reference the key file system for discoverability
+- **Auto-population** — `@acp.package-install` can populate index; `@acp.init` can prompt user
+- **Creation commands prompt** — `@acp.design-create`, `@acp.pattern-create` ask "Add to index?" after creating files
+
+### Behavior & Enforcement
+- **Visible output** — transparent reporting of which files were read/skipped
+- **`applies` property** — each entry declares which commands it's relevant to, using fully qualified names
+- **Validation** — `@acp.validate` checks paths exist and warns on missing `agent/index/`
+- **Warning if no index** — yes, index is optional but recommended
+
+### Lifecycle & Maintenance
+- **`@acp.index` command** — with NLP support to explore codebase and suggest key files
+- **Version controlled** — index files are project-specific knowledge, tracked in git
+- **Elevates patterns** — the index is a "must-read" list that promotes certain files above others
+- **New milestone** — standalone milestone, not part of M6 (Preferences System)
