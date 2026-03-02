@@ -249,6 +249,24 @@ milestones:
       - 4 tasks (91-94): Infrastructure, Integration, Command, Testing/Docs
       - Design: agent/design/local.sessions-system.md
 
+  - id: M13
+    name: Cross-Platform CI
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1
+    tasks_completed: 0
+    tasks_total: 3
+    notes: |
+      📋 Milestone 13: Cross-Platform CI
+      - GitHub Actions matrix strategy for ubuntu-latest + macos-latest
+      - Fix macOS compatibility in E2E test files (sed -i, date +%N, exit codes)
+      - Unified test runner script (run-e2e-tests.sh)
+      - Triggers on push to mainline and pull requests
+      - 3 tasks (96-98): E2E Test Fixes, Test Runner, GitHub Actions Workflow
+      - Design: agent/design/local.cross-platform-ci.md
+
 tasks:
   milestone_1:
     - id: task-1
@@ -1614,6 +1632,34 @@ tasks:
         - Updated CHANGELOG.md with version entries
         - Design doc status changed to Implemented
         - Version bumped to 5.10.0 (minor — new feature)
+
+  milestone_13:
+    - id: task-96
+      name: Fix macOS Compatibility in E2E Tests
+      status: not_started
+      file: agent/tasks/milestone-13-cross-platform-ci/task-96-fix-macos-e2e-tests.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Fix sed -i (3 files), date +%N (3 files), exit code reliability (4 files)
+
+    - id: task-97
+      name: Create Unified E2E Test Runner
+      status: not_started
+      file: agent/tasks/milestone-13-cross-platform-ci/task-97-e2e-test-runner.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        run-e2e-tests.sh — discover, run, report on all e2e/*.test.sh files
+
+    - id: task-98
+      name: Create GitHub Actions CI Workflow
+      status: not_started
+      file: agent/tasks/milestone-13-cross-platform-ci/task-98-github-actions-workflow.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        .github/workflows/e2e-tests.yaml — matrix: ubuntu-latest, macos-latest
 
   future_enhancements:
     - id: task-30
