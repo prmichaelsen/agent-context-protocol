@@ -36,12 +36,14 @@ A new `agent/index/` directory containing per-namespace YAML index files:
 ```
 agent/
   index/
-    local.yaml          # Project's own key files (highest precedence)
-    core-sdk.yaml       # Key files from core-sdk package
-    my-package.yaml     # Key files from any installed package
+    local.main.yaml          # Project's own key files (highest precedence)
+    core-sdk.main.yaml       # Key files from core-sdk package
+    my-package.main.yaml     # Key files from any installed package
 ```
 
-**Precedence**: `local.yaml` always takes precedence over package index files. This ensures project-specific context overrides package defaults.
+**Naming convention**: `{namespace}.{qualifier}.yaml` — the qualifier allows multiple index files per namespace for different purposes (e.g., `core-sdk.main.yaml`, `core-sdk.testing.yaml`). Start with `main` as the default qualifier.
+
+**Precedence**: `local.*.yaml` files always take precedence over package index files. This ensures project-specific context overrides package defaults.
 
 **Implicit key files**: `AGENT.md` and `agent/progress.yaml` are always read by `@acp.init` and are NOT listed in index files. The index is for files that would otherwise be missed.
 
@@ -50,10 +52,10 @@ agent/
 Each index file follows this structure:
 
 ```yaml
-# agent/index/local.yaml
+# agent/index/local.main.yaml
 # Key file index for project-local files
 
-local:                    # namespace (matches filename)
+local:                    # namespace (matches first segment of filename)
   index:
     - path: agent/design/requirements.md
       weight: 1.0         # 0.0 - 1.0, how important (1.0 = always read)
@@ -64,7 +66,7 @@ local:                    # namespace (matches filename)
       rationale: |
         Must be read before any design or task creation to ensure
         alignment with project goals.
-      applies: init, design-create, task-create, plan, proceed
+      applies: acp.init, acp.design-create, acp.task-create, acp.plan, acp.proceed
 
     - path: agent/patterns/local.e2e-testing.md
       weight: 0.8
@@ -75,7 +77,7 @@ local:                    # namespace (matches filename)
       rationale: |
         Prevents agents from writing tests that don't follow
         established project conventions.
-      applies: task-create, proceed
+      applies: acp.task-create, acp.proceed
 
     - path: src/core/state-machine.ts
       weight: 0.6
@@ -85,7 +87,7 @@ local:                    # namespace (matches filename)
         application's primary workflow.
       rationale: |
         Essential context for any work touching business logic.
-      applies: proceed, design-create
+      applies: acp.proceed, acp.design-create
 ```
 
 ### Entry Fields
@@ -96,8 +98,8 @@ local:                    # namespace (matches filename)
 | `weight` | Yes | float | 0.0 - 1.0 importance (1.0 = always read) |
 | `kind` | Yes | enum | `pattern`, `command`, `design`, `requirements` |
 | `description` | Yes | string | What the file contains and why it matters |
-| `rationale` | No | string | Why this file is in the index |
-| `applies` | No | string | Comma-separated list of commands/contexts where this file is relevant |
+| `rationale` | Yes | string | Why this file is in the index |
+| `applies` | Yes | string | Comma-separated list of fully qualified command names (e.g., `acp.init`, `core-sdk.bootstrap`) where this file is relevant |
 
 ### No Glob Patterns
 
@@ -139,12 +141,13 @@ Not all commands read all key files. The agent uses the `applies` field and `wei
 **Commands that read key files** (need intelligence for decisions):
 - `@acp.init` — Read high-weight files (weight >= 0.8) automatically
 - `@acp.resume` — Same as init
-- `@acp.proceed` — Read files where `applies` includes `proceed`
-- `@acp.plan` — Read files where `applies` includes `plan`
-- `@acp.design-create` — Read files where `applies` includes `design-create`
-- `@acp.task-create` — Read files where `applies` includes `task-create`
-- `@acp.pattern-create` — Read files where `applies` includes `pattern-create`
-- `@acp.command-create` — Read files where `applies` includes `command-create`
+- `@acp.proceed` — Read files where `applies` includes `acp.proceed`
+- `@acp.plan` — Read files where `applies` includes `acp.plan`
+- `@acp.design-create` — Read files where `applies` includes `acp.design-create`
+- `@acp.task-create` — Read files where `applies` includes `acp.task-create`
+- `@acp.pattern-create` — Read files where `applies` includes `acp.pattern-create`
+- `@acp.command-create` — Read files where `applies` includes `acp.command-create`
+- Any package command (e.g., `core-sdk.bootstrap`) — matches its qualified name
 
 **Commands that skip key files** (lightweight, no decisions):
 - `@acp.status`
@@ -192,13 +195,13 @@ When reading key files, the agent produces transparent output:
 
 ### 5. Package-Shipped Indices
 
-Packages can include an index file that gets installed to `agent/index/{package-name}.yaml`:
+Packages can include index files that get installed to `agent/index/{namespace}.{qualifier}.yaml`:
 
 ```yaml
 # In package.yaml contents section
 contents:
   indices:
-    - name: core-sdk.yaml
+    - name: core-sdk.main.yaml
       description: Key patterns for core-sdk package
 ```
 
@@ -214,8 +217,8 @@ A new command for managing the index:
 
 ```
 @acp.index                        # List all indexed key files
-@acp.index add <path>             # Add a file to local.yaml
-@acp.index remove <path>          # Remove a file from local.yaml
+@acp.index add <path>             # Add a file to local.main.yaml
+@acp.index remove <path>          # Remove a file from local.main.yaml
 @acp.index explore                # Scan codebase, suggest key files
 @acp.index show                   # Show full index with all namespaces
 ```
@@ -234,13 +237,13 @@ When `@acp.design-create`, `@acp.pattern-create`, or similar commands create a n
 ✅ Design created: agent/design/local.my-feature.md
 
 Would you like to add this to the key file index?
-  - Yes, add to agent/index/local.yaml
+  - Yes, add to agent/index/local.main.yaml
   - No, skip
 ```
 
 ### 8. Auto-Population on Package Install
 
-When `@acp.package-install` installs a package that includes an index file, it installs to `agent/index/{package-name}.yaml` automatically.
+When `@acp.package-install` installs a package that includes index files, they install to `agent/index/{namespace}.{qualifier}.yaml` automatically.
 
 ### 9. AGENT.md Integration
 
@@ -258,7 +261,7 @@ See: agent/design/local.key-file-index-system.md
 
 `@acp.validate` checks:
 - All paths in index files actually exist
-- Required fields are present (path, weight, kind, description)
+- Required fields are present (path, weight, kind, description, rationale, applies)
 - Weight values are in range 0.0 - 1.0
 - Kind values are valid enum members
 - Warns if `agent/index/` directory doesn't exist (optional but recommended)
