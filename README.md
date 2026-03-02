@@ -9,6 +9,14 @@ A documentation-first development methodology that enables AI agents to understa
 
 ## Quick Start
 
+### Requirements
+
+- **OS**: Linux or macOS
+- **Shell**: Bash 4+ (`bash --version` to check)
+- **Git**: 2.x+
+
+> macOS note: The default `/bin/bash` on macOS is 3.2. Homebrew's bash (`/opt/homebrew/bin/bash` or `/usr/local/bin/bash`) is typically 5.x and works out of the box.
+
 ### Bootstrap a New Project
 
 ```bash
