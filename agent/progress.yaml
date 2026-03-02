@@ -274,7 +274,7 @@ milestones:
     started: 2026-03-02
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 4
+    tasks_completed: 5
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1731,12 +1731,17 @@ tasks:
 
     - id: task-103
       name: Package Index Support
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-103-package-index-support.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        Extend package.yaml schema with indices, update install/remove/update/validate/info
+        ✅ Updated 5 package scripts for index file support:
+        - acp.package-install.sh: --indices flag, index/ dir scanning, manifest tracking
+        - acp.package-remove.sh: index file removal
+        - acp.package-update.sh: index file updates with conflict detection
+        - acp.package-validate.sh: contents.indices validation
+        - acp.package-info.sh: index file display
 
     - id: task-104
       name: Validation & Documentation

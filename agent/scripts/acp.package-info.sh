@@ -150,11 +150,21 @@ designs_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_designs && /^        - name:/ { print $3 }
 ' "$MANIFEST_FILE")
 
+indices_files=$(awk -v pkg="$PACKAGE_NAME" '
+    BEGIN { in_pkg=0; in_indices=0 }
+    $0 ~ "^  " pkg ":" { in_pkg=1; next }
+    in_pkg && /^  [a-z]/ { in_pkg=0 }
+    in_pkg && /^      indices:/ { in_indices=1; next }
+    in_indices && /^      [a-z]/ { in_indices=0 }
+    in_indices && /^        - name:/ { print $3 }
+' "$MANIFEST_FILE")
+
 # Count files
 patterns_count=$(echo "$patterns_files" | grep -c . || echo 0)
 commands_count=$(echo "$commands_files" | grep -c . || echo 0)
 designs_count=$(echo "$designs_files" | grep -c . || echo 0)
-total_files=$((patterns_count + commands_count + designs_count))
+indices_count=$(echo "$indices_files" | grep -c . || echo 0)
+total_files=$((patterns_count + commands_count + designs_count + indices_count))
 
 echo "${BLUE}Contents:${NC}"
 echo ""
@@ -239,6 +249,14 @@ if [ "$designs_count" -gt 0 ]; then
         else
             echo "    - $file (v$file_version)"
         fi
+    done
+    echo ""
+fi
+
+if [ "$indices_count" -gt 0 ]; then
+    echo "  ${GREEN}Indices ($indices_count):${NC}"
+    for file in $indices_files; do
+        echo "    - $file (agent/index/$file)"
     done
     echo ""
 fi

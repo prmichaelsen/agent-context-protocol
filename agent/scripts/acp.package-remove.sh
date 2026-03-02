@@ -125,6 +125,15 @@ designs_files=$(awk -v pkg="$PACKAGE_NAME" '
     in_designs && /^        - name:/ { print $3 }
 ' "$MANIFEST_FILE")
 
+indices_files=$(awk -v pkg="$PACKAGE_NAME" '
+    BEGIN { in_pkg=0; in_indices=0 }
+    $0 ~ "^  " pkg ":" { in_pkg=1; next }
+    in_pkg && /^  [a-z]/ { in_pkg=0 }
+    in_pkg && /^      indices:/ { in_indices=1; next }
+    in_indices && /^      [a-z]/ { in_indices=0 }
+    in_indices && /^        - name:/ { print $3 }
+' "$MANIFEST_FILE")
+
 # Get template files with their target paths (name|target)
 template_file_entries=$(awk -v pkg="$PACKAGE_NAME" '
     BEGIN { in_pkg=0; in_files=0; name="" }
@@ -155,18 +164,25 @@ else
     designs_count=0
 fi
 
+if [ -n "$indices_files" ]; then
+    indices_count=$(echo "$indices_files" | wc -l)
+else
+    indices_count=0
+fi
+
 if [ -n "$template_file_entries" ]; then
     template_files_count=$(echo "$template_file_entries" | wc -l)
 else
     template_files_count=0
 fi
 
-total_files=$((patterns_count + commands_count + designs_count + template_files_count))
+total_files=$((patterns_count + commands_count + designs_count + indices_count + template_files_count))
 
 echo "${YELLOW}⚠️  This will remove:${NC}"
 [ "$patterns_count" -gt 0 ] && echo "  - $patterns_count pattern(s)"
 [ "$commands_count" -gt 0 ] && echo "  - $commands_count command(s)"
 [ "$designs_count" -gt 0 ] && echo "  - $designs_count design(s)"
+[ "$indices_count" -gt 0 ] && echo "  - $indices_count index file(s)"
 [ "$template_files_count" -gt 0 ] && echo "  - $template_files_count file(s) (installed to project)"
 echo ""
 echo "Total: $total_files file(s)"
@@ -189,6 +205,12 @@ done
 for file in $designs_files; do
     if is_file_modified "$PACKAGE_NAME" "design" "$file"; then
         modified_files+=("design/$file")
+    fi
+done
+
+for file in $indices_files; do
+    if is_file_modified "$PACKAGE_NAME" "indices" "$file"; then
+        modified_files+=("index/$file")
     fi
 done
 
@@ -264,6 +286,19 @@ for file in $designs_files; do
         if [ -f "agent/design/$file" ]; then
             rm "agent/design/$file"
             echo "  ${GREEN}✓${NC} Removed design/$file"
+            removed_count=$((removed_count + 1))
+        fi
+    fi
+done
+
+for file in $indices_files; do
+    if printf '%s\n' "${modified_files[@]}" | grep -q "^index/$file$" && [ "$KEEP_MODIFIED" = true ]; then
+        echo "  ${YELLOW}⊙${NC} Kept index/$file (modified)"
+        kept_count=$((kept_count + 1))
+    else
+        if [ -f "agent/index/$file" ]; then
+            rm "agent/index/$file"
+            echo "  ${GREEN}✓${NC} Removed index/$file"
             removed_count=$((removed_count + 1))
         fi
     fi

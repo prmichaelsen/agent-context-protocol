@@ -172,6 +172,24 @@ validate_file_existence() {
         done
     fi
     
+    # Check indices (key file index files in agent/index/)
+    if yaml_has_key "package.yaml" "contents.indices"; then
+        local indices_count=$(yaml_get_array "package.yaml" "contents.indices")
+        for i in $(seq 0 $((indices_count - 1))); do
+            local index_name=$(yaml_get_nested "package.yaml" "contents.indices[$i].name")
+            if [ -n "$index_name" ]; then
+                total_files=$((total_files + 1))
+                check
+                if [ -f "agent/index/$index_name" ]; then
+                    pass "agent/index/$index_name ✓"
+                else
+                    error "Missing file: agent/index/$index_name"
+                    missing_files=$((missing_files + 1))
+                fi
+            fi
+        done
+    fi
+
     # Check files (template source files in agent/files/)
     if yaml_has_key "package.yaml" "contents.files"; then
         local files_count=$(yaml_get_array "package.yaml" "contents.files")

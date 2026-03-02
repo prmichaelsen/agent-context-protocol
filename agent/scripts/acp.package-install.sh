@@ -19,10 +19,12 @@ INSTALL_PATTERNS=false
 INSTALL_COMMANDS=false
 INSTALL_DESIGNS=false
 INSTALL_FILES=false
+INSTALL_INDICES=false
 PATTERN_FILES=()
 COMMAND_FILES=()
 DESIGN_FILES=()
 FILE_FILES=()
+INDEX_FILES=()
 LIST_ONLY=false
 GLOBAL_INSTALL=false
 INSTALL_EXPERIMENTAL=false
@@ -78,6 +80,14 @@ while [[ $# -gt 0 ]]; do
                 shift
             done
             ;;
+        --indices)
+            INSTALL_INDICES=true
+            shift
+            while [[ $# -gt 0 && ! $1 =~ ^- ]]; do
+                INDEX_FILES+=("$1")
+                shift
+            done
+            ;;
         --list)
             LIST_ONLY=true
             shift
@@ -98,11 +108,12 @@ if [ -z "$REPO_URL" ]; then
 fi
 
 # Default: install everything if no selective flags specified
-if [[ "$INSTALL_PATTERNS" == false && "$INSTALL_COMMANDS" == false && "$INSTALL_DESIGNS" == false && "$INSTALL_FILES" == false ]]; then
+if [[ "$INSTALL_PATTERNS" == false && "$INSTALL_COMMANDS" == false && "$INSTALL_DESIGNS" == false && "$INSTALL_FILES" == false && "$INSTALL_INDICES" == false ]]; then
     INSTALL_PATTERNS=true
     INSTALL_COMMANDS=true
     INSTALL_DESIGNS=true
     INSTALL_FILES=true
+    INSTALL_INDICES=true
 fi
 
 echo "${BLUE}📦 ACP Package Installer (Optimized)${NC}"
@@ -181,6 +192,7 @@ INSTALL_DIRS=()
 [ "$INSTALL_DESIGNS" = true ] && INSTALL_DIRS+=("design")
 [ "$INSTALL_COMMANDS" = true ] && INSTALL_DIRS+=("scripts")
 [ "$INSTALL_FILES" = true ] && INSTALL_DIRS+=("files")
+[ "$INSTALL_INDICES" = true ] && INSTALL_DIRS+=("index")
 
 # Mapping from dir names to manifest keys (dir → manifest key)
 declare -A MANIFEST_KEYS=(
@@ -189,6 +201,7 @@ declare -A MANIFEST_KEYS=(
     ["design"]="designs"
     ["scripts"]="scripts"
     ["files"]="files"
+    ["index"]="indices"
 )
 
 # ============================================================================
@@ -235,6 +248,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
         design) FILE_LIST=DESIGN_FILES ;;
         scripts) FILE_LIST=COMMAND_FILES ;;
         files) FILE_LIST=FILE_FILES ;;
+        index) FILE_LIST=INDEX_FILES ;;
     esac
 
     # Collect files
@@ -328,6 +342,10 @@ for dir in "${INSTALL_DIRS[@]}"; do
             while IFS= read -r file; do
                 [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
             done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.sh" ! -name "*.template.sh" -type f)
+        elif [ "$dir" = "index" ]; then
+            while IFS= read -r file; do
+                [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
+            done < <(find "$SOURCE_DIR" -maxdepth 1 -name "*.yaml" ! -name "*.template.yaml" -type f)
         else
             while IFS= read -r file; do
                 [ -n "$file" ] && FILES_TO_PROCESS+=("$file")
@@ -446,7 +464,7 @@ for dir in "${INSTALL_DIRS[@]}"; do
 done
 
 # Warn about unrecognized directories in the package
-KNOWN_DIRS="patterns commands design scripts files"
+KNOWN_DIRS="patterns commands design scripts files index"
 if [ -d "$TEMP_DIR/agent" ]; then
     UNRECOGNIZED=()
     while IFS= read -r pkg_dir; do

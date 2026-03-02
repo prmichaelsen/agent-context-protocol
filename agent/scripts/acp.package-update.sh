@@ -196,7 +196,7 @@ update_package() {
     local modified_files=()
     
     # Check for modified files first
-    for file_type in patterns commands design; do
+    for file_type in patterns commands design indices; do
         local files
         files=$(awk -v pkg="$package_name" -v type="$file_type" '
             BEGIN { in_pkg=0; in_type=0 }
@@ -254,8 +254,17 @@ update_package() {
         echo ""
     fi
     
+    # Mapping from manifest type to directory name
+    local _dir_for_type
+    _type_to_dir() {
+        case "$1" in
+            indices) echo "index" ;;
+            *) echo "$1" ;;
+        esac
+    }
+
     # Update files
-    for file_type in patterns commands design; do
+    for file_type in patterns commands design indices; do
         local files
         files=$(awk -v pkg="$package_name" -v type="$file_type" '
             BEGIN { in_pkg=0; in_type=0 }
@@ -276,13 +285,16 @@ update_package() {
                 fi
             fi
             
+            # Map manifest type to directory name
+            local _file_dir=$(_type_to_dir "$file_type")
+
             # Check if file exists in new version
-            if [ ! -f "$temp_dir/agent/$file_type/$file_name" ]; then
-                warn "File no longer exists in package: $file_type/$file_name"
+            if [ ! -f "$temp_dir/agent/$_file_dir/$file_name" ]; then
+                warn "File no longer exists in package: $_file_dir/$file_name"
                 ((skipped_count++))
                 continue
             fi
-            
+
             # Check if this is a new experimental feature
             local is_experimental=$(grep -A 1000 "^  ${file_type}:" "$temp_dir/package.yaml" 2>/dev/null | grep -A 2 "name: ${file_name}" | grep "^ *experimental: true" | grep -v "^[[:space:]]*#" | head -1)
             
@@ -305,13 +317,14 @@ update_package() {
             fi
             
             # Copy file
-            cp "$temp_dir/agent/$file_type/$file_name" "agent/$file_type/"
-            
+            mkdir -p "agent/$_file_dir"
+            cp "$temp_dir/agent/$_file_dir/$file_name" "agent/$_file_dir/"
+
             # Get new version and checksum
             local new_version
             new_version=$(get_file_version "$temp_dir/package.yaml" "$file_type" "$file_name")
             local new_checksum
-            new_checksum=$(calculate_checksum "agent/$file_type/$file_name")
+            new_checksum=$(calculate_checksum "agent/$_file_dir/$file_name")
             
             # Update manifest (including experimental status)
             update_file_in_manifest "$package_name" "$file_type" "$file_name" "$new_version" "$new_checksum"
