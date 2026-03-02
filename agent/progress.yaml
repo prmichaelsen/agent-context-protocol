@@ -274,7 +274,7 @@ milestones:
     started: 2026-03-02
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1696,12 +1696,15 @@ tasks:
 
     - id: task-100
       name: Command Directive Integration
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-100-command-directive-integration.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        Update @acp.init, @acp.resume, @acp.proceed, @acp.plan to read key files contextually
+        ✅ Updated @acp.init (step 2.8), @acp.proceed (step 1.5 + autonomous loop),
+        @acp.plan (step 0), @acp.resume (inherits from init)
+        - Key file reading with weight filtering and visible output
+        - Context compaction handled via existing CLAUDE.md → @acp.init flow
 
     - id: task-101
       name: Creation Command Integration

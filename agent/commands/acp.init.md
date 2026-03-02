@@ -117,6 +117,34 @@ Check for globally installed ACP packages.
 
 **Note**: This step is optional and graceful - if no global packages exist or manifest is not found, continue without error.
 
+### 2.8. Read Key Files from Index
+
+Load critical project files from the key file index.
+
+**Actions**:
+- Check if `agent/index/` directory exists
+- If exists, scan for all `*.yaml` files (excluding `*.template.yaml`)
+- Parse each index file's entries
+- Merge entries across namespaces (`local.*` takes precedence over package indices)
+- Filter entries with weight >= 0.8 (high-importance files for init)
+- Sort by weight descending
+- Read each qualifying file
+- Produce visible output showing what was read/skipped
+
+**Display format**:
+```
+📑 Reading Key Files...
+  ✓ agent/design/acp-commands-design.md (weight: 0.9, design)
+  ✓ agent/patterns/local.e2e-testing.md (weight: 0.8, pattern)
+  ○ agent/patterns/local.tracked-untracked-directories.md (weight: 0.7, skipped — below threshold)
+
+  2 index files scanned, 2 key files read, 1 skipped
+```
+
+**Expected Outcome**: High-importance key files loaded into context
+
+**Note**: If `agent/index/` does not exist, skip this step silently. The index is optional but recommended.
+
 ### 3. Identify Key Source Files
 
 Determine which source files are most important to review.

@@ -74,6 +74,30 @@ This command helps agents systematically plan project milestones and tasks. It s
 
 ## Steps
 
+### 0. Read Contextual Key Files
+
+Before planning, load relevant key files from the index.
+
+**Actions**:
+- Check if `agent/index/` directory exists
+- If exists, scan for all `*.yaml` files (excluding `*.template.yaml`)
+- Parse entries, merge across namespaces (`local.*` takes precedence)
+- Filter entries where `applies` includes `acp.plan`
+- Sort by weight descending
+- Read matching files
+- Produce visible output
+
+**Display format**:
+```
+📑 Reading Key Files (acp.plan)...
+  ✓ agent/design/acp-commands-design.md (weight: 0.9, design)
+  ✓ agent/design/local.key-file-index-system.md (weight: 0.7, design)
+
+  2 key files read for acp.plan context
+```
+
+**Note**: If `agent/index/` does not exist, skip silently.
+
 ### 1. Scan for Undefined Planning Items
 
 Automatically scan progress.yaml for items needing planning:

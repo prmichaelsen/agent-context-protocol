@@ -163,6 +163,30 @@ When you invoke `@acp.proceed --complete` (or equivalent):
 
 **DO NOT spend time analyzing or planning. MOVE TO STEP 2 IMMEDIATELY.**
 
+### 1.5. Read Contextual Key Files
+
+Before implementing, load relevant key files from the index.
+
+**Actions**:
+- Check if `agent/index/` directory exists
+- If exists, scan for all `*.yaml` files (excluding `*.template.yaml`)
+- Parse entries, merge across namespaces (`local.*` takes precedence)
+- Filter entries where `applies` includes `acp.proceed`
+- Sort by weight descending
+- Read matching files
+- Produce visible output
+
+**Display format**:
+```
+📑 Reading Key Files (acp.proceed)...
+  ✓ agent/patterns/local.e2e-testing.md (weight: 0.8, pattern)
+  ✓ agent/patterns/local.tracked-untracked-directories.md (weight: 0.7, pattern)
+
+  2 key files read for acp.proceed context
+```
+
+**Note**: If `agent/index/` does not exist, skip silently. Do NOT spend excessive time here — read files quickly and move to implementation.
+
 ### 2. START IMPLEMENTING NOW (This is the main step)
 
 **🚨 MANDATORY ACTIONS - DO THESE IMMEDIATELY:**
@@ -311,8 +335,9 @@ FOR each remaining task in planned order:
 
   1. DISPLAY progress indicator (see A5)
 
-  2. READ task document
+  2. READ task document and key files
      - Re-read progress.yaml at start of each iteration (context freshness)
+     - Read contextual key files from agent/index/ (filter by acp.proceed applies)
      - Read the task file
 
   3. IMPLEMENT the task
