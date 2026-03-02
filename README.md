@@ -212,6 +212,23 @@ See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
 
 ---
 
+## Key File Index
+
+ACP includes a weighted key file index (`agent/index/`) that ensures agents read critical project files before making decisions. Each entry declares a file path, priority weight, and which commands should read it.
+
+```bash
+# Manage the key file index
+@acp.index list              # List all indexed key files
+@acp.index add <path>        # Add a file to the index
+@acp.index remove <path>     # Remove a file from the index
+```
+
+Packages can ship their own index files (`contents.indices` in package.yaml), which are automatically installed to `agent/index/` and discovered by commands.
+
+See [AGENT.md](./AGENT.md#key-file-index) for complete documentation.
+
+---
+
 ## Benchmark Suite
 
 ACP includes an automated benchmark system that measures the impact of ACP on AI-driven development. It runs identical tasks with and without ACP, comparing metrics like token usage, code quality, and task completion.
@@ -317,6 +334,10 @@ project-root/
 │   │   ├── .gitkeep
 │   │   ├── task-1-{title}.template.md
 │   │   └── task-1-setup.md
+│   │
+│   ├── index/                      # Key file index
+│   │   ├── local.main.yaml         # Project's key files
+│   │   └── {pkg}.main.yaml         # Package-shipped indices
 │   │
 │   └── progress.yaml               # Progress tracking
 │

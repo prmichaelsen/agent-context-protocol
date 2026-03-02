@@ -270,11 +270,11 @@ milestones:
   - id: M14
     name: Key File Index System
     status: in_progress
-    progress: 14
+    progress: 85
     started: 2026-03-02
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 5
+    tasks_completed: 6
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1745,12 +1745,17 @@ tasks:
 
     - id: task-104
       name: Validation & Documentation
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-104-validation-documentation.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        Add index validation to @acp.validate, update AGENT.md and README.md
+        Added step 9 (Index Validation) to @acp.validate with schema, path, and limit checks.
+        Added Key File Index section to AGENT.md with full docs (schema, naming, commands, weights).
+        Updated AGENT.md directory structure and TOC.
+        Added Key File Index section to README.md with brief feature overview.
+        Updated README.md directory structure.
+        Added "When Recovering from Context Loss" to AGENT.md Instructions for Future Agents (provider-agnostic).
 
     - id: task-105
       name: Testing

@@ -174,7 +174,35 @@ Check namespace usage across all files.
 
 **Expected Outcome**: Namespace conventions validated, errors reported for violations
 
-### 9. Check Cross-References
+### 9. Validate Key File Index
+
+Check index files in `agent/index/` for schema correctness and referential integrity.
+
+**Actions**:
+- Check that `agent/index/` directory exists (warn if missing)
+- For each `*.yaml` file in `agent/index/` (skip `*.template.yaml`):
+  - Verify filename follows `{namespace}.{qualifier}.yaml` naming
+  - Parse the index entries under the top-level key
+  - For each entry, verify required fields present: `path`, `weight`, `kind`, `description`, `rationale`, `applies`
+  - Validate `weight` is a number in range 0.0-1.0
+  - Validate `kind` is one of: pattern, command, design, requirements
+  - Validate `applies` values use fully qualified command names (contain a dot, e.g. `acp.proceed`)
+  - Check that each `path` actually exists in the project
+  - Warn on missing paths (file may have been moved or deleted)
+- Check total indexed entries across all files (warn if > 20)
+- Check per-namespace entry count (warn if > 10)
+
+**Output format**:
+```
+📑 Index Validation:
+  ✓ agent/index/local.main.yaml (5 entries, all valid)
+  ⚠️ agent/index/core-sdk.main.yaml: path not found: agent/patterns/core-sdk.deleted.md
+  ✓ Total: 8 entries across 2 namespaces (within limits)
+```
+
+**Expected Outcome**: Index files validated for schema and referential integrity
+
+### 10. Check Cross-References
 
 Validate links between documents.
 
@@ -188,7 +216,7 @@ Validate links between documents.
 
 **Expected Outcome**: All links are valid
 
-### 10. Generate Validation Report
+### 11. Generate Validation Report
 
 Summarize validation results.
 
@@ -215,6 +243,7 @@ Summarize validation results.
 - [ ] All command documents are valid
 - [ ] Namespace conventions validated
 - [ ] Reserved names checked
+- [ ] Key file index validated (schema, paths, limits)
 - [ ] No broken internal links
 - [ ] Validation report generated
 

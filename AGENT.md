@@ -17,16 +17,17 @@
 6. [How to Use the Agent Pattern](#how-to-use-the-agent-pattern)
 7. [Pattern Significance & Impact](#pattern-significance--impact)
 8. [Problems This Pattern Solves](#problems-this-pattern-solves)
-9. [Instructions for Future Agents](#instructions-for-future-agents)
-10. [Best Practices](#best-practices)
+9. [Key File Index](#key-file-index)
+10. [Instructions for Future Agents](#instructions-for-future-agents)
+11. [Best Practices](#best-practices)
     - [Critical Rules](#critical-rules)
     - [Workflow Best Practices](#workflow-best-practices)
     - [Documentation Best Practices](#documentation-best-practices)
     - [Organization Best Practices](#organization-best-practices)
     - [Progress Tracking Best Practices](#progress-tracking-best-practices)
     - [Quality Best Practices](#quality-best-practices)
-11. [What NOT to Do](#what-not-to-do)
-12. [Keeping ACP Updated](#keeping-acp-updated)
+12. [What NOT to Do](#what-not-to-do)
+13. [Keeping ACP Updated](#keeping-acp-updated)
 
 ---
 
@@ -127,6 +128,12 @@ project-root/
 │   ├── files/                      # Template source files (in packages)
 │   │   ├── config/                 # Config templates
 │   │   └── src/                    # Source code templates
+│   │
+│   ├── index/                      # Key file index
+│   │   ├── .gitkeep
+│   │   ├── local.main.yaml         # Project's own key files
+│   │   ├── local.main.template.yaml# Template with schema docs
+│   │   └── {pkg}.main.yaml         # Package-shipped indices
 │   │
 │   └── progress.yaml               # Progress tracking
 │
@@ -1008,6 +1015,63 @@ contents:
 
 ---
 
+## Key File Index
+
+This project uses the ACP Key File Index system to ensure agents read critical files before making decisions. Key files are declared in `agent/index/` with weights and descriptions.
+
+### How It Works
+
+Index files in `agent/index/` declare which project files are critical. Each entry includes:
+- **path**: Path to the file (relative to project root)
+- **weight**: Priority from 0.0-1.0 (higher = more important)
+- **kind**: Type of file — `pattern`, `command`, `design`, or `requirements`
+- **description**: What the file contains
+- **rationale**: Why an agent must read it
+- **applies**: Comma-separated list of commands that should read this file (e.g. `acp.proceed, acp.plan`)
+
+### Index File Naming
+
+Files follow `{namespace}.{qualifier}.yaml` naming:
+- `local.main.yaml` — Project's own key files (highest precedence)
+- `{package}.main.yaml` — Package-shipped key files (installed via `@acp.package-install`)
+
+### When Key Files Are Read
+
+- **`@acp.init`**: Reads all key files with weight >= 0.8
+- **`@acp.proceed`**, **`@acp.plan`**: Read key files where `applies` includes the command name
+- **Creation commands** (`@acp.design-create`, etc.): Read key files where `applies` includes the command name
+- **After context compaction**: Re-read key files following [When Recovering from Context Loss](#when-recovering-from-context-loss)
+
+### Managing the Index
+
+Use `@acp.index` to manage entries:
+```
+@acp.index list              # List all indexed key files
+@acp.index add <path>        # Add a file to the index
+@acp.index remove <path>     # Remove a file from the index
+@acp.index explore           # Suggest files that should be indexed
+@acp.index show <path>       # Show details for a specific entry
+```
+
+### Weight Guidelines
+
+| Weight | Use For |
+|--------|---------|
+| 0.9-1.0 | Requirements, critical design docs |
+| 0.7-0.8 | Important patterns, testing guides |
+| 0.5-0.6 | Useful references, conventions |
+| 0.3-0.4 | Package-shipped indices (convention) |
+
+### Validation
+
+Run `@acp.validate` to check index health: valid schema, existing paths, reasonable limits (recommended max 20 entries total, 10 per namespace).
+
+### Design Document
+
+See `agent/design/local.key-file-index-system.md` for the complete design specification.
+
+---
+
 ## Sample Prompts for Using ACP
 
 ### Initialize Prompt
@@ -1171,6 +1235,29 @@ Run ./agent/scripts/unacp.install.sh to remove all ACP files (agent/ directory a
    - Add completion date
    - Update milestone progress
    - Add notes about work done
+
+### When Recovering from Context Loss
+
+When your context is compacted, truncated, or you start a new session mid-task:
+
+1. **Re-read `agent/index/` key files**
+   - Scan `agent/index/` for `*.yaml` files (excluding `*.template.yaml`)
+   - Read entries with weight >= 0.8 to restore critical context
+   - Filter by `applies` field if you know which command you were executing
+
+2. **Re-read `agent/progress.yaml`**
+   - Identify current milestone and task
+   - Check what was last completed
+
+3. **Re-read the current task document**
+   - Determine which step you were on
+   - Review remaining verification items
+
+4. **Offer scope control to the user**
+   - Ask if they want full context reload or minimal recovery
+   - Suggest relevant key files based on current work
+
+This is equivalent to running `@acp.init` steps 2-2.8 followed by resuming the current task.
 
 ### When Creating New Features
 
