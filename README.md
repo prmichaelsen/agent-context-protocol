@@ -114,6 +114,7 @@ This will:
 - **`@acp.sync`** - Sync documentation with code
 - **`@acp.validate`** - Validate ACP structure
 - **`@acp.report`** - Generate session report
+- **`@acp.index`** - Manage the key file index (list, add, remove, explore, show)
 
 **Package Management**:
 - **`@acp.package-install`** - Install packages (supports `--global` flag)

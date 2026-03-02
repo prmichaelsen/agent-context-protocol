@@ -171,7 +171,11 @@ contents:
     - name: acp.validate.md
       description: Validate ACP structure
       scripts: []
-    
+
+    - name: acp.index.md
+      description: Manage the key file index
+      scripts: []
+
     # Sessions Command (Experimental)
     - name: acp.sessions.md
       description: Manage and view active agent sessions

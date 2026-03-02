@@ -274,7 +274,7 @@ milestones:
     started: 2026-03-02
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1719,12 +1719,15 @@ tasks:
 
     - id: task-102
       name: "@acp.index Command"
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-102-acp-index-command.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        New command: list, add, remove, explore, show subcommands with NLP
+        ✅ Created agent/commands/acp.index.md with list/add/remove/explore/show
+        - NLP argument parsing, recommended limit warnings
+        - Updated package.yaml and README.md
+        - Created via @acp.command-create workflow
 
     - id: task-103
       name: Package Index Support
