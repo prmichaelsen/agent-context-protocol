@@ -269,12 +269,12 @@ milestones:
 
   - id: M14
     name: Key File Index System
-    status: in_progress
-    progress: 85
+    status: completed
+    progress: 100
     started: 2026-03-02
-    completed: null
+    completed: 2026-03-02
     estimated_weeks: 2-3
-    tasks_completed: 6
+    tasks_completed: 7
     tasks_total: 7
     notes: |
       📋 Milestone 14: Key File Index System
@@ -1759,12 +1759,18 @@ tasks:
 
     - id: task-105
       name: Testing
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-105-testing.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-02
       notes: |
-        E2E test suite: schema, loading, precedence, validation, package integration, edge cases
+        Created e2e/acp.index.test.sh with 16 tests, 51 assertions, 100% pass rate.
+        Tests cover: schema structure, naming convention, template exclusion, weight range,
+        kind enum, applies qualification, package install/remove/info integration,
+        install script, template docs, empty dir, single entry, multiple files,
+        package validate, local precedence.
+        Fixed bugs: add_package_to_manifest missing indices:[] init, is_file_modified
+        indices->index dir mapping in acp.common.sh.
 
   future_enhancements:
     - id: task-30

@@ -587,6 +587,7 @@ add_package_to_manifest() {
                 print "      designs: []"
                 print "      scripts: []"
                 print "      files: []"
+                print "      indices: []"
                 next
             }
             { print }
@@ -734,8 +735,13 @@ is_file_modified() {
     fi
     
     # Calculate current checksum
+    # Map manifest key to filesystem directory (they differ for some types)
+    local file_dir="$file_type"
+    case "$file_type" in
+        indices) file_dir="index" ;;
+    esac
     local current_checksum
-    current_checksum=$(calculate_checksum "agent/${file_type}/${file_name}")
+    current_checksum=$(calculate_checksum "agent/${file_dir}/${file_name}")
     
     if [ "$stored_checksum" != "$current_checksum" ]; then
         return 0  # Modified
