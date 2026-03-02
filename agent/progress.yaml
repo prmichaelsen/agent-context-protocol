@@ -267,6 +267,26 @@ milestones:
       - 3 tasks (96-98): E2E Test Fixes, Test Runner, GitHub Actions Workflow
       - Design: agent/design/local.cross-platform-ci.md
 
+  - id: M14
+    name: Key File Index System
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 2-3
+    tasks_completed: 0
+    tasks_total: 7
+    notes: |
+      📋 Milestone 14: Key File Index System
+      - Weighted index of critical project files agents must read before acting
+      - agent/index/ directory with {namespace}.{qualifier}.yaml naming
+      - Contextual reading based on weight/description/applies
+      - @acp.index command for management and codebase exploration
+      - Package-shipped index support via @acp.package-install
+      - Validation rules, AGENT.md integration, auto-prompting on creation
+      - 7 tasks (99-105): Infrastructure, Command Integration, Creation Integration, @acp.index, Package Support, Validation/Docs, Testing
+      - Design: agent/design/local.key-file-index-system.md
+
 tasks:
   milestone_1:
     - id: task-1
@@ -1660,6 +1680,70 @@ tasks:
       completed_date: null
       notes: |
         .github/workflows/e2e-tests.yaml — matrix: ubuntu-latest, macos-latest
+
+  milestone_14:
+    - id: task-99
+      name: Index Directory Infrastructure
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-99-index-directory-infrastructure.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Create agent/index/ directory, local.main.template.yaml, schema definition, update acp.install.sh
+
+    - id: task-100
+      name: Command Directive Integration
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-100-command-directive-integration.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Update @acp.init, @acp.resume, @acp.proceed, @acp.plan to read key files contextually
+
+    - id: task-101
+      name: Creation Command Integration
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-101-creation-command-integration.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Update creation commands with contextual pre-read and post-creation index prompt
+
+    - id: task-102
+      name: "@acp.index Command"
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-102-acp-index-command.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        New command: list, add, remove, explore, show subcommands with NLP
+
+    - id: task-103
+      name: Package Index Support
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-103-package-index-support.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Extend package.yaml schema with indices, update install/remove/update/validate/info
+
+    - id: task-104
+      name: Validation & Documentation
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-104-validation-documentation.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Add index validation to @acp.validate, update AGENT.md and README.md
+
+    - id: task-105
+      name: Testing
+      status: not_started
+      file: agent/tasks/milestone-14-key-file-index-system/task-105-testing.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        E2E test suite: schema, loading, precedence, validation, package integration, edge cases
 
   future_enhancements:
     - id: task-30
