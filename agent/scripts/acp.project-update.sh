@@ -214,7 +214,7 @@ main() {
         if [ -z "$current_tags" ] || [ "$current_tags" = "null" ]; then
           local registry_path
           registry_path=$(get_projects_registry_path)
-          sed -i "/^  ${PROJECT_NAME}:/a\\    tags: []" "$registry_path"
+          _sed_i "/^  ${PROJECT_NAME}:/a\\    tags: []" "$registry_path"
           yaml_parse "$registry_path"
         fi
 

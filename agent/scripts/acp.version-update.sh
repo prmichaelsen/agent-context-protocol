@@ -127,13 +127,13 @@ if [ -f "agent/manifest.yaml" ]; then
     UPDATE_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
     # Update acp-core version and timestamps
-    sed -i "/^  acp-core:/,/^  [a-z]/ {
+    _sed_i "/^  acp-core:/,/^  [a-z]/ {
         s/package_version: .*/package_version: ${NEW_VERSION}/
         s/updated_at: .*/updated_at: ${UPDATE_DATE}/
     }" agent/manifest.yaml
-    
+
     # Update manifest timestamp
-    sed -i "s/^last_updated: .*/last_updated: ${UPDATE_DATE}/" agent/manifest.yaml
+    _sed_i "s/^last_updated: .*/last_updated: ${UPDATE_DATE}/" agent/manifest.yaml
     
     echo "${GREEN}✓${NC} Updated acp-core to v${NEW_VERSION} in manifest.yaml"
     echo ""

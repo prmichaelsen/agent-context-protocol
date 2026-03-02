@@ -596,7 +596,7 @@ for dir in "${!ALL_FILES_TO_INSTALL[@]}"; do
                         _value="${COLLECTED_VARS[$_var]:-}"
                         if [ -n "$_value" ]; then
                             _escaped=$(printf '%s\n' "$_value" | sed 's/[&/\]/\\&/g')
-                            sed -i "s|{{${_var}}}|${_escaped}|g" "$_dest"
+                            _sed_i "s|{{${_var}}}|${_escaped}|g" "$_dest"
                         fi
                     done
                 else
@@ -766,7 +766,7 @@ if [ ${#ALL_INSTALLED_FILES[@]} -gt 0 ]; then
         checksum=$(echo "$line" | awk '{print $1}')
         filepath=$(echo "$line" | awk '{$1=""; print substr($0,2)}')
         CHECKSUMS["$filepath"]="$checksum"
-    done < <(sha256sum "${ALL_INSTALLED_FILES[@]}" 2>/dev/null)
+    done < <(if command -v sha256sum >/dev/null 2>&1; then sha256sum "${ALL_INSTALLED_FILES[@]}" 2>/dev/null; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "${ALL_INSTALLED_FILES[@]}" 2>/dev/null; fi)
 fi
 
 # ============================================================================

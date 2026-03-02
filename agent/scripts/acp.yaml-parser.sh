@@ -5,6 +5,20 @@
 # Created: 2026-02-21
 
 # ============================================================================
+# PORTABILITY HELPERS
+# ============================================================================
+
+# Portable in-place sed (works on both GNU and BSD/macOS sed)
+# Usage: _yaml_sed_i "expression" "file"
+_yaml_sed_i() {
+    if [ "$(uname)" = "Darwin" ]; then
+        sed -i '' "$@"
+    else
+        sed -i "$@"
+    fi
+}
+
+# ============================================================================
 # GLOBAL STATE
 # ============================================================================
 
@@ -85,7 +99,7 @@ add_child() {
     fi
     
     local updated="$id|$type|$key|$value|$parent|$children"
-    sed -i "$((parent_id + 1))s@.*@$updated@" "$AST_FILE"
+    _yaml_sed_i "$((parent_id + 1))s@.*@$updated@" "$AST_FILE"
 }
 
 update_node_type() {
@@ -103,7 +117,7 @@ update_node_type() {
     children=$(echo "$node" | cut -d'|' -f6)
     
     local updated="$id|$new_type|$key|$value|$parent|$children"
-    sed -i "$((node_id + 1))s@.*@$updated@" "$AST_FILE"
+    _yaml_sed_i "$((node_id + 1))s@.*@$updated@" "$AST_FILE"
 }
 
 # ============================================================================
@@ -388,7 +402,7 @@ create_node_and_link() {
         # Update parent node with new children list
         local parent_prefix
         parent_prefix=$(echo "$parent_line" | cut -d'|' -f1-5)
-        sed -i "$((parent_id + 1))s@.*@${parent_prefix}|${parent_children}@" "$AST_FILE"
+        _yaml_sed_i "$((parent_id + 1))s@.*@${parent_prefix}|${parent_children}@" "$AST_FILE"
     fi
     
     echo "$next_id"
@@ -496,11 +510,11 @@ yaml_set() {
     if [ "$new_value" = "[]" ]; then
         # Convert node to array type and clear children
         local updated="$id|array|$key||$parent|"
-        sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+        _yaml_sed_i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
     else
         new_value=$(echo "$new_value" | sed 's/|/\\|/g')
         local updated="$id|$type|$key|$new_value|$parent|$children"
-        sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+        _yaml_sed_i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
     fi
 }
 
@@ -838,7 +852,7 @@ yaml_delete() {
     
     # Update parent node
     local updated="$id|$type|$key|$value|$parent|$new_children"
-    sed -i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
+    _yaml_sed_i "$((current_node + 1))s@.*@$updated@" "$AST_FILE"
     
     return 0
 }

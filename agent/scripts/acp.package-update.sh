@@ -319,10 +319,10 @@ update_package() {
             # Update experimental flag in manifest if needed
             if [ -n "$is_experimental" ]; then
                 # Still experimental, ensure flag is set
-                sed -i "/packages:/{:a;N;/name: ${file_name}/!ba;s/\(name: ${file_name}\)/\1\n          experimental: true/;}" "$MANIFEST_FILE" 2>/dev/null || true
+                _sed_i "/packages:/{:a;N;/name: ${file_name}/!ba;s/\(name: ${file_name}\)/\1\n          experimental: true/;}" "$MANIFEST_FILE" 2>/dev/null || true
             elif check_graduation "$file_name" "$file_type" "$package_name" "$temp_dir/package.yaml"; then
                 # Graduated, remove experimental flag
-                sed -i "/name: ${file_name}/{N;s/\n *experimental: true//;}" "$MANIFEST_FILE" 2>/dev/null || true
+                _sed_i "/name: ${file_name}/{N;s/\n *experimental: true//;}" "$MANIFEST_FILE" 2>/dev/null || true
             fi
             
             echo "  ${GREEN}✓${NC} Updated $file_type/$file_name (v$new_version)"
@@ -363,7 +363,7 @@ update_package() {
                 [ -z "$_vname" ] && continue
                 local _escaped
                 _escaped=$(printf '%s\n' "$_vval" | sed 's/[&/\]/\\&/g')
-                sed -i "s|{{${_vname}}}|${_escaped}|g" "$_ftarget"
+                _sed_i "s|{{${_vname}}}|${_escaped}|g" "$_ftarget"
             done <<< "$_stored_vars"
         fi
 
