@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.12.0] - 2026-03-04
+
+### Added
+- **Clarification Capture System** (M15) — prevent loss of design rationale from ephemeral clarifications
+  - Design document: `agent/design/local.clarification-capture-system.md`
+  - Shared directive `@acp.clarification-capture` for embedding decisions in entity docs
+  - "Key Design Decisions" optional section for entity templates (category-grouped tables)
+  - `--from-clar`, `--from-clars`, `--from-chat`, `--from-context` arguments for create commands
+  - Auto-detect and warn when uncaptured clarifications exist in session
+  - Conflict resolution flow (flag and ask user to resolve)
+  - Duplicate awareness in `@acp.clarification-create`
+  - Milestone 15 with 4 tasks (106-109)
+
 ## [5.10.2] - 2026-03-02
 
 ### Fixed

@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 5.11.0
+  version: 5.12.0
   started: 2026-02-16
   status: in_progress
-  current_milestone: M14
+  current_milestone: M15
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -286,6 +286,25 @@ milestones:
       - Validation rules, AGENT.md integration, auto-prompting on creation
       - 7 tasks (99-105): Infrastructure, Command Integration, Creation Integration, @acp.index, Package Support, Validation/Docs, Testing
       - Design: agent/design/local.key-file-index-system.md
+
+  - id: M15
+    name: Clarification Capture System
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1-2
+    tasks_completed: 0
+    tasks_total: 4
+    notes: |
+      📋 Milestone 15: Clarification Capture System
+      - Shared directive @acp.clarification-capture for embedding clarification decisions in entity docs
+      - "Key Design Decisions" optional section in entity templates
+      - --from-clar, --from-chat, --from-context arguments for create commands
+      - Auto-detect and warn about uncaptured clarifications
+      - Duplicate awareness in @acp.clarification-create
+      - 4 tasks (106-109): Directive, Templates, Integration, Duplicate Awareness
+      - Design: agent/design/local.clarification-capture-system.md
 
 tasks:
   milestone_1:
@@ -1772,6 +1791,43 @@ tasks:
         Fixed bugs: add_package_to_manifest missing indices:[] init, is_file_modified
         indices->index dir mapping in acp.common.sh.
 
+  milestone_15:
+    - id: task-106
+      name: Create @acp.clarification-capture Directive
+      status: not_started
+      file: agent/tasks/milestone-15-clarification-capture/task-106-clarification-capture-directive.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Shared directive document for capturing clarification decisions into entity docs.
+
+    - id: task-107
+      name: Update Entity Templates with Key Design Decisions Section
+      status: not_started
+      file: agent/tasks/milestone-15-clarification-capture/task-107-entity-template-key-decisions.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Add optional Key Design Decisions section to design, task, pattern, command templates.
+
+    - id: task-108
+      name: Integrate Capture Directive into Create Commands
+      status: not_started
+      file: agent/tasks/milestone-15-clarification-capture/task-108-integrate-capture-in-create-commands.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Update design-create, task-create, pattern-create, command-create with capture step.
+
+    - id: task-109
+      name: Add Duplicate Awareness to @acp.clarification-create
+      status: not_started
+      file: agent/tasks/milestone-15-clarification-capture/task-109-clarification-create-duplicate-awareness.md
+      estimated_hours: 1-2
+      completed_date: null
+      notes: |
+        Check existing clarifications by title to avoid generating duplicate questions.
+
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -1907,6 +1963,7 @@ progress:
   milestone_9: 100
   milestone_10: 100
   milestone_11: 100
+  milestone_15: 0
 
 recent_work:
   - date: 2026-03-01
