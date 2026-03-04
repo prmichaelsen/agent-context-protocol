@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.13.0] - 2026-03-04
+
+### Added
+- **Duplicate awareness in @acp.clarification-create** (Task 109) — avoids generating duplicate questions
+  - Step 1.5: Check Existing Clarifications for Overlap
+  - Title-based heuristic: infer relevance from filenames, only load relevant clars
+  - Visible output showing which clarifications checked/skipped
+  - Cross-references existing answers to skip already-answered questions
+
+### Changed
+- **Milestone 15 Complete** — Clarification Capture System fully implemented
+  - 4/4 tasks complete: directive, templates, integration, duplicate awareness
+
 ## [5.12.3] - 2026-03-04
 
 ### Changed

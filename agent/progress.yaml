@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.12.3
+  version: 5.13.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M15
@@ -289,12 +289,12 @@ milestones:
 
   - id: M15
     name: Clarification Capture System
-    status: not_started
-    progress: 0
-    started: null
-    completed: null
+    status: completed
+    progress: 100
+    started: 2026-03-04
+    completed: 2026-03-04
     estimated_weeks: 1-2
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 4
     notes: |
       📋 Milestone 15: Clarification Capture System
@@ -1829,12 +1829,14 @@ tasks:
 
     - id: task-109
       name: Add Duplicate Awareness to @acp.clarification-create
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-109-clarification-create-duplicate-awareness.md
       estimated_hours: 1-2
-      completed_date: null
+      completed_date: 2026-03-04
       notes: |
-        Check existing clarifications by title to avoid generating duplicate questions.
+        ✅ Added Step 1.5 to acp.clarification-create.md:
+        Check Existing Clarifications for Overlap.
+        Title-based heuristic, visible output, avoids duplicate questions.
 
   future_enhancements:
     - id: task-30
@@ -1971,7 +1973,7 @@ progress:
   milestone_9: 100
   milestone_10: 100
   milestone_11: 100
-  milestone_15: 0
+  milestone_15: 100
 
 recent_work:
   - date: 2026-03-01
