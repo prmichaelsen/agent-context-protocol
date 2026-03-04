@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.12.1
+  version: 5.12.2
   started: 2026-02-16
   status: in_progress
   current_milestone: M15
@@ -294,7 +294,7 @@ milestones:
     started: null
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 4
     notes: |
       📋 Milestone 15: Clarification Capture System
@@ -1806,12 +1806,14 @@ tasks:
 
     - id: task-107
       name: Update Entity Templates with Key Design Decisions Section
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-107-entity-template-key-decisions.md
       estimated_hours: 1-2
-      completed_date: null
+      completed_date: 2026-03-04
       notes: |
-        Add optional Key Design Decisions section to design, task, pattern, command templates.
+        ✅ Added optional Key Design Decisions section to all 4 entity templates:
+        design.template.md, task template, pattern.template.md, command.template.md.
+        Section uses category-grouped tables with Decision/Choice/Rationale columns.
 
     - id: task-108
       name: Integrate Capture Directive into Create Commands

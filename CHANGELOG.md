@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.12.2] - 2026-03-04
+
+### Added
+- **Key Design Decisions section in entity templates** (Task 107) — optional section for capturing clarification decisions
+  - Added to: design.template.md, task template, pattern.template.md, command.template.md
+  - Category-grouped tables with Decision/Choice/Rationale columns
+  - Populated by @acp.clarification-capture or manually authored
+
 ## [5.12.1] - 2026-03-04
 
 ### Added

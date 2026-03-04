@@ -122,6 +122,24 @@ class DataService {
 
 ---
 
+## Key Design Decisions (Optional)
+
+<!-- This section is populated by @acp.clarification-capture when
+     create commands are invoked with --from-clar, --from-chat, or
+     --from-context. It can also be manually authored.
+     Omit this section entirely if no decisions to capture.
+
+     Group decisions by agent-inferred category using tables:
+
+### {Category}
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| {decision} | {choice} | {rationale} |
+-->
+
+---
+
 ## Future Considerations
 
 [Note any future enhancements or related work:]
