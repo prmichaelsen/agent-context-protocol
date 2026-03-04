@@ -45,6 +45,22 @@ This command creates a new command file with intelligent namespace handling, opt
 
 ---
 
+## Arguments
+
+**Context Capture Arguments** (optional — passed to `@acp.clarification-capture` directive):
+
+| Argument | Alias | Behavior |
+|---|---|---|
+| `--from-clarification <file>` | `--from-clar` | Capture decisions from a specific clarification file |
+| `--from-clarifications` | `--from-clars` | Capture from all recent clarifications |
+| `--from-chat-context` | `--from-chat` | Capture decisions from chat conversation |
+| `--from-context` | (none) | Shorthand for all sources (clarifications + chat) |
+| `--include-clarifications` | (none) | Alias for `--from-clars` |
+
+**Default behavior** (no flags): Auto-detect clarifications and context in session.
+
+---
+
 ## Steps
 
 ### 1. Detect Context
@@ -85,6 +101,20 @@ Before creating content, load relevant key files from the index.
 - Produce visible output
 
 **Note**: If `agent/index/` does not exist, skip silently.
+
+### 2.7. Capture Clarification Context
+
+Invoke the `@acp.clarification-capture` shared directive to capture decisions from clarifications and/or chat context.
+
+**Actions**:
+- Read and follow the directive in [`agent/commands/acp.clarification-capture.md`](acp.clarification-capture.md)
+- Pass through any `--from-*` arguments from this command's invocation
+- If no `--from-*` flags specified: auto-detect clarifications in session (default behavior)
+- If uncaptured clarifications detected, show warning and ask user whether to include
+- Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
+- Hold the generated section for insertion during Step 5 (Generate Command File)
+
+**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly
 
 ### 3. Collect Command Information
 
@@ -142,6 +172,7 @@ Create command file from template:
 - If no arguments: Remove Arguments section from template
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
+- If Key Design Decisions section was generated in Step 2.7: Insert it into the command document
 - Save to `agent/commands/{namespace}.{command-name}.md`
 
 **Expected Outcome**: Command file created with proper directive header

@@ -5,6 +5,15 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.12.3] - 2026-03-04
+
+### Changed
+- **Integrated @acp.clarification-capture into create commands** (Task 108) — all 4 create commands now support context capture
+  - Updated: design-create, task-create, pattern-create, command-create
+  - Added Arguments section with --from-clar, --from-clars, --from-chat, --from-context
+  - Added Step 2.7: Capture Clarification Context (references shared directive)
+  - Generate steps updated to insert Key Design Decisions section when context available
+
 ## [5.12.2] - 2026-03-04
 
 ### Added

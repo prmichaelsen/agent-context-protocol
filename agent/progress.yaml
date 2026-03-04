@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.12.2
+  version: 5.12.3
   started: 2026-02-16
   status: in_progress
   current_milestone: M15
@@ -294,7 +294,7 @@ milestones:
     started: null
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 4
     notes: |
       📋 Milestone 15: Clarification Capture System
@@ -1817,12 +1817,15 @@ tasks:
 
     - id: task-108
       name: Integrate Capture Directive into Create Commands
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-108-integrate-capture-in-create-commands.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-04
       notes: |
-        Update design-create, task-create, pattern-create, command-create with capture step.
+        ✅ Updated all 4 create commands with capture step and arguments:
+        design-create, task-create, pattern-create, command-create.
+        Each gets: Arguments section, Step 2.7 (Capture Clarification Context),
+        Generate step updated to insert Key Design Decisions section.
 
     - id: task-109
       name: Add Duplicate Awareness to @acp.clarification-create

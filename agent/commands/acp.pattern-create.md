@@ -44,6 +44,22 @@ This command creates a new pattern file with intelligent namespace handling, opt
 
 ---
 
+## Arguments
+
+**Context Capture Arguments** (optional — passed to `@acp.clarification-capture` directive):
+
+| Argument | Alias | Behavior |
+|---|---|---|
+| `--from-clarification <file>` | `--from-clar` | Capture decisions from a specific clarification file |
+| `--from-clarifications` | `--from-clars` | Capture from all recent clarifications |
+| `--from-chat-context` | `--from-chat` | Capture decisions from chat conversation |
+| `--from-context` | (none) | Shorthand for all sources (clarifications + chat) |
+| `--include-clarifications` | (none) | Alias for `--from-clars` |
+
+**Default behavior** (no flags): Auto-detect clarifications and context in session.
+
+---
+
 ## Steps
 
 ### 1. Detect Context
@@ -84,6 +100,20 @@ Before creating content, load relevant key files from the index.
 - Produce visible output
 
 **Note**: If `agent/index/` does not exist, skip silently.
+
+### 2.7. Capture Clarification Context
+
+Invoke the `@acp.clarification-capture` shared directive to capture decisions from clarifications and/or chat context.
+
+**Actions**:
+- Read and follow the directive in [`agent/commands/acp.clarification-capture.md`](acp.clarification-capture.md)
+- Pass through any `--from-*` arguments from this command's invocation
+- If no `--from-*` flags specified: auto-detect clarifications in session (default behavior)
+- If uncaptured clarifications detected, show warning and ask user whether to include
+- Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
+- Hold the generated section for insertion during Step 5 (Generate Pattern File)
+
+**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly
 
 ### 3. Collect Pattern Information
 
@@ -129,6 +159,7 @@ Create pattern file from template:
 - Fill in metadata (name, version, date, description)
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
+- If Key Design Decisions section was generated in Step 2.7: Insert it into the pattern document
 - Save to `agent/patterns/{namespace}.{pattern-name}.md`
 
 **Expected Outcome**: Pattern file created
