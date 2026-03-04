@@ -5,6 +5,16 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.12.1] - 2026-03-04
+
+### Added
+- **@acp.clarification-capture shared directive** (Task 106) — reusable directive for capturing clarification decisions into entity documents
+  - 8-step capture flow: detect sources, read clars, warn partial, resolve conflicts, synthesize chat, generate section, update status, return
+  - Full argument table: `--from-clar`, `--from-clars`, `--from-chat`, `--from-context`
+  - Auto-detect mode (default): implicit `--from-context` when no flags specified
+  - Conflict resolution UX: flag for user, accept "most recent wins"
+  - Warning UX for uncaptured decisions in session
+
 ## [5.12.0] - 2026-03-04
 
 ### Added

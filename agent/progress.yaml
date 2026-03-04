@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.12.0
+  version: 5.12.1
   started: 2026-02-16
   status: in_progress
   current_milestone: M15
@@ -294,7 +294,7 @@ milestones:
     started: null
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 4
     notes: |
       📋 Milestone 15: Clarification Capture System
@@ -1794,12 +1794,15 @@ tasks:
   milestone_15:
     - id: task-106
       name: Create @acp.clarification-capture Directive
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-106-clarification-capture-directive.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-04
       notes: |
-        Shared directive document for capturing clarification decisions into entity docs.
+        ✅ Created agent/commands/acp.clarification-capture.md shared directive.
+        8 steps: detect sources, read clars, warn partial, resolve conflicts,
+        synthesize chat, generate section, update status, return to caller.
+        Full argument table, warning UX, conflict resolution flow.
 
     - id: task-107
       name: Update Entity Templates with Key Design Decisions Section
