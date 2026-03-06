@@ -137,10 +137,11 @@ If multiple clarifications contain conflicting decisions, flag for user resoluti
     Clarification {A}: "{response A}"
     Clarification {B}: "{response B}"
 
-    How to resolve?
-      (a) Use more recent (clarification {B})
-      (b) Use clarification {A}
-      (c) Let me provide a different answer
+    The more recent answer is "{response B}" (clarification {B}).
+    Use this? (yes/no/custom)
+      yes    → Use clarification {B}
+      no     → Use clarification {A}
+      custom → Provide a different answer
 ```
 
 - Wait for user resolution

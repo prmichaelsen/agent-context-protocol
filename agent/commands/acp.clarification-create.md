@@ -177,6 +177,25 @@ Create structured questions organized by topic:
 - Provide context for complex questions
 - Include examples where helpful
 - Leave blank response lines (`>`) for user answers
+- **Prefer Yes/No questions** over "Option A or Option B?" format — users can answer "yes/no" instead of "the former/the latter":
+  - **Two options, with clear recommendation**: "We recommend X. Acceptable?" (yes/no)
+  - **Two options, no clear recommendation**: "Do you prefer X? (yes/no)" — state the first option and let the user accept or reject. Do NOT force a recommendation when neither option is clearly better.
+  - **3+ options**: Use labeled choices (A, B, C, etc.)
+  - Recommendations are optional — only include one when the agent has enough context to genuinely justify a preference. When in doubt, omit the recommendation and just present the choice.
+- **Multi-option discrete questions**: When asking about a set of properties/features/items, list each option as a separate bullet with its own `>` response line so the user can accept/reject each individually without retyping:
+  ```markdown
+  - Which properties should be included?
+
+    - name
+    >
+    - description
+    >
+    - version
+    >
+    - author
+    >
+  ```
+  This lets users answer "yes", "no", or add notes per item inline.
 
 **If analyzing file**:
 - Generate 10-30 questions based on gaps found

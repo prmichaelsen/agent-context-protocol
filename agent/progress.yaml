@@ -289,12 +289,12 @@ milestones:
 
   - id: M15
     name: Clarification Capture System
-    status: in_progress
-    progress: 80
+    status: completed
+    progress: 100
     started: 2026-03-04
-    completed: null
+    completed: 2026-03-06
     estimated_weeks: 1-2
-    tasks_completed: 4
+    tasks_completed: 5
     tasks_total: 5
     notes: |
       📋 Milestone 15: Clarification Capture System
@@ -1841,13 +1841,14 @@ tasks:
 
     - id: task-110
       name: Implement Yes/No Question Format Preference
-      status: in_progress
+      status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-110-question-format-yes-no-preference.md
       estimated_hours: 1
-      completed_date: null
+      completed_date: 2026-03-06
       notes: |
-        Prefer discrete Yes/No questions over "Option A or Option B?" format.
-        Updates clarification-create guidelines and capture conflict resolution prompts.
+        ✅ Updated acp.clarification-create.md Step 5 Guidelines with Yes/No preference,
+        multi-option discrete format. Updated acp.clarification-capture.md conflict
+        resolution to yes/no/custom. All inline prompts verified.
         Source: clarification-7-question-format-preferences.md.
 
   future_enhancements:
@@ -1985,7 +1986,7 @@ progress:
   milestone_9: 100
   milestone_10: 100
   milestone_11: 100
-  milestone_15: 80
+  milestone_15: 100
 
 recent_work:
   - date: 2026-03-01

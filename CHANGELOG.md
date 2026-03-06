@@ -5,6 +5,17 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.13.1] - 2026-03-06
+
+### Changed
+- **Yes/No question format preference in clarifications** (Task 110) — improved UX for answering clarification questions
+  - Prefer Yes/No over "Option A or Option B?" — users answer "yes/no" instead of "the former/the latter"
+  - Two options with recommendation: "We recommend X. Acceptable?" (yes/no)
+  - Two options without recommendation: "Do you prefer X?" (yes/no) — no forced recommendations
+  - Multi-option discrete format: each sub-option gets its own `>` response line for inline yes/no
+  - Updated conflict resolution in @acp.clarification-capture to yes/no/custom format
+- **Milestone 15 Complete** — all 5 tasks done (106-110)
+
 ## [5.13.0] - 2026-03-04
 
 ### Added
