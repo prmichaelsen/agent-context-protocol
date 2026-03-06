@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(claude:*)",
+      "Bash(chmod +x:*)",
+      "Bash(git rebase:*)",
+      "Bash(bash e2e/*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(./debug.sh:*)",
+      "Bash(bash:*)",
+      "Bash(echo exit: $?:*)",
+      "Bash(git check-ignore:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(git push:*)",
+      "Bash(python3:*)",
+      "Bash(wc:*)",
+      "Bash(git status:*)",
+      "Bash(./agent/scripts/acp.sessions.sh register:*)",
+      "Bash(find:*)",
+      "Bash(./agent/scripts/acp.sessions.sh count:*)",
+      "Bash(./agent/scripts/acp.sessions.sh list:*)",
+      "Bash(./agent/scripts/acp.sessions.sh heartbeat:*)",
+      "Bash(./agent/scripts/acp.sessions.sh deregister:*)",
+      "Bash(./agent/scripts/acp.sessions.sh clean:*)",
+      "Bash(./e2e/acp.sessions.test.sh:*)",
+      "Bash(lsof:*)",
+      "Bash(./agent/scripts/acp.version-check-for-updates.sh:*)",
+      "Bash(test:*)",
+      "Bash(then bash:*)",
+      "Bash(head:*)"
+    ]
+  }
+}
