@@ -289,13 +289,13 @@ milestones:
 
   - id: M15
     name: Clarification Capture System
-    status: completed
-    progress: 100
+    status: in_progress
+    progress: 80
     started: 2026-03-04
-    completed: 2026-03-04
+    completed: null
     estimated_weeks: 1-2
     tasks_completed: 4
-    tasks_total: 4
+    tasks_total: 5
     notes: |
       📋 Milestone 15: Clarification Capture System
       - Shared directive @acp.clarification-capture for embedding clarification decisions in entity docs
@@ -303,7 +303,8 @@ milestones:
       - --from-clar, --from-chat, --from-context arguments for create commands
       - Auto-detect and warn about uncaptured clarifications
       - Duplicate awareness in @acp.clarification-create
-      - 4 tasks (106-109): Directive, Templates, Integration, Duplicate Awareness
+      - Yes/No question format preference (task-110, in progress)
+      - 5 tasks (106-110): Directive, Templates, Integration, Duplicate Awareness, Question Format
       - Design: agent/design/local.clarification-capture-system.md
 
 tasks:
@@ -1838,6 +1839,17 @@ tasks:
         Check Existing Clarifications for Overlap.
         Title-based heuristic, visible output, avoids duplicate questions.
 
+    - id: task-110
+      name: Implement Yes/No Question Format Preference
+      status: in_progress
+      file: agent/tasks/milestone-15-clarification-capture/task-110-question-format-yes-no-preference.md
+      estimated_hours: 1
+      completed_date: null
+      notes: |
+        Prefer discrete Yes/No questions over "Option A or Option B?" format.
+        Updates clarification-create guidelines and capture conflict resolution prompts.
+        Source: clarification-7-question-format-preferences.md.
+
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
@@ -1973,7 +1985,7 @@ progress:
   milestone_9: 100
   milestone_10: 100
   milestone_11: 100
-  milestone_15: 100
+  milestone_15: 80
 
 recent_work:
   - date: 2026-03-01
