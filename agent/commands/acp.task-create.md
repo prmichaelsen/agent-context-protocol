@@ -170,6 +170,29 @@ If draft file was provided, create clarification if needed:
 
 **Expected Outcome**: Clarification created and answered (if needed)
 
+### 5.5. Cross-Reference Design Documents
+
+Invoke the `@acp.design-reference` shared directive to discover and extract design document context.
+
+**Actions**:
+- Read and follow the directive in [`agent/commands/acp.design-reference.md`](acp.design-reference.md)
+- Pass context from this command:
+  - `topic_keywords`: Keywords from task name and milestone name
+  - `milestone_name`: Current milestone name (from Step 1)
+  - `user_description`: User's task description (from Step 4)
+  - `draft_content`: Draft file content (from Step 3, if provided)
+- The directive will:
+  1. Search `agent/design/` for relevant documents by keyword matching
+  2. Report what was found/skipped
+  3. Extract design elements across 8 categories (implementation steps, argument tables, UX specs, edge cases, format specs, integration points, lifecycle rules, decision rationale)
+  4. Flag any design gaps (suggest clarification if needed)
+  5. Return structured data: design elements, gaps, and paths
+- Hold the returned design elements for use in Step 6
+
+**If no design found**: The directive warns and returns empty. Proceed to Step 6 with available context only (user input, draft, clarifications).
+
+**Expected Outcome**: Design elements extracted and ready for task generation, or skipped cleanly with warning
+
 ### 6. Generate Task File
 
 Create task file from template:
@@ -185,20 +208,39 @@ Create task file from template:
 - Fill in metadata:
   - Task number and name
   - Milestone link
+  - **Design Reference**: If Step 5.5 found a design document, link to it: `[{Design Name}](../design/{namespace}.{design-name}.md)`. If none found, set to `None`.
   - Estimated time
   - Dependencies
   - Status: "Not Started"
 - Fill in sections:
   - Objective (from collected info)
   - Context (from collected info or draft)
-  - Steps (from draft/clarification or template structure)
-  - Verification checklist
+  - **Steps** — must include implementation-level detail:
+    - Each step should be concrete and actionable, not a vague summary
+    - Include specific sub-steps for complex operations
+    - If Step 5.5 returned design elements, integrate them:
+      - Preserve argument/parameter tables from the design — include verbatim or as detailed prose
+      - Preserve UX specifications — exact warning text, prompt formats, display output
+      - Preserve format specifications — output structure, naming conventions, file format rules
+      - Include integration points — which other commands/systems are affected and how
+      - Include lifecycle rules — status transitions, cleanup behavior, ordering constraints
+      - Include decision rationale inline where it aids implementation
+    - If the design describes N distinct operations, the task should have corresponding steps covering all N (grouping related operations into fewer steps is acceptable, but no operation may be omitted)
+  - **Verification checklist** — must cover every design requirement:
+    - One verification item per design requirement from the design document
+    - Include edge cases from the design (partial data, conflicts, empty state, missing files)
+    - Include format verification (output matches specified format)
+    - Include integration verification (affected commands updated correctly)
+    - If the design has a Testing Strategy section, map each test scenario to a verification item
   - If Key Design Decisions section was generated in Step 2.7: Insert it into the task document
+  - If Step 5.5 returned design decisions (from the design doc's Key Design Decisions section): Carry relevant decisions into the task's Key Design Decisions section
 - Save to appropriate path (milestone subdirectory or unassigned/)
+
+> **Self-Contained Task Principle**: After generating the task, verify that an agent reading ONLY this task file could implement the feature without needing to read the design document. If any design element is missing from the task, add it before saving.
 
 **Note**: Older tasks may use flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons. New tasks should use milestone subdirectories.
 
-**Expected Outcome**: Task file created in milestone subdirectory
+**Expected Outcome**: Task file created in milestone subdirectory with complete design coverage
 
 ### 7. Update progress.yaml
 

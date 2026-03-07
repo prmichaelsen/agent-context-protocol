@@ -314,7 +314,7 @@ milestones:
     started: null
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 4
     notes: |
       📋 Milestone 16: Design Reference System
@@ -1896,14 +1896,15 @@ tasks:
 
     - id: task-113
       name: Update @acp.task-create with Design Cross-Reference
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-113-task-create-design-cross-reference.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-07
       notes: |
-        Add Step 5.5 to task-create invoking @acp.design-reference directive.
-        Strengthen Step 6 to require implementation-level detail from designs.
-        Self-Containment Check: task must be implementable without reading design doc.
+        ✅ Added Step 5.5 to task-create invoking @acp.design-reference directive.
+        Strengthened Step 6: implementation-level detail, argument tables preserved,
+        UX specs preserved, verification 1:1 with design, Self-Containment Check.
+        Design Reference metadata field populated in Step 6.
 
     - id: task-114
       name: Update @acp.proceed with Design Context Loading
