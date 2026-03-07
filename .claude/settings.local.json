@@ -30,7 +30,8 @@
       "Bash(./agent/scripts/acp.version-check-for-updates.sh:*)",
       "Bash(test:*)",
       "Bash(then bash:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(sort:*)"
     ]
   }
 }
