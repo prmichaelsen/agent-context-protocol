@@ -6,7 +6,7 @@ project:
   version: 5.13.0
   started: 2026-02-16
   status: in_progress
-  current_milestone: M15
+  current_milestone: M16
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-3 complete (Commands, Advanced Features, Package Management).
@@ -314,7 +314,7 @@ milestones:
     started: null
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 4
     notes: |
       📋 Milestone 16: Design Reference System
@@ -1873,14 +1873,15 @@ tasks:
   milestone_16:
     - id: task-111
       name: Create @acp.design-reference Shared Directive
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-111-design-reference-directive.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-07
       notes: |
-        Create agent/commands/acp.design-reference.md shared directive.
+        ✅ Created agent/commands/acp.design-reference.md shared directive.
         6 steps: determine topic, search designs, report findings, extract elements,
         flag gaps, return elements. 8 element categories. Dynamic keyword discovery.
+        Modeled after @acp.clarification-capture pattern.
 
     - id: task-112
       name: Update Task Template with Design Reference Field
