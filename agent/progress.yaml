@@ -309,15 +309,15 @@ milestones:
 
   - id: M16
     name: Design Reference System
-    status: not_started
-    progress: 0
-    started: null
-    completed: null
+    status: completed
+    progress: 100
+    started: 2026-03-07
+    completed: 2026-03-07
     estimated_weeks: 1-2
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 4
     notes: |
-      📋 Milestone 16: Design Reference System
+      ✅ Milestone 16: Design Reference System
       - Shared directive @acp.design-reference for design-to-task completeness
       - Tasks self-contained with all design detail (steps, args, UX, edge cases)
       - Dynamic keyword-based design document discovery
@@ -1908,14 +1908,15 @@ tasks:
 
     - id: task-114
       name: Update @acp.proceed with Design Context Loading
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-114-proceed-design-context-loading.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-07
       notes: |
-        Add design context loading step to proceed. Read Design Reference field,
-        fall back to dynamic search. Supplementary context for implementation.
-        Autonomous mode uses explicit link only.
+        ✅ Added Step 1.7 to proceed: Load Design Context.
+        Reads Design Reference field, falls back to dynamic search.
+        Supplementary context for implementation. Autonomous mode
+        uses explicit link only (skips dynamic search).
 
   future_enhancements:
     - id: task-30

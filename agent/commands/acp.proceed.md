@@ -187,6 +187,43 @@ Before implementing, load relevant key files from the index.
 
 **Note**: If `agent/index/` does not exist, skip silently. Do NOT spend excessive time here — read files quickly and move to implementation.
 
+### 1.7. Load Design Context
+
+Load the design document for supplementary implementation context.
+
+**Actions**:
+- Check the current task file's metadata for the **Design Reference** field
+  - If field contains a markdown link (e.g., `[Design Name](../design/local.feature.md)`): Extract the path and read that design document
+  - If field is `None`: Invoke `@acp.design-reference` directive ([`agent/commands/acp.design-reference.md`](acp.design-reference.md)) to dynamically search by topic keywords from the task name and milestone
+  - If field is missing (older task without the field): Invoke `@acp.design-reference` directive to dynamically search
+- If a design document was found, read it and note key sections: Solution, Implementation, Key Design Decisions, Trade-offs
+- Hold this context for use during implementation
+
+**Display**:
+
+When design loaded:
+```
+Design Context: Loaded local.design-reference-system.md
+  Sections: Solution, Implementation, Key Design Decisions, Trade-offs
+  Use as supplementary context during implementation.
+```
+
+When no design found:
+```
+Design Context: No design document found for this task.
+  Implementing from task file only.
+```
+
+**Usage during implementation**: The design context informs implementation decisions when:
+- The task step is ambiguous about approach
+- An edge case arises not explicitly covered in the task
+- The agent needs to understand "why" a particular approach was chosen
+- Integration with other systems requires understanding the broader architecture
+
+> **Note**: Tasks should be self-contained — an agent should be able to implement from the task alone. The design document provides supplementary "why" context and helps with edge cases not explicitly covered. If the task is missing critical implementation detail that exists in the design, that indicates a task creation gap (see `@acp.design-reference` directive for how task-create prevents this).
+
+**Do NOT spend excessive time here — read quickly and move to implementation.**
+
 ### 2. START IMPLEMENTING NOW (This is the main step)
 
 **🚨 MANDATORY ACTIONS - DO THESE IMMEDIATELY:**
@@ -335,10 +372,13 @@ FOR each remaining task in planned order:
 
   1. DISPLAY progress indicator (see A5)
 
-  2. READ task document and key files
+  2. READ task document, key files, and design context
      - Re-read progress.yaml at start of each iteration (context freshness)
      - Read contextual key files from agent/index/ (filter by acp.proceed applies)
      - Read the task file
+     - Load design context: If task has Design Reference field with a link, read that
+       design document. If field is "None" or missing, skip dynamic search in autonomous
+       mode (to conserve context window). Use explicit link only.
 
   3. IMPLEMENT the task
      - Follow the same implementation approach as Single-Task Steps 2-3
