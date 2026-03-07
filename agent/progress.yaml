@@ -307,6 +307,25 @@ milestones:
       - 5 tasks (106-110): Directive, Templates, Integration, Duplicate Awareness, Question Format
       - Design: agent/design/local.clarification-capture-system.md
 
+  - id: M16
+    name: Design Reference System
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1-2
+    tasks_completed: 0
+    tasks_total: 4
+    notes: |
+      📋 Milestone 16: Design Reference System
+      - Shared directive @acp.design-reference for design-to-task completeness
+      - Tasks self-contained with all design detail (steps, args, UX, edge cases)
+      - Dynamic keyword-based design document discovery
+      - Task template Design Reference field for traceability
+      - Updates to task-create (Step 5.5) and proceed (design context loading)
+      - 4 tasks (111-114): Directive, Template Field, Task-Create Update, Proceed Update
+      - Design: agent/design/local.design-reference-system.md
+
 tasks:
   milestone_1:
     - id: task-1
@@ -1850,6 +1869,50 @@ tasks:
         multi-option discrete format. Updated acp.clarification-capture.md conflict
         resolution to yes/no/custom. All inline prompts verified.
         Source: clarification-7-question-format-preferences.md.
+
+  milestone_16:
+    - id: task-111
+      name: Create @acp.design-reference Shared Directive
+      status: not_started
+      file: agent/tasks/milestone-16-design-reference-system/task-111-design-reference-directive.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Create agent/commands/acp.design-reference.md shared directive.
+        6 steps: determine topic, search designs, report findings, extract elements,
+        flag gaps, return elements. 8 element categories. Dynamic keyword discovery.
+
+    - id: task-112
+      name: Update Task Template with Design Reference Field
+      status: not_started
+      file: agent/tasks/milestone-16-design-reference-system/task-112-task-template-design-reference-field.md
+      estimated_hours: 1
+      completed_date: null
+      notes: |
+        Add Design Reference metadata field to task template.
+        Links task to source design document for traceability.
+
+    - id: task-113
+      name: Update @acp.task-create with Design Cross-Reference
+      status: not_started
+      file: agent/tasks/milestone-16-design-reference-system/task-113-task-create-design-cross-reference.md
+      estimated_hours: 3-4
+      completed_date: null
+      notes: |
+        Add Step 5.5 to task-create invoking @acp.design-reference directive.
+        Strengthen Step 6 to require implementation-level detail from designs.
+        Self-Containment Check: task must be implementable without reading design doc.
+
+    - id: task-114
+      name: Update @acp.proceed with Design Context Loading
+      status: not_started
+      file: agent/tasks/milestone-16-design-reference-system/task-114-proceed-design-context-loading.md
+      estimated_hours: 2-3
+      completed_date: null
+      notes: |
+        Add design context loading step to proceed. Read Design Reference field,
+        fall back to dynamic search. Supplementary context for implementation.
+        Autonomous mode uses explicit link only.
 
   future_enhancements:
     - id: task-30
