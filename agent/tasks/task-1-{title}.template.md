@@ -1,6 +1,7 @@
 # Task {N}: {Descriptive Task Name}
 
 **Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)
+**Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None
 **Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]
 **Dependencies**: [List prerequisite tasks, or "None"]
 **Status**: Not Started | In Progress | Completed

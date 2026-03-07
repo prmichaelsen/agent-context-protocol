@@ -314,7 +314,7 @@ milestones:
     started: null
     completed: null
     estimated_weeks: 1-2
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 4
     notes: |
       📋 Milestone 16: Design Reference System
@@ -1885,13 +1885,14 @@ tasks:
 
     - id: task-112
       name: Update Task Template with Design Reference Field
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-112-task-template-design-reference-field.md
       estimated_hours: 1
-      completed_date: null
+      completed_date: 2026-03-07
       notes: |
-        Add Design Reference metadata field to task template.
-        Links task to source design document for traceability.
+        ✅ Added Design Reference field to task template.
+        Position: after Milestone, before Estimated Time.
+        Format: [{Design Name}](path) | None
 
     - id: task-113
       name: Update @acp.task-create with Design Cross-Reference
