@@ -5,6 +5,15 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.14.0] - 2026-03-09
+
+### Added
+- **`--quick` and `--skip` flags for @acp.init** — faster initialization for returning users
+  - `--quick` / `-q`: skips version checks, source file review, and doc sync
+  - `--skip <items>`: granular control over 8 individual steps (checks, sessions, docs, global, keys, files, sync, progress)
+  - Step 9: usage tip shown when no flags used so users discover faster modes naturally
+  - @acp.init bumped to v1.1.0
+
 ## [5.13.1] - 2026-03-06
 
 ### Changed
