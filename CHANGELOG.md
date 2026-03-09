@@ -5,6 +5,17 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.15.0] - 2026-03-09
+
+### Added
+- **`@acp.clarifications-research` command** — research and fill in agent-delegated clarification items
+  - Scans clarification docs for research delegation markers (`research this`, `agent: ...`, etc.)
+  - Classifies response lines as empty, user-answer, or research-request
+  - Explores codebase (Glob, Grep, Read) to answer delegated questions
+  - Replaces trigger lines with `[Researched]`-prefixed answers with file references
+  - Supports `--latest`, `--dry-run`, `--scope <path>` arguments
+  - Never modifies user answers, empty lines, or clarification status
+
 ## [5.14.0] - 2026-03-09
 
 ### Added
