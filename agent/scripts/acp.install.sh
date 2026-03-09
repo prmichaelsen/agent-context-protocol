@@ -224,7 +224,7 @@ if [ -d "$TEMP_DIR/agent/scripts" ]; then
             if [ "$script" = "acp.common.sh" ] || [ "$script" = "acp.yaml-parser.sh" ]; then
                 continue  # Already copied
             fi
-            
+
             if [ -f "$TEMP_DIR/agent/scripts/$script" ]; then
                 # Check if script is experimental
                 is_exp=$(yaml_query ".contents.scripts[] | select(.name == \"$script\") | .experimental?" 2>/dev/null || echo "false")
@@ -234,7 +234,7 @@ if [ -d "$TEMP_DIR/agent/scripts" ]; then
                 fi
             fi
         done
-        
+
         echo "${GREEN}✓${NC} Installed ${#REQUIRED_SCRIPTS[@]} required script(s)"
     else
         # Direct install mode (no package.yaml) - copy all scripts

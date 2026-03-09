@@ -5,6 +5,13 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.15.1] - 2026-03-09
+
+### Fixed
+- **Install script missing bundled scripts** — `acp.install.sh` and `acp.uninstall.sh` were not referenced by any command in package.yaml, so the dependency-based installer skipped them
+  - Added `acp.install.sh` to `acp.package-create` and `acp.project-create` command dependencies
+  - Added `acp.uninstall.sh` to `acp.package-remove` command dependencies
+
 ## [5.15.0] - 2026-03-09
 
 ### Added
