@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.16.0] - 2026-03-13
+
+### Added
+- **`@acp.handoff` command** — generate cross-context task handoff reports for transferring work to agents in different repositories or providers
+  - Synthesizes handoff from chat conversation context (primary source)
+  - Describes the problem and request without prescribing implementation steps
+  - Supports `--to` / `--target` arguments for explicit target, or infers from conversation
+  - Resolves project names against `~/.acp/projects.yaml`
+  - Includes source project path/repo URL for back-reference
+  - Uses absolute file paths (from `/`) for cross-project clarity
+  - Prompts user to output to chat or save to `agent/reports/`
+  - Freeform format shaped by each handoff's specific needs
+
 ## [5.15.1] - 2026-03-09
 
 ### Fixed
