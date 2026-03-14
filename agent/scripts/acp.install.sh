@@ -187,28 +187,30 @@ if [ -d "$TEMP_DIR/agent/scripts" ]; then
             yaml_parse "$TEMP_DIR/package.yaml"
         fi
         
-        # Find all NON-experimental commands in package (or all if no experimental filtering)
+        # Find all NON-experimental commands and collect their scripts
         PACKAGE_COMMANDS=()
-        while IFS= read -r cmd; do
-            if [ -n "$cmd" ] && [ "$cmd" != "null" ]; then
-                # Check if command is experimental
-                is_exp=$(yaml_query ".contents.commands[] | select(.name == \"$cmd\") | .experimental?" 2>/dev/null || echo "false")
-                if [ "$is_exp" != "true" ]; then
-                    PACKAGE_COMMANDS+=("$cmd")
-                fi
-            fi
-        done < <(yaml_query ".contents.commands[].name" 2>/dev/null || echo "")
-        
-        # Collect required scripts from non-experimental commands
         REQUIRED_SCRIPTS=()
-        for cmd in "${PACKAGE_COMMANDS[@]}"; do
-            # Read scripts array from package.yaml for this command
-            cmd_scripts=$(yaml_query ".contents.commands[] | select(.name == \"$cmd\") | .scripts[]?" 2>/dev/null || echo "")
-            
-            # Add each script to required list (with deduplication)
-            while IFS= read -r script; do
-                if [ -n "$script" ] && [ "$script" != "null" ]; then
-                    # Check if already in list
+        cmd_index=0
+        while true; do
+            cmd_name=$(yaml_query ".contents.commands[$cmd_index].name" 2>/dev/null || echo "")
+            if [ -z "$cmd_name" ] || [ "$cmd_name" = "null" ]; then
+                break
+            fi
+
+            # Check if command is experimental
+            is_exp=$(yaml_query ".contents.commands[$cmd_index].experimental" 2>/dev/null || echo "false")
+            if [ "$is_exp" != "true" ]; then
+                PACKAGE_COMMANDS+=("$cmd_name")
+
+                # Collect scripts for this command
+                script_index=0
+                while true; do
+                    script=$(yaml_query ".contents.commands[$cmd_index].scripts[$script_index]" 2>/dev/null || echo "")
+                    if [ -z "$script" ] || [ "$script" = "null" ]; then
+                        break
+                    fi
+
+                    # Add to required scripts (with deduplication)
                     already_added=false
                     for existing in "${REQUIRED_SCRIPTS[@]}"; do
                         if [ "$existing" = "$script" ]; then
@@ -216,12 +218,16 @@ if [ -d "$TEMP_DIR/agent/scripts" ]; then
                             break
                         fi
                     done
-                    
+
                     if [ "$already_added" = false ]; then
                         REQUIRED_SCRIPTS+=("$script")
                     fi
-                fi
-            done <<< "$cmd_scripts"
+
+                    script_index=$((script_index + 1))
+                done
+            fi
+
+            cmd_index=$((cmd_index + 1))
         done
         
         # Install required scripts (excluding common.sh and yaml-parser.sh already copied)
@@ -231,8 +237,20 @@ if [ -d "$TEMP_DIR/agent/scripts" ]; then
             fi
 
             if [ -f "$TEMP_DIR/agent/scripts/$script" ]; then
-                # Check if script is experimental
-                is_exp=$(yaml_query ".contents.scripts[] | select(.name == \"$script\") | .experimental?" 2>/dev/null || echo "false")
+                # Check if script is experimental by finding it in contents.scripts
+                is_exp="false"
+                script_check_index=0
+                while true; do
+                    s_name=$(yaml_query ".contents.scripts[$script_check_index].name" 2>/dev/null || echo "")
+                    if [ -z "$s_name" ] || [ "$s_name" = "null" ]; then
+                        break
+                    fi
+                    if [ "$s_name" = "$script" ]; then
+                        is_exp=$(yaml_query ".contents.scripts[$script_check_index].experimental" 2>/dev/null || echo "false")
+                        break
+                    fi
+                    script_check_index=$((script_check_index + 1))
+                done
                 if [ "$is_exp" != "true" ]; then
                     cp "$TEMP_DIR/agent/scripts/$script" "$TARGET_DIR/agent/scripts/"
                     chmod +x "$TARGET_DIR/agent/scripts/$script"

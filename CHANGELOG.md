@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.18.2] - 2026-03-14
+
+### Fixed
+- **Install script fails to copy core scripts** — `acp.install.sh` used jq-style `yaml_query` syntax (`[]`, `select()`, `| pipes`) that the custom YAML parser doesn't support, causing script dependency resolution to silently fail and install zero scripts (e.g. `acp.install.sh`, `acp.version-update.sh`, `acp.version-check.sh`). Rewrote to use numeric index iteration matching the pattern in `acp.package-install.sh`.
+
 ## [5.18.1] - 2026-03-14
 
 ### Fixed
