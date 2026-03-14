@@ -249,7 +249,9 @@ Status: Awaiting Responses
 Next steps:
 - Review the clarification file
 - Answer questions by typing responses after > markers
+- To leave feedback or ask follow-up questions, use HTML comment blocks (<!-- your feedback -->)
 - Update Status to "Completed" when done
+- Run @acp.clarification-address to have the agent analyze your responses and address comment-block feedback
 - Use answers to update design docs, tasks, or create new entities
 ```
 
@@ -357,6 +359,8 @@ Status: Awaiting Responses
 
 ## Related Commands
 
+- [`@acp.clarification-address`](acp.clarification-address.md) - Address user responses with research, tradeoffs, and recommendations
+- [`@acp.clarifications-research`](acp.clarifications-research.md) - Fill in agent-delegated research lines
 - [`@acp.design-create`](acp.design-create.md) - Create design documents (often follows clarification)
 - [`@acp.task-create`](acp.task-create.md) - Create tasks (may use clarification answers)
 - [`@acp.pattern-create`](acp.pattern-create.md) - Create patterns (may use clarification answers)
@@ -416,6 +420,7 @@ Status: Awaiting Responses
 - Use hierarchical structure (Items > Questions > Bullet points)
 - Response markers (>) make it easy for users to answer inline
 - Clarifications are living documents - can be updated as questions are answered
+- Users can leave feedback or follow-up questions in HTML comment blocks (`<!-- ... -->`); run `@acp.clarification-address` to have the agent respond
 - After clarification is complete, use answers to update design docs, tasks, or create new entities
 - Clarifications are typically kept in version control for historical reference
 - Good clarifications have 10-30 questions organized into 3-5 major topics

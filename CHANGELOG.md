@@ -5,6 +5,24 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.17.0] - 2026-03-14
+
+### Added
+- **`@acp.clarification-address` command** — address clarification responses with research, tradeoff analysis, and recommendations
+  - Reads user responses on `>` lines and analyzes them for tradeoffs, ambiguity, and follow-up needs
+  - Honors research directives (codebase via Glob/Grep/Read, web via WebSearch/WebFetch, MCP tools)
+  - Presents tradeoff analyses with pro/con breakdowns and recommendations
+  - Responds to user feedback in HTML comment blocks (`<!-- ... -->`)
+  - Writes all agent responses as comment blocks (`<!-- [Agent] -->`, `<!-- [Agent — Researched] -->`, `<!-- [Agent Analysis] -->`)
+  - Supports `--latest`, `--dry-run`, `--scope <path>` arguments
+  - Complementary to `@acp.clarifications-research` (which only fills `> research this` lines)
+
+### Changed
+- **`@acp.clarification-create`** — updated to recommend comment-block feedback workflow
+  - "Next steps" output now suggests using `<!-- ... -->` for follow-up questions
+  - Added `@acp.clarification-address` and `@acp.clarifications-research` to Related Commands
+  - Notes section documents comment-block workflow
+
 ## [5.16.0] - 2026-03-13
 
 ### Added

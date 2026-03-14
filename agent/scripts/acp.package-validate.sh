@@ -837,48 +837,60 @@ validate_script_dependencies() {
     
     local validation_errors=0
     
-    # Get all commands from package.yaml
-    local commands=$(yaml_query ".contents.commands[]?.name" 2>/dev/null || echo "")
-    
-    if [ -z "$commands" ]; then
-        pass "No commands to validate"
-        return 0
-    fi
-    
+    # Get all commands from package.yaml using numeric index iteration
     local cmd_count=0
-    while IFS= read -r cmd; do
+    local cmd_index=0
+    while true; do
+        local cmd=$(yaml_query ".contents.commands[$cmd_index].name" 2>/dev/null || echo "")
         if [ -z "$cmd" ] || [ "$cmd" = "null" ]; then
-            continue
+            break
         fi
-        
+
         cmd_count=$((cmd_count + 1))
         local cmd_file="agent/commands/$cmd"
-        
+
         if [ ! -f "$cmd_file" ]; then
+            cmd_index=$((cmd_index + 1))
             continue  # File existence checked elsewhere
         fi
-        
+
         # Get scripts from frontmatter
         local frontmatter_line=$(grep "^\*\*Scripts\*\*:" "$cmd_file" 2>/dev/null || echo "")
-        
+
         if [ -z "$frontmatter_line" ]; then
             check
             error "$cmd: Missing **Scripts**: field in frontmatter"
             fixable "Add **Scripts**: field to $cmd_file frontmatter"
             validation_errors=$((validation_errors + 1))
+            cmd_index=$((cmd_index + 1))
             continue
         fi
-        
+
         local frontmatter_scripts=$(echo "$frontmatter_line" | awk -F': ' '{print $2}' | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v "^$" | sort)
-        
+
         # Handle "None" case
         if echo "$frontmatter_scripts" | grep -qi "^None$"; then
             frontmatter_scripts=""
         fi
-        
-        # Get scripts from package.yaml
-        local yaml_scripts=$(yaml_query ".contents.commands[] | select(.name == \"$cmd\") | .scripts[]?" 2>/dev/null | grep -v "^null$" | sort || echo "")
-        
+
+        # Get scripts from package.yaml using numeric index iteration
+        local yaml_scripts=""
+        local si=0
+        while true; do
+            local s=$(yaml_query ".contents.commands[$cmd_index].scripts[$si]" 2>/dev/null || echo "")
+            if [ -z "$s" ] || [ "$s" = "null" ]; then
+                break
+            fi
+            if [ -n "$yaml_scripts" ]; then
+                yaml_scripts="$yaml_scripts
+$s"
+            else
+                yaml_scripts="$s"
+            fi
+            si=$((si + 1))
+        done
+        yaml_scripts=$(echo "$yaml_scripts" | sort)
+
         # Compare (both should be empty or both should match)
         if [ "$frontmatter_scripts" != "$yaml_scripts" ]; then
             check
@@ -887,16 +899,30 @@ validate_script_dependencies() {
             echo "     ${DIM}package.yaml: $(echo "$yaml_scripts" | tr '\n' ', ' | sed 's/, $//')${NC}"
             fixable "Update $cmd to have matching scripts in both locations"
             validation_errors=$((validation_errors + 1))
+            cmd_index=$((cmd_index + 1))
             continue
         fi
-        
+
         # Verify all scripts exist in scripts section
         local script_errors=0
         while IFS= read -r script; do
             if [ -n "$script" ]; then
-                local script_exists=$(yaml_query ".contents.scripts[]? | select(.name == \"$script\") | .name" 2>/dev/null || echo "")
-                
-                if [ -z "$script_exists" ] || [ "$script_exists" = "null" ]; then
+                # Search for script in contents.scripts by numeric index
+                local script_found=false
+                local sci=0
+                while true; do
+                    local s_name=$(yaml_query ".contents.scripts[$sci].name" 2>/dev/null || echo "")
+                    if [ -z "$s_name" ] || [ "$s_name" = "null" ]; then
+                        break
+                    fi
+                    if [ "$s_name" = "$script" ]; then
+                        script_found=true
+                        break
+                    fi
+                    sci=$((sci + 1))
+                done
+
+                if [ "$script_found" = false ]; then
                     if [ $script_errors -eq 0 ]; then
                         check
                         error "$cmd: Declares scripts not in scripts section"
@@ -907,7 +933,7 @@ validate_script_dependencies() {
                 fi
             fi
         done <<< "$frontmatter_scripts"
-        
+
         if [ $script_errors -gt 0 ]; then
             validation_errors=$((validation_errors + 1))
         else
@@ -919,8 +945,10 @@ validate_script_dependencies() {
                 pass "$cmd: Scripts consistent ($script_count script(s))"
             fi
         fi
-    done <<< "$commands"
-    
+
+        cmd_index=$((cmd_index + 1))
+    done
+
     if [ $cmd_count -eq 0 ]; then
         pass "No commands to validate"
     fi
