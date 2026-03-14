@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.20.0] - 2026-03-14
+
+### Added
+- **`--turbo` / `--yolo` combo flags for `@acp.proceed`** — shorthand for `--auto --this --parallel --yes`. Also formally adds `--this` (use task from chat context), `--parallel` (worktree sub-agents), and `--yes` (skip confirmation) as individual flags.
+
 ## [5.19.0] - 2026-03-14
 
 ### Added
