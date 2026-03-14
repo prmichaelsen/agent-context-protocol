@@ -15,6 +15,7 @@ project:
 milestones:
   - id: M1                              # Unique milestone identifier
     name: Milestone Name                # Descriptive name
+    file: agent/milestones/milestone-1-name.md  # Path to milestone document
     status: not_started                 # not_started | in_progress | completed
     progress: 0                         # Percentage complete (0-100)
     started: null                       # YYYY-MM-DD when started, null if not started
@@ -24,9 +25,10 @@ milestones:
     tasks_total: 5                      # Total number of tasks in this milestone
     notes: |                            # Progress notes and observations
       Notes about this milestone's progress, blockers, or important decisions.
-  
+
   - id: M2
     name: Second Milestone Name
+    file: agent/milestones/milestone-2-second-milestone-name.md  # Path to milestone document
     status: not_started
     progress: 0
     started: null

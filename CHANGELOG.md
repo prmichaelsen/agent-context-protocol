@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.21.0] - 2026-03-14
+
+### Added
+- **Milestone `file:` field in progress.yaml** — milestones now require a `file:` key mapping to their milestone document path (e.g. `file: agent/milestones/milestone-1-name.md`). Updated progress.template.yaml, AGENT.md schema, and `@acp.plan` Step 7 to enforce this for new projects.
+
 ## [5.20.0] - 2026-03-14
 
 ### Added
