@@ -331,7 +331,17 @@ Next Steps:
 
 **Expected Outcome**: User understands what was created
 
-### 9. Offer Next Actions
+### 9. Commit Planning Artifacts
+
+Commit all created planning documents and progress.yaml updates.
+
+**Actions**:
+- Invoke `@git.commit` to commit the planning artifacts
+- Include all created milestone documents, task documents, design documents, drafts, and progress.yaml updates
+
+**Expected Outcome**: Planning artifacts committed to version control
+
+### 10. Offer Next Actions
 
 Prompt user for next action:
 
