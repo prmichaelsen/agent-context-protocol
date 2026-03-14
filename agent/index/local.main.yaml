@@ -48,17 +48,6 @@ local:
         new directories are correctly categorized.
       applies: acp.proceed, acp.plan
 
-    - path: agent/commands/acp.clarification-address.md
-      weight: 0.6
-      kind: command
-      description: |
-        Command for addressing clarification responses with research,
-        tradeoff analysis, recommendations, and comment-block responses.
-      rationale: |
-        Reference when working on clarification workflow or when
-        understanding how agent-user clarification interaction works.
-      applies: acp.clarification-address, acp.proceed, acp.plan
-
     - path: agent/design/local.key-file-index-system.md
       weight: 0.7
       kind: design

@@ -1,0 +1,137 @@
+# agent/index/acp.core.yaml
+# Key file index for ACP core command directives
+# Bundled with acp-core package installs
+
+acp:
+  index:
+    - path: agent/commands/acp.proceed.md
+      weight: 0.9
+      kind: command
+      description: |
+        Primary task execution command. Defines how agents read tasks,
+        implement work, commit, and advance through milestones.
+      rationale: |
+        The most frequently invoked command. Agents must understand
+        autonomous mode, commit workflow, and progress tracking rules.
+      applies: acp.proceed, acp.plan, acp.task-create
+
+    - path: agent/commands/acp.init.md
+      weight: 0.8
+      kind: command
+      description: |
+        Session initialization command. Defines context loading sequence,
+        documentation reading, key file discovery, and status reporting.
+      rationale: |
+        Sets the foundation for every session. Agents need to understand
+        what init loads and what --quick/--skip flags control.
+      applies: acp.init, acp.plan
+
+    - path: agent/commands/acp.plan.md
+      weight: 0.8
+      kind: command
+      description: |
+        Planning command for milestone and task design. Defines how
+        agents break work into milestones, tasks, and implementation steps.
+      rationale: |
+        Required before creating milestones or tasks to ensure proper
+        scoping, sequencing, and design document references.
+      applies: acp.plan, acp.task-create, acp.design-create
+
+    - path: agent/commands/acp.task-create.md
+      weight: 0.8
+      kind: command
+      description: |
+        Task creation command. Defines task document structure, design
+        reference integration, and milestone assignment.
+      rationale: |
+        Tasks are the primary unit of work. Agents must follow the
+        creation steps including design cross-referencing (Step 5.5).
+      applies: acp.task-create, acp.proceed, acp.plan
+
+    - path: agent/commands/acp.command-create.md
+      weight: 0.7
+      kind: command
+      description: |
+        Command creation workflow. Defines namespace enforcement, draft
+        support, clarification capture, and package.yaml updates.
+      rationale: |
+        Ensures new commands follow template structure, include proper
+        directive headers, and are registered in package.yaml.
+      applies: acp.command-create, acp.plan
+
+    - path: agent/commands/acp.design-create.md
+      weight: 0.7
+      kind: command
+      description: |
+        Design document creation command. Defines how agents create
+        design specs from drafts, chat, or clarification context.
+      rationale: |
+        Design documents drive task creation. Agents must understand
+        the design-to-task pipeline and clarification capture.
+      applies: acp.design-create, acp.plan
+
+    - path: agent/commands/acp.clarification-create.md
+      weight: 0.7
+      kind: command
+      description: |
+        Clarification document creation. Defines question structure
+        (Items > Questions > Bullets), response markers, and overlap checks.
+      rationale: |
+        Clarifications are the primary requirements-gathering mechanism.
+        Agents must follow question format preferences (yes/no, discrete).
+      applies: acp.clarification-create, acp.clarification-address, acp.plan
+
+    - path: agent/commands/acp.clarification-address.md
+      weight: 0.6
+      kind: command
+      description: |
+        Addresses clarification responses with research, tradeoff
+        analysis, recommendations, and comment-block responses.
+      rationale: |
+        Defines how agents engage with user answers — when to research,
+        when to present tradeoffs, and comment-block conventions.
+      applies: acp.clarification-address, acp.proceed, acp.plan
+
+    - path: agent/commands/acp.clarification-capture.md
+      weight: 0.6
+      kind: command
+      description: |
+        Shared directive for capturing clarification decisions into
+        entity documents. Called by create commands, not directly by users.
+      rationale: |
+        Ensures design rationale is preserved in entities. Agents must
+        understand conflict resolution and Key Design Decisions format.
+      applies: acp.command-create, acp.design-create, acp.task-create, acp.pattern-create
+
+    - path: agent/commands/acp.design-reference.md
+      weight: 0.6
+      kind: command
+      description: |
+        Shared directive for design-to-task completeness. Ensures tasks
+        are self-contained with all design detail.
+      rationale: |
+        Prevents tasks from being underspecified. Agents must embed
+        design context into tasks rather than just linking to designs.
+      applies: acp.task-create, acp.proceed
+
+    - path: agent/commands/git.commit.md
+      weight: 0.7
+      kind: command
+      description: |
+        Intelligent commit workflow with version detection, changelog
+        updates, and conventional commit message formatting.
+      rationale: |
+        All version-bumping commits must follow this workflow. Defines
+        semver decision tree and CHANGELOG.md entry format.
+      applies: acp.proceed, git.commit
+
+    - path: agent/commands/acp.handoff.md
+      weight: 0.5
+      kind: command
+      description: |
+        Cross-context task handoff report generation. Defines how
+        agents create handoff reports for work transfer between contexts.
+      rationale: |
+        Reference when transferring work across projects or agents.
+        Defines freeform report format and target resolution.
+      applies: acp.handoff, acp.plan
