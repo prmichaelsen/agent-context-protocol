@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.18.4] - 2026-03-14
+
+### Added
+- **`@acp.init` lists ACP projects** — added Step 2.3 to list all registered projects from `~/.acp/projects.yaml` during init, showing name, type, description, and status. Skippable with `--skip projects`
+
 ## [5.18.3] - 2026-03-14
 
 ### Changed

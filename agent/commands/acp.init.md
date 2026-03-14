@@ -31,6 +31,7 @@
 | `checks` | Step 1 | ACP version update check |
 | `sessions` | Step 1.5 | Session registration and sibling display |
 | `docs` | Step 2 | Reading agent documentation (progress, designs, milestones, tasks, patterns) |
+| `projects` | Step 2.3 | ACP project listing |
 | `global` | Step 2.5 | Global package discovery |
 | `keys` | Step 2.8 | Key file index reading |
 | `files` | Steps 3-4 | Source file identification and review |
@@ -120,6 +121,41 @@ Load complete context from the agent/ directory.
 - Note any missing or incomplete documentation
 
 **Expected Outcome**: Complete documentation context loaded
+
+### 2.3. List ACP Projects (Optional)
+
+**Skip item**: `projects`
+
+List all registered ACP projects from the global `~/.acp` directory.
+
+**Actions**:
+- Check if `~/.acp` directory exists
+- If it does not exist, skip this step silently
+- If it exists, read `~/.acp/projects.yaml`
+- List all projects with their name, type, description, and status
+
+**Display format**:
+```
+📁 ACP Projects...
+  ✓ Read ~/.acp/projects.yaml
+
+  Found 5 projects:
+    • agent-context-protocol (active)
+      Path: ~/.acp/projects/agent-context-protocol
+      Type: unknown
+    • core-sdk (active) — package
+      Path: ~/.acp/projects/core-sdk
+    • agentbase.me (active) — AI Integration Registry with OAuth endpoints and MCP server catalog
+      Path: ~/.acp/projects/agentbase.me
+    • dmx-mcp (active) — mcp-server
+      Path: ~/.acp/projects/dmx-mcp
+    • gcloud-mcp (active) — mcp-server — Google Cloud MCP server for Cloud Build and Cloud Run log tools
+      Path: ~/.acp/projects/gcloud-mcp
+```
+
+**Expected Outcome**: User sees all registered ACP projects at a glance
+
+**Note**: If `~/.acp` does not exist or `~/.acp/projects.yaml` is missing, skip this step silently.
 
 ### 2.5. Discover Global Packages (Optional)
 
