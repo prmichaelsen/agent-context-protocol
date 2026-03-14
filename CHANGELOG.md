@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.18.0] - 2026-03-14
+
+### Added
+- **`acp.core.yaml` key file index** — bundled index of 12 core command directives shipped with ACP installs
+  - Weighted entries for `acp.proceed` (0.9), `acp.init` (0.8), `acp.plan` (0.8), `acp.task-create` (0.8), and 8 more
+  - Contextual `applies` fields so agents load relevant commands at the right time
+  - Replaces per-project duplication of core command index entries
+
 ## [5.17.0] - 2026-03-14
 
 ### Added
