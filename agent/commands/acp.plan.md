@@ -276,6 +276,7 @@ Update progress tracking with new planning items:
 **Actions**:
 - Add milestones to milestones array (with complete metadata)
 - Add tasks to appropriate milestone_N sections
+- Ensure each task entry includes `started: null` and `actual_hours: null` fields per the progress.template.yaml schema
 - Update milestone tasks_total counts
 - Calculate estimated_weeks from task hour estimates
 - Update next_steps with new planning items

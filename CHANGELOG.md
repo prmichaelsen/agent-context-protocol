@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.19.0] - 2026-03-14
+
+### Added
+- **Task `started` timestamp and auto-computed `actual_hours`** — tasks now track ISO 8601 `started` timestamps (auto-set on `in_progress` transition) and `actual_hours` (auto-computed from `started`/`completed_date` diff). Updated across `@acp.proceed`, `@acp.update`, `@acp.task-create`, `@acp.plan`, progress template, AGENT.md schema, and visualizer data model. Replaces manual "ask user for hours" prompt with automatic calculation.
+
 ## [5.18.4] - 2026-03-14
 
 ### Added

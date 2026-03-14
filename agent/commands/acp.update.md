@@ -70,7 +70,8 @@ Update individual task statuses and completion dates.
 
 **Actions**:
 - Mark completed tasks as `completed`
-- Set `completed_date` to today's date (YYYY-MM-DD)
+- When setting a task to `in_progress`: if `started` is `null` or missing, set `started` to current ISO 8601 timestamp. Do not overwrite existing values.
+- When setting a task to `completed`: set `completed_date` to current ISO 8601 timestamp. Auto-compute `actual_hours` from `(completed_date - started)` in hours, rounded to 1 decimal. If `started` is missing, set `actual_hours` to `null`.
 - Update task notes if needed
 - Change `in_progress` tasks if no longer active
 

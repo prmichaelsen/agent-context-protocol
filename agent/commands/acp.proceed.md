@@ -160,6 +160,8 @@ When you invoke `@acp.proceed --complete` (or equivalent):
 - Read `agent/progress.yaml`
 - Find first task with status `in_progress` or `not_started` in the current milestone
 - Read the task document
+- If the task's status is `not_started`, set it to `in_progress` in progress.yaml
+- **Set `started` timestamp**: If the task's `started` field is `null` or missing, set it to the current ISO 8601 timestamp (e.g., `2026-03-14T10:30:00Z`). Do NOT overwrite an existing `started` value.
 
 **DO NOT spend time analyzing or planning. MOVE TO STEP 2 IMMEDIATELY.**
 
@@ -287,7 +289,8 @@ Design Context: No design document found for this task.
 **Only after verifying all deliverables**, update `agent/progress.yaml`:
 - Mark task as `completed` (if done) or `in_progress` (if partial)
 - Add completion date (if done)
-- **Ask user for actual hours spent**: "How many hours did this task take? (estimated: X hours)" - Update `actual_hours` field
+- **Set `completed_date`** to the current ISO 8601 timestamp (e.g., `2026-03-14T14:45:00Z`)
+- **Auto-compute `actual_hours`**: If both `started` and `completed_date` are set, calculate `actual_hours = (completed_date - started)` in hours, rounded to 1 decimal place. If `started` is missing, set `actual_hours` to `null`.
 - Update milestone progress percentage
 - Add `recent_work` entry describing what was IMPLEMENTED
 - Update `next_steps`
@@ -401,7 +404,9 @@ FOR each remaining task in planned order:
 
   6. UPDATE progress tracking
      - Mark task as completed in progress.yaml
-     - Add completion date
+     - Set `completed_date` to current ISO 8601 timestamp
+     - If `started` is `null` or missing, set `started` to current timestamp (same as completed_date)
+     - Auto-compute `actual_hours` from `(completed_date - started)` in hours
      - Update milestone progress percentage
      - Add recent_work entry
 

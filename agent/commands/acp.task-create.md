@@ -254,8 +254,10 @@ Add task to progress.yaml:
   - id: task-{N}
     name: {Task Name}
     status: not_started
+    started: null
     file: agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md
     estimated_hours: {hours}
+    actual_hours: null
     completed_date: null
     notes: |
       {Brief description or empty}

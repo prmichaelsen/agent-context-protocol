@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.18.4
+**Version**: 5.19.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -315,12 +315,18 @@ tasks:
     - id: task-1
       name: Task Name
       status: not_started | in_progress | completed
+      started: ISO-8601 | null
       file: agent/tasks/milestone-{N}-{title}/task-{M}-name.md
       estimated_hours: N
-      actual_hours: null
-      completed_date: YYYY-MM-DD | null
+      actual_hours: null              # auto-computed
+      completed_date: ISO-8601 | null
       notes: |
         Task notes
+
+**Timestamp Rules**:
+- `started` — auto-set to ISO 8601 timestamp when task first transitions to `in_progress`. Never overwritten once set.
+- `completed_date` — auto-set to ISO 8601 timestamp when task transitions to `completed`.
+- `actual_hours` — auto-computed as `(completed_date - started)` in hours, rounded to 1 decimal. Not manually set.
 
 documentation:
   design_documents: N
