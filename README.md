@@ -2,8 +2,8 @@
 
 A documentation-first development methodology that enables AI agents to understand, build, and maintain complex software projects through structured knowledge capture.
 
-> *[Search ACP packages](https://prmichaelsen.github.io/agent-context-protocol/)*
-  
+> *[Search ACP packages](https://prmichaelsen.github.io/agent-context-protocol/)* | *[Visualize your project](https://github.com/prmichaelsen/agent-context-protocol-visualizer)* — `npx @prmichaelsen/acp-visualizer`
+> *[Project dashboard](https://viz.agentcontextprotocol.net/?repo=prmichaelsen%2Fagent-context-protocol)*
 > *[Claude Code](https://code.claude.com/docs/en/overview) is ACP's preferred coding agent provider, however any provider will work out of the box.*
 ---
 
@@ -36,6 +36,32 @@ Or if you have ACP already installed locally:
 ```bash
 ./agent/scripts/acp.version-update.sh
 ```
+
+---
+
+## Visualize Your Project
+
+See your milestones, tasks, and progress in a live dashboard:
+
+```bash
+npx @prmichaelsen/acp-visualizer
+```
+
+Runs a local dashboard that reads your `agent/progress.yaml` and renders it as an interactive admin panel with table/tree views, search, filtering, and auto-refresh.
+
+```bash
+# Run from any ACP project directory
+cd my-project
+npx @prmichaelsen/acp-visualizer
+
+# Or point at a specific file
+npx @prmichaelsen/acp-visualizer /path/to/agent/progress.yaml
+
+# Custom port
+npx @prmichaelsen/acp-visualizer --port 4000
+```
+
+**Features**: Sortable milestone table, expandable tree view, fuse.js fuzzy search, status filtering, SSE auto-refresh (updates live as agents work), lenient YAML parsing that handles agent-maintained drift.
 
 ---
 
