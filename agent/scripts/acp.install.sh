@@ -112,6 +112,11 @@ if [ -d "$TEMP_DIR/agent/index" ]; then
     find "$TEMP_DIR/agent/index" -maxdepth 1 -name "*.template.yaml" -exec cp {} "$TARGET_DIR/agent/index/" \;
 fi
 
+# Copy bundled index files (e.g. acp.core.yaml)
+if [ -d "$TEMP_DIR/agent/index" ]; then
+    find "$TEMP_DIR/agent/index" -maxdepth 1 -name "*.yaml" ! -name "*.template.yaml" ! -name "local.*" -exec cp {} "$TARGET_DIR/agent/index/" \;
+fi
+
 # Copy command template
 cp "$TEMP_DIR/agent/commands/command.template.md" "$TARGET_DIR/agent/commands/"
 

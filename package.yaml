@@ -2,7 +2,7 @@
 # This file defines the Agent Context Protocol core package
 
 name: acp-core
-version: 3.21.0
+version: 3.21.1
 description: Agent Context Protocol - Core commands, patterns, and utilities for AI agent development
 author: Patrick Michaelsen
 license: MIT
@@ -281,6 +281,10 @@ contents:
     - name: acp.yaml-validate.sh
       description: YAML schema validation
       type: utility
+
+  indices:
+    - name: acp.core.yaml
+      description: Key file index for core ACP command directives
 
 # Compatibility requirements
 requires:

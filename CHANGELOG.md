@@ -5,6 +5,12 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.18.1] - 2026-03-14
+
+### Fixed
+- **Bootstrap install missing bundled index files** — `acp.install.sh` only copied `*.template.yaml` from `agent/index/`, now also copies non-template, non-local index files (e.g. `acp.core.yaml`)
+- **`acp.core.yaml` not declared in package.yaml** — added `contents.indices` section so the package install path bundles the core index file
+
 ## [5.18.0] - 2026-03-14
 
 ### Added
