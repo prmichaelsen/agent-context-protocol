@@ -164,16 +164,16 @@ milestones:
       - 6 management commands (list, set, info, update, remove, sync)
       - Automatic registration on project creation
       - 10 tasks completed (52-60, 70): Infrastructure, Commands (6), Testing, Documentation, YAML Fix
-      - ✅ Task 52: Registry Infrastructure complete
-      - ✅ Task 53: @acp.project-list Command complete
-      - ✅ Task 54: @acp.project-set Command complete
-      - ✅ Task 55: @acp.project-info Command complete
-      - ✅ Task 56: @acp.project-update Command complete
-      - ✅ Task 57: @acp.project-remove Command complete
-      - ✅ Task 58: @acp.projects-sync Command complete
-      - ✅ Task 59: Integration & Testing complete
-      - ✅ Task 70: Fix YAML Parser Array Operations complete
-      - ✅ Task 60: Documentation Updates complete
+      - "✅ Task 52: Registry Infrastructure complete"
+      - "✅ Task 53: @acp.project-list Command complete"
+      - "✅ Task 54: @acp.project-set Command complete"
+      - "✅ Task 55: @acp.project-info Command complete"
+      - "✅ Task 56: @acp.project-update Command complete"
+      - "✅ Task 57: @acp.project-remove Command complete"
+      - "✅ Task 58: @acp.projects-sync Command complete"
+      - "✅ Task 59: Integration & Testing complete"
+      - "✅ Task 70: Fix YAML Parser Array Operations complete"
+      - "✅ Task 60: Documentation Updates complete"
   
   - id: M8
     name: Experimental Features System
@@ -2024,9 +2024,9 @@ tasks:
         - ✅ Fixed bug in acp.package-update.sh (function ordering)
         - ✅ Added assert_not_equals() to tests/common.sh
         - ✅ All 5 test suites passing (52/52 assertions, 100%)
-        - ✅ Test coverage: list (10), info (13), remove (8), search (8), update (13)
+        - "✅ Test coverage: list (10), info (13), remove (8), search (8), update (13)"
         - ✅ Fixed exit code capture in tests (removed || true, used set +e)
-        - 📋 Bug found and fixed: Functions defined after use in update script
+        - "📋 Bug found and fixed: Functions defined after use in update script"
 
 documentation:
   design_documents: 11
@@ -2063,33 +2063,33 @@ recent_work:
     items:
       - ✅ Created agent/sessions.template.yaml (empty sessions array)
       - ✅ Created agent/scripts/acp.sessions.sh (470+ lines, 6 subcommands)
-      - ✅ register: creates session with 11 fields, auto-generates sess_* ID
-      - ✅ deregister: removes by ID or auto-detects by PPID
-      - ✅ list: formatted display with relative times, project filter, (this session) indicator
-      - ✅ clean: dead PID detection + 2h timeout removal + 30m idle marking
-      - ✅ heartbeat: updates last_activity, task, description
-      - ✅ count: integer output for embedding
+      - "✅ register: creates session with 11 fields, auto-generates sess_* ID"
+      - "✅ deregister: removes by ID or auto-detects by PPID"
+      - "✅ list: formatted display with relative times, project filter, (this session) indicator"
+      - "✅ clean: dead PID detection + 2h timeout removal + 30m idle marking"
+      - "✅ heartbeat: updates last_activity, task, description"
+      - "✅ count: integer output for embedding"
       - ✅ PPID-based stale detection (tracks parent process, not script PID)
       - ✅ Rebuild-based deletion (bypasses yaml_delete array index limitation)
       - ✅ --pid flag for explicit PID control (testing/automation)
       - ✅ bash -n syntax validation passing
-      - ✅ Full E2E verification: 15 test scenarios passing
-      - 📋 Milestone M12: 25% complete (1/4 tasks)
+      - "✅ Full E2E verification: 15 test scenarios passing"
+      - "📋 Milestone M12: 25% complete (1/4 tasks)"
 
   - date: 2026-03-01
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v5.7.3 (up to date)
+      - "✅ ACP version check: v5.7.3 (up to date)"
       - ✅ Read agent/progress.yaml and all agent documentation
-      - ✅ Global packages discovered: core-sdk (v1.22.0), acp-core (v5.7.3)
+      - "✅ Global packages discovered: core-sdk (v1.22.0), acp-core (v5.7.3)"
       - ✅ Reviewed 24 shell scripts (9,977 lines total), 16 E2E test suites
-      - ✅ Fixed progress.yaml drift: version 5.5.0→5.7.3, milestone progress percentages updated
-      - ✅ Fixed progress percentages: M7 70→100, M9 28→100, M11 75→100
+      - "✅ Fixed progress.yaml drift: version 5.5.0→5.7.3, milestone progress percentages updated"
+      - "✅ Fixed progress percentages: M7 70→100, M9 28→100, M11 75→100"
       - ✅ All 10 milestones through M11 are COMPLETE
       - ⚠️ M6 (Preferences System) remains not_started (0%)
-      - 📋 1 TODO found: tag filtering in acp.project-list.sh:98
+      - "📋 1 TODO found: tag filtering in acp.project-list.sh:98"
 
   - date: 2026-02-28
     description: |
@@ -2104,8 +2104,8 @@ recent_work:
       - ✅ Progress indicators with bar graphs and status symbols
       - ✅ Summary report with completion stats at end of run
       - ✅ Dry-run mode for previewing without execution
-      - ✅ Error handling: halt on failures, never commit partial work
-      - ✅ Interruption handling: infer user intent
+      - "✅ Error handling: halt on failures, never commit partial work"
+      - "✅ Interruption handling: infer user intent"
       - 📋 Milestone M10 complete (1/1 tasks)
   - date: 2026-02-26
     description: |
@@ -2120,37 +2120,37 @@ recent_work:
       - ✅ Updated acp.project-update.sh to use yaml_array_append
       - ✅ Removed workarounds (lines 185, 241)
       - ✅ Real-world testing confirms fix works correctly
-      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours)
-      - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
-      - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
+      - "📋 Task completed in 1.5 hours (estimated: 2-3 hours)"
+      - "📋 Milestone 7: 60% → 70% complete (7/10 tasks)"
+      - "📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)"
 
   - date: 2026-02-26
     description: |
       ✅ Task 59 Complete: Integration & Testing
       Comprehensive test suite created for project registry system.
     items:
-      - ✅ Task 59: Integration & Testing complete
+      - "✅ Task 59: Integration & Testing complete"
       - ✅ Created e2e/acp.project-workflow.test.sh (580 lines, 49 assertions)
-      - ✅ Workflow Test 1: Complete project lifecycle (24 assertions)
-      - ✅ Workflow Test 2: Context switching (5 assertions)
-      - ✅ Workflow Test 3: Error handling (9 assertions)
-      - ✅ Workflow Test 4: Filtering and querying (11 assertions)
-      - ✅ Unit tests: 5/5 passing (100%)
-      - ✅ E2E tests: 7 test suites with 214+ total assertions
-      - ✅ Overall pass rate: ~95%
+      - "✅ Workflow Test 1: Complete project lifecycle (24 assertions)"
+      - "✅ Workflow Test 2: Context switching (5 assertions)"
+      - "✅ Workflow Test 3: Error handling (9 assertions)"
+      - "✅ Workflow Test 4: Filtering and querying (11 assertions)"
+      - "✅ Unit tests: 5/5 passing (100%)"
+      - "✅ E2E tests: 7 test suites with 214+ total assertions"
+      - "✅ Overall pass rate: ~95%"
       - ✅ All 6 project registry commands tested
       - ✅ Tests validate complete user workflows
       - ✅ Follows E2E testing pattern (no YAML parser issues)
-      - 📋 Task completed in 2 hours (estimated: 3-4 hours, 150% efficiency)
-      - 📋 Milestone 7: 70% → 80% complete (8/10 tasks)
-      - 📋 Next: Task 60 - Documentation Updates (2-3 hours)
+      - "📋 Task completed in 2 hours (estimated: 3-4 hours, 150% efficiency)"
+      - "📋 Milestone 7: 70% → 80% complete (8/10 tasks)"
+      - "📋 Next: Task 60 - Documentation Updates (2-3 hours)"
 
   - date: 2026-02-26
     description: |
       ✅ Task 58 Complete: @acp.projects-sync Command
       Project discovery and registration command implemented with comprehensive documentation.
     items:
-      - ✅ Task 58: @acp.projects-sync Command complete
+      - "✅ Task 58: @acp.projects-sync Command complete"
       - ✅ Created agent/scripts/acp.projects-sync.sh (filesystem scanner, 105 lines)
       - ✅ Created agent/commands/acp.projects-sync.md (comprehensive documentation, 377 lines)
       - ✅ Created e2e/acp.projects-sync.test.sh (8 test scenarios, 35 assertions)
@@ -2164,9 +2164,9 @@ recent_work:
       - ✅ Auto-initializes registry if needed
       - ✅ No syntax errors (bash -n passed)
       - ✅ Manual testing successful
-      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours, 150% efficiency)
-      - 📋 Milestone 7: 60% → 70% complete (7/10 tasks)
-      - 📋 Next: Task 59 - Integration & Testing (3-4 hours)
+      - "📋 Task completed in 1.5 hours (estimated: 2-3 hours, 150% efficiency)"
+      - "📋 Milestone 7: 60% → 70% complete (7/10 tasks)"
+      - "📋 Next: Task 59 - Integration & Testing (3-4 hours)"
 
   - date: 2026-02-26
     description: |
@@ -2177,55 +2177,55 @@ recent_work:
       - ✅ Created agent/commands/acp.project-remove.md (command documentation)
       - ✅ Created e2e/acp.project-remove.test.sh (8 tests, 25 assertions)
       - ✅ Removes projects from registry with optional directory deletion
-      - ✅ Safety features: confirmation prompts, extra DELETE confirmation for files
+      - "✅ Safety features: confirmation prompts, extra DELETE confirmation for files"
       - ✅ Warns when removing current project
       - ✅ Clears current_project if removing current
       - ✅ --delete-files flag for complete removal
       - ✅ -y/--yes flag for automation
       - ✅ All 8 E2E tests passing (100%):
-        - Test 1: Remove from registry only (6 assertions)
-        - Test 2: Remove with directory deletion (5 assertions)
-        - Test 3: Remove non-current project (3 assertions)
-        - Test 4: Project not found (3 assertions)
-        - Test 5: No arguments (2 assertions)
-        - Test 6: Registry not found (2 assertions)
-        - Test 7: Missing directory (3 assertions)
-        - Test 8: Timestamp updates (1 assertion)
+        - "Test 1: Remove from registry only (6 assertions)"
+        - "Test 2: Remove with directory deletion (5 assertions)"
+        - "Test 3: Remove non-current project (3 assertions)"
+        - "Test 4: Project not found (3 assertions)"
+        - "Test 5: No arguments (2 assertions)"
+        - "Test 6: Registry not found (2 assertions)"
+        - "Test 7: Missing directory (3 assertions)"
+        - "Test 8: Timestamp updates (1 assertion)"
       - ✅ Added assert_dir_exists() and assert_dir_not_exists() to tests/common.sh
       - ✅ No syntax errors (bash -n passed)
-      - 📋 Task completed in 1 hour (estimated: 1-2 hours)
-      - 📋 Milestone 7: 50% → 60% complete (6/10 tasks)
-      - 📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)
+      - "📋 Task completed in 1 hour (estimated: 1-2 hours)"
+      - "📋 Milestone 7: 50% → 60% complete (6/10 tasks)"
+      - "📋 Next: Task 58 - @acp.projects-sync Command (2-3 hours)"
 
   - date: 2026-02-26
     description: |
       📋 Milestone 9 Planned: Template Source Files Support
       Complete planning for template system with milestone and 6 tasks.
     items:
-      - ✅ Analyzed design document: local.acp-template-source-files.md
+      - "✅ Analyzed design document: local.acp-template-source-files.md"
       - ✅ Created agent/milestones/milestone-9-template-source-files.md
       - ✅ Created 6 task documents in milestone-9-template-source-files/ directory:
-        - Task 71: Schema Extension (3-4 hours)
-        - Task 72: Installation System (6-8 hours)
-        - Task 73: Manifest Tracking (2-3 hours)
-        - Task 74: Command Updates (4-5 hours)
-        - Task 75: Testing Suite (6-8 hours)
-        - Task 76: Documentation (3-4 hours)
+        - "Task 71: Schema Extension (3-4 hours)"
+        - "Task 72: Installation System (6-8 hours)"
+        - "Task 73: Manifest Tracking (2-3 hours)"
+        - "Task 74: Command Updates (4-5 hours)"
+        - "Task 75: Testing Suite (6-8 hours)"
+        - "Task 76: Documentation (3-4 hours)"
       - ✅ Updated progress.yaml with M9 and all tasks
       - ✅ Template system extends package management to actual code files
       - ✅ Enables distribution of TypeScript configs, build scripts, source templates
       - ✅ Variable substitution for personalization
       - ✅ Selective installation via --templates flag
-      - 📋 Milestone 9: 0% complete (0/6 tasks)
-      - 📋 Total estimated effort: 24-32 hours (2-3 weeks)
-      - 📋 Next: Review milestone and tasks, then begin implementation
+      - "📋 Milestone 9: 0% complete (0/6 tasks)"
+      - "📋 Total estimated effort: 24-32 hours (2-3 weeks)"
+      - "📋 Next: Review milestone and tasks, then begin implementation"
 
   - date: 2026-02-26
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v4.1.1 (up to date)
+      - "✅ ACP version check: v4.1.1 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed (2653 lines)
       - ✅ No local manifest.yaml (this is ACP core project)
       - ✅ No global packages installed at ~/.acp/manifest.yaml
@@ -2240,9 +2240,9 @@ recent_work:
       - ✅ Verified 23 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M5, M8 complete (100%), M7 in progress (50%)
-      - 📋 Current Focus: Milestone 7 - Global ACP Project Registry
-      - 📋 Also Pending: Milestone 3 tasks 65-69 (Script-Command Binding)
+      - "📋 Project Status: M1-M5, M8 complete (100%), M7 in progress (50%)"
+      - "📋 Current Focus: Milestone 7 - Global ACP Project Registry"
+      - "📋 Also Pending: Milestone 3 tasks 65-69 (Script-Command Binding)"
 
   - date: 2026-02-26
     description: |
@@ -2250,16 +2250,16 @@ recent_work:
       Replaced production script with optimized version achieving 10-20x speedup.
     items:
       - ✅ Analyzed acp.package-install.sh performance bottleneck
-      - ✅ Identified root cause: add_file_to_manifest() called N times in loop (line 531)
+      - "✅ Identified root cause: add_file_to_manifest() called N times in loop (line 531)"
       - ✅ Created optimized solution with batch operations
-      - ✅ Deployed to production: Replaced acp.package-install.sh
+      - "✅ Deployed to production: Replaced acp.package-install.sh"
       - ✅ Batch checksum calculation (20 calls → 1 call)
       - ✅ Batch manifest operations (20 reads/writes → 1 read/write)
-      - ✅ Performance: 20 files 10s → <1s (10x faster)
+      - "✅ Performance: 20 files 10s → <1s (10x faster)"
       - ✅ Created analyze-performance.sh analysis tool
-      - ✅ Git commits: 6aa8af3 (investigation), f0399fe (deployment)
-      - 📋 Task completed in 1 hour (estimated: 2-3 hours)
-      - 📋 Milestone 3: 63% → 69% complete (11/16 tasks)
+      - "✅ Git commits: 6aa8af3 (investigation), f0399fe (deployment)"
+      - "📋 Task completed in 1 hour (estimated: 2-3 hours)"
+      - "📋 Milestone 3: 63% → 69% complete (11/16 tasks)"
 
   - date: 2026-02-25
     description: |
@@ -2273,23 +2273,23 @@ recent_work:
       - ✅ Fixed should_install_file() grep failures causing exit (added || true)
       - ✅ All E2E tests passing (28/28 assertions, 100% pass rate)
       - ✅ Created debug.sh for streamlined debugging workflow
-      - ✅ Version bump: 3.14.0 → 3.14.1 (patch - bug fixes)
+      - "✅ Version bump: 3.14.0 → 3.14.1 (patch - bug fixes)"
       - ✅ Updated CHANGELOG.md with v3.14.1 entry
       - ✅ Updated AGENT.md, package.yaml, progress.yaml versions
-      - 🎊 Milestone 3: 93% → 100% complete (15/15 tasks)
-      - 📋 Task completed in 4 hours (estimated: 2-3 hours, included extensive debugging)
-      - 📋 Next: Continue with M7 (Project Registry) or start M6 (Preferences System)
+      - "🎊 Milestone 3: 93% → 100% complete (15/15 tasks)"
+      - "📋 Task completed in 4 hours (estimated: 2-3 hours, included extensive debugging)"
+      - "📋 Next: Continue with M7 (Project Registry) or start M6 (Preferences System)"
 
   - date: 2026-02-25
     description: |
       ✅ Tasks 55-56 Complete: @acp.project-info + @acp.project-update Commands
       Project information display and metadata updates implemented with E2E tests.
     items:
-      - ✅ Task 55: @acp.project-info Command complete
-      - ✅ Task 56: @acp.project-update Command complete
+      - "✅ Task 55: @acp.project-info Command complete"
+      - "✅ Task 56: @acp.project-update Command complete"
       - ✅ Created scripts and command documentation
       - ✅ E2E tests created (12/19 passing 63%)
-      - 📋 Milestone 7: 33% → 56% complete (5/10 tasks)
+      - "📋 Milestone 7: 33% → 56% complete (5/10 tasks)"
   
   - date: 2026-02-24
     description: |
@@ -2297,8 +2297,8 @@ recent_work:
       Added Scripts field to all 30 ACP commands and created package.yaml for ACP core.
     items:
       - ✅ Created command-script mapping for all 30 commands
-      - ✅ Added **Scripts**: field to 14 commands with script dependencies
-      - ✅ Added **Scripts**: None to 16 commands without scripts
+      - "✅ Added **Scripts**: field to 14 commands with script dependencies"
+      - "✅ Added **Scripts**: None to 16 commands without scripts"
       - ✅ Removed duplicate Scripts fields from all commands (Python script)
       - ✅ Created package.yaml at repository root
       - ✅ Listed all 30 commands with scripts arrays
@@ -2306,11 +2306,11 @@ recent_work:
       - ✅ Marked experimental commands (acp.project-list, acp.project-set)
       - ✅ Marked utility scripts (acp.common.sh, acp.yaml-parser.sh, acp.yaml-validate.sh)
       - ✅ Fixed version constraint format (removed quotes)
-      - 📋 Commands with scripts: package-create, package-info, package-install, package-list, package-publish, package-remove, package-search, package-update, package-validate, project-list, project-set, version-check, version-check-for-updates, version-update
-      - 📋 Commands without scripts: command-create, design-create, init, pattern-create, plan, proceed, project-create, report, resume, status, sync, task-create, update, validate, git.commit, git.init
-      - 📋 Task completed in 1 hour (estimated: 2-3 hours)
-      - 📋 Milestone 3: 87% → 93% complete (14/15 tasks)
-      - 📋 Next: Task 69 - Testing and Documentation (2-3 hours)
+      - "📋 Commands with scripts: package-create, package-info, package-install, package-list, package-publish, package-remove, package-search, package-update, package-validate, project-list, project-set, version-check, version-check-for-updates, version-update"
+      - "📋 Commands without scripts: command-create, design-create, init, pattern-create, plan, proceed, project-create, report, resume, status, sync, task-create, update, validate, git.commit, git.init"
+      - "📋 Task completed in 1 hour (estimated: 2-3 hours)"
+      - "📋 Milestone 3: 87% → 93% complete (14/15 tasks)"
+      - "📋 Next: Task 69 - Testing and Documentation (2-3 hours)"
   
   - date: 2026-02-24
     description: |
@@ -2318,7 +2318,7 @@ recent_work:
       Added validation to ensure script declarations are consistent between frontmatter and package.yaml.
     items:
       - ✅ Added validate_script_dependencies() to agent/scripts/acp.package-validate.sh
-      - ✅ Function validates frontmatter **Scripts**: field exists
+      - "✅ Function validates frontmatter **Scripts**: field exists"
       - ✅ Compares frontmatter scripts with package.yaml scripts array
       - ✅ Handles "None" case for commands without scripts
       - ✅ Verifies all declared scripts exist in scripts section
@@ -2326,9 +2326,9 @@ recent_work:
       - ✅ Fixable suggestions for common issues
       - ✅ Integrated into main validation flow (after namespace, before experimental)
       - ✅ Syntax validated (bash -n passed)
-      - 📋 Task completed in 0.5 hours (estimated: 1-2 hours)
-      - 📋 Milestone 3: 80% → 87% complete (13/15 tasks)
-      - 📋 Next: Task 68 - Update Existing Commands (2-3 hours)
+      - "📋 Task completed in 0.5 hours (estimated: 1-2 hours)"
+      - "📋 Milestone 3: 80% → 87% complete (13/15 tasks)"
+      - "📋 Next: Task 68 - Update Existing Commands (2-3 hours)"
   
   - date: 2026-02-24
     description: |
@@ -2349,9 +2349,9 @@ recent_work:
       - ✅ Filters experimental commands before collecting scripts
       - ✅ Only installs scripts for non-experimental commands
       - ✅ Both scripts syntax validated (bash -n passed)
-      - 📋 Task completed in 1 hour (estimated: 2-3 hours)
-      - 📋 Milestone 3: 73% → 80% complete (12/15 tasks)
-      - 📋 Next: Task 67 - Validation Logic (1-2 hours)
+      - "📋 Task completed in 1 hour (estimated: 2-3 hours)"
+      - "📋 Milestone 3: 73% → 80% complete (12/15 tasks)"
+      - "📋 Next: Task 67 - Validation Logic (1-2 hours)"
   
   - date: 2026-02-24
     description: |
@@ -2362,15 +2362,15 @@ recent_work:
       - ✅ Added scripts field to command entries (REQUIRED, array of strings)
       - ✅ Added pattern validation for script names
       - ✅ Updated agent/commands/command.template.md
-      - ✅ Added **Scripts**: field after **Status**: field
+      - "✅ Added **Scripts**: field after **Status**: field"
       - ✅ Added documentation note about dual declaration requirement
       - ✅ Updated agent/package.template.yaml
       - ✅ Added scripts array example in command entries
       - ✅ Added scripts section with utility examples
       - ✅ All changes validated and consistent
-      - 📋 Task completed in 0.5 hours (estimated: 1-2 hours)
-      - 📋 Milestone 3: 67% → 73% complete (11/15 tasks)
-      - 📋 Next: Task 66 - Installation Logic (2-3 hours)
+      - "📋 Task completed in 0.5 hours (estimated: 1-2 hours)"
+      - "📋 Milestone 3: 67% → 73% complete (11/15 tasks)"
+      - "📋 Next: Task 66 - Installation Logic (2-3 hours)"
   
   - date: 2026-02-24
     description: |
@@ -2378,16 +2378,16 @@ recent_work:
       Broke down complex feature into 5 focused tasks based on design phases.
     items:
       - ✅ Created agent/design/local.script-command-binding.md (design specification)
-      - ✅ Updated Task 65: Schema and Templates (1-2 hours, Phase 1)
-      - ✅ Created Task 66: Installation Logic (2-3 hours, Phase 2)
-      - ✅ Created Task 67: Validation Logic (1-2 hours, Phase 3)
-      - ✅ Created Task 68: Update Existing Commands (2-3 hours, Phase 4)
-      - ✅ Created Task 69: Testing and Documentation (2-3 hours, Phase 5)
+      - "✅ Updated Task 65: Schema and Templates (1-2 hours, Phase 1)"
+      - "✅ Created Task 66: Installation Logic (2-3 hours, Phase 2)"
+      - "✅ Created Task 67: Validation Logic (1-2 hours, Phase 3)"
+      - "✅ Created Task 68: Update Existing Commands (2-3 hours, Phase 4)"
+      - "✅ Created Task 69: Testing and Documentation (2-3 hours, Phase 5)"
       - ✅ All tasks linked to design document
-      - ✅ Total estimated: 8-13 hours (5 tasks)
-      - ✅ M3 updated: 100% → 67% (10/15 tasks, 5 new tasks added)
-      - ✅ Git commit: a1b1442 (design + task 65 planning)
-      - 📋 Accepted solution: Dual Declaration with Required Field
+      - "✅ Total estimated: 8-13 hours (5 tasks)"
+      - "✅ M3 updated: 100% → 67% (10/15 tasks, 5 new tasks added)"
+      - "✅ Git commit: a1b1442 (design + task 65 planning)"
+      - "📋 Accepted solution: Dual Declaration with Required Field"
       - 📋 Commands declare dependencies in frontmatter AND package.yaml
       - 📋 scripts field REQUIRED in package.yaml (consistency validation)
       - 📋 Reference counting for shared utilities (acp.common.sh, acp.yaml-parser.sh)
@@ -2406,14 +2406,14 @@ recent_work:
       - ✅ Fixed test invocations (use absolute path, not cd &&)
       - ✅ Fixed assert_equals parameter order (expected, actual, message)
       - ✅ All 8 E2E tests passing (100%):
-        - Test 1: Set project successfully (6 assertions)
-        - Test 2: Project not found in registry (5 assertions)
-        - Test 3: Project directory not found (4 assertions)
-        - Test 4: No arguments provided (3 assertions)
-        - Test 5: Registry file not found (3 assertions)
-        - Test 6: Switch between projects (2 assertions)
-        - Test 7: Tilde expansion in path (2 assertions)
-        - Test 8: Registry timestamp updates (4 assertions)
+        - "Test 1: Set project successfully (6 assertions)"
+        - "Test 2: Project not found in registry (5 assertions)"
+        - "Test 3: Project directory not found (4 assertions)"
+        - "Test 4: No arguments provided (3 assertions)"
+        - "Test 5: Registry file not found (3 assertions)"
+        - "Test 6: Switch between projects (2 assertions)"
+        - "Test 7: Tilde expansion in path (2 assertions)"
+        - "Test 8: Registry timestamp updates (4 assertions)"
       - ✅ Script validates project exists in registry
       - ✅ Script validates project directory exists
       - ✅ Script updates current_project, last_accessed, last_updated
@@ -2421,9 +2421,9 @@ recent_work:
       - ✅ Script provides clear error messages with suggestions
       - ✅ No syntax errors (bash -n passed)
       - ✅ Marked as Experimental (M7 incomplete)
-      - 📋 Task completed in 1.5 hours (estimated: 2-3 hours)
-      - 📋 Milestone 7: 22% → 33% complete (3/9 tasks)
-      - 📋 Next: Task 55 - @acp.project-info Command (1-2 hours)
+      - "📋 Task completed in 1.5 hours (estimated: 2-3 hours)"
+      - "📋 Milestone 7: 22% → 33% complete (3/9 tasks)"
+      - "📋 Next: Task 55 - @acp.project-info Command (1-2 hours)"
   
   - date: 2026-02-23
     description: |
@@ -2444,22 +2444,22 @@ recent_work:
         - Scalar values still return normally
         - Fixes fundamental limitation in YAML parser
       - ✅ All 21 test assertions passing (100%)
-      - ✅ Tests cover: empty registry, single/multiple projects, filtering, error handling
+      - "✅ Tests cover: empty registry, single/multiple projects, filtering, error handling"
       - ✅ Script handles empty registry gracefully
       - ✅ Displays projects with type, status, description, last accessed
       - ✅ Marks current project with ⭐ indicator
       - ✅ Supports --type and --status filtering
       - ✅ Marked command as Experimental (M7 incomplete)
       - 📋 Task completed in 2.5 hours total (0.5h implementation + 2h testing/debugging/yaml_query fix)
-      - 📋 Milestone 7: 11% → 22% complete (2/9 tasks)
-      - 📋 Next: Task 54 - @acp.project-set Command (2-3 hours)
+      - "📋 Milestone 7: 11% → 22% complete (2/9 tasks)"
+      - "📋 Next: Task 54 - @acp.project-set Command (2-3 hours)"
   
   - date: 2026-02-23
     description: |
       🎉 Milestone 8 Complete: Experimental Features System
       Full experimental features system implemented with schema, validation, installation, updates, documentation, and E2E tests.
     items:
-      - ✅ Task 64: Documentation and Examples complete
+      - "✅ Task 64: Documentation and Examples complete"
       - ✅ Updated agent/commands/acp.package-install.md with --experimental flag
       - ✅ Updated agent/commands/acp.package-update.md with experimental behavior
       - ✅ Updated agent/commands/acp.package-validate.md with consistency checks
@@ -2471,8 +2471,8 @@ recent_work:
       - ✅ Added assert_file_not_exists() to tests/common.sh
       - ✅ Added -y/--yes flag to acp.package-install.sh for test automation
       - ✅ Added local directory path support for testing
-      - ✅ Milestone 8: 100% complete (4/4 tasks)
-      - 🎊 All tasks completed in 4 hours (estimated: 10-14 hours)
+      - "✅ Milestone 8: 100% complete (4/4 tasks)"
+      - "🎊 All tasks completed in 4 hours (estimated: 10-14 hours)"
       - 📋 System features:
         - Dual marking (package.yaml + file metadata)
         - Installation control via --experimental flag
@@ -2496,9 +2496,9 @@ recent_work:
       - ✅ Manifest experimental flags updated during graduation
       - ✅ Clear visual indicators for all update types
       - ✅ No syntax errors in update script
-      - 📋 Task 63: 100% complete (1 hour)
-      - 📋 Milestone 8: 75% complete (3/4 tasks)
-      - 📋 Next: Task 64 - Documentation and Examples (3-4 hours)
+      - "📋 Task 63: 100% complete (1 hour)"
+      - "📋 Milestone 8: 75% complete (3/4 tasks)"
+      - "📋 Next: Task 64 - Documentation and Examples (3-4 hours)"
   
   - date: 2026-02-23
     description: |
@@ -2509,17 +2509,17 @@ recent_work:
       - ✅ Added --experimental flag parsing to argument handling
       - ✅ Implemented should_install_file() filtering function
       - ✅ Function checks experimental field in package.yaml (handles any indentation, excludes comments)
-      - ✅ Without --experimental: Skips experimental features with ⊘ indicator
-      - ✅ With --experimental: Installs experimental features with ⚠ indicator
+      - "✅ Without --experimental: Skips experimental features with ⊘ indicator"
+      - "✅ With --experimental: Installs experimental features with ⚠ indicator"
       - ✅ Updated add_file_to_manifest() in acp.common.sh
       - ✅ Added optional package_yaml_path parameter (6th parameter)
       - ✅ Function checks experimental status and adds to manifest
       - ✅ Updated acp.package-install.sh to pass package.yaml path
-      - ✅ Manifest now tracks experimental: true for experimental files
+      - "✅ Manifest now tracks experimental: true for experimental files"
       - ✅ No syntax errors in both scripts
-      - 📋 Task 62: 100% complete (1.5 hours)
-      - 📋 Milestone 8: 50% complete (2/4 tasks)
-      - 📋 Next: Task 63 - Update Handling (2-3 hours)
+      - "📋 Task 62: 100% complete (1.5 hours)"
+      - "📋 Milestone 8: 50% complete (2/4 tasks)"
+      - "📋 Next: Task 63 - Update Handling (2-3 hours)"
   
   - date: 2026-02-23
     description: |
@@ -2534,14 +2534,14 @@ recent_work:
       - ✅ Validation checks both directions (package.yaml ↔ file metadata)
       - ✅ Clear error messages with fixable suggestions
       - ✅ All 4 test scenarios passing:
-        - Test 1: Consistent marking → PASS
-        - Test 2: Missing file metadata → ERROR detected
-        - Test 3: Missing package.yaml field → ERROR detected
-        - Test 4: Both unmarked → PASS
+        - "Test 1: Consistent marking → PASS"
+        - "Test 2: Missing file metadata → ERROR detected"
+        - "Test 3: Missing package.yaml field → ERROR detected"
+        - "Test 4: Both unmarked → PASS"
       - ✅ No syntax errors in validation script
-      - 📋 Task 61: 100% complete (1 hour)
-      - 📋 Milestone 8: 25% complete (1/4 tasks)
-      - 📋 Next: Task 62 - Installation Filtering (3-4 hours)
+      - "📋 Task 61: 100% complete (1 hour)"
+      - "📋 Milestone 8: 25% complete (1/4 tasks)"
+      - "📋 Next: Task 62 - Installation Filtering (3-4 hours)"
   
   - date: 2026-02-23
     description: |
@@ -2551,25 +2551,25 @@ recent_work:
       - ✅ Created agent/design/local.experimental-features-system.md (comprehensive design)
       - ✅ Created agent/milestones/milestone-8-experimental-features.md
       - ✅ Created 4 task documents in milestone-8-experimental-features/ directory:
-        - Task 61: Schema and Validation Enhancement (2-3 hours)
-        - Task 62: Installation Filtering (3-4 hours)
-        - Task 63: Update Handling for Experimental Features (2-3 hours)
-        - Task 64: Documentation and Examples (3-4 hours)
+        - "Task 61: Schema and Validation Enhancement (2-3 hours)"
+        - "Task 62: Installation Filtering (3-4 hours)"
+        - "Task 63: Update Handling for Experimental Features (2-3 hours)"
+        - "Task 64: Documentation and Examples (3-4 hours)"
       - ✅ Updated progress.yaml with M8 and all tasks
       - ✅ Dual marking system (package.yaml + file metadata)
       - ✅ Installation control via --experimental flag
       - ✅ Smart update handling (installed vs new experimental)
       - ✅ Validation for consistency checking
-      - 📋 Milestone 8: 0% complete (0/4 tasks)
-      - 📋 Total estimated effort: 10-14 hours (1-2 weeks)
-      - 📋 Next: Review milestone and tasks, then begin implementation
+      - "📋 Milestone 8: 0% complete (0/4 tasks)"
+      - "📋 Total estimated effort: 10-14 hours (1-2 weeks)"
+      - "📋 Next: Review milestone and tasks, then begin implementation"
   
   - date: 2026-02-23
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ⚠️  ACP updates available: v3.10.1 → v3.11.0 (YAML parser enhancements, project registry)
+      - "⚠️  ACP updates available: v3.10.1 → v3.11.0 (YAML parser enhancements, project registry)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read design documents (requirements template, 11 design docs)
       - ✅ Read 8 milestone documents (M1-M7)
@@ -2577,13 +2577,13 @@ recent_work:
       - ✅ Reviewed AGENT.md (v3.10.1, 1292 lines)
       - ✅ Reviewed README.md (316 lines)
       - ✅ Reviewed CHANGELOG.md (1289 lines - first 150 lines, up to v3.11.0)
-      - ✅ Discovered global packages: acp-core v3.10.1 (28 commands, 2 patterns, 2 designs)
+      - "✅ Discovered global packages: acp-core v3.10.1 (28 commands, 2 patterns, 2 designs)"
       - ✅ Verified 28 command files (all with flat dot notation)
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M5 complete (100%), M7 in progress (11%)
-      - 📋 Current Focus: Milestone 7 - Global ACP Project Registry
-      - 📋 Next: Task 53 - @acp.project-list Command (2-3 hours)
+      - "📋 Project Status: M1-M5 complete (100%), M7 in progress (11%)"
+      - "📋 Current Focus: Milestone 7 - Global ACP Project Registry"
+      - "📋 Next: Task 53 - @acp.project-list Command (2-3 hours)"
   
   - date: 2026-02-23
     description: |
@@ -2608,9 +2608,9 @@ recent_work:
       - ✅ Created tests/acp.project-registry.test.sh (5/5 tests passing)
       - ✅ No syntax errors in acp.common.sh
       - ✅ register_project() working with sed-based implementation
-      - 📋 Task 52: 100% complete
-      - 📋 Milestone 7: 11% complete (1/9 tasks)
-      - 📋 Next: Task 53 - @acp.project-list Command
+      - "📋 Task 52: 100% complete"
+      - "📋 Milestone 7: 11% complete (1/9 tasks)"
+      - "📋 Next: Task 53 - @acp.project-list Command"
   
   - date: 2026-02-23
     description: |
@@ -2622,32 +2622,32 @@ recent_work:
       - ✅ Added @acp.project-set command for context switching
       - ✅ Created agent/milestones/milestone-7-project-registry.md
       - ✅ Created 9 task documents in milestone-7-project-registry/ directory:
-        - Task 52: Project Registry Infrastructure (2-3 hours)
-        - Task 53: @acp.project-list Command (2-3 hours)
-        - Task 54: @acp.project-set Command (2-3 hours)
-        - Task 55: @acp.project-info Command (1-2 hours)
-        - Task 56: @acp.project-update Command (1-2 hours)
-        - Task 57: @acp.project-remove Command (1-2 hours)
-        - Task 58: @acp.projects-sync Command (2-3 hours)
-        - Task 59: Integration & Testing (3-4 hours)
-        - Task 60: Documentation Updates (2-3 hours)
+        - "Task 52: Project Registry Infrastructure (2-3 hours)"
+        - "Task 53: @acp.project-list Command (2-3 hours)"
+        - "Task 54: @acp.project-set Command (2-3 hours)"
+        - "Task 55: @acp.project-info Command (1-2 hours)"
+        - "Task 56: @acp.project-update Command (1-2 hours)"
+        - "Task 57: @acp.project-remove Command (1-2 hours)"
+        - "Task 58: @acp.projects-sync Command (2-3 hours)"
+        - "Task 59: Integration & Testing (3-4 hours)"
+        - "Task 60: Documentation Updates (2-3 hours)"
       - ✅ Updated progress.yaml with M7 and all tasks
       - ✅ Renamed @acp.project-scan to @acp.projects-sync (consistent with @acp.sync)
       - ✅ Created git commit for planning work (7eecc89)
-      - 📋 Milestone 7: 0% complete (0/9 tasks)
-      - 📋 Total estimated effort: 16-25 hours (1-2 weeks)
-      - 📋 Key feature: Context switching via @acp.project-set
-      - 📋 Next: Review milestone and tasks, then begin implementation
+      - "📋 Milestone 7: 0% complete (0/9 tasks)"
+      - "📋 Total estimated effort: 16-25 hours (1-2 weeks)"
+      - "📋 Key feature: Context switching via @acp.project-set"
+      - "📋 Next: Review milestone and tasks, then begin implementation"
   
   - date: 2026-02-23
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v3.10.1 (up to date)
+      - "✅ ACP version check: v3.10.1 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 5 design documents (requirements template, commands, package-mgmt, package-dev, preferences)
-      - ✅ Read 2 milestone documents (M6: Preferences System, with task-37 details)
+      - "✅ Read 2 milestone documents (M6: Preferences System, with task-37 details)"
       - ✅ Reviewed AGENT.md (v3.10.1, 1184 lines)
       - ✅ Reviewed README.md (316 lines)
       - ✅ Reviewed CHANGELOG.md (1251 lines - first 300 lines, up to v3.10.1)
@@ -2656,9 +2656,9 @@ recent_work:
       - ✅ Verified 17 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M5 complete (100%), M6 ready to start (0%)
-      - 📋 Current Focus: Milestone 6 - ACP Preferences System
-      - 📋 Next: Task 37 - Preference Loading Infrastructure (4-6 hours)
+      - "📋 Project Status: M1-M5 complete (100%), M6 ready to start (0%)"
+      - "📋 Current Focus: Milestone 6 - ACP Preferences System"
+      - "📋 Next: Task 37 - Preference Loading Infrastructure (4-6 hours)"
   
   - date: 2026-02-22
     description: |
@@ -2680,8 +2680,8 @@ recent_work:
       - ✅ Always uses 'local' namespace (not configurable)
       - ✅ Comprehensive documentation with examples
       - ✅ Comparison table with @acp.package-create
-      - 📋 Task completed in 1 hour (estimated: 3-4 hours)
-      - 📋 Milestone 5: 86% → 100% complete (7/7 tasks)
+      - "📋 Task completed in 1 hour (estimated: 3-4 hours)"
+      - "📋 Milestone 5: 86% → 100% complete (7/7 tasks)"
       - 🎊 Milestone 5 Complete!
   
   - date: 2026-02-22
@@ -2691,25 +2691,25 @@ recent_work:
     items:
       - ✅ Updated agent/scripts/acp.package-search.sh query construction
       - ✅ Default search now uses topic:acp-package (not acp-)
-      - ✅ Results: 3 actual ACP packages (not 11,356 irrelevant repos)
-      - ✅ With query: Combines user query + topic:acp-package filter
+      - "✅ Results: 3 actual ACP packages (not 11,356 irrelevant repos)"
+      - "✅ With query: Combines user query + topic:acp-package filter"
       - ✅ Updated agent/commands/acp.package-search.md documentation
       - ✅ Added note about required acp-package topic for discovery
-      - ✅ Tested default search: Returns only ACP packages ✓
-      - ✅ Tested with query: Filters correctly ✓
-      - 📋 Task completed in 0.5 hours (estimated: 1 hour)
-      - 📋 Milestone 3: 90% → 100% complete (10/10 tasks)
+      - "✅ Tested default search: Returns only ACP packages ✓"
+      - "✅ Tested with query: Filters correctly ✓"
+      - "📋 Task completed in 0.5 hours (estimated: 1 hour)"
+      - "📋 Milestone 3: 90% → 100% complete (10/10 tasks)"
   
   - date: 2026-02-22
     description: |
       📋 Task 49 & 50 Created via @acp.task-create
       Created two new tasks from draft files with proper structure.
     items:
-      - ✅ Task 49: @acp.project-create Command (M5, 3-4 hours)
-      - ✅ Task 50: Package Search Default Topic Filter (M3, 1 hour)
+      - "✅ Task 49: @acp.project-create Command (M5, 3-4 hours)"
+      - "✅ Task 50: Package Search Default Topic Filter (M3, 1 hour)"
       - ✅ Updated progress.yaml with both tasks
-      - ✅ Updated M5 tasks_total: 6 → 7
-      - ✅ Updated M3 tasks_total: 9 → 10
+      - "✅ Updated M5 tasks_total: 6 → 7"
+      - "✅ Updated M3 tasks_total: 9 → 10"
       - ✅ Both tasks linked to appropriate milestones
   
   - date: 2026-02-22
@@ -2717,10 +2717,10 @@ recent_work:
       � Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v3.9.0 (up to date)
+      - "✅ ACP version check: v3.9.0 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 7 design documents (requirements template, commands, package-mgmt, package-dev, preferences, global-install, global-package)
-      - ✅ Read 6 milestone documents (M1-M6: Commands, Advanced, Package Mgmt, Package Dev, Global Install, Preferences)
+      - "✅ Read 6 milestone documents (M1-M6: Commands, Advanced, Package Mgmt, Package Dev, Global Install, Preferences)"
       - ✅ Reviewed AGENT.md (v3.9.0, 1184 lines)
       - ✅ Reviewed README.md (315 lines)
       - ✅ Reviewed CHANGELOG.md (1163 lines - first 200 lines, up to v3.9.0)
@@ -2730,16 +2730,16 @@ recent_work:
       - ✅ Verified 17 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M5 complete (100%), M6 ready to start (0%)
-      - 📋 Current Focus: Milestone 6 - ACP Preferences System
-      - 📋 Next: Task 37 - Preference Loading Infrastructure (4-6 hours)
+      - "📋 Project Status: M1-M5 complete (100%), M6 ready to start (0%)"
+      - "📋 Current Focus: Milestone 6 - ACP Preferences System"
+      - "📋 Next: Task 37 - Preference Loading Infrastructure (4-6 hours)"
   
   - date: 2026-02-22
     description: |
       🎉 Milestone 5 Complete: Global Package Installation
       All 6 tasks completed. Full global package system operational.
     items:
-      - ✅ Task 29: Global ACP Auto-Initialization
+      - "✅ Task 29: Global ACP Auto-Initialization"
       - ✅ Added init_global_acp() function to agent/scripts/acp.common.sh
       - ✅ Function is idempotent (safe to call multiple times)
       - ✅ Runs acp.install.sh in ~/.acp/ for full ACP installation
@@ -2751,7 +2751,7 @@ recent_work:
       - ✅ Integrated into acp.package-create.sh (when target is ~/.acp/projects/)
       - ✅ Updated command documentation (acp.package-install.md, acp.package-create.md, acp.package-list.md)
       - ✅ All scripts syntax validated
-      - 📋 Milestone 5: 100% complete (6/6 tasks)
+      - "📋 Milestone 5: 100% complete (6/6 tasks)"
       - 🎊 Global package system fully operational!
   
   - date: 2026-02-22
@@ -2771,8 +2771,8 @@ recent_work:
       - ✅ Added global ACP structure diagram
       - ✅ Documented when to use global vs local installation
       - ✅ Added comprehensive examples for global package workflows
-      - 📋 Milestone 5 progress: 60% → 80% (5/6 tasks complete)
-      - 📋 Next: Task 29 - Global ACP Auto-Initialization (1-2 hours)
+      - "📋 Milestone 5 progress: 60% → 80% (5/6 tasks complete)"
+      - "📋 Next: Task 29 - Global ACP Auto-Initialization (1-2 hours)"
   
   - date: 2026-02-22
     description: |
@@ -2783,19 +2783,19 @@ recent_work:
       - ✅ Integrated user feedback (acp.preferences.sh naming, @acp.preferences-create pattern)
       - ✅ Created agent/milestones/milestone-6-preferences-system.md
       - ✅ Created 8 task documents in milestone-6-preferences-system/ directory:
-        - Task 37: Preference Loading Infrastructure (4-6 hours)
-        - Task 38: Configurables System Enhancement (3-4 hours)
-        - Task 39: Command Integration - @acp.plan (4-5 hours)
-        - Task 40: Preference Management Commands (8-10 hours) - 5 commands
-        - Task 41: Package Preference Support (4-5 hours)
-        - Task 42: Preset Configuration System (3-4 hours)
-        - Task 43: Preferences Testing Suite (6-8 hours)
-        - Task 44: Preferences Documentation (3-4 hours)
+        - "Task 37: Preference Loading Infrastructure (4-6 hours)"
+        - "Task 38: Configurables System Enhancement (3-4 hours)"
+        - "Task 39: Command Integration - @acp.plan (4-5 hours)"
+        - "Task 40: Preference Management Commands (8-10 hours) - 5 commands"
+        - "Task 41: Package Preference Support (4-5 hours)"
+        - "Task 42: Preset Configuration System (3-4 hours)"
+        - "Task 43: Preferences Testing Suite (6-8 hours)"
+        - "Task 44: Preferences Documentation (3-4 hours)"
       - ✅ Moved tasks to milestone-6-preferences-system/ directory (new pattern)
       - ✅ Updated progress.yaml with M6 and all tasks
-      - 📋 Milestone 6: 0% complete (0/8 tasks)
-      - 📋 Total estimated effort: 35-46 hours (2-3 weeks)
-      - 📋 Next: Review milestone and tasks, then begin implementation
+      - "📋 Milestone 6: 0% complete (0/8 tasks)"
+      - "📋 Total estimated effort: 35-46 hours (2-3 weeks)"
+      - "📋 Next: Review milestone and tasks, then begin implementation"
   
   - date: 2026-02-22
     description: |
@@ -2810,8 +2810,8 @@ recent_work:
       - ✅ Added location field to global manifest entries
       - ✅ Updated success message for global vs local installation
       - ✅ Syntax validated (bash -n passed)
-      - 📋 Milestone 5 progress: 20% → 40% (2/5 tasks complete)
-      - 📋 Ready for Task 27: Global Package Commands
+      - "📋 Milestone 5 progress: 20% → 40% (2/5 tasks complete)"
+      - "📋 Ready for Task 27: Global Package Commands"
   
   - date: 2026-02-22
     description: |
@@ -2832,8 +2832,8 @@ recent_work:
       - ✅ All functions tested and working correctly
       - ✅ Functions are POSIX-compliant and handle errors gracefully
       - ✅ Infrastructure is idempotent (safe to run multiple times)
-      - 📋 Milestone 5 progress: 0% → 20% (1/5 tasks complete)
-      - 📋 Ready for Task 26: Global Installation Implementation
+      - "📋 Milestone 5 progress: 0% → 20% (1/5 tasks complete)"
+      - "📋 Ready for Task 26: Global Installation Implementation"
   
   - date: 2026-02-22
     description: |
@@ -2845,15 +2845,15 @@ recent_work:
       - ✅ Fixed bug in agent/scripts/acp.package-update.sh (function ordering)
       - ✅ Fixed exit code capture in tests (removed || true, used set +e)
       - ✅ All 5 E2E test suites passing:
-        - acp.package-list: 10/10 assertions ✅
-        - acp.package-info: 13/13 assertions ✅
-        - acp.package-remove: 8/8 assertions ✅
-        - acp.package-search: 8/8 assertions ✅
-        - acp.package-update: 13/13 assertions ✅
-      - ✅ Total: 52/52 assertions passing (100%)
-      - ✅ Bug found and fixed: Functions were defined after use in update script
-      - 📋 Testing progress: 95% → 100%
-      - 📋 Overall progress: 86% → 87%
+        - "acp.package-list: 10/10 assertions ✅"
+        - "acp.package-info: 13/13 assertions ✅"
+        - "acp.package-remove: 8/8 assertions ✅"
+        - "acp.package-search: 8/8 assertions ✅"
+        - "acp.package-update: 13/13 assertions ✅"
+      - "✅ Total: 52/52 assertions passing (100%)"
+      - "✅ Bug found and fixed: Functions were defined after use in update script"
+      - "📋 Testing progress: 95% → 100%"
+      - "📋 Overall progress: 86% → 87%"
       - 📋 All package commands now comprehensively tested
   
   - date: 2026-02-21
@@ -2870,8 +2870,8 @@ recent_work:
       - ✅ Updated CHANGELOG.md with migration notes (v3.7.0)
       - ✅ Updated AGENT.md version to 3.7.0
       - ✅ Updated progress.yaml version to 3.7.0
-      - 📋 Performance: 10-100x faster for multiple queries
-      - 📋 Clean codebase: Single parser to maintain
+      - "📋 Performance: 10-100x faster for multiple queries"
+      - "📋 Clean codebase: Single parser to maintain"
       - 📋 All backward-compatible functions working correctly
   
   - date: 2026-02-21
@@ -2886,8 +2886,8 @@ recent_work:
       - ✅ Reviewed 15 scripts (all current)
       - ✅ Compared documentation vs implementation (no drift found)
       - ✅ Verified recent changes documented (v3.6.1, v3.6.2, v3.6.3)
-      - ✅ Created sync report: agent/reports/sync-report-2026-02-21.md
-      - 📋 Documentation status: Fully synchronized
+      - "✅ Created sync report: agent/reports/sync-report-2026-02-21.md"
+      - "📋 Documentation status: Fully synchronized"
       - 📋 All recent session work properly documented in CHANGELOG.md
   
   - date: 2026-02-21
@@ -2895,10 +2895,10 @@ recent_work:
       � Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v3.6.0 (up to date)
+      - "✅ ACP version check: v3.6.0 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 6 design documents (commands, package-mgmt, package-dev, global-install, yaml-parser, install-local)
-      - ✅ Read 1 milestone document (M5: Global Package Installation)
+      - "✅ Read 1 milestone document (M5: Global Package Installation)"
       - ✅ Read 3 task documents (task-25, task-26, task-27 for Milestone 5)
       - ✅ Reviewed AGENT.md (v3.6.0, 1184 lines - first 150 lines)
       - ✅ Reviewed README.md (251 lines)
@@ -2909,9 +2909,9 @@ recent_work:
       - ✅ Verified 18 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M4 complete (100%), M5 ready to start (0%)
-      - 📋 Current Focus: Milestone 5 - Global Package Installation
-      - 📋 Next: Task 25 - Global Infrastructure Setup (2-3 hours)
+      - "📋 Project Status: M1-M4 complete (100%), M5 ready to start (0%)"
+      - "📋 Current Focus: Milestone 5 - Global Package Installation"
+      - "📋 Next: Task 25 - Global Infrastructure Setup (2-3 hours)"
   
   - date: 2026-02-21
     description: |
@@ -2921,9 +2921,9 @@ recent_work:
       - ✅ Created agent/scripts/acp.yaml-parser.sh (549 lines, pure POSIX shell)
       - ✅ AST-based architecture using temporary files
       - ✅ Lexer and recursive descent parser implemented
-      - ✅ Path expression query engine: .path.to.field, .array[0].field
-      - ✅ Full API: yaml_parse(), yaml_query(), yaml_set(), yaml_write()
-      - ✅ Backward compatible: yaml_get(), yaml_get_nested(), yaml_has_key()
+      - "✅ Path expression query engine: .path.to.field, .array[0].field"
+      - "✅ Full API: yaml_parse(), yaml_query(), yaml_set(), yaml_write()"
+      - "✅ Backward compatible: yaml_get(), yaml_get_nested(), yaml_has_key()"
       - ✅ Created agent/design/yaml-parser-design.md (complete specification)
       - ✅ Created tests/acp.yaml-parser.test.sh (30+ tests, all passing)
       - ✅ Created tests/common.sh (reusable test utilities)
@@ -2931,12 +2931,12 @@ recent_work:
       - ✅ Integrated into agent/scripts/acp.yaml-validate.sh
       - ✅ Fixed sourcing behavior with BASH_SOURCE check
       - ✅ Zero external dependencies (no yq, jq required)
-      - ✅ Performance: < 1s parse, < 100ms query
+      - "✅ Performance: < 1s parse, < 100ms query"
       - ✅ Handles maps, nested objects, arrays, object arrays, complex structures
-      - ✅ Version bumps: 3.4.4 → 3.5.0 → 3.5.1
-      - ✅ Commits: 19c5bc8 (v3.5.0), 3700834 (v3.5.1)
-      - 📋 Estimated: 80-160 hours (1-2 weeks)
-      - 📋 Delivered: Working implementation with tests in one session
+      - "✅ Version bumps: 3.4.4 → 3.5.0 → 3.5.1"
+      - "✅ Commits: 19c5bc8 (v3.5.0), 3700834 (v3.5.1)"
+      - "📋 Estimated: 80-160 hours (1-2 weeks)"
+      - "📋 Delivered: Working implementation with tests in one session"
       - 📋 Suitable for extraction as separate yaml-sh project
   
   - date: 2026-02-21
@@ -2963,7 +2963,7 @@ recent_work:
       Enhanced YAML parser to support nested objects and fixed validation.
     items:
       - ✅ Added yaml_get_nested() function to agent/scripts/acp.yaml.sh
-      - ✅ Supports array indexing: contents.commands[0].name
+      - "✅ Supports array indexing: contents.commands[0].name"
       - ✅ POSIX-compliant implementation using awk
       - ✅ Updated agent/scripts/acp.package-validate.sh
       - ✅ File existence check now uses yaml_get_nested()
@@ -3014,11 +3014,11 @@ recent_work:
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v3.0.0 (up to date)
+      - "✅ ACP version check: v3.0.0 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 6 design documents (requirements template, commands, package-mgmt, package-dev, global-install, install-local)
-      - ✅ Read 1 milestone document (M5: Global Package Installation)
-      - ✅ Read 1 task document (task-25: Global Infrastructure Setup)
+      - "✅ Read 1 milestone document (M5: Global Package Installation)"
+      - "✅ Read 1 task document (task-25: Global Infrastructure Setup)"
       - ✅ Reviewed AGENT.md (v3.0.0, 1184 lines - first 100 lines)
       - ✅ Reviewed README.md (251 lines)
       - ✅ Reviewed CHANGELOG.md (735 lines - first 100 lines, up to v3.0.0)
@@ -3027,9 +3027,9 @@ recent_work:
       - ✅ Verified 17 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M4 complete (100%), M5 ready to start (0%)
-      - 📋 Current Focus: Milestone 5 - Global Package Installation
-      - 📋 Next: Task 25 - Global Infrastructure Setup (2-3 hours)
+      - "📋 Project Status: M1-M4 complete (100%), M5 ready to start (0%)"
+      - "📋 Current Focus: Milestone 5 - Global Package Installation"
+      - "📋 Next: Task 25 - Global Infrastructure Setup (2-3 hours)"
   
   - date: 2026-02-21
     description: |
@@ -3045,17 +3045,17 @@ recent_work:
       - ✅ Added 5 tasks to milestone_5 section
       - ✅ Updated milestone document with task-29
       - ✅ Updated documentation counts (29 tasks, 5 milestones)
-      - ✅ Updated project status (in_progress, current_milestone: M5)
-      - 📋 Milestone 5: 0% complete (0/5 tasks)
-      - 📋 Total estimated effort: 9-13 hours
-      - 📋 Next: Begin Task 25 - Global Infrastructure Setup
+      - "✅ Updated project status (in_progress, current_milestone: M5)"
+      - "📋 Milestone 5: 0% complete (0/5 tasks)"
+      - "📋 Total estimated effort: 9-13 hours"
+      - "📋 Next: Begin Task 25 - Global Infrastructure Setup"
   
   - date: 2026-02-21
     description: |
       🎉 Milestone 4 Complete: ACP Package Development System
       All 11 tasks completed. Full package development workflow operational.
     items:
-      - ✅ Task 24: Pre-Commit Hook System - Documentation complete
+      - "✅ Task 24: Pre-Commit Hook System - Documentation complete"
       - ✅ Hook template embedded in install_precommit_hook() function
       - ✅ Function implemented in agent/scripts/acp.common.sh
       - ✅ Validates package.yaml against schema before commits
@@ -3064,19 +3064,19 @@ recent_work:
       - ✅ Integrated into acp.package-create.sh
       - ✅ Tested successfully during Task 23
       - ✅ All verification items complete
-      - 📋 Milestone 4: 100% complete (11/11 tasks)
+      - "📋 Milestone 4: 100% complete (11/11 tasks)"
       - 🎊 All 4 milestones now complete!
-      - 📊 Overall project progress: 92% → 100%
+      - "📊 Overall project progress: 92% → 100%"
   
   - date: 2026-02-21
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ⚠️  ACP updates available: Current v2.9.1, Latest v2.1.4 (version check script shows older version)
+      - "⚠️  ACP updates available: Current v2.9.1, Latest v2.1.4 (version check script shows older version)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 6 design documents (requirements template, commands, package-mgmt, package-dev, global-install, install-local)
-      - ✅ Read 1 milestone document (M4: Package Development System)
+      - "✅ Read 1 milestone document (M4: Package Development System)"
       - ✅ Read 2 task documents (task-17 pattern-create, task-24 precommit-hook)
       - ✅ Read session report (report-2026-02-21-session-3.md)
       - ✅ Reviewed AGENT.md (v2.9.1, 1177 lines)
@@ -3088,9 +3088,9 @@ recent_work:
       - ✅ Verified 17 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M3 complete (100%), M4 in progress (91%)
-      - 📋 Current Focus: Milestone 4 - ACP Package Development System
-      - 📋 Next: Task 17 (@acp.pattern-create) or Task 24 (Pre-Commit Hook System)
+      - "📋 Project Status: M1-M3 complete (100%), M4 in progress (91%)"
+      - "📋 Current Focus: Milestone 4 - ACP Package Development System"
+      - "📋 Next: Task 17 (@acp.pattern-create) or Task 24 (Pre-Commit Hook System)"
   
   - date: 2026-02-21
     description: |
@@ -3103,21 +3103,21 @@ recent_work:
       - ✅ Updated agent/scripts/acp.install.sh (copy schemas and manifest)
       - ✅ New workflow implemented:
         - Collect package metadata (name, description, author, license, homepage, repo, tags)
-        - Collect release branch (default: main)
-        - Create target directory (default: ~/.acp/packages/{package-name})
+        - "Collect release branch (default: main)"
+        - "Create target directory (default: ~/.acp/packages/{package-name})"
         - Run acp.install.sh for full ACP installation
         - Create package.yaml with release.branch configuration
         - Create README.md, LICENSE, CHANGELOG.md, .gitignore
         - Install pre-commit hook (validates package.yaml)
         - Initialize git and create initial commit
       - ✅ Removed example file creation (use templates from ACP installation)
-      - ✅ Default directory: ~/.acp/packages/{package-name} or $HOME/.acp/packages/{package-name}
+      - "✅ Default directory: ~/.acp/packages/{package-name} or $HOME/.acp/packages/{package-name}"
       - ✅ Pre-commit hook validates package.yaml before commits
       - ✅ Tested successfully with multiple test packages
-      - ✅ Version bump: 1.0.0 → 2.0.0 (breaking - complete rewrite)
-      - 📋 Milestone 4 progress: 82% → 91% (10/11 tasks complete)
+      - "✅ Version bump: 1.0.0 → 2.0.0 (breaking - complete rewrite)"
+      - "📋 Milestone 4 progress: 82% → 91% (10/11 tasks complete)"
       - 📋 Phase 5 (Package Creation) complete! (1/1 task done)
-      - 📋 Next: Task 24 - Pre-Commit Hook System (3-4 hours)
+      - "📋 Next: Task 24 - Pre-Commit Hook System (3-4 hours)"
   
   - date: 2026-02-21
     description: |
@@ -3144,9 +3144,9 @@ recent_work:
       - ✅ Branch validation (main, master, mainline, release, custom)
       - ✅ Comprehensive error handling at each step
       - ✅ Made script executable (chmod +x)
-      - 📋 Milestone 4 progress: 82% (9/11 tasks complete)
+      - "📋 Milestone 4 progress: 82% (9/11 tasks complete)"
       - 📋 Phase 4 (Publishing) complete! (1/1 task done)
-      - 📋 Next: Task 23 - Rewrite @acp.package-create (6-8 hours)
+      - "📋 Next: Task 23 - Rewrite @acp.package-create (6-8 hours)"
   
   - date: 2026-02-21
     description: |
@@ -3155,17 +3155,17 @@ recent_work:
     items:
       - ✅ Updated agent/commands/acp.validate.md with namespace validation
       - ✅ Added computer roleplay directive to command header
-      - ✅ Added Step 8: Validate Namespace Conventions
+      - "✅ Added Step 8: Validate Namespace Conventions"
       - ✅ Context-aware validation (package vs project detection)
       - ✅ Checks command/pattern/design filenames use correct namespace
       - ✅ Validates reserved namespace usage (acp, local, core, system, global)
       - ✅ Updated verification checklist with namespace checks
       - ✅ Updated example output with namespace validation section
       - ✅ Added @acp.package-validate to related commands
-      - ✅ Version bump: 1.0.0 → 2.0.0 (breaking - new validation checks)
-      - 📋 Milestone 4 progress: 73% (8/11 tasks complete)
+      - "✅ Version bump: 1.0.0 → 2.0.0 (breaking - new validation checks)"
+      - "📋 Milestone 4 progress: 73% (8/11 tasks complete)"
       - 📋 Phase 3 (Validation) complete! (2/2 tasks done)
-      - 📋 Next: Task 22 - @acp.package-publish (8-10 hours)
+      - "📋 Next: Task 22 - @acp.package-publish (8-10 hours)"
   
   - date: 2026-02-21
     description: |
@@ -3198,18 +3198,18 @@ recent_work:
       - ✅ Made script executable (chmod +x)
       - ✅ Tested successfully (correctly detects non-package directory)
       - 📋 LLM validation and auto-fix to be implemented via command directives
-      - 📋 Milestone 4 progress: 64% (7/11 tasks complete)
-      - 📋 Next: Task 21 - Enhanced @acp.validate (3-4 hours)
+      - "📋 Milestone 4 progress: 64% (7/11 tasks complete)"
+      - "📋 Next: Task 21 - Enhanced @acp.validate (3-4 hours)"
   
   - date: 2026-02-21
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ⚠️  ACP updates available: v2.3.0 → v2.1.4 (CHANGELOG shows recent changes)
+      - "⚠️  ACP updates available: v2.3.0 → v2.1.4 (CHANGELOG shows recent changes)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 5 design documents (requirements, commands, package-mgmt, package-dev, install-local)
-      - ✅ Read 4 milestone documents (M1-M4: Commands, Advanced, Package Mgmt, Package Dev)
+      - "✅ Read 4 milestone documents (M1-M4: Commands, Advanced, Package Mgmt, Package Dev)"
       - ✅ Read agent/reports/report-2026-02-21.md - Comprehensive session summary
       - ✅ Reviewed AGENT.md (v2.3.0, 1177 lines)
       - ✅ Reviewed README.md (242 lines)
@@ -3220,9 +3220,9 @@ recent_work:
       - ✅ Verified 15 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1-M3 complete (100%), M4 in progress (55%)
-      - 📋 Current Focus: Milestone 4 - ACP Package Development System
-      - 📋 Next: Task 20 - @acp.package-validate (7-9 hours)
+      - "📋 Project Status: M1-M3 complete (100%), M4 in progress (55%)"
+      - "📋 Current Focus: Milestone 4 - ACP Package Development System"
+      - "📋 Next: Task 20 - @acp.package-validate (7-9 hours)"
   
   - date: 2026-02-21
     description: |
@@ -3230,12 +3230,12 @@ recent_work:
       Comprehensive project status report created for Milestone 4 progress.
     items:
       - ✅ Generated agent/reports/report-2026-02-21.md
-      - 📊 Session summary: 6 tasks completed, 55% of M4 done
-      - 📊 Overall project: 85% complete, 19/24 tasks done
-      - 📊 Version history: 2.1.4 → 2.4.0 (7 version bumps)
-      - 📊 Files created: 33 files this session
-      - 📊 Duration: ~5.5 hours
-      - 📊 Next: Task 20 - @acp.package-validate (7-9 hours)
+      - "📊 Session summary: 6 tasks completed, 55% of M4 done"
+      - "📊 Overall project: 85% complete, 19/24 tasks done"
+      - "📊 Version history: 2.1.4 → 2.4.0 (7 version bumps)"
+      - "📊 Files created: 33 files this session"
+      - "📊 Duration: ~5.5 hours"
+      - "📊 Next: Task 20 - @acp.package-validate (7-9 hours)"
   
   - date: 2026-02-20
     description: |
@@ -3248,12 +3248,12 @@ recent_work:
         - add_file_to_readme() - Convenience wrapper
       - ✅ Uses HTML comment markers for section boundaries
       - ✅ Extracts file names and descriptions from package.yaml contents
-      - ✅ Formats as brief lists: `filename` - Description
+      - "✅ Formats as brief lists: `filename` - Description"
       - ✅ Handles commands, patterns, and designs sections
       - ✅ Tested with sample package.yaml
       - ✅ Ready for integration in entity creation commands
-      - 📋 Milestone 4 progress: 27% (3/11 tasks complete)
-      - 📋 Next: Task 17 - @acp.pattern-create Command (6-8 hours)
+      - "📋 Milestone 4 progress: 27% (3/11 tasks complete)"
+      - "📋 Next: Task 17 - @acp.pattern-create Command (6-8 hours)"
   
   - date: 2026-02-20
     description: |
@@ -3266,12 +3266,12 @@ recent_work:
         - validate_namespace() - Validates format (lowercase, alphanumeric, hyphens) and reserved names
         - get_namespace_for_file() - Returns package namespace or "local" for non-packages
         - validate_namespace_consistency() - Checks for conflicts between sources
-      - ✅ Reserved namespace enforcement: acp, local, core, system, global
-      - ✅ Namespace inference priority: package.yaml > directory name > git remote
+      - "✅ Reserved namespace enforcement: acp, local, core, system, global"
+      - "✅ Namespace inference priority: package.yaml > directory name > git remote"
       - ✅ All functions tested and working correctly
       - ✅ Context-aware behavior enables package vs project detection
-      - 📋 Milestone 4 progress: 18% (2/11 tasks complete)
-      - 📋 Next: Task 16 - README Update Utilities (3-4 hours)
+      - "📋 Milestone 4 progress: 18% (2/11 tasks complete)"
+      - "📋 Next: Task 16 - README Update Utilities (3-4 hours)"
   
   - date: 2026-02-20
     description: |
@@ -3291,9 +3291,9 @@ recent_work:
       - ✅ Tested with valid package.yaml (passes ✅)
       - ✅ Tested with invalid package.yaml (catches 6 errors ❌)
       - ✅ Validator is sourceable by other scripts
-      - ✅ Can be run standalone: ./acp.yaml-validate.sh file.yaml
-      - 📋 Milestone 4 progress: 9% (1/11 tasks complete)
-      - 📋 Next: Task 15 - Namespace Utilities (3-4 hours)
+      - "✅ Can be run standalone: ./acp.yaml-validate.sh file.yaml"
+      - "📋 Milestone 4 progress: 9% (1/11 tasks complete)"
+      - "📋 Next: Task 15 - Namespace Utilities (3-4 hours)"
   
   - date: 2026-02-20
     description: |
@@ -3304,16 +3304,15 @@ recent_work:
       - ✅ Created agent/design/acp-package-development-system.md (comprehensive design)
       - ✅ Created agent/milestones/milestone-4-package-development.md
       - ✅ Added 11 tasks to progress.yaml (tasks 14-24)
-      - 📦 Milestone 4 scope:
-        - Infrastructure: YAML schema system, namespace utilities, README updates
-        - Entity creation: @acp.pattern-create, @acp.command-create, @acp.design-create
-        - Validation: @acp.package-validate with auto-fix
-        - Publishing: @acp.package-publish with version management
-        - Rewrite: @acp.package-create with full ACP installation
-        - Hooks: Pre-commit validation hooks
-      - ⏱️ Estimated effort: 45-58 hours over 6-8 weeks
-      - 📋 Project status: in_progress, current_milestone: M4
-      - 📋 Next: Begin Task 14 - YAML Schema System
+      - "📦 Milestone 4 scope — Infrastructure: YAML schema system, namespace utilities, README updates"
+      - "📦 Milestone 4 scope — Entity creation: @acp.pattern-create, @acp.command-create, @acp.design-create"
+      - "📦 Milestone 4 scope — Validation: @acp.package-validate with auto-fix"
+      - "📦 Milestone 4 scope — Publishing: @acp.package-publish with version management"
+      - "📦 Milestone 4 scope — Rewrite: @acp.package-create with full ACP installation"
+      - "📦 Milestone 4 scope — Hooks: Pre-commit validation hooks"
+      - "⏱️ Estimated effort: 45-58 hours over 6-8 weeks"
+      - "📋 Project status: in_progress, current_milestone: M4"
+      - "📋 Next: Begin Task 14 - YAML Schema System"
   
   - date: 2026-02-20
     description: |
@@ -3331,18 +3330,18 @@ recent_work:
         - Git repository initialization with initial commit
         - Optional example files (pattern, command, design)
         - Comprehensive next steps and GitHub publishing instructions
-      - 🎯 Use case: Simplifies creating shareable ACP packages for the ecosystem
-      - 📋 Total commands: 20 (19 existing + 1 new)
+      - "🎯 Use case: Simplifies creating shareable ACP packages for the ecosystem"
+      - "📋 Total commands: 20 (19 existing + 1 new)"
   
   - date: 2026-02-20
     description: |
       � Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v2.1.4 (up to date)
+      - "✅ ACP version check: v2.1.4 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 2 design documents (acp-commands-design.md, acp-package-management-system.md)
-      - ✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)
+      - "✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)"
       - ✅ Read 4 task documents (tasks 1-4 for Milestone 1)
       - ✅ Reviewed AGENT.md (v2.1.4, 1177 lines)
       - ✅ Reviewed README.md (242 lines)
@@ -3353,16 +3352,16 @@ recent_work:
       - ✅ Verified 13 script files in agent/scripts/
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: All 3 milestones complete (100%)
-      - 📋 Current Focus: Project maintenance and ecosystem growth
+      - "📋 Project Status: All 3 milestones complete (100%)"
+      - "📋 Current Focus: Project maintenance and ecosystem growth"
   
   - date: 2026-02-18
     description: |
       🎉 Milestone 3 Complete: ACP Package Management System
       All 9 tasks completed. Full package management system operational.
     items:
-      - ✅ Task 13: Pure Bash YAML Parser - Already implemented (acp.yaml.sh)
-      - ✅ Milestone 3: 100% complete (9/9 tasks)
+      - "✅ Task 13: Pure Bash YAML Parser - Already implemented (acp.yaml.sh)"
+      - "✅ Milestone 3: 100% complete (9/9 tasks)"
       - ✅ All 3 milestones now complete (M1, M2, M3)
       - 🎊 ACP Package Management System fully operational
       - 📦 Manifest tracking with version control
@@ -3390,18 +3389,18 @@ recent_work:
       - ✅ Prompts user to continue or cancel installation
       - ✅ Respects --yes flag for auto-confirmation
       - ✅ Handles projects with no package manager gracefully
-      - ✅ Milestone 3 progress: 89% (8/9 tasks complete)
-      - 📋 Next: Task 13 - Pure Bash YAML Parser (4-6 hours)
+      - "✅ Milestone 3 progress: 89% (8/9 tasks complete)"
+      - "📋 Next: Task 13 - Pure Bash YAML Parser (4-6 hours)"
   
   - date: 2026-02-18
     description: |
       🚀 Agent Context Initialized via @acp.init
       Complete project context loaded. All documentation and source files reviewed.
     items:
-      - ✅ ACP version check: v2.0.0 (up to date)
+      - "✅ ACP version check: v2.0.0 (up to date)"
       - ✅ Read agent/progress.yaml - Current status confirmed
       - ✅ Read 2 design documents (acp-commands-design.md, acp-package-management-system.md)
-      - ✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)
+      - "✅ Read 3 milestone documents (M1: Commands, M2: Advanced, M3: Package Management)"
       - ✅ Read 13 task documents (tasks 1-13)
       - ✅ Reviewed AGENT.md (v2.0.0, 1166 lines)
       - ✅ Reviewed README.md (242 lines)
@@ -3412,9 +3411,9 @@ recent_work:
       - ✅ Reviewed 13 command files (all with flat dot notation)
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project Status: M1 & M2 complete (100%), M3 in progress (78%)
-      - 📋 Current Focus: Milestone 3 - ACP Package Management System
-      - 📋 Next: Task 12 - Dependency Checking (3-4 hours)
+      - "📋 Project Status: M1 & M2 complete (100%), M3 in progress (78%)"
+      - "📋 Current Focus: Milestone 3 - ACP Package Management System"
+      - "📋 Next: Task 12 - Dependency Checking (3-4 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3427,8 +3426,8 @@ recent_work:
       - ✅ Displays results with stars and installation commands
       - ✅ Supports sorting and limit options
       - ✅ Created acp.package-search.md command documentation
-      - ✅ Milestone 3 progress: 78% (7/9 tasks complete)
-      - 📋 Next: Task 12 - Dependency Checking (3-4 hours)
+      - "✅ Milestone 3 progress: 78% (7/9 tasks complete)"
+      - "📋 Next: Task 12 - Dependency Checking (3-4 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3450,8 +3449,8 @@ recent_work:
         - Documented usage and output format
         - 4 usage examples
         - Troubleshooting section
-      - ✅ Milestone 3 progress: 67% (6/9 tasks complete)
-      - 📋 Next: Task 11 - Package Search Command (6-8 hours)
+      - "✅ Milestone 3 progress: 67% (6/9 tasks complete)"
+      - "📋 Next: Task 11 - Package Search Command (6-8 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3466,7 +3465,7 @@ recent_work:
       - ✅ Removed passive language ("enables you to", "guides you")
       - ✅ Added aggressive language ("IMMEDIATELY", "NO EXCUSES", "START NOW")
       - ✅ Clarified substantial progress definition
-      - ✅ Version bump: 1.0.0 → 1.1.0
+      - "✅ Version bump: 1.0.0 → 1.1.0"
       - 📋 Agents will now implement immediately when @acp.proceed is invoked
   
   - date: 2026-02-18
@@ -3490,8 +3489,8 @@ recent_work:
         - Documented removal modes and options
         - 4 usage examples
         - Security considerations and best practices
-      - ✅ Milestone 3 progress: 56% (5/9 tasks complete)
-      - 📋 Next: Task 10 - Package Info Command (2-3 hours)
+      - "✅ Milestone 3 progress: 56% (5/9 tasks complete)"
+      - "📋 Next: Task 10 - Package Info Command (2-3 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3512,8 +3511,8 @@ recent_work:
         - Documented all modes and filters
         - 4 usage examples
         - Expected output for each mode
-      - ✅ Milestone 3 progress: 44% (4/9 tasks complete)
-      - 📋 Next: Task 9 - Package Remove Command (3-4 hours)
+      - "✅ Milestone 3 progress: 44% (4/9 tasks complete)"
+      - "📋 Next: Task 9 - Package Remove Command (3-4 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3542,8 +3541,8 @@ recent_work:
         - 5 usage examples covering common scenarios
         - Troubleshooting section
         - Security considerations
-      - ✅ Milestone 3 progress: 33% (3/9 tasks complete)
-      - 📋 Next: Task 8 - Package List Command (2-3 hours)
+      - "✅ Milestone 3 progress: 33% (3/9 tasks complete)"
+      - "📋 Next: Task 8 - Package List Command (2-3 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3562,8 +3561,8 @@ recent_work:
         - Provides usage examples
         - No files installed, no manifest modified
       - ✅ Implemented selective installation logic:
-        - Type-selective: Install only patterns, commands, or designs
-        - File-selective: Install specific files by name
+        - "Type-selective: Install only patterns, commands, or designs"
+        - "File-selective: Install specific files by name"
         - Automatic .md extension handling
         - Same validation as full installation
         - Manifest tracks partial installations
@@ -3571,8 +3570,8 @@ recent_work:
         - Added "Choose Installation Mode" section
         - Documented all installation modes with examples
         - Clear usage patterns for each mode
-      - ✅ Milestone 3 progress: 22% (2/9 tasks complete)
-      - 📋 Next: Task 7 - Update System (5-7 hours)
+      - "✅ Milestone 3 progress: 22% (2/9 tasks complete)"
+      - "📋 Next: Task 7 - Update System (5-7 hours)"
   
   - date: 2026-02-18
     description: |
@@ -3594,15 +3593,15 @@ recent_work:
         - Added comprehensive "Manifest Tracking" section
         - Documented manifest structure and benefits
         - Added verification step for manifest
-      - ✅ Milestone 3 progress: 11% (1/9 tasks complete)
-      - 📋 Next: Task 6 - Selective Installation (4-6 hours)
+      - "✅ Milestone 3 progress: 11% (1/9 tasks complete)"
+      - "📋 Next: Task 6 - Selective Installation (4-6 hours)"
   
   - date: 2026-02-18
     description: |
       🚀 Agent Context Initialized - Complete project context loaded via @acp.init command.
       All documentation and source files reviewed. Project status confirmed and updated.
     items:
-      - ✅ ACP version check: v2.0.0 (up to date)
+      - "✅ ACP version check: v2.0.0 (up to date)"
       - ✅ Read all agent documentation (progress.yaml, 2 design docs, 3 milestones, 13 tasks)
       - ✅ Reviewed key source files (AGENT.md, README.md, CHANGELOG.md)
       - ✅ Reviewed command files (13 commands with flat dot notation)
@@ -3611,8 +3610,8 @@ recent_work:
       - ✅ Verified command structure and documentation
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project status: Milestones 1 & 2 complete (100%), Milestone 3 ready to start
-      - 📋 Current focus: Milestone 3 - ACP Package Management System
+      - "📋 Project status: Milestones 1 & 2 complete (100%), Milestone 3 ready to start"
+      - "📋 Current focus: Milestone 3 - ACP Package Management System"
   
   - date: 2026-02-18
     description: |
@@ -3620,14 +3619,14 @@ recent_work:
       Renamed all core scripts with acp. prefix. Perfect command-script alignment achieved.
     items:
       - ✅ Renamed 8 core scripts with acp. prefix (check-for-updates → acp.version-check-for-updates, etc.)
-      - ✅ Perfect alignment: @acp.version-check → acp.version-check.sh
+      - "✅ Perfect alignment: @acp.version-check → acp.version-check.sh"
       - ✅ Updated 84+ references across all documentation
       - ✅ Added cleanup_deprecated_scripts() to acp.common.sh
       - ✅ Updated install/update scripts to remove old script names
-      - ✅ Version bump: 1.4.3 → 2.0.0 (major - breaking change)
+      - "✅ Version bump: 1.4.3 → 2.0.0 (major - breaking change)"
       - ✅ Updated CHANGELOG.md with migration guide
       - ✅ Enables third-party packages to add scripts without conflicts
-      - 📋 Namespace protection: acp.* = core, firebase.* = packages
+      - "📋 Namespace protection: acp.* = core, firebase.* = packages"
   
   - date: 2026-02-18
     description: |
@@ -3640,8 +3639,8 @@ recent_work:
       - ✅ Implemented 4 manifest functions (init, validate, update, package_exists)
       - ✅ Eliminated 90 lines of duplicated color code across 6 scripts
       - ✅ Foundation ready for package metadata parsing and integration
-      - 📋 Next: Add package.yaml parsing and integrate into acp.package-install.sh
-      - 📋 Estimated remaining: 3-4 hours to complete Task 5
+      - "📋 Next: Add package.yaml parsing and integrate into acp.package-install.sh"
+      - "📋 Estimated remaining: 3-4 hours to complete Task 5"
   
   - date: 2026-02-18
     description: |
@@ -3654,7 +3653,7 @@ recent_work:
       - ✅ Added Milestone 3 (ACP Package Management System) to progress.yaml
       - ✅ Added 9 tasks for Milestone 3 (task-5 through task-13)
       - ✅ Updated documentation counts (2 designs, 3 milestones, 13 tasks, 13 commands)
-      - ✅ Updated project status to in_progress with current_milestone: M3
+      - "✅ Updated project status to in_progress with current_milestone: M3"
       - ✅ Updated project description to reflect Package Management focus
       - 📋 Ready to begin Milestone 3 implementation
   
@@ -3663,7 +3662,7 @@ recent_work:
       🚀 Agent Context Initialized - Complete project context loaded via @acp.init command.
       All documentation and source files reviewed. Project status confirmed and updated.
     items:
-      - ✅ ACP version check: v1.4.3 (up to date)
+      - "✅ ACP version check: v1.4.3 (up to date)"
       - ✅ Read all agent documentation (progress.yaml, design docs, milestones, tasks)
       - ✅ Reviewed key source files (AGENT.md, README.md, CHANGELOG.md)
       - ✅ Reviewed command files (11 commands with flat dot notation)
@@ -3671,8 +3670,8 @@ recent_work:
       - ✅ Verified command structure and documentation
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project status: Both milestones complete (100%)
-      - 📋 Ready for Milestone 3: ACP Package Management System
+      - "📋 Project status: Both milestones complete (100%)"
+      - "📋 Ready for Milestone 3: ACP Package Management System"
   
   - date: 2026-02-16
     description: |
@@ -3693,7 +3692,7 @@ recent_work:
       🚀 Agent Context Initialized - Full project review completed.
       All documentation and source files reviewed. Project status confirmed.
     items:
-      - ✅ ACP version check: v1.4.2 (up to date)
+      - "✅ ACP version check: v1.4.2 (up to date)"
       - ✅ Read all agent documentation (progress.yaml, design docs, milestones, tasks)
       - ✅ Reviewed key source files (AGENT.md, README.md, CHANGELOG.md)
       - ✅ Reviewed command files (acp.init.md, acp.proceed.md, acp.status.md)
@@ -3701,7 +3700,7 @@ recent_work:
       - ✅ Verified command structure (11 commands with flat dot notation)
       - ✅ Documentation is current and accurate
       - ✅ Progress tracking updated with initialization entry
-      - 📋 Project status: Both milestones complete (100%)
+      - "📋 Project status: Both milestones complete (100%)"
   
   - date: 2026-02-16
     description: |
@@ -3710,7 +3709,7 @@ recent_work:
     items:
       - ✅ Updated agent/scripts/install.sh with command list
       - ✅ Updated agent/scripts/update.sh with command list
-      - ✅ Replaced old "AGENT.md: Initialize" prompt format
+      - "✅ Replaced old \"AGENT.md: Initialize\" prompt format"
       - ✅ Added @acp.init as primary command for getting started
       - ✅ Listed all 11 ACP commands with brief descriptions
       - ✅ Improved user experience for new installations
@@ -3720,15 +3719,15 @@ recent_work:
       🎉 Milestone 2 Complete! All ACP Commands implemented.
       Project complete: 11 commands total across 2 milestones.
     items:
-      - ✅ Task 5: Implemented documentation commands (update, sync, validate)
-      - ✅ Task 6: Implemented utility commands (report, install)
-      - ✅ Task 7: Integration testing complete
-      - ✅ Milestone 2: 100% complete (3/3 tasks done)
-      - ✅ Total: 11 commands implemented and documented
+      - "✅ Task 5: Implemented documentation commands (update, sync, validate)"
+      - "✅ Task 6: Implemented utility commands (report, install)"
+      - "✅ Task 7: Integration testing complete"
+      - "✅ Milestone 2: 100% complete (3/3 tasks done)"
+      - "✅ Total: 11 commands implemented and documented"
       - 🎊 ACP Commands v1.1.0 fully complete!
 
 next_steps:
-  - 📋 Continue Milestone 7: Global ACP Project Registry (56% complete)
+  - "📋 Continue Milestone 7: Global ACP Project Registry (56% complete)"
   - Next: Task 57 - @acp.project-remove Command (1-2 hours)
   - Then: Task 58 - @acp.projects-sync Command (2-3 hours)
   - Then: Task 59 - Integration & Testing (3-4 hours)
