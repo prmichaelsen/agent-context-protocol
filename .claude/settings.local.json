@@ -31,7 +31,10 @@
       "Bash(test:*)",
       "Bash(then bash:*)",
       "Bash(head:*)",
-      "Bash(sort:*)"
+      "Bash(sort:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:tanstack.com)",
+      "Bash(cd:*)"
     ]
   }
 }

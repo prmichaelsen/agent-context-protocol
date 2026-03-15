@@ -58,3 +58,15 @@ local:
         Required when working on index-related features or when
         understanding how key file loading works.
       applies: acp.proceed, acp.design-create, acp.plan
+
+    - path: agent/design/visualizer.requirements.md
+      weight: 0.7
+      kind: design
+      description: |
+        Requirements and design spec for the ACP Progress Visualizer.
+        Defines architecture, priority tiers, tech stack, and data model
+        for the browser-based progress.yaml dashboard.
+      rationale: |
+        Essential context when working on the visualizer project.
+        Contains all agreed-upon decisions from clarification-10.
+      applies: acp.proceed, acp.plan
