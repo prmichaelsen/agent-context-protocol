@@ -2,7 +2,7 @@
 # This file defines the Agent Context Protocol core package
 
 name: acp-core
-version: 3.24.0
+version: 3.25.0
 description: Agent Context Protocol - Core commands, patterns, and utilities for AI agent development
 author: Patrick Michaelsen
 license: MIT
@@ -154,7 +154,11 @@ contents:
     - name: acp.status.md
       description: Display project status
       scripts: []
-    
+
+    - name: acp.audit.md
+      description: Deep-dive investigation of a subject with structured report output
+      scripts: []
+
     - name: acp.plan.md
       description: Create project plans
       scripts: []

@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.22.0] - 2026-03-15
+
+### Added
+- **`@acp.audit` command** — general-purpose deep-dive investigation command. Audits any subject (code, docs, features, directories) and produces a structured report at `agent/reports/audit-{N}-{subject}.md` with tables, code pointers, key decisions, and git history. Read-only — never modifies existing files. Supports CLI and natural language arguments with context inference.
+
 ## [5.21.0] - 2026-03-14
 
 ### Added
