@@ -2,8 +2,14 @@
 
 A documentation-first development methodology that enables AI agents to understand, build, and maintain complex software projects through structured knowledge capture.
 
-> *[Search ACP packages](https://prmichaelsen.github.io/agent-context-protocol/)* | *[Visualize your project](https://github.com/prmichaelsen/agent-context-protocol-visualizer)* — `npx @prmichaelsen/acp-visualizer` | *[CLI visualizer](https://github.com/prmichaelsen/acp-visualizer-tui)* — `npx acp-visualizer-tui`
+> *[Search ACP packages](https://prmichaelsen.github.io/agent-context-protocol/)*  
+
+> *[Visualize your project](https://github.com/prmichaelsen/agent-context-protocol-visualizer)*   - `yes | npx @prmichaelsen/acp-visualizer` 
+
+> *[CLI visualizer](https://github.com/prmichaelsen/acp-visualizer-tui)* - `npx acp-visualizer-tui` 
+
 > *[Project dashboard](https://viz.agentcontextprotocol.net/?repo=prmichaelsen%2Fagent-context-protocol)*
+
 > *[Claude Code](https://code.claude.com/docs/en/overview) is ACP's preferred coding agent provider, however any provider will work out of the box.*
 ---
 
