@@ -396,7 +396,7 @@ project:
   description: |
     ACP Package: ${DESCRIPTION}
 
-milestones: []
+milestones: {}
 
 tasks: {}
 

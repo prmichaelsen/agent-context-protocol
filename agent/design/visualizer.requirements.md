@@ -95,8 +95,8 @@ The YAML is parsed into TypeScript interfaces:
 ```typescript
 interface ProgressData {
   project: ProjectMetadata;
-  milestones: Milestone[];
-  tasks: Record<string, Task[]>;  // keyed by milestone_id
+  milestones: Record<string, Milestone>;  // keyed by milestone ID (e.g. "M1", "M2")
+  tasks: Record<string, Task[]>;  // keyed by milestone ID (e.g. "M1", "M2")
   recent_work: WorkEntry[];
   next_steps: string[];
   notes: string[];
@@ -112,8 +112,8 @@ interface ProjectMetadata {
 }
 
 interface Milestone {
-  id: string;
   name: string;
+  priority: 'critical' | 'high' | 'medium' | 'low';
   status: 'completed' | 'in_progress' | 'not_started';
   progress: number;
   started: string | null;
@@ -127,6 +127,7 @@ interface Milestone {
 interface Task {
   id: string;
   name: string;
+  priority: 'critical' | 'high' | 'medium' | 'low';
   status: 'completed' | 'in_progress' | 'not_started';
   started: string | null;            // ISO 8601 timestamp
   file: string;

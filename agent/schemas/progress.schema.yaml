@@ -1,0 +1,285 @@
+# Progress YAML Schema
+# Schema for validating ACP progress.yaml files
+# Version: 1.0.0
+
+schema_version: 1.0.0
+description: Schema for ACP progress.yaml files
+
+# Required top-level fields
+required_fields:
+  - project
+  - milestones
+  - tasks
+
+# Field definitions with validation rules
+fields:
+  project:
+    type: object
+    required: true
+    description: "Project metadata"
+    fields:
+      name:
+        type: string
+        required: true
+        description: "Project name"
+      version:
+        type: string
+        required: true
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        description: "Semantic version (X.Y.Z)"
+      started:
+        type: string
+        required: true
+        description: "Date project started (YYYY-MM-DD)"
+      status:
+        type: string
+        required: true
+        enum:
+          - not_started
+          - in_progress
+          - completed
+        description: "Project status"
+      current_milestone:
+        type: string
+        required: true
+        pattern: "^M[0-9]+$"
+        description: "Current milestone identifier (e.g., M1, M2)"
+      description:
+        type: string
+        required: false
+        description: "Brief project description"
+
+  milestones:
+    type: object
+    required: true
+    description: "Milestones map keyed by milestone ID (e.g., M1, M2)"
+    key_pattern: "^M[0-9]+$"
+    value_type: object
+    value_fields:
+      name:
+        type: string
+        required: true
+        description: "Descriptive milestone name"
+      priority:
+        type: string
+        required: true
+        enum:
+          - critical
+          - high
+          - medium
+          - low
+        description: "Milestone priority (critical, high, medium, low)"
+      file:
+        type: string
+        required: false
+        description: "Path to milestone document (e.g., agent/milestones/milestone-1-name.md)"
+      status:
+        type: string
+        required: true
+        enum:
+          - not_started
+          - in_progress
+          - completed
+        description: "Milestone status"
+      progress:
+        type: number
+        required: true
+        min: 0
+        max: 100
+        description: "Percentage complete (0-100)"
+      started:
+        type: string
+        required: false
+        description: "YYYY-MM-DD when started, null if not started"
+      completed:
+        type: string
+        required: false
+        description: "YYYY-MM-DD when completed, null if not completed"
+      estimated_weeks:
+        type: string
+        required: false
+        description: "Estimated duration in weeks (e.g., 2, 1-2, 3-5)"
+      tasks_completed:
+        type: number
+        required: true
+        description: "Number of tasks completed in this milestone"
+      tasks_total:
+        type: number
+        required: true
+        description: "Total number of tasks in this milestone"
+      notes:
+        type: string
+        required: false
+        description: "Progress notes and observations"
+
+  tasks:
+    type: object
+    required: true
+    description: "Tasks map keyed by milestone ID (e.g., M1, M2) with arrays of task objects"
+    key_pattern: "^M[0-9]+$|^future_enhancements$"
+    value_type: array
+    item_type: object
+    item_fields:
+      id:
+        type: string
+        required: true
+        pattern: "^task-[0-9]+$"
+        description: "Unique task identifier (e.g., task-1, task-42)"
+      name:
+        type: string
+        required: true
+        description: "Descriptive task name"
+      priority:
+        type: string
+        required: true
+        enum:
+          - critical
+          - high
+          - medium
+          - low
+        description: "Task priority (critical, high, medium, low)"
+      status:
+        type: string
+        required: true
+        enum:
+          - not_started
+          - in_progress
+          - completed
+        description: "Task status"
+      started:
+        type: string
+        required: false
+        description: "ISO 8601 timestamp when work began (auto-set on in_progress)"
+      file:
+        type: string
+        required: false
+        description: "Path to task document"
+      estimated_hours:
+        type: string
+        required: false
+        description: "Estimated time in hours (e.g., 2, 3-4)"
+      actual_hours:
+        type: number
+        required: false
+        description: "Auto-computed from started/completed_date diff"
+      completed_date:
+        type: string
+        required: false
+        description: "ISO 8601 timestamp when completed"
+      notes:
+        type: string
+        required: false
+        description: "Task-specific notes"
+
+  documentation:
+    type: object
+    required: false
+    description: "Documentation tracking metrics"
+    fields:
+      design_documents:
+        type: number
+        required: false
+        description: "Number of design documents created"
+      milestone_documents:
+        type: number
+        required: false
+        description: "Number of milestone documents"
+      pattern_documents:
+        type: number
+        required: false
+        description: "Number of pattern documents"
+      task_documents:
+        type: number
+        required: false
+        description: "Number of task documents"
+      command_documents:
+        type: number
+        required: false
+        description: "Number of command documents"
+      last_updated:
+        type: string
+        required: false
+        description: "Last documentation update date (YYYY-MM-DD)"
+
+  progress:
+    type: object
+    required: false
+    description: "Overall progress metrics and per-milestone percentages"
+    fields:
+      planning:
+        type: number
+        required: false
+        description: "Planning phase completion (0-100%)"
+      implementation:
+        type: number
+        required: false
+        description: "Implementation phase completion (0-100%)"
+      testing:
+        type: number
+        required: false
+        description: "Testing phase completion (0-100%)"
+      documentation:
+        type: number
+        required: false
+        description: "Documentation completion (0-100%)"
+      overall:
+        type: number
+        required: false
+        description: "Overall project completion (0-100%)"
+
+  recent_work:
+    type: array
+    required: false
+    description: "Recent work log entries (most recent first)"
+    item_type: object
+    item_fields:
+      date:
+        type: string
+        required: true
+        description: "Date of work (YYYY-MM-DD)"
+      description:
+        type: string
+        required: true
+        description: "Description of work completed"
+      items:
+        type: array
+        required: false
+        item_type: string
+        description: "Specific items completed"
+
+  next_steps:
+    type: array
+    required: false
+    item_type: string
+    description: "Prioritized list of next action items"
+
+  notes:
+    type: array
+    required: false
+    item_type: string
+    description: "General notes and observations"
+
+  current_blockers:
+    type: array
+    required: false
+    item_type: string
+    description: "Current blockers (remove when resolved)"
+
+  team:
+    type: array
+    required: false
+    description: "Team and contributors"
+    item_type: object
+    item_fields:
+      role:
+        type: string
+        required: true
+        description: "Role or responsibility"
+      name:
+        type: string
+        required: true
+        description: "Name or identifier"
+      focus:
+        type: string
+        required: false
+        description: "Current focus area"

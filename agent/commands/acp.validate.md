@@ -67,6 +67,22 @@ Check YAML syntax and required fields.
 
 **Expected Outcome**: progress.yaml is valid
 
+### 2.1. Validate Task Timestamps
+
+Check timestamp compliance on all tasks.
+
+**Actions**:
+- All tasks with `status: in_progress` MUST have `started` set (non-null, ISO 8601 with time component)
+- All tasks with `status: completed` MUST have:
+  - `started` — non-null, ISO 8601 with time component (e.g., `2026-03-16T14:30:00Z`)
+  - `completed_date` — non-null, ISO 8601 with time component
+  - `actual_hours` — non-null number (>= 0)
+- All tasks MUST have `priority` set (critical, high, medium, low)
+- Timestamp values SHOULD include time component (`T\d{2}:\d{2}:\d{2}`) — flag date-only values (`YYYY-MM-DD`) as warnings
+- Report violations as errors with task ID and field name
+
+**Expected Outcome**: All task timestamps are compliant or violations are reported
+
 ### 3. Validate Design Documents
 
 Check design document structure and content.

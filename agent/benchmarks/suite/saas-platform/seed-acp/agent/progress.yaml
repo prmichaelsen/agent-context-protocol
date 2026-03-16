@@ -10,87 +10,105 @@ project:
     real-time events, webhooks, audit logging, and comprehensive testing.
 
 milestones:
-  - id: M1
+  M1:
     name: Foundation & Stabilization
+    priority: medium
     status: not_started
     progress: 0
     tasks_completed: 0
     tasks_total: 5
-  - id: M2
+  M2:
     name: Core Features
+    priority: medium
     status: not_started
     progress: 0
     tasks_completed: 0
     tasks_total: 5
-  - id: M3
+  M3:
     name: Production Hardening
+    priority: medium
     status: not_started
     progress: 0
     tasks_completed: 0
     tasks_total: 5
 
 tasks:
-  milestone_1:
+  M1:
     - id: task-1
       name: Architecture Analysis & Audit
+      priority: medium
       status: not_started
       estimated_hours: 2
     - id: task-2
       name: Fix Critical Bugs
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-3
       name: Refactor to Service Architecture
+      priority: medium
       status: not_started
       estimated_hours: 4
     - id: task-4
       name: Workspace Multi-tenancy
+      priority: medium
       status: not_started
       estimated_hours: 4
     - id: task-5
       name: RBAC Permission System
+      priority: medium
       status: not_started
       estimated_hours: 4
-  milestone_2:
+  M2:
     - id: task-6
       name: Task State Machine
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-7
       name: Comments & Activity Feed
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-8
       name: Real-time Events (SSE)
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-9
       name: Notification System
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-10
       name: Search & Filtering
+      priority: medium
       status: not_started
       estimated_hours: 3
-  milestone_3:
+  M3:
     - id: task-11
       name: Webhook Integration
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-12
       name: Audit Logging
+      priority: medium
       status: not_started
       estimated_hours: 3
     - id: task-13
       name: Comprehensive Test Suite
+      priority: medium
       status: not_started
       estimated_hours: 5
     - id: task-14
       name: API Documentation
+      priority: medium
       status: not_started
       estimated_hours: 2
     - id: task-15
       name: Security Hardening
+      priority: medium
       status: not_started
       estimated_hours: 4
 

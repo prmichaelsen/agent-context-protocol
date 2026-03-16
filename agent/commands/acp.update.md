@@ -70,12 +70,26 @@ Update individual task statuses and completion dates.
 
 **Actions**:
 - Mark completed tasks as `completed`
-- When setting a task to `in_progress`: if `started` is `null` or missing, set `started` to current ISO 8601 timestamp. Do not overwrite existing values.
-- When setting a task to `completed`: set `completed_date` to current ISO 8601 timestamp. Auto-compute `actual_hours` from `(completed_date - started)` in hours, rounded to 1 decimal. If `started` is missing, set `actual_hours` to `null`.
 - Update task notes if needed
 - Change `in_progress` tasks if no longer active
 
 **Expected Outcome**: Task statuses reflect reality
+
+### 3.1. Set Task Timestamps (REQUIRED)
+
+**WARNING**: Failing to set timestamps makes time tracking data permanently unrecoverable. This step is mandatory for every status transition.
+
+**When setting a task to `in_progress`**:
+- If `started` is `null` or missing: set `started` to current ISO 8601 timestamp with time component (e.g., `2026-03-16T14:30:00Z`)
+- Do NOT overwrite an existing `started` value
+
+**When setting a task to `completed`**:
+- Set `completed_date` to current ISO 8601 timestamp with time component (e.g., `2026-03-16T18:45:00Z`)
+- If `started` is set: compute `actual_hours = (completed_date - started)` in hours, rounded to 1 decimal
+- If `started` is null: set `started` to same value as `completed_date`, set `actual_hours` to 0
+- **VERIFY**: `started`, `completed_date`, and `actual_hours` must ALL be non-null
+
+**Expected Outcome**: All transitioned tasks have correct timestamps
 
 ### 4. Update Milestone Progress
 

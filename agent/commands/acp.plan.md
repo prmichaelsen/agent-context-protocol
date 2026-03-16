@@ -274,10 +274,10 @@ For each task in milestone:
 Update progress tracking with new planning items:
 
 **Actions**:
-- Add milestones to milestones array (with complete metadata including `file:` path to milestone document, e.g. `file: agent/milestones/milestone-{N}-{name}.md`)
-- Add tasks to appropriate milestone_N sections
-- Ensure each task entry includes `started: null` and `actual_hours: null` fields per the progress.template.yaml schema
-- Ensure each milestone entry includes `file:` pointing to its milestone document path
+- Add milestones to milestones map keyed by ID (e.g. `M1:`, `M2:`) with complete metadata including `file:` path to milestone document (e.g. `file: agent/milestones/milestone-{N}-{name}.md`)
+- Add tasks to appropriate `M{N}` sections under `tasks:`
+- Ensure each task entry includes `priority:` (critical|high|medium|low), `started: null`, and `actual_hours: null` fields per the progress.template.yaml schema
+- Ensure each milestone entry includes `priority:` (critical|high|medium|low) and `file:` pointing to its milestone document path
 - Update milestone tasks_total counts
 - Calculate estimated_weeks from task hour estimates
 - Update next_steps with new planning items

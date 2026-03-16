@@ -325,7 +325,7 @@ Create minimal progress.yaml for project:
     description: |
       {project-description}
   
-  milestones: []
+  milestones: {}
   
   tasks: {}
   

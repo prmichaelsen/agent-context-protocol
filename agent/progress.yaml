@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 5.22.0
+  version: 6.0.0
   started: 2026-02-16
   status: in_progress
   current_milestone: M16
@@ -13,8 +13,9 @@ project:
     Milestone 4 in progress: Package Development System (entity creation, validation, publishing).
 
 milestones:
-  - id: M1
+  M1:
     name: ACP Commands Infrastructure
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-16
@@ -29,8 +30,9 @@ milestones:
       - Documentation updated in AGENT.md and README.md
       - Ready for Milestone 2
   
-  - id: M2
+  M2:
     name: Documentation & Utility Commands
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-16
@@ -44,8 +46,9 @@ milestones:
       - All commands fully documented with examples
       - Total: 11 commands in ACP v1.1.0
   
-  - id: M3
+  M3:
     name: ACP Package Management System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-18
@@ -72,8 +75,9 @@ milestones:
       - Project dependency compatibility checking ✅
       - Pure bash YAML parser ✅
   
-  - id: M4
+  M4:
     name: ACP Package Development System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-20
@@ -92,8 +96,9 @@ milestones:
       - ✅ Pre-commit hook system
       - All 6 phases complete (Infrastructure, Entity Creation, Validation, Publishing, Package Creation, Hooks)
   
-  - id: M5
+  M5:
     name: Global Package Installation
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-22
@@ -111,8 +116,9 @@ milestones:
       - Project creation in ~/.acp/projects/ with @acp.project-create
       - 7 tasks completed (25-29, 45, 49): Infrastructure, Installation, Commands, Documentation, Auto-Init, Script Bundling, Project Create
   
-  - id: M6
+  M6:
     name: ACP Preferences System
+    priority: medium
     status: not_started
     progress: 0
     started: null
@@ -129,8 +135,9 @@ milestones:
       - Package preference support
       - 8 tasks planned (37-44): Infrastructure, Configurables, Integration, Management, Package Support, Presets, Testing, Documentation
   
-  - id: M9
+  M9:
     name: Template Source Files Support
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-27
@@ -147,8 +154,9 @@ milestones:
       - Conflict detection and safety warnings
       - 7 tasks planned (71-77): Schema, Installation, Manifest, Commands, Testing, Documentation, agent/files/ support (Issue #6)
   
-  - id: M7
+  M7:
     name: Global ACP Project Registry
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-23
@@ -175,8 +183,9 @@ milestones:
       - "✅ Task 70: Fix YAML Parser Array Operations complete"
       - "✅ Task 60: Documentation Updates complete"
   
-  - id: M8
+  M8:
     name: Experimental Features System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-23
@@ -192,8 +201,9 @@ milestones:
       - Validation for experimental marking consistency
       - 4 tasks planned (61-64): Schema & Validation, Installation Filtering, Update Handling, Documentation
 
-  - id: M10
+  M10:
     name: Command Enhancements
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-28
@@ -208,8 +218,9 @@ milestones:
       - Natural language argument parsing for commands
       - Per-task git commits in autonomous mode
 
-  - id: M11
+  M11:
     name: ACP Benchmark Suite
+    priority: medium
     status: completed
     progress: 100
     started: 2026-02-28
@@ -230,8 +241,9 @@ milestones:
       - 12 tasks (79-90): Runner, 8 Tasks, Evaluator, Reports, CI/CD, Docs
       - Runner supports dual-seed (seed_dir + seed_dir_acp), mode-specific prompts, skip_acp_install
 
-  - id: M12
+  M12:
     name: Sessions System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-03-01
@@ -249,8 +261,9 @@ milestones:
       - 4 tasks (91-94): Infrastructure, Integration, Command, Testing/Docs
       - Design: agent/design/local.sessions-system.md
 
-  - id: M13
+  M13:
     name: Cross-Platform CI
+    priority: medium
     status: not_started
     progress: 0
     started: null
@@ -267,8 +280,9 @@ milestones:
       - 3 tasks (96-98): E2E Test Fixes, Test Runner, GitHub Actions Workflow
       - Design: agent/design/local.cross-platform-ci.md
 
-  - id: M14
+  M14:
     name: Key File Index System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-03-02
@@ -287,8 +301,9 @@ milestones:
       - 7 tasks (99-105): Infrastructure, Command Integration, Creation Integration, @acp.index, Package Support, Validation/Docs, Testing
       - Design: agent/design/local.key-file-index-system.md
 
-  - id: M15
+  M15:
     name: Clarification Capture System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-03-04
@@ -307,8 +322,9 @@ milestones:
       - 5 tasks (106-110): Directive, Templates, Integration, Duplicate Awareness, Question Format
       - Design: agent/design/local.clarification-capture-system.md
 
-  - id: M16
+  M16:
     name: Design Reference System
+    priority: medium
     status: completed
     progress: 100
     started: 2026-03-07
@@ -327,9 +343,10 @@ milestones:
       - Design: agent/design/local.design-reference-system.md
 
 tasks:
-  milestone_1:
+  M1:
     - id: task-1
       name: Create Commands Directory Structure
+      priority: medium
       status: completed
       file: agent/tasks/task-1-commands-infrastructure.md
       estimated_hours: 1
@@ -340,6 +357,7 @@ tasks:
     
     - id: task-2
       name: Implement Core Workflow Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-2-workflow-commands.md
       estimated_hours: 3
@@ -352,6 +370,7 @@ tasks:
     
     - id: task-3
       name: Implement Version Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-3-version-commands.md
       estimated_hours: 2
@@ -364,6 +383,7 @@ tasks:
     
     - id: task-4
       name: Update Documentation
+      priority: medium
       status: completed
       file: agent/tasks/task-4-update-documentation.md
       estimated_hours: 2
@@ -374,9 +394,10 @@ tasks:
         ✅ Updated directory structure diagrams in both files
         ✅ Documented command invocation with dot notation
   
-  milestone_2:
+  M2:
     - id: task-51
       name: "Pattern Reading in Commands"
+      priority: medium
       status: not_started
       file: agent/tasks/task-51-pattern-reading-in-commands.md
       estimated_hours: 2-3
@@ -386,6 +407,7 @@ tasks:
     
     - id: task-5
       name: Implement Documentation Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-5-documentation-commands.md
       estimated_hours: 3
@@ -396,6 +418,7 @@ tasks:
     
     - id: task-6
       name: Implement Utility Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-6-utility-commands.md
       estimated_hours: 3
@@ -406,6 +429,7 @@ tasks:
     
     - id: task-7
       name: Integration Testing
+      priority: medium
       status: completed
       file: agent/tasks/task-7-integration-testing.md
       estimated_hours: 2
@@ -414,9 +438,10 @@ tasks:
         ✅ All 11 commands validated and documented.
         Ready for production use.
   
-  milestone_3:
+  M3:
     - id: task-5
       name: Manifest System Implementation
+      priority: medium
       status: completed
       file: agent/tasks/task-5-manifest-system.md
       estimated_hours: 6-8
@@ -431,6 +456,7 @@ tasks:
     
     - id: task-6
       name: Selective Installation
+      priority: medium
       status: completed
       file: agent/tasks/task-6-selective-installation.md
       estimated_hours: 4-6
@@ -445,6 +471,7 @@ tasks:
     
     - id: task-7
       name: Update System
+      priority: medium
       status: completed
       file: agent/tasks/task-7-update-system.md
       estimated_hours: 5-7
@@ -461,6 +488,7 @@ tasks:
     
     - id: task-8
       name: Package List Command
+      priority: medium
       status: completed
       file: agent/tasks/task-8-package-list-command.md
       estimated_hours: 2-3
@@ -476,6 +504,7 @@ tasks:
     
     - id: task-9
       name: Package Remove Command
+      priority: medium
       status: completed
       file: agent/tasks/task-9-package-remove-command.md
       estimated_hours: 3-4
@@ -491,6 +520,7 @@ tasks:
     
     - id: task-10
       name: Package Info Command
+      priority: medium
       status: completed
       file: agent/tasks/task-10-package-info-command.md
       estimated_hours: 2-3
@@ -506,6 +536,7 @@ tasks:
     
     - id: task-11
       name: Package Search Command
+      priority: medium
       status: completed
       file: agent/tasks/task-11-package-search-command.md
       estimated_hours: 6-8
@@ -521,6 +552,7 @@ tasks:
     
     - id: task-12
       name: Dependency Checking
+      priority: medium
       status: completed
       file: agent/tasks/task-12-dependency-checking.md
       estimated_hours: 3-4
@@ -541,6 +573,7 @@ tasks:
     
     - id: task-13
       name: Pure Bash YAML Parser
+      priority: medium
       status: completed
       file: agent/tasks/task-13-pure-bash-yaml-parser.md
       estimated_hours: 4-6
@@ -555,6 +588,7 @@ tasks:
     
     - id: task-65
       name: Script-Command Binding - Schema and Templates
+      priority: medium
       status: completed
       file: agent/tasks/task-65-script-command-binding.md
       estimated_hours: 1-2
@@ -569,6 +603,7 @@ tasks:
     
     - id: task-66
       name: Script-Command Binding - Installation Logic
+      priority: medium
       status: completed
       file: agent/tasks/task-66-script-installation-logic.md
       estimated_hours: 2-3
@@ -585,6 +620,7 @@ tasks:
     
     - id: task-67
       name: Script-Command Binding - Validation Logic
+      priority: medium
       status: completed
       file: agent/tasks/task-67-script-validation-logic.md
       estimated_hours: 1-2
@@ -601,6 +637,7 @@ tasks:
     
     - id: task-68
       name: Script-Command Binding - Update Existing Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-68-update-existing-commands.md
       estimated_hours: 2-3
@@ -621,6 +658,7 @@ tasks:
     
     - id: task-69
       name: Script-Command Binding - Testing and Documentation
+      priority: medium
       status: completed
       file: agent/tasks/task-69-script-testing-documentation.md
       estimated_hours: 2-3
@@ -641,6 +679,7 @@ tasks:
 
     - id: task-70
       name: Optimize Package Install Performance
+      priority: medium
       status: completed
       file: agent/tasks/task-70-optimize-package-install-performance.md
       estimated_hours: 2-3
@@ -652,9 +691,28 @@ tasks:
         Created: acp.package-install-optimized.sh, analysis scripts, report.
         Ready for testing and deployment.
   
-  milestone_4:
+    - id: task-50
+      name: "Package Search Default Topic Filter"
+      priority: medium
+      status: completed
+      file: agent/tasks/task-50-package-search-default-topic-filter.md
+      estimated_hours: 1
+      actual_hours: 0.5
+      completed_date: 2026-02-22
+      notes: |
+        ✅ Package search now filters by topic:acp-package by default
+        - Updated agent/scripts/acp.package-search.sh query logic
+        - Default search: topic:acp-package (returns 3 results, not 11,356)
+        - With query: {query}+topic:acp-package (combines user query with filter)
+        - Updated agent/commands/acp.package-search.md documentation
+        - Tested: Default search returns only ACP packages
+        - Tested: Query search combines with topic filter correctly
+  
+
+  M4:
     - id: task-14
       name: YAML Schema System
+      priority: medium
       status: completed
       file: agent/tasks/task-14-yaml-schema-system.md
       estimated_hours: 6-8
@@ -672,6 +730,7 @@ tasks:
     
     - id: task-15
       name: Namespace Utilities
+      priority: medium
       status: completed
       file: agent/tasks/task-15-namespace-utilities.md
       estimated_hours: 3-4
@@ -688,6 +747,7 @@ tasks:
     
     - id: task-16
       name: README Update Utilities
+      priority: medium
       status: completed
       file: agent/tasks/task-16-readme-update-utilities.md
       estimated_hours: 3-4
@@ -704,6 +764,7 @@ tasks:
     
     - id: task-17
       name: "@acp.pattern-create Command"
+      priority: medium
       status: not_started
       file: agent/tasks/task-17-pattern-create-command.md
       estimated_hours: 6-8
@@ -713,6 +774,7 @@ tasks:
     
     - id: task-18
       name: "@acp.command-create Command"
+      priority: medium
       status: completed
       file: agent/tasks/task-18-command-create-command.md
       estimated_hours: 5-6
@@ -727,6 +789,7 @@ tasks:
     
     - id: task-19
       name: "@acp.design-create Command"
+      priority: medium
       status: completed
       file: agent/tasks/task-19-design-create-command.md
       estimated_hours: 4-5
@@ -740,6 +803,7 @@ tasks:
     
     - id: task-20
       name: "@acp.package-validate Command"
+      priority: medium
       status: completed
       file: agent/tasks/task-20-package-validate-command.md
       estimated_hours: 7-9
@@ -757,6 +821,7 @@ tasks:
     
     - id: task-21
       name: "Enhanced @acp.validate"
+      priority: medium
       status: completed
       file: agent/tasks/task-21-enhanced-acp-validate.md
       estimated_hours: 3-4
@@ -776,6 +841,7 @@ tasks:
     
     - id: task-22
       name: "@acp.package-publish Command"
+      priority: medium
       status: completed
       file: agent/tasks/task-22-package-publish-command.md
       estimated_hours: 8-10
@@ -805,6 +871,7 @@ tasks:
     
     - id: task-23
       name: "Rewrite @acp.package-create"
+      priority: medium
       status: completed
       file: agent/tasks/task-23-package-create-rewrite.md
       estimated_hours: 6-8
@@ -833,6 +900,7 @@ tasks:
     
     - id: task-24
       name: Pre-Commit Hook System
+      priority: medium
       status: completed
       file: agent/tasks/task-24-precommit-hook-system.md
       estimated_hours: 3-4
@@ -848,9 +916,10 @@ tasks:
         - Tested successfully during Task 23
         - Documentation complete in task document
   
-  milestone_5:
+  M5:
     - id: task-25
       name: Global Infrastructure Setup
+      priority: medium
       status: completed
       file: agent/tasks/task-25-global-infrastructure.md
       estimated_hours: 2-3
@@ -873,6 +942,7 @@ tasks:
     
     - id: task-26
       name: Global Installation Implementation
+      priority: medium
       status: completed
       file: agent/tasks/task-26-global-installation.md
       estimated_hours: 2-3
@@ -890,6 +960,7 @@ tasks:
     
     - id: task-27
       name: Global Package Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-27-global-package-commands.md
       estimated_hours: 2-3
@@ -910,6 +981,7 @@ tasks:
     
     - id: task-28
       name: Documentation and Agent Instructions
+      priority: medium
       status: completed
       file: agent/tasks/task-28-global-documentation.md
       estimated_hours: 1-2
@@ -928,6 +1000,7 @@ tasks:
     
     - id: task-29
       name: Global ACP Auto-Initialization
+      priority: medium
       status: completed
       file: agent/tasks/task-29-global-acp-auto-initialization.md
       estimated_hours: 1-2
@@ -948,6 +1021,7 @@ tasks:
     
     - id: task-45
       name: Package Script Bundling Support
+      priority: medium
       status: completed
       file: agent/tasks/task-45-package-script-bundling.md
       estimated_hours: 3-4
@@ -966,6 +1040,7 @@ tasks:
     
     - id: task-49
       name: "@acp.project-create Command"
+      priority: medium
       status: completed
       file: agent/tasks/task-49-acp-project-create-command.md
       estimated_hours: 3-4
@@ -986,26 +1061,10 @@ tasks:
         - Creates progress.yaml with project metadata
         - Comprehensive examples and documentation
   
-  milestone_3:
-    - id: task-50
-      name: "Package Search Default Topic Filter"
-      status: completed
-      file: agent/tasks/task-50-package-search-default-topic-filter.md
-      estimated_hours: 1
-      actual_hours: 0.5
-      completed_date: 2026-02-22
-      notes: |
-        ✅ Package search now filters by topic:acp-package by default
-        - Updated agent/scripts/acp.package-search.sh query logic
-        - Default search: topic:acp-package (returns 3 results, not 11,356)
-        - With query: {query}+topic:acp-package (combines user query with filter)
-        - Updated agent/commands/acp.package-search.md documentation
-        - Tested: Default search returns only ACP packages
-        - Tested: Query search combines with topic filter correctly
-  
-  milestone_6:
+  M6:
     - id: task-37
       name: Preference Loading Infrastructure
+      priority: medium
       status: in_progress
       file: agent/tasks/milestone-6-preferences-system/task-37-preference-loading-infrastructure.md
       estimated_hours: 4-6
@@ -1016,6 +1075,7 @@ tasks:
     
     - id: task-38
       name: Configurables System Enhancement
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-38-configurables-system-enhancement.md
       estimated_hours: 3-4
@@ -1025,6 +1085,7 @@ tasks:
     
     - id: task-39
       name: Command Integration - @acp.plan
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-39-command-integration-acp-plan.md
       estimated_hours: 4-5
@@ -1034,6 +1095,7 @@ tasks:
     
     - id: task-40
       name: Preference Management Commands
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-40-preference-management-commands.md
       estimated_hours: 8-10
@@ -1043,6 +1105,7 @@ tasks:
     
     - id: task-41
       name: Package Preference Support
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-41-package-preference-support.md
       estimated_hours: 4-5
@@ -1052,6 +1115,7 @@ tasks:
     
     - id: task-42
       name: Preset Configuration System
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-42-preset-configuration-system.md
       estimated_hours: 3-4
@@ -1061,6 +1125,7 @@ tasks:
     
     - id: task-43
       name: Preferences Testing Suite
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-43-preferences-testing-suite.md
       estimated_hours: 6-8
@@ -1070,6 +1135,7 @@ tasks:
     
     - id: task-44
       name: Preferences Documentation
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-6-preferences-system/task-44-preferences-documentation.md
       estimated_hours: 3-4
@@ -1077,9 +1143,10 @@ tasks:
       notes: |
         Update AGENT.md, README.md, CHANGELOG.md with preferences documentation
   
-  milestone_7:
+  M7:
     - id: task-52
       name: Project Registry Infrastructure
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-52-registry-infrastructure.md
       estimated_hours: 2-3
@@ -1096,6 +1163,7 @@ tasks:
     
     - id: task-53
       name: "@acp.project-list Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-53-project-list.md
       estimated_hours: 2-3
@@ -1113,6 +1181,7 @@ tasks:
     
     - id: task-54
       name: "@acp.project-set Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-54-project-set.md
       estimated_hours: 2-3
@@ -1138,6 +1207,7 @@ tasks:
     
     - id: task-55
       name: "@acp.project-info Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-55-project-info.md
       estimated_hours: 1-2
@@ -1158,6 +1228,7 @@ tasks:
     
     - id: task-56
       name: "@acp.project-update Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-56-project-update.md
       estimated_hours: 1-2
@@ -1179,6 +1250,7 @@ tasks:
     
     - id: task-57
       name: "@acp.project-remove Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-57-project-remove.md
       estimated_hours: 1-2
@@ -1201,6 +1273,7 @@ tasks:
     
     - id: task-58
       name: "@acp.projects-sync Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-58-projects-sync.md
       estimated_hours: 2-3
@@ -1223,6 +1296,7 @@ tasks:
     
     - id: task-70
       name: "Fix YAML Parser Array Operations"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-70-fix-yaml-array-operations.md
       estimated_hours: 2-3
@@ -1239,6 +1313,7 @@ tasks:
     
     - id: task-59
       name: "Integration & Testing"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-59-integration-testing.md
       estimated_hours: 3-4
@@ -1256,6 +1331,7 @@ tasks:
     
     - id: task-60
       name: "Documentation Updates"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-7-project-registry/task-60-documentation.md
       estimated_hours: 2-3
@@ -1269,9 +1345,10 @@ tasks:
         - Added v4.3.0 changelog entry to CHANGELOG.md
         - Updated version numbers (4.2.0 → 4.3.0)
   
-  milestone_8:
+  M8:
     - id: task-61
       name: Schema and Validation Enhancement
+      priority: medium
       status: completed
       file: agent/tasks/milestone-8-experimental-features/task-61-schema-validation.md
       estimated_hours: 2-3
@@ -1287,6 +1364,7 @@ tasks:
     
     - id: task-62
       name: Installation Filtering
+      priority: medium
       status: completed
       file: agent/tasks/milestone-8-experimental-features/task-62-installation-filtering.md
       estimated_hours: 3-4
@@ -1306,6 +1384,7 @@ tasks:
     
     - id: task-63
       name: Update Handling for Experimental Features
+      priority: medium
       status: completed
       file: agent/tasks/milestone-8-experimental-features/task-63-update-handling.md
       estimated_hours: 2-3
@@ -1324,6 +1403,7 @@ tasks:
     
     - id: task-64
       name: Documentation and Examples
+      priority: medium
       status: completed
       file: agent/tasks/milestone-8-experimental-features/task-64-documentation.md
       estimated_hours: 3-4
@@ -1342,9 +1422,10 @@ tasks:
         - Created e2e/acp.experimental-features.test.sh (E2E tests - future enhancement)
         - Manual validation testing complete (all scenarios working)
   
-  milestone_9:
+  M9:
     - id: task-71
       name: Schema Extension for Templates
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-71-schema-extension.md
       estimated_hours: 3-4
@@ -1360,6 +1441,7 @@ tasks:
     
     - id: task-72
       name: Template Installation System
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-72-installation-system.md
       estimated_hours: 6-8
@@ -1379,6 +1461,7 @@ tasks:
     
     - id: task-73
       name: Manifest Tracking for Templates
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-73-manifest-tracking.md
       estimated_hours: 2-3
@@ -1397,6 +1480,7 @@ tasks:
     
     - id: task-74
       name: Command Updates for Templates
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-74-command-updates.md
       estimated_hours: 4-5
@@ -1412,6 +1496,7 @@ tasks:
     
     - id: task-75
       name: Testing Suite for Templates
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-75-testing-suite.md
       estimated_hours: 6-8
@@ -1428,6 +1513,7 @@ tasks:
     
     - id: task-76
       name: Documentation for Templates
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-76-documentation.md
       estimated_hours: 3-4
@@ -1442,6 +1528,7 @@ tasks:
 
     - id: task-77
       name: Support agent/files/ Directory in Package Installer
+      priority: medium
       status: completed
       file: agent/tasks/milestone-9-template-source-files/task-77-support-agent-files-directory.md
       estimated_hours: 4-6
@@ -1450,9 +1537,10 @@ tasks:
         ✅ Add agent/files/ to INSTALL_DIRS, fix manifest file tracking, warn on unrecognized dirs.
         GitHub Issue #6. Also fixed design→designs manifest key mismatch, added scripts/files to manifest.
 
-  milestone_10:
+  M10:
     - id: task-78
       name: Implement @acp.proceed Autonomous Completion Arguments
+      priority: medium
       status: completed
       file: agent/tasks/milestone-10-command-enhancements/task-78-proceed-autonomous-completion.md
       estimated_hours: 8-12
@@ -1473,9 +1561,10 @@ tasks:
         - Interruption handling: infer user intent from messages
         - Source: clarification-2-proceed-args.md (18 requirements answered)
 
-  milestone_11:
+  M11:
     - id: task-79
       name: Runner Multi-Turn & Metrics Fix
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-79-runner-multi-turn-metrics.md
       estimated_hours: 6-8
@@ -1488,6 +1577,7 @@ tasks:
 
     - id: task-80
       name: Simple CLI Tool Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-80-simple-cli-tool-benchmark.md
       estimated_hours: 3-4
@@ -1499,6 +1589,7 @@ tasks:
 
     - id: task-81
       name: Medium REST API Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-81-medium-rest-api-benchmark.md
       estimated_hours: 4-5
@@ -1510,6 +1601,7 @@ tasks:
 
     - id: task-82
       name: Complex Auth System Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-82-complex-auth-system-benchmark.md
       estimated_hours: 5-6
@@ -1521,6 +1613,7 @@ tasks:
 
     - id: task-83
       name: LLM Evaluator Implementation
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-83-llm-evaluator.md
       estimated_hours: 4-6
@@ -1533,6 +1626,7 @@ tasks:
 
     - id: task-84
       name: Report & Dashboard Enhancement
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-84-report-dashboard-enhancement.md
       estimated_hours: 4-5
@@ -1544,6 +1638,7 @@ tasks:
 
     - id: task-85
       name: GitHub Actions Workflow
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-85-github-actions-workflow.md
       estimated_hours: 2-3
@@ -1556,6 +1651,7 @@ tasks:
 
     - id: task-86
       name: Documentation & Historical Tracking
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-86-documentation-historical-tracking.md
       estimated_hours: 3-4
@@ -1567,6 +1663,7 @@ tasks:
 
     - id: task-87
       name: Legacy Codebase Refactor Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-87-legacy-refactor-benchmark.md
       estimated_hours: 4-6
@@ -1579,6 +1676,7 @@ tasks:
 
     - id: task-88
       name: Event-Driven Order Pipeline Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-88-order-pipeline-benchmark.md
       estimated_hours: 4-6
@@ -1591,6 +1689,7 @@ tasks:
 
     - id: task-89
       name: Enterprise Task Manager Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-89-enterprise-task-manager-benchmark.md
       estimated_hours: 8-12
@@ -1604,6 +1703,7 @@ tasks:
 
     - id: task-90
       name: ACP-Initialized Project Benchmark Task
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-90-acp-initialized-project-benchmark.md
       estimated_hours: 8-12
@@ -1619,6 +1719,7 @@ tasks:
 
     - id: task-95
       name: Add Deliverables Verification Gate to @acp.proceed
+      priority: medium
       status: completed
       file: agent/tasks/milestone-11-benchmark-suite/task-95-deliverables-verification-gate.md
       estimated_hours: 3-4
@@ -1632,9 +1733,10 @@ tasks:
         - Updated both verification checklists with file existence checks
         - Renumbered autonomous loop steps (4-8) for new VERIFY DELIVERABLES step
 
-  milestone_12:
+  M12:
     - id: task-91
       name: Sessions Infrastructure
+      priority: medium
       status: completed
       file: agent/tasks/milestone-12-sessions-system/task-91-sessions-infrastructure.md
       estimated_hours: 4-6
@@ -1650,6 +1752,7 @@ tasks:
 
     - id: task-92
       name: Init and Report Integration
+      priority: medium
       status: completed
       file: agent/tasks/milestone-12-sessions-system/task-92-sessions-init-integration.md
       estimated_hours: 1-2
@@ -1664,6 +1767,7 @@ tasks:
 
     - id: task-93
       name: "@acp.sessions Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-12-sessions-system/task-93-sessions-command.md
       estimated_hours: 2-3
@@ -1679,6 +1783,7 @@ tasks:
 
     - id: task-94
       name: Testing and Documentation
+      priority: medium
       status: completed
       file: agent/tasks/milestone-12-sessions-system/task-94-sessions-testing-documentation.md
       estimated_hours: 2-3
@@ -1692,9 +1797,10 @@ tasks:
         - Design doc status changed to Implemented
         - Version bumped to 5.10.0 (minor — new feature)
 
-  milestone_13:
+  M13:
     - id: task-96
       name: Fix macOS Compatibility in E2E Tests
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-13-cross-platform-ci/task-96-fix-macos-e2e-tests.md
       estimated_hours: 2-3
@@ -1704,6 +1810,7 @@ tasks:
 
     - id: task-97
       name: Create Unified E2E Test Runner
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-13-cross-platform-ci/task-97-e2e-test-runner.md
       estimated_hours: 1-2
@@ -1713,6 +1820,7 @@ tasks:
 
     - id: task-98
       name: Create GitHub Actions CI Workflow
+      priority: medium
       status: not_started
       file: agent/tasks/milestone-13-cross-platform-ci/task-98-github-actions-workflow.md
       estimated_hours: 1-2
@@ -1720,9 +1828,10 @@ tasks:
       notes: |
         .github/workflows/e2e-tests.yaml — matrix: ubuntu-latest, macos-latest
 
-  milestone_14:
+  M14:
     - id: task-99
       name: Index Directory Infrastructure
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-99-index-directory-infrastructure.md
       estimated_hours: 2-3
@@ -1735,6 +1844,7 @@ tasks:
 
     - id: task-100
       name: Command Directive Integration
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-100-command-directive-integration.md
       estimated_hours: 3-4
@@ -1747,6 +1857,7 @@ tasks:
 
     - id: task-101
       name: Creation Command Integration
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-101-creation-command-integration.md
       estimated_hours: 2-3
@@ -1758,6 +1869,7 @@ tasks:
 
     - id: task-102
       name: "@acp.index Command"
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-102-acp-index-command.md
       estimated_hours: 3-4
@@ -1770,6 +1882,7 @@ tasks:
 
     - id: task-103
       name: Package Index Support
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-103-package-index-support.md
       estimated_hours: 3-4
@@ -1784,6 +1897,7 @@ tasks:
 
     - id: task-104
       name: Validation & Documentation
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-104-validation-documentation.md
       estimated_hours: 2-3
@@ -1798,6 +1912,7 @@ tasks:
 
     - id: task-105
       name: Testing
+      priority: medium
       status: completed
       file: agent/tasks/milestone-14-key-file-index-system/task-105-testing.md
       estimated_hours: 3-4
@@ -1811,9 +1926,10 @@ tasks:
         Fixed bugs: add_package_to_manifest missing indices:[] init, is_file_modified
         indices->index dir mapping in acp.common.sh.
 
-  milestone_15:
+  M15:
     - id: task-106
       name: Create @acp.clarification-capture Directive
+      priority: medium
       status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-106-clarification-capture-directive.md
       estimated_hours: 3-4
@@ -1826,6 +1942,7 @@ tasks:
 
     - id: task-107
       name: Update Entity Templates with Key Design Decisions Section
+      priority: medium
       status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-107-entity-template-key-decisions.md
       estimated_hours: 1-2
@@ -1837,6 +1954,7 @@ tasks:
 
     - id: task-108
       name: Integrate Capture Directive into Create Commands
+      priority: medium
       status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-108-integrate-capture-in-create-commands.md
       estimated_hours: 3-4
@@ -1849,6 +1967,7 @@ tasks:
 
     - id: task-109
       name: Add Duplicate Awareness to @acp.clarification-create
+      priority: medium
       status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-109-clarification-create-duplicate-awareness.md
       estimated_hours: 1-2
@@ -1860,6 +1979,7 @@ tasks:
 
     - id: task-110
       name: Implement Yes/No Question Format Preference
+      priority: medium
       status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-110-question-format-yes-no-preference.md
       estimated_hours: 1
@@ -1870,9 +1990,10 @@ tasks:
         resolution to yes/no/custom. All inline prompts verified.
         Source: clarification-7-question-format-preferences.md.
 
-  milestone_16:
+  M16:
     - id: task-111
       name: Create @acp.design-reference Shared Directive
+      priority: medium
       status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-111-design-reference-directive.md
       estimated_hours: 3-4
@@ -1885,6 +2006,7 @@ tasks:
 
     - id: task-112
       name: Update Task Template with Design Reference Field
+      priority: medium
       status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-112-task-template-design-reference-field.md
       estimated_hours: 1
@@ -1896,6 +2018,7 @@ tasks:
 
     - id: task-113
       name: Update @acp.task-create with Design Cross-Reference
+      priority: medium
       status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-113-task-create-design-cross-reference.md
       estimated_hours: 3-4
@@ -1908,6 +2031,7 @@ tasks:
 
     - id: task-114
       name: Update @acp.proceed with Design Context Loading
+      priority: medium
       status: completed
       file: agent/tasks/milestone-16-design-reference-system/task-114-proceed-design-context-loading.md
       estimated_hours: 2-3
@@ -1921,6 +2045,7 @@ tasks:
   future_enhancements:
     - id: task-30
       name: Fix Package Validation for Non-Package Files
+      priority: medium
       status: completed
       file: agent/tasks/task-30-fix-package-validation-non-package-files.md
       estimated_hours: 1-2
@@ -1935,6 +2060,7 @@ tasks:
     
     - id: task-31
       name: Add progress.yaml to Package Repositories
+      priority: medium
       status: completed
       file: agent/tasks/task-31-add-progress-yaml-to-packages.md
       estimated_hours: 1-2
@@ -1948,6 +2074,7 @@ tasks:
     
     - id: task-32
       name: Fix package.yaml Schema Mismatch and Add Template
+      priority: medium
       status: completed
       file: agent/tasks/task-32-fix-package-yaml-schema-mismatch.md
       estimated_hours: 2-3
@@ -1962,6 +2089,7 @@ tasks:
     
     - id: task-33
       name: Track ACP Core Commands in manifest.yaml
+      priority: medium
       status: completed
       file: agent/tasks/task-33-track-acp-core-in-manifest.md
       estimated_hours: 1-2
@@ -1975,6 +2103,7 @@ tasks:
     
     - id: task-34
       name: Build Generic YAML Parser with AST
+      priority: medium
       status: completed
       file: agent/tasks/task-34-build-generic-yaml-parser.md
       estimated_hours: 80-160
@@ -1998,6 +2127,7 @@ tasks:
     
     - id: task-35
       name: Migrate Scripts from acp.yaml.sh to acp.yaml-parser.sh
+      priority: medium
       status: completed
       file: agent/tasks/task-35-migrate-to-yaml-parser.md
       estimated_hours: 3-4
@@ -2014,6 +2144,7 @@ tasks:
     
     - id: task-36
       name: Test Untested Package Commands
+      priority: medium
       status: completed
       file: agent/tasks/task-36-test-package-commands.md
       estimated_hours: 4-6
@@ -2042,18 +2173,18 @@ progress:
   testing: 100
   documentation: 100
   overall: 95
-  milestone_1: 100
-  milestone_2: 100
-  milestone_3: 100
-  milestone_4: 100
-  milestone_5: 100
-  milestone_6: 0
-  milestone_7: 100
-  milestone_8: 100
-  milestone_9: 100
-  milestone_10: 100
-  milestone_11: 100
-  milestone_15: 100
+  M1: 100
+  M2: 100
+  M3: 100
+  M4: 100
+  M5: 100
+  M6: 0
+  M7: 100
+  M8: 100
+  M9: 100
+  M10: 100
+  M11: 100
+  M15: 100
 
 recent_work:
   - date: 2026-03-01

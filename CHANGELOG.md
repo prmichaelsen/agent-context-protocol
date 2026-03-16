@@ -5,6 +5,20 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - 2026-03-16
+
+### Breaking Changes
+- **Milestones array → map** — `milestones:` in progress.yaml is now a map keyed by milestone ID (`M1:`, `M2:`, ...) instead of an array of objects with `- id: M1`. The `id:` field is removed from milestone entries (the key IS the ID).
+- **Tasks keys normalized** — `tasks:` keys changed from `milestone_1`, `milestone_2`, etc. to `M1`, `M2`, etc. to match milestone IDs.
+- **Progress keys normalized** — `progress:` per-milestone keys changed from `milestone_1` to `M1`, etc.
+
+### Added
+- **`agent/schemas/progress.schema.yaml`** — formal schema definition for progress.yaml files. Defines required fields, types, enums, and patterns for project metadata, milestones, tasks, and all optional sections.
+- **`priority` field (required)** — milestones and tasks now require a `priority:` field with values `critical`, `high`, `medium`, or `low`. Added to schema, templates, AGENT.md, command directives, and all existing data.
+
+### Fixed
+- **Duplicate `milestone_3` key** — task-50 (Package Search Default Topic Filter) was under a second `milestone_3:` block; merged into the canonical M3 section.
+
 ## [5.22.0] - 2026-03-15
 
 ### Added
