@@ -346,11 +346,11 @@ milestones:
     name: Artifact Commands System
     priority: high
     status: in_progress
-    progress: 20
+    progress: 40
     started: 2026-03-17
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 5
     notes: |
       📋 Milestone 17: Artifact Commands System
@@ -2080,10 +2080,10 @@ tasks:
     - id: task-116
       name: Implement @acp.artifact-research Command
       priority: high
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-17-artifact-commands/task-116-artifact-research-command.md
       estimated_hours: 4-6
-      completed_date: null
+      completed_date: 2026-03-17
       notes: |
         Plan-first research methodology:
         1. Generate research plan (gaps, considerations, topics, outline)
@@ -2285,7 +2285,7 @@ progress:
   M14: 100
   M15: 100
   M16: 100
-  M17: 20
+  M17: 40
 
 recent_work:
   - date: 2026-03-01

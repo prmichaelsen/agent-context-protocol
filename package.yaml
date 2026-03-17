@@ -2,7 +2,7 @@
 # This file defines the Agent Context Protocol core package
 
 name: acp-core
-version: 4.2.0
+version: 4.3.0
 description: Agent Context Protocol - Core commands, patterns, and utilities for AI agent development
 author: Patrick Michaelsen
 license: MIT
@@ -189,6 +189,11 @@ contents:
 
     - name: acp.index.md
       description: Manage the key file index
+      scripts: []
+
+    # Artifact Commands (LLM-based, no scripts)
+    - name: acp.artifact-research.md
+      description: Create long-lived research artifacts via systematic investigation
       scripts: []
 
     # Sessions Command (Experimental)
