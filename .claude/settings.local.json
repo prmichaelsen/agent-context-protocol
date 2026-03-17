@@ -34,7 +34,9 @@
       "Bash(sort:*)",
       "Bash(cat:*)",
       "WebFetch(domain:tanstack.com)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(pip3 install:*)",
+      "Bash(git log:*)"
     ]
   }
 }

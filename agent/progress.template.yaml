@@ -13,9 +13,8 @@ project:
 
 # Milestones represent major phases of the project
 milestones:
-  M1:                                   # Key is the milestone identifier
+  - id: M1                              # Unique milestone identifier
     name: Milestone Name                # Descriptive name
-    priority: high                      # critical | high | medium | low
     file: agent/milestones/milestone-1-name.md  # Path to milestone document
     status: not_started                 # not_started | in_progress | completed
     progress: 0                         # Percentage complete (0-100)
@@ -27,9 +26,8 @@ milestones:
     notes: |                            # Progress notes and observations
       Notes about this milestone's progress, blockers, or important decisions.
 
-  M2:
+  - id: M2
     name: Second Milestone Name
-    priority: medium                    # critical | high | medium | low
     file: agent/milestones/milestone-2-second-milestone-name.md  # Path to milestone document
     status: not_started
     progress: 0
@@ -43,10 +41,9 @@ milestones:
 
 # Tasks are granular work items within milestones
 tasks:
-  M1:                                   # Group tasks by milestone (key matches milestone ID)
+  milestone_1:                          # Group tasks by milestone
     - id: task-1                        # Unique task identifier
       name: Task Name                   # Descriptive task name
-      priority: high                    # critical | high | medium | low
       status: not_started               # not_started | in_progress | completed
       started: null                     # ISO 8601 timestamp when work began (auto-set on in_progress)
       file: agent/tasks/task-1-name.md  # Path to task document
@@ -58,7 +55,6 @@ tasks:
     
     - id: task-2
       name: Second Task Name
-      priority: medium                  # critical | high | medium | low
       status: not_started
       started: null
       file: agent/tasks/task-2-name.md
@@ -68,10 +64,9 @@ tasks:
       notes: |
         Depends on task-1 completion.
   
-  M2:
+  milestone_2:
     - id: task-3
       name: Third Task Name
-      priority: medium                  # critical | high | medium | low
       status: not_started
       started: null
       file: agent/tasks/task-3-name.md

@@ -248,12 +248,11 @@ Add task to progress.yaml:
 
 **Actions**:
 - Read progress.yaml
-- Find the milestone section (e.g., `M4` under `tasks:`)
+- Find the milestone section (e.g., milestone_4)
 - Add new task entry:
   ```yaml
   - id: task-{N}
     name: {Task Name}
-    priority: {critical|high|medium|low}
     status: not_started
     started: null
     file: agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md

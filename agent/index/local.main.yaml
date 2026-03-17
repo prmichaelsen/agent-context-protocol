@@ -70,3 +70,17 @@ local:
         Essential context when working on the visualizer project.
         Contains all agreed-upon decisions from clarification-10.
       applies: acp.proceed, acp.plan
+
+    - path: agent/design/local.artifact-commands-system.md
+      weight: 0.9
+      kind: design
+      description: |
+        Artifact command system design for creating long-lived reference
+        material (research, glossaries, references) via systematic research.
+        Defines command-first principle, quality standards, and integration
+        with existing ACP commands.
+      rationale: |
+        Essential context for implementing artifact commands, understanding
+        the command-first principle (executable directives vs passive info),
+        and maintaining quality standards for permanent reference material.
+      applies: acp.design-create, acp.plan, acp.proceed, acp.task-create
