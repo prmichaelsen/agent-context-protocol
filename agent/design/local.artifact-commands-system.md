@@ -413,8 +413,6 @@ See: `https://github.com/org/repo/blob/main/src/file.ts#L42`
 
 ## Future Considerations
 
-- **`@acp.artifact-list`** command — List all artifacts with Last Verified dates, filter by type/category/staleness
-- **`@acp.artifact-search`** command — Full-text search across artifact content
 - **Artifact comparison** — Diff two research artifacts side-by-side for vendor selection
 - **Multi-artifact research** — Research plan spans multiple artifacts automatically (e.g., vendor A, B, C each get separate artifact)
 - **External artifact sources** — Import artifacts from other projects/packages
