@@ -346,11 +346,11 @@ milestones:
     name: Artifact Commands System
     priority: high
     status: in_progress
-    progress: 60
+    progress: 80
     started: 2026-03-17
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 3
+    tasks_completed: 4
     tasks_total: 5
     notes: |
       📋 Milestone 17: Artifact Commands System
@@ -2111,10 +2111,10 @@ tasks:
     - id: task-118
       name: Implement @acp.artifact-reference Command
       priority: high
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-17-artifact-commands/task-118-artifact-reference-command.md
       estimated_hours: 2-3
-      completed_date: null
+      completed_date: 2026-03-17
       notes: |
         Command-first sanity check:
         1. Evaluate: "Could this be a command instead?"
@@ -2285,7 +2285,7 @@ progress:
   M14: 100
   M15: 100
   M16: 100
-  M17: 60
+  M17: 80
 
 recent_work:
   - date: 2026-03-01
