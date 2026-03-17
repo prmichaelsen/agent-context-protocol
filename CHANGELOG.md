@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.23.0] - 2026-03-17
+
+### Added
+- **`@acp.clarification-address` depth modes** — added `--deep` (default) and `--shallow` flags to control research intensity. Deep mode includes web research, MCP tools, tradeoff analysis, and recommendations. Shallow mode provides codebase-only research without analysis, ideal for quick passes.
+- **Interactive response lines** — every agent comment block now includes a blank `>` response line immediately after, allowing users to respond interactively to agent research, analysis, and recommendations.
+- **Recommendation prompts** — when the agent provides a recommendation in `--deep` mode, the comment block ends with "Would you like to accept this recommendation? (yes/no)" to explicitly prompt user feedback.
+
+### Changed
+- **`@acp.clarification-address` version 2.0.0** — unified command now handles both quick research (via `--shallow`) and comprehensive analysis (via `--deep`). Agent responses are always written as HTML comment blocks and never modify `>` response lines.
+
+### Removed
+- **`@acp.clarifications-research` command** — deprecated and removed. Use `@acp.clarification-address --shallow` for equivalent functionality.
+
 ## [6.0.0] - 2026-03-16
 
 ### Breaking Changes

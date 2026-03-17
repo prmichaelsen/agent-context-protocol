@@ -359,8 +359,7 @@ Status: Awaiting Responses
 
 ## Related Commands
 
-- [`@acp.clarification-address`](acp.clarification-address.md) - Address user responses with research, tradeoffs, and recommendations
-- [`@acp.clarifications-research`](acp.clarifications-research.md) - Fill in agent-delegated research lines
+- [`@acp.clarification-address`](acp.clarification-address.md) - Address user responses with research, tradeoffs, and recommendations (use `--shallow` for quick research-only pass)
 - [`@acp.design-create`](acp.design-create.md) - Create design documents (often follows clarification)
 - [`@acp.task-create`](acp.task-create.md) - Create tasks (may use clarification answers)
 - [`@acp.pattern-create`](acp.pattern-create.md) - Create patterns (may use clarification answers)

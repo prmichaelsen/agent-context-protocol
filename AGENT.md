@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 6.0.0
+**Version**: 5.23.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -298,9 +298,8 @@ project:
   current_milestone: M1
 
 milestones:
-  M1:
+  - id: M1
     name: Milestone Name
-    priority: critical | high | medium | low
     file: agent/milestones/milestone-1-name.md
     status: not_started | in_progress | completed
     progress: 0-100%
@@ -313,10 +312,9 @@ milestones:
       Progress notes
 
 tasks:
-  M1:
+  milestone_1:
     - id: task-1
       name: Task Name
-      priority: critical | high | medium | low
       status: not_started | in_progress | completed
       started: ISO-8601 | null
       file: agent/tasks/milestone-{N}-{title}/task-{M}-name.md
