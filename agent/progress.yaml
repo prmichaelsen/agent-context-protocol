@@ -346,11 +346,11 @@ milestones:
     name: Artifact Commands System
     priority: high
     status: in_progress
-    progress: 40
+    progress: 60
     started: 2026-03-17
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 5
     notes: |
       📋 Milestone 17: Artifact Commands System
@@ -2096,10 +2096,10 @@ tasks:
     - id: task-117
       name: Implement @acp.artifact-glossary Command
       priority: high
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-17-artifact-commands/task-117-artifact-glossary-command.md
       estimated_hours: 3-4
-      completed_date: null
+      completed_date: 2026-03-17
       notes: |
         Auto-extraction with interactive refinement:
         1. Scan codebase for terms (classes, interfaces, CamelCase patterns)
@@ -2285,7 +2285,7 @@ progress:
   M14: 100
   M15: 100
   M16: 100
-  M17: 40
+  M17: 60
 
 recent_work:
   - date: 2026-03-01
