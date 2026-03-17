@@ -5,9 +5,9 @@
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document.
 
 **Namespace**: acp
-**Version**: 2.0.0
+**Version**: 2.1.0
 **Created**: 2026-02-16
-**Last Updated**: 2026-02-21
+**Last Updated**: 2026-03-17
 **Status**: Active
 **Scripts**: None
 
@@ -137,7 +137,61 @@ Check command document structure.
 
 **Expected Outcome**: Command docs are valid
 
-### 8. Validate Namespace Conventions
+### 8. Validate Artifact Documents
+
+Check artifact document structure and staleness.
+
+**Actions**:
+- Read all files in `agent/artifacts/` matching `research-*.md`, `glossary-*.md`, `reference-*.md`
+- **Validate metadata block**:
+  - Verify required fields exist: Type, Created, Last Verified, Status, Confidence, Category, Sources
+  - Check Type is one of: research, glossary, reference
+  - Validate Created format (YYYY-MM-DD)
+  - Validate Last Verified format (YYYY-MM-DD)
+  - Check Status is one of: Active, Stale, Deprecated, WIP
+  - Validate Confidence format (High/Medium/Low or score/10)
+  - ERROR if any required field missing
+- **Validate file naming**:
+  - Check format: `{type}-{N}-{title}.md`
+  - Verify N is a number
+  - ERROR if naming doesn't match pattern
+- **Check staleness**:
+  - Calculate days since Last Verified
+  - WARN if Last Verified > 180 days (6 months) and Status is Active
+  - WARN if Status is Stale but Last Verified is recent (< 30 days)
+- **Validate research artifacts**:
+  - Verify Executive Summary exists
+  - Check Key Findings section has citations
+  - Verify Sources & References section exists
+  - WARN if no sources cited
+- **Validate glossary artifacts**:
+  - Check for category tables structure
+  - Verify Alphabetical Index exists
+  - Check Total Terms metadata field matches actual term count
+  - WARN if mismatch
+- **Validate reference artifacts**:
+  - Check for Command-First Principle Check section
+  - Verify Purpose section exists
+  - Check Content section has appropriate structure for reference type
+  - WARN if missing command-first check explanation
+
+**Output format**:
+```
+📚 Artifact Validation:
+  ✓ agent/artifacts/research-1-graphql-federation.md (Active, Last Verified: 2026-03-17)
+  ⚠️ agent/artifacts/research-2-redis-persistence.md (Active, Last Verified: 2025-09-20, STALE: 180+ days)
+  ✓ agent/artifacts/glossary-1-core-terminology.md (Active, 15 terms)
+  ✓ agent/artifacts/reference-1-environment-variables.md (Active, command-first check documented)
+  ⚠️ agent/artifacts/reference-2-troubleshooting.md (Stale status but Last Verified: 2026-03-10, recent)
+
+  Summary: 5 artifacts validated, 2 warnings
+  - 2 potentially stale artifacts (Last Verified > 6 months)
+  - 1 status mismatch (marked Stale but recently verified)
+```
+
+**Expected Outcome**: Artifact docs are valid, staleness warnings issued
+
+### 9. Validate Namespace Conventions
 
 Check namespace usage across all files.
 
@@ -174,7 +228,7 @@ Check namespace usage across all files.
 
 **Expected Outcome**: Namespace conventions validated, errors reported for violations
 
-### 9. Validate Key File Index
+### 10. Validate Key File Index
 
 Check index files in `agent/index/` for schema correctness and referential integrity.
 
@@ -185,7 +239,7 @@ Check index files in `agent/index/` for schema correctness and referential integ
   - Parse the index entries under the top-level key
   - For each entry, verify required fields present: `path`, `weight`, `kind`, `description`, `rationale`, `applies`
   - Validate `weight` is a number in range 0.0-1.0
-  - Validate `kind` is one of: pattern, command, design, requirements
+  - Validate `kind` is one of: pattern, command, design, requirements, artifact
   - Validate `applies` values use fully qualified command names (contain a dot, e.g. `acp.proceed`)
   - Check that each `path` actually exists in the project
   - Warn on missing paths (file may have been moved or deleted)
@@ -202,7 +256,7 @@ Check index files in `agent/index/` for schema correctness and referential integ
 
 **Expected Outcome**: Index files validated for schema and referential integrity
 
-### 10. Check Cross-References
+### 11. Check Cross-References
 
 Validate links between documents.
 
@@ -216,7 +270,7 @@ Validate links between documents.
 
 **Expected Outcome**: All links are valid
 
-### 11. Generate Validation Report
+### 12. Generate Validation Report
 
 Summarize validation results.
 
@@ -241,9 +295,13 @@ Summarize validation results.
 - [ ] All task documents are valid
 - [ ] All pattern documents are valid
 - [ ] All command documents are valid
+- [ ] All artifact documents are valid
+- [ ] Artifact metadata blocks complete
+- [ ] Artifact staleness checked (Last Verified dates)
+- [ ] Artifact file naming validated
 - [ ] Namespace conventions validated
 - [ ] Reserved names checked
-- [ ] Key file index validated (schema, paths, limits)
+- [ ] Key file index validated (schema, paths, limits, artifact kind supported)
 - [ ] No broken internal links
 - [ ] Validation report generated
 

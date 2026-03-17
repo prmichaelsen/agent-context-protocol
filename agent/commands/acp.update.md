@@ -3,9 +3,9 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.update` has been invoked. Follow the steps below to execute this command.
 
 **Namespace**: acp
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Created**: 2026-02-16
-**Last Updated**: 2026-02-16
+**Last Updated**: 2026-03-17
 **Status**: Active
 **Scripts**: None
 
@@ -129,7 +129,25 @@ Update the `current_blockers` list.
 
 **Expected Outcome**: Blockers list is accurate
 
-### 8. Save Changes
+### 8. Check Artifact Health
+
+Assess artifact staleness for project health reporting.
+
+**Actions**:
+- If `agent/artifacts/` directory exists:
+  - List all artifact files (research, glossary, reference)
+  - Parse Last Verified dates from metadata
+  - Calculate days since last verification
+  - Identify stale artifacts (Last Verified > 180 days)
+  - Count total artifacts vs stale artifacts
+- Add artifact health note to recent work entry:
+  - If stale artifacts found: "⚠️ {count} artifacts stale (Last Verified > 6 months)"
+  - If all current: "✓ All artifacts current"
+  - If no artifacts: Skip artifact health note
+
+**Expected Outcome**: Artifact health assessed and noted in recent work
+
+### 9. Save Changes
 
 Write updated progress.yaml back to disk.
 
@@ -149,6 +167,7 @@ Write updated progress.yaml back to disk.
 - [ ] Task statuses reflect completed work
 - [ ] Milestone progress percentages are accurate
 - [ ] Recent work entry added with today's date
+- [ ] Artifact health checked and noted in recent work (if artifacts exist)
 - [ ] Next steps list is current and actionable
 - [ ] Blockers list is accurate
 - [ ] YAML syntax is valid
@@ -176,6 +195,7 @@ Reading current progress...
 Updating progress...
 ✓ Marked task-5 as completed
 ✓ Updated milestone progress: 40% → 60%
+✓ Checked artifact health: 3 artifacts, all current
 ✓ Added recent work entry (2026-02-16)
 ✓ Updated next steps
 ✓ No new blockers

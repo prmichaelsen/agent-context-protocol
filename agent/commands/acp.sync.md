@@ -3,9 +3,9 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.sync` has been invoked. Follow the steps below to execute this command.
 
 **Namespace**: acp
-**Version**: 1.1.0
+**Version**: 1.2.0
 **Created**: 2026-02-16
-**Last Updated**: 2026-02-18
+**Last Updated**: 2026-03-17
 **Status**: Active
 **Scripts**: None
 
@@ -65,7 +65,20 @@ Review task documents to understand documented implementation approach.
 
 **Expected Outcome**: Documented implementation approach understood
 
-### 3. Read Source Code
+### 3. Read Artifact Documents
+
+Review artifact documents to understand committed reference material.
+
+**Actions**:
+- Read all files in `agent/artifacts/` (research, glossary, reference)
+- Note **Last Verified** dates for each artifact
+- Parse artifact metadata (Created, Status, Confidence, Category)
+- Identify artifact claims (findings, terms, standards, diagrams, schemas)
+- Flag artifacts with Last Verified > 6 months old as potentially stale
+
+**Expected Outcome**: Artifact inventory with staleness indicators
+
+### 4. Read Source Code
 
 Review actual implementation in source files.
 
@@ -78,10 +91,11 @@ Review actual implementation in source files.
 - Document actual file structures
 - Check which functions/utilities are actually implemented
 - **Compare implementation approach with task document examples**
+- **Note new terms, patterns, or concepts not in glossaries**
 
 **Expected Outcome**: Actual implementation understood
 
-### 4. Compare Documentation vs Reality
+### 5. Compare Documentation vs Reality
 
 Identify discrepancies between docs and code.
 
@@ -96,10 +110,14 @@ Identify discrepancies between docs and code.
 - Note undocumented features in code
 - Identify documented features not yet implemented
 - **Flag task documents with outdated code examples**
+- **Compare artifact claims with current codebase**:
+  - **Research artifacts**: Verify findings still apply (technology versions, benchmarks, recommendations)
+  - **Glossary artifacts**: Check for new terms in code not in glossary, verify existing definitions
+  - **Reference artifacts**: Verify config tables, standards, schemas match current code
 
-**Expected Outcome**: Documentation drift identified (including implementation details)
+**Expected Outcome**: Documentation drift identified (including implementation details and artifact staleness)
 
-### 5. Identify Stale Documentation
+### 6. Identify Stale Documentation
 
 Determine which documents need updates.
 
@@ -110,11 +128,16 @@ Determine which documents need updates.
 - Identify missing documentation for new features
 - Flag incorrect technical specifications
 - **Flag task documents referencing wrong tools (e.g., yq vs acp.yaml-parser.sh)**
+- **Flag stale artifacts**:
+  - Research artifacts with outdated version numbers or deprecated recommendations
+  - Glossary artifacts missing new terms from codebase
+  - Reference artifacts with incorrect config tables, standards, or schemas
+  - Artifacts with Last Verified > 6 months ago
 - Prioritize updates by importance
 
-**Expected Outcome**: Update priorities established
+**Expected Outcome**: Update priorities established (including artifact refresh needs)
 
-### 6. Update Design Documents
+### 7. Update Design Documents
 
 Refresh design documents to match reality.
 
@@ -128,7 +151,7 @@ Refresh design documents to match reality.
 
 **Expected Outcome**: Design docs reflect reality
 
-### 7. Update Task Documents
+### 8. Update Task Documents
 
 Refresh task documents to match actual implementation.
 
@@ -142,7 +165,7 @@ Refresh task documents to match actual implementation.
 
 **Expected Outcome**: Task docs reflect actual implementation approach
 
-### 8. Update Pattern Documents
+### 9. Update Pattern Documents
 
 Refresh patterns to match actual usage.
 
@@ -155,7 +178,33 @@ Refresh patterns to match actual usage.
 
 **Expected Outcome**: Patterns match actual usage
 
-### 9. Document New Features
+### 10. Update Artifact Documents
+
+Refresh artifacts to match current codebase and technology landscape.
+
+**Actions**:
+- **Research artifacts**:
+  - Verify technology versions still current
+  - Check if recommendations still apply
+  - Update Last Verified date if validated
+  - Mark as Stale if outdated (triggers user to refresh or deprecate)
+- **Glossary artifacts**:
+  - Add new terms discovered in codebase (use `@acp.artifact-glossary --update`)
+  - Verify existing definitions still accurate
+  - Update Last Verified date
+- **Reference artifacts**:
+  - Update config tables to match current .env files
+  - Update standards to match current code style
+  - Update schemas to match current data models
+  - Update Last Verified date
+- **General**:
+  - Flag artifacts as Stale if Last Verified > 6 months and changes detected
+  - Suggest `@acp.artifact-research` re-run for outdated research
+  - Update artifact metadata (Last Verified, Status, Confidence if changed)
+
+**Expected Outcome**: Artifacts current with codebase
+
+### 11. Document New Features
 
 Add documentation for undocumented features.
 
@@ -168,15 +217,16 @@ Add documentation for undocumented features.
 
 **Expected Outcome**: All features documented
 
-### 10. Update Progress Tracking
+### 12. Update Progress Tracking
 
 Update progress.yaml to reflect sync activity.
 
 **Actions**:
 - Add recent work entry for sync
-- Note what was updated
+- Note what was updated (including artifacts refreshed)
 - Update documentation counts if needed
 - Add notes about documentation status
+- Note artifact staleness warnings
 
 **Expected Outcome**: Sync activity tracked
 
@@ -186,16 +236,19 @@ Update progress.yaml to reflect sync activity.
 
 - [ ] All design documents reviewed
 - [ ] **All task documents reviewed for code examples**
+- [ ] **All artifact documents reviewed for staleness**
 - [ ] Source code reviewed and compared
 - [ ] **Scripts reviewed for actual tool usage (acp.yaml-parser.sh vs yq, etc.)**
-- [ ] Documentation drift identified
+- [ ] Documentation drift identified (including artifact staleness)
 - [ ] **Task document code examples checked against actual scripts**
+- [ ] **Artifact claims checked against current codebase**
 - [ ] Stale documents updated
 - [ ] **Task documents updated to match actual implementation**
+- [ ] **Artifacts refreshed (Last Verified dates updated, new terms added, config tables updated)**
 - [ ] New features documented
 - [ ] Pattern documents current
 - [ ] Code examples work correctly
-- [ ] progress.yaml updated with sync notes
+- [ ] progress.yaml updated with sync notes (including artifact refresh activity)
 
 ---
 
