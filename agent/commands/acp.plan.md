@@ -333,15 +333,24 @@ Next Steps:
 
 **Expected Outcome**: User understands what was created
 
-### 9. Commit Planning Artifacts
+### 9. Commit Planning Artifacts (MANDATORY)
+
+> **⚠️ CRITICAL**: This step is NOT optional. You MUST commit planning artifacts before proceeding to Step 10. Do NOT skip this step. Do NOT ask the user whether to commit. Do NOT defer the commit to a later time. Planning is not complete until artifacts are committed.
 
 Commit all created planning documents and progress.yaml updates.
 
 **Actions**:
-- Invoke `@git.commit` to commit the planning artifacts
-- Include all created milestone documents, task documents, design documents, drafts, and progress.yaml updates
+- Stage all files created or modified during planning:
+  - Milestone documents (`agent/milestones/milestone-*.md`)
+  - Task documents (`agent/tasks/**/task-*.md`)
+  - Design documents (`agent/design/*.md`) if created
+  - Draft files (`agent/drafts/*.md`) if created
+  - Clarification files (`agent/clarifications/*.md`) if created
+  - `agent/progress.yaml`
+- Invoke `@git.commit` with a message summarizing what was planned (e.g., `plan(M18): create milestone and 5 tasks for Feature X`)
+- Verify the commit succeeded before moving to Step 10
 
-**Expected Outcome**: Planning artifacts committed to version control
+**Expected Outcome**: All planning artifacts committed to version control. `git status` shows clean working tree for planned files.
 
 ### 10. Offer Next Actions
 
@@ -369,6 +378,7 @@ Prompt user for next action:
 - [ ] Orphaned tasks placed in unassigned/ folder
 - [ ] progress.yaml updated with all new items
 - [ ] Planning report generated
+- [ ] **Planning artifacts committed via `@git.commit` (MANDATORY — do not skip)**
 - [ ] Next actions offered
 
 ---

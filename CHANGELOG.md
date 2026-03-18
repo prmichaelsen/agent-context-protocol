@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.1] - 2026-03-18
+
+### Changed
+- **`@acp.plan` Step 9 hardened** — auto-commit of planning artifacts is now marked MANDATORY with explicit warning directive. Agents must commit without asking and verify success before proceeding. Added enumerated file list for staging and commit message example.
+
 ## [5.23.0] - 2026-03-17
 
 ### Added
