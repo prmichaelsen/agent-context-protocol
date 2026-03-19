@@ -5,7 +5,7 @@ current_milestone: M1
 milestones:
   M1:
     name: MVP
-    priority: medium
+    priority: 5
     status: in_progress
     progress: 20
     tasks_completed: 0
@@ -19,35 +19,35 @@ tasks:
   M1:
     - id: task-1
       name: Implement Task CRUD
-      priority: medium
+      priority: 5
       status: not_started
       file: agent/tasks/task-1-complete-task-crud.md
       estimated_hours: 3
 
     - id: task-2
       name: Implement Project CRUD
-      priority: medium
+      priority: 5
       status: not_started
       file: agent/tasks/task-2-complete-project-crud.md
       estimated_hours: 2
 
     - id: task-3
       name: Comprehensive Test Suite
-      priority: medium
+      priority: 5
       status: not_started
       file: agent/tasks/task-3-add-tests.md
       estimated_hours: 4
 
     - id: task-4
       name: Notification System
-      priority: medium
+      priority: 5
       status: not_started
       file: agent/tasks/task-4-notifications.md
       estimated_hours: 3
 
     - id: task-5
       name: API Documentation
-      priority: medium
+      priority: 5
       status: not_started
       file: agent/tasks/task-5-documentation.md
       estimated_hours: 2

@@ -15,6 +15,7 @@ project:
 milestones:
   - id: M1                              # Unique milestone identifier
     name: Milestone Name                # Descriptive name
+    priority: 0                         # Roadmap priority (0 = highest, ascending). Visualizers render as P0, P1, etc.
     file: agent/milestones/milestone-1-name.md  # Path to milestone document
     status: not_started                 # not_started | in_progress | completed
     progress: 0                         # Percentage complete (0-100)
@@ -28,6 +29,7 @@ milestones:
 
   - id: M2
     name: Second Milestone Name
+    priority: 1                         # Roadmap priority (0 = highest, ascending)
     file: agent/milestones/milestone-2-second-milestone-name.md  # Path to milestone document
     status: not_started
     progress: 0
@@ -44,6 +46,7 @@ tasks:
   milestone_1:                          # Group tasks by milestone
     - id: task-1                        # Unique task identifier
       name: Task Name                   # Descriptive task name
+      priority: 0                       # Roadmap priority (0 = highest, ascending). Visualizers render as P0, P1, etc.
       status: not_started               # not_started | in_progress | completed
       started: null                     # ISO 8601 timestamp when work began (auto-set on in_progress)
       file: agent/tasks/task-1-name.md  # Path to task document
@@ -55,6 +58,7 @@ tasks:
     
     - id: task-2
       name: Second Task Name
+      priority: 1                       # Roadmap priority (0 = highest, ascending)
       status: not_started
       started: null
       file: agent/tasks/task-2-name.md
@@ -67,6 +71,7 @@ tasks:
   milestone_2:
     - id: task-3
       name: Third Task Name
+      priority: 0                       # Roadmap priority (0 = highest, ascending)
       status: not_started
       started: null
       file: agent/tasks/task-3-name.md

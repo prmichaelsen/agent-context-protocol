@@ -61,14 +61,10 @@ fields:
         required: true
         description: "Descriptive milestone name"
       priority:
-        type: string
+        type: number
         required: true
-        enum:
-          - critical
-          - high
-          - medium
-          - low
-        description: "Milestone priority (critical, high, medium, low)"
+        min: 0
+        description: "Milestone priority for roadmap planning (0 = highest priority, ascending)"
       file:
         type: string
         required: false
@@ -130,14 +126,10 @@ fields:
         required: true
         description: "Descriptive task name"
       priority:
-        type: string
+        type: number
         required: true
-        enum:
-          - critical
-          - high
-          - medium
-          - low
-        description: "Task priority (critical, high, medium, low)"
+        min: 0
+        description: "Task priority for roadmap planning (0 = highest priority, ascending)"
       status:
         type: string
         required: true

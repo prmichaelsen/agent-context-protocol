@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **`agent/schemas/progress.schema.yaml`** — formal schema definition for progress.yaml files. Defines required fields, types, enums, and patterns for project metadata, milestones, tasks, and all optional sections.
-- **`priority` field (required)** — milestones and tasks now require a `priority:` field with values `critical`, `high`, `medium`, or `low`. Added to schema, templates, AGENT.md, command directives, and all existing data.
+- **`priority` field (required)** — milestones and tasks now require a numeric `priority:` field (0 = highest priority, ascending). Visualizers render as P0, P1, etc. Added to schema, templates, AGENT.md, command directives, and all existing data.
 
 ### Fixed
 - **Duplicate `milestone_3` key** — task-50 (Package Search Default Topic Filter) was under a second `milestone_3:` block; merged into the canonical M3 section.

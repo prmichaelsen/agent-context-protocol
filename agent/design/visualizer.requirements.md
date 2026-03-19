@@ -113,7 +113,7 @@ interface ProjectMetadata {
 
 interface Milestone {
   name: string;
-  priority: 'critical' | 'high' | 'medium' | 'low';
+  priority: number;  // 0 = highest priority, ascending. Render as P0, P1, etc.
   status: 'completed' | 'in_progress' | 'not_started';
   progress: number;
   started: string | null;
@@ -127,7 +127,7 @@ interface Milestone {
 interface Task {
   id: string;
   name: string;
-  priority: 'critical' | 'high' | 'medium' | 'low';
+  priority: number;  // 0 = highest priority, ascending. Render as P0, P1, etc.
   status: 'completed' | 'in_progress' | 'not_started';
   started: string | null;            // ISO 8601 timestamp
   file: string;
