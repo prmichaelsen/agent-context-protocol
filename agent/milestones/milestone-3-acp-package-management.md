@@ -4,7 +4,7 @@
 **Duration**: 5-7 weeks  
 **Dependencies**: None  
 **Status**: Not Started  
-**Design Document**: [`agent/design/acp-package-management-system.md`](../design/acp-package-management-system.md)
+**Design Document**: [`agent/design/acp-package-management-system.md`](../design/acp-package-management-system.md)  
 
 ---
 
@@ -114,7 +114,7 @@ agent-context-protocol/
 ### Task 5: Manifest System Implementation
 **Estimated Time**: 6-8 hours  
 **Priority**: High  
-**Description**: Create manifest structure and enhance package-acp.install.sh to write manifest
+**Description**: Create manifest structure and enhance package-acp.install.sh to write manifest  
 
 **Deliverables**:
 - `agent/manifest.yaml` structure and schema
@@ -125,7 +125,7 @@ agent-context-protocol/
 ### Task 6: Selective Installation
 **Estimated Time**: 4-6 hours  
 **Priority**: High  
-**Description**: Implement selective installation by type and file
+**Description**: Implement selective installation by type and file  
 
 **Deliverables**:
 - `--patterns`, `--commands`, `--designs` flags
@@ -136,7 +136,7 @@ agent-context-protocol/
 ### Task 7: Update System
 **Estimated Time**: 5-7 hours  
 **Priority**: High  
-**Description**: Implement package update system with conflict detection
+**Description**: Implement package update system with conflict detection  
 
 **Deliverables**:
 - `@acp.package-update` command
@@ -148,7 +148,7 @@ agent-context-protocol/
 ### Task 8: Package List Command
 **Estimated Time**: 2-3 hours  
 **Priority**: Medium  
-**Description**: Implement package listing command
+**Description**: Implement package listing command  
 
 **Deliverables**:
 - `@acp.package-list` command
@@ -158,7 +158,7 @@ agent-context-protocol/
 ### Task 9: Package Remove Command
 **Estimated Time**: 3-4 hours  
 **Priority**: Medium  
-**Description**: Implement package removal command
+**Description**: Implement package removal command  
 
 **Deliverables**:
 - `@acp.package-remove` command
@@ -169,7 +169,7 @@ agent-context-protocol/
 ### Task 10: Package Info Command
 **Estimated Time**: 2-3 hours  
 **Priority**: Low  
-**Description**: Implement package info display command
+**Description**: Implement package info display command  
 
 **Deliverables**:
 - `@acp.package-info` command
@@ -179,7 +179,7 @@ agent-context-protocol/
 ### Task 11: Package Search Command
 **Estimated Time**: 6-8 hours  
 **Priority**: High  
-**Description**: Implement GitHub API-based package discovery
+**Description**: Implement GitHub API-based package discovery  
 
 **Deliverables**:
 - `@acp.package-search` command
@@ -191,7 +191,7 @@ agent-context-protocol/
 ### Task 12: Dependency Checking
 **Estimated Time**: 3-4 hours  
 **Priority**: Medium  
-**Description**: Implement project dependency compatibility checking
+**Description**: Implement project dependency compatibility checking  
 
 **Deliverables**:
 - Dependency detection (npm/pip/cargo)
@@ -246,7 +246,7 @@ agent-context-protocol/
 ## Risks & Mitigations
 
 ### Risk 1: GitHub API Rate Limits
-**Risk**: 60 requests/hour without authentication
+**Risk**: 60 requests/hour without authentication  
 
 **Mitigation**:
 - Cache search results locally
@@ -255,7 +255,7 @@ agent-context-protocol/
 - Batch requests where possible
 
 ### Risk 2: Manifest Corruption
-**Risk**: Manifest file could become corrupted
+**Risk**: Manifest file could become corrupted  
 
 **Mitigation**:
 - Validate YAML before writing
@@ -264,7 +264,7 @@ agent-context-protocol/
 - Version manifest format for future changes
 
 ### Risk 3: Checksum Mismatches
-**Risk**: False positives for file modifications
+**Risk**: False positives for file modifications  
 
 **Mitigation**:
 - Use SHA-256 (collision-resistant)
@@ -273,7 +273,7 @@ agent-context-protocol/
 - Show diff for verification
 
 ### Risk 4: Breaking Changes to Existing Workflow
-**Risk**: New system disrupts current package-install
+**Risk**: New system disrupts current package-install  
 
 **Mitigation**:
 - Maintain backward compatibility
@@ -285,7 +285,7 @@ agent-context-protocol/
 
 ## Next Milestone
 
-**Milestone 4**: ACP Package Ecosystem
+**Milestone 4**: ACP Package Ecosystem  
 - Create initial package repositories (acp-firebase, acp-mcp-integration, acp-oauth)
 - Publish packages to GitHub
 - Add `acp-package` topics
@@ -297,4 +297,4 @@ agent-context-protocol/
 **Status**: Ready to begin  
 **Estimated Duration**: 5-7 weeks  
 **Estimated Effort**: 31-43 hours  
-**Priority**: High
+**Priority**: High  

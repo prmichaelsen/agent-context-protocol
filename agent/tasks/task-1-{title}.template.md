@@ -1,10 +1,10 @@
 # Task {N}: {Descriptive Task Name}
 
-**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)
-**Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None
-**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]
-**Dependencies**: [List prerequisite tasks, or "None"]
-**Status**: Not Started | In Progress | Completed
+**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)  
+**Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None  
+**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]  
+**Dependencies**: [List prerequisite tasks, or "None"]  
+**Status**: Not Started | In Progress | Completed  
 
 ---
 
@@ -12,7 +12,7 @@
 
 [Clearly state what this task accomplishes. Be specific and focused on a single, achievable goal.]
 
-**Example**: "Create the basic project structure with all necessary configuration files and directory organization for a TypeScript-based MCP server."
+**Example**: "Create the basic project structure with all necessary configuration files and directory organization for a TypeScript-based MCP server."  
 
 ---
 
@@ -20,7 +20,7 @@
 
 [Provide background information that helps understand why this task is necessary and how it fits into the larger milestone.]
 
-**Example**: "This task establishes the foundation for the project. Without proper structure and configuration, subsequent development tasks cannot proceed. The structure follows industry best practices for TypeScript projects and MCP server organization."
+**Example**: "This task establishes the foundation for the project. Without proper structure and configuration, subsequent development tasks cannot proceed. The structure follows industry best practices for TypeScript projects and MCP server organization."  
 
 ---
 
@@ -190,22 +190,22 @@ project-root/
 [Document potential problems and how to resolve them:]
 
 ### Issue 1: [Problem description]
-**Symptom**: [What the user will see]
-**Solution**: [How to fix it]
+**Symptom**: [What the user will see]  
+**Solution**: [How to fix it]  
 
 ### Issue 2: [Problem description]
-**Symptom**: [What the user will see]
-**Solution**: [How to fix it]
+**Symptom**: [What the user will see]  
+**Solution**: [How to fix it]  
 
 **Example**:
 
 ### Issue 1: npm init fails
-**Symptom**: Error message about permissions or missing npm
-**Solution**: Ensure Node.js and npm are installed correctly. Run `node --version` and `npm --version` to verify.
+**Symptom**: Error message about permissions or missing npm  
+**Solution**: Ensure Node.js and npm are installed correctly. Run `node --version` and `npm --version` to verify.  
 
 ### Issue 2: TypeScript configuration errors
-**Symptom**: tsc complains about invalid configuration
-**Solution**: Validate JSON syntax in tsconfig.json. Ensure all required fields are present.
+**Symptom**: tsc complains about invalid configuration  
+**Solution**: Validate JSON syntax in tsconfig.json. Ensure all required fields are present.  
 
 ---
 
@@ -239,6 +239,6 @@ project-root/
 
 ---
 
-**Next Task**: [Link to next task: task-{N+1}-{name}.md]
-**Related Design Docs**: [Links to relevant design documents]
-**Estimated Completion Date**: [YYYY-MM-DD or "TBD"]
+**Next Task**: [Link to next task: task-{N+1}-{name}.md]  
+**Related Design Docs**: [Links to relevant design documents]  
+**Estimated Completion Date**: [YYYY-MM-DD or "TBD"]  

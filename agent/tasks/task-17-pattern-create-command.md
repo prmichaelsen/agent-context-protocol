@@ -1,9 +1,9 @@
 # Task 17: @acp.pattern-create Command
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 6-8 hours
-**Dependencies**: Task 14 (YAML Schema), Task 15 (Namespace Utilities), Task 16 (README Utilities)
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: Task 14 (YAML Schema), Task 15 (Namespace Utilities), Task 16 (README Utilities)  
+**Status**: Not Started  
 
 ---
 
@@ -40,7 +40,7 @@ Create agent/commands/acp.pattern-create.md:
 - Troubleshooting
 - Security considerations
 
-**Expected Outcome**: Complete command documentation
+**Expected Outcome**: Complete command documentation  
 
 ### 2. Implement acp.pattern-create.sh Script
 
@@ -67,7 +67,7 @@ Create agent/scripts/acp.pattern-create.sh:
    - Update README.md
 10. Report success
 
-**Expected Outcome**: Working script
+**Expected Outcome**: Working script  
 
 ### 3. Implement Draft File Support
 
@@ -95,7 +95,7 @@ create_clarification_from_draft() {
 }
 ```
 
-**Expected Outcome**: Draft files can be processed
+**Expected Outcome**: Draft files can be processed  
 
 ### 4. Implement Clarification Workflow
 
@@ -109,7 +109,7 @@ Add clarification creation and processing:
 - Read answered clarification
 - Generate pattern from answers
 
-**Expected Outcome**: Clarification workflow works
+**Expected Outcome**: Clarification workflow works  
 
 ### 5. Implement Package Updates
 
@@ -121,7 +121,7 @@ Add package.yaml and README updates:
 - Set version to 1.0.0
 - Update README.md via update_readme_contents()
 
-**Expected Outcome**: Package files updated automatically
+**Expected Outcome**: Package files updated automatically  
 
 ### 6. Test Pattern Creation
 
@@ -137,7 +137,7 @@ Test all scenarios:
 - Test README.md updates
 - Test namespace enforcement
 
-**Expected Outcome**: All scenarios work correctly
+**Expected Outcome**: All scenarios work correctly  
 
 ---
 
@@ -157,5 +157,5 @@ Test all scenarios:
 
 ---
 
-**Next Task**: [Task 18: @acp.command-create Command](task-18-command-create-command.md)
-**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)
+**Next Task**: [Task 18: @acp.command-create Command](task-18-command-create-command.md)  
+**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)  

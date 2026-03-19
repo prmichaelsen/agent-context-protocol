@@ -1,10 +1,10 @@
 # Task 91: Sessions Infrastructure
 
-**Milestone**: M12 — Sessions System
-**Status**: Not Started
-**Estimated Hours**: 4-6
-**Dependencies**: None
-**Design**: [local.sessions-system.md](../../design/local.sessions-system.md)
+**Milestone**: M12 — Sessions System  
+**Status**: Not Started  
+**Estimated Hours**: 4-6  
+**Dependencies**: None  
+**Design**: [local.sessions-system.md](../../design/local.sessions-system.md)  
 
 ---
 

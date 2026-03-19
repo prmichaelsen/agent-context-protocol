@@ -1,9 +1,9 @@
 # Task 84: Report & Dashboard Enhancement
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 4-5 hours
-**Dependencies**: Task 79 (metrics), Task 83 (evaluator scores)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 4-5 hours  
+**Dependencies**: Task 79 (metrics), Task 83 (evaluator scores)  
+**Status**: Not Started  
 
 ---
 
@@ -58,4 +58,4 @@ Current reports handle single-task, single-run data. The design spec calls for c
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md (Report Generation)
+**Related Design Docs**: agent/design/local.benchmark-suite.md (Report Generation)  

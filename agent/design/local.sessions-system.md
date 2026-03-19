@@ -1,8 +1,8 @@
 # ACP Sessions System
 
-**Concept**: Global session tracking for concurrent multi-project agent work from a single IDE instance
-**Created**: 2026-03-01
-**Status**: Implemented
+**Concept**: Global session tracking for concurrent multi-project agent work from a single IDE instance  
+**Created**: 2026-03-01  
+**Status**: Implemented  
 
 ---
 
@@ -12,7 +12,7 @@ The ACP Sessions System provides lightweight, advisory tracking of active agent 
 
 This is not a coordination or locking mechanism. It is a visibility layer: agents can see sibling sessions, users can list active work from any terminal, and stale sessions are automatically cleaned up.
 
-**Primary pain point**: Running many remote sessions consumes excessive memory and causes connection interruptions. Working from a single IDE instance with multiple local terminals is more stable, but agents lose cross-project awareness. Sessions.yaml restores that awareness.
+**Primary pain point**: Running many remote sessions consumes excessive memory and causes connection interruptions. Working from a single IDE instance with multiple local terminals is more stable, but agents lose cross-project awareness. Sessions.yaml restores that awareness.  
 
 ---
 
@@ -30,7 +30,7 @@ This is not a coordination or locking mechanism. It is a visibility layer: agent
 
 A single global file at `~/.acp/sessions.yaml` that tracks active sessions. Sessions are registered at `@acp.init` and deregistered at `@acp.report` or via timeout. A dedicated `@acp.sessions` command provides full session management.
 
-**Key design constraint**: The sessions system is self-contained in `acp.sessions.sh`. Existing stable commands (`@acp.init`, `@acp.proceed`, `@acp.status`, `@acp.report`) do NOT depend on sessions.yaml or the sessions script. Integration with those commands happens at the command-directive level (markdown instructions), not at the shell-script level.
+**Key design constraint**: The sessions system is self-contained in `acp.sessions.sh`. Existing stable commands (`@acp.init`, `@acp.proceed`, `@acp.status`, `@acp.report`) do NOT depend on sessions.yaml or the sessions script. Integration with those commands happens at the command-directive level (markdown instructions), not at the shell-script level.  
 
 ### Alternatives Considered
 
@@ -220,8 +220,8 @@ No migration needed. This is a new feature with a new file (`~/.acp/sessions.yam
 
 ---
 
-**Status**: Implemented
-**Recommendation**: M12 milestone complete — sessions system implemented
+**Status**: Implemented  
+**Recommendation**: M12 milestone complete — sessions system implemented  
 **Related Documents**:
 - [Clarification 3: Sessions YAML](../clarifications/clarification-3-sessions-yaml.md)
 - [Clarification 4: Sessions YAML Open Questions](../clarifications/clarification-4-sessions-yaml-open-qs.md)

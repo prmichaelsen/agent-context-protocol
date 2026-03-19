@@ -1,9 +1,9 @@
 # Task 70: Optimize Package Install Performance
 
-**Milestone**: [M3 - ACP Package Management System](../milestones/milestone-3-acp-package-management.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M3 - ACP Package Management System](../milestones/milestone-3-acp-package-management.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -64,7 +64,7 @@ Review the profiling data and identify root causes:
 - **Subprocess overhead**: Excessive forking for simple operations
 - **File I/O**: Multiple reads of the same files
 
-**Expected Findings**: Document which operations consume the most time
+**Expected Findings**: Document which operations consume the most time  
 
 ### 3. Implement Batch Operations
 
@@ -130,7 +130,7 @@ Measure improvements and verify correctness:
 - Verify checksums are correct
 - Test with various package sizes (1 file, 10 files, 50 files)
 
-**Target**: Achieve at least 10x speedup (e.g., 10 seconds → 1 second)
+**Target**: Achieve at least 10x speedup (e.g., 10 seconds → 1 second)  
 
 ### 8. Update Documentation
 
@@ -197,23 +197,23 @@ Total time: <1 second
 
 ### Issue 1: Checksums don't match after optimization
 
-**Symptom**: Manifest checksums differ from file checksums
-**Solution**: Ensure batch checksum processing preserves file-to-checksum mapping correctly. Verify with `sha256sum -c`.
+**Symptom**: Manifest checksums differ from file checksums  
+**Solution**: Ensure batch checksum processing preserves file-to-checksum mapping correctly. Verify with `sha256sum -c`.  
 
 ### Issue 2: Manifest corruption
 
-**Symptom**: manifest.yaml becomes invalid after batch update
-**Solution**: Validate YAML structure before writing. Use `yaml_write()` correctly with proper escaping.
+**Symptom**: manifest.yaml becomes invalid after batch update  
+**Solution**: Validate YAML structure before writing. Use `yaml_write()` correctly with proper escaping.  
 
 ### Issue 3: Progress indicators slow down installation
 
-**Symptom**: Adding progress makes it slower
-**Solution**: Update progress every N files (e.g., every 5), not every file. Use efficient echo without subshells.
+**Symptom**: Adding progress makes it slower  
+**Solution**: Update progress every N files (e.g., every 5), not every file. Use efficient echo without subshells.  
 
 ### Issue 4: Batch operations fail with many files
 
-**Symptom**: "Argument list too long" error
-**Solution**: Process files in chunks (e.g., 100 at a time) if dealing with very large packages.
+**Symptom**: "Argument list too long" error  
+**Solution**: Process files in chunks (e.g., 100 at a time) if dealing with very large packages.  
 
 ---
 
@@ -237,6 +237,6 @@ Total time: <1 second
 
 ---
 
-**Next Task**: [Task 71: TBD]
-**Related Design Docs**: [ACP Package Management System](../design/acp-package-management-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 71: TBD]  
+**Related Design Docs**: [ACP Package Management System](../design/acp-package-management-system.md)  
+**Estimated Completion Date**: TBD  

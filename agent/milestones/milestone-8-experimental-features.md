@@ -1,9 +1,9 @@
 # Milestone 8: Experimental Features System
 
-**Goal**: Implement system for marking and managing experimental features with --experimental flag
-**Duration**: 1-2 weeks
-**Dependencies**: Milestone 3 (Package Management System), Milestone 4 (Package Development System)
-**Status**: Not Started
+**Goal**: Implement system for marking and managing experimental features with --experimental flag  
+**Duration**: 1-2 weeks  
+**Dependencies**: Milestone 3 (Package Management System), Milestone 4 (Package Development System)  
+**Status**: Not Started  
 
 ---
 
@@ -143,10 +143,10 @@ This milestone implements a comprehensive system for marking commands, patterns,
 - Testing and refinement (2-3 hours)
 - CHANGELOG and version bump (1 hour)
 
-**Total Estimated**: 13-18 hours (1-2 weeks)
+**Total Estimated**: 13-18 hours (1-2 weeks)  
 
 ---
 
-**Next Milestone**: TBD (Future enhancements: --list-experimental, graduation workflow, deprecation system)
-**Blockers**: None
-**Related Design**: [`agent/design/local.experimental-features-system.md`](../design/local.experimental-features-system.md)
+**Next Milestone**: TBD (Future enhancements: --list-experimental, graduation workflow, deprecation system)  
+**Blockers**: None  
+**Related Design**: [`agent/design/local.experimental-features-system.md`](../design/local.experimental-features-system.md)  

@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-search` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Scripts**: acp.package-search.sh, acp.common.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Scripts**: acp.package-search.sh, acp.common.sh  
 
 ---
 
-**Purpose**: Discover ACP packages on GitHub using the GitHub API
-**Category**: Package Discovery
-**Frequency**: As Needed
+**Purpose**: Discover ACP packages on GitHub using the GitHub API  
+**Category**: Package Discovery  
+**Frequency**: As Needed  
 
 ---
 
@@ -58,7 +58,7 @@ Execute the search script with your query.
   ./agent/scripts/acp.package-search.sh --sort updated --limit 5
   ```
 
-**Expected Outcome**: Search results displayed
+**Expected Outcome**: Search results displayed  
 
 ### 2. Review Search Results
 
@@ -71,7 +71,7 @@ Analyze the displayed packages.
 - Note tags (technology indicators)
 - Identify relevant packages for your project
 
-**Expected Outcome**: Suitable packages identified
+**Expected Outcome**: Suitable packages identified  
 
 ### 3. Install Selected Package
 
@@ -82,7 +82,7 @@ Use the provided installation command.
 - Run `@acp.package-install <url>` with the package URL
 - Follow installation prompts
 
-**Expected Outcome**: Package installed successfully
+**Expected Outcome**: Package installed successfully  
 
 ---
 
@@ -162,43 +162,43 @@ To install a package:
 
 ### Example 1: Search by Keyword
 
-**Context**: Looking for Firebase-related packages
+**Context**: Looking for Firebase-related packages  
 
-**Invocation**: `@acp.package-search firebase`
+**Invocation**: `@acp.package-search firebase`  
 
-**Result**: Shows 3 packages with firebase in name/description/tags, sorted by stars
+**Result**: Shows 3 packages with firebase in name/description/tags, sorted by stars  
 
 ### Example 2: Filter by Tag
 
-**Context**: Need OAuth authentication patterns
+**Context**: Need OAuth authentication patterns  
 
-**Invocation**: `@acp.package-search oauth --tag authentication`
+**Invocation**: `@acp.package-search oauth --tag authentication`  
 
-**Result**: Shows packages tagged with both "oauth" and "authentication"
+**Result**: Shows packages tagged with both "oauth" and "authentication"  
 
 ### Example 3: Browse User's Packages
 
-**Context**: Want to see all packages from specific author
+**Context**: Want to see all packages from specific author  
 
-**Invocation**: `@acp.package-search --user prmichaelsen`
+**Invocation**: `@acp.package-search --user prmichaelsen`  
 
-**Result**: Shows all acp-package repos from prmichaelsen
+**Result**: Shows all acp-package repos from prmichaelsen  
 
 ### Example 4: Find Recent Packages
 
-**Context**: Want to see recently updated packages
+**Context**: Want to see recently updated packages  
 
-**Invocation**: `@acp.package-search --sort updated --limit 5`
+**Invocation**: `@acp.package-search --sort updated --limit 5`  
 
-**Result**: Shows 5 most recently updated packages
+**Result**: Shows 5 most recently updated packages  
 
 ### Example 5: No Results
 
-**Context**: Search for non-existent package
+**Context**: Search for non-existent package  
 
-**Invocation**: `@acp.package-search nonexistent123`
+**Invocation**: `@acp.package-search nonexistent123`  
 
-**Result**: "No packages found matching your search", suggests trying broader terms
+**Result**: "No packages found matching your search", suggests trying broader terms  
 
 ---
 
@@ -246,7 +246,7 @@ For packages to be discoverable via `@acp.package-search`:
 3. **Clear Description**: Add description to GitHub repository
 4. **ACP Structure**: Follow standard `agent/` directory structure
 
-**Note**: The `topic:acp-package` filter is always applied to ensure search results contain only actual ACP packages, not unrelated repositories with "acp" in the name.
+**Note**: The `topic:acp-package` filter is always applied to ensure search results contain only actual ACP packages, not unrelated repositories with "acp" in the name.  
 
 ---
 
@@ -254,35 +254,35 @@ For packages to be discoverable via `@acp.package-search`:
 
 ### Issue 1: No results found
 
-**Symptom**: "No packages found"
+**Symptom**: "No packages found"  
 
-**Cause**: No packages match search criteria
+**Cause**: No packages match search criteria  
 
-**Solution**: Try broader search terms, remove filters, check spelling
+**Solution**: Try broader search terms, remove filters, check spelling  
 
 ### Issue 2: API rate limit exceeded
 
-**Symptom**: "API rate limit exceeded" error
+**Symptom**: "API rate limit exceeded" error  
 
-**Cause**: Made too many requests (60/hour without token)
+**Cause**: Made too many requests (60/hour without token)  
 
-**Solution**: Wait for rate limit reset, or set GITHUB_TOKEN for higher limits
+**Solution**: Wait for rate limit reset, or set GITHUB_TOKEN for higher limits  
 
 ### Issue 3: Package.yaml not found
 
-**Symptom**: Version shows "unknown"
+**Symptom**: Version shows "unknown"  
 
-**Cause**: Package doesn't have package.yaml in root
+**Cause**: Package doesn't have package.yaml in root  
 
-**Solution**: This is informational only, package can still be installed
+**Solution**: This is informational only, package can still be installed  
 
 ### Issue 4: Slow response
 
-**Symptom**: Search takes long time
+**Symptom**: Search takes long time  
 
-**Cause**: Fetching package.yaml for each result
+**Cause**: Fetching package.yaml for each result  
 
-**Solution**: This is normal, reduce --limit for faster results
+**Solution**: This is normal, reduce --limit for faster results  
 
 ---
 
@@ -297,11 +297,11 @@ For packages to be discoverable via `@acp.package-search`:
 
 ---
 
-**Namespace**: acp
-**Command**: package-search
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-search  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

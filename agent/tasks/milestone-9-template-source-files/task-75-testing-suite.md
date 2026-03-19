@@ -1,9 +1,9 @@
 # Task 75: Testing Suite for Templates
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 6-8 hours
-**Dependencies**: Task 74 (Command Updates)
-**Status**: Not Started
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: Task 74 (Command Updates)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Create comprehensive test suite for template system including unit tests, integr
 
 This is Phase 5 of the Template Source Files Support implementation. Comprehensive testing ensures the template system works correctly and handles edge cases gracefully.
 
-**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)
+**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)  
 
 ---
 
@@ -139,18 +139,18 @@ Integration Tests (e2e/acp.template-installation.test.sh):
 
 ### Issue 1: Tests fail due to missing test package
 
-**Symptom**: Cannot find test package files
-**Solution**: Ensure test package created in `/tmp/`, verify git init ran
+**Symptom**: Cannot find test package files  
+**Solution**: Ensure test package created in `/tmp/`, verify git init ran  
 
 ### Issue 2: Variable substitution tests fail
 
-**Symptom**: Variables not substituted in test output
-**Solution**: Check TEMPLATE_VARS array populated correctly, verify sed syntax
+**Symptom**: Variables not substituted in test output  
+**Solution**: Check TEMPLATE_VARS array populated correctly, verify sed syntax  
 
 ### Issue 3: Manifest assertions fail
 
-**Symptom**: Manifest doesn't contain expected template entries
-**Solution**: Verify `add_template_to_manifest()` called during installation, check YAML syntax
+**Symptom**: Manifest doesn't contain expected template entries  
+**Solution**: Verify `add_template_to_manifest()` called during installation, check YAML syntax  
 
 ---
 
@@ -173,6 +173,6 @@ Integration Tests (e2e/acp.template-installation.test.sh):
 
 ---
 
-**Next Task**: [Task 76: Documentation](task-76-documentation.md)
-**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 76: Documentation](task-76-documentation.md)  
+**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)  
+**Estimated Completion Date**: TBD  

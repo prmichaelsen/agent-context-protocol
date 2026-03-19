@@ -4,7 +4,7 @@
 **Estimated Time**: 3-4 hours  
 **Dependencies**: Task 5 (Manifest System)  
 **Status**: Not Started  
-**Priority**: Medium
+**Priority**: Medium  
 
 ---
 
@@ -185,4 +185,4 @@ Create `commands/acp.package-remove.md`
 
 **Status**: Ready to implement  
 **Priority**: Medium  
-**Estimated Effort**: 3-4 hours
+**Estimated Effort**: 3-4 hours  

@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.package-validate` NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Scripts**: acp.package-validate.sh, acp.common.sh, acp.yaml-parser.sh, acp.yaml-validate.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Scripts**: acp.package-validate.sh, acp.common.sh, acp.yaml-parser.sh, acp.yaml-validate.sh  
 
 ---
 
-**Purpose**: Comprehensive package validation with shell and LLM checks, auto-fix, and test installation
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Comprehensive package validation with shell and LLM checks, auto-fix, and test installation  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -49,7 +49,7 @@ Verify this is a package directory.
 - If not found, report error: "Not a package directory. package.yaml not found."
 - If found, proceed with validation
 
-**Expected Outcome**: Package context confirmed
+**Expected Outcome**: Package context confirmed  
 
 ### 2. Shell-Based Validation
 
@@ -92,7 +92,7 @@ Run structural validation checks that don't require LLM.
   - Check for "License" section
   - Report missing sections
 
-**Expected Outcome**: Shell validation complete with error/warning list
+**Expected Outcome**: Shell validation complete with error/warning list  
 
 ### 3. LLM-Based Validation
 
@@ -123,7 +123,7 @@ Run content quality checks that require LLM analysis.
   - Verify namespace convention documented
   - Report README issues
 
-**Expected Outcome**: LLM validation complete with quality assessment
+**Expected Outcome**: LLM validation complete with quality assessment  
 
 ### 4. Test Installation
 
@@ -146,7 +146,7 @@ Install package to temporary directory to verify it works.
   - Remove temporary directory
   - Report test results
 
-**Expected Outcome**: Test installation succeeded or failed with details
+**Expected Outcome**: Test installation succeeded or failed with details  
 
 ### 5. Remote Availability Check
 
@@ -160,7 +160,7 @@ Verify package is accessible from remote repository.
   - If fails: Remote not accessible or doesn't exist
 - Report remote status
 
-**Expected Outcome**: Remote availability confirmed
+**Expected Outcome**: Remote availability confirmed  
 
 ### 6. Generate Validation Report
 
@@ -174,7 +174,7 @@ Compile all validation results into comprehensive report.
 - Determine overall status: PASS, PASS WITH WARNINGS, or FAIL
 - Format report for display
 
-**Expected Outcome**: Comprehensive validation report ready
+**Expected Outcome**: Comprehensive validation report ready  
 
 ### 7. Offer Auto-Fix
 
@@ -198,7 +198,7 @@ If issues found, offer to fix them automatically.
   - Re-run validation
   - Report results
 
-**Expected Outcome**: Issues fixed or user declined
+**Expected Outcome**: Issues fixed or user declined  
 
 ### 8. Display Final Report
 
@@ -211,7 +211,7 @@ Show validation results to user.
 - Provide recommendations
 - Suggest next steps
 
-**Expected Outcome**: User informed of validation status
+**Expected Outcome**: User informed of validation status  
 
 ---
 
@@ -413,35 +413,35 @@ Recommendations:
 
 ### Example 1: Pre-Publish Validation
 
-**Context**: About to publish package, want to ensure it's valid
+**Context**: About to publish package, want to ensure it's valid  
 
-**Invocation**: `@acp.package-validate`
+**Invocation**: `@acp.package-validate`  
 
-**Result**: Runs all checks, finds 2 issues (missing file in package.yaml, incomplete README), offers auto-fix, fixes issues, re-validates, confirms package is ready
+**Result**: Runs all checks, finds 2 issues (missing file in package.yaml, incomplete README), offers auto-fix, fixes issues, re-validates, confirms package is ready  
 
 ### Example 2: After Adding New Files
 
-**Context**: Added 3 new patterns, want to verify package is still valid
+**Context**: Added 3 new patterns, want to verify package is still valid  
 
-**Invocation**: `@acp.package-validate`
+**Invocation**: `@acp.package-validate`  
 
-**Result**: Validates package, finds new files not listed in package.yaml, offers to add them, updates package.yaml, confirms all checks pass
+**Result**: Validates package, finds new files not listed in package.yaml, offers to add them, updates package.yaml, confirms all checks pass  
 
 ### Example 3: Validation Failure
 
-**Context**: Package has multiple issues
+**Context**: Package has multiple issues  
 
-**Invocation**: `@acp.package-validate`
+**Invocation**: `@acp.package-validate`  
 
-**Result**: Finds 5 errors (missing git remote, invalid version format, namespace inconsistencies, incomplete docs, missing README sections), offers step-by-step fixes, guides through fixing each issue
+**Result**: Finds 5 errors (missing git remote, invalid version format, namespace inconsistencies, incomplete docs, missing README sections), offers step-by-step fixes, guides through fixing each issue  
 
 ### Example 4: Clean Package
 
-**Context**: Well-maintained package, routine validation
+**Context**: Well-maintained package, routine validation  
 
-**Invocation**: `@acp.package-validate`
+**Invocation**: `@acp.package-validate`  
 
-**Result**: All 32 checks pass, no warnings, no errors, confirms package is ready to publish
+**Result**: All 32 checks pass, no warnings, no errors, confirms package is ready to publish  
 
 ---
 
@@ -459,43 +459,43 @@ Recommendations:
 
 ### Issue 1: Not a package directory
 
-**Symptom**: Error "package.yaml not found"
+**Symptom**: Error "package.yaml not found"  
 
-**Cause**: Running command in non-package directory
+**Cause**: Running command in non-package directory  
 
-**Solution**: Navigate to package directory, or create package with `@acp.package-create`
+**Solution**: Navigate to package directory, or create package with `@acp.package-create`  
 
 ### Issue 2: YAML validation fails
 
-**Symptom**: Multiple YAML structure errors
+**Symptom**: Multiple YAML structure errors  
 
-**Cause**: Invalid YAML syntax or missing required fields
+**Cause**: Invalid YAML syntax or missing required fields  
 
-**Solution**: Fix YAML syntax (check indentation, quotes), add missing required fields, or use auto-fix
+**Solution**: Fix YAML syntax (check indentation, quotes), add missing required fields, or use auto-fix  
 
 ### Issue 3: Test installation fails
 
-**Symptom**: Package installs but test installation reports errors
+**Symptom**: Package installs but test installation reports errors  
 
-**Cause**: Files missing, incorrect paths, or installation script issues
+**Cause**: Files missing, incorrect paths, or installation script issues  
 
-**Solution**: Check file paths in package.yaml, verify all files exist, ensure agent/ directory structure is correct
+**Solution**: Check file paths in package.yaml, verify all files exist, ensure agent/ directory structure is correct  
 
 ### Issue 4: Remote not accessible
 
-**Symptom**: Remote availability check fails
+**Symptom**: Remote availability check fails  
 
-**Cause**: Repository doesn't exist, URL incorrect, or network issues
+**Cause**: Repository doesn't exist, URL incorrect, or network issues  
 
-**Solution**: Verify repository URL in package.yaml, check git remote configuration, ensure repository is public or you have access
+**Solution**: Verify repository URL in package.yaml, check git remote configuration, ensure repository is public or you have access  
 
 ### Issue 5: Namespace inconsistencies
 
-**Symptom**: Files don't use package namespace
+**Symptom**: Files don't use package namespace  
 
-**Cause**: Files created manually without namespace prefix
+**Cause**: Files created manually without namespace prefix  
 
-**Solution**: Use auto-fix to add namespace prefixes, or rename files manually to include namespace
+**Solution**: Use auto-fix to add namespace prefixes, or rename files manually to include namespace  
 
 ---
 
@@ -530,11 +530,11 @@ Recommendations:
 
 ---
 
-**Namespace**: acp
-**Command**: package-validate
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-validate  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

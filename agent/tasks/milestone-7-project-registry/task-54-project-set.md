@@ -1,9 +1,9 @@
 # Task 54: @acp.project-set Command
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 52 (Registry Infrastructure), Task 53 (Project List)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 52 (Registry Infrastructure), Task 53 (Project List)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement the `@acp.project-set` command to enable seamless context switching be
 
 This is the key feature of the project registry system. `@acp.project-set` allows users to switch between projects without manually navigating directories. All subsequent ACP commands will automatically use the current project's path for file operations.
 
-**Key Behavior**: Changes the shell's working directory to the project path, making all relative file operations work correctly.
+**Key Behavior**: Changes the shell's working directory to the project path, making all relative file operations work correctly.  
 
 ---
 
@@ -87,4 +87,4 @@ Run '@acp.init' to load project context
 
 ---
 
-**Next Task**: [Task 55: @acp.project-info Command](task-55-project-info.md)
+**Next Task**: [Task 55: @acp.project-info Command](task-55-project-info.md)  

@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.package-publish` NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Scripts**: acp.package-publish.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Scripts**: acp.package-publish.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Automated package publishing with validation, version detection, CHANGELOG generation, and testing
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Automated package publishing with validation, version detection, CHANGELOG generation, and testing  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -57,7 +57,7 @@ Validate package before making any changes.
   - Display success message
   - Proceed to next step
 
-**Expected Outcome**: Package validated successfully or user fixes issues
+**Expected Outcome**: Package validated successfully or user fixes issues  
 
 ### 2. Check Working Directory Status
 
@@ -76,7 +76,7 @@ Verify git state is clean or has only version-related changes.
   - Custom: Check package.yaml release.branch or release.branches
   - If not on release branch: Error with branch name
 
-**Expected Outcome**: Working directory ready for publishing
+**Expected Outcome**: Working directory ready for publishing  
 
 ### 3. Check Remote Status
 
@@ -91,7 +91,7 @@ Ensure local is in sync with remote.
 - If local is ahead or in sync:
   - Proceed to next step
 
-**Expected Outcome**: Local is up to date with remote
+**Expected Outcome**: Local is up to date with remote  
 
 ### 4. Analyze Commits for Version Bump
 
@@ -118,7 +118,7 @@ Detect version bump type from commit history.
   Recommended: 1.3.0 (minor - new features added)
   ```
 
-**Expected Outcome**: Version bump recommendation generated
+**Expected Outcome**: Version bump recommendation generated  
 
 ### 5. Confirm Version Bump
 
@@ -132,7 +132,7 @@ Ask user to confirm or override version bump.
 - If custom: Prompt for version number and validate format
 - Validate new version > current version
 
-**Expected Outcome**: User confirms version number
+**Expected Outcome**: User confirms version number  
 
 ### 6. Commit Version Changes Using @git.commit
 
@@ -149,9 +149,9 @@ Use the @git.commit command to handle version bump and CHANGELOG.
   - Create properly formatted commit
 - Display commit results
 
-**Expected Outcome**: Version changes committed via @git.commit
+**Expected Outcome**: Version changes committed via @git.commit  
 
-**Note**: This step delegates to [`@git.commit`](git.commit.md) which handles:
+**Note**: This step delegates to [`@git.commit`](git.commit.md) which handles:  
 - Version file updates
 - CHANGELOG.md generation and updates
 - Intelligent file staging
@@ -169,7 +169,7 @@ Tag the release commit.
 - Display tag created
 - Show tag details: `git show vX.Y.Z --no-patch`
 
-**Expected Outcome**: Git tag created
+**Expected Outcome**: Git tag created  
 
 ### 8. Push to Remote
 
@@ -181,7 +181,7 @@ Push commits and tags to remote repository.
 - Display push results
 - Show remote URL
 
-**Expected Outcome**: Changes pushed to remote
+**Expected Outcome**: Changes pushed to remote  
 
 ### 9. Wait for GitHub Processing
 
@@ -191,7 +191,7 @@ Give GitHub time to process the push.
 - Wait 5-10 seconds
 - Display: "Waiting for GitHub to process push..."
 
-**Expected Outcome**: GitHub has processed the push
+**Expected Outcome**: GitHub has processed the push  
 
 ### 10. Test Installation from Remote
 
@@ -210,7 +210,7 @@ Verify package can be installed from remote.
 - Cleanup temp directory
 - Report test results
 
-**Expected Outcome**: Package installs successfully from remote
+**Expected Outcome**: Package installs successfully from remote  
 
 ### 11. Generate Final Report
 
@@ -230,7 +230,7 @@ Display comprehensive publishing report.
   - Consider announcing release
   - Monitor for issues
 
-**Expected Outcome**: User informed of successful publish
+**Expected Outcome**: User informed of successful publish  
 
 ---
 
@@ -395,43 +395,43 @@ Next steps:
 
 ### Example 1: Publishing New Feature Release
 
-**Context**: Added 2 new patterns, ready to publish
+**Context**: Added 2 new patterns, ready to publish  
 
-**Invocation**: `@acp.package-publish`
+**Invocation**: `@acp.package-publish`  
 
-**Result**: Validates package, detects minor version bump (1.2.3 → 1.3.0), generates CHANGELOG, commits, tags, pushes, tests installation, confirms success
+**Result**: Validates package, detects minor version bump (1.2.3 → 1.3.0), generates CHANGELOG, commits, tags, pushes, tests installation, confirms success  
 
 ### Example 2: Publishing Bug Fix
 
-**Context**: Fixed typo in documentation
+**Context**: Fixed typo in documentation  
 
-**Invocation**: `@acp.package-publish`
+**Invocation**: `@acp.package-publish`  
 
-**Result**: Validates, detects patch bump (1.2.3 → 1.2.4), generates CHANGELOG, publishes, tests, confirms success
+**Result**: Validates, detects patch bump (1.2.3 → 1.2.4), generates CHANGELOG, publishes, tests, confirms success  
 
 ### Example 3: Validation Failure
 
-**Context**: Package has issues
+**Context**: Package has issues  
 
-**Invocation**: `@acp.package-publish`
+**Invocation**: `@acp.package-publish`  
 
-**Result**: Validation fails with 3 errors, offers auto-fix, user fixes issues, re-runs validation, then proceeds with publishing
+**Result**: Validation fails with 3 errors, offers auto-fix, user fixes issues, re-runs validation, then proceeds with publishing  
 
 ### Example 4: Wrong Branch
 
-**Context**: On feature branch instead of main
+**Context**: On feature branch instead of main  
 
-**Invocation**: `@acp.package-publish`
+**Invocation**: `@acp.package-publish`  
 
-**Result**: Detects wrong branch, reports error: "Not on release branch. Current: feature/new-pattern, Expected: main, master, mainline, or release", stops publishing
+**Result**: Detects wrong branch, reports error: "Not on release branch. Current: feature/new-pattern, Expected: main, master, mainline, or release", stops publishing  
 
 ### Example 5: Remote Ahead
 
-**Context**: Remote has commits not pulled locally
+**Context**: Remote has commits not pulled locally  
 
-**Invocation**: `@acp.package-publish`
+**Invocation**: `@acp.package-publish`  
 
-**Result**: Detects remote ahead, reports error: "Remote has 2 commits not in local. Run: git pull", stops publishing
+**Result**: Detects remote ahead, reports error: "Remote has 2 commits not in local. Run: git pull", stops publishing  
 
 ---
 
@@ -449,51 +449,51 @@ Next steps:
 
 ### Issue 1: Validation fails
 
-**Symptom**: Package validation reports errors
+**Symptom**: Package validation reports errors  
 
-**Cause**: Package has structural or content issues
+**Cause**: Package has structural or content issues  
 
-**Solution**: Use auto-fix to resolve issues, or fix manually, then run `@acp.package-publish` again
+**Solution**: Use auto-fix to resolve issues, or fix manually, then run `@acp.package-publish` again  
 
 ### Issue 2: Not on release branch
 
-**Symptom**: Error "Not on release branch"
+**Symptom**: Error "Not on release branch"  
 
-**Cause**: Current branch is not configured as release branch
+**Cause**: Current branch is not configured as release branch  
 
-**Solution**: Switch to release branch (`git checkout main`), or configure current branch in package.yaml release.branch field
+**Solution**: Switch to release branch (`git checkout main`), or configure current branch in package.yaml release.branch field  
 
 ### Issue 3: Remote ahead of local
 
-**Symptom**: Error "Remote has commits not in local"
+**Symptom**: Error "Remote has commits not in local"  
 
-**Cause**: Someone else pushed to remote
+**Cause**: Someone else pushed to remote  
 
-**Solution**: Pull latest changes (`git pull`), resolve conflicts if any, then run `@acp.package-publish` again
+**Solution**: Pull latest changes (`git pull`), resolve conflicts if any, then run `@acp.package-publish` again  
 
 ### Issue 4: Test installation fails
 
-**Symptom**: Package publishes but test installation fails
+**Symptom**: Package publishes but test installation fails  
 
-**Cause**: Package structure issues or installation script problems
+**Cause**: Package structure issues or installation script problems  
 
-**Solution**: Check package structure, verify all files exist, ensure package.yaml is correct, fix issues and publish patch version
+**Solution**: Check package structure, verify all files exist, ensure package.yaml is correct, fix issues and publish patch version  
 
 ### Issue 5: No commits since last tag
 
-**Symptom**: Error "No commits since last release"
+**Symptom**: Error "No commits since last release"  
 
-**Cause**: Nothing to publish
+**Cause**: Nothing to publish  
 
-**Solution**: Make changes, commit them, then run `@acp.package-publish`
+**Solution**: Make changes, commit them, then run `@acp.package-publish`  
 
 ### Issue 6: Version already exists
 
-**Symptom**: Error "Tag vX.Y.Z already exists"
+**Symptom**: Error "Tag vX.Y.Z already exists"  
 
-**Cause**: Version was already published
+**Cause**: Version was already published  
 
-**Solution**: Choose different version number, or delete existing tag if it was a mistake: `git tag -d vX.Y.Z && git push origin :refs/tags/vX.Y.Z`
+**Solution**: Choose different version number, or delete existing tag if it was a mistake: `git tag -d vX.Y.Z && git push origin :refs/tags/vX.Y.Z`  
 
 ---
 
@@ -531,11 +531,11 @@ Next steps:
 
 ---
 
-**Namespace**: acp
-**Command**: package-publish
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-publish  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

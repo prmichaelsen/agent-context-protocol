@@ -1,10 +1,10 @@
 # Task 60: Documentation Updates
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Tasks 52-59 (All implementations complete)
-**Status**: Completed
-**Completed Date**: 2026-02-26
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Tasks 52-59 (All implementations complete)  
+**Status**: Completed  
+**Completed Date**: 2026-02-26  
 
 ---
 
@@ -89,4 +89,4 @@ Update version in:
 
 ---
 
-**Milestone Complete**: All 9 tasks done!
+**Milestone Complete**: All 9 tasks done!  

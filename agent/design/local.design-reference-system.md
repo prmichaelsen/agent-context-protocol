@@ -1,8 +1,8 @@
 # Design Reference System
 
-**Concept**: Shared directive ensuring tasks have complete design document coverage so agents can implement from the task alone
-**Created**: 2026-03-07
-**Status**: Design Specification
+**Concept**: Shared directive ensuring tasks have complete design document coverage so agents can implement from the task alone  
+**Created**: 2026-03-07  
+**Status**: Design Specification  
 
 ---
 
@@ -86,7 +86,7 @@ No explicit links in progress.yaml are required — discovery is always dynamic.
 
 ### Completeness Rule
 
-**Self-Contained Task Principle**: An agent reading ONLY the task file must be able to implement the feature without needing to read the design document.
+**Self-Contained Task Principle**: An agent reading ONLY the task file must be able to implement the feature without needing to read the design document.  
 
 This means:
 - Task steps must include implementation-level detail, not just summaries
@@ -153,11 +153,11 @@ Add a **Design Reference** metadata field to the task template:
 ```markdown
 # Task {N}: {Descriptive Task Name}
 
-**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)
-**Design Reference**: [Design Name](../design/{namespace}.{design-name}.md) | None
-**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]
-**Dependencies**: [List prerequisite tasks, or "None"]
-**Status**: Not Started | In Progress | Completed
+**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)  
+**Design Reference**: [Design Name](../design/{namespace}.{design-name}.md) | None  
+**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]  
+**Dependencies**: [List prerequisite tasks, or "None"]  
+**Status**: Not Started | In Progress | Completed  
 ```
 
 The Design Reference field:
@@ -298,8 +298,8 @@ This is supplementary — the task is still the primary work artifact. The desig
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Create milestone and tasks for implementation
+**Status**: Design Specification  
+**Recommendation**: Create milestone and tasks for implementation  
 **Related Documents**:
 - [Clarification Capture System](local.clarification-capture-system.md) — sister shared directive pattern
 - [ACP Commands Design](acp-commands-design.md) — command structure conventions

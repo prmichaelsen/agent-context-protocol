@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Generate a comprehensive project status report including progress, accomplishments, and next steps
-**Category**: Documentation
-**Frequency**: As Needed
+**Purpose**: Generate a comprehensive project status report including progress, accomplishments, and next steps  
+**Category**: Documentation  
+**Frequency**: As Needed  
 
 ---
 
@@ -49,7 +49,7 @@ Load basic project details from progress.yaml.
 - Note current status and milestone
 - Get project description
 
-**Expected Outcome**: Project basics loaded
+**Expected Outcome**: Project basics loaded  
 
 ### 2. Gather Milestone Information
 
@@ -62,7 +62,7 @@ Collect data about all milestones.
 - Identify completed vs in-progress vs not-started
 - Calculate overall project progress
 
-**Expected Outcome**: Milestone data collected
+**Expected Outcome**: Milestone data collected  
 
 ### 3. Gather Task Information
 
@@ -75,7 +75,7 @@ Collect data about all tasks.
 - Identify current task
 - Note any blocked tasks
 
-**Expected Outcome**: Task data collected
+**Expected Outcome**: Task data collected  
 
 ### 4. Summarize Recent Work
 
@@ -87,7 +87,7 @@ Extract recent accomplishments.
 - Highlight major achievements
 - Note any significant milestones reached
 
-**Expected Outcome**: Recent work summarized
+**Expected Outcome**: Recent work summarized  
 
 ### 5. Identify Next Steps
 
@@ -99,7 +99,7 @@ Extract and prioritize next steps.
 - Identify upcoming milestones
 - Note any dependencies
 
-**Expected Outcome**: Next steps identified
+**Expected Outcome**: Next steps identified  
 
 ### 6. Document Blockers and Risks
 
@@ -111,7 +111,7 @@ List current blockers and risks.
 - Identify dependencies on external factors
 - Assess impact of blockers
 
-**Expected Outcome**: Blockers documented
+**Expected Outcome**: Blockers documented  
 
 ### 7. Generate Statistics
 
@@ -125,7 +125,7 @@ Calculate project metrics.
 - Estimated time remaining (if available)
 - Documentation count (design docs, patterns, etc.)
 
-**Expected Outcome**: Metrics calculated
+**Expected Outcome**: Metrics calculated  
 
 ### 8. Format Report
 
@@ -142,7 +142,7 @@ Create formatted markdown report.
 - Include statistics
 - Add footer with generation date
 
-**Expected Outcome**: Report formatted
+**Expected Outcome**: Report formatted  
 
 ### 9. Save Report
 
@@ -154,7 +154,7 @@ Write report to file.
 - Confirm file written successfully
 - Display report location
 
-**Expected Outcome**: Report saved
+**Expected Outcome**: Report saved  
 
 ### 10. Deregister Session (Optional)
 
@@ -164,9 +164,9 @@ End the current agent session.
 - If `./agent/scripts/acp.sessions.sh` exists, run `./agent/scripts/acp.sessions.sh deregister`
 - Display: `"Session deregistered"` in report footer
 
-**Expected Outcome**: Session deregistered
+**Expected Outcome**: Session deregistered  
 
-**Note**: If `./agent/scripts/acp.sessions.sh` does not exist, skip this step silently.
+**Note**: If `./agent/scripts/acp.sessions.sh` does not exist, skip this step silently.  
 
 ---
 
@@ -245,9 +245,9 @@ Summary:
 # Project Status Report
 ## agent-context-protocol
 
-**Generated**: 2026-02-16
-**Version**: 1.1.0
-**Status**: In Progress
+**Generated**: 2026-02-16  
+**Version**: 1.1.0  
+**Status**: In Progress  
 
 ---
 
@@ -259,7 +259,7 @@ Summary:
 
 ## Progress Overview
 
-**Overall Progress**: 75%
+**Overall Progress**: 75%  
 
 ### Milestones
 - ✅ Milestone 1: ACP Commands Infrastructure (100%)
@@ -306,27 +306,27 @@ Summary:
 
 ### Example 1: Weekly Status Report
 
-**Context**: End of week, need to report progress
+**Context**: End of week, need to report progress  
 
-**Invocation**: `@acp.report`
+**Invocation**: `@acp.report`  
 
-**Result**: Generates comprehensive report showing week's accomplishments, current status, and next week's plans
+**Result**: Generates comprehensive report showing week's accomplishments, current status, and next week's plans  
 
 ### Example 2: Milestone Review
 
-**Context**: Just completed milestone 1, need review document
+**Context**: Just completed milestone 1, need review document  
 
-**Invocation**: `@acp.report`
+**Invocation**: `@acp.report`  
 
-**Result**: Report highlights milestone 1 completion, shows deliverables achieved, documents lessons learned
+**Result**: Report highlights milestone 1 completion, shows deliverables achieved, documents lessons learned  
 
 ### Example 3: Stakeholder Update
 
-**Context**: Monthly update for stakeholders
+**Context**: Monthly update for stakeholders  
 
-**Invocation**: `@acp.report`
+**Invocation**: `@acp.report`  
 
-**Result**: Executive-friendly report with high-level progress, key achievements, and timeline
+**Result**: Executive-friendly report with high-level progress, key achievements, and timeline  
 
 ---
 
@@ -343,27 +343,27 @@ Summary:
 
 ### Issue 1: Report is empty or incomplete
 
-**Symptom**: Generated report missing sections
+**Symptom**: Generated report missing sections  
 
-**Cause**: progress.yaml not up to date or missing data
+**Cause**: progress.yaml not up to date or missing data  
 
-**Solution**: Run `@acp.update` first to ensure progress.yaml is current, then generate report
+**Solution**: Run `@acp.update` first to ensure progress.yaml is current, then generate report  
 
 ### Issue 2: Statistics don't match reality
 
-**Symptom**: Numbers in report seem wrong
+**Symptom**: Numbers in report seem wrong  
 
-**Cause**: Progress tracking out of sync
+**Cause**: Progress tracking out of sync  
 
-**Solution**: Review and update progress.yaml manually, verify task counts, then regenerate report
+**Solution**: Review and update progress.yaml manually, verify task counts, then regenerate report  
 
 ### Issue 3: Report too long or too short
 
-**Symptom**: Report length not appropriate
+**Symptom**: Report length not appropriate  
 
-**Cause**: Too much or too little detail
+**Cause**: Too much or too little detail  
 
-**Solution**: Adjust report generation to include/exclude sections, customize for audience
+**Solution**: Adjust report generation to include/exclude sections, customize for audience  
 
 ---
 
@@ -397,11 +397,11 @@ Summary:
 
 ---
 
-**Namespace**: acp
-**Command**: report
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Compatibility**: ACP 1.1.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: report  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Compatibility**: ACP 1.1.0+  
+**Author**: ACP Project  

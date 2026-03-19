@@ -1,8 +1,8 @@
 # Generic YAML Parser with AST Design
 
-**Concept**: Pure POSIX shell YAML parser using Abstract Syntax Tree for efficient querying
-**Created**: 2026-02-21
-**Status**: Design Specification
+**Concept**: Pure POSIX shell YAML parser using Abstract Syntax Tree for efficient querying  
+**Created**: 2026-02-21  
+**Status**: Design Specification  
 
 ---
 
@@ -10,13 +10,13 @@
 
 A truly generic YAML parser in pure POSIX shell that builds an Abstract Syntax Tree (AST) once, then supports efficient querying via path expressions like `.path.to.field` and `.array[0].field`.
 
-**Current Problem**: Existing `acp.yaml.sh` parser:
+**Current Problem**: Existing `acp.yaml.sh` parser:  
 - Parses on every query (inefficient)
 - Hard-coded for specific patterns
 - Functions like `yaml_get_nested` are pattern-specific
 - Not truly generic
 
-**Solution**: Build proper parser that:
+**Solution**: Build proper parser that:  
 - Parses YAML once into AST
 - Supports generic path expressions
 - Uses recursive tree traversal
@@ -55,7 +55,7 @@ Input YAML → Lexer → Tokens → Parser → AST → Query Engine → Results
 
 ### 1. AST Representation in Shell
 
-**Node Structure**: Each node is a string with pipe-delimited fields:
+**Node Structure**: Each node is a string with pipe-delimited fields:  
 ```
 node_id|type|key|value|parent_id|children_ids
 ```
@@ -233,7 +233,7 @@ If pure shell requirement is relaxed:
 - Full YAML 1.2 support immediately
 - Better performance (compiled Go binary)
 
-**Trade-off**: External dependency vs. pure shell philosophy
+**Trade-off**: External dependency vs. pure shell philosophy  
 
 ---
 
@@ -263,9 +263,9 @@ If pure shell requirement is relaxed:
 
 ### Challenge 1: AST Storage in Shell
 
-**Problem**: No native tree data structures in shell
+**Problem**: No native tree data structures in shell  
 
-**Solution**: Use indexed arrays with node IDs:
+**Solution**: Use indexed arrays with node IDs:  
 ```bash
 # Node format: id|type|key|value|parent|children
 AST_NODES[0]="0|map||root|-1|1,2"
@@ -274,13 +274,13 @@ AST_NODES[1]="1|scalar|name|test|0|"
 
 ### Challenge 2: POSIX Constraints
 
-**Problem**: No associative arrays in pure POSIX sh
+**Problem**: No associative arrays in pure POSIX sh  
 
-**Solution**: Use indexed arrays with linear search (acceptable for typical YAML files)
+**Solution**: Use indexed arrays with linear search (acceptable for typical YAML files)  
 
 ### Challenge 3: Performance
 
-**Problem**: Shell is slower than compiled languages
+**Problem**: Shell is slower than compiled languages  
 
 **Solution**: 
 - Parse once, query many times
@@ -290,9 +290,9 @@ AST_NODES[1]="1|scalar|name|test|0|"
 
 ### Challenge 4: Complex YAML Features
 
-**Problem**: YAML 1.2 has many features (anchors, aliases, multi-line strings)
+**Problem**: YAML 1.2 has many features (anchors, aliases, multi-line strings)  
 
-**Solution**: Start with subset (maps, arrays, scalars), extend incrementally
+**Solution**: Start with subset (maps, arrays, scalars), extend incrementally  
 
 ---
 
@@ -326,7 +326,7 @@ AST_NODES[1]="1|scalar|name|test|0|"
 
 This parser could be extracted as a separate open-source project:
 
-**Project Name**: `yaml-sh` or `yaml-parser-posix`
+**Project Name**: `yaml-sh` or `yaml-parser-posix`  
 
 **Value Proposition**:
 - First truly generic YAML parser in pure POSIX shell
@@ -334,11 +334,11 @@ This parser could be extracted as a separate open-source project:
 - Works everywhere (sh, bash, zsh, dash)
 - Benefits entire shell scripting community
 
-**Repository**: `github.com/prmichaelsen/yaml-sh`
+**Repository**: `github.com/prmichaelsen/yaml-sh`  
 
 ---
 
-**Status**: Design Complete - Ready for Implementation
-**Recommendation**: Begin with Phase 1 (Core Parser) - implement lexer and basic AST construction
-**Estimated Effort**: 80-160 hours over 1-2 weeks
-**Priority**: Future Enhancement (current parser works for ACP needs)
+**Status**: Design Complete - Ready for Implementation  
+**Recommendation**: Begin with Phase 1 (Core Parser) - implement lexer and basic AST construction  
+**Estimated Effort**: 80-160 hours over 1-2 weeks  
+**Priority**: Future Enhancement (current parser works for ACP needs)  

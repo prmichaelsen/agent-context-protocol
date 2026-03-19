@@ -2071,7 +2071,7 @@ tasks:
       estimated_hours: 2-3
       completed_date: 2026-03-17
       notes: |
-        Create agent/artifacts.template.md/ directory with three templates:
+        Create agent/artifacts/ directory with three templates:
         - research.template.md (6 core + 9 optional sections)
         - glossary.template.md (category tables + alphabetical index)
         - reference.template.md (command-first principle, passive info only)

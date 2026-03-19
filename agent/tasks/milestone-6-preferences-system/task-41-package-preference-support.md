@@ -1,9 +1,9 @@
 # Task 41: Package Preference Support
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 4-5 hours
-**Dependencies**: Task 37 (Preference Loading), Task 40 (Management Commands)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 4-5 hours  
+**Dependencies**: Task 37 (Preference Loading), Task 40 (Management Commands)  
+**Status**: Not Started  
 
 ---
 
@@ -268,16 +268,16 @@ package-name/
 ## Common Issues and Solutions
 
 ### Issue 1: Configurables not installed
-**Symptom**: Package configurables not found after installation
-**Solution**: Ensure package.yaml lists configurables in contents array
+**Symptom**: Package configurables not found after installation  
+**Solution**: Ensure package.yaml lists configurables in contents array  
 
 ### Issue 2: Preset not loading
-**Symptom**: `--preset` flag doesn't apply preferences
-**Solution**: Check preset filename matches namespace (e.g., `package-name.preset.yaml`)
+**Symptom**: `--preset` flag doesn't apply preferences  
+**Solution**: Check preset filename matches namespace (e.g., `package-name.preset.yaml`)  
 
 ### Issue 3: Namespace conflicts
-**Symptom**: Package preferences override ACP core preferences
-**Solution**: Namespace isolation prevents this - each package has its own namespace
+**Symptom**: Package preferences override ACP core preferences  
+**Solution**: Namespace isolation prevents this - each package has its own namespace  
 
 ---
 
@@ -299,6 +299,6 @@ package-name/
 
 ---
 
-**Next Task**: [Task 42: Preset Configuration System](task-42-preset-configuration-system.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md), [Package Management System](../design/acp-package-management-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 42: Preset Configuration System](task-42-preset-configuration-system.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md), [Package Management System](../design/acp-package-management-system.md)  
+**Estimated Completion Date**: TBD  

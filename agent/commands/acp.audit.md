@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp-audit NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-15
-**Last Updated**: 2026-03-15
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-15  
+**Last Updated**: 2026-03-15  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Deep-dive investigation of a subject, producing a structured report in `agent/reports/`
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Deep-dive investigation of a subject, producing a structured report in `agent/reports/`  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -68,7 +68,7 @@ Determine what to audit from the user's invocation.
 - If no subject provided, infer from current conversation context (active task, recent discussion, open files)
 - If still unclear, ask the user: "What would you like to audit?"
 
-**Expected Outcome**: A clear subject string identified (e.g., "sessions", "src/auth/", "package install system")
+**Expected Outcome**: A clear subject string identified (e.g., "sessions", "src/auth/", "package install system")  
 
 ### 2. Determine Next Report Number
 
@@ -79,7 +79,7 @@ Find the next available audit report number.
 - Parse the highest number
 - Increment by 1
 
-**Expected Outcome**: Next report number determined (e.g., 1 if no prior audits)
+**Expected Outcome**: Next report number determined (e.g., 1 if no prior audits)  
 
 ### 3. Investigate
 
@@ -100,7 +100,7 @@ Perform the deep dive. The agent uses judgment on scope and depth based on the s
 - Do NOT check for inconsistencies between entities (that's `@acp.validate`)
 - The goal is understanding, not validation
 
-**Expected Outcome**: Comprehensive understanding of the subject across the project
+**Expected Outcome**: Comprehensive understanding of the subject across the project  
 
 ### 4. Generate Report
 
@@ -117,9 +117,9 @@ Create a structured report capturing findings efficiently.
 ```markdown
 # Audit Report: {subject}
 
-**Audit**: #{N}
-**Date**: {date}
-**Subject**: {subject description}
+**Audit**: #{N}  
+**Date**: {date}  
+**Subject**: {subject description}  
 
 ## Summary
 
@@ -158,7 +158,7 @@ Create a structured report capturing findings efficiently.
 1. {recommendation}
 ```
 
-**Expected Outcome**: Report file created with structured findings
+**Expected Outcome**: Report file created with structured findings  
 
 ### 5. Report Success
 
@@ -179,7 +179,7 @@ Next steps:
 - Use findings to inform your next action
 ```
 
-**Expected Outcome**: User knows audit is complete and where to find the report
+**Expected Outcome**: User knows audit is complete and where to find the report  
 
 ---
 
@@ -220,35 +220,35 @@ Code pointers: 15
 
 ### Example 1: Audit a Feature Area
 
-**Context**: Need to understand the sessions system before making changes
+**Context**: Need to understand the sessions system before making changes  
 
-**Invocation**: `@acp.audit sessions`
+**Invocation**: `@acp.audit sessions`  
 
-**Result**: Agent searches for "sessions" across the project, reads the design doc, milestone, tasks, shell script, command file, progress.yaml entries. Produces `agent/reports/audit-1-sessions-system.md` with tables of files, findings, and code pointers.
+**Result**: Agent searches for "sessions" across the project, reads the design doc, milestone, tasks, shell script, command file, progress.yaml entries. Produces `agent/reports/audit-1-sessions-system.md` with tables of files, findings, and code pointers.  
 
 ### Example 2: Audit a Directory
 
-**Context**: Need to understand what's in src/auth/ before a refactor
+**Context**: Need to understand what's in src/auth/ before a refactor  
 
-**Invocation**: `@acp.audit src/auth/`
+**Invocation**: `@acp.audit src/auth/`  
 
-**Result**: Agent reads all files in src/auth/, traces imports and references from other parts of the codebase, checks git history for recent changes. Produces a report with file inventory, key code pointers, and recommendations.
+**Result**: Agent reads all files in src/auth/, traces imports and references from other parts of the codebase, checks git history for recent changes. Produces a report with file inventory, key code pointers, and recommendations.  
 
 ### Example 3: Audit from Context
 
-**Context**: Currently working on task-37 (Preference Loading Infrastructure), want to understand the full scope
+**Context**: Currently working on task-37 (Preference Loading Infrastructure), want to understand the full scope  
 
-**Invocation**: `@acp.audit`
+**Invocation**: `@acp.audit`  
 
-**Result**: Agent infers "preferences system" from current task context, investigates the design doc, all 8 planned tasks, related clarifications, and any existing code. Produces a report capturing the full scope.
+**Result**: Agent infers "preferences system" from current task context, investigates the design doc, all 8 planned tasks, related clarifications, and any existing code. Produces a report capturing the full scope.  
 
 ### Example 4: Audit with Natural Language
 
-**Context**: Need to understand how package installation works end-to-end
+**Context**: Need to understand how package installation works end-to-end  
 
-**Invocation**: `@acp.audit everything related to how packages get installed`
+**Invocation**: `@acp.audit everything related to how packages get installed`  
 
-**Result**: Agent searches for install-related code, reads acp.install.sh, package management design, related commands and tasks. Produces a comprehensive report.
+**Result**: Agent searches for install-related code, reads acp.install.sh, package management design, related commands and tasks. Produces a comprehensive report.  
 
 ---
 
@@ -264,19 +264,19 @@ Code pointers: 15
 
 ### Issue 1: Subject too broad
 
-**Symptom**: Investigation returns hundreds of files, report is unwieldy
+**Symptom**: Investigation returns hundreds of files, report is unwieldy  
 
-**Cause**: Subject like "." or "everything" matches too much
+**Cause**: Subject like "." or "everything" matches too much  
 
-**Solution**: Narrow the subject. Use a more specific topic or path.
+**Solution**: Narrow the subject. Use a more specific topic or path.  
 
 ### Issue 2: No results found
 
-**Symptom**: Investigation finds nothing related to the subject
+**Symptom**: Investigation finds nothing related to the subject  
 
-**Cause**: Subject doesn't match any files or content in the project
+**Cause**: Subject doesn't match any files or content in the project  
 
-**Solution**: Try different keywords, check spelling, or provide a path instead of a topic.
+**Solution**: Try different keywords, check spelling, or provide a path instead of a topic.  
 
 ---
 
@@ -335,11 +335,11 @@ Code pointers: 15
 
 ---
 
-**Namespace**: acp
-**Command**: audit
-**Version**: 1.0.0
-**Created**: 2026-03-15
-**Last Updated**: 2026-03-15
-**Status**: Active
-**Compatibility**: ACP 5.21.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: audit  
+**Version**: 1.0.0  
+**Created**: 2026-03-15  
+**Last Updated**: 2026-03-15  
+**Status**: Active  
+**Compatibility**: ACP 5.21.0+  
+**Author**: ACP Project  

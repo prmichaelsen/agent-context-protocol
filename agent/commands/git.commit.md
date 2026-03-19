@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: git
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: None
+**Namespace**: git  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Automate version detection, changelog updates, and git commits with proper semantic versioning
-**Category**: Version Control
-**Frequency**: As Needed
+**Purpose**: Automate version detection, changelog updates, and git commits with proper semantic versioning  
+**Category**: Version Control  
+**Frequency**: As Needed  
 
 ---
 
@@ -23,7 +23,7 @@
 
 This command intelligently detects if changes represent a version change, determines the appropriate version bump (major/minor/patch), updates version identifiers across the project, updates CHANGELOG.md, intelligently stages relevant files, and creates a properly formatted git commit.
 
-**Key Feature**: This command automatically determines which files to stage based on the changes detected. You don't need to manually run `git add` - the command analyzes your working directory and stages the appropriate files for the commit.
+**Key Feature**: This command automatically determines which files to stage based on the changes detected. You don't need to manually run `git add` - the command analyzes your working directory and stages the appropriate files for the commit.  
 
 ## When to Use
 
@@ -89,7 +89,7 @@ Search for version identifiers in the project:
 - Any project-specific version files
 ```
 
-**Action**: List all files containing version numbers that need updating.
+**Action**: List all files containing version numbers that need updating.  
 
 ### 3. Calculate New Version
 
@@ -103,7 +103,7 @@ Minor bump: 1.3.0
 Patch bump: 1.2.4
 ```
 
-**Action**: Determine the new version number.
+**Action**: Determine the new version number.  
 
 ### 4. Update Version Files
 
@@ -118,10 +118,10 @@ Update all version identifiers found in step 2:
 
 **Example for AGENT.md**:
 ```markdown
-**Version**: 1.3.0
+**Version**: 1.3.0  
 ```
 
-**Action**: Update all version files with the new version number.
+**Action**: Update all version files with the new version number.  
 
 ### 5. Update CHANGELOG.md
 
@@ -156,7 +156,7 @@ Add a new entry at the top of CHANGELOG.md following Keep a Changelog format:
 - Link to issues/PRs if applicable
 - Include breaking changes prominently for major versions
 
-**Action**: Create a new CHANGELOG.md entry with all changes in this commit.
+**Action**: Create a new CHANGELOG.md entry with all changes in this commit.  
 
 ### 6. Generate Commit Message
 
@@ -242,7 +242,7 @@ Tests:
 Version: 1.3.0
 ```
 
-**Action**: Generate a commit message following this template.
+**Action**: Generate a commit message following this template.  
 
 ### 7. Intelligently Stage Changes
 
@@ -281,7 +281,7 @@ git add AGENT.md CHANGELOG.md agent/commands/git.commit.md
 # ✅ DO: Acknowledge file is gitignored and skip it
 ```
 
-**Action**: Intelligently stage files based on what's relevant to this commit, respecting `.gitignore` rules.
+**Action**: Intelligently stage files based on what's relevant to this commit, respecting `.gitignore` rules.  
 
 ### 8. Create Commit
 
@@ -289,7 +289,7 @@ git add AGENT.md CHANGELOG.md agent/commands/git.commit.md
 git commit -m "<generated commit message>"
 ```
 
-**Action**: Commit with the generated message.
+**Action**: Commit with the generated message.  
 
 ### 9. Display Summary
 
@@ -328,7 +328,7 @@ After running this command, verify:
 
 ### Example 1: New Feature (Minor Version)
 
-**Context**: Added `@git.commit` command
+**Context**: Added `@git.commit` command  
 
 **Detection**:
 - New command file created
@@ -357,7 +357,7 @@ Version: 1.3.0
 
 ### Example 2: Bug Fix (Patch Version)
 
-**Context**: Fixed syntax error in acp.version-update.sh
+**Context**: Fixed syntax error in acp.version-update.sh  
 
 **Detection**:
 - Bug fix only
@@ -385,7 +385,7 @@ Version: 1.2.4
 
 ### Example 3: Breaking Change (Major Version)
 
-**Context**: Changed command syntax from `AGENT.md: Initialize` to `@acp.init`
+**Context**: Changed command syntax from `AGENT.md: Initialize` to `@acp.init`  
 
 **Detection**:
 - Breaking change to user interface
@@ -423,7 +423,7 @@ Version: 2.0.0
 
 ### Example 4: No Version Change
 
-**Context**: Work in progress, experimental changes
+**Context**: Work in progress, experimental changes  
 
 **Detection**:
 - Incomplete feature
@@ -490,16 +490,16 @@ Is this a breaking change?
 
 ## Troubleshooting
 
-**Problem**: Not sure if change is major or minor
+**Problem**: Not sure if change is major or minor  
 - **Solution**: If in doubt, use minor. Major should only be for clear breaking changes.
 
-**Problem**: Multiple unrelated changes staged
+**Problem**: Multiple unrelated changes staged  
 - **Solution**: Unstage and commit separately, or group logically in CHANGELOG.
 
-**Problem**: Forgot to update a version file
+**Problem**: Forgot to update a version file  
 - **Solution**: Amend the commit: `git commit --amend`, update files, stage, and amend again.
 
-**Problem**: CHANGELOG.md entry is unclear
+**Problem**: CHANGELOG.md entry is unclear  
 - **Solution**: Rewrite focusing on user impact, not technical details.
 
 ---
@@ -522,5 +522,5 @@ Is this a breaking change?
 
 ---
 
-**Status**: Production Ready
-**Last Updated**: 2026-02-16
+**Status**: Production Ready  
+**Last Updated**: 2026-02-16  

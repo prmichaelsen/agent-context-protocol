@@ -8,18 +8,18 @@
 >
 > Follow the steps below to create a task file with proper structure and automatic progress updates.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create task files with proper structure, milestone linking, and automatic progress.yaml updates
-**Category**: Creation
-**Frequency**: As Needed
+**Purpose**: Create task files with proper structure, milestone linking, and automatic progress.yaml updates  
+**Category**: Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -34,7 +34,7 @@ This command creates a new task file with proper structure, milestone linking, a
 - Auto-updates progress.yaml with new task
 - Uses task-1-{title}.template.md as base
 
-**Use this when**: Creating a new task in an ACP project.
+**Use this when**: Creating a new task in an ACP project.  
 
 ---
 
@@ -75,7 +75,7 @@ Determine which milestone this task belongs to:
 - Get milestone details (name, ID)
 - Ask user to confirm or select different milestone
 
-**Expected Outcome**: Target milestone identified
+**Expected Outcome**: Target milestone identified  
 
 ### 2. Determine Task Number
 
@@ -87,7 +87,7 @@ Find the next available task number:
 - Find highest number
 - Increment by 1 for new task number
 
-**Expected Outcome**: Next task number determined (e.g., task-25)
+**Expected Outcome**: Next task number determined (e.g., task-25)  
 
 ### 2.5. Read Contextual Key Files
 
@@ -100,7 +100,7 @@ Before creating content, load relevant key files from the index.
 - Sort by weight descending, read matching files
 - Produce visible output
 
-**Note**: If `agent/index/` does not exist, skip silently.
+**Note**: If `agent/index/` does not exist, skip silently.  
 
 ### 2.7. Capture Clarification Context
 
@@ -114,7 +114,7 @@ Invoke the `@acp.clarification-capture` shared directive to capture decisions fr
 - Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
 - Hold the generated section for insertion during Step 6 (Generate Task File)
 
-**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly
+**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly  
 
 ### 3. Check for Draft File
 
@@ -129,7 +129,7 @@ Check if draft file was provided as argument:
 - If draft provided: Read draft file
 - If no draft: Proceed to Step 4
 
-**Expected Outcome**: Draft file read (if provided)
+**Expected Outcome**: Draft file read (if provided)  
 
 ### 4. Collect Task Information
 
@@ -152,7 +152,7 @@ Gather information from user via chat:
 - Ask: "Describe what you want this task to accomplish" OR
 - Offer: "Would you like to create an empty draft file first?"
 
-**Expected Outcome**: All task metadata collected
+**Expected Outcome**: All task metadata collected  
 
 ### 5. Process Draft (If Provided)
 
@@ -168,7 +168,7 @@ If draft file was provided, create clarification if needed:
   - Wait for user to answer clarification
   - Read answered clarification
 
-**Expected Outcome**: Clarification created and answered (if needed)
+**Expected Outcome**: Clarification created and answered (if needed)  
 
 ### 5.5. Cross-Reference Design Documents
 
@@ -189,9 +189,9 @@ Invoke the `@acp.design-reference` shared directive to discover and extract desi
   5. Return structured data: design elements, gaps, and paths
 - Hold the returned design elements for use in Step 6
 
-**If no design found**: The directive warns and returns empty. Proceed to Step 6 with available context only (user input, draft, clarifications).
+**If no design found**: The directive warns and returns empty. Proceed to Step 6 with available context only (user input, draft, clarifications).  
 
-**Expected Outcome**: Design elements extracted and ready for task generation, or skipped cleanly with warning
+**Expected Outcome**: Design elements extracted and ready for task generation, or skipped cleanly with warning  
 
 ### 6. Generate Task File
 
@@ -238,9 +238,9 @@ Create task file from template:
 
 > **Self-Contained Task Principle**: After generating the task, verify that an agent reading ONLY this task file could implement the feature without needing to read the design document. If any design element is missing from the task, add it before saving.
 
-**Note**: Older tasks may use flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons. New tasks should use milestone subdirectories.
+**Note**: Older tasks may use flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons. New tasks should use milestone subdirectories.  
 
-**Expected Outcome**: Task file created in milestone subdirectory with complete design coverage
+**Expected Outcome**: Task file created in milestone subdirectory with complete design coverage  
 
 ### 7. Update progress.yaml
 
@@ -265,7 +265,7 @@ Add task to progress.yaml:
 - Update milestone tasks_total count
 - Save progress.yaml
 
-**Expected Outcome**: progress.yaml updated with new task
+**Expected Outcome**: progress.yaml updated with new task  
 
 ### 8. Prompt to Delete Draft (If Used)
 
@@ -276,7 +276,7 @@ If draft file was used, ask to delete it:
 - If yes: Delete draft file
 - If no: Keep draft file
 
-**Expected Outcome**: User chooses whether to keep draft
+**Expected Outcome**: User chooses whether to keep draft  
 
 ### 9. Report Success
 
@@ -302,7 +302,7 @@ Next steps:
 - Start working with @acp.proceed
 ```
 
-**Expected Outcome**: User knows task was created successfully
+**Expected Outcome**: User knows task was created successfully  
 
 ### 10. Prompt to Add to Key File Index
 
@@ -317,7 +317,7 @@ Would you like to add this to the key file index?
 
 If yes, prompt for weight, description, rationale, and applies values. Add entry to `agent/index/local.main.yaml`.
 
-**Note**: Skip silently if `agent/index/` does not exist.
+**Note**: Skip silently if `agent/index/` does not exist.  
 
 ---
 
@@ -346,7 +346,7 @@ If yes, prompt for weight, description, rationale, and applies values. Add entry
 ### Files Modified
 - `agent/progress.yaml` - Task added to milestone section
 
-**Note**: Older tasks may exist in flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons.
+**Note**: Older tasks may exist in flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons.  
 
 ---
 
@@ -354,9 +354,9 @@ If yes, prompt for weight, description, rationale, and applies values. Add entry
 
 ### Example 1: Creating Task for Current Milestone
 
-**Context**: Working on Milestone 3, need to add a new task
+**Context**: Working on Milestone 3, need to add a new task  
 
-**Invocation**: `@acp.task-create`
+**Invocation**: `@acp.task-create`  
 
 **Interaction**:
 ```
@@ -393,17 +393,17 @@ Status: Not Started
 
 ### Example 2: Creating Task with Draft
 
-**Context**: Have draft file describing task
+**Context**: Have draft file describing task  
 
-**Invocation**: `@acp.task-create @my-task-draft.md`
+**Invocation**: `@acp.task-create @my-task-draft.md`  
 
-**Result**: Reads draft, creates clarification if needed, generates task, updates progress.yaml
+**Result**: Reads draft, creates clarification if needed, generates task, updates progress.yaml  
 
 ### Example 3: Creating Task for Different Milestone
 
-**Context**: Want to add task to future milestone
+**Context**: Want to add task to future milestone  
 
-**Invocation**: `@acp.task-create`
+**Invocation**: `@acp.task-create`  
 
 **Interaction**:
 ```
@@ -438,27 +438,27 @@ User: M4
 
 ### Issue 1: No milestones found
 
-**Symptom**: Error message "No milestones found in progress.yaml"
+**Symptom**: Error message "No milestones found in progress.yaml"  
 
-**Solution**: Create a milestone first using milestone template, or add milestone to progress.yaml manually
+**Solution**: Create a milestone first using milestone template, or add milestone to progress.yaml manually  
 
 ### Issue 2: Invalid task name
 
-**Symptom**: Task name rejected
+**Symptom**: Task name rejected  
 
-**Solution**: Use descriptive, action-oriented names. Avoid special characters except hyphens.
+**Solution**: Use descriptive, action-oriented names. Avoid special characters except hyphens.  
 
 ### Issue 3: progress.yaml update failed
 
-**Symptom**: Error updating progress.yaml
+**Symptom**: Error updating progress.yaml  
 
-**Solution**: Verify progress.yaml exists and is valid YAML. Check milestone section exists for target milestone.
+**Solution**: Verify progress.yaml exists and is valid YAML. Check milestone section exists for target milestone.  
 
 ### Issue 4: Task number conflict
 
-**Symptom**: Task file already exists with that number
+**Symptom**: Task file already exists with that number  
 
-**Solution**: Command should auto-detect and use next available number. If conflict persists, manually check agent/tasks/ directory.
+**Solution**: Command should auto-detect and use next available number. If conflict persists, manually check agent/tasks/ directory.  
 
 ---
 
@@ -492,11 +492,11 @@ User: M4
 
 ---
 
-**Namespace**: acp
-**Command**: task-create
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 2.10.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: task-create  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 2.10.0+  
+**Author**: ACP Project  

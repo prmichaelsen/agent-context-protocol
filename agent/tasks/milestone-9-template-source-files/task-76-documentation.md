@@ -1,9 +1,9 @@
 # Task 76: Documentation for Templates
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 75 (Testing Suite)
-**Status**: Not Started
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 75 (Testing Suite)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Update all project documentation to include template source files support with c
 
 This is the final phase of the Template Source Files Support implementation. Complete documentation ensures users understand how to create, install, and use templates effectively.
 
-**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)
+**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)  
 
 ---
 
@@ -254,7 +254,7 @@ Mark design as implemented:
 
 **Status Update**:
 ```markdown
-**Status**: Implemented (v5.0.0)
+**Status**: Implemented (v5.0.0)  
 
 ## Implementation
 
@@ -313,18 +313,18 @@ See [Milestone 9](../milestones/milestone-9-template-source-files.md) for detail
 
 ### Issue 1: Documentation examples don't work
 
-**Symptom**: Users report examples fail when copied
-**Solution**: Test all examples before publishing, verify syntax and paths
+**Symptom**: Users report examples fail when copied  
+**Solution**: Test all examples before publishing, verify syntax and paths  
 
 ### Issue 2: Security warnings unclear
 
-**Symptom**: Users confused about template safety
-**Solution**: Clarify that templates install outside agent/, explain validation, provide clear examples
+**Symptom**: Users confused about template safety  
+**Solution**: Clarify that templates install outside agent/, explain validation, provide clear examples  
 
 ### Issue 3: Migration guide incomplete
 
-**Symptom**: Package authors unsure how to add templates
-**Solution**: Provide step-by-step guide with before/after examples, link to working packages
+**Symptom**: Package authors unsure how to add templates  
+**Solution**: Provide step-by-step guide with before/after examples, link to working packages  
 
 ---
 
@@ -348,6 +348,6 @@ See [Milestone 9](../milestones/milestone-9-template-source-files.md) for detail
 
 ---
 
-**Next Task**: None (Milestone 9 complete)
-**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)
-**Estimated Completion Date**: TBD
+**Next Task**: None (Milestone 9 complete)  
+**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)  
+**Estimated Completion Date**: TBD  

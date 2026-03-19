@@ -4,7 +4,7 @@
 **Estimated Time**: 6-8 hours  
 **Dependencies**: None  
 **Status**: Not Started  
-**Priority**: High
+**Priority**: High  
 
 ---
 
@@ -128,15 +128,15 @@ Create `commands/acp.package-search.md`:
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-search` has been invoked.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Status**: Active
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Status**: Active  
 
 ---
 
-**Purpose**: Discover ACP packages on GitHub
-**Category**: Package Management
-**Frequency**: As Needed
+**Purpose**: Discover ACP packages on GitHub  
+**Category**: Package Management  
+**Frequency**: As Needed  
 
 ---
 
@@ -183,7 +183,7 @@ To be discoverable, packages must:
 
 ---
 
-**Status**: Active
+**Status**: Active  
 ```
 
 ### 3. Handle GitHub API Rate Limits
@@ -252,4 +252,4 @@ fi
 
 **Status**: Ready to implement  
 **Priority**: High (MVP feature)  
-**Estimated Effort**: 6-8 hours
+**Estimated Effort**: 6-8 hours  

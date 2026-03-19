@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp-handoff NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-13
-**Last Updated**: 2026-03-13
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-13  
+**Last Updated**: 2026-03-13  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Generate a context-aware handoff report for transferring work to an agent in a different context (different repository, provider, etc.)
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Generate a context-aware handoff report for transferring work to an agent in a different context (different repository, provider, etc.)  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -66,7 +66,7 @@ Determine where the handoff is going.
 - Check `~/.acp/projects.yaml` to resolve project names to paths
 - If inference fails, ask the user: "Which project should this handoff target?"
 
-**Expected Outcome**: Target project identified (name and/or path)
+**Expected Outcome**: Target project identified (name and/or path)  
 
 ### 2. Gather Context from Conversation
 
@@ -80,7 +80,7 @@ Extract relevant information from the current chat session.
 - Note environment or dependency details only if they add necessary context
 - Optionally check `agent/progress.yaml` if task context is relevant
 
-**Expected Outcome**: Core handoff content gathered from conversation
+**Expected Outcome**: Core handoff content gathered from conversation  
 
 ### 3. Identify Source Project
 
@@ -91,7 +91,7 @@ Determine the source project details for back-reference.
 - Get the git remote URL if available
 - Include source project path/repo URL in the report so the receiving agent can reference back
 
-**Expected Outcome**: Source project location captured
+**Expected Outcome**: Source project location captured  
 
 ### 4. Generate Handoff Report
 
@@ -107,7 +107,7 @@ Write the handoff report in freeform markdown, shaped by the specific need.
 - If the target project is ACP-aware, suggest relevant files to read (e.g., `AGENT.md`), but keep the report generic enough for any agent
 - Do NOT include specific implementation steps — describe the problem and request, let the receiving agent decide how to solve it
 
-**Expected Outcome**: Handoff report generated
+**Expected Outcome**: Handoff report generated  
 
 ### 5. Deliver Handoff
 
@@ -118,7 +118,7 @@ Ask the user how they want to receive the report.
 - If **chat**: Output the full report directly in the conversation
 - If **disk**: Save to `agent/reports/handoff-{target-name}-{date}.md` (create `agent/reports/` if it doesn't exist)
 
-**Expected Outcome**: Handoff report delivered to user in their preferred format
+**Expected Outcome**: Handoff report delivered to user in their preferred format  
 
 ---
 
@@ -156,27 +156,27 @@ Paste the contents of this file into your agent session in the target project.
 
 ### Example 1: Cross-Repo Migration Handoff
 
-**Context**: Working in REST server project, discovered Weaviate schema needs a new field
+**Context**: Working in REST server project, discovered Weaviate schema needs a new field  
 
-**Invocation**: `@acp.handoff --to weaviate-schema`
+**Invocation**: `@acp.handoff --to weaviate-schema`  
 
-**Result**: Generates a report explaining that the REST server needs a new `embedding_model` field on the `Document` class, references the source project path, and describes the data model expectations — without prescribing how to write the migration.
+**Result**: Generates a report explaining that the REST server needs a new `embedding_model` field on the `Document` class, references the source project path, and describes the data model expectations — without prescribing how to write the migration.  
 
 ### Example 2: Inferred Target
 
-**Context**: Conversation mentions "the frontend repo needs to update its API client types"
+**Context**: Conversation mentions "the frontend repo needs to update its API client types"  
 
-**Invocation**: `@acp.handoff`
+**Invocation**: `@acp.handoff`  
 
-**Result**: Agent infers the target is the frontend project, checks `~/.acp/projects.yaml` for a match, generates the handoff report describing the API contract changes.
+**Result**: Agent infers the target is the frontend project, checks `~/.acp/projects.yaml` for a match, generates the handoff report describing the API contract changes.  
 
 ### Example 3: Output to Chat
 
-**Context**: Quick handoff, user doesn't need a file
+**Context**: Quick handoff, user doesn't need a file  
 
-**Invocation**: `@acp.handoff --to ~/projects/infra`
+**Invocation**: `@acp.handoff --to ~/projects/infra`  
 
-**Result**: Agent generates the report and outputs it directly in chat. User copies it into their next agent session.
+**Result**: Agent generates the report and outputs it directly in chat. User copies it into their next agent session.  
 
 ---
 
@@ -191,15 +191,15 @@ Paste the contents of this file into your agent session in the target project.
 
 ### Issue 1: Cannot infer target project
 
-**Symptom**: Agent asks "Which project should this handoff target?"
+**Symptom**: Agent asks "Which project should this handoff target?"  
 
-**Solution**: Provide the target explicitly with `--to` or `--target`, or register the project in `~/.acp/projects.yaml`.
+**Solution**: Provide the target explicitly with `--to` or `--target`, or register the project in `~/.acp/projects.yaml`.  
 
 ### Issue 2: Handoff report is too broad
 
-**Symptom**: Report includes too much session context
+**Symptom**: Report includes too much session context  
 
-**Solution**: The handoff should be narrow — focused on the specific problem and request, not a full session summary. If the report is too broad, re-invoke with more specific conversation context.
+**Solution**: The handoff should be narrow — focused on the specific problem and request, not a full session summary. If the report is too broad, re-invoke with more specific conversation context.  
 
 ---
 
@@ -260,11 +260,11 @@ Paste the contents of this file into your agent session in the target project.
 
 ---
 
-**Namespace**: acp
-**Command**: handoff
-**Version**: 1.0.0
-**Created**: 2026-03-13
-**Last Updated**: 2026-03-13
-**Status**: Active
-**Compatibility**: ACP 5.15.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: handoff  
+**Version**: 1.0.0  
+**Created**: 2026-03-13  
+**Last Updated**: 2026-03-13  
+**Status**: Active  
+**Compatibility**: ACP 5.15.0+  
+**Author**: ACP Project  

@@ -4,17 +4,17 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp-clarification-create NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-25
-**Last Updated**: 2026-02-25
-**Status**: Active
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-25  
+**Last Updated**: 2026-02-25  
+**Status**: Active  
 
 ---
 
-**Purpose**: Create clarification documents from file input or chat to gather detailed requirements
-**Category**: Creation
-**Frequency**: As Needed
+**Purpose**: Create clarification documents from file input or chat to gather detailed requirements  
+**Category**: Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -68,7 +68,7 @@ Find the next available clarification number:
 - Find highest number
 - Increment by 1 for new clarification number
 
-**Expected Outcome**: Next clarification number determined (e.g., clarification-7)
+**Expected Outcome**: Next clarification number determined (e.g., clarification-7)  
 
 ### 1.5. Check Existing Clarifications for Overlap
 
@@ -97,9 +97,9 @@ Before generating questions, check if existing clarifications already cover rela
   Will avoid duplicating answered questions.
 ```
 
-**Heuristic**: This is a title-based relevance check, not an exhaustive content scan. If a title doesn't seem related to the current topic, skip it entirely to conserve context tokens. When in doubt, skip — it's better to occasionally re-ask a question than to burn tokens loading irrelevant clarifications.
+**Heuristic**: This is a title-based relevance check, not an exhaustive content scan. If a title doesn't seem related to the current topic, skip it entirely to conserve context tokens. When in doubt, skip — it's better to occasionally re-ask a question than to burn tokens loading irrelevant clarifications.  
 
-**Expected Outcome**: Existing relevant clarifications identified, duplicate questions will be avoided
+**Expected Outcome**: Existing relevant clarifications identified, duplicate questions will be avoided  
 
 ### 2. Check for Source File
 
@@ -114,7 +114,7 @@ Check if file was provided as argument:
 - If file provided: Read source file
 - If no file: Proceed to interactive mode
 
-**Expected Outcome**: Source file read (if provided) or interactive mode confirmed
+**Expected Outcome**: Source file read (if provided) or interactive mode confirmed  
 
 ### 3. Collect Clarification Information
 
@@ -129,7 +129,7 @@ Gather information from user via chat:
 - **Source context** (what document/feature this relates to)
   - Example: "agent/design/acp-package-development-system.md"
 
-**Expected Outcome**: All clarification metadata collected
+**Expected Outcome**: All clarification metadata collected  
 
 ### 4. Analyze Source Content (If File Provided)
 
@@ -143,7 +143,7 @@ If source file was provided, analyze for gaps:
 - Detect assumptions that need validation
 - List areas needing user input
 
-**Expected Outcome**: List of topics needing clarification identified
+**Expected Outcome**: List of topics needing clarification identified  
 
 ### 5. Generate Questions
 
@@ -207,7 +207,7 @@ Create structured questions organized by topic:
 - Generate questions based on user's description
 - Aim for 5-15 questions initially
 
-**Expected Outcome**: Structured questions generated
+**Expected Outcome**: Structured questions generated  
 
 ### 6. Create Clarification File
 
@@ -227,7 +227,7 @@ Generate clarification document from template:
 - Include "How to Use This Document" section from template
 - Save to `agent/clarifications/clarification-{N}-{title}.md`
 
-**Expected Outcome**: Clarification file created
+**Expected Outcome**: Clarification file created  
 
 ### 7. Report Success
 
@@ -255,7 +255,7 @@ Next steps:
 - Use answers to update design docs, tasks, or create new entities
 ```
 
-**Expected Outcome**: User knows clarification was created and how to use it
+**Expected Outcome**: User knows clarification was created and how to use it  
 
 ---
 
@@ -287,9 +287,9 @@ Next steps:
 
 ### Example 1: Creating Clarification from Draft File
 
-**Context**: Have draft design document that needs elaboration
+**Context**: Have draft design document that needs elaboration  
 
-**Invocation**: `@acp.clarification-create --file agent/drafts/auth-system-draft.md`
+**Invocation**: `@acp.clarification-create --file agent/drafts/auth-system-draft.md`  
 
 **Result**:
 ```
@@ -318,9 +318,9 @@ Next steps:
 
 ### Example 2: Creating Clarification Interactively
 
-**Context**: Need to gather requirements for new feature
+**Context**: Need to gather requirements for new feature  
 
-**Invocation**: `@acp.clarification-create`
+**Invocation**: `@acp.clarification-create`  
 
 **Interaction**:
 ```
@@ -349,11 +349,11 @@ Status: Awaiting Responses
 
 ### Example 3: Creating Clarification with Custom Title
 
-**Context**: Analyzing existing design document
+**Context**: Analyzing existing design document  
 
-**Invocation**: `@acp.clarification-create --file agent/design/local.api-design.md --title api-endpoint-details`
+**Invocation**: `@acp.clarification-create --file agent/design/local.api-design.md --title api-endpoint-details`  
 
-**Result**: Creates clarification-9-api-endpoint-details.md with questions about API design gaps
+**Result**: Creates clarification-9-api-endpoint-details.md with questions about API design gaps  
 
 ---
 
@@ -370,27 +370,27 @@ Status: Awaiting Responses
 
 ### Issue 1: Source file not found
 
-**Symptom**: Error message "File not found"
+**Symptom**: Error message "File not found"  
 
-**Solution**: Verify file path is correct. Use relative path from project root or @ reference for files in agent/drafts/
+**Solution**: Verify file path is correct. Use relative path from project root or @ reference for files in agent/drafts/  
 
 ### Issue 2: No questions generated
 
-**Symptom**: Clarification created but empty
+**Symptom**: Clarification created but empty  
 
-**Solution**: Provide more context about what needs clarification. Source file may be too complete or too vague.
+**Solution**: Provide more context about what needs clarification. Source file may be too complete or too vague.  
 
 ### Issue 3: Questions too generic
 
-**Symptom**: Generated questions are not specific enough
+**Symptom**: Generated questions are not specific enough  
 
-**Solution**: Provide more detailed source file or specify topics more precisely in interactive mode
+**Solution**: Provide more detailed source file or specify topics more precisely in interactive mode  
 
 ### Issue 4: Clarification number conflict
 
-**Symptom**: Clarification file already exists with that number
+**Symptom**: Clarification file already exists with that number  
 
-**Solution**: Command should auto-detect and use next available number. If conflict persists, manually check agent/clarifications/ directory.
+**Solution**: Command should auto-detect and use next available number. If conflict persists, manually check agent/clarifications/ directory.  
 
 ---
 
@@ -426,11 +426,11 @@ Status: Awaiting Responses
 
 ---
 
-**Namespace**: acp
-**Command**: clarification-create
-**Version**: 1.0.0
-**Created**: 2026-02-25
-**Last Updated**: 2026-02-25
-**Status**: Active
-**Compatibility**: ACP 4.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: clarification-create  
+**Version**: 1.0.0  
+**Created**: 2026-02-25  
+**Last Updated**: 2026-02-25  
+**Status**: Active  
+**Compatibility**: ACP 4.0.0+  
+**Author**: ACP Project  

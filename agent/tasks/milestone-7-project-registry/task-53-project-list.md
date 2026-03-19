@@ -1,9 +1,9 @@
 # Task 53: @acp.project-list Command
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 52 (Registry Infrastructure)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 52 (Registry Infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement the `@acp.project-list` command to display all registered projects fro
 
 This command provides the primary interface for discovering what projects exist in the global workspace. It reads the registry (not the filesystem) and displays projects that have been registered via `@acp.project-create` or `@acp.project-scan`.
 
-**Key Distinction**: This command lists projects IN the registry, while `@acp.project-scan` (Task 58) discovers projects NOT YET in the registry.
+**Key Distinction**: This command lists projects IN the registry, while `@acp.project-scan` (Task 58) discovers projects NOT YET in the registry.  
 
 ---
 
@@ -150,11 +150,11 @@ Create `agent/commands/acp.project-list.md`:
 
 > **🤖 Agent Directive**: Run `./agent/scripts/acp.project-list.sh` to list all registered projects.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Purpose**: List all projects registered in global workspace
-**Category**: Utility
-**Frequency**: As Needed
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Purpose**: List all projects registered in global workspace  
+**Category**: Utility  
+**Frequency**: As Needed  
 
 ---
 
@@ -162,7 +162,7 @@ Create `agent/commands/acp.project-list.md`:
 
 Lists all projects registered in `~/.acp/projects.yaml` with their metadata. Shows project type, status, description, and last accessed time. Highlights the current active project.
 
-**Note**: This lists projects IN the registry. Use `@acp.project-scan` to discover projects NOT YET registered.
+**Note**: This lists projects IN the registry. Use `@acp.project-scan` to discover projects NOT YET registered.  
 
 ---
 
@@ -257,4 +257,4 @@ Showing 2 of 2 projects
 
 ---
 
-**Next Task**: [Task 54: @acp.project-set Command](task-54-project-set.md)
+**Next Task**: [Task 54: @acp.project-set Command](task-54-project-set.md)  

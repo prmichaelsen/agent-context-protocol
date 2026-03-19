@@ -1,9 +1,9 @@
 # Task 36: Test Untested Package Commands
 
-**Milestone**: Future Enhancements
-**Estimated Time**: 4-6 hours
-**Dependencies**: Tasks 8-12 (Package Commands Implementation)
-**Status**: Not Started
+**Milestone**: Future Enhancements  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: Tasks 8-12 (Package Commands Implementation)  
+**Status**: Not Started  
 
 ---
 
@@ -259,15 +259,15 @@ Test searching for packages on GitHub:
 
 Document all test results:
 
-**Create**: `agent/reports/package-commands-test-report.md`
+**Create**: `agent/reports/package-commands-test-report.md`  
 
 **Content**:
 ```markdown
 # Package Commands Test Report
 
-**Date**: 2026-02-21
-**Tester**: Agent
-**Version**: 3.6.0
+**Date**: 2026-02-21  
+**Tester**: Agent  
+**Version**: 3.6.0  
 
 ---
 
@@ -282,7 +282,7 @@ Document all test results:
 | package-search | ✅ | 7/7 | 0 | GitHub API works |
 | package-create | ✅ | 7/7 | 0 | Full workflow works |
 
-**Total**: 36/36 tests passed (100%)
+**Total**: 36/36 tests passed (100%)  
 
 ---
 
@@ -315,27 +315,27 @@ Document all test results:
 
 ### Issue 1: Command not found
 
-**Symptom**: Error "command not found" when running script
+**Symptom**: Error "command not found" when running script  
 
-**Solution**: Ensure script is executable: `chmod +x agent/scripts/acp.package-*.sh`. Or run with bash: `bash agent/scripts/acp.package-*.sh`
+**Solution**: Ensure script is executable: `chmod +x agent/scripts/acp.package-*.sh`. Or run with bash: `bash agent/scripts/acp.package-*.sh`  
 
 ### Issue 2: YAML parser errors
 
-**Symptom**: Errors parsing YAML files
+**Symptom**: Errors parsing YAML files  
 
-**Solution**: Ensure `acp.yaml-parser.sh` is sourced correctly. Check that `source_yaml_parser()` is called in script. Verify YAML files are valid.
+**Solution**: Ensure `acp.yaml-parser.sh` is sourced correctly. Check that `source_yaml_parser()` is called in script. Verify YAML files are valid.  
 
 ### Issue 3: Manifest not found
 
-**Symptom**: Error "manifest.yaml not found"
+**Symptom**: Error "manifest.yaml not found"  
 
-**Solution**: Initialize manifest first: `./agent/scripts/acp.package-install.sh --repo {url}` to install a package, which will create manifest.
+**Solution**: Initialize manifest first: `./agent/scripts/acp.package-install.sh --repo {url}` to install a package, which will create manifest.  
 
 ### Issue 4: GitHub API rate limit
 
-**Symptom**: Package search fails with rate limit error
+**Symptom**: Package search fails with rate limit error  
 
-**Solution**: Wait for rate limit to reset (60 requests/hour without auth). Or add GitHub token for higher limits (5000/hour).
+**Solution**: Wait for rate limit to reset (60 requests/hour without auth). Or add GitHub token for higher limits (5000/hour).  
 
 ---
 
@@ -362,7 +362,7 @@ Document all test results:
 
 ---
 
-**Next Task**: TBD
+**Next Task**: TBD  
 **Related Tasks**: 
 - [task-8-package-list-command.md](task-8-package-list-command.md)
 - [task-7-update-system.md](task-7-update-system.md)
@@ -370,4 +370,4 @@ Document all test results:
 - [task-10-package-info-command.md](task-10-package-info-command.md)
 - [task-11-package-search-command.md](task-11-package-search-command.md)
 - [task-23-package-create-rewrite.md](task-23-package-create-rewrite.md)
-**Estimated Completion Date**: TBD
+**Estimated Completion Date**: TBD  

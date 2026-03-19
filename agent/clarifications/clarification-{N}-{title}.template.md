@@ -1,8 +1,8 @@
 # Clarification {N}: {Title}
 
-**Purpose**: [One-line description of what needs clarification and why]
-**Created**: YYYY-MM-DD
-**Status**: Awaiting Responses
+**Purpose**: [One-line description of what needs clarification and why]  
+**Created**: YYYY-MM-DD  
+**Status**: Awaiting Responses  
 
 ---
 
@@ -94,4 +94,4 @@
 
 ---
 
-**Status**: Awaiting Responses
+**Status**: Awaiting Responses  

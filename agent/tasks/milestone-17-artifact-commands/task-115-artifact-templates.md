@@ -1,12 +1,12 @@
 # Task 115: Create Artifact Templates
 
-**Status**: completed
-**Priority**: high
-**Milestone**: M17 (Artifact Commands System)
-**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)
-**Estimated Time**: 2-3 hours
-**Started**: 2026-03-17
-**Completed**: 2026-03-17
+**Status**: completed  
+**Priority**: high  
+**Milestone**: M17 (Artifact Commands System)  
+**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)  
+**Estimated Time**: 2-3 hours  
+**Started**: 2026-03-17  
+**Completed**: 2026-03-17  
 
 ---
 
@@ -18,7 +18,7 @@ Create template files for the three artifact types (research, glossary, referenc
 
 ## Requirements
 
-1. Create `agent/artifacts.template.md/` directory
+1. Create `agent/artifacts/` directory
 2. Create `research.template.md` with 6 core + 9 optional sections
 3. Create `glossary.template.md` with category tables + alphabetical index
 4. Create `reference.template.md` with command-first principle check
@@ -32,7 +32,7 @@ Create template files for the three artifact types (research, glossary, referenc
 
 ```
 agent/
-├── artifacts.template.md/
+├── artifacts/
 │   ├── research.template.md
 │   ├── glossary.template.md
 │   └── reference.template.md
@@ -61,7 +61,7 @@ agent/
 
 **Verification format per finding:**
 ```markdown
-**Finding**: [Statement with version/date]
+**Finding**: [Statement with version/date]  
 - **Source**: [Exact URL] (accessed YYYY-MM-DD)
 - **Confidence**: High (9/10)
 - **Verification**:
@@ -135,9 +135,9 @@ agent/
 
 ## Files Created
 
-1. `agent/artifacts.template.md/research.template.md` (158 lines)
-2. `agent/artifacts.template.md/glossary.template.md` (61 lines)
-3. `agent/artifacts.template.md/reference.template.md` (154 lines)
+1. `agent/artifacts/research.template.md` (158 lines)
+2. `agent/artifacts/glossary.template.md` (61 lines)
+3. `agent/artifacts/reference.template.md` (154 lines)
 
 ---
 
@@ -145,7 +145,7 @@ agent/
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| Directory name | `artifacts.template.md/` | Follows existing pattern (e.g., `tasks.template.md/`) |
+| Directory name | `artifacts/` | Follows existing pattern (e.g., `tasks.template.md/`) |
 | Metadata placement | Top of file, before content | Immediate visibility, consistent with other entity types |
 | Optional sections | Clearly marked in comments | Prevents bloat, keeps minimal artifacts lightweight |
 | Verification format | Structured with confidence + process | Makes research auditable and reproducible |
@@ -158,7 +158,7 @@ agent/
 - **@acp.artifact-research**: Uses `research.template.md` to generate artifacts
 - **@acp.artifact-glossary**: Uses `glossary.template.md` to generate artifacts
 - **@acp.artifact-reference**: Uses `reference.template.md` to generate artifacts
-- **Template discovery**: Commands search `agent/artifacts.template.md/` directory
+- **Template discovery**: Commands search `agent/artifacts/` directory
 
 ---
 

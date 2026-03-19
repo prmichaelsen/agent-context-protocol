@@ -1,9 +1,9 @@
 # Task 47: Progress Time Tracking
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 2-3 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -21,7 +21,7 @@ Currently, progress.yaml tracks `estimated_hours` for each task, but doesn't cap
 - Understand actual project velocity
 - Identify tasks that consistently take longer than estimated
 
-**Solution**: Add `actual_hours` field to task entries.
+**Solution**: Add `actual_hours` field to task entries.  
 
 **Benefits**:
 - Better estimate accuracy over time
@@ -37,7 +37,7 @@ Currently, progress.yaml tracks `estimated_hours` for each task, but doesn't cap
 
 Add `actual_hours` field to task template:
 
-**File**: `agent/progress.template.yaml`
+**File**: `agent/progress.template.yaml`  
 
 **Change**:
 ```yaml
@@ -63,9 +63,9 @@ tasks:
 
 Update progress.yaml structure documentation:
 
-**File**: `AGENT.md`
+**File**: `AGENT.md`  
 
-**Location**: Line ~293 (Progress Tracking section)
+**Location**: Line ~293 (Progress Tracking section)  
 
 **Change**:
 ```yaml
@@ -91,9 +91,9 @@ tasks:
 
 Update `@acp.proceed` to prompt for actual hours when marking task complete:
 
-**File**: `agent/commands/acp.proceed.md`
+**File**: `agent/commands/acp.proceed.md`  
 
-**Location**: Step 4 (Update Progress Tracking)
+**Location**: Step 4 (Update Progress Tracking)  
 
 **Addition**:
 ```markdown
@@ -118,9 +118,9 @@ Update `@acp.proceed` to prompt for actual hours when marking task complete:
 
 Update `@acp.status` to show estimate vs actual comparison:
 
-**File**: `agent/commands/acp.status.md`
+**File**: `agent/commands/acp.status.md`  
 
-**Addition**: Add section showing estimate accuracy:
+**Addition**: Add section showing estimate accuracy:  
 ```markdown
 ## Estimate Accuracy (Completed Tasks)
 
@@ -142,7 +142,7 @@ Average variance: +15% (tasks take slightly longer than estimated)
 
 Create optional script to analyze estimate accuracy:
 
-**File**: `agent/scripts/acp.estimate-analysis.sh`
+**File**: `agent/scripts/acp.estimate-analysis.sh`  
 
 **Features**:
 - Calculate average variance
@@ -164,7 +164,7 @@ Optionally add `actual_hours: null` to all existing task entries:
 - For each task entry, add `actual_hours: null` if missing
 - Save progress.yaml
 
-**Note**: This is optional - field can be added incrementally as tasks complete.
+**Note**: This is optional - field can be added incrementally as tasks complete.  
 
 **Verification**:
 - Field added to existing tasks
@@ -218,21 +218,21 @@ tasks:
 
 ### Issue 1: Forgot to track actual hours
 
-**Symptom**: Task completed but actual_hours is null
+**Symptom**: Task completed but actual_hours is null  
 
-**Solution**: Estimate retroactively or leave as null. Going forward, @acp.proceed will prompt.
+**Solution**: Estimate retroactively or leave as null. Going forward, @acp.proceed will prompt.  
 
 ### Issue 2: Estimate is a range (e.g., "2-3 hours")
 
-**Symptom**: Can't calculate variance with range
+**Symptom**: Can't calculate variance with range  
 
-**Solution**: Use midpoint for calculations (2-3h → 2.5h average)
+**Solution**: Use midpoint for calculations (2-3h → 2.5h average)  
 
 ### Issue 3: Task took much longer than estimated
 
-**Symptom**: Large variance (e.g., estimated 2h, actual 8h)
+**Symptom**: Large variance (e.g., estimated 2h, actual 8h)  
 
-**Solution**: This is valuable data! Document why in task notes. Use for future estimates.
+**Solution**: This is valuable data! Document why in task notes. Use for future estimates.  
 
 ---
 
@@ -256,6 +256,6 @@ tasks:
 
 ---
 
-**Next Task**: None (future enhancement)
-**Related Design Docs**: None
-**Estimated Completion Date**: TBD
+**Next Task**: None (future enhancement)  
+**Related Design Docs**: None  
+**Estimated Completion Date**: TBD  

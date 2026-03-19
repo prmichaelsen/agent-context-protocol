@@ -1,10 +1,10 @@
 # Task 114: Update @acp.proceed with Design Context Loading
 
-**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)
-**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 111 (directive must exist), Task 112 (template field must exist)
-**Status**: Not Started
+**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)  
+**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 111 (directive must exist), Task 112 (template field must exist)  
+**Status**: Not Started  
 
 ---
 
@@ -102,5 +102,5 @@ If `@acp.proceed` is running in autonomous mode (`--complete` flag):
 
 ---
 
-**Next Task**: None (last task in M16)
-**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)
+**Next Task**: None (last task in M16)  
+**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)  

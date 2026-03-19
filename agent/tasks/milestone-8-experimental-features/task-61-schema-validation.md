@@ -1,9 +1,9 @@
 # Task 61: Schema and Validation Enhancement
 
-**Milestone**: M8 - Experimental Features System
-**Estimated Time**: 2-3 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: M8 - Experimental Features System  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -30,7 +30,7 @@ This task lays the foundation for the entire experimental features system.
 
 Add `experimental` field to all content types:
 
-**File**: [`agent/schemas/package.schema.yaml`](../../schemas/package.schema.yaml)
+**File**: [`agent/schemas/package.schema.yaml`](../../schemas/package.schema.yaml)  
 
 **Changes**:
 ```yaml
@@ -97,7 +97,7 @@ contents:
 
 ### 2. Add Consistency Validation Function
 
-**File**: [`agent/scripts/acp.package-validate.sh`](../../scripts/acp.package-validate.sh)
+**File**: [`agent/scripts/acp.package-validate.sh`](../../scripts/acp.package-validate.sh)  
 
 **Add new function**:
 ```bash
@@ -148,7 +148,7 @@ validate_experimental_consistency() {
 
 ### 3. Integrate into Main Validation Flow
 
-**File**: [`agent/scripts/acp.package-validate.sh`](../../scripts/acp.package-validate.sh)
+**File**: [`agent/scripts/acp.package-validate.sh`](../../scripts/acp.package-validate.sh)  
 
 **Add to main validation**:
 ```bash
@@ -162,19 +162,19 @@ TOTAL_ERRORS=$((TOTAL_ERRORS + EXPERIMENTAL_ERRORS))
 
 Create test scenarios:
 
-**Test 1**: Consistent marking (should pass)
+**Test 1**: Consistent marking (should pass)  
 - package.yaml: `experimental: true`
 - File: `**Status**: Experimental`
 
-**Test 2**: Missing file metadata (should fail)
+**Test 2**: Missing file metadata (should fail)  
 - package.yaml: `experimental: true`
 - File: No Status field or `**Status**: Active`
 
-**Test 3**: Missing package.yaml field (should fail)
+**Test 3**: Missing package.yaml field (should fail)  
 - package.yaml: No experimental field or `experimental: false`
 - File: `**Status**: Experimental`
 
-**Test 4**: Both unmarked (should pass)
+**Test 4**: Both unmarked (should pass)  
 - package.yaml: No experimental field
 - File: `**Status**: Active`
 
@@ -223,5 +223,5 @@ Validation failed with 2 errors
 
 ---
 
-**Next Task**: [Task 62 - Installation Filtering](task-62-installation-filtering.md)
-**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)
+**Next Task**: [Task 62 - Installation Filtering](task-62-installation-filtering.md)  
+**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)  

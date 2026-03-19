@@ -9,18 +9,18 @@
 > See the **Arguments** section below for flag definitions and natural language patterns.
 > If no arguments, default to `list`.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-01
-**Last Updated**: 2026-03-01
-**Status**: Active
-**Scripts**: acp.sessions.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-01  
+**Last Updated**: 2026-03-01  
+**Status**: Active  
+**Scripts**: acp.sessions.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Manage and view active agent sessions across projects
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Manage and view active agent sessions across projects  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -83,7 +83,7 @@ Determine the requested action from CLI flags or natural language.
 - Apply natural language mapping if no explicit subcommand
 - Default to `list` if no subcommand detected
 
-**Expected Outcome**: Subcommand and options determined
+**Expected Outcome**: Subcommand and options determined  
 
 ### 2. Run Stale Cleanup
 
@@ -93,7 +93,7 @@ Always clean stale sessions before displaying results.
 - Run `./agent/scripts/acp.sessions.sh clean` (silently, unless `clean` is the explicit subcommand)
 - This removes sessions with dead PIDs or inactive for 2+ hours
 
-**Expected Outcome**: Stale sessions removed
+**Expected Outcome**: Stale sessions removed  
 
 ### 3. Execute Requested Subcommand
 
@@ -105,7 +105,7 @@ Run the appropriate `acp.sessions.sh` subcommand.
 - **deregister**: Run `./agent/scripts/acp.sessions.sh deregister [--id <session-id>]`
 - **count**: Run `./agent/scripts/acp.sessions.sh count`
 
-**Expected Outcome**: Subcommand executed successfully
+**Expected Outcome**: Subcommand executed successfully  
 
 ### 4. Display Formatted Output
 
@@ -148,7 +148,7 @@ Active sessions remaining: 2
 3
 ```
 
-**Expected Outcome**: User sees formatted session information
+**Expected Outcome**: User sees formatted session information  
 
 ### 5. Suggest Next Actions
 
@@ -159,7 +159,7 @@ If relevant, suggest follow-up actions.
 - If no sessions: "Run `@acp.init` to register a new session"
 - If showing list: No suggestions needed (informational)
 
-**Expected Outcome**: User knows what to do next (if applicable)
+**Expected Outcome**: User knows what to do next (if applicable)  
 
 ---
 
@@ -187,43 +187,43 @@ See output formats in Step 4 above.
 
 ### Example 1: List All Sessions (Default)
 
-**Context**: You want to see what's currently running
+**Context**: You want to see what's currently running  
 
-**Invocation**: `@acp.sessions`
+**Invocation**: `@acp.sessions`  
 
-**Result**: Shows all active sessions with project, description, and timing info
+**Result**: Shows all active sessions with project, description, and timing info  
 
 ### Example 2: Filter by Project
 
-**Context**: You want to see sessions for a specific project
+**Context**: You want to see sessions for a specific project  
 
-**Invocation**: `@acp.sessions --project remember-core`
+**Invocation**: `@acp.sessions --project remember-core`  
 
-**Result**: Shows only sessions for remember-core
+**Result**: Shows only sessions for remember-core  
 
 ### Example 3: Clean Stale Sessions
 
-**Context**: You suspect some sessions are stale
+**Context**: You suspect some sessions are stale  
 
-**Invocation**: `@acp.sessions clean`
+**Invocation**: `@acp.sessions clean`  
 
-**Result**: Removes dead-PID and timed-out sessions, shows what was cleaned
+**Result**: Removes dead-PID and timed-out sessions, shows what was cleaned  
 
 ### Example 4: Natural Language Usage
 
-**Context**: You want to check what's running using natural language
+**Context**: You want to check what's running using natural language  
 
-**Invocation**: `@acp.sessions what's running?`
+**Invocation**: `@acp.sessions what's running?`  
 
-**Result**: Same as `@acp.sessions list` — shows all active sessions
+**Result**: Same as `@acp.sessions list` — shows all active sessions  
 
 ### Example 5: End Current Session
 
-**Context**: You're done working and want to deregister
+**Context**: You're done working and want to deregister  
 
-**Invocation**: `@acp.sessions stop my session`
+**Invocation**: `@acp.sessions stop my session`  
 
-**Result**: Deregisters the current session, shows remaining count
+**Result**: Deregisters the current session, shows remaining count  
 
 ---
 
@@ -239,27 +239,27 @@ See output formats in Step 4 above.
 
 ### Issue 1: "acp.sessions.sh not found"
 
-**Symptom**: Command reports script not found
+**Symptom**: Command reports script not found  
 
-**Cause**: Sessions script not installed or path incorrect
+**Cause**: Sessions script not installed or path incorrect  
 
-**Solution**: Verify `./agent/scripts/acp.sessions.sh` exists and is executable. Run `chmod +x agent/scripts/acp.sessions.sh` if needed.
+**Solution**: Verify `./agent/scripts/acp.sessions.sh` exists and is executable. Run `chmod +x agent/scripts/acp.sessions.sh` if needed.  
 
 ### Issue 2: Sessions disappear immediately
 
-**Symptom**: Registered sessions are gone on next list
+**Symptom**: Registered sessions are gone on next list  
 
-**Cause**: Stale cleanup removing sessions because the registering process PID is dead
+**Cause**: Stale cleanup removing sessions because the registering process PID is dead  
 
-**Solution**: Use `--pid <pid>` when registering to track the long-lived parent process (terminal/agent) instead of the script's own PID.
+**Solution**: Use `--pid <pid>` when registering to track the long-lived parent process (terminal/agent) instead of the script's own PID.  
 
 ### Issue 3: "No active sessions" when sessions should exist
 
-**Symptom**: List shows no sessions despite recent registration
+**Symptom**: List shows no sessions despite recent registration  
 
-**Cause**: Sessions were registered under a different process tree and stale cleanup removed them
+**Cause**: Sessions were registered under a different process tree and stale cleanup removed them  
 
-**Solution**: Re-register with `@acp.init` or manually via `./agent/scripts/acp.sessions.sh register --project <name> --pid <pid>`
+**Solution**: Re-register with `@acp.init` or manually via `./agent/scripts/acp.sessions.sh register --project <name> --pid <pid>`  
 
 ---
 
@@ -291,11 +291,11 @@ See output formats in Step 4 above.
 
 ---
 
-**Namespace**: acp
-**Command**: sessions
-**Version**: 1.0.0
-**Created**: 2026-03-01
-**Last Updated**: 2026-03-01
-**Status**: Active
-**Compatibility**: ACP 5.9.1+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: sessions  
+**Version**: 1.0.0  
+**Created**: 2026-03-01  
+**Last Updated**: 2026-03-01  
+**Status**: Active  
+**Compatibility**: ACP 5.9.1+  
+**Author**: ACP Project  

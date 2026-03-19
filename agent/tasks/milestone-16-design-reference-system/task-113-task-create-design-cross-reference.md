@@ -1,10 +1,10 @@
 # Task 113: Update @acp.task-create with Design Cross-Reference
 
-**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)
-**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 111 (directive must exist), Task 112 (template must have field)
-**Status**: Not Started
+**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)  
+**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 111 (directive must exist), Task 112 (template must have field)  
+**Status**: Not Started  
 
 ---
 
@@ -40,7 +40,7 @@ Document the following actions:
 
 3. If no design found: the directive will warn; proceed with available context
 
-**Expected Outcome**: Design elements extracted and ready for task generation (or skipped cleanly with warning)
+**Expected Outcome**: Design elements extracted and ready for task generation (or skipped cleanly with warning)  
 
 ### 2. Update Step 6: Generate Task File — Metadata Section
 
@@ -120,5 +120,5 @@ Add a note to Step 6:
 
 ---
 
-**Next Task**: [Task 114: Update @acp.proceed with Design Context Loading](task-114-proceed-design-context-loading.md)
-**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)
+**Next Task**: [Task 114: Update @acp.proceed with Design Context Loading](task-114-proceed-design-context-loading.md)  
+**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)  

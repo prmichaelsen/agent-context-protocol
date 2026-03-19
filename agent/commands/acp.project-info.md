@@ -2,17 +2,17 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.project-info` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-25
-**Last Updated**: 2026-02-25
-**Status**: Experimental
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-25  
+**Last Updated**: 2026-02-25  
+**Status**: Experimental  
 
 ---
 
-**Purpose**: Display detailed information about a specific project from the global registry
-**Category**: Project Management
-**Frequency**: As Needed
+**Purpose**: Display detailed information about a specific project from the global registry  
+**Category**: Project Management  
+**Frequency**: As Needed  
 
 ---
 
@@ -44,7 +44,7 @@ Check that project name is provided.
 - Verify project name argument is present
 - Show usage if missing
 
-**Expected Outcome**: Project name identified
+**Expected Outcome**: Project name identified  
 
 ### 2. Load Registry
 
@@ -55,7 +55,7 @@ Read the project registry file.
 - Check if registry file exists
 - Parse registry with `yaml_parse()`
 
-**Expected Outcome**: Registry loaded successfully
+**Expected Outcome**: Registry loaded successfully  
 
 ### 3. Validate Project Exists
 
@@ -66,7 +66,7 @@ Check that the project is in the registry.
 - If not found, list available projects
 - Show helpful error message
 
-**Expected Outcome**: Project found in registry
+**Expected Outcome**: Project found in registry  
 
 ### 4. Extract Project Metadata
 
@@ -78,7 +78,7 @@ Read all project fields from registry.
 - Extract optional fields: tags, related_projects, dependencies
 - Check if project is current project (marked with ⭐)
 
-**Expected Outcome**: All metadata extracted
+**Expected Outcome**: All metadata extracted  
 
 ### 5. Display Project Information
 
@@ -93,7 +93,7 @@ Format and display comprehensive project details.
 - Show related projects (if present)
 - Show dependencies by package manager (npm, pip, cargo, go)
 
-**Expected Outcome**: Complete project information displayed
+**Expected Outcome**: Complete project information displayed  
 
 ### 6. Check Directory Status
 
@@ -106,7 +106,7 @@ Verify project directory exists and check ACP status.
 - Try to read project version from progress.yaml
 - Display status with appropriate indicators (✅/❌/⚠️)
 
-**Expected Outcome**: Directory status reported
+**Expected Outcome**: Directory status reported  
 
 ---
 
@@ -193,35 +193,35 @@ Dependencies:
 
 ### Example 1: Show Current Project Info
 
-**Context**: Want to see details about the current project
+**Context**: Want to see details about the current project  
 
-**Invocation**: `@acp.project-info remember-mcp-server`
+**Invocation**: `@acp.project-info remember-mcp-server`  
 
-**Result**: Displays complete project metadata including type, status, path, description, timestamps, tags, related projects, dependencies, and directory status
+**Result**: Displays complete project metadata including type, status, path, description, timestamps, tags, related projects, dependencies, and directory status  
 
 ### Example 2: Check Project Before Switching
 
-**Context**: Want to verify project exists before switching to it
+**Context**: Want to verify project exists before switching to it  
 
-**Invocation**: `@acp.project-info agentbase-mcp-server`
+**Invocation**: `@acp.project-info agentbase-mcp-server`  
 
-**Result**: Shows project details, confirms directory exists, shows it's an ACP project with version
+**Result**: Shows project details, confirms directory exists, shows it's an ACP project with version  
 
 ### Example 3: Project Not Found
 
-**Context**: Trying to view info for non-existent project
+**Context**: Trying to view info for non-existent project  
 
-**Invocation**: `@acp.project-info nonexistent-project`
+**Invocation**: `@acp.project-info nonexistent-project`  
 
-**Result**: Error message with list of available projects
+**Result**: Error message with list of available projects  
 
 ### Example 4: Project Directory Missing
 
-**Context**: Project in registry but directory deleted
+**Context**: Project in registry but directory deleted  
 
-**Invocation**: `@acp.project-info old-project`
+**Invocation**: `@acp.project-info old-project`  
 
-**Result**: Shows metadata but warns that directory doesn't exist
+**Result**: Shows metadata but warns that directory doesn't exist  
 
 ---
 
@@ -239,35 +239,35 @@ Dependencies:
 
 ### Issue 1: Registry not found
 
-**Symptom**: Error "Project registry not found"
+**Symptom**: Error "Project registry not found"  
 
-**Cause**: `~/.acp/projects.yaml` doesn't exist
+**Cause**: `~/.acp/projects.yaml` doesn't exist  
 
-**Solution**: Create a project with `@acp.project-create` to initialize the registry
+**Solution**: Create a project with `@acp.project-create` to initialize the registry  
 
 ### Issue 2: Project not found
 
-**Symptom**: Error "Project 'name' not found in registry"
+**Symptom**: Error "Project 'name' not found in registry"  
 
-**Cause**: Project not registered or wrong name
+**Cause**: Project not registered or wrong name  
 
-**Solution**: Run `@acp.project-list` to see available projects, or use `@acp.projects-sync` to discover unregistered projects
+**Solution**: Run `@acp.project-list` to see available projects, or use `@acp.projects-sync` to discover unregistered projects  
 
 ### Issue 3: Directory not found
 
-**Symptom**: Warning "Project directory not found"
+**Symptom**: Warning "Project directory not found"  
 
-**Cause**: Project directory was moved or deleted
+**Cause**: Project directory was moved or deleted  
 
-**Solution**: Either restore the directory, update the path with `@acp.project-update`, or remove the project with `@acp.project-remove`
+**Solution**: Either restore the directory, update the path with `@acp.project-update`, or remove the project with `@acp.project-remove`  
 
 ### Issue 4: No metadata displayed
 
-**Symptom**: Some fields show as empty or "null"
+**Symptom**: Some fields show as empty or "null"  
 
-**Cause**: Optional fields not set in registry
+**Cause**: Optional fields not set in registry  
 
-**Solution**: This is normal for optional fields (tags, related_projects, dependencies). Use `@acp.project-update` to add metadata.
+**Solution**: This is normal for optional fields (tags, related_projects, dependencies). Use `@acp.project-update` to add metadata.  
 
 ---
 
@@ -302,11 +302,11 @@ Dependencies:
 
 ---
 
-**Namespace**: acp
-**Command**: project-info
-**Version**: 1.0.0
-**Created**: 2026-02-25
-**Last Updated**: 2026-02-25
-**Status**: Experimental
-**Compatibility**: ACP 4.1.1+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: project-info  
+**Version**: 1.0.0  
+**Created**: 2026-02-25  
+**Last Updated**: 2026-02-25  
+**Status**: Experimental  
+**Compatibility**: ACP 4.1.1+  
+**Author**: ACP Project  

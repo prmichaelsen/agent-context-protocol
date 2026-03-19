@@ -1,9 +1,9 @@
 # Task 34: Build Generic YAML Parser with AST
 
-**Milestone**: Future Project
-**Estimated Time**: 1-2 weeks
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Project  
+**Estimated Time**: 1-2 weeks  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -21,7 +21,7 @@ Current YAML parser (`acp.yaml.sh`) has limitations:
 - ❌ Not truly generic
 - ❌ Functions like `yaml_get_nested` are pattern-specific
 
-**Vision**: Build a proper YAML parser that:
+**Vision**: Build a proper YAML parser that:  
 - ✅ Parses YAML once into AST
 - ✅ Supports generic path expressions (`.path.to.field`, `.array[0].field`)
 - ✅ Recursive tree traversal
@@ -286,7 +286,7 @@ If pure shell requirement is relaxed:
 - Full YAML support immediately
 - Better performance
 
-**Trade-off**: External dependency vs. pure shell
+**Trade-off**: External dependency vs. pure shell  
 
 ---
 
@@ -311,6 +311,6 @@ If pure shell requirement is relaxed:
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion Date**: TBD
-**Potential Spin-off Project**: yaml-sh (separate repository)
+**Next Task**: TBD  
+**Estimated Completion Date**: TBD  
+**Potential Spin-off Project**: yaml-sh (separate repository)  

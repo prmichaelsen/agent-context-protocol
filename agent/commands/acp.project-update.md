@@ -2,17 +2,17 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.project-update` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-25
-**Last Updated**: 2026-02-25
-**Status**: Experimental
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-25  
+**Last Updated**: 2026-02-25  
+**Status**: Experimental  
 
 ---
 
-**Purpose**: Update project metadata in the global registry
-**Category**: Project Management
-**Frequency**: As Needed
+**Purpose**: Update project metadata in the global registry  
+**Category**: Project Management  
+**Frequency**: As Needed  
 
 ---
 
@@ -45,7 +45,7 @@ Extract project name and update options.
 - Parse update flags (--status, --description, --type, --git-origin, --git-branch, etc.)
 - Validate at least one update option provided
 
-**Expected Outcome**: Arguments parsed successfully
+**Expected Outcome**: Arguments parsed successfully  
 
 ### 2. Validate Project Exists
 
@@ -56,7 +56,7 @@ Check that the project is in the registry.
 - Check project exists with `yaml_has_key()`
 - Show error if not found
 
-**Expected Outcome**: Project found in registry
+**Expected Outcome**: Project found in registry  
 
 ### 3. Validate Update Values
 
@@ -67,7 +67,7 @@ Check that provided values are valid.
 - Validate other fields as needed
 - Show errors for invalid values
 
-**Expected Outcome**: All values validated
+**Expected Outcome**: All values validated  
 
 ### 4. Apply Updates
 
@@ -86,7 +86,7 @@ Update registry with new values.
 - Update last_modified timestamp
 - Update registry last_updated timestamp
 
-**Expected Outcome**: All updates applied to AST
+**Expected Outcome**: All updates applied to AST  
 
 ### 5. Write Changes
 
@@ -97,7 +97,7 @@ Save updated registry to disk.
 - Report number of updates applied
 - Show success message
 
-**Expected Outcome**: Registry updated on disk
+**Expected Outcome**: Registry updated on disk  
 
 ---
 
@@ -157,59 +157,59 @@ Run 'acp.project-info.sh remember-mcp-server' to see updated information
 
 ### Example 1: Update Project Status
 
-**Context**: Mark project as archived when completed
+**Context**: Mark project as archived when completed  
 
-**Invocation**: `@acp.project-update old-project --status archived`
+**Invocation**: `@acp.project-update old-project --status archived`  
 
-**Result**: Status changed to "archived", last_modified timestamp updated
+**Result**: Status changed to "archived", last_modified timestamp updated  
 
 ### Example 2: Add Multiple Tags
 
-**Context**: Add organization tags to project
+**Context**: Add organization tags to project  
 
-**Invocation**: `@acp.project-update my-project --add-tag production --add-tag critical --add-tag backend`
+**Invocation**: `@acp.project-update my-project --add-tag production --add-tag critical --add-tag backend`  
 
-**Result**: Three tags added, duplicates prevented if tags already exist
+**Result**: Three tags added, duplicates prevented if tags already exist  
 
 ### Example 3: Update Description
 
-**Context**: Improve project description
+**Context**: Improve project description  
 
-**Invocation**: `@acp.project-update my-project --description "Multi-tenant memory system with vector search and relationship tracking"`
+**Invocation**: `@acp.project-update my-project --description "Multi-tenant memory system with vector search and relationship tracking"`  
 
-**Result**: Description updated in registry
+**Result**: Description updated in registry  
 
 ### Example 4: Link Related Projects
 
-**Context**: Connect server and client projects
+**Context**: Connect server and client projects  
 
-**Invocation**: `@acp.project-update remember-mcp-server --add-related remember-mcp`
+**Invocation**: `@acp.project-update remember-mcp-server --add-related remember-mcp`  
 
-**Result**: remember-mcp added to related_projects array
+**Result**: remember-mcp added to related_projects array  
 
 ### Example 5: Set Git Origin
 
-**Context**: Manually set git remote URL for a project
+**Context**: Manually set git remote URL for a project  
 
-**Invocation**: `@acp.project-update my-project --git-origin git@github.com:user/my-project.git --git-branch main`
+**Invocation**: `@acp.project-update my-project --git-origin git@github.com:user/my-project.git --git-branch main`  
 
-**Result**: git_origin and git_branch set in registry, enabling `@acp.projects-restore`
+**Result**: git_origin and git_branch set in registry, enabling `@acp.projects-restore`  
 
 ### Example 6: Multiple Updates
 
-**Context**: Update several fields at once
+**Context**: Update several fields at once  
 
-**Invocation**: `@acp.project-update my-project --status active --add-tag production --remove-tag development`
+**Invocation**: `@acp.project-update my-project --status active --add-tag production --remove-tag development`  
 
-**Result**: Status updated, production tag added, development tag removed
+**Result**: Status updated, production tag added, development tag removed  
 
 ### Example 7: Remove Tag
 
-**Context**: Remove obsolete tag
+**Context**: Remove obsolete tag  
 
-**Invocation**: `@acp.project-update my-project --remove-tag deprecated`
+**Invocation**: `@acp.project-update my-project --remove-tag deprecated`  
 
-**Result**: Tag removed from tags array
+**Result**: Tag removed from tags array  
 
 ---
 
@@ -227,43 +227,43 @@ Run 'acp.project-info.sh remember-mcp-server' to see updated information
 
 ### Issue 1: Registry not found
 
-**Symptom**: Error "Project registry not found"
+**Symptom**: Error "Project registry not found"  
 
-**Cause**: `~/.acp/projects.yaml` doesn't exist
+**Cause**: `~/.acp/projects.yaml` doesn't exist  
 
-**Solution**: Create a project with `@acp.project-create` to initialize the registry
+**Solution**: Create a project with `@acp.project-create` to initialize the registry  
 
 ### Issue 2: Project not found
 
-**Symptom**: Error "Project 'name' not found in registry"
+**Symptom**: Error "Project 'name' not found in registry"  
 
-**Cause**: Project not registered or wrong name
+**Cause**: Project not registered or wrong name  
 
-**Solution**: Run `@acp.project-list` to see available projects
+**Solution**: Run `@acp.project-list` to see available projects  
 
 ### Issue 3: Invalid status value
 
-**Symptom**: Error "Invalid status 'value'"
+**Symptom**: Error "Invalid status 'value'"  
 
-**Cause**: Status must be one of: active, archived, paused
+**Cause**: Status must be one of: active, archived, paused  
 
-**Solution**: Use a valid status value
+**Solution**: Use a valid status value  
 
 ### Issue 4: No updates specified
 
-**Symptom**: Error "No updates specified"
+**Symptom**: Error "No updates specified"  
 
-**Cause**: Command requires at least one update option
+**Cause**: Command requires at least one update option  
 
-**Solution**: Provide at least one update flag (--status, --description, --add-tag, etc.)
+**Solution**: Provide at least one update flag (--status, --description, --add-tag, etc.)  
 
 ### Issue 5: Tag already exists
 
-**Symptom**: Message "Tag already exists: tag-name"
+**Symptom**: Message "Tag already exists: tag-name"  
 
-**Cause**: Trying to add a tag that's already in the tags array
+**Cause**: Trying to add a tag that's already in the tags array  
 
-**Solution**: This is informational, not an error. The tag won't be duplicated.
+**Solution**: This is informational, not an error. The tag won't be duplicated.  
 
 ---
 
@@ -297,11 +297,11 @@ Run 'acp.project-info.sh remember-mcp-server' to see updated information
 
 ---
 
-**Namespace**: acp
-**Command**: project-update
-**Version**: 1.0.0
-**Created**: 2026-02-25
-**Last Updated**: 2026-02-25
-**Status**: Experimental
-**Compatibility**: ACP 4.1.1+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: project-update  
+**Version**: 1.0.0  
+**Created**: 2026-02-25  
+**Last Updated**: 2026-02-25  
+**Status**: Experimental  
+**Compatibility**: ACP 4.1.1+  
+**Author**: ACP Project  

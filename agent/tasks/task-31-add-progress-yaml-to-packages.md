@@ -1,9 +1,9 @@
 # Task 31: Add progress.yaml to Package Repositories
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 1-2 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -21,9 +21,9 @@ ACP packages ARE projects managed by ACP, but currently `@acp.package-create` do
 - ❌ Can't track milestones like "Add Core Patterns", "Documentation", "Publishing"
 - ❌ Inconsistent experience between projects and packages
 
-**Solution**: `@acp.package-create` should create `progress.yaml` with package-specific milestones.
+**Solution**: `@acp.package-create` should create `progress.yaml` with package-specific milestones.  
 
-**Note**: `progress.yaml` is for package development only - it's NOT installed to user projects (already excluded via `.gitignore` in packages).
+**Note**: `progress.yaml` is for package development only - it's NOT installed to user projects (already excluded via `.gitignore` in packages).  
 
 ---
 
@@ -38,7 +38,7 @@ Check that `progress.yaml` is already excluded:
 - Verify `acp.package-install.sh` doesn't copy `progress.yaml`
 - Confirm `progress.yaml` is for development only
 
-**Expected Outcome**: Confirmed progress.yaml won't be installed to user projects
+**Expected Outcome**: Confirmed progress.yaml won't be installed to user projects  
 
 ### 2. Update acp.package-create.sh
 
@@ -128,7 +128,7 @@ echo "${GREEN}✓${NC} Created progress.yaml for package development tracking"
 echo ""
 ```
 
-**Expected Outcome**: progress.yaml created with package-specific structure
+**Expected Outcome**: progress.yaml created with package-specific structure  
 
 ### 3. Update Success Message
 
@@ -144,7 +144,7 @@ echo "  ${GREEN}✓${NC} Bootstrap script (scripts/bootstrap.sh)"
 echo "  ${GREEN}✓${NC} Progress tracking (agent/progress.yaml)"  # NEW
 ```
 
-**Expected Outcome**: Users know progress.yaml was created
+**Expected Outcome**: Users know progress.yaml was created  
 
 ### 4. Update Documentation
 
@@ -160,10 +160,10 @@ The created package includes `agent/progress.yaml` for tracking package developm
 - Use standard ACP commands (@acp.init, @acp.proceed, @acp.status)
 - Monitor development progress
 
-**Note**: progress.yaml is for package development only and is NOT installed to user projects (excluded via .gitignore).
+**Note**: progress.yaml is for package development only and is NOT installed to user projects (excluded via .gitignore).  
 ```
 
-**Expected Outcome**: Documentation explains progress.yaml usage
+**Expected Outcome**: Documentation explains progress.yaml usage  
 
 ### 5. Test Package Creation
 
@@ -176,7 +176,7 @@ Test that progress.yaml is created correctly:
 - Test ACP commands work: `@acp.init`, `@acp.status`
 - Verify progress.yaml is in `.gitignore`
 
-**Expected Outcome**: progress.yaml works correctly in packages
+**Expected Outcome**: progress.yaml works correctly in packages  
 
 ---
 
@@ -237,21 +237,21 @@ tasks:
 
 ### Issue 1: progress.yaml conflicts with template
 
-**Symptom**: Error creating progress.yaml
+**Symptom**: Error creating progress.yaml  
 
-**Solution**: Ensure progress.template.yaml exists from ACP installation. Use custom content instead of copying template.
+**Solution**: Ensure progress.template.yaml exists from ACP installation. Use custom content instead of copying template.  
 
 ### Issue 2: ACP commands still don't work
 
-**Symptom**: Commands fail even with progress.yaml
+**Symptom**: Commands fail even with progress.yaml  
 
-**Solution**: Verify progress.yaml is valid YAML. Check that current_milestone exists in milestones section.
+**Solution**: Verify progress.yaml is valid YAML. Check that current_milestone exists in milestones section.  
 
 ### Issue 3: progress.yaml installed to user projects
 
-**Symptom**: Users get progress.yaml when installing package
+**Symptom**: Users get progress.yaml when installing package  
 
-**Solution**: Verify .gitignore includes agent/progress.yaml. Verify acp.package-install.sh doesn't copy progress.yaml.
+**Solution**: Verify .gitignore includes agent/progress.yaml. Verify acp.package-install.sh doesn't copy progress.yaml.  
 
 ---
 
@@ -274,5 +274,5 @@ tasks:
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion Date**: TBD
+**Next Task**: TBD  
+**Estimated Completion Date**: TBD  

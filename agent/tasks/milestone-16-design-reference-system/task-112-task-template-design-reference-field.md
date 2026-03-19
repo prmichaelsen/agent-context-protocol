@@ -1,10 +1,10 @@
 # Task 112: Update Task Template with Design Reference Field
 
-**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)
-**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)
-**Estimated Time**: 1 hour
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)  
+**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)  
+**Estimated Time**: 1 hour  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -30,21 +30,21 @@ Open `agent/tasks/task-1-{title}.template.md` and add a Design Reference field a
 ```markdown
 # Task {N}: {Descriptive Task Name}
 
-**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)
-**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]
-**Dependencies**: [List prerequisite tasks, or "None"]
-**Status**: Not Started | In Progress | Completed
+**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)  
+**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]  
+**Dependencies**: [List prerequisite tasks, or "None"]  
+**Status**: Not Started | In Progress | Completed  
 ```
 
 **Updated metadata block**:
 ```markdown
 # Task {N}: {Descriptive Task Name}
 
-**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)
-**Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None
-**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]
-**Dependencies**: [List prerequisite tasks, or "None"]
-**Status**: Not Started | In Progress | Completed
+**Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)  
+**Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None  
+**Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]  
+**Dependencies**: [List prerequisite tasks, or "None"]  
+**Status**: Not Started | In Progress | Completed  
 ```
 
 ### 2. Add Template Guidance for the Field
@@ -81,5 +81,5 @@ In the template's example/comment section, add guidance:
 
 ---
 
-**Next Task**: [Task 113: Update @acp.task-create with Design Cross-Reference](task-113-task-create-design-cross-reference.md)
-**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)
+**Next Task**: [Task 113: Update @acp.task-create with Design Cross-Reference](task-113-task-create-design-cross-reference.md)  
+**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)  

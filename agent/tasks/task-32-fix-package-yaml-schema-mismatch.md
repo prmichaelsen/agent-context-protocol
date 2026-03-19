@@ -1,9 +1,9 @@
 # Task 32: Fix package.yaml Schema Mismatch and Add Template
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 4-6 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -15,7 +15,7 @@ Enhance the YAML parser to support nested objects and array indexing (e.g., `con
 
 ## Context
 
-**Root Cause Discovered**: The YAML parser (`acp.yaml.sh`) doesn't support array indexing or nested objects!
+**Root Cause Discovered**: The YAML parser (`acp.yaml.sh`) doesn't support array indexing or nested objects!  
 
 **Current Limitation**:
 - yaml-parser library says: "Arrays are not supported"
@@ -49,13 +49,13 @@ Confirm that scripts expect object format with `.name` field:
 - Check `contents.designs` usage in acp.package-info.sh
 - Confirm all scripts expect `{name: "file.md"}` format
 
-**Expected Outcome**: Confirmed scripts use object format
+**Expected Outcome**: Confirmed scripts use object format  
 
 ### 2. Create package.template.yaml
 
 Create template showing correct format:
 
-**File**: `agent/package.template.yaml`
+**File**: `agent/package.template.yaml`  
 
 **Content**:
 ```yaml
@@ -96,7 +96,7 @@ tags:
   - tag2
 ```
 
-**Expected Outcome**: Template created with correct format
+**Expected Outcome**: Template created with correct format  
 
 ### 3. Update Schema Documentation
 
@@ -120,7 +120,7 @@ contents:
 - Update scripts to handle simple strings
 - Keep schema as-is
 
-**Expected Outcome**: Schema matches implementation
+**Expected Outcome**: Schema matches implementation  
 
 ### 4. Update acp.package-create.sh
 
@@ -136,7 +136,7 @@ contents:
 EOF
 ```
 
-**Expected Outcome**: Generated package.yaml uses correct format
+**Expected Outcome**: Generated package.yaml uses correct format  
 
 ### 5. Update Installation Scripts
 
@@ -148,7 +148,7 @@ Ensure all scripts handle the format consistently:
 - acp.package-info.sh
 - acp.package-update.sh
 
-**Expected Outcome**: All scripts use same format
+**Expected Outcome**: All scripts use same format  
 
 ### 6. Update Documentation
 
@@ -159,7 +159,7 @@ Update command documentation to show correct format:
 - agent/design/acp-package-management-system.md
 - agent/design/acp-package-development-system.md
 
-**Expected Outcome**: Documentation shows correct format
+**Expected Outcome**: Documentation shows correct format  
 
 ### 7. Test with Real Package
 
@@ -171,7 +171,7 @@ Test the corrected format:
 - Run installation - should install correctly
 - Verify no false warnings
 
-**Expected Outcome**: Format works correctly across all scripts
+**Expected Outcome**: Format works correctly across all scripts  
 
 ---
 
@@ -221,15 +221,15 @@ contents:
 
 ### Issue 1: Scripts still can't read contents
 
-**Symptom**: Validation reports 0 files
+**Symptom**: Validation reports 0 files  
 
-**Solution**: Verify YAML parser can handle the format. Test with acp.yaml.sh directly.
+**Solution**: Verify YAML parser can handle the format. Test with acp.yaml.sh directly.  
 
 ### Issue 2: Format breaks existing packages
 
-**Symptom**: Old packages stop working
+**Symptom**: Old packages stop working  
 
-**Solution**: Add backward compatibility - support both simple strings and objects.
+**Solution**: Add backward compatibility - support both simple strings and objects.  
 
 ---
 
@@ -251,5 +251,5 @@ contents:
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion Date**: TBD
+**Next Task**: TBD  
+**Estimated Completion Date**: TBD  

@@ -1,9 +1,9 @@
 # Task 26: Global Installation Implementation
 
-**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 25 (Global Infrastructure Setup)
-**Status**: Not Started
+**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 25 (Global Infrastructure Setup)  
+**Status**: Not Started  
 
 ---
 
@@ -31,7 +31,7 @@ The implementation reuses existing installation logic but changes the target dir
 
 Update `agent/scripts/acp.package-install.sh` to parse `--global` flag:
 
-**Location**: Near top of script, after shebang and before main logic
+**Location**: Near top of script, after shebang and before main logic  
 
 **Code to add**:
 ```bash
@@ -75,7 +75,7 @@ done
 
 Add logic to choose installation directory based on `--global` flag:
 
-**Location**: After argument parsing, before clone operation
+**Location**: After argument parsing, before clone operation  
 
 **Code to add**:
 ```bash
@@ -342,27 +342,27 @@ packages:
 
 ### Issue 1: Global manifest not initialized
 
-**Symptom**: Error "Global manifest not found"
+**Symptom**: Error "Global manifest not found"  
 
-**Solution**: Run `init_global_manifest` function or create `~/.acp/manifest.yaml` manually. The script should auto-initialize, but if it doesn't, run: `source agent/scripts/acp.common.sh && init_global_manifest`
+**Solution**: Run `init_global_manifest` function or create `~/.acp/manifest.yaml` manually. The script should auto-initialize, but if it doesn't, run: `source agent/scripts/acp.common.sh && init_global_manifest`  
 
 ### Issue 2: Package already exists globally
 
-**Symptom**: Error "Package already installed globally"
+**Symptom**: Error "Package already installed globally"  
 
-**Solution**: Remove existing package first: `@acp.package-remove --global {package-name}`, then install again. Or use `@acp.package-update --global` to update instead.
+**Solution**: Remove existing package first: `@acp.package-remove --global {package-name}`, then install again. Or use `@acp.package-update --global` to update instead.  
 
 ### Issue 3: Wrong directory structure
 
-**Symptom**: Package installed to wrong location
+**Symptom**: Package installed to wrong location  
 
-**Solution**: Verify `--global` flag is parsed correctly. Check that `GLOBAL_INSTALL` variable is set to `true`. Debug with: `echo "GLOBAL_INSTALL=$GLOBAL_INSTALL"`
+**Solution**: Verify `--global` flag is parsed correctly. Check that `GLOBAL_INSTALL` variable is set to `true`. Debug with: `echo "GLOBAL_INSTALL=$GLOBAL_INSTALL"`  
 
 ### Issue 4: Manifest not updated
 
-**Symptom**: Package installed but not in manifest
+**Symptom**: Package installed but not in manifest  
 
-**Solution**: Check that manifest functions are being called with correct path. Verify `$MANIFEST_FILE` points to `~/.acp/manifest.yaml` for global installations.
+**Solution**: Check that manifest functions are being called with correct path. Verify `$MANIFEST_FILE` points to `~/.acp/manifest.yaml` for global installations.  
 
 ---
 
@@ -387,6 +387,6 @@ packages:
 
 ---
 
-**Next Task**: [task-27-global-package-commands.md](task-27-global-package-commands.md)
-**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [task-27-global-package-commands.md](task-27-global-package-commands.md)  
+**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)  
+**Estimated Completion Date**: TBD  

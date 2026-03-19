@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.artifact-research NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-17
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-17  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create long-lived research artifacts via systematic investigation with web/MCP integration and quality standards
-**Category**: Entity Creation
-**Frequency**: As Needed
+**Purpose**: Create long-lived research artifacts via systematic investigation with web/MCP integration and quality standards  
+**Category**: Entity Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -63,7 +63,7 @@ All findings require exact citations with confidence scores (1-10) and reproduci
 
 - [ ] ACP installed in current directory (`agent/` directory exists)
 - [ ] `agent/artifacts/` directory exists (will be created if not)
-- [ ] `agent/artifacts.template.md/research.template.md` exists
+- [ ] `agent/artifacts/research.template.md` exists
 
 ---
 
@@ -86,7 +86,7 @@ Identify what to research.
 - If still unclear:
   - Prompt user: "What topic would you like to research?"
 
-**Expected Outcome**: Clear research topic identified (e.g., "GraphQL federation patterns in microservices")
+**Expected Outcome**: Clear research topic identified (e.g., "GraphQL federation patterns in microservices")  
 
 ### 2. Generate Research Plan
 
@@ -141,7 +141,7 @@ Create a structured research plan before execution.
 - Prompt: "I notice this research spans {topic A} and {topic B}. These seem loosely coupled. Should I split this into two research artifacts?"
 - If user agrees → create separate artifacts (recursively invoke command twice)
 
-**Expected Outcome**: Approved research plan with clear scope, topics, and tool strategy
+**Expected Outcome**: Approved research plan with clear scope, topics, and tool strategy  
 
 ### 3. Execute Research
 
@@ -207,14 +207,14 @@ Systematically research each topic in the plan.
 - **Non-critical code**: Remote link acceptable
 - **Unreachable remote**: Fallback to inline with "Source unavailable" note
 
-**Expected Outcome**: All topics researched with citations, confidence scores, verification processes
+**Expected Outcome**: All topics researched with citations, confidence scores, verification processes  
 
 ### 4. Fill Artifact Sections
 
 Populate the research artifact progressively.
 
 **Actions**:
-- Start from template: `agent/artifacts.template.md/research.template.md`
+- Start from template: `agent/artifacts/research.template.md`
 - Fill metadata block:
   - **Type**: research
   - **Created**: Today's date (YYYY-MM-DD)
@@ -261,7 +261,7 @@ Populate the research artifact progressively.
 - Confidence score for every finding
 - Verification process documented
 
-**Expected Outcome**: Research artifact file populated with all findings
+**Expected Outcome**: Research artifact file populated with all findings  
 
 ### 5. Sanity Check Loop
 
@@ -293,7 +293,7 @@ Verify completeness and identify gaps.
 - Notify user: "Conflicting sources detected. Review conflict markers and resolve before commit."
 - Do NOT proceed to Step 6 (auto-commit) if conflicts exist
 
-**Expected Outcome**: Artifact verified complete, conflicts flagged, new gaps handled
+**Expected Outcome**: Artifact verified complete, conflicts flagged, new gaps handled  
 
 ### 6. Synthesize (Analysis & Recommendations)
 
@@ -319,7 +319,7 @@ Generate synthesis sections if appropriate.
 - Be explicit about confidence level of conclusions
 - Note where more research is needed
 
-**Expected Outcome**: Synthesis sections added to artifact
+**Expected Outcome**: Synthesis sections added to artifact  
 
 ### 7. Auto-Commit (unless `--no-commit`)
 
@@ -345,7 +345,7 @@ Establish baseline commit for the artifact.
   - Leave file staged but uncommitted
   - Notify user: "Artifact created, staged, awaiting commit."
 
-**Expected Outcome**: Research artifact committed (or staged if conflicts/--no-commit)
+**Expected Outcome**: Research artifact committed (or staged if conflicts/--no-commit)  
 
 ### 8. Report Success
 
@@ -374,7 +374,7 @@ Next steps:
 - {If gaps noted: Consider follow-up research for: {gap-list}}
 ```
 
-**Expected Outcome**: User knows artifact is complete and where to find it
+**Expected Outcome**: User knows artifact is complete and where to find it  
 
 ---
 
@@ -428,43 +428,43 @@ Next steps:
 
 ### Example 1: Research from Topic
 
-**Context**: Need to understand GraphQL federation before architectural decision
+**Context**: Need to understand GraphQL federation before architectural decision  
 
-**Invocation**: `@acp.artifact-research GraphQL federation patterns`
+**Invocation**: `@acp.artifact-research GraphQL federation patterns`  
 
-**Result**: Agent generates research plan, searches official docs + community discussions, compares federation vs schema stitching, captures performance benchmarks, creates `research-1-graphql-federation-patterns.md` with citations and confidence scores. Auto-commits baseline.
+**Result**: Agent generates research plan, searches official docs + community discussions, compares federation vs schema stitching, captures performance benchmarks, creates `research-1-graphql-federation-patterns.md` with citations and confidence scores. Auto-commits baseline.  
 
 ### Example 2: Research from Clarification
 
-**Context**: Clarification-12 captured decision to use JWT auth but noted "research JWT best practices"
+**Context**: Clarification-12 captured decision to use JWT auth but noted "research JWT best practices"  
 
-**Invocation**: `@acp.artifact-research --from-clarification clarification-12`
+**Invocation**: `@acp.artifact-research --from-clarification clarification-12`  
 
-**Result**: Agent extracts "JWT best practices" topic from clarification, researches token expiration strategies, refresh token patterns, storage security, creates artifact with recommendations, auto-commits.
+**Result**: Agent extracts "JWT best practices" topic from clarification, researches token expiration strategies, refresh token patterns, storage security, creates artifact with recommendations, auto-commits.  
 
 ### Example 3: Quick Codebase-Only Research
 
-**Context**: Need to understand current error handling patterns before refactor
+**Context**: Need to understand current error handling patterns before refactor  
 
-**Invocation**: `@acp.artifact-research error handling --shallow`
+**Invocation**: `@acp.artifact-research error handling --shallow`  
 
-**Result**: Agent scans codebase for error handling patterns, catalogs approaches across files, notes inconsistencies, creates lightweight artifact (no web research), auto-commits.
+**Result**: Agent scans codebase for error handling patterns, catalogs approaches across files, notes inconsistencies, creates lightweight artifact (no web research), auto-commits.  
 
 ### Example 4: Research with MCP Tools
 
-**Context**: Evaluating vendor API, have GitHub MCP tool configured
+**Context**: Evaluating vendor API, have GitHub MCP tool configured  
 
-**Invocation**: `@acp.artifact-research Stripe API integration`
+**Invocation**: `@acp.artifact-research Stripe API integration`  
 
-**Result**: Agent uses WebSearch for Stripe docs, invokes GitHub MCP to check Stripe SDK repo stats (stars, issues, release cadence), captures community sentiment from Reddit/Twitter via web, creates comprehensive evaluation with vendor support metrics, auto-commits.
+**Result**: Agent uses WebSearch for Stripe docs, invokes GitHub MCP to check Stripe SDK repo stats (stars, issues, release cadence), captures community sentiment from Reddit/Twitter via web, creates comprehensive evaluation with vendor support metrics, auto-commits.  
 
 ### Example 5: Conflicting Sources
 
-**Context**: Researching Redis persistence options, sources disagree on RDB vs AOF performance
+**Context**: Researching Redis persistence options, sources disagree on RDB vs AOF performance  
 
-**Invocation**: `@acp.artifact-research Redis persistence strategies`
+**Invocation**: `@acp.artifact-research Redis persistence strategies`  
 
-**Result**: Agent finds vendor blog claiming "RDB is faster" and independent benchmark claiming "AOF is faster under load". Uses git conflict markers to preserve both findings. Does NOT auto-commit. Prompts user to resolve conflict.
+**Result**: Agent finds vendor blog claiming "RDB is faster" and independent benchmark claiming "AOF is faster under load". Uses git conflict markers to preserve both findings. Does NOT auto-commit. Prompts user to resolve conflict.  
 
 ---
 
@@ -482,35 +482,35 @@ Next steps:
 
 ### Issue 1: No web research results
 
-**Symptom**: WebSearch returns no useful results for topic
+**Symptom**: WebSearch returns no useful results for topic  
 
-**Cause**: Topic too niche, or phrasing doesn't match common search terms
+**Cause**: Topic too niche, or phrasing doesn't match common search terms  
 
-**Solution**: Try alternative phrasings, break into sub-topics, or use `--shallow` for codebase-only research
+**Solution**: Try alternative phrasings, break into sub-topics, or use `--shallow` for codebase-only research  
 
 ### Issue 2: Too many findings, artifact unwieldy
 
-**Symptom**: Research uncovers 50+ findings, artifact is hundreds of lines
+**Symptom**: Research uncovers 50+ findings, artifact is hundreds of lines  
 
-**Cause**: Topic too broad or insufficiently scoped
+**Cause**: Topic too broad or insufficiently scoped  
 
-**Solution**: Split into multiple artifacts (one per sub-topic), or note additional topics in "Limitations & Gaps" for follow-up
+**Solution**: Split into multiple artifacts (one per sub-topic), or note additional topics in "Limitations & Gaps" for follow-up  
 
 ### Issue 3: Conflicting sources, can't decide
 
-**Symptom**: Multiple sources disagree, unclear which is correct
+**Symptom**: Multiple sources disagree, unclear which is correct  
 
-**Cause**: Technology landscape is legitimately contentious, or sources are outdated
+**Cause**: Technology landscape is legitimately contentious, or sources are outdated  
 
-**Solution**: Use git conflict markers to preserve both views. User resolves based on project constraints. If time-sensitive, note in "Limitations & Gaps" and proceed with lower confidence score.
+**Solution**: Use git conflict markers to preserve both views. User resolves based on project constraints. If time-sensitive, note in "Limitations & Gaps" and proceed with lower confidence score.  
 
 ### Issue 4: MCP tool not available
 
-**Symptom**: User mentions MCP tool but agent can't access it
+**Symptom**: User mentions MCP tool but agent can't access it  
 
-**Cause**: MCP tool not configured in user's environment
+**Cause**: MCP tool not configured in user's environment  
 
-**Solution**: Skip MCP tool invocation, rely on web research. Note in artifact: "MCP tool {name} not available; data gathered via web research only."
+**Solution**: Skip MCP tool invocation, rely on web research. Note in artifact: "MCP tool {name} not available; data gathered via web research only."  
 
 ---
 
@@ -584,11 +584,11 @@ Next steps:
 
 ---
 
-**Namespace**: acp
-**Command**: artifact-research
-**Version**: 1.0.0
-**Created**: 2026-03-17
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Compatibility**: ACP 5.24.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: artifact-research  
+**Version**: 1.0.0  
+**Created**: 2026-03-17  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Compatibility**: ACP 5.24.0+  
+**Author**: ACP Project  

@@ -1,9 +1,9 @@
 # Task 37: Preference Loading Infrastructure
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 4-6 hours
-**Dependencies**: Task 34 (Generic YAML Parser)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: Task 34 (Generic YAML Parser)  
+**Status**: Not Started  
 
 ---
 
@@ -243,11 +243,11 @@ Create `agent/commands/acp.preferences-get.md`:
 > **🤖 Agent Directive**: Run `./agent/scripts/acp.preferences-get.sh` to generate 
 > complete preferences for the specified namespace with precedence applied.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Purpose**: Generate and display complete preference set for a namespace
-**Category**: Utility
-**Frequency**: As Needed
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Purpose**: Generate and display complete preference set for a namespace  
+**Category**: Utility  
+**Frequency**: As Needed  
 
 ---
 
@@ -385,16 +385,16 @@ acp:
 ## Common Issues and Solutions
 
 ### Issue 1: YAML parser not found
-**Symptom**: Error "acp.yaml-parser.sh: No such file or directory"
-**Solution**: Ensure YAML parser exists and script path is correct
+**Symptom**: Error "acp.yaml-parser.sh: No such file or directory"  
+**Solution**: Ensure YAML parser exists and script path is correct  
 
 ### Issue 2: Preference file not found
-**Symptom**: Warning about missing preference files
-**Solution**: This is normal - preferences are optional. Script falls back to defaults.
+**Symptom**: Warning about missing preference files  
+**Solution**: This is normal - preferences are optional. Script falls back to defaults.  
 
 ### Issue 3: Invalid preference path
-**Symptom**: Empty string returned for valid preference
-**Solution**: Check dot notation syntax (e.g., `plan.draft.create_mode` not `plan/draft/create_mode`)
+**Symptom**: Empty string returned for valid preference  
+**Solution**: Check dot notation syntax (e.g., `plan.draft.create_mode` not `plan/draft/create_mode`)  
 
 ---
 
@@ -417,6 +417,6 @@ acp:
 
 ---
 
-**Next Task**: [Task 38: Configurables System Enhancement](task-38-configurables-system-enhancement.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 38: Configurables System Enhancement](task-38-configurables-system-enhancement.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

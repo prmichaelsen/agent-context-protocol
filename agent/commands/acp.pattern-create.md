@@ -6,18 +6,18 @@
 >
 > Follow the steps below to create a pattern file with proper namespace and automatic package updates.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-20
-**Last Updated**: 2026-02-20
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-20  
+**Last Updated**: 2026-02-20  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create pattern files with namespace enforcement, draft support, and automatic package updates
-**Category**: Creation
-**Frequency**: As Needed
+**Purpose**: Create pattern files with namespace enforcement, draft support, and automatic package updates  
+**Category**: Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -32,7 +32,7 @@ This command creates a new pattern file with intelligent namespace handling, opt
 - Auto-updates package.yaml and README.md
 - Uses pattern.template.md as base
 
-**Use this when**: Creating a new pattern in an ACP project or package.
+**Use this when**: Creating a new pattern in an ACP project or package.  
 
 ---
 
@@ -71,7 +71,7 @@ Determine if in package or project directory:
 - If package: Infer namespace from package.yaml, directory, or git remote
 - If project: Use "local" namespace
 
-**Expected Outcome**: Context detected, namespace determined
+**Expected Outcome**: Context detected, namespace determined  
 
 ### 2. Check for Draft File
 
@@ -86,7 +86,7 @@ Check if draft file was provided as argument:
 - If draft provided: Read draft file
 - If no draft: Proceed to Step 3
 
-**Expected Outcome**: Draft file read (if provided)
+**Expected Outcome**: Draft file read (if provided)  
 
 ### 2.5. Read Contextual Key Files
 
@@ -99,7 +99,7 @@ Before creating content, load relevant key files from the index.
 - Sort by weight descending, read matching files
 - Produce visible output
 
-**Note**: If `agent/index/` does not exist, skip silently.
+**Note**: If `agent/index/` does not exist, skip silently.  
 
 ### 2.7. Capture Clarification Context
 
@@ -113,7 +113,7 @@ Invoke the `@acp.clarification-capture` shared directive to capture decisions fr
 - Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
 - Hold the generated section for insertion during Step 5 (Generate Pattern File)
 
-**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly
+**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly  
 
 ### 3. Collect Pattern Information
 
@@ -131,7 +131,7 @@ Gather information from user via chat:
 - Ask: "Describe what you want this pattern to accomplish" OR
 - Offer: "Would you like to create an empty draft file first?"
 
-**Expected Outcome**: All pattern metadata collected
+**Expected Outcome**: All pattern metadata collected  
 
 ### 4. Process Draft (If Provided)
 
@@ -147,7 +147,7 @@ If draft file was provided, create clarification:
   - Wait for user to answer clarification
   - Read answered clarification
 
-**Expected Outcome**: Clarification created and answered (if needed)
+**Expected Outcome**: Clarification created and answered (if needed)  
 
 ### 5. Generate Pattern File
 
@@ -162,7 +162,7 @@ Create pattern file from template:
 - If Key Design Decisions section was generated in Step 2.7: Insert it into the pattern document
 - Save to `agent/patterns/{namespace}.{pattern-name}.md`
 
-**Expected Outcome**: Pattern file created
+**Expected Outcome**: Pattern file created  
 
 ### 6. Update package.yaml (If in Package)
 
@@ -178,7 +178,7 @@ Add pattern to package.yaml contents:
   ```
 - Save package.yaml
 
-**Expected Outcome**: package.yaml updated
+**Expected Outcome**: package.yaml updated  
 
 ### 7. Update README.md (If in Package)
 
@@ -188,7 +188,7 @@ Update README contents section:
 - Call `update_readme_contents()` from common.sh
 - Regenerates "What's Included" section from package.yaml
 
-**Expected Outcome**: README.md updated with new pattern
+**Expected Outcome**: README.md updated with new pattern  
 
 ### 8. Prompt to Delete Draft (If Used)
 
@@ -199,7 +199,7 @@ If draft file was used, ask to delete it:
 - If yes: Delete draft file
 - If no: Keep draft file
 
-**Expected Outcome**: User chooses whether to keep draft
+**Expected Outcome**: User chooses whether to keep draft  
 
 ### 9. Report Success
 
@@ -223,7 +223,7 @@ Next steps:
 - Run @acp.package-validate to verify (if package)
 ```
 
-**Expected Outcome**: User knows pattern was created successfully
+**Expected Outcome**: User knows pattern was created successfully  
 
 ### 10. Prompt to Add to Key File Index
 
@@ -238,7 +238,7 @@ Would you like to add this to the key file index?
 
 If yes, prompt for weight (suggest 0.8 for patterns), description, rationale, and applies values. Add entry to `agent/index/local.main.yaml`.
 
-**Note**: Skip silently if `agent/index/` does not exist.
+**Note**: Skip silently if `agent/index/` does not exist.  
 
 ---
 
@@ -272,9 +272,9 @@ If yes, prompt for weight (suggest 0.8 for patterns), description, rationale, an
 
 ### Example 1: Creating Pattern in Package
 
-**Context**: In acp-firebase package directory
+**Context**: In acp-firebase package directory  
 
-**Invocation**: `@acp.pattern-create`
+**Invocation**: `@acp.pattern-create`  
 
 **Interaction**:
 ```
@@ -302,19 +302,19 @@ Version: 1.0.0
 
 ### Example 2: Creating Pattern with Draft
 
-**Context**: Have draft file describing pattern
+**Context**: Have draft file describing pattern  
 
-**Invocation**: `@acp.pattern-create @my-pattern-draft.md`
+**Invocation**: `@acp.pattern-create @my-pattern-draft.md`  
 
-**Result**: Reads draft, creates clarification if needed, generates pattern, updates package files
+**Result**: Reads draft, creates clarification if needed, generates pattern, updates package files  
 
 ### Example 3: Creating Pattern in Project
 
-**Context**: In regular project (no package.yaml)
+**Context**: In regular project (no package.yaml)  
 
-**Invocation**: `@acp.pattern-create`
+**Invocation**: `@acp.pattern-create`  
 
-**Result**: Uses "local" namespace, creates `agent/patterns/local.my-pattern.md`, no package updates
+**Result**: Uses "local" namespace, creates `agent/patterns/local.my-pattern.md`, no package updates  
 
 ---
 
@@ -330,21 +330,21 @@ Version: 1.0.0
 
 ### Issue 1: Namespace inference failed
 
-**Symptom**: Cannot determine namespace
+**Symptom**: Cannot determine namespace  
 
-**Solution**: Provide namespace manually when prompted, or check package.yaml exists and has name field
+**Solution**: Provide namespace manually when prompted, or check package.yaml exists and has name field  
 
 ### Issue 2: Invalid pattern name
 
-**Symptom**: Pattern name rejected
+**Symptom**: Pattern name rejected  
 
-**Solution**: Use lowercase, alphanumeric, and hyphens only. No spaces or special characters.
+**Solution**: Use lowercase, alphanumeric, and hyphens only. No spaces or special characters.  
 
 ### Issue 3: package.yaml update failed
 
-**Symptom**: Error updating package.yaml
+**Symptom**: Error updating package.yaml  
 
-**Solution**: Verify package.yaml exists and is valid YAML. Run @acp.package-validate to check.
+**Solution**: Verify package.yaml exists and is valid YAML. Run @acp.package-validate to check.  
 
 ---
 
@@ -376,11 +376,11 @@ Version: 1.0.0
 
 ---
 
-**Namespace**: acp
-**Command**: pattern-create
-**Version**: 1.0.0
-**Created**: 2026-02-20
-**Last Updated**: 2026-02-20
-**Status**: Active
-**Compatibility**: ACP 2.2.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: pattern-create  
+**Version**: 1.0.0  
+**Created**: 2026-02-20  
+**Last Updated**: 2026-02-20  
+**Status**: Active  
+**Compatibility**: ACP 2.2.0+  
+**Author**: ACP Project  

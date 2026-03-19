@@ -1,10 +1,10 @@
 # ACP Package Development System
 
-**Concept**: Complete package development workflow with entity creation, validation, and publishing
-**Created**: 2026-02-20
-**Status**: Design Specification
-**Priority**: High
-**Estimated Effort**: 40-60 hours
+**Concept**: Complete package development workflow with entity creation, validation, and publishing  
+**Created**: 2026-02-20  
+**Status**: Design Specification  
+**Priority**: High  
+**Estimated Effort**: 40-60 hours  
 
 ---
 
@@ -51,15 +51,15 @@ From Milestone 3, we have package installation and management, but package **cre
 
 ### User Pain Points
 
-**Scenario 1**: Creating a new pattern in a package
+**Scenario 1**: Creating a new pattern in a package  
 - Currently: Manually create file, remember namespace, update package.yaml, update README
 - Desired: `@acp.pattern-create` handles everything automatically
 
-**Scenario 2**: Publishing a package update
+**Scenario 2**: Publishing a package update  
 - Currently: Manually bump version, update CHANGELOG, commit, push, hope it works
 - Desired: `@acp.package-publish` validates, versions, commits, pushes, and tests
 
-**Scenario 3**: Validating package before publishing
+**Scenario 3**: Validating package before publishing  
 - Currently: No validation, discover errors after publishing
 - Desired: `@acp.package-validate` catches all issues with auto-fix
 
@@ -176,7 +176,7 @@ NO → Project Directory
 - `manifest.schema.yaml` - Validates manifest.yaml structure (future)
 - `progress.schema.yaml` - Validates progress.yaml structure (future)
 
-**Schema Format**: YAML-based (not JSON Schema)
+**Schema Format**: YAML-based (not JSON Schema)  
 ```yaml
 # package.schema.yaml
 schema:
@@ -438,7 +438,7 @@ All files in this package use the `{namespace}` namespace:
 ## Implementation Plan
 
 ### Phase 1: Infrastructure (Tasks 1-3)
-**Estimated**: 12-15 hours
+**Estimated**: 12-15 hours  
 
 1. **YAML Schema System** (6-8 hours)
    - Research YAML schema standards
@@ -460,7 +460,7 @@ All files in this package use the `{namespace}` namespace:
    - Format content lists
 
 ### Phase 2: Entity Creation Commands (Tasks 4-6)
-**Estimated**: 15-20 hours
+**Estimated**: 15-20 hours  
 
 4. **@acp.pattern-create** (6-8 hours)
    - Create command documentation
@@ -484,7 +484,7 @@ All files in this package use the `{namespace}` namespace:
    - Enforce namespace
 
 ### Phase 3: Validation System (Tasks 7-8)
-**Estimated**: 10-12 hours
+**Estimated**: 10-12 hours  
 
 7. **@acp.package-validate** (7-9 hours)
    - Create command documentation
@@ -501,7 +501,7 @@ All files in this package use the `{namespace}` namespace:
    - Integrate with existing validation
 
 ### Phase 4: Publishing System (Task 9)
-**Estimated**: 8-10 hours
+**Estimated**: 8-10 hours  
 
 9. **@acp.package-publish** (8-10 hours)
    - Create command documentation
@@ -515,7 +515,7 @@ All files in this package use the `{namespace}` namespace:
    - Comprehensive error handling
 
 ### Phase 5: Package Create Rewrite (Task 10)
-**Estimated**: 6-8 hours
+**Estimated**: 6-8 hours  
 
 10. **Rewrite @acp.package-create** (6-8 hours)
     - Run acp.install.sh in new directory
@@ -527,7 +527,7 @@ All files in this package use the `{namespace}` namespace:
     - Update documentation
 
 ### Phase 6: Pre-Commit Hooks (Task 11)
-**Estimated**: 3-4 hours
+**Estimated**: 3-4 hours  
 
 11. **Pre-Commit Hook System** (3-4 hours)
     - Create hook template
@@ -542,8 +542,8 @@ All files in this package use the `{namespace}` namespace:
 
 ### 1. @acp.pattern-create
 
-**Command**: [`agent/commands/acp.pattern-create.md`](../commands/acp.pattern-create.md)
-**Script**: `agent/scripts/acp.pattern-create.sh`
+**Command**: [`agent/commands/acp.pattern-create.md`](../commands/acp.pattern-create.md)  
+**Script**: `agent/scripts/acp.pattern-create.sh`  
 
 **Workflow**:
 1. Detect context (package vs project)
@@ -571,8 +571,8 @@ All files in this package use the `{namespace}` namespace:
 
 ### 2. @acp.command-create
 
-**Command**: [`agent/commands/acp.command-create.md`](../commands/acp.command-create.md)
-**Script**: `agent/scripts/acp.command-create.sh`
+**Command**: [`agent/commands/acp.command-create.md`](../commands/acp.command-create.md)  
+**Script**: `agent/scripts/acp.command-create.sh`  
 
 **Similar to @acp.pattern-create** with command-specific fields:
 - Command category (Workflow | Documentation | Maintenance | Creation)
@@ -580,15 +580,15 @@ All files in this package use the `{namespace}` namespace:
 
 ### 3. @acp.design-create
 
-**Command**: [`agent/commands/acp.design-create.md`](../commands/acp.design-create.md)
-**Script**: `agent/scripts/acp.design-create.sh`
+**Command**: [`agent/commands/acp.design-create.md`](../commands/acp.design-create.md)  
+**Script**: `agent/scripts/acp.design-create.sh`  
 
 **Similar to @acp.pattern-create** with design-specific fields.
 
 ### 4. @acp.package-validate
 
-**Command**: [`agent/commands/acp.package-validate.md`](../commands/acp.package-validate.md)
-**Script**: `agent/scripts/acp.package-validate.sh`
+**Command**: [`agent/commands/acp.package-validate.md`](../commands/acp.package-validate.md)  
+**Script**: `agent/scripts/acp.package-validate.sh`  
 
 **Validation Checks**:
 
@@ -623,12 +623,12 @@ All files in this package use the `{namespace}` namespace:
 - Add git remote
 - Prompt for missing information
 
-**Output**: Chat window with comprehensive report
+**Output**: Chat window with comprehensive report  
 
 ### 5. @acp.package-publish
 
-**Command**: [`agent/commands/acp.package-publish.md`](../commands/acp.package-publish.md)
-**Script**: `agent/scripts/acp.package-publish.sh`
+**Command**: [`agent/commands/acp.package-publish.md`](../commands/acp.package-publish.md)  
+**Script**: `agent/scripts/acp.package-publish.sh`  
 
 **Workflow**:
 
@@ -688,7 +688,7 @@ All files in this package use the `{namespace}` namespace:
 
 ### 7. Pre-Commit Hook
 
-**File**: `.git/hooks/pre-commit`
+**File**: `.git/hooks/pre-commit`  
 
 **Initial Scope** (simple):
 ```bash
@@ -753,7 +753,7 @@ exit 0
 ## Trade-offs
 
 ### 1. Complexity vs Simplicity
-**Trade-off**: System is more complex than simple file creation
+**Trade-off**: System is more complex than simple file creation  
 
 **Mitigation**:
 - Commands handle complexity automatically
@@ -762,7 +762,7 @@ exit 0
 - Incremental adoption (can still create files manually)
 
 ### 2. Pure Bash Constraint
-**Trade-off**: YAML schema validation limited in pure bash
+**Trade-off**: YAML schema validation limited in pure bash  
 
 **Mitigation**:
 - Start with basic validation
@@ -771,7 +771,7 @@ exit 0
 - Hybrid approach (bash + LLM)
 
 ### 3. LLM Dependency
-**Trade-off**: Some features require LLM (CHANGELOG generation, content validation)
+**Trade-off**: Some features require LLM (CHANGELOG generation, content validation)  
 
 **Mitigation**:
 - Shell validation works without LLM
@@ -780,7 +780,7 @@ exit 0
 - Graceful degradation if LLM unavailable
 
 ### 4. Git Hook Strictness
-**Trade-off**: No easy bypass for pre-commit hook
+**Trade-off**: No easy bypass for pre-commit hook  
 
 **Mitigation**:
 - Hook starts simple (minimal checks)
@@ -863,6 +863,6 @@ exit 0
 
 ---
 
-**Status**: Design Specification - Ready for Implementation
-**Recommendation**: Implement in phases via Milestone 4
-**Next Steps**: Create Milestone 4 and break into 11 tasks
+**Status**: Design Specification - Ready for Implementation  
+**Recommendation**: Implement in phases via Milestone 4  
+**Next Steps**: Create Milestone 4 and break into 11 tasks  

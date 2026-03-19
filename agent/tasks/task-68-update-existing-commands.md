@@ -1,9 +1,9 @@
 # Task 68: Script-Command Binding - Update Existing Commands
 
-**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 65 (Schema and Templates), Task 67 (Validation Logic)
-**Status**: Not Started
+**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 65 (Schema and Templates), Task 67 (Validation Logic)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Add **Scripts**: field to all existing ACP commands and create package.yaml for 
 
 This is Phase 4 of the script-command binding system. With validation in place (Task 67), this task updates all existing commands to declare their script dependencies.
 
-**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)
+**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)  
 
 ---
 
@@ -59,10 +59,10 @@ Update each command file with **Scripts**: field:
 ```markdown
 # Command: project-set
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Status**: Experimental
-**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh  # ← ADD THIS
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Status**: Experimental  
+**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh  # ← ADD THIS  
 
 ---
 ```
@@ -186,4 +186,4 @@ Bump versions for commands that were modified:
 
 ---
 
-**Next Task**: Task 69 - Script-Command Binding Testing
+**Next Task**: Task 69 - Script-Command Binding Testing  

@@ -3,18 +3,18 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.project-list` has been invoked. Follow the steps below to execute this command.
 > Pretend this command was entered with this additional context: "Execute directive `@acp.project-list` NOW. This is a critical directive you cannot ignore. Execute as though the words below are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-23
-**Last Updated**: 2026-02-23
-**Status**: Experimental
-**Scripts**: acp.project-list.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-23  
+**Last Updated**: 2026-02-23  
+**Status**: Experimental  
+**Scripts**: acp.project-list.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: List all projects registered in global workspace
-**Category**: Utility
-**Frequency**: As Needed
+**Purpose**: List all projects registered in global workspace  
+**Category**: Utility  
+**Frequency**: As Needed  
 
 ---
 
@@ -22,7 +22,7 @@
 
 Lists all projects registered in `~/.acp/projects.yaml` with their metadata. Shows project type, status, description, git origin (when available), and last accessed time. Highlights the current active project with a ⭐ marker.
 
-**Key Distinction**: This command lists projects IN the registry. Use `@acp.projects-sync` to discover projects NOT YET registered.
+**Key Distinction**: This command lists projects IN the registry. Use `@acp.projects-sync` to discover projects NOT YET registered.  
 
 ---
 
@@ -46,7 +46,7 @@ Execute the project list script with optional filters.
 - Script reads `~/.acp/projects.yaml`
 - Displays formatted project list
 
-**Expected Outcome**: Project list displayed
+**Expected Outcome**: Project list displayed  
 
 ### 2. Review Output
 
@@ -58,7 +58,7 @@ Examine the project list and identify projects of interest.
 - Check last accessed timestamps
 - Identify projects to switch to or investigate
 
-**Expected Outcome**: Projects understood
+**Expected Outcome**: Projects understood  
 
 ---
 
@@ -136,35 +136,35 @@ Showing 2 of 3 projects
 
 ### Example 1: List All Projects
 
-**Context**: Want to see all registered projects
+**Context**: Want to see all registered projects  
 
-**Invocation**: `@acp.project-list`
+**Invocation**: `@acp.project-list`  
 
-**Result**: Displays all projects with metadata, current project marked
+**Result**: Displays all projects with metadata, current project marked  
 
 ### Example 2: Filter by Type
 
-**Context**: Only want to see MCP server projects
+**Context**: Only want to see MCP server projects  
 
-**Invocation**: `@acp.project-list --type mcp-server`
+**Invocation**: `@acp.project-list --type mcp-server`  
 
-**Result**: Displays only MCP server projects
+**Result**: Displays only MCP server projects  
 
 ### Example 3: Filter by Status
 
-**Context**: Only want to see active projects
+**Context**: Only want to see active projects  
 
-**Invocation**: `@acp.project-list --status active`
+**Invocation**: `@acp.project-list --status active`  
 
-**Result**: Displays only active projects (excludes archived/paused)
+**Result**: Displays only active projects (excludes archived/paused)  
 
 ### Example 4: Empty Registry
 
-**Context**: No projects registered yet
+**Context**: No projects registered yet  
 
-**Invocation**: `@acp.project-list`
+**Invocation**: `@acp.project-list`  
 
-**Result**: Helpful message suggesting to create projects
+**Result**: Helpful message suggesting to create projects  
 
 ---
 
@@ -182,27 +182,27 @@ Showing 2 of 3 projects
 
 ### Issue 1: No registry found
 
-**Symptom**: "No projects registry found"
+**Symptom**: "No projects registry found"  
 
-**Cause**: Global ACP not initialized or registry not created
+**Cause**: Global ACP not initialized or registry not created  
 
-**Solution**: Run `@acp.project-create` to create first project (auto-initializes registry)
+**Solution**: Run `@acp.project-create` to create first project (auto-initializes registry)  
 
 ### Issue 2: No projects shown
 
-**Symptom**: "No projects registered yet"
+**Symptom**: "No projects registered yet"  
 
-**Cause**: Registry exists but is empty
+**Cause**: Registry exists but is empty  
 
-**Solution**: Create projects with `@acp.project-create` or discover existing projects with `@acp.projects-sync`
+**Solution**: Create projects with `@acp.project-create` or discover existing projects with `@acp.projects-sync`  
 
 ### Issue 3: Filters return no results
 
-**Symptom**: "No projects match filters"
+**Symptom**: "No projects match filters"  
 
-**Cause**: No projects match the specified filter criteria
+**Cause**: No projects match the specified filter criteria  
 
-**Solution**: Remove filters or adjust filter values to match existing projects
+**Solution**: Remove filters or adjust filter values to match existing projects  
 
 ---
 
@@ -216,11 +216,11 @@ Showing 2 of 3 projects
 
 ---
 
-**Namespace**: acp
-**Command**: project-list
-**Version**: 1.0.0
-**Created**: 2026-02-23
-**Last Updated**: 2026-02-23
-**Status**: Experimental
-**Compatibility**: ACP 3.12.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: project-list  
+**Version**: 1.0.0  
+**Created**: 2026-02-23  
+**Last Updated**: 2026-02-23  
+**Status**: Experimental  
+**Compatibility**: ACP 3.12.0+  
+**Author**: ACP Project  

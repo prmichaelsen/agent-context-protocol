@@ -1,9 +1,9 @@
 # Task 42: Preset Configuration System
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 37 (Preference Loading), Task 41 (Package Support)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 37 (Preference Loading), Task 41 (Package Support)  
+**Status**: Not Started  
 
 ---
 
@@ -30,7 +30,7 @@ This enables users to switch between workflows with a single flag rather than co
 
 Presets are standard preference files with descriptive names:
 
-**File**: `agent/preferences/acp.batch-planning.yaml`
+**File**: `agent/preferences/acp.batch-planning.yaml`  
 
 ```yaml
 # ACP Batch Planning Preset
@@ -45,7 +45,7 @@ acp:
   output.verbosity.level: 'quiet'
 ```
 
-**Naming Convention**: `{namespace}.{preset-name}.yaml`
+**Naming Convention**: `{namespace}.{preset-name}.yaml`  
 
 ### 2. Add Preset Loading to acp.preferences-get.sh
 
@@ -145,7 +145,7 @@ Add preset support to commands. Update `@acp.plan` as example:
 
 Create useful presets for common workflows:
 
-**File**: `agent/preferences/acp.batch-planning.yaml`
+**File**: `agent/preferences/acp.batch-planning.yaml`  
 ```yaml
 # Batch Planning Preset - Automated planning without interaction
 acp:
@@ -156,7 +156,7 @@ acp:
   output.verbosity.level: 'quiet'
 ```
 
-**File**: `agent/preferences/acp.interactive-planning.yaml`
+**File**: `agent/preferences/acp.interactive-planning.yaml`  
 ```yaml
 # Interactive Planning Preset - Guided planning with user input
 acp:
@@ -167,7 +167,7 @@ acp:
   output.verbosity.level: 'verbose'
 ```
 
-**File**: `agent/preferences/acp.rapid-prototyping.yaml`
+**File**: `agent/preferences/acp.rapid-prototyping.yaml`  
 ```yaml
 # Rapid Prototyping Preset - Fast iteration with minimal overhead
 acp:
@@ -259,8 +259,8 @@ Add preset documentation to `@acp.package-create` README template:
 This package provides the following preset configurations:
 
 ### {preset-name}
-**File**: `agent/preferences/{package-name}.{preset-name}.yaml`
-**Description**: [What this preset configures]
+**File**: `agent/preferences/{package-name}.{preset-name}.yaml`  
+**Description**: [What this preset configures]  
 
 **Usage**:
 ```bash
@@ -343,16 +343,16 @@ Using preset: acp.batch-planning
 ## Common Issues and Solutions
 
 ### Issue 1: Preset not found
-**Symptom**: Error "Preset not found: acp.batch-planning"
-**Solution**: Check preset file exists in `./agent/preferences/` or `~/.acp/agent/preferences/`
+**Symptom**: Error "Preset not found: acp.batch-planning"  
+**Solution**: Check preset file exists in `./agent/preferences/` or `~/.acp/agent/preferences/`  
 
 ### Issue 2: Preset doesn't override
-**Symptom**: Project preference used instead of preset
-**Solution**: Ensure preset is loaded before project preferences in precedence chain
+**Symptom**: Project preference used instead of preset  
+**Solution**: Ensure preset is loaded before project preferences in precedence chain  
 
 ### Issue 3: Invalid preset values
-**Symptom**: Preset contains invalid preference values
-**Solution**: Run `@acp.preferences-validate` to check preset files
+**Symptom**: Preset contains invalid preference values  
+**Solution**: Run `@acp.preferences-validate` to check preset files  
 
 ---
 
@@ -374,6 +374,6 @@ Using preset: acp.batch-planning
 
 ---
 
-**Next Task**: [Task 43: Preferences Testing Suite](task-43-preferences-testing-suite.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 43: Preferences Testing Suite](task-43-preferences-testing-suite.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

@@ -1,9 +1,9 @@
 # Milestone 13: Cross-Platform CI
 
-**Goal**: Automated cross-platform E2E testing on Linux and macOS via GitHub Actions
-**Status**: Not Started
-**Estimated Duration**: 1 week
-**Tasks**: 3 (task-96 through task-98)
+**Goal**: Automated cross-platform E2E testing on Linux and macOS via GitHub Actions  
+**Status**: Not Started  
+**Estimated Duration**: 1 week  
+**Tasks**: 3 (task-96 through task-98)  
 
 ---
 

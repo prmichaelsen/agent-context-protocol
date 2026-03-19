@@ -1,9 +1,9 @@
 # Task 70: Fix YAML Parser Array Operations
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 56 (@acp.project-update Command)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 56 (@acp.project-update Command)  
+**Status**: Not Started  
 
 ---
 
@@ -24,7 +24,7 @@ yaml_array_append ".projects.test.tags" "production"
 # Error: Path does not point to an array
 ```
 
-**Root Cause**: The array detection logic in `yaml_array_append()` (line ~709 in acp.yaml-parser.sh) fails to recognize empty arrays or arrays created via `yaml_set`.
+**Root Cause**: The array detection logic in `yaml_array_append()` (line ~709 in acp.yaml-parser.sh) fails to recognize empty arrays or arrays created via `yaml_set`.  
 
 ---
 
@@ -40,7 +40,7 @@ Read and understand the current implementation:
 - Identify why empty arrays aren't recognized
 - Check how `find_child_by_key` works for arrays
 
-**Expected Outcome**: Root cause identified
+**Expected Outcome**: Root cause identified  
 
 ### 2. Create Test Cases
 
@@ -53,7 +53,7 @@ Create isolated test cases for array operations:
 - Test appending to non-existent field
 - Test appending to scalar field (should error)
 
-**Expected Outcome**: Test suite for array operations
+**Expected Outcome**: Test suite for array operations  
 
 ### 3. Fix Array Detection Logic
 
@@ -65,7 +65,7 @@ Modify `yaml_array_append()` to handle empty arrays:
 - Improve `find_child_by_key` to work with arrays
 - Add debug output to understand failure mode
 
-**Expected Outcome**: `yaml_array_append()` works with empty arrays
+**Expected Outcome**: `yaml_array_append()` works with empty arrays  
 
 ### 4. Verify Fix with Tests
 
@@ -76,7 +76,7 @@ Run test suite to confirm fix:
 - Run `e2e/acp.project-update.test.sh`
 - Verify all tests pass (20/20)
 
-**Expected Outcome**: 100% test coverage
+**Expected Outcome**: 100% test coverage  
 
 ### 5. Update project-update Script
 
@@ -88,7 +88,7 @@ Remove workarounds and use fixed `yaml_array_append`:
 - Use `yaml_array_append()` directly
 - Test tag operations work correctly
 
-**Expected Outcome**: Clean implementation using parser API
+**Expected Outcome**: Clean implementation using parser API  
 
 ### 6. Update Pattern Document
 
@@ -100,7 +100,7 @@ Document the fix in the E2E testing pattern:
 - Add note that array operations now work
 - Update success rate to 100%
 
-**Expected Outcome**: Pattern document reflects fix
+**Expected Outcome**: Pattern document reflects fix  
 
 ---
 
@@ -117,4 +117,4 @@ Document the fix in the E2E testing pattern:
 
 ---
 
-**Next Task**: [Task 57: @acp.project-remove Command](task-57-project-remove.md)
+**Next Task**: [Task 57: @acp.project-remove Command](task-57-project-remove.md)  

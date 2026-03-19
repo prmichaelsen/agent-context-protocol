@@ -1,8 +1,8 @@
 # ACP Key File Index System
 
-**Concept**: A weighted index of critical project files that agents must read before taking action, preventing silent ignorance of existing guardrails and patterns
-**Created**: 2026-03-02
-**Status**: Design Specification
+**Concept**: A weighted index of critical project files that agents must read before taking action, preventing silent ignorance of existing guardrails and patterns  
+**Created**: 2026-03-02  
+**Status**: Design Specification  
 
 ---
 
@@ -12,7 +12,7 @@ The Key File Index System introduces an `agent/index/` directory containing YAML
 
 The system solves a fundamental problem with documentation-first development: agents frequently ignore existing patterns, designs, and guardrails even though those files exist. The index provides a curated "must-read" list that is loaded during initialization, context compaction, and before any command that requires intelligent decision-making.
 
-**Clarification source**: agent/clarifications/clarification-5-key-file-directive.md
+**Clarification source**: agent/clarifications/clarification-5-key-file-directive.md  
 
 ---
 
@@ -41,11 +41,11 @@ agent/
     my-package.main.yaml     # Key files from any installed package
 ```
 
-**Naming convention**: `{namespace}.{qualifier}.yaml` — the qualifier allows multiple index files per namespace for different purposes (e.g., `core-sdk.main.yaml`, `core-sdk.testing.yaml`). Start with `main` as the default qualifier.
+**Naming convention**: `{namespace}.{qualifier}.yaml` — the qualifier allows multiple index files per namespace for different purposes (e.g., `core-sdk.main.yaml`, `core-sdk.testing.yaml`). Start with `main` as the default qualifier.  
 
-**Precedence**: `local.*.yaml` files always take precedence over package index files. This ensures project-specific context overrides package defaults.
+**Precedence**: `local.*.yaml` files always take precedence over package index files. This ensures project-specific context overrides package defaults.  
 
-**Implicit key files**: `AGENT.md` and `agent/progress.yaml` are always read by `@acp.init` and are NOT listed in index files. The index is for files that would otherwise be missed.
+**Implicit key files**: `AGENT.md` and `agent/progress.yaml` are always read by `@acp.init` and are NOT listed in index files. The index is for files that would otherwise be missed.  
 
 ### Schema
 
@@ -339,8 +339,8 @@ See: agent/design/local.key-file-index-system.md
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Create milestone and tasks for implementation
+**Status**: Design Specification  
+**Recommendation**: Create milestone and tasks for implementation  
 **Related Documents**:
 - [ACP Commands Design](acp-commands-design.md)
 

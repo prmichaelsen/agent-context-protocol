@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-remove` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 2.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Scripts**: acp.package-remove.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 2.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Scripts**: acp.package-remove.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Remove installed ACP packages and clean up manifest
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Remove installed ACP packages and clean up manifest  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -62,7 +62,7 @@ Execute the remove script with the package name.
   - Update manifest timestamp
   - Report removal summary
 
-**Expected Outcome**: Package removed successfully
+**Expected Outcome**: Package removed successfully  
 
 ### 2. Verify Removal
 
@@ -74,7 +74,7 @@ Check that files were removed correctly.
 - If `--keep-modified` used, verify modified files were kept
 - Confirm no orphaned files remain
 
-**Expected Outcome**: Package completely removed (or modified files kept)
+**Expected Outcome**: Package completely removed (or modified files kept)  
 
 ### 3. Document Removal
 
@@ -86,7 +86,7 @@ Update progress tracking with removal notes.
 - Note removal date
 - List any kept files (if --keep-modified used)
 
-**Expected Outcome**: Removal tracked in progress
+**Expected Outcome**: Removal tracked in progress  
 
 ---
 
@@ -188,35 +188,35 @@ Kept: 1 file(s) (modified)
 
 ### Example 1: Remove Package
 
-**Context**: No longer need firebase package
+**Context**: No longer need firebase package  
 
-**Invocation**: `@acp.package-remove firebase`
+**Invocation**: `@acp.package-remove firebase`  
 
-**Result**: Prompts for confirmation, removes all 6 files, updates manifest
+**Result**: Prompts for confirmation, removes all 6 files, updates manifest  
 
 ### Example 2: Remove with Auto-Confirm
 
-**Context**: Want to remove without prompts
+**Context**: Want to remove without prompts  
 
-**Invocation**: `@acp.package-remove -y firebase`
+**Invocation**: `@acp.package-remove -y firebase`  
 
-**Result**: Removes package immediately without confirmation
+**Result**: Removes package immediately without confirmation  
 
 ### Example 3: Keep Modified Files
 
-**Context**: Want to remove package but keep customized files
+**Context**: Want to remove package but keep customized files  
 
-**Invocation**: `@acp.package-remove --keep-modified firebase`
+**Invocation**: `@acp.package-remove --keep-modified firebase`  
 
-**Result**: Removes 5 unmodified files, keeps 1 modified file, updates manifest
+**Result**: Removes 5 unmodified files, keeps 1 modified file, updates manifest  
 
 ### Example 4: Package Not Installed
 
-**Context**: Try to remove non-existent package
+**Context**: Try to remove non-existent package  
 
-**Invocation**: `@acp.package-remove nonexistent`
+**Invocation**: `@acp.package-remove nonexistent`  
 
-**Result**: Error message "Package not installed: nonexistent", exits without changes
+**Result**: Error message "Package not installed: nonexistent", exits without changes  
 
 ---
 
@@ -233,27 +233,27 @@ Kept: 1 file(s) (modified)
 
 ### Issue 1: Package not found
 
-**Symptom**: Error "Package not installed"
+**Symptom**: Error "Package not installed"  
 
-**Cause**: Package name incorrect or not installed
+**Cause**: Package name incorrect or not installed  
 
-**Solution**: Run `@acp.package-list` to see installed packages, check spelling
+**Solution**: Run `@acp.package-list` to see installed packages, check spelling  
 
 ### Issue 2: Files not removed
 
-**Symptom**: Files still exist after removal
+**Symptom**: Files still exist after removal  
 
-**Cause**: Files were modified and --keep-modified was used
+**Cause**: Files were modified and --keep-modified was used  
 
-**Solution**: This is intentional. Remove manually or run without --keep-modified
+**Solution**: This is intentional. Remove manually or run without --keep-modified  
 
 ### Issue 3: Manifest corrupted after removal
 
-**Symptom**: Manifest has syntax errors
+**Symptom**: Manifest has syntax errors  
 
-**Cause**: Rare edge case in awk processing
+**Cause**: Rare edge case in awk processing  
 
-**Solution**: Restore from git backup, reinstall packages
+**Solution**: Restore from git backup, reinstall packages  
 
 ---
 
@@ -283,11 +283,11 @@ Kept: 1 file(s) (modified)
 
 ---
 
-**Namespace**: acp
-**Command**: package-remove
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-remove  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

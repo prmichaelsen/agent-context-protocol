@@ -1,9 +1,9 @@
 # Task 110: Implement Yes/No Question Format Preference
 
-**Milestone**: [M15 - Clarification Capture System](../milestones/milestone-15-clarification-capture-system.md)
-**Estimated Time**: 1 hour
-**Dependencies**: Task 109
-**Status**: Completed
+**Milestone**: [M15 - Clarification Capture System](../milestones/milestone-15-clarification-capture-system.md)  
+**Estimated Time**: 1 hour  
+**Dependencies**: Task 109  
+**Status**: Completed  
 
 ---
 
@@ -103,5 +103,5 @@ Check that existing inline prompts (partial clarification warnings, uncaptured d
 
 ---
 
-**Next Task**: None (final task in M15)
-**Related Design Docs**: agent/design/local.clarification-capture-system.md
+**Next Task**: None (final task in M15)  
+**Related Design Docs**: agent/design/local.clarification-capture-system.md  

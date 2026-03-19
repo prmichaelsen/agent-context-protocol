@@ -1,9 +1,9 @@
 # Task 109: Add Duplicate Awareness to @acp.clarification-create
 
-**Milestone**: M15 - Clarification Capture System
-**Status**: Not Started
-**Estimated Time**: 1-2 hours
-**Dependencies**: None
+**Milestone**: M15 - Clarification Capture System  
+**Status**: Not Started  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: None  
 
 ---
 

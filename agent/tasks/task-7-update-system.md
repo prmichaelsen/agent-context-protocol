@@ -4,7 +4,7 @@
 **Estimated Time**: 5-7 hours  
 **Dependencies**: Task 5 (Manifest System), Task 6 (Selective Installation)  
 **Status**: Not Started  
-**Priority**: High
+**Priority**: High  
 
 ---
 
@@ -281,4 +281,4 @@ perform_update() {
 
 **Status**: Ready to implement  
 **Priority**: High  
-**Estimated Effort**: 5-7 hours
+**Estimated Effort**: 5-7 hours  

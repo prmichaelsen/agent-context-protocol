@@ -1,9 +1,9 @@
 # Milestone 1: ACP Commands Infrastructure
 
-**Goal**: Establish the foundational infrastructure for the ACP Commands system
-**Duration**: 1 week
-**Dependencies**: None
-**Status**: Not Started
+**Goal**: Establish the foundational infrastructure for the ACP Commands system  
+**Duration**: 1 week  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -108,6 +108,6 @@ None required for this milestone.
 
 ---
 
-**Next Milestone**: [Milestone 2: Documentation & Creation Commands](milestone-2-acp-commands-advanced.md)
-**Blockers**: None
-**Notes**: This milestone focuses on core infrastructure and essential commands. Advanced commands will be in Milestone 2.
+**Next Milestone**: [Milestone 2: Documentation & Creation Commands](milestone-2-acp-commands-advanced.md)  
+**Blockers**: None  
+**Notes**: This milestone focuses on core infrastructure and essential commands. Advanced commands will be in Milestone 2.  

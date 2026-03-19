@@ -1,9 +1,9 @@
 # Task 95: Add Deliverables Verification Gate to @acp.proceed
 
-**Milestone**: [M11 - ACP Benchmark Suite](../milestones/milestone-11-benchmark-suite.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M11 - ACP Benchmark Suite](../milestones/milestone-11-benchmark-suite.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -147,12 +147,12 @@ Add this item:
 ## Common Issues and Solutions
 
 ### Issue 1: Step numbering conflicts
-**Symptom**: Adding Step 3.5 disrupts existing step references
-**Solution**: Use 3.5 notation (not renumbering) to avoid breaking cross-references. Alternatively, rename to "Step 3b" or integrate into Step 3 as a sub-step.
+**Symptom**: Adding Step 3.5 disrupts existing step references  
+**Solution**: Use 3.5 notation (not renumbering) to avoid breaking cross-references. Alternatively, rename to "Step 3b" or integrate into Step 3 as a sub-step.  
 
 ### Issue 2: Completion sweep adds too much overhead
-**Symptom**: Autonomous mode takes significantly longer with the sweep
-**Solution**: The sweep only re-reads task docs and checks file existence — it should take under 30 seconds per task. This is negligible compared to implementation time.
+**Symptom**: Autonomous mode takes significantly longer with the sweep  
+**Solution**: The sweep only re-reads task docs and checks file existence — it should take under 30 seconds per task. This is negligible compared to implementation time.  
 
 ---
 
@@ -165,6 +165,6 @@ Add this item:
 
 ---
 
-**Next Task**: None (standalone enhancement)
-**Related Design Docs**: None
-**Estimated Completion Date**: TBD
+**Next Task**: None (standalone enhancement)  
+**Related Design Docs**: None  
+**Estimated Completion Date**: TBD  

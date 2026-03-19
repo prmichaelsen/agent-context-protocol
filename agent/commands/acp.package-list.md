@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-list` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Scripts**: acp.package-list.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Scripts**: acp.package-list.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: List installed ACP packages with versions, file counts, and optional details
-**Category**: Information
-**Frequency**: As Needed
+**Purpose**: List installed ACP packages with versions, file counts, and optional details  
+**Category**: Information  
+**Frequency**: As Needed  
 
 ---
 
@@ -73,7 +73,7 @@ Execute the list script with desired options.
   ./agent/scripts/acp.package-list.sh --global --verbose
   ```
 
-**Expected Outcome**: Package list displayed
+**Expected Outcome**: Package list displayed  
 
 ### 2. Review Package Information
 
@@ -86,7 +86,7 @@ Analyze the displayed information.
 - Note any outdated packages (if using --outdated)
 - Note any modified packages (if using --modified)
 
-**Expected Outcome**: Understanding of installed packages
+**Expected Outcome**: Understanding of installed packages  
 
 ---
 
@@ -190,35 +190,35 @@ To install a package:
 
 ### Example 1: Basic List
 
-**Context**: Want to see what packages are installed
+**Context**: Want to see what packages are installed  
 
-**Invocation**: `@acp.package-list`
+**Invocation**: `@acp.package-list`  
 
-**Result**: Shows 3 packages with versions and file counts
+**Result**: Shows 3 packages with versions and file counts  
 
 ### Example 2: Detailed Information
 
-**Context**: Need detailed info about installed packages
+**Context**: Need detailed info about installed packages  
 
-**Invocation**: `@acp.package-list --verbose`
+**Invocation**: `@acp.package-list --verbose`  
 
-**Result**: Shows all packages with source URLs, timestamps, file breakdowns, and modified files
+**Result**: Shows all packages with source URLs, timestamps, file breakdowns, and modified files  
 
 ### Example 3: Check for Outdated Packages
 
-**Context**: Want to see which packages have updates available
+**Context**: Want to see which packages have updates available  
 
-**Invocation**: `@acp.package-list --outdated`
+**Invocation**: `@acp.package-list --outdated`  
 
-**Result**: Shows only firebase (1.2.0) has update available, suggests update command
+**Result**: Shows only firebase (1.2.0) has update available, suggests update command  
 
 ### Example 4: Find Modified Packages
 
-**Context**: Want to see which packages have local modifications
+**Context**: Want to see which packages have local modifications  
 
-**Invocation**: `@acp.package-list --modified`
+**Invocation**: `@acp.package-list --modified`  
 
-**Result**: Shows only firebase has 1 modified file (firebase-security-rules.md)
+**Result**: Shows only firebase has 1 modified file (firebase-security-rules.md)  
 
 ---
 
@@ -235,27 +235,27 @@ To install a package:
 
 ### Issue 1: No packages shown
 
-**Symptom**: "No packages installed" message
+**Symptom**: "No packages installed" message  
 
-**Cause**: No packages installed or manifest doesn't exist
+**Cause**: No packages installed or manifest doesn't exist  
 
-**Solution**: Install packages using `@acp.package-install`
+**Solution**: Install packages using `@acp.package-install`  
 
 ### Issue 2: File counts seem wrong
 
-**Symptom**: File count doesn't match actual files
+**Symptom**: File count doesn't match actual files  
 
-**Cause**: Manifest out of sync with actual files
+**Cause**: Manifest out of sync with actual files  
 
-**Solution**: Reinstall package or manually fix manifest
+**Solution**: Reinstall package or manually fix manifest  
 
 ### Issue 3: Outdated check is slow
 
-**Symptom**: `--outdated` flag takes a long time
+**Symptom**: `--outdated` flag takes a long time  
 
-**Cause**: Cloning repositories to check versions
+**Cause**: Cloning repositories to check versions  
 
-**Solution**: This is normal for multiple packages, be patient or check specific package with `@acp.package-update <name> --check`
+**Solution**: This is normal for multiple packages, be patient or check specific package with `@acp.package-update <name> --check`  
 
 ---
 
@@ -270,11 +270,11 @@ To install a package:
 
 ---
 
-**Namespace**: acp
-**Command**: package-list
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-list  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

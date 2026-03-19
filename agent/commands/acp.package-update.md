@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-update` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 2.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Scripts**: acp.package-update.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 2.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Scripts**: acp.package-update.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Update installed ACP packages to their latest versions with smart conflict detection
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Update installed ACP packages to their latest versions with smart conflict detection  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -90,8 +90,8 @@ Updates only the specified package.
 
 The update command handles experimental features intelligently:
 
-**Already-installed experimental features**: Updated normally (no flag required)
-**New experimental features**: Skipped (use --experimental with install to add)
+**Already-installed experimental features**: Updated normally (no flag required)  
+**New experimental features**: Skipped (use --experimental with install to add)  
 **Graduated features** (experimental → stable): Updated and marked as stable
 
 **Example**:
@@ -121,7 +121,7 @@ Note: 1 new experimental features were skipped
       Use --experimental with install to add them
 ```
 
-**Rationale**: Users who opted into experimental features continue receiving updates. Users who haven't opted in are protected from new experimental features.
+**Rationale**: Users who opted into experimental features continue receiving updates. Users who haven't opted in are protected from new experimental features.  
 
 ---
 
@@ -141,7 +141,7 @@ Execute the update script with chosen options.
   - Update manifest with new versions and checksums
   - Report what was updated and what was skipped
 
-**Expected Outcome**: Packages updated to latest versions
+**Expected Outcome**: Packages updated to latest versions  
 
 ### 3. Review Update Results
 
@@ -154,7 +154,7 @@ Verify the updates were applied correctly.
 - Test updated commands/patterns if critical
 - Review changes in updated files
 
-**Expected Outcome**: Updates verified and working
+**Expected Outcome**: Updates verified and working  
 
 ### 4. Document Update
 
@@ -166,7 +166,7 @@ Update progress tracking with update notes.
 - Note any conflicts or skipped files
 - Record update date
 
-**Expected Outcome**: Update tracked in progress
+**Expected Outcome**: Update tracked in progress  
 
 ---
 
@@ -237,43 +237,43 @@ Skipping modified files
 
 ### Example 1: Check for Updates
 
-**Context**: Want to see if updates are available without installing
+**Context**: Want to see if updates are available without installing  
 
-**Invocation**: `@acp.package-update --check`
+**Invocation**: `@acp.package-update --check`  
 
-**Result**: Shows firebase has update (1.2.0 → 1.3.0), mcp-integration is up to date, provides update commands
+**Result**: Shows firebase has update (1.2.0 → 1.3.0), mcp-integration is up to date, provides update commands  
 
 ### Example 2: Update All Packages
 
-**Context**: Want to update all installed packages
+**Context**: Want to update all installed packages  
 
-**Invocation**: `@acp.package-update`
+**Invocation**: `@acp.package-update`  
 
-**Result**: Checks all packages, finds 2 with updates, prompts for confirmation, updates both packages, skips 1 modified file
+**Result**: Checks all packages, finds 2 with updates, prompts for confirmation, updates both packages, skips 1 modified file  
 
 ### Example 3: Update Specific Package
 
-**Context**: Only want to update firebase package
+**Context**: Only want to update firebase package  
 
-**Invocation**: `@acp.package-update firebase`
+**Invocation**: `@acp.package-update firebase`  
 
-**Result**: Checks only firebase, finds update, prompts for modified files, updates 3 files, skips 1 modified file
+**Result**: Checks only firebase, finds update, prompts for modified files, updates 3 files, skips 1 modified file  
 
 ### Example 4: Update with Skip Modified
 
-**Context**: Want to update but preserve all local changes
+**Context**: Want to update but preserve all local changes  
 
-**Invocation**: `@acp.package-update --skip-modified`
+**Invocation**: `@acp.package-update --skip-modified`  
 
-**Result**: Updates all packages, automatically skips any locally modified files without prompting
+**Result**: Updates all packages, automatically skips any locally modified files without prompting  
 
 ### Example 5: Force Update
 
-**Context**: Want to overwrite all local changes
+**Context**: Want to overwrite all local changes  
 
-**Invocation**: `@acp.package-update --force`
+**Invocation**: `@acp.package-update --force`  
 
-**Result**: Updates all files including locally modified ones, no prompts, all changes overwritten
+**Result**: Updates all files including locally modified ones, no prompts, all changes overwritten  
 
 ---
 
@@ -290,35 +290,35 @@ Skipping modified files
 
 ### Issue 1: No updates available
 
-**Symptom**: All packages report "up to date"
+**Symptom**: All packages report "up to date"  
 
-**Cause**: Packages are already at latest versions
+**Cause**: Packages are already at latest versions  
 
-**Solution**: This is normal, no action needed
+**Solution**: This is normal, no action needed  
 
 ### Issue 2: Failed to clone repository
 
-**Symptom**: Error cloning package repository
+**Symptom**: Error cloning package repository  
 
-**Cause**: Network issue, repository moved, or deleted
+**Cause**: Network issue, repository moved, or deleted  
 
-**Solution**: Check internet connection, verify repository still exists, update source URL in manifest if moved
+**Solution**: Check internet connection, verify repository still exists, update source URL in manifest if moved  
 
 ### Issue 3: Checksum mismatch on unmodified file
 
-**Symptom**: File flagged as modified but you didn't change it
+**Symptom**: File flagged as modified but you didn't change it  
 
-**Cause**: Line ending differences (CRLF vs LF) or encoding changes
+**Cause**: Line ending differences (CRLF vs LF) or encoding changes  
 
-**Solution**: Use --force to overwrite, or manually verify file content
+**Solution**: Use --force to overwrite, or manually verify file content  
 
 ### Issue 4: Update breaks functionality
 
-**Symptom**: After update, commands or patterns don't work
+**Symptom**: After update, commands or patterns don't work  
 
-**Cause**: Breaking changes in package update
+**Cause**: Breaking changes in package update  
 
-**Solution**: Check package CHANGELOG, revert using git, or reinstall previous version
+**Solution**: Check package CHANGELOG, revert using git, or reinstall previous version  
 
 ---
 
@@ -351,11 +351,11 @@ Skipping modified files
 
 ---
 
-**Namespace**: acp
-**Command**: package-update
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-update  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp-version-update` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: acp.version-update.sh, acp.common.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: acp.version-update.sh, acp.common.sh  
 
 ---
 
-**Purpose**: Update ACP files (AGENT.md, templates, scripts) to the latest version
-**Category**: Maintenance
-**Frequency**: When Updates Available
+**Purpose**: Update ACP files (AGENT.md, templates, scripts) to the latest version  
+**Category**: Maintenance  
+**Frequency**: When Updates Available  
 
 ---
 
@@ -49,7 +49,7 @@ Check that update can proceed safely.
 - Recommend committing changes if git repo exists
 - Warn user that files will be updated
 
-**Expected Outcome**: Prerequisites confirmed or user warned
+**Expected Outcome**: Prerequisites confirmed or user warned  
 
 ### 2. Run Update Script
 
@@ -64,7 +64,7 @@ Execute the update script.
   - Update utility scripts
   - Preserve your project files (non-templates)
 
-**Expected Outcome**: Update script completes successfully
+**Expected Outcome**: Update script completes successfully  
 
 ### 3. Review Changes
 
@@ -76,7 +76,7 @@ Show what was updated.
 - Highlight major changes from CHANGELOG
 - Note any breaking changes
 
-**Expected Outcome**: User understands what changed
+**Expected Outcome**: User understands what changed  
 
 ### 4. Verify Update Success
 
@@ -88,7 +88,7 @@ Confirm update completed correctly.
 - Confirm scripts updated
 - Test that ACP still works
 
-**Expected Outcome**: Update verified successful
+**Expected Outcome**: Update verified successful  
 
 ### 5. Suggest Next Actions
 
@@ -100,7 +100,7 @@ Provide recommendations after update.
 - Suggest running `@acp-init` to reload context
 - Note any action items from update
 
-**Expected Outcome**: User knows what to do next
+**Expected Outcome**: User knows what to do next  
 
 ---
 
@@ -181,27 +181,27 @@ Files updated: 15
 
 ### Example 1: Applying Available Update
 
-**Context**: `@acp-version-check-for-updates` reported version 1.1.0 available
+**Context**: `@acp-version-check-for-updates` reported version 1.1.0 available  
 
-**Invocation**: `@acp-version-update`
+**Invocation**: `@acp-version-update`  
 
-**Result**: Updates from 1.0.3 to 1.1.0, shows 15 files updated, suggests reviewing changes with git diff
+**Result**: Updates from 1.0.3 to 1.1.0, shows 15 files updated, suggests reviewing changes with git diff  
 
 ### Example 2: Already Up to Date
 
-**Context**: Running update when already on latest version
+**Context**: Running update when already on latest version  
 
-**Invocation**: `@acp-version-update`
+**Invocation**: `@acp-version-update`  
 
-**Result**: Script reports already up to date, no files modified
+**Result**: Script reports already up to date, no files modified  
 
 ### Example 3: Update with Git Review
 
-**Context**: Want to see exactly what changed
+**Context**: Want to see exactly what changed  
 
-**Invocation**: `@acp-version-update` then `git diff`
+**Invocation**: `@acp-version-update` then `git diff`  
 
-**Result**: Updates applied, git diff shows line-by-line changes, can revert specific files if needed
+**Result**: Updates applied, git diff shows line-by-line changes, can revert specific files if needed  
 
 ---
 
@@ -217,35 +217,35 @@ Files updated: 15
 
 ### Issue 1: Script not found
 
-**Symptom**: Error "acp.version-update.sh not found"
+**Symptom**: Error "acp.version-update.sh not found"  
 
-**Cause**: Older ACP installation without update scripts
+**Cause**: Older ACP installation without update scripts  
 
-**Solution**: Manually download latest AGENT.md from repository, or install update scripts
+**Solution**: Manually download latest AGENT.md from repository, or install update scripts  
 
 ### Issue 2: Network error
 
-**Symptom**: Error "Cannot fetch repository"
+**Symptom**: Error "Cannot fetch repository"  
 
-**Cause**: No internet connection or GitHub unavailable
+**Cause**: No internet connection or GitHub unavailable  
 
-**Solution**: Check internet connection and try again later
+**Solution**: Check internet connection and try again later  
 
 ### Issue 3: Permission denied
 
-**Symptom**: Error "Permission denied" when running script
+**Symptom**: Error "Permission denied" when running script  
 
-**Cause**: Script not executable
+**Cause**: Script not executable  
 
-**Solution**: Run `chmod +x agent/scripts/acp.version-update.sh` to make it executable
+**Solution**: Run `chmod +x agent/scripts/acp.version-update.sh` to make it executable  
 
 ### Issue 4: Merge conflicts
 
-**Symptom**: Git reports conflicts after update
+**Symptom**: Git reports conflicts after update  
 
-**Cause**: Local modifications to template files
+**Cause**: Local modifications to template files  
 
-**Solution**: Review conflicts, keep your changes or accept updates, resolve conflicts manually
+**Solution**: Review conflicts, keep your changes or accept updates, resolve conflicts manually  
 
 ---
 
@@ -279,11 +279,11 @@ Files updated: 15
 
 ---
 
-**Namespace**: acp
-**Command**: version-update
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Compatibility**: ACP 1.0.3+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: version-update  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Compatibility**: ACP 1.0.3+  
+**Author**: ACP Project  

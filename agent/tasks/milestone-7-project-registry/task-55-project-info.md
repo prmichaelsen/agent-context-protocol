@@ -1,9 +1,9 @@
 # Task 55: @acp.project-info Command
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 1-2 hours
-**Dependencies**: Task 52 (Registry Infrastructure)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: Task 52 (Registry Infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -64,4 +64,4 @@ chmod +x agent/scripts/acp.project-info.sh
 
 ---
 
-**Next Task**: [Task 56: @acp.project-update Command](task-56-project-update.md)
+**Next Task**: [Task 56: @acp.project-update Command](task-56-project-update.md)  

@@ -1,9 +1,9 @@
 # Task 50: Package Search Default Topic Filter
 
-**Milestone**: M3 - ACP Package Management System
-**Estimated Time**: 1 hour
-**Dependencies**: Task 11 (Package Search Command)
-**Status**: Not Started
+**Milestone**: M3 - ACP Package Management System  
+**Estimated Time**: 1 hour  
+**Dependencies**: Task 11 (Package Search Command)  
+**Status**: Not Started  
 
 ---
 
@@ -17,11 +17,11 @@ Update `@acp.package-search` to search by `topic:acp-package` by default when no
 
 Currently, `@acp.package-search` searches for repositories with "acp" in the name, which returns thousands of irrelevant results (ACPI drivers, Android libraries, etc.). 
 
-**The Problem**: The search query `acp-` matches any repository with "acp" in the name, resulting in 11,356+ results where only 3 are actual ACP packages.
+**The Problem**: The search query `acp-` matches any repository with "acp" in the name, resulting in 11,356+ results where only 3 are actual ACP packages.  
 
-**The Solution**: By default, search should filter by `topic:acp-package` to only return repositories that have explicitly added the `acp-package` topic. This is the canonical way to identify ACP packages.
+**The Solution**: By default, search should filter by `topic:acp-package` to only return repositories that have explicitly added the `acp-package` topic. This is the canonical way to identify ACP packages.  
 
-**Definition**: A repository is an ACP package **if and only if** it has the `acp-package` topic added to the GitHub repository.
+**Definition**: A repository is an ACP package **if and only if** it has the `acp-package` topic added to the GitHub repository.  
 
 ---
 
@@ -37,7 +37,7 @@ Understand the current implementation:
 - Note current default behavior (searches for "acp-")
 - Understand how topic filtering works
 
-**Expected Outcome**: Current implementation understood
+**Expected Outcome**: Current implementation understood  
 
 ### 2. Update Default Search Query
 
@@ -65,7 +65,7 @@ else
 fi
 ```
 
-**Expected Outcome**: Default search uses topic filter
+**Expected Outcome**: Default search uses topic filter  
 
 ### 3. Update Search Display
 
@@ -90,7 +90,7 @@ Or with query:
 ℹ Limit: 10
 ```
 
-**Expected Outcome**: User understands search is filtered to ACP packages
+**Expected Outcome**: User understands search is filtered to ACP packages  
 
 ### 4. Update Command Documentation
 
@@ -120,7 +120,7 @@ For packages to be discoverable via `@acp.package-search`:
 3. Follow ACP package structure
 ```
 
-**Expected Outcome**: Documentation reflects new behavior
+**Expected Outcome**: Documentation reflects new behavior  
 
 ### 5. Test Search Behavior
 
@@ -145,7 +145,7 @@ Verify the changes work correctly:
 # Expected: acp-package repos with "authentication" tag
 ```
 
-**Expected Outcome**: All test cases pass
+**Expected Outcome**: All test cases pass  
 
 ### 6. Update Examples
 
@@ -156,7 +156,7 @@ Update command examples to reflect new behavior:
 - Add note about topic filter in each example
 - Show expected result counts
 
-**Expected Outcome**: Examples are accurate
+**Expected Outcome**: Examples are accurate  
 
 ---
 
@@ -266,7 +266,7 @@ The `topic:acp-package` filter is **always applied** to ensure quality results. 
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion**: 1 hour
-**Priority**: High (fixes usability issue)
-**Complexity**: Low (simple query modification)
+**Next Task**: TBD  
+**Estimated Completion**: 1 hour  
+**Priority**: High (fixes usability issue)  
+**Complexity**: Low (simple query modification)  

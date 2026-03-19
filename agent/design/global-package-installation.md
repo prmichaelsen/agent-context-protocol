@@ -1,11 +1,11 @@
 # Global Package Installation
 
-**Concept**: Install ACP packages globally to `~/.acp/packages/` for package development and global command library
-**Created**: 2026-02-21
-**Updated**: 2026-02-21
-**Status**: Design Specification
-**Priority**: Medium
-**Estimated Effort**: 6-8 hours
+**Concept**: Install ACP packages globally to `~/.acp/packages/` for package development and global command library  
+**Created**: 2026-02-21  
+**Updated**: 2026-02-21  
+**Status**: Design Specification  
+**Priority**: Medium  
+**Estimated Effort**: 6-8 hours  
 
 ---
 
@@ -30,15 +30,15 @@ Global packages are **independent** from project dependencies. Projects do not d
 
 ### User Pain Points
 
-**Scenario 1**: Package Development
+**Scenario 1**: Package Development  
 - Currently: Create package in random directory, manually set up structure
 - Desired: Use `@acp.package-create` to create in `~/.acp/packages/`, work with full ACP tooling
 
-**Scenario 2**: Global Command Library
+**Scenario 2**: Global Command Library  
 - Currently: Common commands (like git helpers) must be copied to each project
 - Desired: Install once globally, agents can discover via `~/.acp/manifest.yaml`
 
-**Scenario 3**: Command Discovery
+**Scenario 3**: Command Discovery  
 - Currently: Agents only see commands in current project's `./agent/commands/`
 - Desired: Agents can also discover commands from `~/.acp/packages/` when needed
 
@@ -122,7 +122,7 @@ Local Installation (existing, unchanged):
 
 ### 1. Global Manifest
 
-**Location**: `~/.acp/manifest.yaml`
+**Location**: `~/.acp/manifest.yaml`  
 
 **Structure**:
 ```yaml
@@ -152,7 +152,7 @@ packages:
 
 ### 2. AGENT.md for Global Discovery
 
-**Location**: `~/.acp/AGENT.md`
+**Location**: `~/.acp/AGENT.md`  
 
 **Content**:
 ```markdown
@@ -169,7 +169,7 @@ Global packages provide:
 - Patterns (in `~/.acp/packages/{package}/agent/patterns/`)
 - Design documents (in `~/.acp/packages/{package}/agent/design/`)
 
-**Namespace Precedence**: Local packages always take precedence over global packages. If both local and global packages define `@firebase.deploy`, use the local version.
+**Namespace Precedence**: Local packages always take precedence over global packages. If both local and global packages define `@firebase.deploy`, use the local version.  
 
 ## Discovery
 
@@ -291,7 +291,7 @@ fi
 ## Trade-offs
 
 ### 1. Discovery Overhead
-**Trade-off**: Agents must read `~/.acp/manifest.yaml` to discover global packages
+**Trade-off**: Agents must read `~/.acp/manifest.yaml` to discover global packages  
 
 **Mitigation**:
 - Manifest is small and fast to read
@@ -299,12 +299,12 @@ fi
 - Clear documentation in `~/.acp/AGENT.md`
 
 ### 2. No Automatic Updates
-**Trade-off**: Updating global packages doesn't affect projects (they use local packages)
+**Trade-off**: Updating global packages doesn't affect projects (they use local packages)  
 
-**Benefit**: This is actually a feature - projects remain stable and independent
+**Benefit**: This is actually a feature - projects remain stable and independent  
 
 ### 3. Namespace Collisions
-**Trade-off**: Global and local packages might have same namespace
+**Trade-off**: Global and local packages might have same namespace  
 
 **Mitigation**:
 - Local always takes precedence
@@ -312,7 +312,7 @@ fi
 - Agents can check both locations if needed
 
 ### 4. Manual Discovery
-**Trade-off**: Agents must explicitly look for global packages
+**Trade-off**: Agents must explicitly look for global packages  
 
 **Mitigation**:
 - Document in AGENT.md to read `~/.acp/manifest.yaml`
@@ -466,8 +466,8 @@ fi
 
 ---
 
-**Status**: Design Specification - Implementation Ready
-**Recommendation**: Implement in Milestone 5 (Global Package Installation)
+**Status**: Design Specification - Implementation Ready  
+**Recommendation**: Implement in Milestone 5 (Global Package Installation)  
 **Next Steps**:
 1. ✅ Task files created (tasks 25-28)
 2. ✅ progress.yaml updated with Milestone 5

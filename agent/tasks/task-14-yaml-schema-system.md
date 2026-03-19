@@ -1,9 +1,9 @@
 # Task 14: YAML Schema System
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 6-8 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -36,7 +36,7 @@ Research existing YAML schema validation approaches:
 - Look for existing bash YAML validators
 - Document findings in design doc
 
-**Expected Outcome**: Understanding of validation approaches and patterns
+**Expected Outcome**: Understanding of validation approaches and patterns  
 
 ### 2. Create agent/schemas/ Directory
 
@@ -48,7 +48,7 @@ mkdir -p agent/schemas
 touch agent/schemas/.gitkeep
 ```
 
-**Expected Outcome**: Directory ready for schema files
+**Expected Outcome**: Directory ready for schema files  
 
 ### 3. Create package.schema.yaml
 
@@ -147,7 +147,7 @@ fields:
         pattern: "^>=?[0-9]+\\.[0-9]+\\.[0-9]+$"
 ```
 
-**Expected Outcome**: Complete schema definition for package.yaml
+**Expected Outcome**: Complete schema definition for package.yaml  
 
 ### 4. Implement acp.yaml-validate.sh
 
@@ -194,7 +194,7 @@ validate_pattern() {
 }
 ```
 
-**Expected Outcome**: Working YAML validator script
+**Expected Outcome**: Working YAML validator script  
 
 ### 5. Test Validation
 
@@ -207,7 +207,7 @@ Test validator with valid and invalid package.yaml files:
 - Verify error messages are helpful
 - Test edge cases
 
-**Expected Outcome**: Validator works correctly
+**Expected Outcome**: Validator works correctly  
 
 ### 6. Document Schema System
 
@@ -219,7 +219,7 @@ Update documentation:
 - Document validation capabilities
 - Add troubleshooting section
 
-**Expected Outcome**: Schema system fully documented
+**Expected Outcome**: Schema system fully documented  
 
 ---
 
@@ -259,5 +259,5 @@ Field 'repository' invalid: Must end with .git
 
 ---
 
-**Next Task**: [Task 15: Namespace Utilities](task-15-namespace-utilities.md)
-**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)
+**Next Task**: [Task 15: Namespace Utilities](task-15-namespace-utilities.md)  
+**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)  

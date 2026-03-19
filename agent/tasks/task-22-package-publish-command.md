@@ -1,9 +1,9 @@
 # Task 22: @acp.package-publish Command
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 8-10 hours
-**Dependencies**: Task 20 (@acp.package-validate), existing @git.commit
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 8-10 hours  
+**Dependencies**: Task 20 (@acp.package-validate), existing @git.commit  
+**Status**: Not Started  
 
 ---
 
@@ -102,4 +102,4 @@ Test end-to-end publishing.
 
 ---
 
-**Next Task**: [Task 23: Rewrite @acp.package-create](task-23-package-create-rewrite.md)
+**Next Task**: [Task 23: Rewrite @acp.package-create](task-23-package-create-rewrite.md)  

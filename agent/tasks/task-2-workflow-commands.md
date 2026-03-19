@@ -1,9 +1,9 @@
 # Task 2: Implement Core Workflow Commands
 
-**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)
-**Estimated Time**: 3 hours
-**Dependencies**: Task 1 (Commands Infrastructure)
-**Status**: Not Started
+**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)  
+**Estimated Time**: 3 hours  
+**Dependencies**: Task 1 (Commands Infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -120,5 +120,5 @@ In each command file, link to related commands:
 
 ---
 
-**Next Task**: [Task 3: Implement Version Commands](task-3-version-commands.md)
-**Related Design Docs**: [ACP Commands Design](../design/acp-commands-design.md)
+**Next Task**: [Task 3: Implement Version Commands](task-3-version-commands.md)  
+**Related Design Docs**: [ACP Commands Design](../design/acp-commands-design.md)  

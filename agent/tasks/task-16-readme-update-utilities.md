@@ -1,9 +1,9 @@
 # Task 16: README Update Utilities
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 15 (Namespace Utilities)
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 15 (Namespace Utilities)  
+**Status**: Not Started  
 
 ---
 
@@ -46,7 +46,7 @@ Define standard README structure with update markers:
 <!-- ACP_AUTO_UPDATE_END:CONTENTS -->
 ```
 
-**Expected Outcome**: Standard structure defined
+**Expected Outcome**: Standard structure defined  
 
 ### 2. Implement update_readme_contents() Function
 
@@ -93,7 +93,7 @@ update_readme_contents() {
 }
 ```
 
-**Expected Outcome**: Function updates README contents
+**Expected Outcome**: Function updates README contents  
 
 ### 3. Implement generate_contents_section() Function
 
@@ -140,7 +140,7 @@ generate_contents_section() {
 }
 ```
 
-**Expected Outcome**: Function generates formatted content list
+**Expected Outcome**: Function generates formatted content list  
 
 ### 4. Implement add_file_to_readme() Function
 
@@ -160,7 +160,7 @@ add_file_to_readme() {
 }
 ```
 
-**Expected Outcome**: Function adds file to README
+**Expected Outcome**: Function adds file to README  
 
 ### 5. Test README Updates
 
@@ -174,7 +174,7 @@ Test README update functions:
 - Test with empty contents
 - Test with multiple files
 
-**Expected Outcome**: README updates work correctly
+**Expected Outcome**: README updates work correctly  
 
 ### 6. Document README Utilities
 
@@ -185,7 +185,7 @@ Update documentation:
 - Update design doc
 - Add usage examples
 
-**Expected Outcome**: Utilities documented
+**Expected Outcome**: Utilities documented  
 
 ---
 
@@ -202,5 +202,5 @@ Update documentation:
 
 ---
 
-**Next Task**: [Task 17: @acp.pattern-create Command](task-17-pattern-create-command.md)
-**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)
+**Next Task**: [Task 17: @acp.pattern-create Command](task-17-pattern-create-command.md)  
+**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)  

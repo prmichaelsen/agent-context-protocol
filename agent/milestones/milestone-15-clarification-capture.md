@@ -1,9 +1,9 @@
 # Milestone 15: Clarification Capture System
 
-**Status**: Not Started
-**Started**: null
-**Completed**: null
-**Estimated Duration**: 1-2 weeks
+**Status**: Not Started  
+**Started**: null  
+**Completed**: null  
+**Estimated Duration**: 1-2 weeks  
 
 ---
 

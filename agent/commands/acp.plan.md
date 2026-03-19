@@ -3,18 +3,18 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.plan` has been invoked. Follow the steps below to execute this command.
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-22
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-22  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Plan milestones OR tasks for undefined items in progress.yaml or new requirements
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Plan milestones OR tasks for undefined items in progress.yaml or new requirements  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -96,7 +96,7 @@ Before planning, load relevant key files from the index.
   2 key files read for acp.plan context
 ```
 
-**Note**: If `agent/index/` does not exist, skip silently.
+**Note**: If `agent/index/` does not exist, skip silently.  
 
 ### 1. Scan for Undefined Planning Items
 
@@ -112,7 +112,7 @@ Automatically scan progress.yaml for items needing planning:
   - Task has minimal notes (just one-liner)
 - Prioritize milestones over tasks (but use conversation context to determine user intent)
 
-**Expected Outcome**: List of undefined items identified
+**Expected Outcome**: List of undefined items identified  
 
 ### 2. Present Planning Options
 
@@ -153,7 +153,7 @@ Options:
 What would you like to do?
 ```
 
-**Expected Outcome**: User selects planning path
+**Expected Outcome**: User selects planning path  
 
 ### 3. Gather Requirements
 
@@ -215,7 +215,7 @@ Based on user selection, gather requirements:
 - If ambiguous, request chat clarification or offer to create clarification
 
 
-**Expected Outcome**: Requirements gathered and clarified
+**Expected Outcome**: Requirements gathered and clarified  
 
 ### 4. Determine Planning Scope
 
@@ -228,7 +228,7 @@ Decide what to create based on requirements:
 - Ask user: "This looks like {N} milestone(s) with ~{M} tasks each. Sound good, or prefer more granular/broader tasks?"
 - Confirm planning scope
 
-**Expected Outcome**: Planning scope agreed upon
+**Expected Outcome**: Planning scope agreed upon  
 
 ### 5. Create Milestone Documents
 
@@ -246,7 +246,7 @@ For each milestone to plan:
 - Save to `agent/milestones/milestone-{N}-{name}.md`
 - Add to progress.yaml milestones section
 
-**Expected Outcome**: Milestone document(s) created
+**Expected Outcome**: Milestone document(s) created  
 
 ### 6. Create Task Documents
 
@@ -267,7 +267,7 @@ For each task in milestone:
   - Estimated hours (AI-suggested, user can adjust)
 - Add each task to progress.yaml under appropriate milestone section
 
-**Expected Outcome**: Task documents created and organized by milestone
+**Expected Outcome**: Task documents created and organized by milestone  
 
 ### 7. Update progress.yaml
 
@@ -283,7 +283,7 @@ Update progress tracking with new planning items:
 - Update next_steps with new planning items
 - Do NOT update current_milestone (that's for implementation, not planning)
 
-**Expected Outcome**: progress.yaml fully updated
+**Expected Outcome**: progress.yaml fully updated  
 
 ### 8. Generate Planning Report
 
@@ -331,7 +331,7 @@ Next Steps:
   • Run @acp.sync to update related documentation (optional)
 ```
 
-**Expected Outcome**: User understands what was created
+**Expected Outcome**: User understands what was created  
 
 ### 9. Commit Planning Artifacts (MANDATORY)
 
@@ -350,7 +350,7 @@ Commit all created planning documents and progress.yaml updates.
 - Invoke `@git.commit` with a message summarizing what was planned (e.g., `plan(M18): create milestone and 5 tasks for Feature X`)
 - Verify the commit succeeded before moving to Step 10
 
-**Expected Outcome**: All planning artifacts committed to version control. `git status` shows clean working tree for planned files.
+**Expected Outcome**: All planning artifacts committed to version control. `git status` shows clean working tree for planned files.  
 
 ### 10. Offer Next Actions
 
@@ -363,7 +363,7 @@ Prompt user for next action:
 - `@acp.sync` - Sync documentation with new plans
 - Review and refine manually
 
-**Expected Outcome**: User chooses next action
+**Expected Outcome**: User chooses next action  
 
 ---
 
@@ -409,9 +409,9 @@ Prompt user for next action:
 
 ### Example 1: Planning Undefined Milestone
 
-**Context**: M6 exists in progress.yaml but no milestone document
+**Context**: M6 exists in progress.yaml but no milestone document  
 
-**Invocation**: `@acp.plan`
+**Invocation**: `@acp.plan`  
 
 **Result**:
 ```
@@ -443,25 +443,25 @@ User: yes
 
 ### Example 2: Planning with Draft File
 
-**Context**: Have requirements draft prepared
+**Context**: Have requirements draft prepared  
 
-**Invocation**: `@acp.plan @agent/drafts/auth-feature.draft.md`
+**Invocation**: `@acp.plan @agent/drafts/auth-feature.draft.md`  
 
-**Result**: Reads draft, creates clarification if needed, generates milestone and tasks, updates progress.yaml
+**Result**: Reads draft, creates clarification if needed, generates milestone and tasks, updates progress.yaml  
 
 ### Example 3: Batch Planning
 
-**Context**: Multiple undefined items
+**Context**: Multiple undefined items  
 
-**Invocation**: `@acp.plan --all`
+**Invocation**: `@acp.plan --all`  
 
-**Result**: Plans all undefined milestones and tasks without prompting, generates report
+**Result**: Plans all undefined milestones and tasks without prompting, generates report  
 
 ### Example 4: New Feature Planning
 
-**Context**: No undefined items, want to plan new feature
+**Context**: No undefined items, want to plan new feature  
 
-**Invocation**: `@acp.plan`
+**Invocation**: `@acp.plan`  
 
 **Result**:
 ```
@@ -504,27 +504,27 @@ User: c
 
 ### Issue 1: No milestones in progress.yaml
 
-**Symptom**: Error "No milestones found"
+**Symptom**: Error "No milestones found"  
 
-**Solution**: Guide user through creating first milestone. Offer to create default milestone structure or collect requirements in chat.
+**Solution**: Guide user through creating first milestone. Offer to create default milestone structure or collect requirements in chat.  
 
 ### Issue 2: Ambiguous requirements
 
-**Symptom**: Cannot determine full requirements for a requested plan item
+**Symptom**: Cannot determine full requirements for a requested plan item  
 
-**Solution**: Create clarification document to gather missing details. Inform user this takes longer but yields better results.
+**Solution**: Create clarification document to gather missing details. Inform user this takes longer but yields better results.  
 
 ### Issue 3: Task numbering conflicts
 
-**Symptom**: Task numbers overlap or have gaps
+**Symptom**: Task numbers overlap or have gaps  
 
-**Solution**: Agent auto-detects highest task number across ALL milestones and increments. Gaps are acceptable.
+**Solution**: Agent auto-detects highest task number across ALL milestones and increments. Gaps are acceptable.  
 
 ### Issue 4: Milestone numbering gaps
 
-**Symptom**: M1, M2, M5 exist but M3, M4 missing
+**Symptom**: M1, M2, M5 exist but M3, M4 missing  
 
-**Solution**: Prompt user to either fill gaps or continue with M6. Offer options to refine requirements, create drafts, or skip to more defined milestones.
+**Solution**: Prompt user to either fill gaps or continue with M6. Offer options to refine requirements, create drafts, or skip to more defined milestones.  
 
 ---
 
@@ -589,11 +589,11 @@ Dependencies may be inferred from:
 
 ---
 
-**Namespace**: acp
-**Command**: plan
-**Version**: 1.0.0
-**Created**: 2026-02-22
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Compatibility**: ACP 3.7.3+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: plan  
+**Version**: 1.0.0  
+**Created**: 2026-02-22  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Compatibility**: ACP 3.7.3+  
+**Author**: ACP Project  

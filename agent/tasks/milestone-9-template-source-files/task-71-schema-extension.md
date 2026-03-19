@@ -1,9 +1,9 @@
 # Task 71: Schema Extension for Templates
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Extend the `package.yaml` schema to support template source files with metadata 
 
 This is Phase 1 of the Template Source Files Support implementation. The schema extension provides the foundation for declaring templates in `package.yaml`, enabling the package system to understand, validate, and install template files.
 
-**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)
+**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)  
 
 ---
 
@@ -273,18 +273,18 @@ contents:
 
 ### Issue 1: Schema validation fails
 
-**Symptom**: `acp.yaml-validate.sh` reports schema errors
-**Solution**: Check YAML syntax, ensure proper indentation, verify all required fields present
+**Symptom**: `acp.yaml-validate.sh` reports schema errors  
+**Solution**: Check YAML syntax, ensure proper indentation, verify all required fields present  
 
 ### Issue 2: Target path validation unclear
 
-**Symptom**: Confusion about valid target paths
-**Solution**: Document that target must be relative (`./ or dirname/`), no `../`, no absolute paths
+**Symptom**: Confusion about valid target paths  
+**Solution**: Document that target must be relative (`./ or dirname/`), no `../`, no absolute paths  
 
 ### Issue 3: Variable naming confusion
 
-**Symptom**: Unclear what variable names are valid
-**Solution**: Document UPPER_SNAKE_CASE requirement, provide examples (PACKAGE_NAME, AUTHOR_EMAIL)
+**Symptom**: Unclear what variable names are valid  
+**Solution**: Document UPPER_SNAKE_CASE requirement, provide examples (PACKAGE_NAME, AUTHOR_EMAIL)  
 
 ---
 
@@ -307,6 +307,6 @@ contents:
 
 ---
 
-**Next Task**: [Task 72: Installation System](task-72-installation-system.md)
-**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 72: Installation System](task-72-installation-system.md)  
+**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)  
+**Estimated Completion Date**: TBD  

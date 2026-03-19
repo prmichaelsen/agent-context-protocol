@@ -1,9 +1,9 @@
 # Task 88: Event-Driven Order Pipeline Benchmark Task
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 4-6 hours
-**Dependencies**: Task 79 (runner must support multi-turn steps)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: Task 79 (runner must support multi-turn steps)  
+**Status**: Not Started  
 
 ---
 
@@ -94,4 +94,4 @@ agent/benchmarks/suite/order-pipeline/
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md
+**Related Design Docs**: agent/design/local.benchmark-suite.md  

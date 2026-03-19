@@ -1,8 +1,8 @@
 # Service Layer Pattern for TypeScript
 
-**Category**: Architecture | Code
-**Applicable To**: TypeScript projects with data access needs
-**Status**: Stable
+**Category**: Architecture | Code  
+**Applicable To**: TypeScript projects with data access needs  
+**Status**: Stable  
 
 ---
 
@@ -39,9 +39,9 @@ The Service Layer Pattern provides a clear separation between business logic and
 ## Service Types
 
 ### 1. Data Access Services
-**Purpose**: Direct database/storage operations
-**Naming**: `{Domain}DataService` or `{Domain}Repository`
-**Used By**: API handlers, server-side code, background jobs
+**Purpose**: Direct database/storage operations  
+**Naming**: `{Domain}DataService` or `{Domain}Repository`  
+**Used By**: API handlers, server-side code, background jobs  
 
 **Characteristics**:
 - Directly interacts with database/storage
@@ -51,9 +51,9 @@ The Service Layer Pattern provides a clear separation between business logic and
 - Returns typed data models
 
 ### 2. API Client Services
-**Purpose**: Wrap API endpoint calls for client-side use
-**Naming**: `{Domain}ApiService` or `{Domain}Client`
-**Used By**: UI components, client-side code
+**Purpose**: Wrap API endpoint calls for client-side use  
+**Naming**: `{Domain}ApiService` or `{Domain}Client`  
+**Used By**: UI components, client-side code  
 
 **Characteristics**:
 - Calls HTTP endpoints
@@ -300,9 +300,9 @@ test('component loads user', async () => {
 
 ### ❌ Anti-Pattern 1: Direct Data Access in Components
 
-**Description**: Directly accessing database or making API calls from UI components.
+**Description**: Directly accessing database or making API calls from UI components.  
 
-**Why it's bad**: Tight coupling, hard to test, duplicated logic.
+**Why it's bad**: Tight coupling, hard to test, duplicated logic.  
 
 ```typescript
 // ❌ Bad: Direct database access in component
@@ -326,9 +326,9 @@ function UserProfile({ userId }: Props) {
 
 ### ❌ Anti-Pattern 2: God Service
 
-**Description**: Creating a single service class that handles all business logic.
+**Description**: Creating a single service class that handles all business logic.  
 
-**Why it's bad**: Violates single responsibility, becomes difficult to test and maintain.
+**Why it's bad**: Violates single responsibility, becomes difficult to test and maintain.  
 
 ```typescript
 // ❌ Bad: Everything in one service
@@ -358,9 +358,9 @@ class PaymentService {
 
 ### ❌ Anti-Pattern 3: Mixing Concerns
 
-**Description**: Putting UI logic or presentation concerns in service layer.
+**Description**: Putting UI logic or presentation concerns in service layer.  
 
-**Why it's bad**: Services become coupled to specific UI frameworks.
+**Why it's bad**: Services become coupled to specific UI frameworks.  
 
 ```typescript
 // ❌ Bad: UI logic in service
@@ -487,6 +487,6 @@ const data = await service.findData(query);
 
 ---
 
-**Status**: Stable
-**Recommendation**: Use for any TypeScript project with data access needs
-**Last Updated**: 2026-02-13
+**Status**: Stable  
+**Recommendation**: Use for any TypeScript project with data access needs  
+**Last Updated**: 2026-02-13  

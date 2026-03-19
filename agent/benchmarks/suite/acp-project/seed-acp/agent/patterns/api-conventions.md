@@ -26,7 +26,7 @@ All list endpoints return paginated responses:
 }
 ```
 
-**Query params**: `page` (default 1), `limit` (default 20, max 100).
+**Query params**: `page` (default 1), `limit` (default 20, max 100).  
 
 **Implementation helper**:
 

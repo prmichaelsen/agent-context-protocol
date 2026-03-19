@@ -1,9 +1,9 @@
 # Task 44: Preferences Documentation
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 37-43 (All preference implementation complete)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 37-43 (All preference implementation complete)  
+**Status**: Not Started  
 
 ---
 
@@ -42,7 +42,7 @@ The preferences system enables users to configure agent behavior, command defaul
 2. **Workspace Preferences** (`.vscode/preferences/`) - IDE/workspace-specific settings
 3. **Project Preferences** (`./agent/preferences/`) - Project-specific overrides
 
-**Precedence**: Project > Workspace > User > Default (more specific overrides more general)
+**Precedence**: Project > Workspace > User > Default (more specific overrides more general)  
 
 ### Available Preferences
 
@@ -136,7 +136,7 @@ Configure ACP behavior at user, workspace, or project level.
 - **Workspace** (`.vscode/preferences/`) - Team/workspace settings
 - **Project** (`./agent/preferences/`) - Project-specific overrides
 
-**Precedence**: Project > Workspace > User > Default
+**Precedence**: Project > Workspace > User > Default  
 
 ### Common Preferences
 
@@ -454,16 +454,16 @@ project-root/
 ## Common Issues and Solutions
 
 ### Issue 1: Documentation inconsistency
-**Symptom**: Different files describe preferences differently
-**Solution**: Use consistent terminology and examples across all docs
+**Symptom**: Different files describe preferences differently  
+**Solution**: Use consistent terminology and examples across all docs  
 
 ### Issue 2: Missing examples
-**Symptom**: Users don't understand how to use preferences
-**Solution**: Add concrete examples for each use case
+**Symptom**: Users don't understand how to use preferences  
+**Solution**: Add concrete examples for each use case  
 
 ### Issue 3: Unclear precedence
-**Symptom**: Users confused about which preference applies
-**Solution**: Include precedence diagram and clear examples
+**Symptom**: Users confused about which preference applies  
+**Solution**: Include precedence diagram and clear examples  
 
 ---
 
@@ -485,6 +485,6 @@ project-root/
 
 ---
 
-**Next Task**: None (Milestone 6 complete)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: None (Milestone 6 complete)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

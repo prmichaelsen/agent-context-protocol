@@ -4,7 +4,7 @@
 **Created**: 2026-02-18  
 **Status**: Design Specification  
 **Priority**: High  
-**Estimated Effort**: 15-20 hours
+**Estimated Effort**: 15-20 hours  
 
 ---
 
@@ -52,15 +52,15 @@ The ACP Package Management System enables distribution, installation, and mainte
 
 ### User Pain Points
 
-**Scenario 1**: Developer wants Firebase patterns
+**Scenario 1**: Developer wants Firebase patterns  
 - Currently: Copy-paste from another project, hope it's current
 - Desired: `@acp.package-install acp-firebase` and get latest patterns
 
-**Scenario 2**: Pattern updated with bug fix
+**Scenario 2**: Pattern updated with bug fix  
 - Currently: Manually check for updates, copy-paste again
 - Desired: `@acp.package-update` and get latest versions
 
-**Scenario 3**: Only need one pattern from package
+**Scenario 3**: Only need one pattern from package  
 - Currently: Install everything or manually extract
 - Desired: `@acp.package-install acp-firebase --patterns user-scoped-collections`
 
@@ -294,7 +294,7 @@ last_updated: 2026-02-18T10:35:00Z
 ### Two-Level Versioning
 
 #### Package-Level Version (Semantic)
-**Purpose**: Track the package as a whole
+**Purpose**: Track the package as a whole  
 
 ```yaml
 package_version: 1.2.0
@@ -306,13 +306,13 @@ package_version: 1.2.0
 - **Patch (1.2.1)**: Bug fixes, typo corrections
 
 #### File-Level Version (Granular)
-**Purpose**: Track individual file changes
+**Purpose**: Track individual file changes  
 
 ```markdown
 # patterns/user-scoped-collections.md
 
-**Version**: 1.1.0
-**Last Updated**: 2026-02-18
+**Version**: 1.1.0  
+**Last Updated**: 2026-02-18  
 ```
 
 **When to Bump**:
@@ -497,7 +497,7 @@ Track file checksums to detect local modifications:
 
 ### `@acp.package-install`
 
-**Purpose**: Install ACP packages from GitHub repositories
+**Purpose**: Install ACP packages from GitHub repositories  
 
 **Syntax**:
 ```bash
@@ -538,7 +538,7 @@ Options:
 
 ### `@acp.package-update`
 
-**Purpose**: Update installed packages to latest versions
+**Purpose**: Update installed packages to latest versions  
 
 **Syntax**:
 ```bash
@@ -577,7 +577,7 @@ Options:
 
 ### `@acp.package-list`
 
-**Purpose**: List installed packages and their details
+**Purpose**: List installed packages and their details  
 
 **Syntax**:
 ```bash
@@ -604,7 +604,7 @@ Options:
 
 ### `@acp.package-remove`
 
-**Purpose**: Remove installed packages
+**Purpose**: Remove installed packages  
 
 **Syntax**:
 ```bash
@@ -631,7 +631,7 @@ Options:
 
 ### `@acp.package-info`
 
-**Purpose**: Show detailed information about a package
+**Purpose**: Show detailed information about a package  
 
 **Syntax**:
 ```bash
@@ -835,7 +835,7 @@ dependencies:
 ## Implementation Plan
 
 ### Phase 1: Basic Package Management (Week 1)
-**Estimated Effort**: 6-8 hours
+**Estimated Effort**: 6-8 hours  
 
 **Deliverables**:
 1. Create `agent/manifest.yaml` manifest structure
@@ -855,7 +855,7 @@ dependencies:
 ---
 
 ### Phase 2: Selective Installation (Week 2)
-**Estimated Effort**: 4-6 hours
+**Estimated Effort**: 4-6 hours  
 
 **Deliverables**:
 1. Implement `--patterns`, `--commands`, `--designs` flags
@@ -871,7 +871,7 @@ dependencies:
 ---
 
 ### Phase 3: Update System (Week 3)
-**Estimated Effort**: 5-7 hours
+**Estimated Effort**: 5-7 hours  
 
 **Deliverables**:
 1. Create `@acp.package-update` command
@@ -887,7 +887,7 @@ dependencies:
 ---
 
 ### Phase 4: Advanced Features (Week 4)
-**Estimated Effort**: 4-6 hours
+**Estimated Effort**: 4-6 hours  
 
 **Deliverables**:
 1. Create `@acp.package-remove` command
@@ -1043,7 +1043,7 @@ cd project
 ## Trade-offs
 
 ### 1. **Complexity vs Simplicity**
-**Trade-off**: Two-level versioning adds complexity
+**Trade-off**: Two-level versioning adds complexity  
 
 **Mitigation**:
 - Default behavior is simple (install everything)
@@ -1051,7 +1051,7 @@ cd project
 - Clear documentation and examples
 
 ### 2. **Storage Overhead**
-**Trade-off**: Manifest and checksums add storage
+**Trade-off**: Manifest and checksums add storage  
 
 **Mitigation**:
 - YAML is human-readable and compresses well
@@ -1059,7 +1059,7 @@ cd project
 - Total overhead: ~1-5KB per package
 
 ### 3. **Network Dependency**
-**Trade-off**: Requires internet to install/update
+**Trade-off**: Requires internet to install/update  
 
 **Mitigation**:
 - Packages can be cached locally
@@ -1092,7 +1092,7 @@ cd project
 ## Future Considerations
 
 ### Phase 5: Package Discovery & Search
-**Estimated Effort**: 8-10 hours
+**Estimated Effort**: 8-10 hours  
 
 **Deliverables**:
 1. Create `@acp.package-search` command
@@ -1259,6 +1259,6 @@ verification:
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Implement in phases starting with basic manifest tracking
-**Next Steps**: Create implementation tasks for Phase 1
+**Status**: Design Specification  
+**Recommendation**: Implement in phases starting with basic manifest tracking  
+**Next Steps**: Create implementation tasks for Phase 1  

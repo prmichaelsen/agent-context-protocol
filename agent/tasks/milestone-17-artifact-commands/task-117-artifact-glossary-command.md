@@ -1,12 +1,12 @@
 # Task 117: Implement @acp.artifact-glossary Command
 
-**Status**: completed
-**Priority**: high
-**Milestone**: M17 (Artifact Commands System)
-**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)
-**Estimated Time**: 3-4 hours
-**Started**: 2026-03-17
-**Completed**: 2026-03-17
+**Status**: completed  
+**Priority**: high  
+**Milestone**: M17 (Artifact Commands System)  
+**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)  
+**Estimated Time**: 3-4 hours  
+**Started**: 2026-03-17  
+**Completed**: 2026-03-17  
 
 ---
 
@@ -35,7 +35,7 @@ Implement the `@acp.artifact-glossary` command that creates and maintains projec
 
 ### Command Structure
 
-**File**: `agent/commands/acp.artifact-glossary.md`
+**File**: `agent/commands/acp.artifact-glossary.md`  
 
 **Metadata**:
 - Namespace: acp

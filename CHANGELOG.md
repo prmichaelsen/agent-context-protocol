@@ -5,6 +5,13 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.2] - 2026-03-19
+
+### Fixed
+- Add trailing double-spaces to all markdown frontmatter `**Key**: Value` lines for proper line break rendering (228 files)
+- Rename `agent/artifacts.template.md/` directory to `agent/artifacts/` (was incorrectly using `.md` extension on a directory)
+- Update all references to old `artifacts.template.md/` path across commands, tasks, design docs, and progress.yaml
+
 ## [5.28.1] - 2026-03-18
 
 ### Changed

@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: acp.package-install.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: acp.package-install.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Install third-party command packages from git repositories using the package-install script
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Install third-party command packages from git repositories using the package-install script  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -147,7 +147,7 @@ Shows available files without installing anything.
 ./agent/scripts/acp.package-install.sh --patterns file1 --commands cmd1 cmd2 --repo <repository-url>
 ```
 
-**Note**: File names can be specified with or without `.md` extension.
+**Note**: File names can be specified with or without `.md` extension.  
 
 **F. Experimental Features Installation**:
 ```bash
@@ -178,7 +178,7 @@ Installing commands...
   ⚠  Installing experimental: experimental-command.md
 ```
 
-**Note**: Experimental features can be combined with other installation modes (global, selective, etc.).
+**Note**: Experimental features can be combined with other installation modes (global, selective, etc.).  
 
 **G. Template File Installation**:
 ```bash
@@ -218,7 +218,7 @@ Execute the package installation script with chosen options.
   - Clean up temporary files
   - Report what was installed
 
-**Expected Outcome**: Script completes successfully and selected files are installed
+**Expected Outcome**: Script completes successfully and selected files are installed  
 
 ### 2. Review Installed Files
 
@@ -233,7 +233,7 @@ Verify the files were installed correctly.
 - Check namespace is not `acp` (reserved for commands)
 - Ensure no malicious content
 
-**Expected Outcome**: Files verified safe and functional
+**Expected Outcome**: Files verified safe and functional  
 
 ### 3. Test Installed Commands
 
@@ -245,7 +245,7 @@ Try invoking one of the installed commands (if any). Prompt user for explicit co
 - Verify it works as expected
 - Check for any errors
 
-**Expected Outcome**: Commands work correctly
+**Expected Outcome**: Commands work correctly  
 
 ### 4. Verify Manifest Updated
 
@@ -263,7 +263,7 @@ Check that the manifest was created/updated correctly.
   - Checksums (for modification detection)
   - Installation timestamps
 
-**Expected Outcome**: Manifest accurately tracks installation
+**Expected Outcome**: Manifest accurately tracks installation  
 
 ### 5. Document Installation
 
@@ -275,7 +275,7 @@ Update progress tracking with installation notes.
 - Note installation date
 - List installed files (commands, patterns, designs)
 
-**Expected Outcome**: Installation tracked in progress
+**Expected Outcome**: Installation tracked in progress  
 
 ---
 
@@ -367,55 +367,55 @@ Next steps:
 
 ### Example 1: Installing Full Package
 
-**Context**: Want to add deployment commands from community
+**Context**: Want to add deployment commands from community  
 
-**Invocation**: `@acp.package-install`
+**Invocation**: `@acp.package-install`  
 
 **Command to execute**:
 ```bash
 ./agent/scripts/acp.package-install.sh --repo https://github.com/example/acp-deploy-package.git
 ```
 
-**Result**: Script clones repo, installs 3 commands to agent/commands/, now can use @deploy.production
+**Result**: Script clones repo, installs 3 commands to agent/commands/, now can use @deploy.production  
 
 ### Example 2: Installing Patterns Only
 
-**Context**: Want to add TypeScript patterns from organization
+**Context**: Want to add TypeScript patterns from organization  
 
-**Invocation**: `@acp.package-install`
+**Invocation**: `@acp.package-install`  
 
 **Command to execute**:
 ```bash
 ./agent/scripts/acp.package-install.sh --patterns --repo https://github.com/myorg/acp-typescript-patterns.git
 ```
 
-**Result**: Script installs 5 pattern files to agent/patterns/, now have reusable TypeScript patterns
+**Result**: Script installs 5 pattern files to agent/patterns/, now have reusable TypeScript patterns  
 
 ### Example 3: Installing Globally
 
-**Context**: Installing package globally for package development
+**Context**: Installing package globally for package development  
 
-**Invocation**: `@acp.package-install`
+**Invocation**: `@acp.package-install`  
 
 **Command to execute**:
 ```bash
 ./agent/scripts/acp.package-install.sh --global --repo https://github.com/example/acp-package.git
 ```
 
-**Result**: Script installs to ~/.acp/agent/, tracked in global manifest
+**Result**: Script installs to ~/.acp/agent/, tracked in global manifest  
 
 ### Example 4: Listing Available Files
 
-**Context**: Want to preview package contents before installing
+**Context**: Want to preview package contents before installing  
 
-**Invocation**: `@acp.package-install`
+**Invocation**: `@acp.package-install`  
 
 **Command to execute**:
 ```bash
 ./agent/scripts/acp.package-install.sh --list --repo https://github.com/example/acp-package.git
 ```
 
-**Result**: Script shows available patterns, commands, designs without installing
+**Result**: Script shows available patterns, commands, designs without installing  
 
 ---
 
@@ -431,35 +431,35 @@ Next steps:
 
 ### Issue 1: Git clone fails
 
-**Symptom**: Cannot clone repository
+**Symptom**: Cannot clone repository  
 
-**Cause**: Invalid URL, no internet, or private repository
+**Cause**: Invalid URL, no internet, or private repository  
 
-**Solution**: Verify URL is correct, check internet connection, ensure repository is public or you have access
+**Solution**: Verify URL is correct, check internet connection, ensure repository is public or you have access  
 
 ### Issue 2: No commands found
 
-**Symptom**: Repository cloned but no commands found
+**Symptom**: Repository cloned but no commands found  
 
-**Cause**: Commands not in expected location or wrong structure
+**Cause**: Commands not in expected location or wrong structure  
 
-**Solution**: Check repository structure, look for commands/ directory, verify files are .md format
+**Solution**: Check repository structure, look for commands/ directory, verify files are .md format  
 
 ### Issue 3: Validation fails
 
-**Symptom**: Commands fail validation
+**Symptom**: Commands fail validation  
 
-**Cause**: Commands don't follow ACP structure
+**Cause**: Commands don't follow ACP structure  
 
-**Solution**: Review command files, ensure they have agent directive and required sections, contact command author
+**Solution**: Review command files, ensure they have agent directive and required sections, contact command author  
 
 ### Issue 4: Namespace conflict
 
-**Symptom**: Command uses reserved namespace
+**Symptom**: Command uses reserved namespace  
 
-**Cause**: Command tries to use 'acp' namespace
+**Cause**: Command tries to use 'acp' namespace  
 
-**Solution**: Cannot install - 'acp' namespace is reserved for core commands, contact command author to change namespace
+**Solution**: Cannot install - 'acp' namespace is reserved for core commands, contact command author to change namespace  
 
 ---
 
@@ -529,11 +529,11 @@ Next steps:
 
 ---
 
-**Namespace**: acp
-**Command**: package-install
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Compatibility**: ACP 1.1.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-install  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Compatibility**: ACP 1.1.0+  
+**Author**: ACP Project  

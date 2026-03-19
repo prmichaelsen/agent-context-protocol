@@ -1,9 +1,9 @@
 # Task 73: Manifest Tracking for Templates
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 72 (Installation System)
-**Status**: Not Started
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 72 (Installation System)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Extend `agent/manifest.yaml` structure and `acp.common.sh` functions to track in
 
 This is Phase 3 of the Template Source Files Support implementation. Manifest tracking enables version control, modification detection, and smart updates for installed templates.
 
-**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)
+**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)  
 
 ---
 
@@ -296,18 +296,18 @@ packages:
 
 ### Issue 1: Variables JSON malformed
 
-**Symptom**: Manifest contains invalid JSON in variables field
-**Solution**: Properly escape quotes and special characters, validate JSON before writing
+**Symptom**: Manifest contains invalid JSON in variables field  
+**Solution**: Properly escape quotes and special characters, validate JSON before writing  
 
 ### Issue 2: Checksum mismatch after substitution
 
-**Symptom**: Stored checksum doesn't match file after variable substitution
-**Solution**: Calculate checksum AFTER substitution, not before
+**Symptom**: Stored checksum doesn't match file after variable substitution  
+**Solution**: Calculate checksum AFTER substitution, not before  
 
 ### Issue 3: Target path not stored correctly
 
-**Symptom**: Manifest shows wrong target path
-**Solution**: Store actual installed path (after .template removal), not source path
+**Symptom**: Manifest shows wrong target path  
+**Solution**: Store actual installed path (after .template removal), not source path  
 
 ---
 
@@ -329,6 +329,6 @@ packages:
 
 ---
 
-**Next Task**: [Task 74: Command Updates](task-74-command-updates.md)
-**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 74: Command Updates](task-74-command-updates.md)  
+**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)  
+**Estimated Completion Date**: TBD  

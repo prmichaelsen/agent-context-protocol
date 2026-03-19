@@ -1,9 +1,9 @@
 # Task 18: @acp.command-create Command
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 5-6 hours
-**Dependencies**: Task 14, 15, 16, 17
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 5-6 hours  
+**Dependencies**: Task 14, 15, 16, 17  
+**Status**: Not Started  
 
 ---
 
@@ -53,4 +53,4 @@ Test all scenarios similar to pattern-create.
 
 ---
 
-**Next Task**: [Task 19: @acp.design-create Command](task-19-design-create-command.md)
+**Next Task**: [Task 19: @acp.design-create Command](task-19-design-create-command.md)  

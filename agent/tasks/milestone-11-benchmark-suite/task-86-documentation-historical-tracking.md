@@ -1,9 +1,9 @@
 # Task 86: Documentation & Historical Tracking
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 3-4 hours
-**Dependencies**: Tasks 79-85 (full pipeline must be working)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Tasks 79-85 (full pipeline must be working)  
+**Status**: Not Started  
 
 ---
 
@@ -61,4 +61,4 @@ The benchmark suite needs user-facing documentation so others can run it, unders
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md (Future Considerations, Migration Path)
+**Related Design Docs**: agent/design/local.benchmark-suite.md (Future Considerations, Migration Path)  

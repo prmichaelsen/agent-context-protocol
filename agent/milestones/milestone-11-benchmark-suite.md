@@ -1,9 +1,9 @@
 # Milestone 11: ACP Benchmark Suite
 
-**Goal**: Complete E2E benchmark suite comparing project outcomes with and without ACP, with multi-turn tasks, LLM evaluation, statistical reporting, and CI/CD integration
-**Duration**: 3-5 weeks
-**Dependencies**: None (benchmark infrastructure partially exists)
-**Status**: Not Started
+**Goal**: Complete E2E benchmark suite comparing project outcomes with and without ACP, with multi-turn tasks, LLM evaluation, statistical reporting, and CI/CD integration  
+**Duration**: 3-5 weeks  
+**Dependencies**: None (benchmark infrastructure partially exists)  
+**Status**: Not Started  
 
 ---
 
@@ -143,7 +143,7 @@ agent/benchmarks/
 7. [Task 85: GitHub Actions Workflow](../tasks/milestone-11-benchmark-suite/task-85-github-actions-workflow.md) — On-demand CI/CD benchmark workflow (2-3h)
 8. [Task 86: Documentation & Historical Tracking](../tasks/milestone-11-benchmark-suite/task-86-documentation-historical-tracking.md) — GitHub Pages, docs, README (3-4h)
 
-**Total Estimated**: 31-41 hours
+**Total Estimated**: 31-41 hours  
 
 ---
 
@@ -194,8 +194,8 @@ agent/benchmarks/
 
 ---
 
-**Next Milestone**: TBD
-**Blockers**: None
+**Next Milestone**: TBD  
+**Blockers**: None  
 **Notes**:
 - hello-world kept as smoke test (not part of the 3 benchmark tasks)
 - Design doc is comprehensive — this milestone implements it fully

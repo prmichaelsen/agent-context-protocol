@@ -1,9 +1,9 @@
 # Task 66: Script-Command Binding - Installation Logic
 
-**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 65 (Schema and Templates)
-**Status**: Not Started
+**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 65 (Schema and Templates)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement selective script installation logic in acp.install.sh and acp.package-
 
 This is Phase 2 of the script-command binding system. With schemas and templates updated in Task 65, this task implements the actual installation logic.
 
-**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)
+**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)  
 
 ---
 
@@ -162,4 +162,4 @@ Verify scripts are installed correctly:
 
 ---
 
-**Next Task**: Task 67 - Script-Command Binding Validation
+**Next Task**: Task 67 - Script-Command Binding Validation  

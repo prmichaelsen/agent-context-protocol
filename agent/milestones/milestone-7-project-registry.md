@@ -1,9 +1,9 @@
 # Milestone 7: Global ACP Project Registry
 
-**Goal**: Implement centralized project registry system for global ACP workspace with discovery, metadata tracking, and context switching
-**Duration**: 1-2 weeks
-**Dependencies**: Milestone 5 (Global Package Installation)
-**Status**: Not Started
+**Goal**: Implement centralized project registry system for global ACP workspace with discovery, metadata tracking, and context switching  
+**Duration**: 1-2 weeks  
+**Dependencies**: Milestone 5 (Global Package Installation)  
+**Status**: Not Started  
 
 ---
 
@@ -110,7 +110,7 @@ e2e/
 8. [Task 59: Integration & Testing](../tasks/milestone-7-project-registry/task-59-integration-testing.md) - Comprehensive testing suite (3-4 hours)
 9. [Task 60: Documentation Updates](../tasks/milestone-7-project-registry/task-60-documentation.md) - Update AGENT.md, README.md, CHANGELOG.md (2-3 hours)
 
-**Total Estimated**: 16-25 hours (approximately 1-2 weeks)
+**Total Estimated**: 16-25 hours (approximately 1-2 weeks)  
 
 ---
 
@@ -156,8 +156,8 @@ No environment variables required. The registry system is file-based and uses st
 
 ---
 
-**Next Milestone**: TBD (possibly M8: Advanced Workflow Automation)
-**Blockers**: None (M5 provides all necessary infrastructure)
+**Next Milestone**: TBD (possibly M8: Advanced Workflow Automation)  
+**Blockers**: None (M5 provides all necessary infrastructure)  
 **Notes**: 
 - Registry is optional - projects work without it
 - Builds on global package system patterns from M5

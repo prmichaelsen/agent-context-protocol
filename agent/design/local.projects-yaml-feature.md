@@ -1,8 +1,8 @@
 # Global ACP Projects Registry
 
-**Concept**: Centralized project metadata tracking for global ACP workspace
-**Created**: 2026-02-23
-**Status**: Proposal
+**Concept**: Centralized project metadata tracking for global ACP workspace  
+**Created**: 2026-02-23  
+**Status**: Proposal  
 
 ---
 
@@ -412,8 +412,8 @@ last_updated: timestamp (required) - Last registry update
 
 ---
 
-**Status**: Proposal - Ready for review and feedback
-**Recommendation**: Implement in phases starting with basic registry (Phase 1)
+**Status**: Proposal - Ready for review and feedback  
+**Recommendation**: Implement in phases starting with basic registry (Phase 1)  
 **Next Steps**:
 1. Review and approve design
 2. Create milestone for implementation

@@ -1,9 +1,9 @@
 # Task 45: Package Script Bundling Support
 
-**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 26 (Global Installation), Task 27 (Global Commands)
-**Status**: Not Started
+**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 26 (Global Installation), Task 27 (Global Commands)  
+**Status**: Not Started  
 
 ---
 
@@ -255,16 +255,16 @@ Package installed successfully!
 ## Common Issues and Solutions
 
 ### Issue 1: Script not executable after install
-**Symptom**: Script exists but can't be executed
-**Solution**: Ensure `chmod +x` is called after copying script
+**Symptom**: Script exists but can't be executed  
+**Solution**: Ensure `chmod +x` is called after copying script  
 
 ### Issue 2: Namespace mismatch
-**Symptom**: Validation fails for script namespace
-**Solution**: Rename script to match package namespace (e.g., `firebase.deploy.sh`)
+**Symptom**: Validation fails for script namespace  
+**Solution**: Rename script to match package namespace (e.g., `firebase.deploy.sh`)  
 
 ### Issue 3: Missing shebang
-**Symptom**: Warning about missing shebang
-**Solution**: Add `#!/bin/bash` or `#!/usr/bin/env bash` to top of script
+**Symptom**: Warning about missing shebang  
+**Solution**: Add `#!/bin/bash` or `#!/usr/bin/env bash` to top of script  
 
 ---
 
@@ -286,6 +286,6 @@ Package installed successfully!
 
 ---
 
-**Next Task**: None (enhancement to existing milestone)
-**Related Design Docs**: [Package Management System](../design/acp-package-management-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: None (enhancement to existing milestone)  
+**Related Design Docs**: [Package Management System](../design/acp-package-management-system.md)  
+**Estimated Completion Date**: TBD  

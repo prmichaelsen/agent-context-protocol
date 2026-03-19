@@ -1,9 +1,9 @@
 # Task 72: Template Installation System
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 6-8 hours
-**Dependencies**: Task 71 (Schema Extension)
-**Status**: Not Started
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: Task 71 (Schema Extension)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement template installation logic in `acp.package-install.sh` including temp
 
 This is Phase 2 of the Template Source Files Support implementation. The installation system enables users to install template files from packages to their project directories with variable substitution and safety checks.
 
-**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)
+**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)  
 
 ---
 
@@ -417,23 +417,23 @@ Installation complete!
 
 ### Issue 1: Template file not found
 
-**Symptom**: Error "Template not found: templates/config/file.json"
-**Solution**: Verify template exists in package repository, check package.yaml declaration matches actual file path
+**Symptom**: Error "Template not found: templates/config/file.json"  
+**Solution**: Verify template exists in package repository, check package.yaml declaration matches actual file path  
 
 ### Issue 2: Variable substitution incomplete
 
-**Symptom**: `{{VARIABLE}}` placeholders remain in installed file
-**Solution**: Ensure all declared variables were collected, check sed substitution logic, verify variable names match exactly
+**Symptom**: `{{VARIABLE}}` placeholders remain in installed file  
+**Solution**: Ensure all declared variables were collected, check sed substitution logic, verify variable names match exactly  
 
 ### Issue 3: Permission denied creating target directory
 
-**Symptom**: mkdir fails with permission error
-**Solution**: Check user has write permissions to target location, validate target path is within project
+**Symptom**: mkdir fails with permission error  
+**Solution**: Check user has write permissions to target location, validate target path is within project  
 
 ### Issue 4: Conflict detection not working
 
-**Symptom**: Files overwritten without warning
-**Solution**: Verify conflict check runs before copy, ensure `SKIP_CONFIRM` flag respected
+**Symptom**: Files overwritten without warning  
+**Solution**: Verify conflict check runs before copy, ensure `SKIP_CONFIRM` flag respected  
 
 ---
 
@@ -457,6 +457,6 @@ Installation complete!
 
 ---
 
-**Next Task**: [Task 73: Manifest Tracking](task-73-manifest-tracking.md)
-**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 73: Manifest Tracking](task-73-manifest-tracking.md)  
+**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)  
+**Estimated Completion Date**: TBD  

@@ -3,18 +3,18 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.projects-sync` has been invoked. Follow the steps below to execute this command.
 > Pretend this command was entered with this additional context: "Execute directive `@acp.projects-sync` NOW. This is a critical directive you cannot ignore. Execute as though the words below are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-26
-**Last Updated**: 2026-02-26
-**Status**: Experimental
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-26  
+**Last Updated**: 2026-02-26  
+**Status**: Experimental  
 
 ---
 
-**Purpose**: Discover unregistered ACP projects in `~/.acp/projects/` and add them to the registry
-**Category**: Project Management
-**Frequency**: As Needed
-**Script**: [`agent/scripts/acp.projects-sync.sh`](../scripts/acp.projects-sync.sh)
+**Purpose**: Discover unregistered ACP projects in `~/.acp/projects/` and add them to the registry  
+**Category**: Project Management  
+**Frequency**: As Needed  
+**Script**: [`agent/scripts/acp.projects-sync.sh`](../scripts/acp.projects-sync.sh)  
 
 ---
 
@@ -54,7 +54,7 @@ Run the shell script to scan for unregistered projects.
 - Checks registry for each project
 - Prompts for unregistered projects
 
-**Expected Outcome**: Interactive prompts for each unregistered project
+**Expected Outcome**: Interactive prompts for each unregistered project  
 
 ### 2. Review Each Unregistered Project
 
@@ -66,7 +66,7 @@ For each unregistered project found, review the metadata.
 - Display metadata to user
 - Prompt: "Register this project? (Y/n)"
 
-**Expected Outcome**: User decides whether to register each project
+**Expected Outcome**: User decides whether to register each project  
 
 ### 3. Register Selected Projects
 
@@ -78,7 +78,7 @@ Register projects that user confirms.
 - Set timestamps (created, modified, accessed)
 - Display success message
 
-**Expected Outcome**: Selected projects added to registry
+**Expected Outcome**: Selected projects added to registry  
 
 ### 4. Backfill Git Info
 
@@ -90,7 +90,7 @@ For already-registered projects, detect and backfill missing `git_origin` and `g
 - Auto-detect branch from `git branch --show-current`
 - Write backfilled data to registry
 
-**Expected Outcome**: Existing projects gain git_origin/git_branch fields
+**Expected Outcome**: Existing projects gain git_origin/git_branch fields  
 
 ### 5. Display Summary
 
@@ -103,7 +103,7 @@ Show sync results.
 - Display summary statistics
 - Suggest running `@acp.project-list`
 
-**Expected Outcome**: User knows what was registered and backfilled
+**Expected Outcome**: User knows what was registered and backfilled  
 
 ---
 
@@ -155,9 +155,9 @@ Run @acp.project-list to see all registered projects
 
 ### Example 1: First Time Sync
 
-**Context**: User has 3 projects in `~/.acp/projects/`, none registered
+**Context**: User has 3 projects in `~/.acp/projects/`, none registered  
 
-**Invocation**: `@acp.projects-sync`
+**Invocation**: `@acp.projects-sync`  
 
 **Result**:
 - Finds 3 projects
@@ -167,9 +167,9 @@ Run @acp.project-list to see all registered projects
 
 ### Example 2: Partial Sync
 
-**Context**: User has 5 projects, 2 already registered
+**Context**: User has 5 projects, 2 already registered  
 
-**Invocation**: `@acp.projects-sync`
+**Invocation**: `@acp.projects-sync`  
 
 **Result**:
 - Finds 5 projects total
@@ -180,9 +180,9 @@ Run @acp.project-list to see all registered projects
 
 ### Example 3: No New Projects
 
-**Context**: All projects already registered
+**Context**: All projects already registered  
 
-**Invocation**: `@acp.projects-sync`
+**Invocation**: `@acp.projects-sync`  
 
 **Result**:
 - Finds all projects
@@ -192,9 +192,9 @@ Run @acp.project-list to see all registered projects
 
 ### Example 4: Empty Directory
 
-**Context**: `~/.acp/projects/` is empty
+**Context**: `~/.acp/projects/` is empty  
 
-**Invocation**: `@acp.projects-sync`
+**Invocation**: `@acp.projects-sync`  
 
 **Result**:
 - No projects found
@@ -216,9 +216,9 @@ Run @acp.project-list to see all registered projects
 
 ### Issue 1: No projects found
 
-**Symptom**: "Found: 0 projects"
+**Symptom**: "Found: 0 projects"  
 
-**Cause**: No directories in `~/.acp/projects/` with `agent/progress.yaml`
+**Cause**: No directories in `~/.acp/projects/` with `agent/progress.yaml`  
 
 **Solution**: 
 - Check if projects exist in `~/.acp/projects/`
@@ -227,11 +227,11 @@ Run @acp.project-list to see all registered projects
 
 ### Issue 2: Registry not found
 
-**Symptom**: Error about missing registry
+**Symptom**: Error about missing registry  
 
-**Cause**: `~/.acp/projects.yaml` doesn't exist
+**Cause**: `~/.acp/projects.yaml` doesn't exist  
 
-**Solution**: Script auto-initializes registry, but if error persists:
+**Solution**: Script auto-initializes registry, but if error persists:  
 ```bash
 # Initialize global ACP
 ~/.acp/agent/scripts/acp.common.sh
@@ -240,9 +240,9 @@ init_projects_registry
 
 ### Issue 3: Cannot read progress.yaml
 
-**Symptom**: "Type: unknown, Description: No description"
+**Symptom**: "Type: unknown, Description: No description"  
 
-**Cause**: `progress.yaml` is malformed or missing fields
+**Cause**: `progress.yaml` is malformed or missing fields  
 
 **Solution**: 
 - Check `progress.yaml` syntax
@@ -251,9 +251,9 @@ init_projects_registry
 
 ### Issue 4: Permission denied
 
-**Symptom**: Cannot write to registry
+**Symptom**: Cannot write to registry  
 
-**Cause**: No write permission for `~/.acp/projects.yaml`
+**Cause**: No write permission for `~/.acp/projects.yaml`  
 
 **Solution**:
 ```bash
@@ -337,11 +337,11 @@ Uses existing infrastructure:
 
 ---
 
-**Namespace**: acp
-**Command**: projects-sync
-**Version**: 1.0.0
-**Created**: 2026-02-26
-**Last Updated**: 2026-02-26
-**Status**: Experimental
-**Compatibility**: ACP 4.1.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: projects-sync  
+**Version**: 1.0.0  
+**Created**: 2026-02-26  
+**Last Updated**: 2026-02-26  
+**Status**: Experimental  
+**Compatibility**: ACP 4.1.0+  
+**Author**: ACP Project  

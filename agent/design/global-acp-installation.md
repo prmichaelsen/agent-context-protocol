@@ -1,11 +1,11 @@
 # Global ACP Installation
 
-**Concept**: Auto-initialize global ACP infrastructure when using global package features
-**Created**: 2026-02-21
-**Updated**: 2026-02-21
-**Status**: Design Specification
-**Priority**: High
-**Estimated Effort**: 1-2 hours
+**Concept**: Auto-initialize global ACP infrastructure when using global package features  
+**Created**: 2026-02-21  
+**Updated**: 2026-02-21  
+**Status**: Design Specification  
+**Priority**: High  
+**Estimated Effort**: 1-2 hours  
 
 ---
 
@@ -13,7 +13,7 @@
 
 Automatically initialize the `~/.acp/` directory structure when users first use global package features (like `@acp.package-install --global`). This creates a centralized ACP installation that serves as the foundation for all ACP work, including package development and global package management.
 
-**Key Benefit**: Users don't need to manually install ACP globally - it's automatically initialized when they first use global features. Simple and intuitive.
+**Key Benefit**: Users don't need to manually install ACP globally - it's automatically initialized when they first use global features. Simple and intuitive.  
 
 ---
 
@@ -27,15 +27,15 @@ Automatically initialize the `~/.acp/` directory structure when users first use 
 
 ### User Pain Points
 
-**Scenario 1**: Using Global Packages
+**Scenario 1**: Using Global Packages  
 - Problem: User runs `@acp.package-install --global` but `~/.acp/` doesn't exist
 - Desired: Command automatically initializes `~/.acp/` if needed
 
-**Scenario 2**: Package Development
+**Scenario 2**: Package Development  
 - Problem: User wants to create packages but no global infrastructure exists
 - Desired: `@acp.package-create` automatically initializes `~/.acp/` if needed
 
-**Scenario 3**: Complexity
+**Scenario 3**: Complexity  
 - Problem: Users confused about when to install globally vs locally
 - Desired: System handles it automatically based on command usage
 
@@ -375,7 +375,7 @@ Local projects can still have their own ACP installation. Local always takes pre
 ## Trade-offs
 
 ### 1. Implicit Initialization
-**Trade-off**: Infrastructure created without explicit user action
+**Trade-off**: Infrastructure created without explicit user action  
 
 **Mitigation**:
 - Clear message when initializing
@@ -383,7 +383,7 @@ Local projects can still have their own ACP installation. Local always takes pre
 - Non-intrusive (only in ~/.acp/)
 
 ### 2. Hidden Complexity
-**Trade-off**: Users may not know ~/.acp/ was created
+**Trade-off**: Users may not know ~/.acp/ was created  
 
 **Mitigation**:
 - Document in AGENT.md and README
@@ -391,7 +391,7 @@ Local projects can still have their own ACP installation. Local always takes pre
 - Easy to discover (ls ~/.acp/)
 
 ### 3. Idempotency Required
-**Trade-off**: init_global_acp() must be safe to call multiple times
+**Trade-off**: init_global_acp() must be safe to call multiple times  
 
 **Mitigation**:
 - Check for existing files before creating
@@ -430,8 +430,8 @@ Local projects can still have their own ACP installation. Local always takes pre
 
 ---
 
-**Status**: Design Specification - Ready for implementation
-**Recommendation**: Implement before Milestone 5 (Global Package Installation)
+**Status**: Design Specification - Ready for implementation  
+**Recommendation**: Implement before Milestone 5 (Global Package Installation)  
 **Next Steps**:
 1. Update acp.install.sh with --global flag support
 2. Create global AGENT.md template

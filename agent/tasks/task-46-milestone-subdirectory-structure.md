@@ -1,9 +1,9 @@
 # Task 46: Milestone Subdirectory Structure
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 4-6 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -24,9 +24,9 @@ agent/tasks/
 └── ...
 ```
 
-**Problem**: Hard to correlate tasks to milestones, difficult to parse and organize.
+**Problem**: Hard to correlate tasks to milestones, difficult to parse and organize.  
 
-**Solution**: Use milestone subdirectories (already implemented for Milestone 6):
+**Solution**: Use milestone subdirectories (already implemented for Milestone 6):  
 ```
 agent/tasks/
 ├── task-1-commands-infrastructure.md (legacy)
@@ -147,7 +147,7 @@ Optionally migrate existing tasks to new structure:
 - Update progress.yaml file paths
 - Test that all links still work
 
-**Note**: This step is optional - old flat structure can coexist with new structure.
+**Note**: This step is optional - old flat structure can coexist with new structure.  
 
 **Verification**:
 - Tasks moved (if migration performed)
@@ -205,21 +205,21 @@ agent/tasks/
 
 ### Issue 1: Broken links after migration
 
-**Symptom**: Links to milestones or other tasks don't work
+**Symptom**: Links to milestones or other tasks don't work  
 
-**Solution**: Update relative paths in migrated tasks. From milestone subdirectory, use `../../milestones/` instead of `../milestones/`
+**Solution**: Update relative paths in migrated tasks. From milestone subdirectory, use `../../milestones/` instead of `../milestones/`  
 
 ### Issue 2: progress.yaml paths incorrect
 
-**Symptom**: Tasks not found when running @acp.proceed
+**Symptom**: Tasks not found when running @acp.proceed  
 
-**Solution**: Update file paths in progress.yaml to include milestone subdirectory
+**Solution**: Update file paths in progress.yaml to include milestone subdirectory  
 
 ### Issue 3: Mixing old and new structure
 
-**Symptom**: Some tasks in subdirectories, some in root
+**Symptom**: Some tasks in subdirectories, some in root  
 
-**Solution**: This is acceptable during transition. New tasks use subdirectories, old tasks can stay in root.
+**Solution**: This is acceptable during transition. New tasks use subdirectories, old tasks can stay in root.  
 
 ---
 
@@ -244,6 +244,6 @@ agent/tasks/
 
 ---
 
-**Next Task**: None (future enhancement)
-**Related Design Docs**: task-directory-migration.md (to be created)
-**Estimated Completion Date**: TBD
+**Next Task**: None (future enhancement)  
+**Related Design Docs**: task-directory-migration.md (to be created)  
+**Estimated Completion Date**: TBD  

@@ -2,9 +2,9 @@ Add JWT-based authentication to the application.
 
 Requirements:
 
-**Dependencies**: Install `jsonwebtoken` and `bcryptjs` (or `bcrypt`).
+**Dependencies**: Install `jsonwebtoken` and `bcryptjs` (or `bcrypt`).  
 
-**User storage**: Use an in-memory array to store users. Each user has: `id` (auto-increment), `email` (string, unique), `password` (bcrypt hash), `createdAt` (ISO timestamp).
+**User storage**: Use an in-memory array to store users. Each user has: `id` (auto-increment), `email` (string, unique), `password` (bcrypt hash), `createdAt` (ISO timestamp).  
 
 **Auth routes** (create `src/routes/auth.js`):
 1. `POST /auth/register`

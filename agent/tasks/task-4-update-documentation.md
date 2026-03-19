@@ -1,9 +1,9 @@
 # Task 4: Update Documentation
 
-**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)
-**Estimated Time**: 2 hours
-**Dependencies**: Tasks 1, 2, 3
-**Status**: Not Started
+**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)  
+**Estimated Time**: 2 hours  
+**Dependencies**: Tasks 1, 2, 3  
+**Status**: Not Started  
 
 ---
 
@@ -76,4 +76,4 @@ agent/
 
 ---
 
-**Next Task**: None (Milestone 1 complete)
+**Next Task**: None (Milestone 1 complete)  

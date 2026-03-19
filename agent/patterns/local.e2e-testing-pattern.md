@@ -1,9 +1,9 @@
 # E2E Testing Pattern for ACP Scripts
 
-**Pattern Name**: E2E Testing for Shell Scripts with YAML Parser
-**Created**: 2026-02-25
-**Status**: Active Pattern
-**Success Rate**: 100% (when followed correctly)
+**Pattern Name**: E2E Testing for Shell Scripts with YAML Parser  
+**Created**: 2026-02-25  
+**Status**: Active Pattern  
+**Success Rate**: 100% (when followed correctly)  
 
 ---
 
@@ -29,7 +29,7 @@ set -euo pipefail  # Causes issues with YAML parser AST cleanup
 # Note: Not using set -euo pipefail due to YAML parser AST cleanup issues
 ```
 
-**Reason**: The YAML parser uses temporary files for AST storage and cleanup. The `-u` flag (unbound variable check) conflicts with the parser's internal variable handling.
+**Reason**: The YAML parser uses temporary files for AST storage and cleanup. The `-u` flag (unbound variable check) conflicts with the parser's internal variable handling.  
 
 ### 2. Use Temporary HOME Directory
 
@@ -47,7 +47,7 @@ teardown() {
 }
 ```
 
-**Why**: This isolates tests from the real `~/.acp/` directory and prevents test pollution.
+**Why**: This isolates tests from the real `~/.acp/` directory and prevents test pollution.  
 
 ### 3. Source Common Utilities Directly
 
@@ -59,7 +59,7 @@ source "${SCRIPT_DIR}/../tests/common.sh"
 source "${SCRIPT_DIR}/../agent/scripts/acp.common.sh"
 ```
 
-**Why**: Sourcing `acp.common.sh` gives access to `init_projects_registry()`, `register_project()`, and other utilities.
+**Why**: Sourcing `acp.common.sh` gives access to `init_projects_registry()`, `register_project()`, and other utilities.  
 
 ### 4. Use Registry Helper Functions
 
@@ -81,7 +81,7 @@ test_example() {
 }
 ```
 
-**Why**: These functions create properly formatted YAML that the parser can read.
+**Why**: These functions create properly formatted YAML that the parser can read.  
 
 ### 5. Capture Exit Codes Properly
 
@@ -99,7 +99,7 @@ output=$("$SCRIPT_PATH" bad-arg 2>&1) || exit_code=$?
 assert_not_equals "0" "${exit_code:-0}" "Should exit with error"
 ```
 
-**Why**: Using `|| exit_code=$?` prevents the test from exiting when the command fails.
+**Why**: Using `|| exit_code=$?` prevents the test from exiting when the command fails.  
 
 ### 6. Add Error Handling to yaml_query Calls
 
@@ -113,7 +113,7 @@ tags=$(yaml_query ".projects.${project_name}.tags")
 tags=$(yaml_query ".projects.${project_name}.tags" 2>/dev/null || echo "")
 ```
 
-**Why**: Optional fields may not exist. Without error handling, `set -e` causes the script to exit silently.
+**Why**: Optional fields may not exist. Without error handling, `set -e` causes the script to exit silently.  
 
 ---
 
@@ -230,20 +230,20 @@ fi
 ## Common Pitfalls
 
 ### Pitfall 1: Using `set -euo pipefail`
-**Problem**: Script exits silently when YAML parser encounters unbound variables
-**Solution**: Use `set -e` only, or no set flags
+**Problem**: Script exits silently when YAML parser encounters unbound variables  
+**Solution**: Use `set -e` only, or no set flags  
 
 ### Pitfall 2: Not Handling Optional Fields
-**Problem**: Script exits when querying non-existent YAML fields
-**Solution**: Add `2>/dev/null || echo ""` to all optional field queries
+**Problem**: Script exits when querying non-existent YAML fields  
+**Solution**: Add `2>/dev/null || echo ""` to all optional field queries  
 
 ### Pitfall 3: Array Operations
-**Problem**: `yaml_array_append` and `yaml_set` with array indices don't work reliably
-**Solution**: Use sed to modify YAML directly, or avoid array operations in scripts
+**Problem**: `yaml_array_append` and `yaml_set` with array indices don't work reliably  
+**Solution**: Use sed to modify YAML directly, or avoid array operations in scripts  
 
 ### Pitfall 4: Not Capturing Exit Codes
-**Problem**: Test exits when command fails
-**Solution**: Use `|| exit_code=$?` pattern
+**Problem**: Test exits when command fails  
+**Solution**: Use `|| exit_code=$?` pattern  
 
 ---
 
@@ -260,9 +260,9 @@ fi
 
 ### YAML Array Operations
 
-**Issue**: `yaml_array_append()` fails with "Error: Path does not point to an array" even when the field is `tags: []`
+**Issue**: `yaml_array_append()` fails with "Error: Path does not point to an array" even when the field is `tags: []`  
 
-**Workaround**: Avoid adding/removing array elements in scripts, or use sed-based manipulation
+**Workaround**: Avoid adding/removing array elements in scripts, or use sed-based manipulation  
 
 **Example of Limitation**:
 ```bash
@@ -276,6 +276,6 @@ yaml_set ".projects.test.status" "archived"  # Scalar fields work fine
 
 ---
 
-**Status**: Active Pattern
-**Recommendation**: Follow this pattern for all new E2E tests
-**Next Steps**: Document array operation workarounds or fix YAML parser array handling
+**Status**: Active Pattern  
+**Recommendation**: Follow this pattern for all new E2E tests  
+**Next Steps**: Document array operation workarounds or fix YAML parser array handling  

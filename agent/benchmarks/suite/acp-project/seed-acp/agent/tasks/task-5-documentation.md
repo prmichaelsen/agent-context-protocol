@@ -1,9 +1,9 @@
 # Task 5: API Documentation
 
-**Status**: Not Started
-**Estimated Hours**: 2
-**Milestone**: M1 (MVP)
-**Dependencies**: Task 1, Task 2, Task 3, Task 4
+**Status**: Not Started  
+**Estimated Hours**: 2  
+**Milestone**: M1 (MVP)  
+**Dependencies**: Task 1, Task 2, Task 3, Task 4  
 
 ## Objective
 

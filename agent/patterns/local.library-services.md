@@ -1,8 +1,8 @@
 # library-services
 
-**Version**: 1.0.0
-**Last Updated**: 2026-02-20
-**Namespace**: local
+**Version**: 1.0.0  
+**Last Updated**: 2026-02-20  
+**Namespace**: local  
 
 ---
 
@@ -38,7 +38,7 @@ Service Layer → API Client Layer → External APIs
 
 ### Layer 1: Database Layer
 
-**Purpose**: Encapsulate all database operations
+**Purpose**: Encapsulate all database operations  
 
 ```typescript
 // database/user-repository.ts
@@ -72,7 +72,7 @@ export class UserRepository {
 
 ### Layer 2: API Client Layer
 
-**Purpose**: Encapsulate external API calls
+**Purpose**: Encapsulate external API calls  
 
 ```typescript
 // api/github-client.ts
@@ -116,7 +116,7 @@ export class GitHubClient {
 
 ### Layer 3: Service Layer
 
-**Purpose**: Business logic and orchestration
+**Purpose**: Business logic and orchestration  
 
 ```typescript
 // services/user-service.ts
@@ -283,7 +283,7 @@ describe('UserService', () => {
 ## Trade-offs
 
 ### 1. More Files and Classes
-**Downside**: More boilerplate code, more files to navigate
+**Downside**: More boilerplate code, more files to navigate  
 
 **Mitigation**: 
 - Use consistent naming conventions
@@ -291,7 +291,7 @@ describe('UserService', () => {
 - Benefits outweigh costs for medium+ projects
 
 ### 2. Indirection
-**Downside**: More layers to trace through when debugging
+**Downside**: More layers to trace through when debugging  
 
 **Mitigation**:
 - Clear naming makes flow obvious
@@ -299,7 +299,7 @@ describe('UserService', () => {
 - IDE navigation tools help
 
 ### 3. Over-Engineering for Simple Cases
-**Downside**: Overkill for simple CRUD operations
+**Downside**: Overkill for simple CRUD operations  
 
 **Mitigation**:
 - Use for complex business logic
@@ -307,7 +307,7 @@ describe('UserService', () => {
 - Apply pattern where it adds value
 
 ### 4. Dependency Injection Complexity
-**Downside**: Need to wire dependencies together
+**Downside**: Need to wire dependencies together  
 
 **Mitigation**:
 - Use DI container for large projects
@@ -331,5 +331,5 @@ describe('UserService', () => {
 
 ---
 
-**Status**: Production Ready
-**Recommendation**: Use for TypeScript libraries with complex business logic and external integrations
+**Status**: Production Ready  
+**Recommendation**: Use for TypeScript libraries with complex business logic and external integrations  

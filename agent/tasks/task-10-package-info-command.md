@@ -4,7 +4,7 @@
 **Estimated Time**: 2-3 hours  
 **Dependencies**: Task 5 (Manifest System)  
 **Status**: Not Started  
-**Priority**: Low
+**Priority**: Low  
 
 ---
 
@@ -175,4 +175,4 @@ Create `commands/acp.package-info.md`
 
 **Status**: Ready to implement  
 **Priority**: Low  
-**Estimated Effort**: 2-3 hours
+**Estimated Effort**: 2-3 hours  

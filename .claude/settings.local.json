@@ -36,7 +36,10 @@
       "WebFetch(domain:tanstack.com)",
       "Bash(cd:*)",
       "Bash(pip3 install:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(mkdir -p agent/artifacts)",
+      "Bash(mv agent/artifacts.template.md/*.md agent/artifacts/)",
+      "Bash(rmdir agent/artifacts.template.md)"
     ]
   }
 }

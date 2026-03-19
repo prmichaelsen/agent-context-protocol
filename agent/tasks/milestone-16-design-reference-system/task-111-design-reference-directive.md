@@ -1,10 +1,10 @@
 # Task 111: Create @acp.design-reference Shared Directive
 
-**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)
-**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M16 - Design Reference System](../../milestones/milestone-16-design-reference-system.md)  
+**Design Reference**: [Design Reference System](../../design/local.design-reference-system.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -165,5 +165,5 @@ Document:
 
 ---
 
-**Next Task**: [Task 112: Update Task Template with Design Reference Field](task-112-task-template-design-reference-field.md)
-**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)
+**Next Task**: [Task 112: Update Task Template with Design Reference Field](task-112-task-template-design-reference-field.md)  
+**Related Design Docs**: [Design Reference System](../../design/local.design-reference-system.md)  

@@ -1,9 +1,9 @@
 # Task 65: Script-Command Binding - Schema and Templates
 
-**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)
-**Estimated Time**: 1-2 hours
-**Dependencies**: Task 45 (Package Script Bundling), Task 62 (Installation Filtering)
-**Status**: Not Started
+**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: Task 45 (Package Script Bundling), Task 62 (Installation Filtering)  
+**Status**: Not Started  
 
 ---
 
@@ -21,7 +21,7 @@ This task implements the foundation for script-command binding by updating schem
 2. package.yaml requires `scripts` array in command entries
 3. Both sources must match (validated)
 
-**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)
+**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)  
 
 **This is Part 1 of 5** in the script-command binding implementation.
 
@@ -67,10 +67,10 @@ Add **Scripts**: field to command template:
 
 **Example**:
 ```markdown
-**Namespace**: {namespace}
-**Version**: 1.0.0
-**Status**: Active | Experimental
-**Scripts**: {namespace}.{command-name}.sh, acp.common.sh  # REQUIRED: List all script dependencies
+**Namespace**: {namespace}  
+**Version**: 1.0.0  
+**Status**: Active | Experimental  
+**Scripts**: {namespace}.{command-name}.sh, acp.common.sh  # REQUIRED: List all script dependencies  
 
 ---
 ```
@@ -141,4 +141,4 @@ Ensure schema and templates are correct:
 
 ---
 
-**Next Task**: TBD (depends on milestone priority)
+**Next Task**: TBD (depends on milestone priority)  

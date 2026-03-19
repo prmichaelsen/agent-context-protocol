@@ -1,9 +1,9 @@
 # Task 25: Global Infrastructure Setup
 
-**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -46,7 +46,7 @@ mkdir -p ~/.acp/projects
 
 Create `~/.acp/AGENT.md` with discovery instructions for agents:
 
-**File**: `~/.acp/AGENT.md`
+**File**: `~/.acp/AGENT.md`  
 
 **Content**:
 ```markdown
@@ -54,9 +54,9 @@ Create `~/.acp/AGENT.md` with discovery instructions for agents:
 
 This directory contains globally installed ACP packages.
 
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Purpose**: Global package installation and discovery
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Purpose**: Global package installation and discovery  
 
 ---
 
@@ -202,7 +202,7 @@ From this manifest, you know:
 
 Create `~/.acp/manifest.yaml` with initial structure:
 
-**File**: `~/.acp/manifest.yaml`
+**File**: `~/.acp/manifest.yaml`  
 
 **Content**:
 ```yaml
@@ -349,7 +349,7 @@ get_global_package_location() {
 }
 ```
 
-**Location**: Add to `agent/scripts/acp.common.sh` after existing manifest functions
+**Location**: Add to `agent/scripts/acp.common.sh` after existing manifest functions  
 
 **Verification**:
 - Functions added to acp.common.sh
@@ -453,27 +453,27 @@ Update command documentation to reference global infrastructure:
 
 ### Issue 1: Permission denied creating ~/.acp/
 
-**Symptom**: Error message "Permission denied" when creating directory
+**Symptom**: Error message "Permission denied" when creating directory  
 
-**Solution**: Ensure you have write permissions to home directory. This should not require sudo. If permission issues persist, check home directory permissions: `ls -la ~/`
+**Solution**: Ensure you have write permissions to home directory. This should not require sudo. If permission issues persist, check home directory permissions: `ls -la ~/`  
 
 ### Issue 2: manifest.yaml creation fails
 
-**Symptom**: Error creating manifest.yaml file
+**Symptom**: Error creating manifest.yaml file  
 
-**Solution**: Ensure `~/.acp/` directory exists first. Run `mkdir -p ~/.acp` before creating manifest.
+**Solution**: Ensure `~/.acp/` directory exists first. Run `mkdir -p ~/.acp` before creating manifest.  
 
 ### Issue 3: Functions not found after adding to acp.common.sh
 
-**Symptom**: "command not found" when testing functions
+**Symptom**: "command not found" when testing functions  
 
-**Solution**: Source the file first: `source agent/scripts/acp.common.sh`, then test functions.
+**Solution**: Source the file first: `source agent/scripts/acp.common.sh`, then test functions.  
 
 ### Issue 4: YAML syntax errors in manifest
 
-**Symptom**: YAML parser complains about syntax
+**Symptom**: YAML parser complains about syntax  
 
-**Solution**: Validate YAML structure. Ensure proper indentation (2 spaces), no tabs, and valid YAML syntax. Test with: `./agent/scripts/acp.yaml-validate.sh ~/.acp/manifest.yaml agent/schemas/manifest.schema.yaml`
+**Solution**: Validate YAML structure. Ensure proper indentation (2 spaces), no tabs, and valid YAML syntax. Test with: `./agent/scripts/acp.yaml-validate.sh ~/.acp/manifest.yaml agent/schemas/manifest.schema.yaml`  
 
 ---
 
@@ -497,6 +497,6 @@ Update command documentation to reference global infrastructure:
 
 ---
 
-**Next Task**: [task-26-global-installation.md](task-26-global-installation.md)
-**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [task-26-global-installation.md](task-26-global-installation.md)  
+**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)  
+**Estimated Completion Date**: TBD  

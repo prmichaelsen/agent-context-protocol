@@ -1,8 +1,8 @@
 # ACP Benchmark Suite
 
-**Concept**: E2E benchmark system comparing project outcomes with and without ACP to generate quantitative success metrics
-**Created**: 2026-02-27
-**Status**: Implemented
+**Concept**: E2E benchmark system comparing project outcomes with and without ACP to generate quantitative success metrics  
+**Created**: 2026-02-27  
+**Status**: Implemented  
 
 ---
 
@@ -381,7 +381,7 @@ Each category also gets a categorical rating:
 | Structure accuracy | +55% avg |
 ```
 
-**HTML dashboard**: Static HTML with comparison charts (can be served via GitHub Pages).
+**HTML dashboard**: Static HTML with comparison charts (can be served via GitHub Pages).  
 
 ---
 
@@ -452,8 +452,8 @@ This is a new feature — no migration needed. Implementation phases:
 
 ---
 
-**Status**: Implemented
-**Recommendation**: Create milestone and task breakdown for implementation
+**Status**: Implemented  
+**Recommendation**: Create milestone and task breakdown for implementation  
 **Related Documents**:
 - [Clarification 1: Benchmark Suite Requirements](../clarifications/clarification-1-benchmark-suite-requirements.md)
 - [Draft: Benchmark Concept](../drafts/benchmark.draft.md)

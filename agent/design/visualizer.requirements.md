@@ -1,8 +1,8 @@
 # ACP Progress Visualizer
 
-**Concept**: Browser-based read-only dashboard for visualizing progress.yaml project data
-**Created**: 2026-03-14
-**Status**: Design Specification
+**Concept**: Browser-based read-only dashboard for visualizing progress.yaml project data  
+**Created**: 2026-03-14  
+**Status**: Design Specification  
 
 ---
 
@@ -347,6 +347,6 @@ No migration needed — this is a greenfield project in a new repository.
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Create new repository `agent-context-protocol-visualizer`, initialize TanStack Start project, implement P0 features
-**Related Documents**: clarification-10-progress-visualizer.md
+**Status**: Design Specification  
+**Recommendation**: Create new repository `agent-context-protocol-visualizer`, initialize TanStack Start project, implement P0 features  
+**Related Documents**: clarification-10-progress-visualizer.md  

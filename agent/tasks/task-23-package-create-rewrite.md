@@ -1,9 +1,9 @@
 # Task 23: Rewrite @acp.package-create
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 6-8 hours
-**Dependencies**: Task 24 (Pre-Commit Hooks)
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: Task 24 (Pre-Commit Hooks)  
+**Status**: Not Started  
 
 ---
 
@@ -65,4 +65,4 @@ Test complete workflow.
 
 ---
 
-**Next Task**: [Task 24: Pre-Commit Hook System](task-24-precommit-hook-system.md)
+**Next Task**: [Task 24: Pre-Commit Hook System](task-24-precommit-hook-system.md)  

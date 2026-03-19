@@ -1,9 +1,9 @@
 # Task 27: Global Package Commands
 
-**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 26 (Global Installation Implementation)
-**Status**: Not Started
+**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 26 (Global Installation Implementation)  
+**Status**: Not Started  
 
 ---
 
@@ -33,7 +33,7 @@ Each command operates on the global manifest (`~/.acp/manifest.yaml`) and global
 
 Enhance `@acp.init` to discover and report globally installed packages:
 
-**File**: `agent/commands/acp.init.md`
+**File**: `agent/commands/acp.init.md`  
 
 **Changes**:
 1. Add new step after "Read All Agent Documentation":
@@ -73,7 +73,7 @@ Enhance `@acp.init` to discover and report globally installed packages:
 
 Add `--global` flag to list global packages:
 
-**File**: `agent/scripts/acp.package-list.sh`
+**File**: `agent/scripts/acp.package-list.sh`  
 
 **Changes**:
 ```bash
@@ -126,7 +126,7 @@ fi
 
 Add `--global` flag to update global packages:
 
-**File**: `agent/scripts/acp.package-update.sh`
+**File**: `agent/scripts/acp.package-update.sh`  
 
 **Changes**:
 ```bash
@@ -189,7 +189,7 @@ fi
 
 Add `--global` flag to remove global packages:
 
-**File**: `agent/scripts/acp.package-remove.sh`
+**File**: `agent/scripts/acp.package-remove.sh`  
 
 **Changes**:
 ```bash
@@ -232,7 +232,7 @@ else
 fi
 ```
 
-**Note**: For global removal, delete entire package directory, not individual files.
+**Note**: For global removal, delete entire package directory, not individual files.  
 
 **Verification**:
 - `--global` flag parsed correctly
@@ -244,7 +244,7 @@ fi
 
 Add `--global` flag to show global package info:
 
-**File**: `agent/scripts/acp.package-info.sh`
+**File**: `agent/scripts/acp.package-info.sh`  
 
 **Changes**:
 ```bash
@@ -309,11 +309,11 @@ Update all command documentation files with `--global` flag:
 ```markdown
 ### Example 3: List Global Packages
 
-**Context**: Want to see all globally installed packages
+**Context**: Want to see all globally installed packages  
 
-**Invocation**: `@acp.package-list --global`
+**Invocation**: `@acp.package-list --global`  
 
-**Result**: Lists all packages from `~/.acp/manifest.yaml` with their locations in `~/.acp/packages/`
+**Result**: Lists all packages from `~/.acp/manifest.yaml` with their locations in `~/.acp/packages/`  
 ```
 
 **Verification**:
@@ -450,27 +450,27 @@ Note: Projects using local installations are not affected
 
 ### Issue 1: Global manifest not found
 
-**Symptom**: Error "Cannot read ~/.acp/manifest.yaml"
+**Symptom**: Error "Cannot read ~/.acp/manifest.yaml"  
 
-**Solution**: Global infrastructure not set up. Run Task 25 first to create global directory structure. Or install a package globally to auto-initialize: `@acp.package-install --global {repo-url}`
+**Solution**: Global infrastructure not set up. Run Task 25 first to create global directory structure. Or install a package globally to auto-initialize: `@acp.package-install --global {repo-url}`  
 
 ### Issue 2: Commands don't recognize --global flag
 
-**Symptom**: Error "Unknown option: --global"
+**Symptom**: Error "Unknown option: --global"  
 
-**Solution**: Ensure scripts are updated with flag parsing. Check that `--global|-g)` case is added to argument parsing loop.
+**Solution**: Ensure scripts are updated with flag parsing. Check that `--global|-g)` case is added to argument parsing loop.  
 
 ### Issue 3: @acp.init doesn't show global packages
 
-**Symptom**: No global packages section in output
+**Symptom**: No global packages section in output  
 
-**Solution**: Verify `~/.acp/manifest.yaml` exists and contains packages. Check that Step 2.5 is implemented in acp.init.md. If manifest is empty, install a package globally first.
+**Solution**: Verify `~/.acp/manifest.yaml` exists and contains packages. Check that Step 2.5 is implemented in acp.init.md. If manifest is empty, install a package globally first.  
 
 ### Issue 4: Global operations affect local packages
 
-**Symptom**: Local packages modified when using `--global` flag
+**Symptom**: Local packages modified when using `--global` flag  
 
-**Solution**: Bug in script - verify that `$MANIFEST_FILE` is set correctly based on `$GLOBAL_MODE`. Global should use `$HOME/.acp/manifest.yaml`, local should use `./agent/manifest.yaml`.
+**Solution**: Bug in script - verify that `$MANIFEST_FILE` is set correctly based on `$GLOBAL_MODE`. Global should use `$HOME/.acp/manifest.yaml`, local should use `./agent/manifest.yaml`.  
 
 ---
 
@@ -497,6 +497,6 @@ Note: Projects using local installations are not affected
 
 ---
 
-**Next Task**: [task-28-global-documentation.md](task-28-global-documentation.md)
-**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [task-28-global-documentation.md](task-28-global-documentation.md)  
+**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)  
+**Estimated Completion Date**: TBD  

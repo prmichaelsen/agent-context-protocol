@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.projects-restore` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-01
-**Last Updated**: 2026-03-01
-**Status**: Experimental
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-01  
+**Last Updated**: 2026-03-01  
+**Status**: Experimental  
 
 ---
 
-**Purpose**: Restore/clone missing projects from their registered git origins
-**Category**: Project Management
-**Frequency**: As Needed
-**Script**: [`agent/scripts/acp.projects-restore.sh`](../scripts/acp.projects-restore.sh)
+**Purpose**: Restore/clone missing projects from their registered git origins  
+**Category**: Project Management  
+**Frequency**: As Needed  
+**Script**: [`agent/scripts/acp.projects-restore.sh`](../scripts/acp.projects-restore.sh)  
 
 ---
 
@@ -52,7 +52,7 @@ Run the shell script to restore missing projects.
 - Checks each project's directory existence
 - Clones missing projects from `git_origin`
 
-**Expected Outcome**: Missing projects cloned to their registered paths
+**Expected Outcome**: Missing projects cloned to their registered paths  
 
 ### 2. Review Results
 
@@ -63,7 +63,7 @@ Check the restore summary.
 - Review skip count (already exist, archived, no origin)
 - Review errors (failed clones)
 
-**Expected Outcome**: All restorable projects cloned successfully
+**Expected Outcome**: All restorable projects cloned successfully  
 
 ---
 
@@ -129,27 +129,27 @@ Restore Complete
 
 ### Example 1: Preview Restore
 
-**Context**: Check what would be restored on a new machine
+**Context**: Check what would be restored on a new machine  
 
-**Invocation**: `@acp.projects-restore --dry-run`
+**Invocation**: `@acp.projects-restore --dry-run`  
 
-**Result**: Lists projects that would be cloned, skipped projects, and reasons
+**Result**: Lists projects that would be cloned, skipped projects, and reasons  
 
 ### Example 2: Full Restore
 
-**Context**: Restore all projects on a new machine
+**Context**: Restore all projects on a new machine  
 
-**Invocation**: `@acp.projects-restore`
+**Invocation**: `@acp.projects-restore`  
 
-**Result**: Clones all missing projects from their git origins
+**Result**: Clones all missing projects from their git origins  
 
 ### Example 3: Restore with ACP Install
 
-**Context**: Restore and set up ACP in each project
+**Context**: Restore and set up ACP in each project  
 
-**Invocation**: `@acp.projects-restore --install-acp`
+**Invocation**: `@acp.projects-restore --install-acp`  
 
-**Result**: Clones missing projects and installs ACP in each one
+**Result**: Clones missing projects and installs ACP in each one  
 
 ---
 
@@ -166,27 +166,27 @@ Restore Complete
 
 ### Issue 1: No projects to restore
 
-**Symptom**: All projects show "already exists" or "no git_origin"
+**Symptom**: All projects show "already exists" or "no git_origin"  
 
-**Cause**: Either all projects exist on disk, or git origins haven't been recorded
+**Cause**: Either all projects exist on disk, or git origins haven't been recorded  
 
-**Solution**: Run `@acp.projects-sync` first to backfill git_origin for existing projects
+**Solution**: Run `@acp.projects-sync` first to backfill git_origin for existing projects  
 
 ### Issue 2: Clone failed
 
-**Symptom**: "Clone failed" for a project
+**Symptom**: "Clone failed" for a project  
 
-**Cause**: Network error, authentication required, or repository no longer exists
+**Cause**: Network error, authentication required, or repository no longer exists  
 
-**Solution**: Check the git_origin URL, verify network access, and ensure you have repository permissions
+**Solution**: Check the git_origin URL, verify network access, and ensure you have repository permissions  
 
 ### Issue 3: Branch not found
 
-**Symptom**: "Branch 'xyz' not found on remote, using default"
+**Symptom**: "Branch 'xyz' not found on remote, using default"  
 
-**Cause**: The stored branch no longer exists on the remote
+**Cause**: The stored branch no longer exists on the remote  
 
-**Solution**: This is handled automatically by falling back to the default branch. Update with `@acp.project-update <name> --git-branch <new-branch>`
+**Solution**: This is handled automatically by falling back to the default branch. Update with `@acp.project-update <name> --git-branch <new-branch>`  
 
 ---
 
@@ -218,11 +218,11 @@ Restore Complete
 
 ---
 
-**Namespace**: acp
-**Command**: projects-restore
-**Version**: 1.0.0
-**Created**: 2026-03-01
-**Last Updated**: 2026-03-01
-**Status**: Experimental
-**Compatibility**: ACP 5.7.3+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: projects-restore  
+**Version**: 1.0.0  
+**Created**: 2026-03-01  
+**Last Updated**: 2026-03-01  
+**Status**: Experimental  
+**Compatibility**: ACP 5.7.3+  
+**Author**: ACP Project  

@@ -1,9 +1,9 @@
 # Task 64: Documentation and Examples
 
-**Milestone**: M8 - Experimental Features System
-**Estimated Time**: 3-4 hours
-**Dependencies**: [Task 61 - Schema and Validation](task-61-schema-validation.md), [Task 62 - Installation Filtering](task-62-installation-filtering.md), [Task 63 - Update Handling](task-63-update-handling.md)
-**Status**: Not Started
+**Milestone**: M8 - Experimental Features System  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: [Task 61 - Schema and Validation](task-61-schema-validation.md), [Task 62 - Installation Filtering](task-62-installation-filtering.md), [Task 63 - Update Handling](task-63-update-handling.md)  
+**Status**: Not Started  
 
 ---
 
@@ -28,7 +28,7 @@ With the experimental features system implemented, we need comprehensive documen
 
 ### 1. Update @acp.package-install Command Documentation
 
-**File**: [`agent/commands/acp.package-install.md`](../../commands/acp.package-install.md)
+**File**: [`agent/commands/acp.package-install.md`](../../commands/acp.package-install.md)  
 
 **Add section after existing flags**:
 ```markdown
@@ -66,7 +66,7 @@ Installing commands...
 
 ### 2. Update @acp.package-update Command Documentation
 
-**File**: [`agent/commands/acp.package-update.md`](../../commands/acp.package-update.md)
+**File**: [`agent/commands/acp.package-update.md`](../../commands/acp.package-update.md)  
 
 **Add section**:
 ```markdown
@@ -74,8 +74,8 @@ Installing commands...
 
 The update command handles experimental features intelligently:
 
-**Already-installed experimental features**: Updated normally (no flag required)
-**New experimental features**: Skipped (use --experimental with install to add)
+**Already-installed experimental features**: Updated normally (no flag required)  
+**New experimental features**: Skipped (use --experimental with install to add)  
 **Graduated features** (experimental → stable): Updated and marked as stable
 
 **Example**:
@@ -89,12 +89,12 @@ Output:
   🎓 Graduated to stable: formerly-experimental.md   # Now stable
 ```
 
-**Rationale**: Users who opted into experimental features continue receiving updates. Users who haven't opted in are protected from new experimental features.
+**Rationale**: Users who opted into experimental features continue receiving updates. Users who haven't opted in are protected from new experimental features.  
 ```
 
 ### 3. Update @acp.package-validate Command Documentation
 
-**File**: [`agent/commands/acp.package-validate.md`](../../commands/acp.package-validate.md)
+**File**: [`agent/commands/acp.package-validate.md`](../../commands/acp.package-validate.md)  
 
 **Add validation check**:
 ```markdown
@@ -113,12 +113,12 @@ Validating experimental feature consistency...
   ✗ agent/patterns/test.md: Has 'Status: Experimental' but not marked in package.yaml
 ```
 
-**Fix**: Ensure both package.yaml and file metadata are synchronized.
+**Fix**: Ensure both package.yaml and file metadata are synchronized.  
 ```
 
 ### 4. Update AGENT.md with Experimental Features Section
 
-**File**: [`AGENT.md`](../../AGENT.md)
+**File**: [`AGENT.md`](../../AGENT.md)  
 
 **Add section after "Package Management" or in appropriate location**:
 ```markdown
@@ -152,9 +152,9 @@ contents:
 ```markdown
 # Command: experimental-command
 
-**Namespace**: mypackage
-**Version**: 0.1.0
-**Status**: Experimental  # ← Mark as experimental
+**Namespace**: mypackage  
+**Version**: 0.1.0  
+**Status**: Experimental  # ← Mark as experimental  
 ```
 
 ### Installing Experimental Features
@@ -200,7 +200,7 @@ Validation ensures consistency:
 
 ### 5. Update README.md with Examples
 
-**File**: [`README.md`](../../README.md)
+**File**: [`README.md`](../../README.md)  
 
 **Add section in Package Management area**:
 ```markdown
@@ -226,7 +226,7 @@ See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
 
 ### 6. Update CHANGELOG.md
 
-**File**: [`CHANGELOG.md`](../../CHANGELOG.md)
+**File**: [`CHANGELOG.md`](../../CHANGELOG.md)  
 
 **Add entry for new version**:
 ```markdown
@@ -272,7 +272,7 @@ See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
 
 ### 7. Create Example Package (Optional)
 
-**File**: `examples/experimental-package/` (if examples directory exists)
+**File**: `examples/experimental-package/` (if examples directory exists)  
 
 Create a sample package demonstrating experimental features:
 
@@ -391,5 +391,5 @@ Commands
 
 ---
 
-**Milestone Complete**: After this task, Milestone 8 is complete!
-**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)
+**Milestone Complete**: After this task, Milestone 8 is complete!  
+**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)  

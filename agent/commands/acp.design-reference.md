@@ -7,18 +7,18 @@
 >
 > If you are a command reading this file, follow the steps below to discover relevant design documents, extract actionable elements, and return them to the calling command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-07
-**Last Updated**: 2026-03-07
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-07  
+**Last Updated**: 2026-03-07  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Discover and cross-reference design documents to ensure tasks have complete implementation detail
-**Category**: Workflow (Internal Directive)
-**Frequency**: Called by task-create and proceed when design context is needed
+**Purpose**: Discover and cross-reference design documents to ensure tasks have complete implementation detail  
+**Category**: Workflow (Internal Directive)  
+**Frequency**: Called by task-create and proceed when design context is needed  
 
 ---
 
@@ -76,7 +76,7 @@ Extract topic keywords from the calling context to form a search query.
 - Combine into a search query (e.g., `clarification capture system directive`)
 - Strip common ACP terms that would match too broadly (`acp`, `command`, `task`, `system`, `implement`, `create`, `update`)
 
-**Expected Outcome**: Set of topic keywords for search
+**Expected Outcome**: Set of topic keywords for search  
 
 ### 2. Search for Design Documents
 
@@ -94,7 +94,7 @@ Search `agent/design/` for documents matching the topic.
 - Read all relevant documents in full
 - Sort by relevance score (filename matches > content matches)
 
-**Expected Outcome**: List of relevant design documents read and scored
+**Expected Outcome**: List of relevant design documents read and scored  
 
 ### 3. Report Findings
 
@@ -116,7 +116,7 @@ Design Reference: No design documents found for topic "{topic keywords}"
   Tasks will be created from available context only.
 ```
 
-**Expected Outcome**: User informed of which designs were found/skipped
+**Expected Outcome**: User informed of which designs were found/skipped  
 
 ### 4. Extract Design Elements
 
@@ -142,7 +142,7 @@ Parse the relevant design document(s) and extract all actionable elements organi
   - Which design section it came from
   - Which category it belongs to
 
-**Expected Outcome**: Complete inventory of design elements organized by category
+**Expected Outcome**: Complete inventory of design elements organized by category  
 
 ### 5. Flag Design Gaps
 
@@ -167,7 +167,7 @@ Suggest creating a clarification? (yes/no)
 - If user says **yes**: Suggest invoking `@acp.clarification-create` targeting the specific gaps. Halt the directive and let the user address gaps first.
 - If user says **no**: Proceed with available detail. Include a note about gaps in the returned data so the calling command can mention them in the task.
 
-**Expected Outcome**: Design gaps identified and user informed; decision made on whether to address them
+**Expected Outcome**: Design gaps identified and user informed; decision made on whether to address them  
 
 ### 6. Return Elements to Calling Command
 
@@ -183,7 +183,7 @@ Pass the extracted data back to the calling command.
 - **task-create**: Expand task steps with implementation detail from design elements; add verification items for each design requirement; set Design Reference metadata field; carry Key Design Decisions into the task
 - **proceed**: Load design context as supplementary "why" information during implementation; consult when ambiguity or edge cases arise
 
-**Expected Outcome**: Calling command receives structured design data for integration
+**Expected Outcome**: Calling command receives structured design data for integration  
 
 ---
 
@@ -247,33 +247,33 @@ design_names:
 
 ### Example 1: task-create finds relevant design
 
-**Context**: User invokes `@acp.task-create` for a task about "clarification capture"
+**Context**: User invokes `@acp.task-create` for a task about "clarification capture"  
 
-**Flow**: Directive searches `agent/design/`, matches `local.clarification-capture-system.md` by filename keywords, reads it, extracts 8-step directive flow + argument table + UX warning format + affected commands table + lifecycle rules. Returns all to task-create. Task is generated with full implementation detail.
+**Flow**: Directive searches `agent/design/`, matches `local.clarification-capture-system.md` by filename keywords, reads it, extracts 8-step directive flow + argument table + UX warning format + affected commands table + lifecycle rules. Returns all to task-create. Task is generated with full implementation detail.  
 
 ### Example 2: No design document exists
 
-**Context**: User invokes `@acp.task-create` for a task about "user preferences"
+**Context**: User invokes `@acp.task-create` for a task about "user preferences"  
 
-**Flow**: Directive searches `agent/design/`, no filenames match "preferences" (M6 has no design doc yet). Reports "No design documents found." Task is created from available context only (user input, draft, clarifications).
+**Flow**: Directive searches `agent/design/`, no filenames match "preferences" (M6 has no design doc yet). Reports "No design documents found." Task is created from available context only (user input, draft, clarifications).  
 
 ### Example 3: Multiple relevant designs
 
-**Context**: User invokes `@acp.task-create` for a task about "package validation"
+**Context**: User invokes `@acp.task-create` for a task about "package validation"  
 
-**Flow**: Directive finds both `acp-package-management-system.md` and `local.experimental-features-system.md` as relevant. Reads both. Extracts elements from each. Returns combined elements to task-create.
+**Flow**: Directive finds both `acp-package-management-system.md` and `local.experimental-features-system.md` as relevant. Reads both. Extracts elements from each. Returns combined elements to task-create.  
 
 ### Example 4: Design has gaps
 
-**Context**: User invokes `@acp.task-create` for a feature whose design has a TBD Testing Strategy
+**Context**: User invokes `@acp.task-create` for a feature whose design has a TBD Testing Strategy  
 
-**Flow**: Directive reads design, extracts elements, flags "Testing Strategy: marked TBD". Asks user whether to create clarification. User says no. Task is created with a note about the gap.
+**Flow**: Directive reads design, extracts elements, flags "Testing Strategy: marked TBD". Asks user whether to create clarification. User says no. Task is created with a note about the gap.  
 
 ### Example 5: proceed loads design context
 
-**Context**: Agent runs `@acp.proceed` on a task with `Design Reference: [Clarification Capture System](../design/local.clarification-capture-system.md)`
+**Context**: Agent runs `@acp.proceed` on a task with `Design Reference: [Clarification Capture System](../design/local.clarification-capture-system.md)`  
 
-**Flow**: Proceed reads the linked design document. Uses it as supplementary context during implementation — consulting it when the task step is ambiguous or when an unlisted edge case arises.
+**Flow**: Proceed reads the linked design document. Uses it as supplementary context during implementation — consulting it when the task step is ambiguous or when an unlisted edge case arises.  
 
 ---
 
@@ -291,27 +291,27 @@ design_names:
 
 ### Issue 1: Wrong design document matched
 
-**Symptom**: Directive loads an unrelated design document
+**Symptom**: Directive loads an unrelated design document  
 
-**Cause**: Keyword overlap on generic terms (e.g., "system", "command")
+**Cause**: Keyword overlap on generic terms (e.g., "system", "command")  
 
-**Solution**: Step 1 strips overly common terms. If false matches persist, the user can indicate which design is relevant when the report is displayed.
+**Solution**: Step 1 strips overly common terms. If false matches persist, the user can indicate which design is relevant when the report is displayed.  
 
 ### Issue 2: Design document not found despite existing
 
-**Symptom**: Directive reports "no design documents found" but one exists
+**Symptom**: Directive reports "no design documents found" but one exists  
 
-**Cause**: Filename keywords don't overlap with topic keywords
+**Cause**: Filename keywords don't overlap with topic keywords  
 
-**Solution**: User can provide additional context (mention the design doc name) or use a more specific task/milestone name. The calling command can also pass the design path explicitly if known.
+**Solution**: User can provide additional context (mention the design doc name) or use a more specific task/milestone name. The calling command can also pass the design path explicitly if known.  
 
 ### Issue 3: Too many elements extracted
 
-**Symptom**: Returned elements are overwhelming for a single task
+**Symptom**: Returned elements are overwhelming for a single task  
 
-**Cause**: Design document covers a broad feature with many tasks
+**Cause**: Design document covers a broad feature with many tasks  
 
-**Solution**: The calling command (task-create) filters elements by relevance to the specific task being created. Not all elements from the design need to appear in every task — only those relevant to the task's scope.
+**Solution**: The calling command (task-create) filters elements by relevance to the specific task being created. Not all elements from the design need to appear in every task — only those relevant to the task's scope.  
 
 ---
 
@@ -345,11 +345,11 @@ design_names:
 
 ---
 
-**Namespace**: acp
-**Command**: design-reference
-**Version**: 1.0.0
-**Created**: 2026-03-07
-**Last Updated**: 2026-03-07
-**Status**: Active
-**Compatibility**: ACP 5.13.1+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: design-reference  
+**Version**: 1.0.0  
+**Created**: 2026-03-07  
+**Last Updated**: 2026-03-07  
+**Status**: Active  
+**Compatibility**: ACP 5.13.1+  
+**Author**: ACP Project  

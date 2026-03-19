@@ -1,8 +1,8 @@
 # Experimental Features System
 
-**Concept**: System for marking and managing experimental features that require explicit opt-in via --experimental flag
-**Created**: 2026-02-23
-**Status**: Design Specification
+**Concept**: System for marking and managing experimental features that require explicit opt-in via --experimental flag  
+**Created**: 2026-02-23  
+**Status**: Design Specification  
 
 ---
 
@@ -43,7 +43,7 @@ Implement a dual-marking system where experimental features are marked in both:
 - **With `--experimental`**: Install all features including experimental ones
 - **Updates**: If experimental features are already installed, update them normally (no flag required)
 
-**Scope**: Applies to:
+**Scope**: Applies to:  
 - Commands (`agent/commands/*.md`)
 - Patterns (`agent/patterns/*.md`)
 - Designs (`agent/design/*.md`)
@@ -97,7 +97,7 @@ contents:
       experimental: true
 ```
 
-**Default behavior**: If `experimental` field is omitted, it defaults to `false` (stable).
+**Default behavior**: If `experimental` field is omitted, it defaults to `false` (stable).  
 
 ### 2. File Metadata Enhancement
 
@@ -109,23 +109,23 @@ Add `**Status**: Experimental` to file frontmatter for experimental features:
 
 > **🤖 Agent Directive**: ...
 
-**Namespace**: mypackage
-**Version**: 0.1.0
-**Created**: 2026-02-23
-**Last Updated**: 2026-02-23
-**Status**: Experimental  # ← Marks as experimental
+**Namespace**: mypackage  
+**Version**: 0.1.0  
+**Created**: 2026-02-23  
+**Last Updated**: 2026-02-23  
+**Status**: Experimental  # ← Marks as experimental  
 
 ---
 
-**Purpose**: ...
+**Purpose**: ...  
 ```
 
 **Pattern example**:
 ```markdown
 # Pattern: Experimental Pattern
 
-**Status**: Experimental  # ← Marks as experimental
-**Created**: 2026-02-23
+**Status**: Experimental  # ← Marks as experimental  
+**Created**: 2026-02-23  
 
 ---
 
@@ -137,9 +137,9 @@ Add `**Status**: Experimental` to file frontmatter for experimental features:
 ```markdown
 # Experimental Design
 
-**Concept**: ...
-**Created**: 2026-02-23
-**Status**: Experimental  # ← Marks as experimental (replaces Proposal/Design Specification/Implemented)
+**Concept**: ...  
+**Created**: 2026-02-23  
+**Status**: Experimental  # ← Marks as experimental (replaces Proposal/Design Specification/Implemented)  
 
 ---
 ```
@@ -442,8 +442,8 @@ contents:
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Implement in phases:
+**Status**: Design Specification  
+**Recommendation**: Implement in phases:  
 1. Phase 1: Schema and validation (Task 1)
 2. Phase 2: Installation filtering (Task 2)
 3. Phase 3: Update handling (Task 3)

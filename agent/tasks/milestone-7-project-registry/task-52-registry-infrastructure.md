@@ -1,9 +1,9 @@
 # Task 52: Project Registry Infrastructure
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 29 (Global ACP Auto-Initialization)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 29 (Global ACP Auto-Initialization)  
+**Status**: Not Started  
 
 ---
 
@@ -403,16 +403,16 @@ Running tests...
 ## Common Issues and Solutions
 
 ### Issue 1: Registry not created
-**Symptom**: Functions fail with "file not found"
-**Solution**: Call `init_projects_registry()` before other operations
+**Symptom**: Functions fail with "file not found"  
+**Solution**: Call `init_projects_registry()` before other operations  
 
 ### Issue 2: YAML parser not available
-**Symptom**: yaml_set/yaml_query commands not found
-**Solution**: Ensure `acp.yaml-parser.sh` is sourced
+**Symptom**: yaml_set/yaml_query commands not found  
+**Solution**: Ensure `acp.yaml-parser.sh` is sourced  
 
 ### Issue 3: HOME not set
-**Symptom**: Registry path is incorrect
-**Solution**: Ensure $HOME environment variable is set
+**Symptom**: Registry path is incorrect  
+**Solution**: Ensure $HOME environment variable is set  
 
 ---
 
@@ -434,6 +434,6 @@ Running tests...
 
 ---
 
-**Next Task**: [Task 53: @acp.project-list Command](task-53-project-list.md)
-**Related Design Docs**: [Global ACP Project Registry](../../design/local.projects-yaml-feature.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 53: @acp.project-list Command](task-53-project-list.md)  
+**Related Design Docs**: [Global ACP Project Registry](../../design/local.projects-yaml-feature.md)  
+**Estimated Completion Date**: TBD  

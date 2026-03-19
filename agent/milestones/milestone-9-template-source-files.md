@@ -1,9 +1,9 @@
 # Milestone 9: Template Source Files Support (agent/files/)
 
-**Goal**: Extend ACP package system to bundle and install template source files in agent/files/ directory for safe, organized code template distribution
-**Duration**: 2-3 weeks
-**Dependencies**: Milestone 3 (Package Management System)
-**Status**: Not Started
+**Goal**: Extend ACP package system to bundle and install template source files in agent/files/ directory for safe, organized code template distribution  
+**Duration**: 2-3 weeks  
+**Dependencies**: Milestone 3 (Package Management System)  
+**Status**: Not Started  
 
 ---
 
@@ -13,9 +13,9 @@ This milestone implements support for template source files in ACP packages via 
 
 The feature enables packages like `acp-core-sdk` to provide pre-configured TypeScript setups, build scripts, and source code templates instead of requiring users to manually create files or embedding large code blocks in command heredocs.
 
-**Key Innovation**: Files are first-class citizens in the package system with version tracking, selective installation, variable substitution, and safe storage in `agent/files/` - maintaining ACP's principle of keeping all package content within the `agent/` directory.
+**Key Innovation**: Files are first-class citizens in the package system with version tracking, selective installation, variable substitution, and safe storage in `agent/files/` - maintaining ACP's principle of keeping all package content within the `agent/` directory.  
 
-**Architectural Decision**: Files install to `agent/files/` (not project root) for safety, consistency, and user control. Users explicitly copy files from `agent/files/` to their project as needed, or commands automate the copying.
+**Architectural Decision**: Files install to `agent/files/` (not project root) for safety, consistency, and user control. Users explicitly copy files from `agent/files/` to their project as needed, or commands automate the copying.  
 
 ---
 
@@ -120,7 +120,7 @@ e2e/
 5. [Task 75: Testing Suite](../tasks/milestone-9-template-source-files/task-75-testing-suite.md) - Comprehensive tests for file system (6-8 hours)
 6. [Task 76: Documentation](../tasks/milestone-9-template-source-files/task-76-documentation.md) - Update all documentation (3-4 hours)
 
-**Total Estimated**: 24-32 hours (approximately 2-3 weeks)
+**Total Estimated**: 24-32 hours (approximately 2-3 weeks)  
 
 ---
 
@@ -171,8 +171,8 @@ No environment variables required. The template system is file-based and uses st
 
 ---
 
-**Next Milestone**: TBD (possibly M10: Advanced File Features or M10: ACP CLI Tool)
-**Blockers**: None (M3 provides all necessary infrastructure)
+**Next Milestone**: TBD (possibly M10: Advanced File Features or M10: ACP CLI Tool)  
+**Blockers**: None (M3 provides all necessary infrastructure)  
 **Notes**:
 - Files are optional - packages work without them
 - Builds on package management patterns from M3

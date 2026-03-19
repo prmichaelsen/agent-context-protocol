@@ -1,10 +1,10 @@
 # Task 94: Testing and Documentation
 
-**Milestone**: M12 — Sessions System
-**Status**: Not Started
-**Estimated Hours**: 2-3
-**Dependencies**: Tasks 91, 92, 93
-**Design**: [local.sessions-system.md](../../design/local.sessions-system.md)
+**Milestone**: M12 — Sessions System  
+**Status**: Not Started  
+**Estimated Hours**: 2-3  
+**Dependencies**: Tasks 91, 92, 93  
+**Design**: [local.sessions-system.md](../../design/local.sessions-system.md)  
 
 ---
 
@@ -37,7 +37,7 @@ Create comprehensive E2E test suite for sessions system and update project docum
 14. **Auto-create sessions.yaml** — file created on first register
 15. **Missing script graceful** — commands skip session steps without error
 
-**Target**: 15+ test scenarios, 40+ assertions
+**Target**: 15+ test scenarios, 40+ assertions  
 
 ### 2. Update AGENT.md
 - Add "Sessions System" section after "Project Registry System"

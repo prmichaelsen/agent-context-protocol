@@ -1,10 +1,10 @@
 # Task 13: Pure Bash YAML Library
 
-**Milestone**: [M3 - ACP Package Management System](../milestones/milestone-3-acp-package-management.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: None (MUST be done first)
-**Status**: Not Started
-**Priority**: Critical (Blocking)
+**Milestone**: [M3 - ACP Package Management System](../milestones/milestone-3-acp-package-management.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: None (MUST be done first)  
+**Status**: Not Started  
+**Priority**: Critical (Blocking)  
 
 ---
 
@@ -22,7 +22,7 @@ The package management system needs to:
 
 Several mature bash YAML libraries exist on GitHub that we can use or adapt.
 
-**Note**: All other tasks (5-12) reference this library and should use its functions instead of direct `yq` calls.
+**Note**: All other tasks (5-12) reference this library and should use its functions instead of direct `yq` calls.  
 
 ---
 
@@ -59,7 +59,7 @@ Research and test these bash YAML libraries:
 
 ### 2. Download and Test Chosen Library
 
-**Recommended**: Use **mrbaseman/parse_yaml** as base and add write functions
+**Recommended**: Use **mrbaseman/parse_yaml** as base and add write functions  
 
 ```bash
 # Download parse_yaml
@@ -184,7 +184,7 @@ yaml_has_key() {
 
 ### 3. Implement Write Functions (For Manifest)
 
-**Recommendation**: Use JSON for manifest instead of YAML
+**Recommendation**: Use JSON for manifest instead of YAML  
 
 ```bash
 # agent/manifest.json (not .yaml)
@@ -338,4 +338,4 @@ fi
 
 **Status**: Critical - Should be implemented first  
 **Priority**: Critical  
-**Estimated Effort**: 4-5 hours
+**Estimated Effort**: 4-5 hours  

@@ -1,12 +1,12 @@
 # Task 119: Integrate Artifacts with Existing Commands
 
-**Status**: completed
-**Priority**: medium
-**Milestone**: M17 (Artifact Commands System)
-**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)
-**Estimated Time**: 3-4 hours
-**Started**: 2026-03-17
-**Completed**: 2026-03-17
+**Status**: completed  
+**Priority**: medium  
+**Milestone**: M17 (Artifact Commands System)  
+**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)  
+**Estimated Time**: 3-4 hours  
+**Started**: 2026-03-17  
+**Completed**: 2026-03-17  
 
 ---
 
@@ -30,8 +30,8 @@ Enhance existing ACP commands (`@acp.validate`, `@acp.sync`, `@acp.update`) to b
 
 ### 1. @acp.sync Enhancements
 
-**File**: `agent/commands/acp.sync.md`
-**Version**: 1.1.0 → 1.2.0
+**File**: `agent/commands/acp.sync.md`  
+**Version**: 1.1.0 → 1.2.0  
 
 **Changes**:
 - **Added Step 3: Read Artifact Documents**
@@ -56,8 +56,8 @@ Enhance existing ACP commands (`@acp.validate`, `@acp.sync`, `@acp.update`) to b
 
 ### 2. @acp.validate Enhancements
 
-**File**: `agent/commands/acp.validate.md`
-**Version**: 2.0.0 → 2.1.0
+**File**: `agent/commands/acp.validate.md`  
+**Version**: 2.0.0 → 2.1.0  
 
 **Changes**:
 - **Added Step 8: Validate Artifact Documents** (inserted before namespace conventions)
@@ -84,8 +84,8 @@ Enhance existing ACP commands (`@acp.validate`, `@acp.sync`, `@acp.update`) to b
 
 ### 3. @acp.update Enhancements
 
-**File**: `agent/commands/acp.update.md`
-**Version**: 1.0.0 → 1.1.0
+**File**: `agent/commands/acp.update.md`  
+**Version**: 1.0.0 → 1.1.0  
 
 **Changes**:
 - **Added Step 8: Check Artifact Health** (inserted before Save Changes)
@@ -105,7 +105,7 @@ Enhance existing ACP commands (`@acp.validate`, `@acp.sync`, `@acp.update`) to b
 
 ### 4. Key File Index Schema Update
 
-**File**: `agent/commands/acp.validate.md` Step 10
+**File**: `agent/commands/acp.validate.md` Step 10  
 
 **Changes**:
 - Updated valid `kind` values to include `artifact`

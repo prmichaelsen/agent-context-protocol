@@ -1,9 +1,9 @@
 # Milestone 12: Sessions System
 
-**Goal**: Implement global session tracking for concurrent multi-project agent work, enabling cross-session awareness from a single IDE instance
-**Duration**: 1-2 weeks
-**Dependencies**: None (self-contained feature)
-**Status**: Not Started
+**Goal**: Implement global session tracking for concurrent multi-project agent work, enabling cross-session awareness from a single IDE instance  
+**Duration**: 1-2 weeks  
+**Dependencies**: None (self-contained feature)  
+**Status**: Not Started  
 
 ---
 
@@ -11,7 +11,7 @@
 
 This milestone implements the ACP Sessions System as specified in the design document (`agent/design/local.sessions-system.md`). It adds a global `~/.acp/sessions.yaml` file that tracks active agent sessions across projects, a self-contained `acp.sessions.sh` script, a dedicated `@acp.sessions` command, and lightweight integration into existing commands via directive-level updates.
 
-**Key design constraint**: The sessions system is fully self-contained. Existing stable commands do NOT depend on sessions.yaml or the sessions script at the shell level. Integration happens in command markdown directives as optional steps that gracefully skip if the script is missing.
+**Key design constraint**: The sessions system is fully self-contained. Existing stable commands do NOT depend on sessions.yaml or the sessions script at the shell level. Integration happens in command markdown directives as optional steps that gracefully skip if the script is missing.  
 
 **Existing infrastructure**:
 - `~/.acp/` directory and global manifest (M5)
@@ -109,7 +109,7 @@ agent/
 3. [Task 93: @acp.sessions Command](../tasks/milestone-12-sessions-system/task-93-sessions-command.md) — Dedicated command with NLP argument parsing (2-3h)
 4. [Task 94: Testing and Documentation](../tasks/milestone-12-sessions-system/task-94-sessions-testing-documentation.md) — E2E tests, AGENT.md, README.md, CHANGELOG.md updates (2-3h)
 
-**Total Estimated**: 9-14 hours
+**Total Estimated**: 9-14 hours  
 
 ---
 
@@ -146,8 +146,8 @@ agent/
 
 ---
 
-**Next Milestone**: TBD
-**Blockers**: None
+**Next Milestone**: TBD  
+**Blockers**: None  
 **Notes**:
 - Self-contained design means this can be implemented independently of all other milestones
 - No shell-level dependencies added to existing scripts

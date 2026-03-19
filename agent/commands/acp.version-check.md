@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp-version-check` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: acp.version-check.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: acp.version-check.sh  
 
 ---
 
-**Purpose**: Display current ACP version and compatibility information
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Display current ACP version and compatibility information  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -45,7 +45,7 @@ Execute the version check script.
 - Script extracts version from AGENT.md using grep
 - Displays version, created date, and status
 
-**Expected Outcome**: Version information displayed
+**Expected Outcome**: Version information displayed  
 
 **Alternative** (if script doesn't exist):
 ```bash
@@ -92,27 +92,27 @@ No status changes - read-only operation
 
 ### Example 1: Quick Version Check
 
-**Context**: Want to know which ACP version you're using
+**Context**: Want to know which ACP version you're using  
 
-**Invocation**: `@acp-version-check`
+**Invocation**: `@acp-version-check`  
 
-**Result**: Shows version 1.0.3, created 2026-02-11, status: Production Pattern
+**Result**: Shows version 1.0.3, created 2026-02-11, status: Production Pattern  
 
 ### Example 2: Before Reporting Issue
 
-**Context**: Need to report a bug and want to include version info
+**Context**: Need to report a bug and want to include version info  
 
-**Invocation**: `@acp-version-check`
+**Invocation**: `@acp-version-check`  
 
-**Result**: Displays version 1.0.3, helps you provide accurate bug report
+**Result**: Displays version 1.0.3, helps you provide accurate bug report  
 
 ### Example 3: Verifying Installation
 
-**Context**: Just installed ACP, want to confirm it worked
+**Context**: Just installed ACP, want to confirm it worked  
 
-**Invocation**: `@acp-version-check`
+**Invocation**: `@acp-version-check`  
 
-**Result**: Shows version installed, confirms ACP is working
+**Result**: Shows version installed, confirms ACP is working  
 
 ---
 
@@ -128,27 +128,27 @@ No status changes - read-only operation
 
 ### Issue 1: AGENT.md not found
 
-**Symptom**: Error message "AGENT.md not found"
+**Symptom**: Error message "AGENT.md not found"  
 
-**Cause**: ACP not installed or AGENT.md deleted
+**Cause**: ACP not installed or AGENT.md deleted  
 
-**Solution**: Reinstall ACP using the installation script
+**Solution**: Reinstall ACP using the installation script  
 
 ### Issue 2: Script not found
 
-**Symptom**: Error "acp.version-check.sh not found"
+**Symptom**: Error "acp.version-check.sh not found"  
 
-**Cause**: Older ACP installation without version script
+**Cause**: Older ACP installation without version script  
 
-**Solution**: Extract version directly from AGENT.md using grep command shown in Steps section
+**Solution**: Extract version directly from AGENT.md using grep command shown in Steps section  
 
 ### Issue 3: Version not found in AGENT.md
 
-**Symptom**: Grep returns no results
+**Symptom**: Grep returns no results  
 
-**Cause**: AGENT.md format changed or corrupted
+**Cause**: AGENT.md format changed or corrupted  
 
-**Solution**: Manually open AGENT.md and check header, or update ACP to latest version
+**Solution**: Manually open AGENT.md and check header, or update ACP to latest version  
 
 ---
 
@@ -181,11 +181,11 @@ No status changes - read-only operation
 
 ---
 
-**Namespace**: acp
-**Command**: version-check
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Compatibility**: ACP 1.0.3+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: version-check  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Compatibility**: ACP 1.0.3+  
+**Author**: ACP Project  

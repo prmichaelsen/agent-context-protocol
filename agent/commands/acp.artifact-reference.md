@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.artifact-reference NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-17
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-17  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create reference guides for passive information after command-first principle check
-**Category**: Entity Creation
-**Frequency**: As Needed
+**Purpose**: Create reference guides for passive information after command-first principle check  
+**Category**: Entity Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -49,7 +49,7 @@ The agent infers intent from context:
 
 This command creates reference guides for passive information that cannot be automated as executable commands. Before creating a reference, the command performs a mandatory "command-first principle check" to evaluate whether the content should be a command instead.
 
-**Command-first principle**: If information can be automated as an executable directive (`@local.*` or `@namespace.*`), create a command instead of a reference artifact. References should contain only passive information (lookup tables, diagrams, standards) that require human judgment or are purely informational.
+**Command-first principle**: If information can be automated as an executable directive (`@local.*` or `@namespace.*`), create a command instead of a reference artifact. References should contain only passive information (lookup tables, diagrams, standards) that require human judgment or are purely informational.  
 
 Reference artifacts are appropriate for:
 - **Configuration tables** (environment variables, feature flags)
@@ -66,7 +66,7 @@ Reference artifacts are appropriate for:
 
 - [ ] ACP installed in current directory (`agent/` directory exists)
 - [ ] `agent/artifacts/` directory exists (will be created if not)
-- [ ] `agent/artifacts.template.md/reference.template.md` exists
+- [ ] `agent/artifacts/reference.template.md` exists
 
 ---
 
@@ -88,7 +88,7 @@ Identify what reference to create.
 - If still unclear:
   - Prompt user: "What reference would you like to create?"
 
-**Expected Outcome**: Clear reference topic identified (e.g., "environment variables", "Git workflow", "troubleshooting guide")
+**Expected Outcome**: Clear reference topic identified (e.g., "environment variables", "Git workflow", "troubleshooting guide")  
 
 ### 2. Command-First Principle Check
 
@@ -130,7 +130,7 @@ Is this content executable by an agent?
 - Skip this step entirely, proceed directly to Step 3
 - Use with caution — only when user is certain content is passive
 
-**Expected Outcome**: Command-first check completed, decision made (command vs reference)
+**Expected Outcome**: Command-first check completed, decision made (command vs reference)  
 
 ### 3. Determine Reference Type
 
@@ -159,7 +159,7 @@ Identify the reference type to use the appropriate template structure.
 
 **Reference type determines template structure** (see Step 5)
 
-**Expected Outcome**: Reference type determined
+**Expected Outcome**: Reference type determined  
 
 ### 4. Gather Content
 
@@ -185,14 +185,14 @@ Collect information to populate the reference.
   - Cite official documentation URLs
   - Note version compatibility (e.g., "Git 2.x")
 
-**Expected Outcome**: Sufficient content gathered to populate reference artifact
+**Expected Outcome**: Sufficient content gathered to populate reference artifact  
 
 ### 5. Create Reference Artifact
 
 Populate the reference artifact from template.
 
 **Actions**:
-- Start from template: `agent/artifacts.template.md/reference.template.md`
+- Start from template: `agent/artifacts/reference.template.md`
 - Fill metadata block:
   - **Type**: reference
   - **Created**: Today's date (YYYY-MM-DD)
@@ -279,7 +279,7 @@ command --flag-b value1 value2
 ```markdown
 ### Troubleshooting Decision Tree
 
-**Symptom**: Observable issue
+**Symptom**: Observable issue  
 
 1. **Check Thing 1**
    - If condition: Resolution
@@ -290,7 +290,7 @@ command --flag-b value1 value2
 ```markdown
 ### API Contract
 
-**Endpoint**: `HTTP METHOD /path`
+**Endpoint**: `HTTP METHOD /path`  
 
 **Request Format:**
 ```json
@@ -306,7 +306,7 @@ command --flag-b value1 value2
 - Fill **Sources & References** section (all URLs with access dates)
 - Fill **Related Documents** section (links to commands, designs, research artifacts)
 
-**Expected Outcome**: Reference artifact file populated with content
+**Expected Outcome**: Reference artifact file populated with content  
 
 ### 6. Validate Content
 
@@ -323,7 +323,7 @@ Verify reference artifact quality.
 - Flag issues to user
 - Prompt: "Issues detected: {list}. Should I proceed or revise?"
 
-**Expected Outcome**: Reference artifact validated and ready to commit
+**Expected Outcome**: Reference artifact validated and ready to commit  
 
 ### 7. Auto-Commit (unless `--no-commit`)
 
@@ -345,7 +345,7 @@ Establish baseline commit for the reference.
   - Leave file staged but uncommitted
   - Notify user: "Reference staged, awaiting commit."
 
-**Expected Outcome**: Reference artifact committed (or staged if `--no-commit`)
+**Expected Outcome**: Reference artifact committed (or staged if `--no-commit`)  
 
 ### 8. Report Success
 
@@ -371,7 +371,7 @@ Next steps:
 - Reference this artifact in related commands or documentation
 ```
 
-**Expected Outcome**: User knows reference is complete and where to find it
+**Expected Outcome**: User knows reference is complete and where to find it  
 
 ---
 
@@ -428,43 +428,43 @@ Next steps:
 
 ### Example 1: Configuration Table
 
-**Context**: Need to document all environment variables for new developers
+**Context**: Need to document all environment variables for new developers  
 
-**Invocation**: `@acp.artifact-reference environment variables --type config-table`
+**Invocation**: `@acp.artifact-reference environment variables --type config-table`  
 
-**Result**: Agent performs command-first check (passive lookup table, not executable), gathers env vars from .env.example and codebase, creates config table reference with Variable/Type/Default/Description/Required columns, auto-commits.
+**Result**: Agent performs command-first check (passive lookup table, not executable), gathers env vars from .env.example and codebase, creates config table reference with Variable/Type/Default/Description/Required columns, auto-commits.  
 
 ### Example 2: CLI Syntax (Generic Tool)
 
-**Context**: Team uses Git but not everyone knows advanced commands
+**Context**: Team uses Git but not everyone knows advanced commands  
 
-**Invocation**: `@acp.artifact-reference Git CLI syntax --type cli-syntax`
+**Invocation**: `@acp.artifact-reference Git CLI syntax --type cli-syntax`  
 
-**Result**: Agent checks command-first (generic tool syntax, not project workflow), creates CLI syntax reference with common Git commands + examples, cites official Git docs, auto-commits.
+**Result**: Agent checks command-first (generic tool syntax, not project workflow), creates CLI syntax reference with common Git commands + examples, cites official Git docs, auto-commits.  
 
 ### Example 3: Command Suggestion (Executable Workflow)
 
-**Context**: Want to document deploy process
+**Context**: Want to document deploy process  
 
-**Invocation**: `@acp.artifact-reference deployment process`
+**Invocation**: `@acp.artifact-reference deployment process`  
 
-**Result**: Agent performs command-first check, detects executable workflow steps, prompts: "This looks like an executable workflow. Consider: @local.deploy or @acme.deploy. Would you like me to create a command instead?" User says yes, agent exits and suggests `@acp.command-create deployment`.
+**Result**: Agent performs command-first check, detects executable workflow steps, prompts: "This looks like an executable workflow. Consider: @local.deploy or @acme.deploy. Would you like me to create a command instead?" User says yes, agent exits and suggests `@acp.command-create deployment`.  
 
 ### Example 4: Troubleshooting Guide
 
-**Context**: Common auth errors, need diagnostic guide
+**Context**: Common auth errors, need diagnostic guide  
 
-**Invocation**: `@acp.artifact-reference auth troubleshooting --type troubleshooting`
+**Invocation**: `@acp.artifact-reference auth troubleshooting --type troubleshooting`  
 
-**Result**: Agent checks command-first (diagnostic decision tree with human judgment, not automated), prompts user for common symptoms + resolutions, creates troubleshooting guide with "Symptom → Check → Resolution" flow, auto-commits.
+**Result**: Agent checks command-first (diagnostic decision tree with human judgment, not automated), prompts user for common symptoms + resolutions, creates troubleshooting guide with "Symptom → Check → Resolution" flow, auto-commits.  
 
 ### Example 5: Architecture Diagram
 
-**Context**: New team members need service topology overview
+**Context**: New team members need service topology overview  
 
-**Invocation**: `@acp.artifact-reference architecture diagram --type diagrams`
+**Invocation**: `@acp.artifact-reference architecture diagram --type diagrams`  
 
-**Result**: Agent checks command-first (passive diagram, requires human interpretation), searches for existing architecture docs, creates reference with ASCII/mermaid diagram + component descriptions, auto-commits.
+**Result**: Agent checks command-first (passive diagram, requires human interpretation), searches for existing architecture docs, creates reference with ASCII/mermaid diagram + component descriptions, auto-commits.  
 
 ---
 
@@ -482,35 +482,35 @@ Next steps:
 
 ### Issue 1: Content feels like a command but check says reference
 
-**Symptom**: Reference contains step-by-step procedures but passed command-first check
+**Symptom**: Reference contains step-by-step procedures but passed command-first check  
 
-**Cause**: Steps are not automatable (require human judgment) or are generic (not project-specific)
+**Cause**: Steps are not automatable (require human judgment) or are generic (not project-specific)  
 
-**Solution**: Re-evaluate. If truly project-specific and automatable, create command instead. If generic or requires judgment, reference is appropriate.
+**Solution**: Re-evaluate. If truly project-specific and automatable, create command instead. If generic or requires judgment, reference is appropriate.  
 
 ### Issue 2: Reference type unclear
 
-**Symptom**: Topic doesn't fit any reference type cleanly
+**Symptom**: Topic doesn't fit any reference type cleanly  
 
-**Cause**: Topic is hybrid (e.g., "API integration guide" could be standards, API contract, or troubleshooting)
+**Cause**: Topic is hybrid (e.g., "API integration guide" could be standards, API contract, or troubleshooting)  
 
-**Solution**: Prompt user to clarify primary purpose. Create multiple references if needed (one for contract, one for troubleshooting).
+**Solution**: Prompt user to clarify primary purpose. Create multiple references if needed (one for contract, one for troubleshooting).  
 
 ### Issue 3: Reference becoming a tutorial
 
-**Symptom**: Reference grows to include lengthy explanations and examples
+**Symptom**: Reference grows to include lengthy explanations and examples  
 
-**Cause**: Topic is too broad or educational content is being mixed with reference material
+**Cause**: Topic is too broad or educational content is being mixed with reference material  
 
-**Solution**: Split into research artifact (educational investigation) and reference artifact (lookup/quick reference). Or create command for executable parts.
+**Solution**: Split into research artifact (educational investigation) and reference artifact (lookup/quick reference). Or create command for executable parts.  
 
 ### Issue 4: CLI syntax is project-specific
 
-**Symptom**: Creating Git CLI reference but it's actually project Git workflow
+**Symptom**: Creating Git CLI reference but it's actually project Git workflow  
 
-**Cause**: Confusing generic tool syntax with project-specific workflow
+**Cause**: Confusing generic tool syntax with project-specific workflow  
 
-**Solution**: Generic syntax → reference. Project workflow → command. Create `@local.git-feature-start` command instead of "Git workflow reference".
+**Solution**: Generic syntax → reference. Project workflow → command. Create `@local.git-feature-start` command instead of "Git workflow reference".  
 
 ---
 
@@ -581,11 +581,11 @@ Next steps:
 
 ---
 
-**Namespace**: acp
-**Command**: artifact-reference
-**Version**: 1.0.0
-**Created**: 2026-03-17
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Compatibility**: ACP 5.26.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: artifact-reference  
+**Version**: 1.0.0  
+**Created**: 2026-03-17  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Compatibility**: ACP 5.26.0+  
+**Author**: ACP Project  

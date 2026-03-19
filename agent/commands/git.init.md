@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@git.init` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: git
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: None
+**Namespace**: git  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Initialize a git repository with intelligent .gitignore based on project type
-**Category**: Creation
-**Frequency**: Once
+**Purpose**: Initialize a git repository with intelligent .gitignore based on project type  
+**Category**: Creation  
+**Frequency**: Once  
 
 ---
 
@@ -28,7 +28,7 @@ This command intelligently initializes a git repository for your project by:
 
 The command is smart about .gitignore - it evaluates your project to determine what should be ignored rather than using a generic template. This ensures your repository follows best practices for your specific technology stack.
 
-**Example**: "For a Node.js project, this command will detect `package.json`, initialize git, and create a `.gitignore` that ignores `node_modules/`, `dist/`, `*.tgz`, but keeps `package-lock.json` committed."
+**Example**: "For a Node.js project, this command will detect `package.json`, initialize git, and create a `.gitignore` that ignores `node_modules/`, `dist/`, `*.tgz`, but keeps `package-lock.json` committed."  
 
 ---
 
@@ -68,7 +68,7 @@ Analyze the project structure to determine the technology stack and project type
   - What temporary files should be ignored
   - Common IDE/editor files for that ecosystem
 
-**Expected Outcome**: Determine the primary project type(s) and technology stack, using web research if necessary.
+**Expected Outcome**: Determine the primary project type(s) and technology stack, using web research if necessary.  
 
 **Example**:
 ```bash
@@ -85,7 +85,7 @@ Create the git repository if it doesn't exist.
 - Verify `.git` directory was created
 - Set initial branch name (typically `main` or `mainline`)
 
-**Expected Outcome**: Git repository initialized with `.git` directory created.
+**Expected Outcome**: Git repository initialized with `.git` directory created.  
 
 **Example**:
 ```bash
@@ -104,7 +104,7 @@ Generate a `.gitignore` file with intelligent defaults based on the detected pro
 - Add common ignore patterns for build/dist directories
 - Add editor/IDE specific ignores
 
-**Expected Outcome**: `.gitignore` file created or updated with appropriate patterns.
+**Expected Outcome**: `.gitignore` file created or updated with appropriate patterns.  
 
 **Common Patterns to Include**:
 
@@ -224,7 +224,7 @@ out/
 .project
 ```
 
-**CRITICAL**: Ensure these are NOT ignored:
+**CRITICAL**: Ensure these are NOT ignored:  
 - `package-lock.json` (Node.js)
 - `yarn.lock` (Node.js/Yarn)
 - `pnpm-lock.yaml` (Node.js/pnpm)
@@ -246,7 +246,7 @@ Check that the `.gitignore` file is correct and complete.
 - Verify dependency directories are ignored
 - Check for any project-specific patterns that should be added
 
-**Expected Outcome**: `.gitignore` file is correct and follows best practices.
+**Expected Outcome**: `.gitignore` file is correct and follows best practices.  
 
 ### 5. Display Summary
 
@@ -258,7 +258,7 @@ Show what was done and what's ready to be committed.
 - Run `git status` to show initial state
 - Provide next steps
 
-**Expected Outcome**: User understands what was initialized and what to do next.
+**Expected Outcome**: User understands what was initialized and what to do next.  
 
 **Example**:
 ```bash
@@ -313,9 +313,9 @@ Next steps:
 
 ### Example 1: Node.js Project
 
-**Context**: Starting a new Node.js project with npm
+**Context**: Starting a new Node.js project with npm  
 
-**Invocation**: `@git.init`
+**Invocation**: `@git.init`  
 
 **Result**: 
 - Detects `package.json`
@@ -329,9 +329,9 @@ Next steps:
 
 ### Example 2: Python Project
 
-**Context**: Starting a Python project with Poetry
+**Context**: Starting a Python project with Poetry  
 
-**Invocation**: `@git.init`
+**Invocation**: `@git.init`  
 
 **Result**:
 - Detects `pyproject.toml`
@@ -345,9 +345,9 @@ Next steps:
 
 ### Example 3: Rust Project
 
-**Context**: Starting a Rust application
+**Context**: Starting a Rust application  
 
-**Invocation**: `@git.init`
+**Invocation**: `@git.init`  
 
 **Result**:
 - Detects `Cargo.toml`
@@ -359,9 +359,9 @@ Next steps:
 
 ### Example 4: Multi-Language Project
 
-**Context**: Project with both Node.js frontend and Python backend
+**Context**: Project with both Node.js frontend and Python backend  
 
-**Invocation**: `@git.init`
+**Invocation**: `@git.init`  
 
 **Result**:
 - Detects both `package.json` and `pyproject.toml`
@@ -374,9 +374,9 @@ Next steps:
 
 ### Example 5: Unknown Project Type (Elixir)
 
-**Context**: Starting an Elixir project with Mix
+**Context**: Starting an Elixir project with Mix  
 
-**Invocation**: `@git.init`
+**Invocation**: `@git.init`  
 
 **Process**:
 - Detects `mix.exs` file (unknown to built-in patterns)
@@ -409,41 +409,41 @@ Next steps:
 
 ### Issue 1: Git already initialized
 
-**Symptom**: Error message "Reinitialized existing Git repository"
+**Symptom**: Error message "Reinitialized existing Git repository"  
 
-**Cause**: `.git` directory already exists
+**Cause**: `.git` directory already exists  
 
-**Solution**: This is usually fine - git will reinitialize without losing history. If you want a fresh start, delete `.git` directory first: `rm -rf .git`
+**Solution**: This is usually fine - git will reinitialize without losing history. If you want a fresh start, delete `.git` directory first: `rm -rf .git`  
 
 ### Issue 2: .gitignore conflicts with existing file
 
-**Symptom**: `.gitignore` already exists with different patterns
+**Symptom**: `.gitignore` already exists with different patterns  
 
-**Cause**: Project already has a `.gitignore`
+**Cause**: Project already has a `.gitignore`  
 
-**Solution**: The command will merge patterns, adding new ones while preserving existing ones. Review the result and manually adjust if needed.
+**Solution**: The command will merge patterns, adding new ones while preserving existing ones. Review the result and manually adjust if needed.  
 
 ### Issue 3: Lock files are ignored
 
-**Symptom**: `git status` shows lock files as ignored
+**Symptom**: `git status` shows lock files as ignored  
 
-**Cause**: Existing `.gitignore` has patterns that ignore lock files
+**Cause**: Existing `.gitignore` has patterns that ignore lock files  
 
-**Solution**: Edit `.gitignore` and remove any lines that ignore lock files (e.g., `*.lock`, `*-lock.json`). Lock files should always be committed.
+**Solution**: Edit `.gitignore` and remove any lines that ignore lock files (e.g., `*.lock`, `*-lock.json`). Lock files should always be committed.  
 
 ### Issue 4: Too many files shown as untracked
 
-**Symptom**: `git status` shows hundreds of dependency files
+**Symptom**: `git status` shows hundreds of dependency files  
 
-**Cause**: Dependency directories not properly ignored
+**Cause**: Dependency directories not properly ignored  
 
-**Solution**: Verify `.gitignore` includes dependency directories for your project type. Add missing patterns manually if needed.
+**Solution**: Verify `.gitignore` includes dependency directories for your project type. Add missing patterns manually if needed.  
 
 ### Issue 5: Unknown or uncommon project type
 
-**Symptom**: Project type cannot be automatically detected
+**Symptom**: Project type cannot be automatically detected  
 
-**Cause**: Using a less common language, framework, or custom project structure
+**Cause**: Using a less common language, framework, or custom project structure  
 
 **Solution**:
 1. The command will use web search tools to research the project type
@@ -504,11 +504,11 @@ Next steps:
 
 ---
 
-**Namespace**: git
-**Command**: init
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Compatibility**: ACP 1.3.0+
-**Author**: Agent Context Protocol
+**Namespace**: git  
+**Command**: init  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Compatibility**: ACP 1.3.0+  
+**Author**: Agent Context Protocol  

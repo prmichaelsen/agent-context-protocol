@@ -1,9 +1,9 @@
 # Task 58: @acp.projects-sync Command
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: Task 52 (Registry Infrastructure), Task 53 (Project List)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Task 52 (Registry Infrastructure), Task 53 (Project List)  
+**Status**: Not Started  
 
 ---
 
@@ -174,4 +174,4 @@ Run @acp.project-list to see all registered projects
 
 ---
 
-**Next Task**: [Task 59: Integration & Testing](task-59-integration-testing.md)
+**Next Task**: [Task 59: Integration & Testing](task-59-integration-testing.md)  

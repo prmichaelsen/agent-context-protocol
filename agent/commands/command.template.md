@@ -4,22 +4,22 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: {namespace}
-**Version**: 1.0.0
-**Created**: YYYY-MM-DD
-**Last Updated**: YYYY-MM-DD
-**Status**: [Draft | Active | Deprecated]
-**Scripts**: {namespace}.{command-name}.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: {namespace}  
+**Version**: 1.0.0  
+**Created**: YYYY-MM-DD  
+**Last Updated**: YYYY-MM-DD  
+**Status**: [Draft | Active | Deprecated]  
+**Scripts**: {namespace}.{command-name}.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Note**: The `**Scripts**:` field is REQUIRED and must list ALL script dependencies (direct + shared utilities). This must match the `scripts` array in package.yaml exactly. If the command has no script dependencies, use `**Scripts**: None`.
+**Note**: The `**Scripts**:` field is REQUIRED and must list ALL script dependencies (direct + shared utilities). This must match the `scripts` array in package.yaml exactly. If the command has no script dependencies, use `**Scripts**: None`.  
 
 ---
 
-**Purpose**: [One-line description of what this command does]
-**Category**: [Workflow | Documentation | Maintenance | Creation | Custom]
-**Frequency**: [Once | Per Session | As Needed | Continuous]
+**Purpose**: [One-line description of what this command does]  
+**Category**: [Workflow | Documentation | Maintenance | Creation | Custom]  
+**Frequency**: [Once | Per Session | As Needed | Continuous]  
 
 ---
 
@@ -60,7 +60,7 @@ Arguments are inferred from chat context. The agent will:
 The agent infers intent from context. "Show me global packages" maps to `--global` flag.
 ```
 
-**Note**: If your command has no arguments, you can omit this section entirely.
+**Note**: If your command has no arguments, you can omit this section entirely.  
 
 ---
 
@@ -72,7 +72,7 @@ The agent infers intent from context. "Show me global packages" maps to `--globa
 - What problems it solves
 - Any important context]
 
-**Example**: "This command initializes the agent context by reading all documentation in the agent/ directory, reviewing key source files, and updating progress tracking. Use this at the start of each session to ensure the agent has complete project context."
+**Example**: "This command initializes the agent context by reading all documentation in the agent/ directory, reviewing key source files, and updating progress tracking. Use this at the start of each session to ensure the agent has complete project context."  
 
 ---
 
@@ -105,7 +105,7 @@ The agent infers intent from context. "Show me global packages" maps to `--globa
 - Action item 2
 - Action item 3
 
-**Expected Outcome**: [What should happen after this step]
+**Expected Outcome**: [What should happen after this step]  
 
 **Example**:
 ```bash
@@ -126,7 +126,7 @@ const example = "code";
 - Action item 1
 - Action item 2
 
-**Expected Outcome**: [What should happen]
+**Expected Outcome**: [What should happen]  
 
 ### 3. [Next Step]
 
@@ -191,29 +191,29 @@ Example output message or status report
 
 ### Example 1: [Scenario Name]
 
-**Context**: [When you'd use this command in this way]
+**Context**: [When you'd use this command in this way]  
 
-**Invocation**: `@{namespace}-{command-name}`
+**Invocation**: `@{namespace}-{command-name}`  
 
-**Result**: [What happens]
+**Result**: [What happens]  
 
 **Example**:
 
 ### Example 1: Starting Fresh Session
 
-**Context**: Beginning work on a project after a break
+**Context**: Beginning work on a project after a break  
 
-**Invocation**: `@acp-init`
+**Invocation**: `@acp-init`  
 
-**Result**: Agent reads all documentation, reviews source code, updates progress tracking, and reports current status with next steps.
+**Result**: Agent reads all documentation, reviews source code, updates progress tracking, and reports current status with next steps.  
 
 ### Example 2: [Another Scenario]
 
-**Context**: [Different use case]
+**Context**: [Different use case]  
 
-**Invocation**: `@{namespace}-{command-name}`
+**Invocation**: `@{namespace}-{command-name}`  
 
-**Result**: [What happens]
+**Result**: [What happens]  
 
 ---
 
@@ -235,29 +235,29 @@ Example output message or status report
 
 ### Issue 1: [Common Problem]
 
-**Symptom**: [What the user sees]
+**Symptom**: [What the user sees]  
 
-**Cause**: [Why this happens]
+**Cause**: [Why this happens]  
 
-**Solution**: [How to fix it]
+**Solution**: [How to fix it]  
 
 **Example** (for a deployment command):
 
 ### Issue 1: Deployment fails with authentication error
 
-**Symptom**: Error message "AWS credentials not found"
+**Symptom**: Error message "AWS credentials not found"  
 
-**Cause**: AWS CLI not configured or credentials expired
+**Cause**: AWS CLI not configured or credentials expired  
 
-**Solution**: Run `aws configure` to set up credentials, or refresh your AWS SSO session with `aws sso login`
+**Solution**: Run `aws configure` to set up credentials, or refresh your AWS SSO session with `aws sso login`  
 
 ### Issue 2: [Another Common Problem]
 
-**Symptom**: [What the user sees]
+**Symptom**: [What the user sees]  
 
-**Cause**: [Why this happens]
+**Cause**: [Why this happens]  
 
-**Solution**: [How to fix it]
+**Solution**: [How to fix it]  
 
 ---
 
@@ -329,11 +329,11 @@ Example output message or status report
 
 ---
 
-**Namespace**: {namespace}
-**Command**: {command-name}
-**Version**: 1.0.0
-**Created**: YYYY-MM-DD
-**Last Updated**: YYYY-MM-DD
-**Status**: [Draft | Active | Deprecated]
-**Compatibility**: ACP 1.1.0+
-**Author**: [Your name or organization]
+**Namespace**: {namespace}  
+**Command**: {command-name}  
+**Version**: 1.0.0  
+**Created**: YYYY-MM-DD  
+**Last Updated**: YYYY-MM-DD  
+**Status**: [Draft | Active | Deprecated]  
+**Compatibility**: ACP 1.1.0+  
+**Author**: [Your name or organization]  

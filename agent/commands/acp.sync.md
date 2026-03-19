@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.sync` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.2.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.2.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Synchronize documentation with source code by identifying and updating stale documentation
-**Category**: Documentation
-**Frequency**: As Needed
+**Purpose**: Synchronize documentation with source code by identifying and updating stale documentation  
+**Category**: Documentation  
+**Frequency**: As Needed  
 
 ---
 
@@ -50,7 +50,7 @@ Load all design documents to understand documented architecture.
 - Identify documented dependencies
 - List documented file structures
 
-**Expected Outcome**: Documented architecture understood
+**Expected Outcome**: Documented architecture understood  
 
 ### 2. Read Task Documents
 
@@ -63,7 +63,7 @@ Review task documents to understand documented implementation approach.
 - Check for code examples in task steps
 - List documented functions and approaches
 
-**Expected Outcome**: Documented implementation approach understood
+**Expected Outcome**: Documented implementation approach understood  
 
 ### 3. Read Artifact Documents
 
@@ -76,7 +76,7 @@ Review artifact documents to understand committed reference material.
 - Identify artifact claims (findings, terms, standards, diagrams, schemas)
 - Flag artifacts with Last Verified > 6 months old as potentially stale
 
-**Expected Outcome**: Artifact inventory with staleness indicators
+**Expected Outcome**: Artifact inventory with staleness indicators  
 
 ### 4. Read Source Code
 
@@ -93,7 +93,7 @@ Review actual implementation in source files.
 - **Compare implementation approach with task document examples**
 - **Note new terms, patterns, or concepts not in glossaries**
 
-**Expected Outcome**: Actual implementation understood
+**Expected Outcome**: Actual implementation understood  
 
 ### 5. Compare Documentation vs Reality
 
@@ -115,7 +115,7 @@ Identify discrepancies between docs and code.
   - **Glossary artifacts**: Check for new terms in code not in glossary, verify existing definitions
   - **Reference artifacts**: Verify config tables, standards, schemas match current code
 
-**Expected Outcome**: Documentation drift identified (including implementation details and artifact staleness)
+**Expected Outcome**: Documentation drift identified (including implementation details and artifact staleness)  
 
 ### 6. Identify Stale Documentation
 
@@ -135,7 +135,7 @@ Determine which documents need updates.
   - Artifacts with Last Verified > 6 months ago
 - Prioritize updates by importance
 
-**Expected Outcome**: Update priorities established (including artifact refresh needs)
+**Expected Outcome**: Update priorities established (including artifact refresh needs)  
 
 ### 7. Update Design Documents
 
@@ -149,7 +149,7 @@ Refresh design documents to match reality.
 - Update status fields (Proposal → Implemented)
 - Add "Last Updated" dates
 
-**Expected Outcome**: Design docs reflect reality
+**Expected Outcome**: Design docs reflect reality  
 
 ### 8. Update Task Documents
 
@@ -163,7 +163,7 @@ Refresh task documents to match actual implementation.
 - **Update Common Issues sections**
 - Mark completed steps as done
 
-**Expected Outcome**: Task docs reflect actual implementation approach
+**Expected Outcome**: Task docs reflect actual implementation approach  
 
 ### 9. Update Pattern Documents
 
@@ -176,7 +176,7 @@ Refresh patterns to match actual usage.
 - Update anti-patterns based on lessons learned
 - Ensure code examples compile/work
 
-**Expected Outcome**: Patterns match actual usage
+**Expected Outcome**: Patterns match actual usage  
 
 ### 10. Update Artifact Documents
 
@@ -202,7 +202,7 @@ Refresh artifacts to match current codebase and technology landscape.
   - Suggest `@acp.artifact-research` re-run for outdated research
   - Update artifact metadata (Last Verified, Status, Confidence if changed)
 
-**Expected Outcome**: Artifacts current with codebase
+**Expected Outcome**: Artifacts current with codebase  
 
 ### 11. Document New Features
 
@@ -215,7 +215,7 @@ Add documentation for undocumented features.
 - Include code examples
 - Link related documents
 
-**Expected Outcome**: All features documented
+**Expected Outcome**: All features documented  
 
 ### 12. Update Progress Tracking
 
@@ -228,7 +228,7 @@ Update progress.yaml to reflect sync activity.
 - Add notes about documentation status
 - Note artifact staleness warnings
 
-**Expected Outcome**: Sync activity tracked
+**Expected Outcome**: Sync activity tracked  
 
 ---
 
@@ -316,27 +316,27 @@ Summary:
 
 ### Example 1: After Major Refactoring
 
-**Context**: Refactored authentication system, docs are outdated
+**Context**: Refactored authentication system, docs are outdated  
 
-**Invocation**: `@acp.sync`
+**Invocation**: `@acp.sync`  
 
-**Result**: Identifies auth-design.md is stale, updates it to reflect new implementation, updates related patterns
+**Result**: Identifies auth-design.md is stale, updates it to reflect new implementation, updates related patterns  
 
 ### Example 2: After Adding Features
 
-**Context**: Added 3 new API endpoints, not yet documented
+**Context**: Added 3 new API endpoints, not yet documented  
 
-**Invocation**: `@acp.sync`
+**Invocation**: `@acp.sync`  
 
-**Result**: Identifies undocumented endpoints, updates api-design.md with new endpoints, adds code examples
+**Result**: Identifies undocumented endpoints, updates api-design.md with new endpoints, adds code examples  
 
 ### Example 3: Periodic Maintenance
 
-**Context**: Monthly documentation review
+**Context**: Monthly documentation review  
 
-**Invocation**: `@acp.sync`
+**Invocation**: `@acp.sync`  
 
-**Result**: Reviews all docs, finds minor drift in 2 files, updates them, confirms rest is current
+**Result**: Reviews all docs, finds minor drift in 2 files, updates them, confirms rest is current  
 
 ---
 
@@ -353,27 +353,27 @@ Summary:
 
 ### Issue 1: Can't determine what changed
 
-**Symptom**: Unclear what documentation needs updating
+**Symptom**: Unclear what documentation needs updating  
 
-**Cause**: Too many changes or unclear code
+**Cause**: Too many changes or unclear code  
 
-**Solution**: Review git commits since last sync, focus on major changes first, update incrementally
+**Solution**: Review git commits since last sync, focus on major changes first, update incrementally  
 
 ### Issue 2: Documentation and code both seem wrong
 
-**Symptom**: Neither docs nor code match expected behavior
+**Symptom**: Neither docs nor code match expected behavior  
 
-**Cause**: Requirements changed or misunderstood
+**Cause**: Requirements changed or misunderstood  
 
-**Solution**: Clarify requirements first, then update both code and docs to match correct requirements
+**Solution**: Clarify requirements first, then update both code and docs to match correct requirements  
 
 ### Issue 3: Too many discrepancies to fix
 
-**Symptom**: Overwhelming number of outdated docs
+**Symptom**: Overwhelming number of outdated docs  
 
-**Cause**: Long time since last sync
+**Cause**: Long time since last sync  
 
-**Solution**: Prioritize by importance, fix critical docs first, schedule time for rest, sync more frequently going forward
+**Solution**: Prioritize by importance, fix critical docs first, schedule time for rest, sync more frequently going forward  
 
 ---
 
@@ -407,11 +407,11 @@ Summary:
 
 ---
 
-**Namespace**: acp
-**Command**: sync
-**Version**: 1.1.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Compatibility**: ACP 1.1.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: sync  
+**Version**: 1.1.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Compatibility**: ACP 1.1.0+  
+**Author**: ACP Project  

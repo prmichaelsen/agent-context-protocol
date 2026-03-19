@@ -1,9 +1,9 @@
 # Task 63: Update Handling for Experimental Features
 
-**Milestone**: M8 - Experimental Features System
-**Estimated Time**: 2-3 hours
-**Dependencies**: [Task 61 - Schema and Validation](task-61-schema-validation.md), [Task 62 - Installation Filtering](task-62-installation-filtering.md)
-**Status**: Not Started
+**Milestone**: M8 - Experimental Features System  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: [Task 61 - Schema and Validation](task-61-schema-validation.md), [Task 62 - Installation Filtering](task-62-installation-filtering.md)  
+**Status**: Not Started  
 
 ---
 
@@ -28,7 +28,7 @@ This ensures users who opted into experimental features continue to receive upda
 
 ### 1. Add Helper Function to Check Installation Status
 
-**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)
+**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)  
 
 **Add function**:
 ```bash
@@ -51,7 +51,7 @@ is_experimental_installed() {
 
 ### 2. Add Experimental Filtering to Update Logic
 
-**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)
+**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)  
 
 **Update file processing loops**:
 ```bash
@@ -137,7 +137,7 @@ done
 
 ### 3. Handle Graduated Features
 
-**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)
+**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)  
 
 **Add graduation detection**:
 ```bash
@@ -166,7 +166,7 @@ check_graduation "$cmd" "commands" "$PACKAGE_NAME"
 
 ### 4. Update Summary Message
 
-**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)
+**File**: [`agent/scripts/acp.package-update.sh`](../../scripts/acp.package-update.sh)  
 
 **Add experimental counts to summary**:
 ```bash
@@ -335,5 +335,5 @@ Note: 1 new experimental features were skipped
 
 ---
 
-**Next Task**: [Task 64 - Documentation and Examples](task-64-documentation.md)
-**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)
+**Next Task**: [Task 64 - Documentation and Examples](task-64-documentation.md)  
+**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)  

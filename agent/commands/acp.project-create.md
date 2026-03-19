@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-22
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-22  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create a new generic ACP project (not a package) with full ACP installation and guided setup
-**Category**: Creation
-**Frequency**: Once per project
+**Purpose**: Create a new generic ACP project (not a package) with full ACP installation and guided setup  
+**Category**: Creation  
+**Frequency**: Once per project  
 
 ---
 
@@ -34,7 +34,7 @@ This command creates a new **generic ACP project** (not a package) with full ACP
 - **No pre-commit hooks** (no package.yaml to validate)
 - **Uses `local` namespace** (not configurable)
 
-**Use this when**: Starting a new application, tool, or experiment that will use ACP for development.
+**Use this when**: Starting a new application, tool, or experiment that will use ACP for development.  
 
 ### Comparison with @acp.package-create
 
@@ -95,7 +95,7 @@ Gather project metadata via chat:
   - Supports: `~` expansion, `$HOME` expansion, relative paths, absolute paths
   - Default: `~/.acp/projects/{project-name}` if not specified
 
-**Expected Outcome**: All project metadata collected
+**Expected Outcome**: All project metadata collected  
 
 ### 2. Validate and Confirm
 
@@ -107,7 +107,7 @@ Show collected information and ask for confirmation:
 - If no: Allow user to correct information
 - If yes: Proceed to creation
 
-**Expected Outcome**: User confirms project details
+**Expected Outcome**: User confirms project details  
 
 ### 3. Determine Target Directory
 
@@ -120,7 +120,7 @@ Calculate and validate target directory path:
 - Check if directory already exists
 - If exists: Ask user to choose different name or confirm overwrite
 
-**Expected Outcome**: Target directory path determined and validated
+**Expected Outcome**: Target directory path determined and validated  
 
 ### 4. Create Project Directory
 
@@ -131,7 +131,7 @@ Create the project directory:
 - Verify directory created successfully
 - Report directory location
 
-**Expected Outcome**: Empty project directory exists
+**Expected Outcome**: Empty project directory exists  
 
 ### 5. Install ACP
 
@@ -149,7 +149,7 @@ Run ACP installation in the new project directory:
 - Verify all commands installed
 - Verify all scripts installed
 
-**Expected Outcome**: Full ACP installation in project directory
+**Expected Outcome**: Full ACP installation in project directory  
 
 ### 6. Create Project README.md
 
@@ -221,7 +221,7 @@ project-root/
 {Author}
 ```
 
-**Expected Outcome**: README.md created with project metadata
+**Expected Outcome**: README.md created with project metadata  
 
 ### 7. Create .gitignore
 
@@ -294,7 +294,7 @@ coverage/
 .tmp/
 ```
 
-**Expected Outcome**: .gitignore created with appropriate patterns
+**Expected Outcome**: .gitignore created with appropriate patterns  
 
 ### 8. Initialize Git Repository
 
@@ -307,7 +307,7 @@ Set up version control:
 - Verify git repository initialized
 - Verify initial commit created
 
-**Expected Outcome**: Git repository initialized with initial commit
+**Expected Outcome**: Git repository initialized with initial commit  
 
 ### 9. Create Initial progress.yaml
 
@@ -353,7 +353,7 @@ Create minimal progress.yaml for project:
   ```
 - Save to `agent/progress.yaml`
 
-**Expected Outcome**: progress.yaml created with project metadata
+**Expected Outcome**: progress.yaml created with project metadata  
 
 ### 10. Display Success Message
 
@@ -420,7 +420,7 @@ See AGENT.md for complete command documentation.
 Happy building! 🚀
 ```
 
-**Expected Outcome**: User knows project was created and how to proceed
+**Expected Outcome**: User knows project was created and how to proceed  
 
 ---
 
@@ -489,9 +489,9 @@ Happy building! 🚀
 
 ### Example 1: Creating Web Application
 
-**Context**: Want to build a web app with ACP
+**Context**: Want to build a web app with ACP  
 
-**Invocation**: `@acp.project-create`
+**Invocation**: `@acp.project-create`  
 
 **Interaction**:
 ```
@@ -556,9 +556,9 @@ Agent: Creating project...
 
 ### Example 2: Creating MCP Server
 
-**Context**: Want to build an MCP server
+**Context**: Want to build an MCP server  
 
-**Invocation**: `@acp.project-create`
+**Invocation**: `@acp.project-create`  
 
 **Interaction**:
 ```
@@ -575,9 +575,9 @@ Location: ~/.acp/projects/my-mcp-server/
 
 ### Example 3: Creating in Custom Location
 
-**Context**: Want to create project in specific directory
+**Context**: Want to create project in specific directory  
 
-**Invocation**: `@acp.project-create`
+**Invocation**: `@acp.project-create`  
 
 **Interaction**:
 ```
@@ -608,27 +608,27 @@ Location: ~/dev/experiments/experiment/
 
 ### Issue 1: Directory already exists
 
-**Symptom**: Error "Directory already exists"
+**Symptom**: Error "Directory already exists"  
 
-**Solution**: Choose a different project name, or remove existing directory, or confirm overwrite
+**Solution**: Choose a different project name, or remove existing directory, or confirm overwrite  
 
 ### Issue 2: Permission denied
 
-**Symptom**: Error creating directory
+**Symptom**: Error creating directory  
 
-**Solution**: Check permissions for target location, or choose different location
+**Solution**: Check permissions for target location, or choose different location  
 
 ### Issue 3: ACP installation failed
 
-**Symptom**: Error during ACP installation
+**Symptom**: Error during ACP installation  
 
-**Solution**: Verify you're in an ACP-installed directory, check internet connection, verify acp.install.sh exists
+**Solution**: Verify you're in an ACP-installed directory, check internet connection, verify acp.install.sh exists  
 
 ### Issue 4: Git not installed
 
-**Symptom**: Error "git: command not found"
+**Symptom**: Error "git: command not found"  
 
-**Solution**: Install git from https://git-scm.com/downloads
+**Solution**: Install git from https://git-scm.com/downloads  
 
 ---
 
@@ -665,11 +665,11 @@ Location: ~/dev/experiments/experiment/
 
 ---
 
-**Namespace**: acp
-**Command**: project-create
-**Version**: 1.0.0
-**Created**: 2026-02-22
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Compatibility**: ACP 3.9.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: project-create  
+**Version**: 1.0.0  
+**Created**: 2026-02-22  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Compatibility**: ACP 3.9.0+  
+**Author**: ACP Project  

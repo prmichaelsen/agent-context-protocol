@@ -1,9 +1,9 @@
 # Task 98: Create GitHub Actions CI Workflow
 
-**Milestone**: M13 — Cross-Platform CI
-**Status**: Not Started
-**Estimated Hours**: 1-2
-**Dependencies**: task-97 (test runner must exist)
+**Milestone**: M13 — Cross-Platform CI  
+**Status**: Not Started  
+**Estimated Hours**: 1-2  
+**Dependencies**: task-97 (test runner must exist)  
 
 ---
 

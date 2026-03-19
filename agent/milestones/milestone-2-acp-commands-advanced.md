@@ -1,9 +1,9 @@
 # Milestone 2: Documentation & Utility Commands
 
-**Goal**: Implement documentation management and utility commands
-**Duration**: 1 week
-**Dependencies**: Milestone 1 (ACP Commands Infrastructure)
-**Status**: Not Started
+**Goal**: Implement documentation management and utility commands  
+**Duration**: 1 week  
+**Dependencies**: Milestone 1 (ACP Commands Infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -11,7 +11,7 @@
 
 This milestone adds commands for managing documentation and providing utility functions. These commands enable agents to update progress tracking, sync documentation with code, validate documents, generate reports, and install third-party command packages.
 
-**Note**: Creation commands (milestone-create, task-create, etc.) have been removed as they add unnecessary complexity. Natural language is sufficient for creating documents from templates.
+**Note**: Creation commands (milestone-create, task-create, etc.) have been removed as they add unnecessary complexity. Natural language is sufficient for creating documents from templates.  
 
 ---
 
@@ -98,6 +98,6 @@ None required for this milestone.
 
 ---
 
-**Next Milestone**: None (Milestone 2 completes core ACP Commands)
-**Blockers**: Requires Milestone 1 completion
-**Notes**: Focus on utility and safety. Install command needs clear security warnings. Removed creation commands to reduce complexity - natural language is sufficient for creating documents.
+**Next Milestone**: None (Milestone 2 completes core ACP Commands)  
+**Blockers**: Requires Milestone 1 completion  
+**Notes**: Focus on utility and safety. Install command needs clear security warnings. Removed creation commands to reduce complexity - natural language is sufficient for creating documents.  

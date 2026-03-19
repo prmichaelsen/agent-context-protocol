@@ -1,9 +1,9 @@
 # Task 57: @acp.project-remove Command
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 1-2 hours
-**Dependencies**: Task 52 (Registry Infrastructure)
-**Status**: Completed
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: Task 52 (Registry Infrastructure)  
+**Status**: Completed  
 
 ---
 
@@ -54,4 +54,4 @@ chmod +x agent/scripts/acp.project-remove.sh
 
 ---
 
-**Next Task**: [Task 58: @acp.projects-sync Command](task-58-projects-sync.md)
+**Next Task**: [Task 58: @acp.projects-sync Command](task-58-projects-sync.md)  

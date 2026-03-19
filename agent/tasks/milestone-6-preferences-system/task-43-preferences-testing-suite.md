@@ -1,9 +1,9 @@
 # Task 43: Preferences Testing Suite
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 6-8 hours
-**Dependencies**: Task 37-42 (All preference infrastructure and commands)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: Task 37-42 (All preference infrastructure and commands)  
+**Status**: Not Started  
 
 ---
 
@@ -504,16 +504,16 @@ Duration: 0.5s
 ## Common Issues and Solutions
 
 ### Issue 1: Tests fail due to missing YAML parser
-**Symptom**: Error sourcing acp.yaml-parser.sh
-**Solution**: Ensure YAML parser exists and path is correct in test setup
+**Symptom**: Error sourcing acp.yaml-parser.sh  
+**Solution**: Ensure YAML parser exists and path is correct in test setup  
 
 ### Issue 2: Test environment pollution
-**Symptom**: Tests affect each other's results
-**Solution**: Ensure `cleanup_test_env()` is called after each test
+**Symptom**: Tests affect each other's results  
+**Solution**: Ensure `cleanup_test_env()` is called after each test  
 
 ### Issue 3: Fixture files not found
-**Symptom**: Tests can't load fixture files
-**Solution**: Check fixture paths are relative to test file location
+**Symptom**: Tests can't load fixture files  
+**Solution**: Check fixture paths are relative to test file location  
 
 ---
 
@@ -535,6 +535,6 @@ Duration: 0.5s
 
 ---
 
-**Next Task**: [Task 44: Preferences Documentation](task-44-preferences-documentation.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 44: Preferences Documentation](task-44-preferences-documentation.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

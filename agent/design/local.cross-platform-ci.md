@@ -1,8 +1,8 @@
 # Cross-Platform E2E CI/CD Pipeline
 
-**Concept**: GitHub Actions matrix strategy running E2E tests on Linux and macOS to catch platform-specific bugs automatically
-**Created**: 2026-03-02
-**Status**: Design Specification
+**Concept**: GitHub Actions matrix strategy running E2E tests on Linux and macOS to catch platform-specific bugs automatically  
+**Created**: 2026-03-02  
+**Status**: Design Specification  
 
 ---
 
@@ -174,6 +174,6 @@ These call `print_test_summary` but don't propagate its non-zero return code (no
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Implement — create test runner, workflow, and fix test macOS compatibility
-**Related Documents**: [CHANGELOG 5.10.2 — macOS sed fix](../../CHANGELOG.md)
+**Status**: Design Specification  
+**Recommendation**: Implement — create test runner, workflow, and fix test macOS compatibility  
+**Related Documents**: [CHANGELOG 5.10.2 — macOS sed fix](../../CHANGELOG.md)  

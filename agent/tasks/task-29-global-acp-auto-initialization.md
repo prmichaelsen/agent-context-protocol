@@ -1,9 +1,9 @@
 # Task 29: Global ACP Auto-Initialization
 
-**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)
-**Estimated Time**: 1-2 hours
-**Dependencies**: None (can be done in parallel with Task 25)
-**Status**: Not Started
+**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: None (can be done in parallel with Task 25)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement automatic initialization of `~/.acp/` infrastructure when users first 
 
 This task implements the design from [`global-acp-installation.md`](../design/global-acp-installation.md). Instead of requiring users to manually set up global infrastructure, the system automatically initializes `~/.acp/` when they first use global features like `@acp.package-install --global`.
 
-**Key Benefit**: "It just works" - users don't need to think about global installation, it happens automatically when needed.
+**Key Benefit**: "It just works" - users don't need to think about global installation, it happens automatically when needed.  
 
 **Triggers for auto-initialization**:
 - `@acp.package-install --global` - Initialize before installing package
@@ -34,7 +34,7 @@ This task can be done in parallel with Task 25 since it provides an alternative 
 
 Add auto-initialization function to acp.common.sh:
 
-**Location**: `agent/scripts/acp.common.sh` (after existing initialization functions)
+**Location**: `agent/scripts/acp.common.sh` (after existing initialization functions)  
 
 **Function to add**:
 ```bash
@@ -160,7 +160,7 @@ EOF
 
 Call `init_global_acp()` when `--global` flag is used:
 
-**Location**: After parsing `--global` flag, before installation logic
+**Location**: After parsing `--global` flag, before installation logic  
 
 **Code to add**:
 ```bash
@@ -188,7 +188,7 @@ fi
 
 Call `init_global_acp()` when creating packages in `~/.acp/projects/`:
 
-**Location**: After determining target directory, before package creation
+**Location**: After determining target directory, before package creation  
 
 **Code to add**:
 ```bash
@@ -216,7 +216,7 @@ fi
 
 Call `init_global_acp()` when `--global` flag is used:
 
-**Location**: After parsing `--global` flag, before reading manifest
+**Location**: After parsing `--global` flag, before reading manifest  
 
 **Code to add**:
 ```bash
@@ -384,27 +384,27 @@ Installing acp-git globally...
 
 ### Issue 1: Installation script not found
 
-**Symptom**: Error "acp.install.sh not found"
+**Symptom**: Error "acp.install.sh not found"  
 
-**Solution**: Function should fallback to downloading from repository. Verify curl is installed and network connection is available.
+**Solution**: Function should fallback to downloading from repository. Verify curl is installed and network connection is available.  
 
 ### Issue 2: Permission denied creating ~/.acp/
 
-**Symptom**: Error "Permission denied"
+**Symptom**: Error "Permission denied"  
 
-**Solution**: Ensure user has write permissions to home directory. This should not require sudo. Check: `ls -la ~/`
+**Solution**: Ensure user has write permissions to home directory. This should not require sudo. Check: `ls -la ~/`  
 
 ### Issue 3: init_global_acp() called multiple times
 
-**Symptom**: Initialization message appears on every command
+**Symptom**: Initialization message appears on every command  
 
-**Solution**: Bug in idempotency check. Verify that function checks for `~/.acp/agent` AND `~/.acp/AGENT.md` before initializing.
+**Solution**: Bug in idempotency check. Verify that function checks for `~/.acp/agent` AND `~/.acp/AGENT.md` before initializing.  
 
 ### Issue 4: Partial initialization
 
-**Symptom**: Some directories exist but not others
+**Symptom**: Some directories exist but not others  
 
-**Solution**: Initialization failed partway through. Remove `~/.acp/` and try again: `rm -rf ~/.acp/`, then run global command again.
+**Solution**: Initialization failed partway through. Remove `~/.acp/` and try again: `rm -rf ~/.acp/`, then run global command again.  
 
 ---
 
@@ -430,6 +430,6 @@ Installing acp-git globally...
 
 ---
 
-**Next Task**: Task 25 or Task 26 (can be done in any order)
-**Related Design Docs**: [global-acp-installation.md](../design/global-acp-installation.md), [global-package-installation.md](../design/global-package-installation.md)
-**Estimated Completion Date**: TBD
+**Next Task**: Task 25 or Task 26 (can be done in any order)  
+**Related Design Docs**: [global-acp-installation.md](../design/global-acp-installation.md), [global-package-installation.md](../design/global-package-installation.md)  
+**Estimated Completion Date**: TBD  

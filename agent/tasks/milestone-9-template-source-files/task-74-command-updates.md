@@ -1,9 +1,9 @@
 # Task 74: Command Updates for Templates
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 4-5 hours
-**Dependencies**: Task 73 (Manifest Tracking)
-**Status**: Not Started
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 4-5 hours  
+**Dependencies**: Task 73 (Manifest Tracking)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Update all package management commands to support templates: `@acp.package-insta
 
 This is Phase 4 of the Template Source Files Support implementation. Command updates ensure templates are fully integrated into the package management workflow with consistent behavior across all operations.
 
-**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)
+**Design Document**: [`agent/design/local.acp-template-source-files.md`](../../design/local.acp-template-source-files.md)  
 
 ---
 
@@ -335,18 +335,18 @@ All 5 package commands now support templates:
 
 ### Issue 1: Template updates overwrite customizations
 
-**Symptom**: User's template modifications lost during update
-**Solution**: Modification detection warns before overwriting, use `--skip-modified` to preserve changes
+**Symptom**: User's template modifications lost during update  
+**Solution**: Modification detection warns before overwriting, use `--skip-modified` to preserve changes  
 
 ### Issue 2: Variable values lost during update
 
-**Symptom**: Template re-prompts for variables on update
-**Solution**: Stored variables in manifest, offer to reuse stored values
+**Symptom**: Template re-prompts for variables on update  
+**Solution**: Stored variables in manifest, offer to reuse stored values  
 
 ### Issue 3: Template validation too strict
 
-**Symptom**: Valid templates fail validation
-**Solution**: Review validation rules, ensure patterns allow common file types and paths
+**Symptom**: Valid templates fail validation  
+**Solution**: Review validation rules, ensure patterns allow common file types and paths  
 
 ---
 
@@ -368,6 +368,6 @@ All 5 package commands now support templates:
 
 ---
 
-**Next Task**: [Task 75: Testing Suite](task-75-testing-suite.md)
-**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 75: Testing Suite](task-75-testing-suite.md)  
+**Related Design Docs**: [Template Source Files Support](../../design/local.acp-template-source-files.md)  
+**Estimated Completion Date**: TBD  

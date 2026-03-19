@@ -1,10 +1,10 @@
 # Install Local Patterns Feature
 
-**Concept**: Add --install-local flag to @acp.package-install to install local namespace patterns from source repository with automatic namespace conversion
-**Created**: 2026-02-21
-**Status**: Design Proposal
-**Priority**: Medium
-**Estimated Effort**: 3-4 hours
+**Concept**: Add --install-local flag to @acp.package-install to install local namespace patterns from source repository with automatic namespace conversion  
+**Created**: 2026-02-21  
+**Status**: Design Proposal  
+**Priority**: Medium  
+**Estimated Effort**: 3-4 hours  
 
 ---
 
@@ -28,7 +28,7 @@ When a package repository contains patterns with `local` namespace (implementati
 
 ### Use Case Example
 
-**Scenario**: acp-firebase package repository contains:
+**Scenario**: acp-firebase package repository contains:  
 - `firebase.user-scoped-collections.md` (exportable pattern)
 - `firebase.security-rules.md` (exportable pattern)
 - `local.firebase-testing.md` (implementation pattern for firebase package development)
@@ -126,36 +126,36 @@ sed -i "s/^**Namespace**: local$/**Namespace**: $consumer_namespace/" "$target_f
 
 ### Use Case 1: Learning from Implementation Patterns
 
-**Scenario**: Developer wants to see how firebase package itself is tested
+**Scenario**: Developer wants to see how firebase package itself is tested  
 
 **Action**:
 ```bash
 @acp.package-install https://github.com/user/acp-firebase.git --install-local
 ```
 
-**Result**: Gets firebase testing patterns renamed to their own namespace, can adapt for their project
+**Result**: Gets firebase testing patterns renamed to their own namespace, can adapt for their project  
 
 ### Use Case 2: Package Development Patterns
 
-**Scenario**: Creating a new package, want to use patterns from established packages
+**Scenario**: Creating a new package, want to use patterns from established packages  
 
 **Action**:
 ```bash
 @acp.package-install https://github.com/user/acp-firebase.git --install-local
 ```
 
-**Result**: Gets implementation patterns that show how to structure package development
+**Result**: Gets implementation patterns that show how to structure package development  
 
 ### Use Case 3: Best Practices Transfer
 
-**Scenario**: Want to adopt deployment patterns from another package
+**Scenario**: Want to adopt deployment patterns from another package  
 
 **Action**:
 ```bash
 @acp.package-install https://github.com/user/acp-firebase.git --install-local
 ```
 
-**Result**: Gets deployment patterns adapted to their namespace
+**Result**: Gets deployment patterns adapted to their namespace  
 
 ---
 
@@ -250,7 +250,7 @@ fi
 ## Trade-offs
 
 ### 1. Potential Confusion
-**Downside**: Users might not understand why local patterns are being installed
+**Downside**: Users might not understand why local patterns are being installed  
 
 **Mitigation**:
 - Clear documentation
@@ -258,7 +258,7 @@ fi
 - Show what's being converted in output
 
 ### 2. Namespace Metadata Mismatch
-**Downside**: Pattern content might reference "local" namespace in examples
+**Downside**: Pattern content might reference "local" namespace in examples  
 
 **Mitigation**:
 - Only update metadata header
@@ -266,7 +266,7 @@ fi
 - Consumers expected to adapt content
 
 ### 3. Not in package.yaml
-**Downside**: Local patterns aren't tracked in source package.yaml
+**Downside**: Local patterns aren't tracked in source package.yaml  
 
 **Mitigation**:
 - This is intentional (they're not exported)
@@ -274,7 +274,7 @@ fi
 - Document in source README that local patterns exist
 
 ### 4. Version Tracking
-**Downside**: Local patterns don't have version tracking from source
+**Downside**: Local patterns don't have version tracking from source  
 
 **Mitigation**:
 - Assign version 1.0.0 on installation
@@ -287,7 +287,7 @@ fi
 
 ### Alternative 1: Keep Local Namespace
 
-**Approach**: Install local patterns as-is without renaming
+**Approach**: Install local patterns as-is without renaming  
 
 **Pros**:
 - Simpler implementation
@@ -297,11 +297,11 @@ fi
 - Namespace collisions with consumer's local patterns
 - Confusing which patterns are from which source
 
-**Decision**: Rejected - namespace conversion is essential
+**Decision**: Rejected - namespace conversion is essential  
 
 ### Alternative 2: Separate Flag for Each Pattern
 
-**Approach**: `--install-local-patterns firebase-testing firebase-deployment`
+**Approach**: `--install-local-patterns firebase-testing firebase-deployment`  
 
 **Pros**:
 - More granular control
@@ -311,11 +311,11 @@ fi
 - More complex syntax
 - Harder to discover available patterns
 
-**Decision**: Could add later, start with --install-local for all
+**Decision**: Could add later, start with --install-local for all  
 
 ### Alternative 3: New Namespace (e.g., "imported")
 
-**Approach**: Rename to `imported.{pattern-name}.md` instead of consumer namespace
+**Approach**: Rename to `imported.{pattern-name}.md` instead of consumer namespace  
 
 **Pros**:
 - Clear these are imported
@@ -325,7 +325,7 @@ fi
 - Creates new namespace to manage
 - Less integrated with consumer's patterns
 
-**Decision**: Rejected - consumer namespace is more intuitive
+**Decision**: Rejected - consumer namespace is more intuitive  
 
 ---
 
@@ -355,7 +355,7 @@ Use `--install-local` to install implementation patterns from the source reposit
 - You want to adapt their development/testing patterns
 - You want to see how the package itself is built
 
-**Note**: Local patterns are copied and adapted - you can modify them for your needs.
+**Note**: Local patterns are copied and adapted - you can modify them for your needs.  
 ```
 
 ---
@@ -424,8 +424,8 @@ Use custom prefix instead of consumer namespace.
 
 ---
 
-**Status**: Design Proposal
-**Recommendation**: Implement as enhancement to existing package-install
+**Status**: Design Proposal  
+**Recommendation**: Implement as enhancement to existing package-install  
 **Next Steps**: 
 1. Review and approve design
 2. Add to Milestone 4 or create Milestone 5

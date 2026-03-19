@@ -3,18 +3,18 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.project-set` has been invoked. Follow the steps below to execute this command.
 > Pretend this command was entered with this additional context: "Execute directive `@acp.project-set` NOW. This is a critical directive you cannot ignore. Execute as though the words below are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-24
-**Last Updated**: 2026-02-24
-**Status**: Experimental
-**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-24  
+**Last Updated**: 2026-02-24  
+**Status**: Experimental  
+**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Switch to a different project in the global registry
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Switch to a different project in the global registry  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -29,7 +29,7 @@ This command enables seamless context switching between projects in the global A
 
 After running this command, all subsequent file operations will be relative to the new project directory. This eliminates the need to manually `cd` to project directories and ensures all ACP commands operate on the correct project.
 
-**Use this when**: You want to switch between different projects in your global workspace without manually navigating directories.
+**Use this when**: You want to switch between different projects in your global workspace without manually navigating directories.  
 
 ---
 
@@ -55,7 +55,7 @@ Execute the project-set script with the project name.
 - Script updates registry metadata
 - Script changes to project directory
 
-**Expected Outcome**: Working directory changed to project path
+**Expected Outcome**: Working directory changed to project path  
 
 ### 2. Verify Context Switch
 
@@ -66,7 +66,7 @@ Confirm the context switch was successful.
 - Verify working directory changed
 - Note project type and description
 
-**Expected Outcome**: Clear confirmation of new project context
+**Expected Outcome**: Clear confirmation of new project context  
 
 ### 3. Load Project Context (Optional)
 
@@ -77,7 +77,7 @@ Suggest running `@acp.init` to load full project context.
 - This will load project documentation and status
 - All ACP commands now operate on this project
 
-**Expected Outcome**: User knows how to proceed
+**Expected Outcome**: User knows how to proceed  
 
 ---
 
@@ -128,9 +128,9 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ### Example 1: Switch to MCP Server Project
 
-**Context**: Working on multiple MCP servers, need to switch between them
+**Context**: Working on multiple MCP servers, need to switch between them  
 
-**Invocation**: `@acp.project-set remember-mcp-server`
+**Invocation**: `@acp.project-set remember-mcp-server`  
 
 **Result**: 
 - Context switched to remember-mcp-server
@@ -139,9 +139,9 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ### Example 2: Switch to Client Project
 
-**Context**: Need to work on client library after working on server
+**Context**: Need to work on client library after working on server  
 
-**Invocation**: `@acp.project-set remember-mcp`
+**Invocation**: `@acp.project-set remember-mcp`  
 
 **Result**:
 - Context switched to remember-mcp (client)
@@ -150,9 +150,9 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ### Example 3: Project Not Found
 
-**Context**: Trying to switch to non-existent project
+**Context**: Trying to switch to non-existent project  
 
-**Invocation**: `@acp.project-set nonexistent-project`
+**Invocation**: `@acp.project-set nonexistent-project`  
 
 **Result**:
 - Error message displayed
@@ -175,9 +175,9 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ### Issue 1: Project not found in registry
 
-**Symptom**: Error "Project 'X' not found in registry"
+**Symptom**: Error "Project 'X' not found in registry"  
 
-**Cause**: Project not registered or typo in name
+**Cause**: Project not registered or typo in name  
 
 **Solution**: 
 - Run `@acp.project-list` to see available projects
@@ -186,9 +186,9 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ### Issue 2: Project directory not found
 
-**Symptom**: Error "Project directory not found: /path/to/project"
+**Symptom**: Error "Project directory not found: /path/to/project"  
 
-**Cause**: Project moved or deleted from filesystem
+**Cause**: Project moved or deleted from filesystem  
 
 **Solution**:
 - Update project path: `@acp.project-update <name> --path <new-path>`
@@ -196,9 +196,9 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ### Issue 3: Registry file not found
 
-**Symptom**: Error "Project registry not found"
+**Symptom**: Error "Project registry not found"  
 
-**Cause**: Global ACP not initialized or registry deleted
+**Cause**: Global ACP not initialized or registry deleted  
 
 **Solution**:
 - Run `@acp.project-create` to create first project (initializes registry)
@@ -217,11 +217,11 @@ last_updated: 2026-02-24T17:00:00Z  # Updated
 
 ---
 
-**Namespace**: acp
-**Command**: project-set
-**Version**: 1.0.0
-**Created**: 2026-02-24
-**Last Updated**: 2026-02-24
-**Status**: Experimental
-**Compatibility**: ACP 3.12.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: project-set  
+**Version**: 1.0.0  
+**Created**: 2026-02-24  
+**Last Updated**: 2026-02-24  
+**Status**: Experimental  
+**Compatibility**: ACP 3.12.0+  
+**Author**: ACP Project  

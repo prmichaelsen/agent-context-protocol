@@ -1,9 +1,9 @@
 # Milestone 6: ACP Preferences System
 
-**Goal**: Implement hierarchical preference system enabling users to configure agent behavior at user, workspace, and project levels
-**Duration**: 2-3 weeks
-**Dependencies**: Milestone 4 (Package Development System), Milestone 5 (Global Package Installation)
-**Status**: Not Started
+**Goal**: Implement hierarchical preference system enabling users to configure agent behavior at user, workspace, and project levels  
+**Duration**: 2-3 weeks  
+**Dependencies**: Milestone 4 (Package Development System), Milestone 5 (Global Package Installation)  
+**Status**: Not Started  
 
 ---
 
@@ -27,7 +27,7 @@ This milestone builds on the package management system (M3) and package developm
 - All preference functions in `acp.preferences.sh` (not `acp.common.sh` for separation of concerns)
 - Unit tests for preference operations (`tests/acp.preferences.test.sh`)
 
-**Note**: All preference utilities (get, set, validate, generate) are in `acp.preferences.sh` rather than `acp.common.sh` to maintain clear separation between general utilities and preference-specific logic. Other scripts can source `acp.preferences.sh` when needed.
+**Note**: All preference utilities (get, set, validate, generate) are in `acp.preferences.sh` rather than `acp.common.sh` to maintain clear separation between general utilities and preference-specific logic. Other scripts can source `acp.preferences.sh` when needed.  
 
 ### 2. Command Integration
 - Updated `@acp.plan` command with preference support
@@ -41,7 +41,7 @@ This milestone builds on the package management system (M3) and package developm
 - `@acp.preferences-set` - Set preference values interactively
 - `@acp.preferences-validate` - Validate preferences against configurables
 
-**Note**: Using `@acp.preferences-create` instead of `init` to match entity creation pattern (`@acp.command-create`, `@acp.design-create`, `@acp.pattern-create`).
+**Note**: Using `@acp.preferences-create` instead of `init` to match entity creation pattern (`@acp.command-create`, `@acp.design-create`, `@acp.pattern-create`).  
 
 ### 4. Package Support
 - Updated `@acp.package-install` to copy configurables
@@ -130,7 +130,7 @@ e2e/
 7. [Task 43: Preferences Testing Suite](../tasks/milestone-6-preferences-system/task-43-preferences-testing-suite.md) - Comprehensive unit, integration, and E2E tests (6-8 hours)
 8. [Task 44: Preferences Documentation](../tasks/milestone-6-preferences-system/task-44-preferences-documentation.md) - Update all documentation with preference examples (3-4 hours)
 
-**Total Estimated**: 35-46 hours (approximately 2-3 weeks)
+**Total Estimated**: 35-46 hours (approximately 2-3 weeks)  
 
 ---
 
@@ -138,7 +138,7 @@ e2e/
 
 No environment variables required. The preferences system is file-based and does not rely on environment configuration.
 
-**Note**: Preferences should NOT contain secrets. Use environment variables or secret management systems for sensitive data.
+**Note**: Preferences should NOT contain secrets. Use environment variables or secret management systems for sensitive data.  
 
 ---
 
@@ -180,8 +180,8 @@ No environment variables required. The preferences system is file-based and does
 
 ---
 
-**Next Milestone**: TBD (possibly M7: Advanced Workflow Automation)
-**Blockers**: None (M4 and M5 provide all necessary infrastructure)
+**Next Milestone**: TBD (possibly M7: Advanced Workflow Automation)  
+**Blockers**: None (M4 and M5 provide all necessary infrastructure)  
 **Notes**: 
 - Preferences are entirely optional - commands work without them
 - Start with simple preferences (`plan.draft.create_mode`) before adding complex ones

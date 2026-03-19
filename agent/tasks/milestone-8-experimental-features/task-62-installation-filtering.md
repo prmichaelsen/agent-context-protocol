@@ -1,9 +1,9 @@
 # Task 62: Installation Filtering
 
-**Milestone**: M8 - Experimental Features System
-**Estimated Time**: 3-4 hours
-**Dependencies**: [Task 61 - Schema and Validation](task-61-schema-validation.md)
-**Status**: Not Started
+**Milestone**: M8 - Experimental Features System  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: [Task 61 - Schema and Validation](task-61-schema-validation.md)  
+**Status**: Not Started  
 
 ---
 
@@ -26,7 +26,7 @@ With the schema and validation in place, we need to implement the installation f
 
 ### 1. Add --experimental Flag Parsing
 
-**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)
+**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)  
 
 **Add flag parsing**:
 ```bash
@@ -46,7 +46,7 @@ done
 
 ### 2. Implement Filtering Function
 
-**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)
+**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)  
 
 **Add filtering function**:
 ```bash
@@ -74,7 +74,7 @@ should_install_file() {
 
 ### 3. Apply Filter to Installation Logic
 
-**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)
+**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)  
 
 **Update installation loops**:
 ```bash
@@ -130,7 +130,7 @@ fi
 
 ### 4. Track Experimental Status in Manifest
 
-**File**: [`agent/scripts/acp.common.sh`](../../scripts/acp.common.sh)
+**File**: [`agent/scripts/acp.common.sh`](../../scripts/acp.common.sh)  
 
 **Update add_file_to_manifest function**:
 ```bash
@@ -157,7 +157,7 @@ add_file_to_manifest() {
 
 ### 5. Update Success Message
 
-**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)
+**File**: [`agent/scripts/acp.package-install.sh`](../../scripts/acp.package-install.sh)  
 
 **Add experimental count to summary**:
 ```bash
@@ -305,5 +305,5 @@ Installed:
 
 ---
 
-**Next Task**: [Task 63 - Update Handling](task-63-update-handling.md)
-**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)
+**Next Task**: [Task 63 - Update Handling](task-63-update-handling.md)  
+**Related Design**: [`agent/design/local.experimental-features-system.md`](../../design/local.experimental-features-system.md)  

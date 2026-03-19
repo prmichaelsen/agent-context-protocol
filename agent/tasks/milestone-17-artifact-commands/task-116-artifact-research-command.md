@@ -1,12 +1,12 @@
 # Task 116: Implement @acp.artifact-research Command
 
-**Status**: completed
-**Priority**: high
-**Milestone**: M17 (Artifact Commands System)
-**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)
-**Estimated Time**: 4-6 hours
-**Started**: 2026-03-17
-**Completed**: 2026-03-17
+**Status**: completed  
+**Priority**: high  
+**Milestone**: M17 (Artifact Commands System)  
+**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)  
+**Estimated Time**: 4-6 hours  
+**Started**: 2026-03-17  
+**Completed**: 2026-03-17  
 
 ---
 
@@ -33,7 +33,7 @@ Implement the `@acp.artifact-research` command that creates high-quality, commit
 
 ### Command Structure
 
-**File**: `agent/commands/acp.artifact-research.md`
+**File**: `agent/commands/acp.artifact-research.md`  
 
 **Metadata**:
 - Namespace: acp
@@ -86,7 +86,7 @@ Implement the `@acp.artifact-research` command that creates high-quality, commit
   ```
 
 **4. Fill Artifact Sections**
-- Start from template: `agent/artifacts.template.md/research.template.md`
+- Start from template: `agent/artifacts/research.template.md`
 - Fill metadata block (Type, Created, Last Verified, Status, Confidence, Category, Sources)
 - Fill Executive Summary (100-300 words: TL;DR, recommendation, gotchas)
 - Fill Research Context (why, questions, scope)

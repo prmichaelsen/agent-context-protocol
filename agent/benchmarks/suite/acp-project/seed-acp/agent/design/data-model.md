@@ -29,7 +29,7 @@ All entities are stored in-memory as arrays. Each model module exports CRUD func
 | status | string | `active` or `archived`, default: `active` |
 | createdAt | string (ISO8601) | Auto-set on creation |
 
-**On Delete**: All tasks referencing this project have their `projectId` set to `null`.
+**On Delete**: All tasks referencing this project have their `projectId` set to `null`.  
 
 ## Task
 
@@ -66,7 +66,7 @@ All entities are stored in-memory as arrays. Each model module exports CRUD func
 | entityId | string (UUID) | References the related entity |
 | createdAt | string (ISO8601) | Auto-set on creation |
 
-**Access Control**: Users can only see and modify their own notifications.
+**Access Control**: Users can only see and modify their own notifications.  
 
 ## Relationships
 

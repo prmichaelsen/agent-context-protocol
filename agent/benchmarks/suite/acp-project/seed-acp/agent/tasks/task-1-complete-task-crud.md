@@ -1,8 +1,8 @@
 # Task 1: Implement Task CRUD
 
-**Status**: Not Started
-**Estimated Hours**: 3
-**Milestone**: M1 (MVP)
+**Status**: Not Started  
+**Estimated Hours**: 3  
+**Milestone**: M1 (MVP)  
 
 ## Objective
 

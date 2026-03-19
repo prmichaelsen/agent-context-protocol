@@ -1,8 +1,8 @@
 # {Pattern Name}
 
-**Category**: [Architecture | Design | Code | Testing | Deployment]
-**Applicable To**: [What types of projects or components this pattern applies to]
-**Status**: [Stable | Experimental | Deprecated]
+**Category**: [Architecture | Design | Code | Testing | Deployment]  
+**Applicable To**: [What types of projects or components this pattern applies to]  
+**Status**: [Stable | Experimental | Deprecated]  
 
 ---
 
@@ -10,7 +10,7 @@
 
 [Provide a high-level description of what this pattern is and when to use it. Include the problem space it addresses and the general approach it takes.]
 
-**Example**: "The Service Layer Pattern provides a clear separation between business logic and data access, enabling better testability, maintainability, and code reuse across different interfaces (API, CLI, etc.)."
+**Example**: "The Service Layer Pattern provides a clear separation between business logic and data access, enabling better testability, maintainability, and code reuse across different interfaces (API, CLI, etc.)."  
 
 ---
 
@@ -176,22 +176,22 @@ Changes to business logic are centralized in service classes, making the codebas
 [Honestly assess the downsides and limitations:]
 
 ### 1. [Trade-off Name]
-**Downside**: [Description]
-**Mitigation**: [How to minimize this downside]
+**Downside**: [Description]  
+**Mitigation**: [How to minimize this downside]  
 
 ### 2. [Trade-off Name]
-**Downside**: [Description]
-**Mitigation**: [How to minimize this downside]
+**Downside**: [Description]  
+**Mitigation**: [How to minimize this downside]  
 
 **Example**:
 
 ### 1. Additional Complexity
-**Downside**: Adds extra layers and files to the codebase, which can feel like over-engineering for simple applications.
-**Mitigation**: Only apply this pattern when complexity justifies it. Start simple and refactor to this pattern as needs grow.
+**Downside**: Adds extra layers and files to the codebase, which can feel like over-engineering for simple applications.  
+**Mitigation**: Only apply this pattern when complexity justifies it. Start simple and refactor to this pattern as needs grow.  
 
 ### 2. Performance Overhead
-**Downside**: Additional function calls and abstractions can add minor performance overhead.
-**Mitigation**: In most applications, this overhead is negligible. Profile before optimizing.
+**Downside**: Additional function calls and abstractions can add minor performance overhead.  
+**Mitigation**: In most applications, this overhead is negligible. Profile before optimizing.  
 
 ---
 
@@ -201,11 +201,11 @@ Changes to business logic are centralized in service classes, making the codebas
 
 ### ❌ Anti-Pattern 1: [Name]
 
-**Description**: [What people do wrong]
+**Description**: [What people do wrong]  
 
-**Why it's bad**: [Consequences]
+**Why it's bad**: [Consequences]  
 
-**Instead, do this**: [Correct approach]
+**Instead, do this**: [Correct approach]  
 
 ```typescript
 // ❌ Bad example
@@ -227,11 +227,11 @@ class GoodExample {
 
 ### ❌ Anti-Pattern 1: God Service
 
-**Description**: Creating a single service class that handles all business logic for the entire application.
+**Description**: Creating a single service class that handles all business logic for the entire application.  
 
-**Why it's bad**: Violates single responsibility principle, becomes difficult to test and maintain, creates tight coupling.
+**Why it's bad**: Violates single responsibility principle, becomes difficult to test and maintain, creates tight coupling.  
 
-**Instead, do this**: Create focused services, each handling a specific domain concept.
+**Instead, do this**: Create focused services, each handling a specific domain concept.  
 
 ```typescript
 // ❌ Bad: Everything in one service
@@ -376,7 +376,7 @@ Update calling code to use the new services. Inject dependencies rather than cre
 
 ---
 
-**Status**: [Current status of this pattern document]
-**Recommendation**: [When and how to use this pattern]
-**Last Updated**: [YYYY-MM-DD]
-**Contributors**: [Names or "Community"]
+**Status**: [Current status of this pattern document]  
+**Recommendation**: [When and how to use this pattern]  
+**Last Updated**: [YYYY-MM-DD]  
+**Contributors**: [Names or "Community"]  

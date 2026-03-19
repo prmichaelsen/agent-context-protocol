@@ -1,9 +1,9 @@
 # Task 33: Track ACP Core Commands in manifest.yaml
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 1-2 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -23,7 +23,7 @@ When ACP is installed via `acp.install.sh`, core commands (like `git.commit.md`,
 - ❌ Can't tell which files came from ACP core vs. packages
 - ❌ No version tracking for core commands
 
-**Solution**: Track core ACP installation as "acp-core" package in manifest.yaml
+**Solution**: Track core ACP installation as "acp-core" package in manifest.yaml  
 
 ---
 
@@ -74,7 +74,7 @@ EOF
 echo "✓ Created manifest.yaml (tracking acp-core installation)"
 ```
 
-**Expected Outcome**: manifest.yaml created with acp-core package
+**Expected Outcome**: manifest.yaml created with acp-core package  
 
 ### 2. Update acp.version-update.sh
 
@@ -97,7 +97,7 @@ if [ -f "agent/manifest.yaml" ]; then
 fi
 ```
 
-**Expected Outcome**: manifest updated when ACP is updated
+**Expected Outcome**: manifest updated when ACP is updated  
 
 ### 3. Update acp.package-validate.sh
 
@@ -136,7 +136,7 @@ for file in agent/commands/*.md; do
 done
 ```
 
-**Expected Outcome**: Validation skips files tracked in manifest
+**Expected Outcome**: Validation skips files tracked in manifest  
 
 ### 4. Test with Fresh Installation
 
@@ -151,7 +151,7 @@ Test the complete workflow:
 - Run `@acp.package-validate`
 - Verify no warnings about core commands
 
-**Expected Outcome**: Core commands properly tracked, no false warnings
+**Expected Outcome**: Core commands properly tracked, no false warnings  
 
 ---
 
@@ -208,21 +208,21 @@ last_updated: 2026-02-21T06:00:00Z
 
 ### Issue 1: manifest.yaml already exists
 
-**Symptom**: Error creating manifest
+**Symptom**: Error creating manifest  
 
-**Solution**: Check if manifest exists, update instead of create. Merge acp-core entry with existing packages.
+**Solution**: Check if manifest exists, update instead of create. Merge acp-core entry with existing packages.  
 
 ### Issue 2: Version extraction fails
 
-**Symptom**: Can't read ACP version from AGENT.md
+**Symptom**: Can't read ACP version from AGENT.md  
 
-**Solution**: Verify AGENT.md exists and has Version field. Use fallback version if needed.
+**Solution**: Verify AGENT.md exists and has Version field. Use fallback version if needed.  
 
 ### Issue 3: File list generation fails
 
-**Symptom**: No files listed in manifest
+**Symptom**: No files listed in manifest  
 
-**Solution**: Verify files exist before listing. Handle empty directories gracefully.
+**Solution**: Verify files exist before listing. Handle empty directories gracefully.  
 
 ---
 
@@ -245,5 +245,5 @@ last_updated: 2026-02-21T06:00:00Z
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion Date**: TBD
+**Next Task**: TBD  
+**Estimated Completion Date**: TBD  

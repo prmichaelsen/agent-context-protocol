@@ -1,9 +1,9 @@
 # Task 59: Integration & Testing
 
-**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Tasks 52-58 (All command implementations)
-**Status**: Not Started
+**Milestone**: [M7 - Global ACP Project Registry](../../milestones/milestone-7-project-registry.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Tasks 52-58 (All command implementations)  
+**Status**: Not Started  
 
 ---
 
@@ -72,4 +72,4 @@ Create `e2e/acp.project-workflow.test.sh`:
 
 ---
 
-**Next Task**: [Task 60: Documentation Updates](task-60-documentation.md)
+**Next Task**: [Task 60: Documentation Updates](task-60-documentation.md)  

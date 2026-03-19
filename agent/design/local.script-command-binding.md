@@ -1,8 +1,8 @@
 # Script-Command Binding System
 
-**Concept**: Selective script installation based on command dependencies with dual validation
-**Created**: 2026-02-24
-**Status**: Design Specification
+**Concept**: Selective script installation based on command dependencies with dual validation  
+**Created**: 2026-02-24  
+**Status**: Design Specification  
 
 ---
 
@@ -10,7 +10,7 @@
 
 The Script-Command Binding System implements selective script installation where scripts are only installed when their corresponding commands are installed. This prevents script directory clutter from unused files in experimental or selectively-installed packages.
 
-**Key Innovation**: Commands declare script dependencies in both frontmatter and package.yaml, with validation ensuring consistency. Shared utility scripts (like acp.common.sh) are installed via reference counting - if ANY installed command needs a utility, it's installed.
+**Key Innovation**: Commands declare script dependencies in both frontmatter and package.yaml, with validation ensuring consistency. Shared utility scripts (like acp.common.sh) are installed via reference counting - if ANY installed command needs a utility, it's installed.  
 
 ---
 
@@ -62,10 +62,10 @@ Add `**Scripts**:` field to all command files:
 ```markdown
 # Command: project-set
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Status**: Experimental
-**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Status**: Experimental  
+**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 ```
@@ -136,7 +136,7 @@ for script in "${required_scripts[@]}"; do
 done
 ```
 
-**Reference Counting**: Shared utilities (acp.common.sh) installed if ANY command needs them.
+**Reference Counting**: Shared utilities (acp.common.sh) installed if ANY command needs them.  
 
 ### 4. Validation Logic
 
@@ -229,7 +229,7 @@ contents:
 - ❌ Existing commands need Scripts field added
 - ❌ Requires schema update (scripts field required)
 
-**Mitigation**: Validation catches inconsistencies, preventing drift. The dual declaration is worth the maintenance cost for the benefits gained.
+**Mitigation**: Validation catches inconsistencies, preventing drift. The dual declaration is worth the maintenance cost for the benefits gained.  
 
 ---
 
@@ -269,7 +269,7 @@ contents:
 
 **Command Frontmatter**:
 ```markdown
-**Scripts**: firebase.deploy.sh, acp.common.sh
+**Scripts**: firebase.deploy.sh, acp.common.sh  
 ```
 
 **package.yaml**:
@@ -281,18 +281,18 @@ commands:
       - acp.common.sh
 ```
 
-**Installation**: Both scripts installed when command installed.
+**Installation**: Both scripts installed when command installed.  
 
 ### Example 2: Multiple Commands, Shared Utility
 
 **Command 1**:
 ```markdown
-**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh
+**Scripts**: acp.project-set.sh, acp.common.sh, acp.yaml-parser.sh  
 ```
 
 **Command 2**:
 ```markdown
-**Scripts**: acp.project-list.sh, acp.common.sh, acp.yaml-parser.sh
+**Scripts**: acp.project-list.sh, acp.common.sh, acp.yaml-parser.sh  
 ```
 
 **Installation**: 
@@ -304,8 +304,8 @@ commands:
 
 **Command**:
 ```markdown
-**Status**: Experimental
-**Scripts**: experimental.sh, acp.common.sh
+**Status**: Experimental  
+**Scripts**: experimental.sh, acp.common.sh  
 ```
 
 **package.yaml**:
@@ -339,6 +339,6 @@ scripts:
 
 ---
 
-**Status**: Design Specification - Accepted Solution
-**Recommendation**: Implement in Task 65
-**Priority**: High (affects installation quality across all packages)
+**Status**: Design Specification - Accepted Solution  
+**Recommendation**: Implement in Task 65  
+**Priority**: High (affects installation quality across all packages)  

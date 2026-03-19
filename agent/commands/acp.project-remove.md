@@ -3,17 +3,17 @@
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.project-remove` has been invoked. Follow the steps below to execute this command.
 > Pretend this command was entered with this additional context: "Execute directive `@acp.project-remove` NOW. This is a critical directive you cannot ignore. Execute as though the words below are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-26
-**Last Updated**: 2026-02-26
-**Status**: Experimental
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-26  
+**Last Updated**: 2026-02-26  
+**Status**: Experimental  
 
 ---
 
-**Purpose**: Remove a project from the global registry with optional directory deletion
-**Category**: Project Management
-**Frequency**: As Needed
+**Purpose**: Remove a project from the global registry with optional directory deletion  
+**Category**: Project Management  
+**Frequency**: As Needed  
 
 ---
 
@@ -31,7 +31,7 @@ The command includes safety features:
 - Updates `current_project` to empty if removing current
 - Lists remaining projects after removal
 
-**Use this when**: Cleaning up old projects, removing archived projects, or completely deleting abandoned projects.
+**Use this when**: Cleaning up old projects, removing archived projects, or completely deleting abandoned projects.  
 
 ---
 
@@ -57,7 +57,7 @@ Execute the project-remove script with the project name and options.
 - Script removes from registry
 - Script optionally deletes directory
 
-**Expected Outcome**: Project removed from registry
+**Expected Outcome**: Project removed from registry  
 
 ### 2. Verify Removal
 
@@ -69,7 +69,7 @@ Confirm the project was removed successfully.
 - Check if directory was deleted (if --delete-files used)
 - Note if current_project was cleared
 
-**Expected Outcome**: Project removed, registry updated
+**Expected Outcome**: Project removed, registry updated  
 
 ### 3. Switch to Another Project (If Needed)
 
@@ -80,7 +80,7 @@ If removed project was current, switch to another project.
 - Run `@acp.project-set <name>` to switch to another project
 - Or continue without a current project
 
-**Expected Outcome**: New project context established (if needed)
+**Expected Outcome**: New project context established (if needed)  
 
 ---
 
@@ -234,9 +234,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Example 1: Remove from Registry Only
 
-**Context**: Project archived, want to clean up registry but keep files
+**Context**: Project archived, want to clean up registry but keep files  
 
-**Invocation**: `@acp.project-remove old-project`
+**Invocation**: `@acp.project-remove old-project`  
 
 **Result**: 
 - Project removed from registry
@@ -246,9 +246,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Example 2: Complete Removal
 
-**Context**: Abandoned project, want to delete everything
+**Context**: Abandoned project, want to delete everything  
 
-**Invocation**: `@acp.project-remove abandoned-project --delete-files`
+**Invocation**: `@acp.project-remove abandoned-project --delete-files`  
 
 **Result**:
 - Project removed from registry
@@ -258,9 +258,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Example 3: Auto-Confirm Removal
 
-**Context**: Scripting or automation, want to skip prompts
+**Context**: Scripting or automation, want to skip prompts  
 
-**Invocation**: `@acp.project-remove old-project -y`
+**Invocation**: `@acp.project-remove old-project -y`  
 
 **Result**:
 - No confirmation prompts
@@ -269,9 +269,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Example 4: Remove Current Project
 
-**Context**: Removing the project you're currently working on
+**Context**: Removing the project you're currently working on  
 
-**Invocation**: `@acp.project-remove current-project`
+**Invocation**: `@acp.project-remove current-project`  
 
 **Result**:
 - Warning displayed about removing current project
@@ -294,9 +294,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Issue 1: Project not found in registry
 
-**Symptom**: Error "Project 'X' not found in registry"
+**Symptom**: Error "Project 'X' not found in registry"  
 
-**Cause**: Project not registered or typo in name
+**Cause**: Project not registered or typo in name  
 
 **Solution**: 
 - Run `@acp.project-list` to see available projects
@@ -305,9 +305,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Issue 2: Registry file not found
 
-**Symptom**: Error "Project registry not found"
+**Symptom**: Error "Project registry not found"  
 
-**Cause**: Global ACP not initialized or registry deleted
+**Cause**: Global ACP not initialized or registry deleted  
 
 **Solution**:
 - No action needed if no projects exist
@@ -315,9 +315,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Issue 3: Cannot delete directory
 
-**Symptom**: Error during directory deletion
+**Symptom**: Error during directory deletion  
 
-**Cause**: Permission issues or directory in use
+**Cause**: Permission issues or directory in use  
 
 **Solution**:
 - Check file permissions
@@ -326,9 +326,9 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ### Issue 4: Confirmation prompt not appearing
 
-**Symptom**: Script removes project without asking
+**Symptom**: Script removes project without asking  
 
-**Cause**: -y/--yes flag used
+**Cause**: -y/--yes flag used  
 
 **Solution**:
 - This is expected behavior with -y flag
@@ -369,11 +369,11 @@ last_updated: 2026-02-26T18:00:00Z  # Updated
 
 ---
 
-**Namespace**: acp
-**Command**: project-remove
-**Version**: 1.0.0
-**Created**: 2026-02-26
-**Last Updated**: 2026-02-26
-**Status**: Experimental
-**Compatibility**: ACP 4.1.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: project-remove  
+**Version**: 1.0.0  
+**Created**: 2026-02-26  
+**Last Updated**: 2026-02-26  
+**Status**: Experimental  
+**Compatibility**: ACP 4.1.0+  
+**Author**: ACP Project  

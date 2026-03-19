@@ -4,7 +4,7 @@
 **Estimated Time**: 6-8 hours  
 **Dependencies**: None  
 **Status**: Not Started  
-**Priority**: High
+**Priority**: High  
 
 ---
 
@@ -80,7 +80,7 @@ last_updated: null
 
 ### 3. Implement Manifest Writing Functions
 
-**✅ COMPLETED**: Created `agent/scripts/acp.common.sh` with shared utilities.
+**✅ COMPLETED**: Created `agent/scripts/acp.common.sh` with shared utilities.  
 
 **Implementation Notes**:
 - Using `acp.yaml.sh` parser instead of `yq` (no external dependencies)
@@ -241,7 +241,7 @@ Test the manifest system:
 
 ### 7. Implement Manifest Validation
 
-**✅ COMPLETED**: Implemented in `agent/scripts/acp.common.sh`.
+**✅ COMPLETED**: Implemented in `agent/scripts/acp.common.sh`.  
 
 **Implementation Notes**:
 - `validate_manifest()` function available in `acp.common.sh`
@@ -329,20 +329,20 @@ This enables:
 ## Common Issues
 
 ### Issue 1: acp.yaml.sh limitations
-**Issue**: acp.yaml.sh doesn't support complex array queries
-**Solution**: Use awk/grep for array parsing (see `get_file_version()` implementation)
+**Issue**: acp.yaml.sh doesn't support complex array queries  
+**Solution**: Use awk/grep for array parsing (see `get_file_version()` implementation)  
 
 ### Issue 2: Checksum mismatch on Windows
-**Issue**: Line ending differences (CRLF vs LF)
-**Solution**: Normalize line endings before checksum calculation
+**Issue**: Line ending differences (CRLF vs LF)  
+**Solution**: Normalize line endings before checksum calculation  
 
 ### Issue 3: Manifest becomes invalid YAML
-**Issue**: Manual edits or script errors corrupt manifest
-**Solution**: Use `validate_manifest()` before operations, keep backups
+**Issue**: Manual edits or script errors corrupt manifest  
+**Solution**: Use `validate_manifest()` before operations, keep backups  
 
 ### Issue 4: acp.common.sh not found
-**Issue**: Script can't find acp.common.sh
-**Solution**: Ensure acp.common.sh is in same directory, use `. "$(dirname "$0")/acp.common.sh"`
+**Issue**: Script can't find acp.common.sh  
+**Solution**: Ensure acp.common.sh is in same directory, use `. "$(dirname "$0")/acp.common.sh"`  
 
 ---
 
@@ -356,4 +356,4 @@ This enables:
 
 **Status**: Ready to implement  
 **Priority**: High (foundation for all other tasks)  
-**Estimated Effort**: 6-8 hours
+**Estimated Effort**: 6-8 hours  

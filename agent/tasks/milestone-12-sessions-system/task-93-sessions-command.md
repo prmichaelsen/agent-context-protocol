@@ -1,10 +1,10 @@
 # Task 93: @acp.sessions Command
 
-**Milestone**: M12 — Sessions System
-**Status**: Not Started
-**Estimated Hours**: 2-3
-**Dependencies**: Task 91
-**Design**: [local.sessions-system.md](../../design/local.sessions-system.md)
+**Milestone**: M12 — Sessions System  
+**Status**: Not Started  
+**Estimated Hours**: 2-3  
+**Dependencies**: Task 91  
+**Design**: [local.sessions-system.md](../../design/local.sessions-system.md)  
 
 ---
 

@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.artifact-glossary NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-17
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-17  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create and maintain project glossaries through auto-extraction and interactive refinement
-**Category**: Entity Creation
-**Frequency**: As Needed
+**Purpose**: Create and maintain project glossaries through auto-extraction and interactive refinement  
+**Category**: Entity Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -62,7 +62,7 @@ Unlike research artifacts (external knowledge) or reference artifacts (passive i
 
 - [ ] ACP installed in current directory (`agent/` directory exists)
 - [ ] `agent/artifacts/` directory exists (will be created if not)
-- [ ] `agent/artifacts.template.md/glossary.template.md` exists
+- [ ] `agent/artifacts/glossary.template.md` exists
 
 ---
 
@@ -82,7 +82,7 @@ Decide whether to create or update a glossary.
   - If `--update` flag or no flag → Mode: update (add new terms to existing)
   - Notify user: "Glossary found: {path}. Mode: update."
 
-**Expected Outcome**: Mode determined (create or update)
+**Expected Outcome**: Mode determined (create or update)  
 
 ### 2. Scan Codebase for Terms
 
@@ -116,7 +116,7 @@ Extract terminology from the codebase.
 - Generic variable names (`data`, `result`, `temp`) are NOT terms
 - Common framework terms (`React`, `Node`, `Express`) are NOT terms unless project-specific
 
-**Expected Outcome**: List of term candidates with source locations
+**Expected Outcome**: List of term candidates with source locations  
 
 ### 3. Generate Definitions from Context
 
@@ -141,7 +141,7 @@ Infer definitions for each term candidate.
   - Common categories: Architecture, Data, Infrastructure, Security, Business Logic
   - If unclear, default to "General"
 
-**Expected Outcome**: Each term has a generated definition, confidence score, and inferred category
+**Expected Outcome**: Each term has a generated definition, confidence score, and inferred category  
 
 ### 4. Interactive Refinement
 
@@ -179,7 +179,7 @@ Your choice: _
 - If Change category → prompt for new category, keep definition
 - If Skip → exclude term from glossary
 
-**Expected Outcome**: All terms have user-approved definitions and categories
+**Expected Outcome**: All terms have user-approved definitions and categories  
 
 ### 5. Organize into Categories
 
@@ -216,7 +216,7 @@ Group terms by category and build alphabetical index.
 - **Microservice** → Architecture
 ```
 
-**Expected Outcome**: Terms organized into category tables with alphabetical index
+**Expected Outcome**: Terms organized into category tables with alphabetical index  
 
 ### 6. Create or Update Glossary File
 
@@ -231,7 +231,7 @@ Write the glossary artifact.
 - Create file: `agent/artifacts/glossary-{N}-{title}.md`
   - Default title: "core-terminology"
   - If `--output <path>` provided, use that path instead
-- Start from template: `agent/artifacts.template.md/glossary.template.md`
+- Start from template: `agent/artifacts/glossary.template.md`
 - Fill metadata block:
   - **Type**: glossary
   - **Created**: Today's date (YYYY-MM-DD)
@@ -257,7 +257,7 @@ Write the glossary artifact.
 - Re-sort category tables alphabetically
 - Re-build alphabetical index with all terms (existing + new)
 
-**Expected Outcome**: Glossary file created or updated with all terms
+**Expected Outcome**: Glossary file created or updated with all terms  
 
 ### 7. Auto-Commit (unless `--no-commit`)
 
@@ -274,7 +274,7 @@ Commit the glossary artifact.
   - Leave file staged but uncommitted
   - Notify user: "Glossary staged, awaiting commit."
 
-**Expected Outcome**: Glossary committed (or staged if `--no-commit`)
+**Expected Outcome**: Glossary committed (or staged if `--no-commit`)  
 
 ### 8. Report Success
 
@@ -301,7 +301,7 @@ Next steps:
 - Reference glossary in onboarding docs
 ```
 
-**Expected Outcome**: User knows glossary is complete and where to find it
+**Expected Outcome**: User knows glossary is complete and where to find it  
 
 ---
 
@@ -370,43 +370,43 @@ Next steps:
 
 ### Example 1: Create Glossary
 
-**Context**: New project, no glossary exists, want to catalog terminology
+**Context**: New project, no glossary exists, want to catalog terminology  
 
-**Invocation**: `@acp.artifact-glossary`
+**Invocation**: `@acp.artifact-glossary`  
 
-**Result**: Agent scans entire codebase, extracts 15 terms (classes, interfaces, domain patterns), generates definitions from docstrings/comments, prompts for 3 ambiguous terms, creates `glossary-1-core-terminology.md` with 3 categories (Architecture, Data, Infrastructure), auto-commits.
+**Result**: Agent scans entire codebase, extracts 15 terms (classes, interfaces, domain patterns), generates definitions from docstrings/comments, prompts for 3 ambiguous terms, creates `glossary-1-core-terminology.md` with 3 categories (Architecture, Data, Infrastructure), auto-commits.  
 
 ### Example 2: Update Glossary with New Terms
 
-**Context**: Glossary exists, new module added (src/auth/), want to add auth-related terms
+**Context**: Glossary exists, new module added (src/auth/), want to add auth-related terms  
 
-**Invocation**: `@acp.artifact-glossary --update --scope src/auth/`
+**Invocation**: `@acp.artifact-glossary --update --scope src/auth/`  
 
-**Result**: Agent scans src/auth/, extracts 5 new terms (AuthProvider, TokenService, RefreshToken, etc.), generates definitions, prompts for 1 ambiguous term, adds to existing glossary under new "Security" category, auto-commits with "+5 terms" message.
+**Result**: Agent scans src/auth/, extracts 5 new terms (AuthProvider, TokenService, RefreshToken, etc.), generates definitions, prompts for 1 ambiguous term, adds to existing glossary under new "Security" category, auto-commits with "+5 terms" message.  
 
 ### Example 3: Interactive Review of All Terms
 
-**Context**: Want to review every extracted term before accepting
+**Context**: Want to review every extracted term before accepting  
 
-**Invocation**: `@acp.artifact-glossary --interactive`
+**Invocation**: `@acp.artifact-glossary --interactive`  
 
-**Result**: Agent extracts 20 terms, prompts for EVERY term (not just ambiguous ones), user edits 3 definitions and changes 2 categories, creates glossary with all user-approved content.
+**Result**: Agent extracts 20 terms, prompts for EVERY term (not just ambiguous ones), user edits 3 definitions and changes 2 categories, creates glossary with all user-approved content.  
 
 ### Example 4: Auto-Accept All Terms
 
-**Context**: High confidence in codebase documentation, want fast glossary creation
+**Context**: High confidence in codebase documentation, want fast glossary creation  
 
-**Invocation**: `@acp.artifact-glossary --auto`
+**Invocation**: `@acp.artifact-glossary --auto`  
 
-**Result**: Agent extracts terms, generates definitions, skips all prompts, creates glossary with inferred definitions and categories, auto-commits immediately.
+**Result**: Agent extracts terms, generates definitions, skips all prompts, creates glossary with inferred definitions and categories, auto-commits immediately.  
 
 ### Example 5: Force Create New Glossary
 
-**Context**: Existing glossary is for backend, want separate frontend glossary
+**Context**: Existing glossary is for backend, want separate frontend glossary  
 
-**Invocation**: `@acp.artifact-glossary --create --scope src/frontend/ --output agent/artifacts/glossary-2-frontend-terminology.md`
+**Invocation**: `@acp.artifact-glossary --create --scope src/frontend/ --output agent/artifacts/glossary-2-frontend-terminology.md`  
 
-**Result**: Agent creates new `glossary-2-frontend-terminology.md` (does not update existing glossary-1), extracts frontend-specific terms, commits as separate glossary.
+**Result**: Agent creates new `glossary-2-frontend-terminology.md` (does not update existing glossary-1), extracts frontend-specific terms, commits as separate glossary.  
 
 ---
 
@@ -423,35 +423,35 @@ Next steps:
 
 ### Issue 1: Too many generic terms extracted
 
-**Symptom**: Glossary includes common framework terms (React, Node, Express)
+**Symptom**: Glossary includes common framework terms (React, Node, Express)  
 
-**Cause**: Heuristics too broad, extracting non-project-specific terms
+**Cause**: Heuristics too broad, extracting non-project-specific terms  
 
-**Solution**: Skip generic terms during extraction. Manually remove from glossary in update mode.
+**Solution**: Skip generic terms during extraction. Manually remove from glossary in update mode.  
 
 ### Issue 2: Definitions too technical or implementation-focused
 
-**Symptom**: Definitions describe how code works, not what concept means
+**Symptom**: Definitions describe how code works, not what concept means  
 
-**Cause**: Insufficient context in code (no docstrings), agent infers from implementation
+**Cause**: Insufficient context in code (no docstrings), agent infers from implementation  
 
-**Solution**: Prompt user to edit definitions. Add docstrings to code for future updates.
+**Solution**: Prompt user to edit definitions. Add docstrings to code for future updates.  
 
 ### Issue 3: Terms in wrong category
 
-**Symptom**: "JWT" in Architecture category, should be in Security
+**Symptom**: "JWT" in Architecture category, should be in Security  
 
-**Cause**: Category inference based on file location, not semantic meaning
+**Cause**: Category inference based on file location, not semantic meaning  
 
-**Solution**: Use `--interactive` to review and correct categories. Or manually edit glossary file.
+**Solution**: Use `--interactive` to review and correct categories. Or manually edit glossary file.  
 
 ### Issue 4: Glossary becoming unwieldy (50+ terms)
 
-**Symptom**: Single glossary file is long and hard to navigate
+**Symptom**: Single glossary file is long and hard to navigate  
 
-**Cause**: Project has grown, many domain areas
+**Cause**: Project has grown, many domain areas  
 
-**Solution**: Split into multiple glossaries by domain (backend, frontend, infrastructure). Use `--create --scope` to create domain-specific glossaries.
+**Solution**: Split into multiple glossaries by domain (backend, frontend, infrastructure). Use `--create --scope` to create domain-specific glossaries.  
 
 ---
 
@@ -520,11 +520,11 @@ Next steps:
 
 ---
 
-**Namespace**: acp
-**Command**: artifact-glossary
-**Version**: 1.0.0
-**Created**: 2026-03-17
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Compatibility**: ACP 5.25.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: artifact-glossary  
+**Version**: 1.0.0  
+**Created**: 2026-03-17  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Compatibility**: ACP 5.25.0+  
+**Author**: ACP Project  

@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp-version-check-for-updates` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Scripts**: acp.version-check-for-updates.sh
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Scripts**: acp.version-check-for-updates.sh  
 
 ---
 
-**Purpose**: Check if newer version of ACP is available without applying updates
-**Category**: Maintenance
-**Frequency**: Per Session
+**Purpose**: Check if newer version of ACP is available without applying updates  
+**Category**: Maintenance  
+**Frequency**: Per Session  
 
 ---
 
@@ -48,7 +48,7 @@ Execute the check-for-updates script.
 - If doesn't exist, report that update checking is unavailable
 - Capture script output
 
-**Expected Outcome**: Update status determined
+**Expected Outcome**: Update status determined  
 
 ### 2. Parse Script Output
 
@@ -60,7 +60,7 @@ Interpret the results from the update check.
 - Note if already up to date
 - Handle any errors from script
 
-**Expected Outcome**: Update status understood
+**Expected Outcome**: Update status understood  
 
 ### 3. Display Update Status
 
@@ -72,7 +72,7 @@ Show whether updates are available.
 - Display current version for comparison
 - Show update availability clearly
 
-**Expected Outcome**: User knows if updates exist
+**Expected Outcome**: User knows if updates exist  
 
 ### 4. Show What Changed
 
@@ -84,7 +84,7 @@ If updates are available, display changelog.
 - Highlight Added, Changed, Removed, Fixed sections
 - Make it easy to understand what's new
 
-**Expected Outcome**: User understands what would change
+**Expected Outcome**: User understands what would change  
 
 ### 5. Prompt for Action
 
@@ -95,7 +95,7 @@ Ask user if they want to update.
 - If up to date: No action needed
 - Provide clear next steps
 
-**Expected Outcome**: User knows what to do next
+**Expected Outcome**: User knows what to do next  
 
 ---
 
@@ -178,27 +178,27 @@ No status changes - read-only operation
 
 ### Example 1: Session Start Check
 
-**Context**: Starting work session, want to check for updates
+**Context**: Starting work session, want to check for updates  
 
-**Invocation**: `@acp-version-check-for-updates`
+**Invocation**: `@acp-version-check-for-updates`  
 
-**Result**: Shows you're on 1.0.3, latest is 1.1.0, displays what's new, suggests updating
+**Result**: Shows you're on 1.0.3, latest is 1.1.0, displays what's new, suggests updating  
 
 ### Example 2: Already Up to Date
 
-**Context**: Checking for updates after recent update
+**Context**: Checking for updates after recent update  
 
-**Invocation**: `@acp-version-check-for-updates`
+**Invocation**: `@acp-version-check-for-updates`  
 
-**Result**: Confirms you're on latest version (1.0.3), no action needed
+**Result**: Confirms you're on latest version (1.0.3), no action needed  
 
 ### Example 3: No Internet Connection
 
-**Context**: Offline, trying to check for updates
+**Context**: Offline, trying to check for updates  
 
-**Invocation**: `@acp-version-check-for-updates`
+**Invocation**: `@acp-version-check-for-updates`  
 
-**Result**: Reports cannot connect to repository, shows current version, suggests trying again when online
+**Result**: Reports cannot connect to repository, shows current version, suggests trying again when online  
 
 ---
 
@@ -214,27 +214,27 @@ No status changes - read-only operation
 
 ### Issue 1: Script not found
 
-**Symptom**: Error "acp.version-check-for-updates.sh not found"
+**Symptom**: Error "acp.version-check-for-updates.sh not found"  
 
-**Cause**: Older ACP installation without update scripts
+**Cause**: Older ACP installation without update scripts  
 
-**Solution**: Update ACP manually by downloading latest AGENT.md, or install update scripts from repository
+**Solution**: Update ACP manually by downloading latest AGENT.md, or install update scripts from repository  
 
 ### Issue 2: Network error
 
-**Symptom**: Error "Cannot connect to repository"
+**Symptom**: Error "Cannot connect to repository"  
 
-**Cause**: No internet connection or GitHub unavailable
+**Cause**: No internet connection or GitHub unavailable  
 
-**Solution**: Check internet connection and try again. Use `@acp-version-check` to see current version offline.
+**Solution**: Check internet connection and try again. Use `@acp-version-check` to see current version offline.  
 
 ### Issue 3: Permission denied
 
-**Symptom**: Error "Permission denied" when running script
+**Symptom**: Error "Permission denied" when running script  
 
-**Cause**: Script not executable
+**Cause**: Script not executable  
 
-**Solution**: Run `chmod +x agent/scripts/acp.version-check-for-updates.sh` to make it executable
+**Solution**: Run `chmod +x agent/scripts/acp.version-check-for-updates.sh` to make it executable  
 
 ---
 
@@ -266,11 +266,11 @@ No status changes - read-only operation
 
 ---
 
-**Namespace**: acp
-**Command**: version-check-for-updates
-**Version**: 1.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-16
-**Status**: Active
-**Compatibility**: ACP 1.0.3+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: version-check-for-updates  
+**Version**: 1.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-16  
+**Status**: Active  
+**Compatibility**: ACP 1.0.3+  
+**Author**: ACP Project  

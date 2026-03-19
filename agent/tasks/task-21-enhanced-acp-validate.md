@@ -1,9 +1,9 @@
 # Task 21: Enhanced @acp.validate
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 15 (Namespace Utilities)
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 15 (Namespace Utilities)  
+**Status**: Not Started  
 
 ---
 
@@ -56,4 +56,4 @@ Test namespace checking with various scenarios.
 
 ---
 
-**Next Task**: [Task 22: @acp.package-publish Command](task-22-package-publish-command.md)
+**Next Task**: [Task 22: @acp.package-publish Command](task-22-package-publish-command.md)  

@@ -1,9 +1,9 @@
 # Task 30: Fix Package Validation for Non-Package Files
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 30 minutes - 1 hour
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 30 minutes - 1 hour  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -31,9 +31,9 @@ When developing an ACP package, developers often install other ACP packages (lik
 - Even though these files are correctly excluded from `package.yaml` contents
 - The installation system already works correctly (only installs files in `contents`)
 
-**Root Cause**: Validation doesn't check if files are in `package.yaml` contents before validating namespace.
+**Root Cause**: Validation doesn't check if files are in `package.yaml` contents before validating namespace.  
 
-**Key Insight**: `manifest.yaml` already acts as the dev dependency tracker! Files in manifest but not in package contents are effectively dev dependencies. No new field needed.
+**Key Insight**: `manifest.yaml` already acts as the dev dependency tracker! Files in manifest but not in package contents are effectively dev dependencies. No new field needed.  
 
 **Example**:
 ```
@@ -83,7 +83,7 @@ for file in agent/commands/*.md; do
 done
 ```
 
-**Expected Outcome**: Only files in `package.yaml` contents are validated for namespace
+**Expected Outcome**: Only files in `package.yaml` contents are validated for namespace  
 
 ### 2. Add Informational Output
 
@@ -108,7 +108,7 @@ if [ $not_in_contents -gt 0 ]; then
 fi
 ```
 
-**Expected Outcome**: Users understand why some files are skipped
+**Expected Outcome**: Users understand why some files are skipped  
 
 ### 3. Update Validation Documentation
 
@@ -117,7 +117,7 @@ Update `agent/commands/acp.package-validate.md` to explain:
 - Files not in contents are skipped (e.g., installed dependencies)
 - This is expected behavior for package development
 
-**Expected Outcome**: Documentation clarifies validation behavior
+**Expected Outcome**: Documentation clarifies validation behavior  
 
 ### 4. Test with Real Package
 
@@ -130,7 +130,7 @@ Test with acp-tanstack-cloudflare package:
 - Should pass without namespace errors for `git.commit.md`
 - Should still validate namespace for files IN contents
 
-**Expected Outcome**: Validation passes correctly
+**Expected Outcome**: Validation passes correctly  
 
 ---
 
@@ -174,15 +174,15 @@ Namespace Consistency
 
 ### Issue 1: Validation still flags installed dependencies
 
-**Symptom**: Namespace errors for files not in contents
+**Symptom**: Namespace errors for files not in contents  
 
-**Solution**: Verify package.yaml contents section is correct. Ensure validation script is reading contents properly.
+**Solution**: Verify package.yaml contents section is correct. Ensure validation script is reading contents properly.  
 
 ### Issue 2: Files in contents not validated
 
-**Symptom**: Namespace errors not caught for package files
+**Symptom**: Namespace errors not caught for package files  
 
-**Solution**: Verify files are listed in package.yaml contents. Check grep pattern matching.
+**Solution**: Verify files are listed in package.yaml contents. Check grep pattern matching.  
 
 ---
 
@@ -205,5 +205,5 @@ Namespace Consistency
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion Date**: TBD
+**Next Task**: TBD  
+**Estimated Completion Date**: TBD  

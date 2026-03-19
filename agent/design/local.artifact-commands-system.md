@@ -1,8 +1,8 @@
 # Artifact Commands System
 
-**Concept**: Long-lived reference material creation via systematic research with web/MCP integration
-**Created**: 2026-03-17
-**Status**: Design Specification
+**Concept**: Long-lived reference material creation via systematic research with web/MCP integration  
+**Created**: 2026-03-17  
+**Status**: Design Specification  
 
 ---
 
@@ -12,7 +12,7 @@ The Artifact Commands System introduces a new document type (`agent/artifacts/`)
 
 Three artifact types are supported: **research** (investigative deep-dives), **glossary** (project terminology), and **reference** (quick-lookup guides). Each artifact undergoes rigorous quality standards with citation requirements, confidence scoring, and reproducible verification processes.
 
-**Core principle**: Command-first — if information can be automated as an executable directive (`@local.*` or `@namespace.*`), create a command instead of a reference artifact.
+**Core principle**: Command-first — if information can be automated as an executable directive (`@local.*` or `@namespace.*`), create a command instead of a reference artifact.  
 
 ---
 
@@ -97,7 +97,7 @@ agent/
 │   ├── research-2-authentication-patterns.md
 │   ├── glossary-1-core-terminology.md
 │   └── reference-1-environment-variables.md
-├── artifacts.template.md/
+├── artifacts/
 │   ├── research.template.md
 │   ├── glossary.template.md
 │   └── reference.template.md
@@ -108,13 +108,13 @@ agent/
 ```markdown
 # {Artifact Title}
 
-**Type**: research | glossary | reference
-**Created**: YYYY-MM-DD
-**Last Verified**: YYYY-MM-DD
-**Status**: Active | Stale | Deprecated
-**Confidence**: High (9-10/10) | Medium (5-8/10) | Low (1-4/10)
-**Category**: {domain-specific, e.g., "API Integration", "Infrastructure", "Security"}
-**Sources**: [List of primary sources with access dates]
+**Type**: research | glossary | reference  
+**Created**: YYYY-MM-DD  
+**Last Verified**: YYYY-MM-DD  
+**Status**: Active | Stale | Deprecated  
+**Confidence**: High (9-10/10) | Medium (5-8/10) | Low (1-4/10)  
+**Category**: {domain-specific, e.g., "API Integration", "Infrastructure", "Security"}  
+**Sources**: [List of primary sources with access dates]  
 ```
 
 ### Research Artifact Structure
@@ -141,7 +141,7 @@ agent/
 ### Research Verification Format
 
 ```markdown
-**Finding**: [Statement with version/date]
+**Finding**: [Statement with version/date]  
 - **Source**: [Exact URL] (accessed 2026-03-17)
 - **Confidence**: High (9/10)
 - **Verification**:
@@ -214,19 +214,19 @@ Confidence: High (third-party verification)
 
 ### Code Example Strategy
 
-**Local project files**: Use relative paths
+**Local project files**: Use relative paths  
 ```markdown
 See: `../../src/components/Button.tsx`
 ```
 
-**External project files**: Convert to GitHub/GitLab URLs
+**External project files**: Convert to GitHub/GitLab URLs  
 ```markdown
 See: `https://github.com/org/repo/blob/main/src/file.ts#L42`
 ```
 
-**Critical code**: Always inline (survives link rot)
-**Non-critical**: Remote link acceptable
-**Unreachable remote**: Fallback to inline
+**Critical code**: Always inline (survives link rot)  
+**Non-critical**: Remote link acceptable  
+**Unreachable remote**: Fallback to inline  
 
 ### Integration with Existing Commands
 
@@ -299,7 +299,7 @@ See: `https://github.com/org/repo/blob/main/src/file.ts#L42`
 
 ## Migration Path
 
-1. **Create artifact templates** — Add `research.template.md`, `glossary.template.md`, `reference.template.md` to `agent/artifacts.template.md/`
+1. **Create artifact templates** — Add `research.template.md`, `glossary.template.md`, `reference.template.md` to `agent/artifacts/`
 2. **Implement `@acp.artifact-research`** — Follow clarification-12 design for research workflow
 3. **Implement `@acp.artifact-glossary`** — Auto-extraction + interactive refinement workflow
 4. **Implement `@acp.artifact-reference`** — Command-first sanity check + reference creation
@@ -423,11 +423,11 @@ See: `https://github.com/org/repo/blob/main/src/file.ts#L42`
 
 ---
 
-**Status**: Design Specification (Ready for Implementation)
-**Recommendation**: Create tasks for:
+**Status**: Design Specification (Ready for Implementation)  
+**Recommendation**: Create tasks for:  
 1. Artifact templates creation
 2. `@acp.artifact-research` command implementation
 3. `@acp.artifact-glossary` command implementation
 4. `@acp.artifact-reference` command implementation
 5. Integration with `@acp.sync`, `@acp.validate`, key file index
-**Related Documents**: clarification-12-artifact-commands.md (decisions captured here)
+**Related Documents**: clarification-12-artifact-commands.md (decisions captured here)  

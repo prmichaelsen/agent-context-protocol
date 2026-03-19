@@ -1,9 +1,9 @@
 # Task 96: Fix macOS Compatibility in E2E Tests
 
-**Milestone**: M13 — Cross-Platform CI
-**Status**: Not Started
-**Estimated Hours**: 2-3
-**Dependencies**: None (v5.10.2 script fixes already landed)
+**Milestone**: M13 — Cross-Platform CI  
+**Status**: Not Started  
+**Estimated Hours**: 2-3  
+**Dependencies**: None (v5.10.2 script fixes already landed)  
 
 ---
 

@@ -1,9 +1,9 @@
 # Task 67: Script-Command Binding - Validation Logic
 
-**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)
-**Estimated Time**: 1-2 hours
-**Dependencies**: Task 65 (Schema and Templates), Task 66 (Installation Logic)
-**Status**: Not Started
+**Milestone**: [M3 - ACP Package Management System](../../milestones/milestone-3-package-management.md)  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: Task 65 (Schema and Templates), Task 66 (Installation Logic)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement validation logic in acp.package-validate.sh to ensure script declarati
 
 This is Phase 3 of the script-command binding system. With installation logic in place (Task 66), this task adds validation to catch inconsistencies.
 
-**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)
+**Design Document**: [`agent/design/local.script-command-binding.md`](../../design/local.script-command-binding.md)  
 
 ---
 
@@ -149,4 +149,4 @@ Fixable Issues:
 
 ---
 
-**Next Task**: Task 68 - Update Existing Commands with Scripts Field
+**Next Task**: Task 68 - Update Existing Commands with Scripts Field  

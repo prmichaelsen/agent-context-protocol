@@ -1,8 +1,8 @@
 # Project Requirements
 
-**Project Name**: [Your Project Name]
-**Created**: YYYY-MM-DD
-**Status**: Draft | Active | Implemented
+**Project Name**: [Your Project Name]  
+**Created**: YYYY-MM-DD  
+**Status**: Draft | Active | Implemented  
 
 ---
 
@@ -10,7 +10,7 @@
 
 [Provide a high-level description of what this project is and what it aims to accomplish. This should be a clear, concise summary that anyone can understand.]
 
-**Example**: "A multi-tenant memory system that enables AI agents to store, retrieve, and manage contextual information across sessions with vector search capabilities and relationship tracking."
+**Example**: "A multi-tenant memory system that enables AI agents to store, retrieve, and manage contextual information across sessions with vector search capabilities and relationship tracking."  
 
 ---
 
@@ -18,7 +18,7 @@
 
 [Describe the problem this project solves. What pain points or needs does it address?]
 
-**Example**: "AI agents currently have no persistent memory between sessions, leading to loss of context and requiring users to repeatedly provide the same information."
+**Example**: "AI agents currently have no persistent memory between sessions, leading to loss of context and requiring users to repeatedly provide the same information."  
 
 ---
 
@@ -382,6 +382,6 @@
 
 ---
 
-**Status**: [Current status of requirements]
-**Last Updated**: [YYYY-MM-DD]
-**Next Review**: [YYYY-MM-DD]
+**Status**: [Current status of requirements]  
+**Last Updated**: [YYYY-MM-DD]  
+**Next Review**: [YYYY-MM-DD]  

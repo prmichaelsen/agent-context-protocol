@@ -1,9 +1,9 @@
 # Task 90: ACP-Initialized Project Benchmark Task
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 8-12 hours
-**Dependencies**: Task 79 (runner), Task 87 (seed support)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 8-12 hours  
+**Dependencies**: Task 79 (runner), Task 87 (seed support)  
+**Status**: Not Started  
 
 ---
 
@@ -107,36 +107,36 @@ Create `agent/benchmarks/suite/acp-project/seed-base/` with a partially-built Ex
 
 Create `agent/benchmarks/suite/acp-project/seed-acp/agent/` with complete ACP documentation:
 
-**AGENT.md**: Project overview, current version, architecture summary, what's built vs. what's remaining
+**AGENT.md**: Project overview, current version, architecture summary, what's built vs. what's remaining  
 
 **progress.yaml**:
 - Milestone 1: MVP (in_progress)
 - Tasks 1-5 with status (task-1 through task-5 as not_started)
 - Clear next_steps
 
-**design/api-design.md**: Complete API specification with:
+**design/api-design.md**: Complete API specification with:  
 - Every endpoint (method, path, request body, response format, error codes)
 - Authentication requirements per endpoint
 - Pagination format
 - Exact field names, types, and validation rules
 
-**design/data-model.md**: Entity definitions:
+**design/data-model.md**: Entity definitions:  
 - User: id, name, email, passwordHash, role, createdAt
 - Project: id, name, description, ownerId, status, createdAt
 - Task: id, title, description, status, priority, projectId, assigneeId, createdAt, updatedAt, dueDate
 - Notification: id, userId, type, message, read, entityType, entityId, createdAt
 
-**design/notification-system.md**: Notification triggers, types, delivery mechanism
+**design/notification-system.md**: Notification triggers, types, delivery mechanism  
 
-**patterns/error-handling.md**: Standard error format `{ error: { code, message, details } }`, error code catalog
+**patterns/error-handling.md**: Standard error format `{ error: { code, message, details } }`, error code catalog  
 
-**patterns/testing.md**: Test file naming, setup/teardown patterns, what to test per endpoint
+**patterns/testing.md**: Test file naming, setup/teardown patterns, what to test per endpoint  
 
-**patterns/api-conventions.md**: REST conventions, pagination format, sorting, filtering
+**patterns/api-conventions.md**: REST conventions, pagination format, sorting, filtering  
 
-**milestones/milestone-1-mvp.md**: Success criteria, scope definition
+**milestones/milestone-1-mvp.md**: Success criteria, scope definition  
 
-**tasks/task-1 through task-5**: Detailed implementation instructions for each piece of remaining work
+**tasks/task-1 through task-5**: Detailed implementation instructions for each piece of remaining work  
 
 ### 3. Create Runner Support for Dual Seeds
 
@@ -217,4 +217,4 @@ The key metrics to compare aren't just pass/fail but:
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md
+**Related Design Docs**: agent/design/local.benchmark-suite.md  

@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp-init` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 1.1.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-03-09
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.1.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-03-09  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Initialize agent context by loading all documentation, reviewing source code, and preparing for work
-**Category**: Workflow
-**Frequency**: Once Per Session
+**Purpose**: Initialize agent context by loading all documentation, reviewing source code, and preparing for work  
+**Category**: Workflow  
+**Frequency**: Once Per Session  
 
 ---
 
@@ -72,7 +72,7 @@ Unlike `@acp-status` which only reads progress.yaml, or `@acp-proceed` which foc
 
 ### 1. Check for ACP Updates
 
-**Skip item**: `checks` | **Skipped by**: `--quick`
+**Skip item**: `checks` | **Skipped by**: `--quick`  
 
 Check if newer version of ACP is available.
 
@@ -82,11 +82,11 @@ Check if newer version of ACP is available.
 - Show what changed via CHANGELOG
 - Ask if user wants to update (don't auto-update)
 
-**Expected Outcome**: User informed of ACP version status
+**Expected Outcome**: User informed of ACP version status  
 
 ### 1.5. Register Session and Show Siblings (Optional)
 
-**Skip item**: `sessions`
+**Skip item**: `sessions`  
 
 Register this agent session and display any active sibling sessions.
 
@@ -101,13 +101,13 @@ Active Sessions: 2 others
   agentbase.me — task-5 (Fix API Routes) — 8m ago
 ```
 
-**Expected Outcome**: Session registered, sibling sessions displayed
+**Expected Outcome**: Session registered, sibling sessions displayed  
 
-**Note**: If `./agent/scripts/acp.sessions.sh` does not exist, skip this step silently.
+**Note**: If `./agent/scripts/acp.sessions.sh` does not exist, skip this step silently.  
 
 ### 2. Read All Agent Documentation
 
-**Skip item**: `docs`
+**Skip item**: `docs`  
 
 Load complete context from the agent/ directory.
 
@@ -120,11 +120,11 @@ Load complete context from the agent/ directory.
 - Read relevant pattern documents in `agent/patterns/`
 - Note any missing or incomplete documentation
 
-**Expected Outcome**: Complete documentation context loaded
+**Expected Outcome**: Complete documentation context loaded  
 
 ### 2.3. List ACP Projects (Optional)
 
-**Skip item**: `projects`
+**Skip item**: `projects`  
 
 List all registered ACP projects from the global `~/.acp` directory.
 
@@ -153,13 +153,13 @@ List all registered ACP projects from the global `~/.acp` directory.
       Path: ~/.acp/projects/gcloud-mcp
 ```
 
-**Expected Outcome**: User sees all registered ACP projects at a glance
+**Expected Outcome**: User sees all registered ACP projects at a glance  
 
-**Note**: If `~/.acp` does not exist or `~/.acp/projects.yaml` is missing, skip this step silently.
+**Note**: If `~/.acp` does not exist or `~/.acp/projects.yaml` is missing, skip this step silently.  
 
 ### 2.5. Discover Global Packages (Optional)
 
-**Skip item**: `global`
+**Skip item**: `global`  
 
 Check for globally installed ACP packages.
 
@@ -170,7 +170,7 @@ Check for globally installed ACP packages.
 - Report available commands and patterns from global packages
 - Note that local packages take precedence over global packages
 
-**Expected Outcome**: Global packages discovered and reported (if any)
+**Expected Outcome**: Global packages discovered and reported (if any)  
 
 **Example Output**:
 ```
@@ -191,11 +191,11 @@ Check for globally installed ACP packages.
   ℹ️  Local packages take precedence over global packages
 ```
 
-**Note**: This step is optional and graceful - if no global packages exist or manifest is not found, continue without error.
+**Note**: This step is optional and graceful - if no global packages exist or manifest is not found, continue without error.  
 
 ### 2.8. Read Key Files from Index
 
-**Skip item**: `keys`
+**Skip item**: `keys`  
 
 Load critical project files from the key file index.
 
@@ -219,13 +219,13 @@ Load critical project files from the key file index.
   2 index files scanned, 2 key files read, 1 skipped
 ```
 
-**Expected Outcome**: High-importance key files loaded into context
+**Expected Outcome**: High-importance key files loaded into context  
 
-**Note**: If `agent/index/` does not exist, skip this step silently. The index is optional but recommended.
+**Note**: If `agent/index/` does not exist, skip this step silently. The index is optional but recommended.  
 
 ### 3. Identify Key Source Files
 
-**Skip item**: `files` | **Skipped by**: `--quick`
+**Skip item**: `files` | **Skipped by**: `--quick`  
 
 Determine which source files are most important to review.
 
@@ -236,11 +236,11 @@ Determine which source files are most important to review.
 - Identify core business logic files
 - List test files
 
-**Expected Outcome**: Key source files identified for review
+**Expected Outcome**: Key source files identified for review  
 
 ### 4. Review Key Source Files
 
-**Skip item**: `files` | **Skipped by**: `--quick`
+**Skip item**: `files` | **Skipped by**: `--quick`  
 
 Read important source files to understand current implementation.
 
@@ -252,11 +252,11 @@ Read important source files to understand current implementation.
 - Understand current architecture
 - Compare implementation with design documents
 
-**Expected Outcome**: Current implementation understood
+**Expected Outcome**: Current implementation understood  
 
 ### 5. Identify Documentation Drift
 
-**Skip item**: `sync` | **Skipped by**: `--quick`
+**Skip item**: `sync` | **Skipped by**: `--quick`  
 
 Compare documentation with actual implementation.
 
@@ -267,11 +267,11 @@ Compare documentation with actual implementation.
 - Flag missing documentation
 - List discrepancies
 
-**Expected Outcome**: Documentation gaps identified
+**Expected Outcome**: Documentation gaps identified  
 
 ### 6. Update Stale Documentation
 
-**Skip item**: `sync` | **Skipped by**: `--quick`
+**Skip item**: `sync` | **Skipped by**: `--quick`  
 
 Refresh outdated documentation to match current state.
 
@@ -282,11 +282,11 @@ Refresh outdated documentation to match current state.
 - Update progress.yaml with current understanding
 - Document any new patterns found in code
 
-**Expected Outcome**: Documentation synchronized with code
+**Expected Outcome**: Documentation synchronized with code  
 
 ### 7. Update Progress Tracking
 
-**Skip item**: `progress`
+**Skip item**: `progress`  
 
 Refresh progress.yaml with latest status.
 
@@ -298,7 +298,7 @@ Refresh progress.yaml with latest status.
 - Update next steps based on current state
 - Note any new blockers discovered
 
-**Expected Outcome**: Progress tracking is current and accurate
+**Expected Outcome**: Progress tracking is current and accurate  
 
 ### 8. Report Status and Next Steps
 
@@ -313,7 +313,7 @@ Provide comprehensive status report.
 - Note any blockers or concerns
 - Provide recommendations
 
-**Expected Outcome**: User has complete context and knows what to do next
+**Expected Outcome**: User has complete context and knows what to do next  
 
 ### 9. Display Usage Tip
 
@@ -326,7 +326,7 @@ Show a helpful tip about init flags when no flags were used.
   ```
 - If the user already used `--quick` or `--skip`, do **not** display the tip (they already know about it).
 
-**Expected Outcome**: Users discover the faster init modes naturally
+**Expected Outcome**: Users discover the faster init modes naturally  
 
 ### Handling Skipped Steps
 
@@ -458,43 +458,43 @@ Ready to proceed with task-2 completion.
 
 ### Example 1: Starting Fresh Session
 
-**Context**: Beginning work on a project for the first time today
+**Context**: Beginning work on a project for the first time today  
 
-**Invocation**: `@acp-init`
+**Invocation**: `@acp-init`  
 
-**Result**: Checks for updates, reads all 15 agent files, reviews 10 source files, updates progress tracking, reports you're on milestone 2 task 5, ready to continue
+**Result**: Checks for updates, reads all 15 agent files, reviews 10 source files, updates progress tracking, reports you're on milestone 2 task 5, ready to continue  
 
 ### Example 2: Returning After Break
 
-**Context**: Haven't worked on project in a week
+**Context**: Haven't worked on project in a week  
 
-**Invocation**: `@acp-init`
+**Invocation**: `@acp-init`  
 
-**Result**: Full context reload, discovers 3 new commits since last session, updates documentation to reflect changes, shows current status (milestone 3, 80% complete), identifies next task
+**Result**: Full context reload, discovers 3 new commits since last session, updates documentation to reflect changes, shows current status (milestone 3, 80% complete), identifies next task  
 
 ### Example 3: New Agent Session
 
-**Context**: Different AI agent picking up the project
+**Context**: Different AI agent picking up the project  
 
-**Invocation**: `@acp-init`
+**Invocation**: `@acp-init`  
 
-**Result**: Complete onboarding - reads all documentation, understands architecture from source code, gets current status, ready to contribute immediately
+**Result**: Complete onboarding - reads all documentation, understands architecture from source code, gets current status, ready to contribute immediately  
 
 ### Example 4: Quick Init
 
-**Context**: Returning to a familiar project, just need docs and status
+**Context**: Returning to a familiar project, just need docs and status  
 
-**Invocation**: `@acp-init --quick`
+**Invocation**: `@acp-init --quick`  
 
-**Result**: Skips version checks, source file review, and doc sync. Reads agent documentation, key files, reports status — fast startup in ~10 seconds
+**Result**: Skips version checks, source file review, and doc sync. Reads agent documentation, key files, reports status — fast startup in ~10 seconds  
 
 ### Example 5: Selective Skip
 
-**Context**: Want everything except version checks and session registration
+**Context**: Want everything except version checks and session registration  
 
-**Invocation**: `@acp-init --skip checks,sessions`
+**Invocation**: `@acp-init --skip checks,sessions`  
 
-**Result**: Full init minus the two skipped steps. All docs read, files reviewed, sync performed, status reported
+**Result**: Full init minus the two skipped steps. All docs read, files reviewed, sync performed, status reported  
 
 ---
 
@@ -511,35 +511,35 @@ Ready to proceed with task-2 completion.
 
 ### Issue 1: No agent/ directory found
 
-**Symptom**: Error message "agent/ directory not found"
+**Symptom**: Error message "agent/ directory not found"  
 
-**Cause**: ACP not installed in this project
+**Cause**: ACP not installed in this project  
 
-**Solution**: Install ACP first using the installation script from the ACP repository
+**Solution**: Install ACP first using the installation script from the ACP repository  
 
 ### Issue 2: Update check script not found
 
-**Symptom**: Warning "acp.version-check-for-updates.sh not found"
+**Symptom**: Warning "acp.version-check-for-updates.sh not found"  
 
-**Cause**: Older ACP installation without update scripts
+**Cause**: Older ACP installation without update scripts  
 
-**Solution**: This is non-critical, continue with initialization. Consider updating ACP to latest version.
+**Solution**: This is non-critical, continue with initialization. Consider updating ACP to latest version.  
 
 ### Issue 3: No source files found
 
-**Symptom**: Warning "No source files to review"
+**Symptom**: Warning "No source files to review"  
 
-**Cause**: Project is new or source code is in unexpected location
+**Cause**: Project is new or source code is in unexpected location  
 
-**Solution**: This is fine for new projects. Specify source file locations if they're in non-standard directories.
+**Solution**: This is fine for new projects. Specify source file locations if they're in non-standard directories.  
 
 ### Issue 4: progress.yaml doesn't exist
 
-**Symptom**: Error "Cannot read progress.yaml"
+**Symptom**: Error "Cannot read progress.yaml"  
 
-**Cause**: Progress tracking not initialized yet
+**Cause**: Progress tracking not initialized yet  
 
-**Solution**: Create progress.yaml from template: `cp agent/progress.template.yaml agent/progress.yaml`, then run `@acp-init` again
+**Solution**: Create progress.yaml from template: `cp agent/progress.template.yaml agent/progress.yaml`, then run `@acp-init` again  
 
 ---
 
@@ -572,11 +572,11 @@ Ready to proceed with task-2 completion.
 
 ---
 
-**Namespace**: acp
-**Command**: init
-**Version**: 1.1.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-03-09
-**Status**: Active
-**Compatibility**: ACP 1.0.3+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: init  
+**Version**: 1.1.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-03-09  
+**Status**: Active  
+**Compatibility**: ACP 1.0.3+  
+**Author**: ACP Project  

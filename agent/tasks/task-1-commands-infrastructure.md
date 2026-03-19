@@ -1,9 +1,9 @@
 # Task 1: Create Commands Directory Structure
 
-**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)
-**Estimated Time**: 1 hour
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)  
+**Estimated Time**: 1 hour  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -102,15 +102,15 @@ agent/commands/
 
 ### Issue 1: Directory already exists
 
-**Symptom**: `mkdir` reports directory exists
+**Symptom**: `mkdir` reports directory exists  
 
-**Solution**: This is fine, the directory structure is already in place. Verify contents are correct.
+**Solution**: This is fine, the directory structure is already in place. Verify contents are correct.  
 
 ### Issue 2: Template file missing
 
-**Symptom**: `command.template.md` not found
+**Symptom**: `command.template.md` not found  
 
-**Solution**: Copy from the design document or create from scratch following the template structure defined in `agent/design/acp-commands-design.md`.
+**Solution**: Copy from the design document or create from scratch following the template structure defined in `agent/design/acp-commands-design.md`.  
 
 ---
 
@@ -129,6 +129,6 @@ agent/commands/
 
 ---
 
-**Next Task**: [Task 2: Implement Core Workflow Commands](task-2-workflow-commands.md)
-**Related Design Docs**: [ACP Commands Design](../design/acp-commands-design.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 2: Implement Core Workflow Commands](task-2-workflow-commands.md)  
+**Related Design Docs**: [ACP Commands Design](../design/acp-commands-design.md)  
+**Estimated Completion Date**: TBD  

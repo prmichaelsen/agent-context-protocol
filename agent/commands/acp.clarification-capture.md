@@ -7,18 +7,18 @@
 >
 > If you are a create command reading this file, follow the steps below to capture clarification context and generate a "Key Design Decisions" section for the entity being created.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-04
-**Last Updated**: 2026-03-04
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-04  
+**Last Updated**: 2026-03-04  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Capture decisions from ephemeral clarification files and chat context into permanent entity documents
-**Category**: Workflow (Internal Directive)
-**Frequency**: Called by create commands when context is available
+**Purpose**: Capture decisions from ephemeral clarification files and chat context into permanent entity documents  
+**Category**: Workflow (Internal Directive)  
+**Frequency**: Called by create commands when context is available  
 
 ---
 
@@ -42,7 +42,7 @@ These arguments are passed through from the calling create command. The create c
 - `@acp.design-create --from-context` → Capture from all sources
 - `@acp.design-create` (no flags) → **Auto-detect**: equivalent to implicit `--from-context`
 
-**Default Behavior**: When no `--from-*` flags are specified, the directive auto-detects clarifications and context in the current session. This is the common case.
+**Default Behavior**: When no `--from-*` flags are specified, the directive auto-detects clarifications and context in the current session. This is the common case.  
 
 ---
 
@@ -83,7 +83,7 @@ Determine which sources to capture from based on arguments or auto-detection.
 - If `--from-context` specified: Use all sources (clarifications + chat)
 - If **no flags** specified (default): Auto-detect — scan for clarifications in session and chat context. Equivalent to implicit `--from-context`.
 
-**Expected Outcome**: List of context sources identified
+**Expected Outcome**: List of context sources identified  
 
 ### 2. Read Clarification Files
 
@@ -97,9 +97,9 @@ If clarifications are a source, read and parse them.
 - Parse each clarification's Items, Questions, and responses (lines starting with `>`)
 - Order by recency (file modification time or clarification number)
 
-**Priority rule**: More recent clarification responses supersede older ones. Within a single clarification, all items are equal weight.
+**Priority rule**: More recent clarification responses supersede older ones. Within a single clarification, all items are equal weight.  
 
-**Expected Outcome**: Clarification responses parsed and ordered
+**Expected Outcome**: Clarification responses parsed and ordered  
 
 ### 3. Warn About Partial Clarifications
 
@@ -119,7 +119,7 @@ If any clarification has unanswered questions, warn the user.
 - If user says yes: Continue with answered portions
 - If user says no: Halt capture and let user complete the clarification first
 
-**Expected Outcome**: User informed of partial clarifications, decision made
+**Expected Outcome**: User informed of partial clarifications, decision made  
 
 ### 4. Resolve Conflicts
 
@@ -148,7 +148,7 @@ If multiple clarifications contain conflicting decisions, flag for user resoluti
 - Never silently merge conflicting decisions
 - Never capture both sides of a conflict
 
-**Expected Outcome**: All conflicts resolved
+**Expected Outcome**: All conflicts resolved  
 
 ### 5. Synthesize Chat Context
 
@@ -159,7 +159,7 @@ If chat context is a source (`--from-chat` or auto-detect), extract decisions fr
 - Extract decision/choice/rationale triples from conversational context
 - Merge with clarification decisions (chat context has equal weight to clarifications)
 
-**Expected Outcome**: Chat decisions extracted and merged
+**Expected Outcome**: Chat decisions extracted and merged  
 
 ### 6. Generate Key Design Decisions Section
 
@@ -190,7 +190,7 @@ Create the markdown section for embedding in the entity document.
 - **Do NOT include clarification file references** — clarifications are ephemeral and volatile. File numbers will not match across different developer checkouts.
 - If no decisions to capture, omit the section entirely
 
-**Expected Outcome**: Key Design Decisions markdown section generated
+**Expected Outcome**: Key Design Decisions markdown section generated  
 
 ### 7. Update Clarification Status
 
@@ -202,13 +202,13 @@ After successful capture, update the status of captured clarification files.
 - Do NOT delete clarification files
 - Do NOT prompt to delete clarification files
 
-**Expected Outcome**: Clarification statuses updated to "Captured"
+**Expected Outcome**: Clarification statuses updated to "Captured"  
 
 ### 8. Return Section to Calling Command
 
 Pass the generated Key Design Decisions section back to the create command for insertion into the entity document.
 
-**Expected Outcome**: Create command receives the section and inserts it into the generated entity file
+**Expected Outcome**: Create command receives the section and inserts it into the generated entity file  
 
 ---
 
@@ -285,27 +285,27 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 
 ### Example 1: Auto-detect with clarifications in session
 
-**Context**: User created and answered a clarification, then invokes `@acp.design-create`
+**Context**: User created and answered a clarification, then invokes `@acp.design-create`  
 
-**Flow**: Directive auto-detects the clarification, warns user, user confirms, decisions captured into design document
+**Flow**: Directive auto-detects the clarification, warns user, user confirms, decisions captured into design document  
 
 ### Example 2: Explicit capture from specific file
 
-**Context**: User invokes `@acp.task-create --from-clar clarification-6-create-command-context-capture.md`
+**Context**: User invokes `@acp.task-create --from-clar clarification-6-create-command-context-capture.md`  
 
-**Flow**: Directive reads only that clarification, synthesizes decisions, generates section
+**Flow**: Directive reads only that clarification, synthesizes decisions, generates section  
 
 ### Example 3: Chat-only capture
 
-**Context**: User had extensive discussion about design choices, invokes `@acp.pattern-create --from-chat`
+**Context**: User had extensive discussion about design choices, invokes `@acp.pattern-create --from-chat`  
 
-**Flow**: Directive synthesizes decisions from chat history, generates section (no clarification files involved)
+**Flow**: Directive synthesizes decisions from chat history, generates section (no clarification files involved)  
 
 ### Example 4: No context available
 
-**Context**: User invokes `@acp.design-create` with no prior clarifications or design discussion
+**Context**: User invokes `@acp.design-create` with no prior clarifications or design discussion  
 
-**Flow**: Directive finds no context sources, skips capture silently, entity created without Key Design Decisions section
+**Flow**: Directive finds no context sources, skips capture silently, entity created without Key Design Decisions section  
 
 ---
 
@@ -323,27 +323,27 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 
 ### Issue 1: No clarifications found
 
-**Symptom**: Directive reports no context sources
+**Symptom**: Directive reports no context sources  
 
-**Cause**: No clarification files exist or all have status "Captured"
+**Cause**: No clarification files exist or all have status "Captured"  
 
-**Solution**: This is normal. Entity will be created without Key Design Decisions section. If you expected clarifications, check `agent/clarifications/` directory.
+**Solution**: This is normal. Entity will be created without Key Design Decisions section. If you expected clarifications, check `agent/clarifications/` directory.  
 
 ### Issue 2: Clarification has no answered questions
 
-**Symptom**: Warning about fully unanswered clarification
+**Symptom**: Warning about fully unanswered clarification  
 
-**Cause**: Clarification was created but not yet answered
+**Cause**: Clarification was created but not yet answered  
 
-**Solution**: Answer the clarification first, then re-run the create command.
+**Solution**: Answer the clarification first, then re-run the create command.  
 
 ### Issue 3: Too many conflicts
 
-**Symptom**: Multiple conflict resolution prompts
+**Symptom**: Multiple conflict resolution prompts  
 
-**Cause**: Multiple clarifications with overlapping but contradictory answers
+**Cause**: Multiple clarifications with overlapping but contradictory answers  
 
-**Solution**: Consider consolidating clarifications before capture, or resolve each conflict as prompted.
+**Solution**: Consider consolidating clarifications before capture, or resolve each conflict as prompted.  
 
 ---
 
@@ -376,11 +376,11 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 
 ---
 
-**Namespace**: acp
-**Command**: clarification-capture
-**Version**: 1.0.0
-**Created**: 2026-03-04
-**Last Updated**: 2026-03-04
-**Status**: Active
-**Compatibility**: ACP 5.12.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: clarification-capture  
+**Version**: 1.0.0  
+**Created**: 2026-03-04  
+**Last Updated**: 2026-03-04  
+**Status**: Active  
+**Compatibility**: ACP 5.12.0+  
+**Author**: ACP Project  

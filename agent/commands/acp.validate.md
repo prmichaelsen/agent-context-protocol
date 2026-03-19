@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.validate` NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document.
 
-**Namespace**: acp
-**Version**: 2.1.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 2.1.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Validate all ACP documents for structure, consistency, correctness, and namespace conventions
-**Category**: Documentation
-**Frequency**: As Needed
+**Purpose**: Validate all ACP documents for structure, consistency, correctness, and namespace conventions  
+**Category**: Documentation  
+**Frequency**: As Needed  
 
 ---
 
@@ -50,7 +50,7 @@ Check that all required directories and files exist.
 - Check for `agent/commands/` directory
 - Note any missing directories
 
-**Expected Outcome**: Directory structure validated
+**Expected Outcome**: Directory structure validated  
 
 ### 2. Validate progress.yaml
 
@@ -65,7 +65,7 @@ Check YAML syntax and required fields.
 - Check milestone/task references are consistent
 - Validate status values (not_started, in_progress, completed)
 
-**Expected Outcome**: progress.yaml is valid
+**Expected Outcome**: progress.yaml is valid  
 
 ### 3. Validate Design Documents
 
@@ -80,7 +80,7 @@ Check design document structure and content.
 - Check status values are valid
 - Ensure no broken internal links
 
-**Expected Outcome**: Design docs are well-formed
+**Expected Outcome**: Design docs are well-formed  
 
 ### 4. Validate Milestone Documents
 
@@ -94,7 +94,7 @@ Check milestone document structure.
 - Verify success criteria are checkboxes
 - Check for proper formatting
 
-**Expected Outcome**: Milestone docs are valid
+**Expected Outcome**: Milestone docs are valid  
 
 ### 5. Validate Task Documents
 
@@ -108,7 +108,7 @@ Check task document structure.
 - Verify verification items are checkboxes
 - Check for proper formatting
 
-**Expected Outcome**: Task docs are valid
+**Expected Outcome**: Task docs are valid  
 
 ### 6. Validate Pattern Documents
 
@@ -121,7 +121,7 @@ Check pattern document structure.
 - Validate examples have language tags
 - Verify no broken links
 
-**Expected Outcome**: Pattern docs are valid
+**Expected Outcome**: Pattern docs are valid  
 
 ### 7. Validate Command Documents
 
@@ -135,7 +135,7 @@ Check command document structure.
 - Verify examples are complete
 - Check related commands links work
 
-**Expected Outcome**: Command docs are valid
+**Expected Outcome**: Command docs are valid  
 
 ### 8. Validate Artifact Documents
 
@@ -189,7 +189,7 @@ Check artifact document structure and staleness.
   - 1 status mismatch (marked Stale but recently verified)
 ```
 
-**Expected Outcome**: Artifact docs are valid, staleness warnings issued
+**Expected Outcome**: Artifact docs are valid, staleness warnings issued  
 
 ### 9. Validate Namespace Conventions
 
@@ -226,7 +226,7 @@ Check namespace usage across all files.
   - Namespace matches package.yaml name field (if package)
   - ERROR for mixing of namespaces
 
-**Expected Outcome**: Namespace conventions validated, errors reported for violations
+**Expected Outcome**: Namespace conventions validated, errors reported for violations  
 
 ### 10. Validate Key File Index
 
@@ -254,7 +254,7 @@ Check index files in `agent/index/` for schema correctness and referential integ
   ✓ Total: 8 entries across 2 namespaces (within limits)
 ```
 
-**Expected Outcome**: Index files validated for schema and referential integrity
+**Expected Outcome**: Index files validated for schema and referential integrity  
 
 ### 11. Check Cross-References
 
@@ -268,7 +268,7 @@ Validate links between documents.
 - Validate command → command links
 - Note any broken links
 
-**Expected Outcome**: All links are valid
+**Expected Outcome**: All links are valid  
 
 ### 12. Generate Validation Report
 
@@ -281,7 +281,7 @@ Summarize validation results.
 - Provide recommendations
 - Suggest fixes for issues
 
-**Expected Outcome**: Validation report generated
+**Expected Outcome**: Validation report generated  
 
 ---
 
@@ -422,27 +422,27 @@ Recommendations:
 
 ### Example 1: Before Committing Changes
 
-**Context**: Made changes to several docs, want to verify before commit
+**Context**: Made changes to several docs, want to verify before commit  
 
-**Invocation**: `@acp.validate`
+**Invocation**: `@acp.validate`  
 
-**Result**: Validates all docs, finds 2 broken links, reports them, you fix them before committing
+**Result**: Validates all docs, finds 2 broken links, reports them, you fix them before committing  
 
 ### Example 2: After Creating New Documents
 
-**Context**: Created 3 new design documents
+**Context**: Created 3 new design documents  
 
-**Invocation**: `@acp.validate`
+**Invocation**: `@acp.validate`  
 
-**Result**: Validates new docs, confirms they follow proper structure, identifies missing section in one doc
+**Result**: Validates new docs, confirms they follow proper structure, identifies missing section in one doc  
 
 ### Example 3: Periodic Quality Check
 
-**Context**: Monthly documentation review
+**Context**: Monthly documentation review  
 
-**Invocation**: `@acp.validate`
+**Invocation**: `@acp.validate`  
 
-**Result**: Validates all 50+ documents, finds minor formatting issues in 3 files, overall quality is good
+**Result**: Validates all 50+ documents, finds minor formatting issues in 3 files, overall quality is good  
 
 ---
 
@@ -460,27 +460,27 @@ Recommendations:
 
 ### Issue 1: YAML parsing errors
 
-**Symptom**: progress.yaml fails to parse
+**Symptom**: progress.yaml fails to parse  
 
-**Cause**: Invalid YAML syntax (indentation, special characters)
+**Cause**: Invalid YAML syntax (indentation, special characters)  
 
-**Solution**: Use YAML validator, check indentation (2 spaces), quote strings with special characters
+**Solution**: Use YAML validator, check indentation (2 spaces), quote strings with special characters  
 
 ### Issue 2: Many broken links reported
 
-**Symptom**: Validation finds numerous broken links
+**Symptom**: Validation finds numerous broken links  
 
-**Cause**: Files were moved or renamed
+**Cause**: Files were moved or renamed  
 
-**Solution**: Update links to reflect new file locations, use relative paths, verify files exist
+**Solution**: Update links to reflect new file locations, use relative paths, verify files exist  
 
 ### Issue 3: Validation takes too long
 
-**Symptom**: Command runs for several minutes
+**Symptom**: Command runs for several minutes  
 
-**Cause**: Very large project with many documents
+**Cause**: Very large project with many documents  
 
-**Solution**: This is normal for large projects, consider validating specific directories only, run less frequently
+**Solution**: This is normal for large projects, consider validating specific directories only, run less frequently  
 
 ---
 
@@ -514,11 +514,11 @@ Recommendations:
 
 ---
 
-**Namespace**: acp
-**Command**: validate
-**Version**: 2.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: validate  
+**Version**: 2.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

@@ -1,9 +1,9 @@
 # Task 87: Legacy Codebase Refactor Benchmark Task
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 4-6 hours
-**Dependencies**: Task 79 (runner must support multi-turn steps)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: Task 79 (runner must support multi-turn steps)  
+**Status**: Not Started  
 
 ---
 
@@ -110,4 +110,4 @@ If not already supported, add seed directory support to run-single.sh:
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md
+**Related Design Docs**: agent/design/local.benchmark-suite.md  

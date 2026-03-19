@@ -1,9 +1,9 @@
 # Task 107: Update Entity Templates with Key Design Decisions Section
 
-**Milestone**: M15 - Clarification Capture System
-**Status**: Not Started
-**Estimated Time**: 1-2 hours
-**Dependencies**: Task 106
+**Milestone**: M15 - Clarification Capture System  
+**Status**: Not Started  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: Task 106  
 
 ---
 

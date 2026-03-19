@@ -1,9 +1,9 @@
 # Task 85: GitHub Actions Workflow
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 2-3 hours
-**Dependencies**: Tasks 79-84 (full pipeline must work locally first)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: Tasks 79-84 (full pipeline must work locally first)  
+**Status**: Not Started  
 
 ---
 
@@ -53,4 +53,4 @@ The design spec calls for CI/CD integration via GitHub Actions with `workflow_di
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md (CI/CD Integration)
+**Related Design Docs**: agent/design/local.benchmark-suite.md (CI/CD Integration)  

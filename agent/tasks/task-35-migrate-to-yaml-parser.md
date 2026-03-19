@@ -1,9 +1,9 @@
 # Task 35: Migrate Scripts from acp.yaml.sh to acp.yaml-parser.sh
 
-**Milestone**: Future Enhancements
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 34 (Generic YAML Parser)
-**Status**: Not Started
+**Milestone**: Future Enhancements  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 34 (Generic YAML Parser)  
+**Status**: Not Started  
 
 ---
 
@@ -69,7 +69,7 @@ The `source_yaml_parser()` function in `acp.common.sh` already sources `acp.yaml
 grep -A 10 "source_yaml_parser()" agent/scripts/acp.common.sh
 ```
 
-**Expected**: Function sources `acp.yaml-parser.sh` (not `acp.yaml.sh`)
+**Expected**: Function sources `acp.yaml-parser.sh` (not `acp.yaml.sh`)  
 
 **Verification**:
 - `source_yaml_parser()` sources correct parser
@@ -196,7 +196,7 @@ Decide whether to keep or remove `acp.yaml.sh`:
 - All scripts now use `acp.yaml-parser.sh`
 - Clean break, simpler codebase
 
-**Recommendation**: Option A (keep with deprecation notice)
+**Recommendation**: Option A (keep with deprecation notice)  
 
 **If keeping**:
 ```bash
@@ -313,21 +313,21 @@ Backward compatibility: 100% maintained
 
 ### Issue 1: Function not found after migration
 
-**Symptom**: Error "yaml_get: command not found"
+**Symptom**: Error "yaml_get: command not found"  
 
-**Solution**: Ensure `acp.yaml-parser.sh` is sourced. Check that `source_yaml_parser()` is called or parser is sourced directly.
+**Solution**: Ensure `acp.yaml-parser.sh` is sourced. Check that `source_yaml_parser()` is called or parser is sourced directly.  
 
 ### Issue 2: Different output format
 
-**Symptom**: Script output changed after migration
+**Symptom**: Script output changed after migration  
 
-**Solution**: New parser should be backward compatible. Check if script relies on specific output format. May need to adjust parsing logic.
+**Solution**: New parser should be backward compatible. Check if script relies on specific output format. May need to adjust parsing logic.  
 
 ### Issue 3: Performance regression
 
-**Symptom**: Scripts slower after migration
+**Symptom**: Scripts slower after migration  
 
-**Solution**: This should not happen - new parser is faster. If it does, check that parser is being used correctly (parse once, query many times).
+**Solution**: This should not happen - new parser is faster. If it does, check that parser is being used correctly (parse once, query many times).  
 
 ---
 
@@ -350,6 +350,6 @@ Backward compatibility: 100% maintained
 
 ---
 
-**Next Task**: [task-36-test-package-commands.md](task-36-test-package-commands.md)
-**Related Tasks**: [task-34-build-generic-yaml-parser.md](task-34-build-generic-yaml-parser.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [task-36-test-package-commands.md](task-36-test-package-commands.md)  
+**Related Tasks**: [task-34-build-generic-yaml-parser.md](task-34-build-generic-yaml-parser.md)  
+**Estimated Completion Date**: TBD  

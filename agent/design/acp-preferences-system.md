@@ -1,8 +1,8 @@
 # ACP Preferences System
 
-**Concept**: Multi-level preference system enabling users to configure agent behavior at user, workspace, and project levels with clear precedence rules
-**Created**: 2026-02-22
-**Status**: Design Specification
+**Concept**: Multi-level preference system enabling users to configure agent behavior at user, workspace, and project levels with clear precedence rules  
+**Created**: 2026-02-22  
+**Status**: Design Specification  
 
 ---
 
@@ -12,7 +12,7 @@ The ACP Preferences System provides a hierarchical configuration mechanism that 
 
 The preferences system integrates with ACP commands (like [`@acp.plan`](../commands/acp.plan.md:1)) and templates to provide context-aware defaults, reducing repetitive configuration and enabling sophisticated workflow automation. It supports both core ACP preferences and package-specific preferences, creating a unified configuration experience across the entire ACP ecosystem.
 
-**Key Innovation**: Preferences are defined in [`agent/configurables/`](../configurables/acp.configurables.yaml:1) files that specify available options, descriptions, and defaults. Preference instances in [`agent/preferences/`](../preferences/acp.default.yaml:1) reference these definitions, ensuring type safety and discoverability.
+**Key Innovation**: Preferences are defined in [`agent/configurables/`](../configurables/acp.configurables.yaml:1) files that specify available options, descriptions, and defaults. Preference instances in [`agent/preferences/`](../preferences/acp.default.yaml:1) reference these definitions, ensuring type safety and discoverability.  
 
 ---
 
@@ -51,7 +51,7 @@ Implement a **three-tier hierarchical preference system** with clear precedence 
 2. **Workspace Preferences** (`.vscode/preferences/` or workspace root) - IDE/workspace-specific settings
 3. **Project Preferences** (`./agent/preferences/`) - Project-specific overrides
 
-**Precedence**: Project > Workspace > User (more specific overrides more general)
+**Precedence**: Project > Workspace > User (more specific overrides more general)  
 
 ### Key Components
 
@@ -117,7 +117,7 @@ Implement a **three-tier hierarchical preference system** with clear precedence 
 
 ### 2. Configurables Definition Format
 
-**File**: `agent/configurables/acp.configurables.yaml`
+**File**: `agent/configurables/acp.configurables.yaml`  
 
 ```yaml
 # Configurables define AVAILABLE preferences with metadata
@@ -178,7 +178,7 @@ acp:
 
 ### 3. Preference Instance Format
 
-**File**: `agent/preferences/acp.default.yaml`
+**File**: `agent/preferences/acp.default.yaml`  
 
 ```yaml
 # Preference instances reference configurables definitions
@@ -197,7 +197,7 @@ acp:
 
 ### 4. Package-Specific Preferences
 
-**File**: `agent/configurables/mcp-auth-server-base.configurables.yaml`
+**File**: `agent/configurables/mcp-auth-server-base.configurables.yaml`  
 
 ```yaml
 mcp-auth-server-base:
@@ -219,14 +219,14 @@ mcp-auth-server-base:
             value: dynamic
 ```
 
-**File**: `agent/preferences/mcp-auth-server-base.default.yaml`
+**File**: `agent/preferences/mcp-auth-server-base.default.yaml`  
 
 ```yaml
 mcp-auth-server-base:
   init.server.type: 'static_credentials'
 ```
 
-**File**: `agent/preferences/mcp-auth-server-base.static-jwt-auth.yaml` (preset)
+**File**: `agent/preferences/mcp-auth-server-base.static-jwt-auth.yaml` (preset)  
 
 ```yaml
 # Preset configuration for static JWT authentication
@@ -281,9 +281,9 @@ Based on user selection, gather requirements:
 
 ### 7. Preference Utilities Architecture
 
-**Design**: The preferences system uses a unified shell script with multiple functions:
+**Design**: The preferences system uses a unified shell script with multiple functions:  
 
-**File**: `agent/scripts/acp.preferences.sh`
+**File**: `agent/scripts/acp.preferences.sh`  
 
 This single script contains all preference utilities:
 - `get_preference()` - Get single preference value with precedence
@@ -299,7 +299,7 @@ This single script contains all preference utilities:
 - Commands provide agent-friendly interface with error handling
 - Clear separation between utilities (shell) and orchestration (commands)
 
-**Note**: Using `acp.preferences.sh` (not `acp.preferences-get.sh`) since the script handles all preference operations, not just getting.
+**Note**: Using `acp.preferences.sh` (not `acp.preferences-get.sh`) since the script handles all preference operations, not just getting.  
 
 ```bash
 #!/usr/bin/env bash
@@ -436,7 +436,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
 fi
 ```
 
-**Command**: `agent/commands/acp.preferences-get.md`
+**Command**: `agent/commands/acp.preferences-get.md`  
 
 ```markdown
 # Command: preferences-get
@@ -444,7 +444,7 @@ fi
 > **🤖 Agent Directive**: Run `./agent/scripts/acp.preferences-get.sh` to generate
 > complete preferences for the specified namespace with precedence applied.
 
-**Purpose**: Generate and display complete preference set for a namespace
+**Purpose**: Generate and display complete preference set for a namespace  
 
 ## Steps
 
@@ -491,7 +491,7 @@ else
 fi
 ```
 
-**Note**: In practice, `@acp.plan` should invoke the `@acp.preferences-get` command as a subroutine to generate the complete preference set, then extract the specific preference value. This maintains command-level abstraction and enables proper error handling.
+**Note**: In practice, `@acp.plan` should invoke the `@acp.preferences-get` command as a subroutine to generate the complete preference set, then extract the specific preference value. This maintains command-level abstraction and enables proper error handling.  
 
 **Improved Approach**:
 ```markdown
@@ -508,7 +508,7 @@ This approach allows other commands to consume the generated preferences without
 
 Users can create preset configuration files for common workflows:
 
-**File**: `agent/preferences/acp.batch-planning.yaml`
+**File**: `agent/preferences/acp.batch-planning.yaml`  
 
 ```yaml
 # Preset for batch planning mode
@@ -519,11 +519,11 @@ acp:
   validation.auto_fix.enabled: true
 ```
 
-**Usage**: `@acp.plan --preset acp.batch-planning`
+**Usage**: `@acp.plan --preset acp.batch-planning`  
 
 The command would load `agent/preferences/acp.batch-planning.yaml` and use those values for the current invocation only.
 
-**Preset Naming**: Presets should include namespace prefix for clarity (e.g., `acp.batch-planning` not just `batch-planning`).
+**Preset Naming**: Presets should include namespace prefix for clarity (e.g., `acp.batch-planning` not just `batch-planning`).  
 
 ---
 
@@ -616,7 +616,7 @@ The command would load `agent/preferences/acp.batch-planning.yaml` and use those
 
 ### Unit Tests
 
-**Test File**: `tests/acp.preferences.test.sh`
+**Test File**: `tests/acp.preferences.test.sh`  
 
 ```bash
 # Test preference resolution precedence
@@ -647,7 +647,7 @@ test_missing_preference() {
 
 ### Integration Tests
 
-**Test File**: `e2e/acp.plan-with-preferences.test.sh`
+**Test File**: `e2e/acp.plan-with-preferences.test.sh`  
 
 ```bash
 # Test @acp.plan respects preferences
@@ -871,8 +871,8 @@ test_validate_preferences() {
 
 ## Status
 
-**Status**: Design Specification
-**Recommendation**: Proceed with implementation as Milestone 6
+**Status**: Design Specification  
+**Recommendation**: Proceed with implementation as Milestone 6  
 **Related Documents**: 
 - [`acp-commands-design.md`](acp-commands-design.md:1) - Command system
 - [`acp-package-management-system.md`](acp-package-management-system.md:1) - Package system

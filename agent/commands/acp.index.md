@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp-index` NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-03-02
-**Last Updated**: 2026-03-02
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-03-02  
+**Last Updated**: 2026-03-02  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Manage the key file index — list, add, remove, explore, and show indexed key files
-**Category**: Maintenance
-**Frequency**: As Needed
+**Purpose**: Manage the key file index — list, add, remove, explore, and show indexed key files  
+**Category**: Maintenance  
+**Frequency**: As Needed  
 
 ---
 
@@ -78,7 +78,7 @@ See also: `agent/design/local.key-file-index-system.md`
 - If not: warn user and suggest running `mkdir -p agent/index`
 - List all `*.yaml` files (excluding `*.template.yaml`)
 
-**Expected Outcome**: Index directory confirmed, files discovered
+**Expected Outcome**: Index directory confirmed, files discovered  
 
 ### 2. Parse Arguments
 
@@ -87,7 +87,7 @@ See also: `agent/design/local.key-file-index-system.md`
 - If ambiguous, default to `list`
 - If `add`/`remove` with natural language path description, search codebase to resolve to actual path
 
-**Expected Outcome**: Subcommand and arguments determined
+**Expected Outcome**: Subcommand and arguments determined  
 
 ### 3. Execute Subcommand
 
@@ -173,7 +173,7 @@ Remove a file from `agent/index/local.main.yaml`.
 3. If found: show the entry and confirm removal
 4. Remove entry from YAML file
 
-**Note**: Only entries in `local.*.yaml` can be removed via this command. Package index entries should be managed via package updates.
+**Note**: Only entries in `local.*.yaml` can be removed via this command. Package index entries should be managed via package updates.  
 
 **Display on success**:
 ```
@@ -299,43 +299,43 @@ See display formats for each subcommand above.
 
 ### Example 1: Listing Indexed Files
 
-**Context**: Want to see what's currently indexed
+**Context**: Want to see what's currently indexed  
 
-**Invocation**: `@acp.index`
+**Invocation**: `@acp.index`  
 
-**Result**: Displays compact table of all indexed files grouped by namespace
+**Result**: Displays compact table of all indexed files grouped by namespace  
 
 ### Example 2: Adding a New Pattern
 
-**Context**: Just created a new pattern and want to index it
+**Context**: Just created a new pattern and want to index it  
 
-**Invocation**: `@acp.index add agent/patterns/local.api-conventions.md`
+**Invocation**: `@acp.index add agent/patterns/local.api-conventions.md`  
 
-**Result**: Prompts for weight/kind/description/rationale/applies, adds to local.main.yaml
+**Result**: Prompts for weight/kind/description/rationale/applies, adds to local.main.yaml  
 
 ### Example 3: Exploring for Missing Files
 
-**Context**: Want to discover what files should be indexed
+**Context**: Want to discover what files should be indexed  
 
-**Invocation**: `@acp.index explore`
+**Invocation**: `@acp.index explore`  
 
-**Result**: Scans agent/design/ and agent/patterns/, shows un-indexed files with suggestions
+**Result**: Scans agent/design/ and agent/patterns/, shows un-indexed files with suggestions  
 
 ### Example 4: Natural Language Add
 
-**Context**: Want to add a file using description instead of path
+**Context**: Want to add a file using description instead of path  
 
-**Invocation**: `@acp.index add the e2e testing pattern`
+**Invocation**: `@acp.index add the e2e testing pattern`  
 
-**Result**: Agent searches for matching file, finds `agent/patterns/local.e2e-testing.md`, proceeds with add flow
+**Result**: Agent searches for matching file, finds `agent/patterns/local.e2e-testing.md`, proceeds with add flow  
 
 ### Example 5: Removing a Stale Entry
 
-**Context**: A file was deleted but still in the index
+**Context**: A file was deleted but still in the index  
 
-**Invocation**: `@acp.index remove agent/design/old-feature.md`
+**Invocation**: `@acp.index remove agent/design/old-feature.md`  
 
-**Result**: Finds entry, confirms removal, updates local.main.yaml
+**Result**: Finds entry, confirms removal, updates local.main.yaml  
 
 ---
 
@@ -353,35 +353,35 @@ See display formats for each subcommand above.
 
 ### Issue 1: No agent/index/ directory
 
-**Symptom**: Warning "agent/index/ directory not found"
+**Symptom**: Warning "agent/index/ directory not found"  
 
-**Cause**: ACP installed before key file index system was available
+**Cause**: ACP installed before key file index system was available  
 
-**Solution**: Run `mkdir -p agent/index` to create the directory
+**Solution**: Run `mkdir -p agent/index` to create the directory  
 
 ### Issue 2: File not found when adding
 
-**Symptom**: Error "File does not exist: <path>"
+**Symptom**: Error "File does not exist: <path>"  
 
-**Cause**: Path is incorrect or file was deleted
+**Cause**: Path is incorrect or file was deleted  
 
-**Solution**: Verify the file path. Use `@acp.index explore` to discover files automatically.
+**Solution**: Verify the file path. Use `@acp.index explore` to discover files automatically.  
 
 ### Issue 3: Cannot remove package index entry
 
-**Symptom**: Error "Entry is in package index, not local"
+**Symptom**: Error "Entry is in package index, not local"  
 
-**Cause**: Trying to remove an entry from a package-shipped index file
+**Cause**: Trying to remove an entry from a package-shipped index file  
 
-**Solution**: Package index entries are managed by the package. Use `@acp.package-update` or `@acp.package-remove` to modify package indices.
+**Solution**: Package index entries are managed by the package. Use `@acp.package-update` or `@acp.package-remove` to modify package indices.  
 
 ### Issue 4: Exceeding recommended limits
 
-**Symptom**: Warning about too many entries
+**Symptom**: Warning about too many entries  
 
-**Cause**: Index has more than 10 entries per namespace or 20 total
+**Cause**: Index has more than 10 entries per namespace or 20 total  
 
-**Solution**: Review entries and remove lower-priority ones. The index should focus on truly critical files.
+**Solution**: Review entries and remove lower-priority ones. The index should focus on truly critical files.  
 
 ---
 
@@ -413,11 +413,11 @@ See display formats for each subcommand above.
 
 ---
 
-**Namespace**: acp
-**Command**: index
-**Version**: 1.0.0
-**Created**: 2026-03-02
-**Last Updated**: 2026-03-02
-**Status**: Active
-**Compatibility**: ACP 5.10.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: index  
+**Version**: 1.0.0  
+**Created**: 2026-03-02  
+**Last Updated**: 2026-03-02  
+**Status**: Active  
+**Compatibility**: ACP 5.10.0+  
+**Author**: ACP Project  

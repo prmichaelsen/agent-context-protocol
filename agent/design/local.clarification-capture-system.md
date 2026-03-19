@@ -1,8 +1,8 @@
 # Clarification Capture System
 
-**Concept**: Shared directive enabling create commands to capture clarification decisions into entity documents, preventing loss of design rationale
-**Created**: 2026-03-04
-**Status**: Design Specification
+**Concept**: Shared directive enabling create commands to capture clarification decisions into entity documents, preventing loss of design rationale  
+**Created**: 2026-03-04  
+**Status**: Design Specification  
 
 ---
 
@@ -86,7 +86,7 @@ When synthesizing from multiple clarifications, more recent responses supersede 
 
 Added as an **optional** section in entity templates (design, task, pattern, command). The agent infers whether to include it based on available context -- it may be populated from clarifications, chat loops, or other session context.
 
-**Format**: Summary tables grouped by agent-inferred category.
+**Format**: Summary tables grouped by agent-inferred category.  
 
 ```markdown
 ## Key Design Decisions (Optional)
@@ -260,8 +260,8 @@ When creating a new clarification, the command should:
 
 ---
 
-**Status**: Design Specification
-**Recommendation**: Create milestone and tasks for implementation
+**Status**: Design Specification  
+**Recommendation**: Create milestone and tasks for implementation  
 **Related Documents**:
 - [ACP Commands Design](acp-commands-design.md)
 - [Clarification Template](../clarifications/clarification-{N}-{title}.template.md)

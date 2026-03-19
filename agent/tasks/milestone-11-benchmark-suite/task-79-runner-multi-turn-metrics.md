@@ -1,11 +1,11 @@
 # Task 79: Runner Multi-Turn & Metrics Fix
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 6-8 hours
-**Dependencies**: None
-**Status**: Completed
-**Actual Hours**: 1.5
-**Completed**: 2026-02-28
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 6-8 hours  
+**Dependencies**: None  
+**Status**: Completed  
+**Actual Hours**: 1.5  
+**Completed**: 2026-02-28  
 
 ---
 
@@ -68,4 +68,4 @@ The current runner executes a single prompt per benchmark run. The design spec c
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md (Execution Flow, Claude Code CLI Integration, Metrics Collection)
+**Related Design Docs**: agent/design/local.benchmark-suite.md (Execution Flow, Claude Code CLI Integration, Metrics Collection)  

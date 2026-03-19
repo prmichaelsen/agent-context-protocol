@@ -1,8 +1,8 @@
 # ACP Commands System
 
-**Concept**: Standardized command interface for ACP operations using file-based triggers
-**Created**: 2026-02-16
-**Status**: Design Specification
+**Concept**: Standardized command interface for ACP operations using file-based triggers  
+**Created**: 2026-02-16  
+**Status**: Design Specification  
 
 ---
 
@@ -104,9 +104,9 @@ Each command file follows a standard structure:
 ```markdown
 # Command: {command-name}
 
-**Purpose**: One-line description
-**Category**: [Workflow | Documentation | Maintenance | Creation]
-**Frequency**: [Once | Per Session | As Needed | Continuous]
+**Purpose**: One-line description  
+**Category**: [Workflow | Documentation | Maintenance | Creation]  
+**Frequency**: [Once | Per Session | As Needed | Continuous]  
 
 ---
 
@@ -164,7 +164,7 @@ Create essential commands that replace existing prompts. All core commands live 
 #### 1. `acp.init.md` - Initialize (@acp-init)
 Replaces: "AGENT.md: Initialize"
 
-**Purpose**: Bootstrap agent context and prepare for work
+**Purpose**: Bootstrap agent context and prepare for work  
 
 **Steps**:
 1. Check for ACP updates (`./agent/scripts/acp.version-check-for-updates.sh`)
@@ -177,7 +177,7 @@ Replaces: "AGENT.md: Initialize"
 #### 2. `acp.proceed.md` - Proceed (@acp-proceed)
 Replaces: "AGENT.md: Proceed"
 
-**Purpose**: Continue with current or next task
+**Purpose**: Continue with current or next task  
 
 **Steps**:
 1. Read `agent/progress.yaml` to find current task
@@ -190,7 +190,7 @@ Replaces: "AGENT.md: Proceed"
 #### 3. `acp.update.md` - Update Progress (@acp-update)
 New command
 
-**Purpose**: Update progress.yaml with latest status
+**Purpose**: Update progress.yaml with latest status  
 
 **Steps**:
 1. Read `agent/progress.yaml`
@@ -204,7 +204,7 @@ New command
 #### 4. `acp.sync.md` - Sync Documentation (@acp-sync)
 New command
 
-**Purpose**: Read code and update stale documentation
+**Purpose**: Read code and update stale documentation  
 
 **Steps**:
 1. Read source code files
@@ -217,7 +217,7 @@ New command
 #### 5. `acp-version-update.md` - Update ACP
 Replaces: "AGENT.md: Update"
 
-**Purpose**: Update ACP files to latest version
+**Purpose**: Update ACP files to latest version  
 
 **Steps**:
 1. Run `./agent/scripts/acp.version-update.sh`
@@ -228,7 +228,7 @@ Replaces: "AGENT.md: Update"
 #### 6. `acp-status.md` - Show Status
 New command
 
-**Purpose**: Display current project status
+**Purpose**: Display current project status  
 
 **Steps**:
 1. Read `agent/progress.yaml`
@@ -304,25 +304,25 @@ Archive completed milestones and tasks
 ## Trade-offs
 
 ### 1. Additional Files
-**Downside**: More files in the repository (10-15 command files)
-**Mitigation**: Commands are organized in dedicated directory, templates provided
+**Downside**: More files in the repository (10-15 command files)  
+**Mitigation**: Commands are organized in dedicated directory, templates provided  
 
 ### 2. Learning Curve
-**Downside**: Users need to learn new command system
+**Downside**: Users need to learn new command system  
 **Mitigation**: 
 - Backward compatibility with old prompts
 - Clear migration guide
 - README.md with command list
 
 ### 3. Maintenance Overhead
-**Downside**: Commands need to be kept in sync with AGENT.md
+**Downside**: Commands need to be kept in sync with AGENT.md  
 **Mitigation**:
 - Commands are source of truth
 - AGENT.md references commands
 - Update scripts update both
 
 ### 4. File Proliferation
-**Downside**: Many small files instead of one large document
+**Downside**: Many small files instead of one large document  
 **Mitigation**:
 - Better organization than single file
 - Each command is focused and clear
@@ -489,10 +489,10 @@ ls agent/commands/*.md | grep -v template
 ```markdown
 # Command: {command-name}
 
-**Purpose**: [One-line description of what this command does]
-**Category**: [Workflow | Documentation | Maintenance | Creation]
-**Frequency**: [Once | Per Session | As Needed | Continuous]
-**Aliases**: [Alternative names or shortcuts]
+**Purpose**: [One-line description of what this command does]  
+**Category**: [Workflow | Documentation | Maintenance | Creation]  
+**Frequency**: [Once | Per Session | As Needed | Continuous]  
+**Aliases**: [Alternative names or shortcuts]  
 
 ---
 
@@ -527,7 +527,7 @@ ls agent/commands/*.md | grep -v template
 - Action item 1
 - Action item 2
 
-**Expected Outcome**: [What should happen]
+**Expected Outcome**: [What should happen]  
 
 ### 2. [Step Name]
 
@@ -537,7 +537,7 @@ ls agent/commands/*.md | grep -v template
 - Action item 1
 - Action item 2
 
-**Expected Outcome**: [What should happen]
+**Expected Outcome**: [What should happen]  
 
 ---
 
@@ -573,19 +573,19 @@ Example output message
 
 ### Example 1: [Scenario Name]
 
-**Context**: [When you'd use this]
+**Context**: [When you'd use this]  
 
-**Invocation**: `@acp-command-name`
+**Invocation**: `@acp-command-name`  
 
-**Result**: [What happens]
+**Result**: [What happens]  
 
 ### Example 2: [Scenario Name]
 
-**Context**: [When you'd use this]
+**Context**: [When you'd use this]  
 
-**Invocation**: `@acp-command-name`
+**Invocation**: `@acp-command-name`  
 
-**Result**: [What happens]
+**Result**: [What happens]  
 
 ---
 
@@ -599,12 +599,12 @@ Example output message
 ## Troubleshooting
 
 ### Issue 1: [Common Problem]
-**Symptom**: [What the user sees]
-**Solution**: [How to fix it]
+**Symptom**: [What the user sees]  
+**Solution**: [How to fix it]  
 
 ### Issue 2: [Common Problem]
-**Symptom**: [What the user sees]
-**Solution**: [How to fix it]
+**Symptom**: [What the user sees]  
+**Solution**: [How to fix it]  
 
 ---
 
@@ -615,9 +615,9 @@ Example output message
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: YYYY-MM-DD
-**Compatibility**: ACP 1.0.3+
+**Version**: 1.0.0  
+**Last Updated**: YYYY-MM-DD  
+**Compatibility**: ACP 1.0.3+  
 ```
 
 ---
@@ -690,7 +690,7 @@ User: "AGENT.md: Initialize"
 User: "@acp-init"
 ```
 
-**Both Work**: For at least 6 months after command system launch
+**Both Work**: For at least 6 months after command system launch  
 
 ---
 
@@ -1013,7 +1013,7 @@ Use `@acp-install` to install command packages from git repositories (copies fil
 
 ### Alternative 1: Single Commands File
 
-**Approach**: One `agent/commands.md` file with all commands
+**Approach**: One `agent/commands.md` file with all commands  
 
 **Pros**:
 - Single file to maintain
@@ -1026,11 +1026,11 @@ Use `@acp-install` to install command packages from git repositories (copies fil
 - Can't reference specific commands
 - Harder to extend
 
-**Decision**: Rejected - Multiple files provide better UX
+**Decision**: Rejected - Multiple files provide better UX  
 
 ### Alternative 2: JSON/YAML Command Definitions
 
-**Approach**: Define commands in structured data format
+**Approach**: Define commands in structured data format  
 
 **Pros**:
 - Machine-readable
@@ -1043,11 +1043,11 @@ Use `@acp-install` to install command packages from git repositories (copies fil
 - Not self-documenting
 - Harder for users to create
 
-**Decision**: Rejected - Markdown is more accessible
+**Decision**: Rejected - Markdown is more accessible  
 
 ### Alternative 3: Script-Based Commands
 
-**Approach**: Executable scripts instead of markdown
+**Approach**: Executable scripts instead of markdown  
 
 **Pros**:
 - Can execute directly
@@ -1060,7 +1060,7 @@ Use `@acp-install` to install command packages from git repositories (copies fil
 - Not agent-friendly
 - Harder to customize
 
-**Decision**: Rejected - Markdown is safer and more flexible
+**Decision**: Rejected - Markdown is safer and more flexible  
 
 ---
 
@@ -1073,8 +1073,8 @@ Use `@acp-install` to install command packages from git repositories (copies fil
 
 ---
 
-**Status**: Design Specification - Ready for Implementation
-**Recommendation**: Implement in phases starting with core commands
+**Status**: Design Specification - Ready for Implementation  
+**Recommendation**: Implement in phases starting with core commands  
 **Next Steps**: 
 1. Review and approve design
 2. Create milestone for implementation
@@ -1085,6 +1085,6 @@ Use `@acp-install` to install command packages from git repositories (copies fil
 - [Bootstrap Pattern](../patterns/bootstrap.template.md) - Project setup
 - [Pattern Template](../patterns/pattern.template.md) - Pattern documentation
 
-**Version**: 1.0.0
-**Last Updated**: 2026-02-16
-**Compatibility**: ACP 1.0.3+
+**Version**: 1.0.0  
+**Last Updated**: 2026-02-16  
+**Compatibility**: ACP 1.0.3+  

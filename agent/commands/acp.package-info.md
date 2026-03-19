@@ -2,18 +2,18 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.package-info` has been invoked. Follow the steps below to execute this command.
 
-**Namespace**: acp
-**Version**: 2.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-22
-**Status**: Active
-**Scripts**: acp.package-info.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 2.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
+**Scripts**: acp.package-info.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Display detailed information about a specific installed package (local or global)
-**Category**: Information
-**Frequency**: As Needed
+**Purpose**: Display detailed information about a specific installed package (local or global)  
+**Category**: Information  
+**Frequency**: As Needed  
 
 ---
 
@@ -54,7 +54,7 @@ Execute the info script with the package name.
 ./agent/scripts/acp.package-info.sh --global firebase
 ```
 
-**Expected Outcome**: Detailed package information displayed
+**Expected Outcome**: Detailed package information displayed  
 
 ### 2. Review Package Information
 
@@ -67,7 +67,7 @@ Analyze the displayed information.
 - Verify file versions
 - Note commit hash for reference
 
-**Expected Outcome**: Complete understanding of package state
+**Expected Outcome**: Complete understanding of package state  
 
 ---
 
@@ -123,35 +123,35 @@ Total Files: 6
 
 ### Example 1: Show Package Info
 
-**Context**: Want to see details about firebase package
+**Context**: Want to see details about firebase package  
 
-**Invocation**: `@acp.package-info firebase`
+**Invocation**: `@acp.package-info firebase`  
 
-**Result**: Shows complete package information with 6 files, 1 modified
+**Result**: Shows complete package information with 6 files, 1 modified  
 
 ### Example 2: Check Before Update
 
-**Context**: Want to see what will be updated
+**Context**: Want to see what will be updated  
 
-**Invocation**: `@acp.package-info firebase`
+**Invocation**: `@acp.package-info firebase`  
 
-**Result**: Shows current versions and modified files, helps decide update strategy
+**Result**: Shows current versions and modified files, helps decide update strategy  
 
 ### Example 3: Verify Installation
 
-**Context**: Just installed package, want to confirm
+**Context**: Just installed package, want to confirm  
 
-**Invocation**: `@acp.package-info mcp-integration`
+**Invocation**: `@acp.package-info mcp-integration`  
 
-**Result**: Shows all installed files with versions, confirms installation successful
+**Result**: Shows all installed files with versions, confirms installation successful  
 
 ### Example 4: Package Not Found
 
-**Context**: Try to get info for non-existent package
+**Context**: Try to get info for non-existent package  
 
-**Invocation**: `@acp.package-info nonexistent`
+**Invocation**: `@acp.package-info nonexistent`  
 
-**Result**: Error message "Package not installed: nonexistent", suggests using @acp.package-list
+**Result**: Error message "Package not installed: nonexistent", suggests using @acp.package-list  
 
 ---
 
@@ -168,27 +168,27 @@ Total Files: 6
 
 ### Issue 1: Package not found
 
-**Symptom**: Error "Package not installed"
+**Symptom**: Error "Package not installed"  
 
-**Cause**: Package name incorrect or not installed
+**Cause**: Package name incorrect or not installed  
 
-**Solution**: Run `@acp.package-list` to see installed packages, check spelling
+**Solution**: Run `@acp.package-list` to see installed packages, check spelling  
 
 ### Issue 2: Modified status incorrect
 
-**Symptom**: File shows [MODIFIED] but wasn't changed
+**Symptom**: File shows [MODIFIED] but wasn't changed  
 
-**Cause**: Line ending differences or encoding changes
+**Cause**: Line ending differences or encoding changes  
 
-**Solution**: This is based on checksum comparison, file content differs from original
+**Solution**: This is based on checksum comparison, file content differs from original  
 
 ### Issue 3: File version shows 0.0.0
 
-**Symptom**: File version is 0.0.0
+**Symptom**: File version is 0.0.0  
 
-**Cause**: Package didn't have package.yaml or file not listed
+**Cause**: Package didn't have package.yaml or file not listed  
 
-**Solution**: This is normal for packages without version metadata
+**Solution**: This is normal for packages without version metadata  
 
 ---
 
@@ -202,11 +202,11 @@ Total Files: 6
 
 ---
 
-**Namespace**: acp
-**Command**: package-info
-**Version**: 1.0.0
-**Created**: 2026-02-18
-**Last Updated**: 2026-02-18
-**Status**: Active
-**Compatibility**: ACP 2.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-info  
+**Version**: 1.0.0  
+**Created**: 2026-02-18  
+**Last Updated**: 2026-02-18  
+**Status**: Active  
+**Compatibility**: ACP 2.0.0+  
+**Author**: ACP Project  

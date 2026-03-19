@@ -1,9 +1,9 @@
 # Milestone 10: Command Enhancements
 
-**Goal**: Umbrella milestone for all command improvements — autonomous completion, pattern awareness, and future command upgrades
-**Duration**: 2-4 weeks
-**Dependencies**: None (builds on existing command infrastructure)
-**Status**: Not Started
+**Goal**: Umbrella milestone for all command improvements — autonomous completion, pattern awareness, and future command upgrades  
+**Duration**: 2-4 weeks  
+**Dependencies**: None (builds on existing command infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -70,7 +70,7 @@ agent/
 1. [Task 78: Implement @acp.proceed Autonomous Completion](../tasks/milestone-10-command-enhancements/task-78-proceed-autonomous-completion.md) - Add flags, autonomous loop, progress indicators, and summary reports (8-12 hours)
 2. Task 51: Pattern Reading in Commands - Update commands to read agent/patterns/ (2-3 hours) *(candidate for migration from M2)*
 
-**Total Estimated**: 10-15 hours (approximately 2-4 weeks)
+**Total Estimated**: 10-15 hours (approximately 2-4 weeks)  
 
 ---
 
@@ -110,8 +110,8 @@ No environment variables required. All changes are to command documentation (mar
 
 ---
 
-**Next Milestone**: TBD
-**Blockers**: None
+**Next Milestone**: TBD  
+**Blockers**: None  
 **Notes**:
 - This is an umbrella milestone — new command enhancements can be added as tasks
 - `@acp.proceed` changes are markdown directive updates, not shell scripts

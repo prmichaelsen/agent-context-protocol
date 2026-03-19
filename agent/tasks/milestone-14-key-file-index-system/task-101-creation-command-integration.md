@@ -1,9 +1,9 @@
 # Task 101: Creation Command Integration
 
-**Milestone**: [M14 - Key File Index System](../../milestones/milestone-14-key-file-index-system.md)
-**Estimated Time**: 2-3 hours
-**Dependencies**: [Task 99](task-99-index-directory-infrastructure.md)
-**Status**: Completed
+**Milestone**: [M14 - Key File Index System](../../milestones/milestone-14-key-file-index-system.md)  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: [Task 99](task-99-index-directory-infrastructure.md)  
+**Status**: Completed  
 
 ---
 

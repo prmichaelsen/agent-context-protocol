@@ -1,9 +1,9 @@
 # Task 15: Namespace Utilities
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -39,7 +39,7 @@ is_acp_package() {
 }
 ```
 
-**Expected Outcome**: Function detects package directories
+**Expected Outcome**: Function detects package directories  
 
 ### 2. Add infer_namespace() Function
 
@@ -85,7 +85,7 @@ infer_namespace() {
 }
 ```
 
-**Expected Outcome**: Function infers namespace from available sources
+**Expected Outcome**: Function infers namespace from available sources  
 
 ### 3. Add validate_namespace() Function
 
@@ -117,7 +117,7 @@ validate_namespace() {
 }
 ```
 
-**Expected Outcome**: Function validates namespace format and reserved names
+**Expected Outcome**: Function validates namespace format and reserved names  
 
 ### 4. Add get_namespace_for_file() Function
 
@@ -149,7 +149,7 @@ get_namespace_for_file() {
 }
 ```
 
-**Expected Outcome**: Function returns appropriate namespace for context
+**Expected Outcome**: Function returns appropriate namespace for context  
 
 ### 5. Add validate_namespace_consistency() Function
 
@@ -195,7 +195,7 @@ validate_namespace_consistency() {
 }
 ```
 
-**Expected Outcome**: Function detects namespace conflicts
+**Expected Outcome**: Function detects namespace conflicts  
 
 ### 6. Test Namespace Utilities
 
@@ -208,7 +208,7 @@ Test all namespace functions:
 - Test reserved name rejection
 - Test namespace consistency checking
 
-**Expected Outcome**: All functions work correctly
+**Expected Outcome**: All functions work correctly  
 
 ### 7. Update Documentation
 
@@ -219,7 +219,7 @@ Document namespace utilities:
 - Update design doc with implementation details
 - Add usage examples
 
-**Expected Outcome**: Utilities documented
+**Expected Outcome**: Utilities documented  
 
 ---
 
@@ -238,5 +238,5 @@ Document namespace utilities:
 
 ---
 
-**Next Task**: [Task 16: README Update Utilities](task-16-readme-update-utilities.md)
-**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)
+**Next Task**: [Task 16: README Update Utilities](task-16-readme-update-utilities.md)  
+**Related Design Docs**: [ACP Package Development System](../design/acp-package-development-system.md)  

@@ -1,9 +1,9 @@
 # Milestone 14: Key File Index System
 
-**Status**: Not Started
-**Started**: null
-**Completed**: null
-**Estimated Duration**: 2-3 weeks
+**Status**: Not Started  
+**Started**: null  
+**Completed**: null  
+**Estimated Duration**: 2-3 weeks  
 
 ---
 
@@ -53,7 +53,7 @@ Implement the Key File Index System — a weighted index of critical project fil
 | 104 | Validation & Documentation | 2-3h | Not Started |
 | 105 | Testing | 3-4h | Not Started |
 
-**Total estimated**: 19-25 hours
+**Total estimated**: 19-25 hours  
 
 ---
 

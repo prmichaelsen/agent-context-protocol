@@ -1,9 +1,9 @@
 # Task 28: Documentation and Agent Instructions
 
-**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)
-**Estimated Time**: 1-2 hours
-**Dependencies**: Task 27 (Global Package Commands)
-**Status**: Not Started
+**Milestone**: [M5 - Global Package Installation](../milestones/milestone-5-global-package-installation.md)  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: Task 27 (Global Package Commands)  
+**Status**: Not Started  
 
 ---
 
@@ -33,9 +33,9 @@ This documentation is critical for adoption - without clear instructions, agents
 
 Add new section to AGENT.md about global packages:
 
-**File**: `AGENT.md`
+**File**: `AGENT.md`  
 
-**Location**: After "ACP Commands" section, before "Sample Prompts"
+**Location**: After "ACP Commands" section, before "Sample Prompts"  
 
 **Section to add**:
 ```markdown
@@ -52,18 +52,18 @@ When working in any project, you can discover globally installed packages:
 3. **Navigate to packages**: Each package entry contains installation path
 4. **Use commands/patterns**: Reference via `@namespace.command` syntax
 
-**Automatic Discovery**: The `@acp.init` command automatically reads `~/.acp/manifest.yaml` and reports globally installed packages.
+**Automatic Discovery**: The `@acp.init` command automatically reads `~/.acp/manifest.yaml` and reports globally installed packages.  
 
 ### Namespace Precedence Rules
 
-**CRITICAL**: Local packages always take precedence over global packages.
+**CRITICAL**: Local packages always take precedence over global packages.  
 
 **Resolution order**:
 1. Check local: `./agent/commands/{namespace}.{command}.md`
 2. If not found, check global: `~/.acp/packages/*/agent/commands/{namespace}.{command}.md`
 3. Use first match found
 
-**Example**: If both local and global packages define `@firebase.deploy`:
+**Example**: If both local and global packages define `@firebase.deploy`:  
 - ✅ Use `./agent/commands/firebase.deploy.md` (local takes precedence)
 - ❌ Ignore `~/.acp/packages/@prmichaelsen/acp-firebase/agent/commands/firebase.deploy.md`
 
@@ -130,9 +130,9 @@ When working in any project, you can discover globally installed packages:
 
 Add global installation section to README.md:
 
-**File**: `README.md`
+**File**: `README.md`  
 
-**Location**: In "Package Management" section
+**Location**: In "Package Management" section  
 
 **Content to add**:
 ```markdown
@@ -178,7 +178,7 @@ Install packages globally to `~/.acp/packages/` for package development or globa
 
 Add entry for Milestone 5 completion:
 
-**File**: `CHANGELOG.md`
+**File**: `CHANGELOG.md`  
 
 **Entry to add**:
 ```markdown
@@ -218,11 +218,11 @@ Add entry for Milestone 5 completion:
 
 Update version number in AGENT.md:
 
-**File**: `AGENT.md`
+**File**: `AGENT.md`  
 
 **Change**:
 ```markdown
-**Version**: 2.11.0  →  **Version**: 2.12.0
+**Version**: 2.11.0  →  **Version**: 2.12.0  
 ```
 
 **Verification**:
@@ -233,9 +233,9 @@ Update version number in AGENT.md:
 
 Create comprehensive examples document for global packages:
 
-**File**: `agent/design/global-package-usage-examples.md`
+**File**: `agent/design/global-package-usage-examples.md`  
 
-**Content**: Document with 5-10 real-world examples:
+**Content**: Document with 5-10 real-world examples:  
 1. Installing git helpers globally
 2. Developing a new package in `~/.acp/packages/`
 3. Using global commands in a project
@@ -334,27 +334,27 @@ Review all documentation for consistency:
 
 ### Issue 1: Version number mismatch
 
-**Symptom**: Different version numbers in AGENT.md and CHANGELOG.md
+**Symptom**: Different version numbers in AGENT.md and CHANGELOG.md  
 
-**Solution**: Ensure both files are updated to 2.12.0. Use search to find all version references: `grep -r "2.11.0" .`
+**Solution**: Ensure both files are updated to 2.12.0. Use search to find all version references: `grep -r "2.11.0" .`  
 
 ### Issue 2: Broken links in documentation
 
-**Symptom**: Links to task/design files don't work
+**Symptom**: Links to task/design files don't work  
 
-**Solution**: Verify all relative paths are correct. Use format: `[Link Text](../relative/path.md)` for cross-references.
+**Solution**: Verify all relative paths are correct. Use format: `[Link Text](../relative/path.md)` for cross-references.  
 
 ### Issue 3: Examples don't work
 
-**Symptom**: Users report examples fail
+**Symptom**: Users report examples fail  
 
-**Solution**: Test all examples before committing. Ensure commands are invoked correctly and output matches documentation.
+**Solution**: Test all examples before committing. Ensure commands are invoked correctly and output matches documentation.  
 
 ### Issue 4: Inconsistent terminology
 
-**Symptom**: Some docs say "global packages", others say "system packages"
+**Symptom**: Some docs say "global packages", others say "system packages"  
 
-**Solution**: Use consistent terminology: "global packages" (not "system packages"). Search and replace inconsistencies.
+**Solution**: Use consistent terminology: "global packages" (not "system packages"). Search and replace inconsistencies.  
 
 ---
 
@@ -381,6 +381,6 @@ Review all documentation for consistency:
 
 ---
 
-**Next Task**: None (Milestone 5 complete)
-**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)
-**Estimated Completion Date**: TBD
+**Next Task**: None (Milestone 5 complete)  
+**Related Design Docs**: [global-package-installation.md](../design/global-package-installation.md)  
+**Estimated Completion Date**: TBD  

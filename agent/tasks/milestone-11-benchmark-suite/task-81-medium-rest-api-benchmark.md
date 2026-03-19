@@ -1,11 +1,11 @@
 # Task 81: Medium REST API Benchmark Task
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 4-5 hours
-**Dependencies**: Task 79 (runner must support multi-turn steps)
-**Status**: Completed
-**Actual Hours**: 0.5
-**Completed**: 2026-02-28
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 4-5 hours  
+**Dependencies**: Task 79 (runner must support multi-turn steps)  
+**Status**: Completed  
+**Actual Hours**: 0.5  
+**Completed**: 2026-02-28  
 
 ---
 
@@ -67,4 +67,4 @@ agent/benchmarks/suite/medium-rest-api/
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md (Benchmark Task Definition)
+**Related Design Docs**: agent/design/local.benchmark-suite.md (Benchmark Task Definition)  

@@ -30,18 +30,18 @@
 >
 > **This is an ACTION command, not a STATUS command.**
 
-**Namespace**: acp
-**Version**: 2.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-28
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 2.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-28  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Implement tasks — single-task (default) or autonomous milestone completion (with arguments)
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Implement tasks — single-task (default) or autonomous milestone completion (with arguments)  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -66,7 +66,7 @@ This command supports both CLI-style flags and natural language arguments.
 | `--commit-each` | Same as `--commit` (explicit name) |
 | `--with-commits` | Same as `--commit` (modifier style) |
 
-**Note**: `--complete` implies `--commit`. There is no autonomous completion mode without per-task commits.
+**Note**: `--complete` implies `--commit`. There is no autonomous completion mode without per-task commits.  
 
 ### Targeting Flags
 
@@ -89,7 +89,7 @@ This command supports both CLI-style flags and natural language arguments.
 | `--turbo` | Shorthand for `--auto --this --parallel --yes` |
 | `--yolo` | Same as `--turbo` |
 
-**`--turbo` / `--yolo` expand to**: autonomous mode, targeting the current/contextual task, parallel worktree sub-agents, no confirmation prompt.
+**`--turbo` / `--yolo` expand to**: autonomous mode, targeting the current/contextual task, parallel worktree sub-agents, no confirmation prompt.  
 
 ### Natural Language (Fuzzy Matching)
 
@@ -213,7 +213,7 @@ Before implementing, load relevant key files from the index.
   2 key files read for acp.proceed context
 ```
 
-**Note**: If `agent/index/` does not exist, skip silently. Do NOT spend excessive time here — read files quickly and move to implementation.
+**Note**: If `agent/index/` does not exist, skip silently. Do NOT spend excessive time here — read files quickly and move to implementation.  
 
 ### 1.7. Load Design Context
 
@@ -242,7 +242,7 @@ Design Context: No design document found for this task.
   Implementing from task file only.
 ```
 
-**Usage during implementation**: The design context informs implementation decisions when:
+**Usage during implementation**: The design context informs implementation decisions when:  
 - The task step is ambiguous about approach
 - An edge case arises not explicitly covered in the task
 - The agent needs to understand "why" a particular approach was chosen
@@ -359,7 +359,7 @@ Design Context: No design document found for this task.
 
 ### A2. Show Confirmation Prompt
 
-**🚨 MANDATORY**: Always show this confirmation before starting autonomous execution. Never skip this step.
+**🚨 MANDATORY**: Always show this confirmation before starting autonomous execution. Never skip this step.  
 
 Display the following to the user:
 
@@ -760,51 +760,51 @@ Estimated: 3 hours
 
 ### Example 1: Single-Task (Default)
 
-**Context**: You want to implement the next task
+**Context**: You want to implement the next task  
 
-**Invocation**: `@acp.proceed`
+**Invocation**: `@acp.proceed`  
 
-**Result**: Identifies next task, immediately starts implementing, completes task, updates progress
+**Result**: Identifies next task, immediately starts implementing, completes task, updates progress  
 
 ### Example 2: Autonomous Completion with Flags
 
-**Context**: Milestone has 5 remaining tasks, you want them all done
+**Context**: Milestone has 5 remaining tasks, you want them all done  
 
-**Invocation**: `@acp.proceed --complete`
+**Invocation**: `@acp.proceed --complete`  
 
-**Result**: Shows confirmation with 5 tasks listed, user confirms, agent implements all 5 tasks with per-task commits, displays summary
+**Result**: Shows confirmation with 5 tasks listed, user confirms, agent implements all 5 tasks with per-task commits, displays summary  
 
 ### Example 3: Autonomous with Natural Language
 
-**Context**: Same as above but using natural language
+**Context**: Same as above but using natural language  
 
-**Invocation**: `@acp.proceed just finish everything`
+**Invocation**: `@acp.proceed just finish everything`  
 
-**Result**: Same as `--complete` — agent detects autonomous intent, shows confirmation, implements all tasks
+**Result**: Same as `--complete` — agent detects autonomous intent, shows confirmation, implements all tasks  
 
 ### Example 4: Dry-Run Preview
 
-**Context**: You want to see what would be done without executing
+**Context**: You want to see what would be done without executing  
 
-**Invocation**: `@acp.proceed --complete --dry-run`
+**Invocation**: `@acp.proceed --complete --dry-run`  
 
-**Result**: Shows task list with estimates, exits without making changes
+**Result**: Shows task list with estimates, exits without making changes  
 
 ### Example 5: Autonomous with Halt
 
-**Context**: Milestone has 5 tasks, task 3 fails
+**Context**: Milestone has 5 tasks, task 3 fails  
 
-**Invocation**: `@acp.proceed --complete`
+**Invocation**: `@acp.proceed --complete`  
 
-**Result**: Completes tasks 1-2 with commits, halts at task 3, shows summary with 2 completed + 1 failed, waits for user guidance
+**Result**: Completes tasks 1-2 with commits, halts at task 3, shows summary with 2 completed + 1 failed, waits for user guidance  
 
 ### Example 6: Single-Task with Commit
 
-**Context**: You want to implement one task and commit
+**Context**: You want to implement one task and commit  
 
-**Invocation**: `@acp.proceed --commit`
+**Invocation**: `@acp.proceed --commit`  
 
-**Result**: Implements next task, runs `@git.commit` after completion
+**Result**: Implements next task, runs `@git.commit` after completion  
 
 ---
 
@@ -822,51 +822,51 @@ Estimated: 3 hours
 
 ### Issue 1: No current task found
 
-**Symptom**: Error message "No current task identified"
+**Symptom**: Error message "No current task identified"  
 
-**Cause**: All tasks are completed or progress.yaml doesn't have a current task
+**Cause**: All tasks are completed or progress.yaml doesn't have a current task  
 
-**Solution**: Review progress.yaml and either mark a task as `in_progress` or create new tasks for the next milestone
+**Solution**: Review progress.yaml and either mark a task as `in_progress` or create new tasks for the next milestone  
 
 ### Issue 2: Task document not found
 
-**Symptom**: Error message "Cannot read task file"
+**Symptom**: Error message "Cannot read task file"  
 
-**Cause**: Task file path in progress.yaml is incorrect or file doesn't exist
+**Cause**: Task file path in progress.yaml is incorrect or file doesn't exist  
 
-**Solution**: Verify the file path in progress.yaml matches the actual task file location, or create the missing task document
+**Solution**: Verify the file path in progress.yaml matches the actual task file location, or create the missing task document  
 
 ### Issue 3: Prerequisites not met
 
-**Symptom**: Command reports missing prerequisites
+**Symptom**: Command reports missing prerequisites  
 
-**Cause**: Task has dependencies that aren't satisfied yet
+**Cause**: Task has dependencies that aren't satisfied yet  
 
-**Solution**: Complete prerequisite tasks first, or resolve the dependencies, then run `@acp.proceed` again
+**Solution**: Complete prerequisite tasks first, or resolve the dependencies, then run `@acp.proceed` again  
 
 ### Issue 4: Verification fails
 
-**Symptom**: Some verification items don't pass
+**Symptom**: Some verification items don't pass  
 
-**Cause**: Task steps weren't completed correctly or there are errors
+**Cause**: Task steps weren't completed correctly or there are errors  
 
-**Solution**: Review the failed verification items, fix issues, then re-run verification steps
+**Solution**: Review the failed verification items, fix issues, then re-run verification steps  
 
 ### Issue 5: Autonomous mode not detected
 
-**Symptom**: Agent starts single-task mode despite passing `--complete`
+**Symptom**: Agent starts single-task mode despite passing `--complete`  
 
-**Cause**: Arguments not parsed correctly or natural language not recognized
+**Cause**: Arguments not parsed correctly or natural language not recognized  
 
-**Solution**: Use explicit flag `--complete` instead of natural language. Ensure flag appears after `@acp.proceed`.
+**Solution**: Use explicit flag `--complete` instead of natural language. Ensure flag appears after `@acp.proceed`.  
 
 ### Issue 6: Context window exhaustion during autonomous run
 
-**Symptom**: Agent loses context after completing several tasks
+**Symptom**: Agent loses context after completing several tasks  
 
-**Cause**: Long autonomous runs consume context window
+**Cause**: Long autonomous runs consume context window  
 
-**Solution**: Agent re-reads progress.yaml and task files at the start of each iteration to maintain context freshness. If context is truly exhausted, the run will halt and can be resumed with `@acp.proceed --complete` in a new session.
+**Solution**: Agent re-reads progress.yaml and task files at the start of each iteration to maintain context freshness. If context is truly exhausted, the run will halt and can be resumed with `@acp.proceed --complete` in a new session.  
 
 ---
 
@@ -903,11 +903,11 @@ Estimated: 3 hours
 
 ---
 
-**Namespace**: acp
-**Command**: proceed
-**Version**: 2.0.0
-**Created**: 2026-02-16
-**Last Updated**: 2026-02-28
-**Status**: Active
-**Compatibility**: ACP 5.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: proceed  
+**Version**: 2.0.0  
+**Created**: 2026-02-16  
+**Last Updated**: 2026-02-28  
+**Status**: Active  
+**Compatibility**: ACP 5.0.0+  
+**Author**: ACP Project  

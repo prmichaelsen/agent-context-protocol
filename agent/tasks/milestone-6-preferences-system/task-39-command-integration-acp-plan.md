@@ -1,9 +1,9 @@
 # Task 39: Command Integration - @acp.plan
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 4-5 hours
-**Dependencies**: Task 37 (Preference Loading), Task 38 (Configurables Enhancement)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 4-5 hours  
+**Dependencies**: Task 37 (Preference Loading), Task 38 (Configurables Enhancement)  
+**Status**: Not Started  
 
 ---
 
@@ -130,9 +130,9 @@ Add preference-aware examples to `acp.plan.md`:
 ```markdown
 ### Example 5: Using Preferences
 
-**Context**: User has set `plan.draft.create_mode: 'contextual'` in user preferences
+**Context**: User has set `plan.draft.create_mode: 'contextual'` in user preferences  
 
-**Invocation**: `@acp.plan`
+**Invocation**: `@acp.plan`  
 
 **Result**:
 ```
@@ -148,11 +148,11 @@ User: Add real-time collaboration
 
 ### Example 6: Overriding Preferences
 
-**Context**: User has preference set but wants different behavior for this invocation
+**Context**: User has preference set but wants different behavior for this invocation  
 
-**Invocation**: `@acp.plan --plan.draft.create_mode structured`
+**Invocation**: `@acp.plan --plan.draft.create_mode structured`  
 
-**Result**: Uses structured mode for this invocation only, preference unchanged
+**Result**: Uses structured mode for this invocation only, preference unchanged  
 ```
 
 ### 7. Test Integration
@@ -176,10 +176,10 @@ Test the updated command with various preference configurations:
 Bump version in `acp.plan.md` to reflect preference support:
 
 ```markdown
-**Namespace**: acp
-**Command**: plan
-**Version**: 2.0.0  # Was 1.0.0
-**Compatibility**: ACP 3.8.0+  # Requires preferences system
+**Namespace**: acp  
+**Command**: plan  
+**Version**: 2.0.0  # Was 1.0.0  
+**Compatibility**: ACP 3.8.0+  # Requires preferences system  
 ```
 
 ---
@@ -232,16 +232,16 @@ Bump version in `acp.plan.md` to reflect preference support:
 ## Common Issues and Solutions
 
 ### Issue 1: Preference not respected
-**Symptom**: Command asks user despite preference being set
-**Solution**: Check preference path syntax, ensure `@acp.preferences-get` is invoked
+**Symptom**: Command asks user despite preference being set  
+**Solution**: Check preference path syntax, ensure `@acp.preferences-get` is invoked  
 
 ### Issue 2: Invalid preference value
-**Symptom**: Error about invalid draft mode
-**Solution**: Validate preference value against configurables options
+**Symptom**: Error about invalid draft mode  
+**Solution**: Validate preference value against configurables options  
 
 ### Issue 3: Override not working
-**Symptom**: Command uses preference instead of override
-**Solution**: Ensure override parsing happens before preference loading
+**Symptom**: Command uses preference instead of override  
+**Solution**: Ensure override parsing happens before preference loading  
 
 ---
 
@@ -263,6 +263,6 @@ Bump version in `acp.plan.md` to reflect preference support:
 
 ---
 
-**Next Task**: [Task 40: Preference Management Commands](task-40-preference-management-commands.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 40: Preference Management Commands](task-40-preference-management-commands.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

@@ -1,9 +1,9 @@
 # Task 108: Integrate Capture Directive into Create Commands
 
-**Milestone**: M15 - Clarification Capture System
-**Status**: Not Started
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 106, Task 107
+**Milestone**: M15 - Clarification Capture System  
+**Status**: Not Started  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 106, Task 107  
 
 ---
 

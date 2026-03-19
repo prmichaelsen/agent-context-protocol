@@ -1,9 +1,9 @@
 # Task 51: Pattern Reading in Commands
 
-**Milestone**: M2 - Documentation & Utility Commands
-**Estimated Time**: 2-3 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: M2 - Documentation & Utility Commands  
+**Estimated Time**: 2-3 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -17,9 +17,9 @@ Update key ACP commands to list and read `agent/patterns/` at least once during 
 
 Agents need to understand project patterns before creating designs, tasks, or making architectural decisions. Currently, commands like `@acp.init`, `@acp.proceed`, and entity creation commands don't explicitly read patterns, which can lead to agents missing important architectural conventions.
 
-**The Problem**: Agents may create designs or tasks that don't follow established project patterns because they haven't read the patterns directory.
+**The Problem**: Agents may create designs or tasks that don't follow established project patterns because they haven't read the patterns directory.  
 
-**The Solution**: Update commands to include a pattern reading step, allowing agents to intelligently decide which patterns to read based on context.
+**The Solution**: Update commands to include a pattern reading step, allowing agents to intelligently decide which patterns to read based on context.  
 
 ---
 
@@ -53,10 +53,10 @@ Load architectural patterns and coding standards.
 - Note key architectural decisions
 - Understand coding conventions
 
-**Expected Outcome**: Project patterns understood
+**Expected Outcome**: Project patterns understood  
 ```
 
-**Expected Outcome**: @acp.init updated
+**Expected Outcome**: @acp.init updated  
 
 ### 2. Update @acp.proceed Command
 
@@ -84,7 +84,7 @@ Add pattern review before task execution:
 **DO NOT spend excessive time. Read only directly relevant patterns.**
 ```
 
-**Expected Outcome**: @acp.proceed updated
+**Expected Outcome**: @acp.proceed updated  
 
 ### 3. Update @acp.plan Command
 
@@ -109,10 +109,10 @@ Add pattern reading to planning workflow:
 - Note architectural constraints
 - Consider patterns when defining milestones and tasks
 
-**Expected Outcome**: Patterns inform planning decisions
+**Expected Outcome**: Patterns inform planning decisions  
 ```
 
-**Expected Outcome**: @acp.plan updated
+**Expected Outcome**: @acp.plan updated  
 
 ### 4. Update @acp.design-create Command
 
@@ -137,10 +137,10 @@ Add pattern reading before design creation:
 - Ensure design aligns with project patterns
 - Reference relevant patterns in design document
 
-**Expected Outcome**: Design follows project patterns
+**Expected Outcome**: Design follows project patterns  
 ```
 
-**Expected Outcome**: @acp.design-create updated
+**Expected Outcome**: @acp.design-create updated  
 
 ### 5. Update @acp.pattern-create Command
 
@@ -165,10 +165,10 @@ Add pattern reading to understand existing patterns:
 - Check for duplication
 - Ensure consistent style and structure
 
-**Expected Outcome**: New pattern aligns with existing patterns
+**Expected Outcome**: New pattern aligns with existing patterns  
 ```
 
-**Expected Outcome**: @acp.pattern-create updated
+**Expected Outcome**: @acp.pattern-create updated  
 
 ### 6. Update @acp.task-create Command
 
@@ -193,10 +193,10 @@ Add pattern reading for task planning:
 - Consider patterns when defining steps
 - Reference patterns in task document if applicable
 
-**Expected Outcome**: Task steps align with project patterns
+**Expected Outcome**: Task steps align with project patterns  
 ```
 
-**Expected Outcome**: @acp.task-create updated
+**Expected Outcome**: @acp.task-create updated  
 
 ### 7. Test Pattern Reading
 
@@ -210,7 +210,7 @@ Verify patterns are read correctly:
 - Run `@acp.pattern-create` - Should read existing patterns
 - Run `@acp.task-create` - Should read patterns before creating task
 
-**Expected Outcome**: All commands read patterns appropriately
+**Expected Outcome**: All commands read patterns appropriately  
 
 ---
 
@@ -339,7 +339,7 @@ Each command should document:
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion**: 2-3 hours
-**Priority**: Medium (improves agent context awareness)
-**Complexity**: Low (documentation updates to command files)
+**Next Task**: TBD  
+**Estimated Completion**: 2-3 hours  
+**Priority**: Medium (improves agent context awareness)  
+**Complexity**: Low (documentation updates to command files)  

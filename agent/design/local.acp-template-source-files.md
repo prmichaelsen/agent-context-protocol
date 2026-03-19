@@ -1,11 +1,11 @@
 # Design: ACP Template Source Files Support
 
-**Concept**: Extend ACP package system to bundle and install template source files (TypeScript, config files, etc.) in agent/files/ directory
+**Concept**: Extend ACP package system to bundle and install template source files (TypeScript, config files, etc.) in agent/files/ directory  
 
-**Created**: 2026-02-26
-**Version**: 1.1.0
-**Status**: Implemented (v5.0.0)
-**Last Updated**: 2026-02-28
+**Created**: 2026-02-26  
+**Version**: 1.1.0  
+**Status**: Implemented (v5.0.0)  
+**Last Updated**: 2026-02-28  
 
 ---
 
@@ -15,7 +15,7 @@ Currently, ACP packages can only bundle documentation-style files (patterns, com
 
 This would enable packages like `acp-core-sdk` to provide ready-to-use TypeScript configurations, build scripts, and source code templates instead of requiring users to manually create these files or embedding them as heredocs in commands.
 
-**Key Architectural Decision**: Templates install to `agent/files/` (not project root) to maintain ACP's principle of keeping all package content within the `agent/` directory. Users copy files from `agent/files/` to their project as needed.
+**Key Architectural Decision**: Templates install to `agent/files/` (not project root) to maintain ACP's principle of keeping all package content within the `agent/` directory. Users copy files from `agent/files/` to their project as needed.  
 
 ---
 
@@ -433,7 +433,7 @@ Update existing commands to support files:
 
 ### Example 1: Core Library Package
 
-**Package**: `acp-core-sdk`
+**Package**: `acp-core-sdk`  
 
 **Templates**:
 - `config/tsconfig.json` - TypeScript configuration
@@ -461,7 +461,7 @@ cp agent/files/config/package.json ./
 
 ### Example 2: Firebase Package
 
-**Package**: `acp-firebase`
+**Package**: `acp-firebase`  
 
 **Templates**:
 - `config/firebase.json` - Firebase configuration
@@ -476,7 +476,7 @@ cp agent/files/config/package.json ./
 
 ### Example 3: MCP Server Package
 
-**Package**: `acp-mcp-server`
+**Package**: `acp-mcp-server`  
 
 **Templates**:
 - `src/server.ts` - MCP server boilerplate
@@ -515,7 +515,7 @@ cp agent/files/config/package.json ./
 
 ### Why agent/files/ Instead of Project Root?
 
-**Decision**: Install template files to `agent/files/` directory, not directly to project root.
+**Decision**: Install template files to `agent/files/` directory, not directly to project root.  
 
 **Rationale**:
 
@@ -576,7 +576,7 @@ cp agent/files/config/package.json ./
 | User Control | ✅ Explicit copying | ❌ Automatic installation |
 | ACP Principles | ✅ Follows agent/ pattern | ❌ Breaks containment |
 
-**Conclusion**: `agent/files/` provides better safety, consistency, and user control while maintaining ACP's principle of keeping all package content within the `agent/` directory.
+**Conclusion**: `agent/files/` provides better safety, consistency, and user control while maintaining ACP's principle of keeping all package content within the `agent/` directory.  
 
 ---
 
@@ -628,11 +628,11 @@ templates:
 4. Document usage patterns
 5. Submit as ACP enhancement proposal
 
-**Recommendation**: Implement this feature to enable richer, more useful ACP packages that can distribute actual code and configuration files, not just documentation.
+**Recommendation**: Implement this feature to enable richer, more useful ACP packages that can distribute actual code and configuration files, not just documentation.  
 
 ---
 
 **Version**: 1.0.0  
 **Created**: 2026-02-26  
 **Status**: Proposal  
-**Author**: Patrick Michaelsen (based on task-core project learnings)
+**Author**: Patrick Michaelsen (based on task-core project learnings)  

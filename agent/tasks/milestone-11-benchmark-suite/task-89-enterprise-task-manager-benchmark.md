@@ -1,9 +1,9 @@
 # Task 89: Enterprise Task Manager Benchmark Task
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 8-12 hours
-**Dependencies**: Task 79 (runner), Task 87 (seed support)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 8-12 hours  
+**Dependencies**: Task 79 (runner), Task 87 (seed support)  
+**Status**: Not Started  
 
 ---
 
@@ -176,4 +176,4 @@ agent/benchmarks/suite/enterprise-task-manager/
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md
+**Related Design Docs**: agent/design/local.benchmark-suite.md  

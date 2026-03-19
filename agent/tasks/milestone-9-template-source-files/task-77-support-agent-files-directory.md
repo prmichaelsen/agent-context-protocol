@@ -1,9 +1,9 @@
 # Task 77: Support agent/files/ Directory in Package Installer
 
-**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)
-**Estimated Time**: 4-6 hours
-**Dependencies**: None (can be done independently of Tasks 71-76)
-**Status**: Completed
+**Milestone**: [M9 - Template Source Files Support](../../milestones/milestone-9-template-source-files.md)  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: None (can be done independently of Tasks 71-76)  
+**Status**: Completed  
 
 ---
 
@@ -17,9 +17,9 @@ Extend `acp.package-install.sh` to support `agent/files/` as an installable dire
 
 The package installer currently only processes four directories: `commands/`, `patterns/`, `design/`, and `scripts/`. Packages that ship source code or assets in `agent/files/` (e.g., `acp-core-sdk` with TypeScript source) have that directory silently ignored during installation. Additionally, the manifest records empty arrays for installed files even when files are successfully installed.
 
-**GitHub Issue**: https://github.com/prmichaelsen/agent-context-protocol/issues/6
+**GitHub Issue**: https://github.com/prmichaelsen/agent-context-protocol/issues/6  
 
-**Affected Script**: `agent/scripts/acp.package-install.sh`
+**Affected Script**: `agent/scripts/acp.package-install.sh`  
 
 ---
 
@@ -105,12 +105,12 @@ Manifest updated:
 ## Common Issues and Solutions
 
 ### Issue 1: Nested directories not created
-**Symptom**: Installation fails because target subdirectories don't exist
-**Solution**: Use `mkdir -p` before copying to ensure parent directories are created
+**Symptom**: Installation fails because target subdirectories don't exist  
+**Solution**: Use `mkdir -p` before copying to ensure parent directories are created  
 
 ### Issue 2: Manifest YAML structure mismatch
-**Symptom**: Manifest has wrong structure for files array
-**Solution**: Ensure manifest template includes `files: []` in the installed section
+**Symptom**: Manifest has wrong structure for files array  
+**Solution**: Ensure manifest template includes `files: []` in the installed section  
 
 ---
 
@@ -131,6 +131,6 @@ Manifest updated:
 
 ---
 
-**Next Task**: Task 72 (Template Installation System) for full template support
-**Related Design Docs**: [Template Source Files Design](../../design/local.acp-template-source-files.md)
-**GitHub Issue**: #6
+**Next Task**: Task 72 (Template Installation System) for full template support  
+**Related Design Docs**: [Template Source Files Design](../../design/local.acp-template-source-files.md)  
+**GitHub Issue**: #6  

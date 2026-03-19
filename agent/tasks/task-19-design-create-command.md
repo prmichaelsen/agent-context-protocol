@@ -1,9 +1,9 @@
 # Task 19: @acp.design-create Command
 
-**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)
-**Estimated Time**: 4-5 hours
-**Dependencies**: Task 14, 15, 16, 17, 18
-**Status**: Not Started
+**Milestone**: [M4 - ACP Package Development System](../milestones/milestone-4-package-development.md)  
+**Estimated Time**: 4-5 hours  
+**Dependencies**: Task 14, 15, 16, 17, 18  
+**Status**: Not Started  
 
 ---
 
@@ -50,4 +50,4 @@ Test all scenarios.
 
 ---
 
-**Next Task**: [Task 20: @acp.package-validate Command](task-20-package-validate-command.md)
+**Next Task**: [Task 20: @acp.package-validate Command](task-20-package-validate-command.md)  

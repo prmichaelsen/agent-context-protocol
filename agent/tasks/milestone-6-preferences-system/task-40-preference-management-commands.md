@@ -1,9 +1,9 @@
 # Task 40: Preference Management Commands
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 8-10 hours
-**Dependencies**: Task 37 (Preference Loading), Task 38 (Configurables Enhancement)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 8-10 hours  
+**Dependencies**: Task 37 (Preference Loading), Task 38 (Configurables Enhancement)  
+**Status**: Not Started  
 
 ---
 
@@ -38,9 +38,9 @@ Create `agent/commands/acp.preferences-get.md`:
 > **🤖 Agent Directive**: Run `./agent/scripts/acp.preferences.sh get <namespace>`
 > to generate complete preferences with precedence applied.
 
-**Purpose**: Generate and display complete preference set for a namespace
-**Category**: Utility
-**Frequency**: As Needed
+**Purpose**: Generate and display complete preference set for a namespace  
+**Category**: Utility  
+**Frequency**: As Needed  
 
 ---
 
@@ -80,9 +80,9 @@ Create `agent/commands/acp.preferences-create.md`:
 
 > **🤖 Agent Directive**: Create preference files at the specified level.
 
-**Purpose**: Create new preference files with default values (follows entity creation pattern)
-**Category**: Setup
-**Frequency**: Once per level
+**Purpose**: Create new preference files with default values (follows entity creation pattern)  
+**Category**: Setup  
+**Frequency**: Once per level  
 
 ---
 
@@ -148,9 +148,9 @@ Create `agent/commands/acp.preferences-show.md`:
 
 > **🤖 Agent Directive**: Display effective preferences with source indication.
 
-**Purpose**: Show current preference values and where they come from
-**Category**: Utility
-**Frequency**: As Needed
+**Purpose**: Show current preference values and where they come from  
+**Category**: Utility  
+**Frequency**: As Needed  
 
 ---
 
@@ -220,9 +220,9 @@ Create `agent/commands/acp.preferences-set.md`:
 
 > **🤖 Agent Directive**: Set preference value at specified level.
 
-**Purpose**: Modify preference values interactively
-**Category**: Configuration
-**Frequency**: As Needed
+**Purpose**: Modify preference values interactively  
+**Category**: Configuration  
+**Frequency**: As Needed  
 
 ---
 
@@ -298,9 +298,9 @@ Create `agent/commands/acp.preferences-validate.md`:
 
 > **🤖 Agent Directive**: Validate all preference files against configurables.
 
-**Purpose**: Ensure preference values are valid and consistent
-**Category**: Validation
-**Frequency**: As Needed
+**Purpose**: Ensure preference values are valid and consistent  
+**Category**: Validation  
+**Frequency**: As Needed  
 
 ---
 
@@ -516,16 +516,16 @@ Add commands to command list in AGENT.md and README.md.
 ## Common Issues and Solutions
 
 ### Issue 1: Permission denied creating user preferences
-**Symptom**: Error creating `~/.acp/agent/preferences/`
-**Solution**: Ensure `~/.acp/` directory exists and is writable
+**Symptom**: Error creating `~/.acp/agent/preferences/`  
+**Solution**: Ensure `~/.acp/` directory exists and is writable  
 
 ### Issue 2: Workspace preferences not found
-**Symptom**: Warning about missing `.vscode/preferences/`
-**Solution**: This is normal for non-VSCode projects - use project preferences instead
+**Symptom**: Warning about missing `.vscode/preferences/`  
+**Solution**: This is normal for non-VSCode projects - use project preferences instead  
 
 ### Issue 3: Invalid preference value
-**Symptom**: Validation fails for set value
-**Solution**: Check configurables for valid options, use `@acp.preferences-show` to see available values
+**Symptom**: Validation fails for set value  
+**Solution**: Check configurables for valid options, use `@acp.preferences-show` to see available values  
 
 ---
 
@@ -547,6 +547,6 @@ Add commands to command list in AGENT.md and README.md.
 
 ---
 
-**Next Task**: [Task 41: Package Preference Support](task-41-package-preference-support.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 41: Package Preference Support](task-41-package-preference-support.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

@@ -1,9 +1,9 @@
 # Task 105: Testing
 
-**Milestone**: [M14 - Key File Index System](../../milestones/milestone-14-key-file-index-system.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: [Task 100](task-100-command-directive-integration.md), [Task 101](task-101-creation-command-integration.md), [Task 102](task-102-acp-index-command.md)
-**Status**: Completed
+**Milestone**: [M14 - Key File Index System](../../milestones/milestone-14-key-file-index-system.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: [Task 100](task-100-command-directive-integration.md), [Task 101](task-101-creation-command-integration.md), [Task 102](task-102-acp-index-command.md)  
+**Status**: Completed  
 
 ---
 

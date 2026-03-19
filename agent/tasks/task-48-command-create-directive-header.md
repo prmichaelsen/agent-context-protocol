@@ -1,9 +1,9 @@
 # Task 48: Enforce Directive Header in @acp.command-create
 
-**Milestone**: Future Enhancement
-**Estimated Time**: 1-2 hours
-**Dependencies**: None
-**Status**: Not Started
+**Milestone**: Future Enhancement  
+**Estimated Time**: 1-2 hours  
+**Dependencies**: None  
+**Status**: Not Started  
 
 ---
 
@@ -20,7 +20,7 @@ Currently, `@acp.command-create` doesn't explicitly state that the directive hea
 - Inconsistent command behavior
 - Agents not recognizing commands properly
 
-**Solution**: Make it explicit in the command documentation that the directive header must be copied exactly.
+**Solution**: Make it explicit in the command documentation that the directive header must be copied exactly.  
 
 **Directive Header** (from command.template.md):
 ```markdown
@@ -37,7 +37,7 @@ Currently, `@acp.command-create` doesn't explicitly state that the directive hea
 
 Update [`agent/commands/acp.command-create.md`](../commands/acp.command-create.md):
 
-**Location**: Step 6 (Generate Command File)
+**Location**: Step 6 (Generate Command File)  
 
 **Addition**:
 ```markdown
@@ -67,7 +67,7 @@ Create command file from template:
   - Examples
 - Save to `agent/commands/{namespace}.{command-name}.md`
 
-**Expected Outcome**: Command file created with proper directive header
+**Expected Outcome**: Command file created with proper directive header  
 ```
 
 **Verification**:
@@ -79,7 +79,7 @@ Create command file from template:
 
 Add verification item to ensure directive header is present:
 
-**Location**: Verification section
+**Location**: Verification section  
 
 **Addition**:
 ```markdown
@@ -96,7 +96,7 @@ Add verification item to ensure directive header is present:
 
 Add directive header to example output:
 
-**Location**: Expected Output section
+**Location**: Expected Output section  
 
 **Addition**:
 ```markdown
@@ -108,8 +108,8 @@ Add directive header to example output:
 > **🤖 Agent Directive**: If you are reading this file, the command `@deploy.production` has been invoked.
 > Pretend this command was entered with this additional context: "Execute directive `@deploy-production NOW...
 
-**Namespace**: deploy
-**Version**: 1.0.0
+**Namespace**: deploy  
+**Version**: 1.0.0  
 ...
 ```
 ```
@@ -163,21 +163,21 @@ Test that updated documentation produces correct commands:
 
 ### Issue 1: Directive header missing from new command
 
-**Symptom**: Command created without directive header
+**Symptom**: Command created without directive header  
 
-**Solution**: Follow updated Step 6 instructions. Copy header from template exactly.
+**Solution**: Follow updated Step 6 instructions. Copy header from template exactly.  
 
 ### Issue 2: Directive header modified
 
-**Symptom**: Header text changed or simplified
+**Symptom**: Header text changed or simplified  
 
-**Solution**: Do not modify directive text. Copy exactly from template.
+**Solution**: Do not modify directive text. Copy exactly from template.  
 
 ### Issue 3: Namespace not replaced in header
 
-**Symptom**: Header still says `{namespace}.{command-name}`
+**Symptom**: Header still says `{namespace}.{command-name}`  
 
-**Solution**: Replace placeholders with actual namespace and command name.
+**Solution**: Replace placeholders with actual namespace and command name.  
 
 ---
 
@@ -200,6 +200,6 @@ Test that updated documentation produces correct commands:
 
 ---
 
-**Next Task**: None (future enhancement)
-**Related Design Docs**: None
-**Estimated Completion Date**: TBD
+**Next Task**: None (future enhancement)  
+**Related Design Docs**: None  
+**Estimated Completion Date**: TBD  

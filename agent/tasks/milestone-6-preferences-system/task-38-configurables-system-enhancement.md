@@ -1,9 +1,9 @@
 # Task 38: Configurables System Enhancement
 
-**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 37 (Preference Loading Infrastructure)
-**Status**: Not Started
+**Milestone**: [M6 - Preferences System](../milestones/milestone-6-preferences-system.md)  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 37 (Preference Loading Infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -283,16 +283,16 @@ acp:
 ## Common Issues and Solutions
 
 ### Issue 1: Preference path mismatch
-**Symptom**: ID doesn't match YAML path
-**Solution**: Ensure `id: 'plan.draft.create_mode'` matches path `acp.plan.draft.create_mode`
+**Symptom**: ID doesn't match YAML path  
+**Solution**: Ensure `id: 'plan.draft.create_mode'` matches path `acp.plan.draft.create_mode`  
 
 ### Issue 2: Missing required fields
-**Symptom**: Preference lacks description or default
-**Solution**: Add all required fields per schema
+**Symptom**: Preference lacks description or default  
+**Solution**: Add all required fields per schema  
 
 ### Issue 3: Invalid option values
-**Symptom**: Option value doesn't match name
-**Solution**: Ensure consistency between name and value fields
+**Symptom**: Option value doesn't match name  
+**Solution**: Ensure consistency between name and value fields  
 
 ---
 
@@ -314,6 +314,6 @@ acp:
 
 ---
 
-**Next Task**: [Task 39: Command Integration - @acp.plan](task-39-command-integration-acp-plan.md)
-**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)
-**Estimated Completion Date**: TBD
+**Next Task**: [Task 39: Command Integration - @acp.plan](task-39-command-integration-acp-plan.md)  
+**Related Design Docs**: [ACP Preferences System](../design/acp-preferences-system.md)  
+**Estimated Completion Date**: TBD  

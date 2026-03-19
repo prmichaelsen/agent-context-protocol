@@ -1,9 +1,9 @@
 # Milestone 5: Global Package Installation
 
-**Goal**: Enable global package installation to `~/.acp/packages/` for package development and global command library
-**Duration**: 1-2 weeks
-**Dependencies**: Milestone 3 (Package Management System) complete
-**Status**: Planning Complete - Ready for Implementation
+**Goal**: Enable global package installation to `~/.acp/packages/` for package development and global command library  
+**Duration**: 1-2 weeks  
+**Dependencies**: Milestone 3 (Package Management System) complete  
+**Status**: Planning Complete - Ready for Implementation  
 
 ---
 
@@ -193,8 +193,8 @@ No new environment variables required. Uses existing `$HOME` for global director
 
 ---
 
-**Next Milestone**: TBD (Monorepo Management)
-**Blockers**: None
+**Next Milestone**: TBD (Monorepo Management)  
+**Blockers**: None  
 **Notes**:
 - This feature is optional and backward-compatible
 - Local installation remains default behavior

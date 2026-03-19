@@ -1,12 +1,12 @@
 # Task 118: Implement @acp.artifact-reference Command
 
-**Status**: completed
-**Priority**: high
-**Milestone**: M17 (Artifact Commands System)
-**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)
-**Estimated Time**: 2-3 hours
-**Started**: 2026-03-17
-**Completed**: 2026-03-17
+**Status**: completed  
+**Priority**: high  
+**Milestone**: M17 (Artifact Commands System)  
+**Design Reference**: [Artifact Commands System](../../design/local.artifact-commands-system.md)  
+**Estimated Time**: 2-3 hours  
+**Started**: 2026-03-17  
+**Completed**: 2026-03-17  
 
 ---
 
@@ -34,7 +34,7 @@ Implement the `@acp.artifact-reference` command that creates reference guides fo
 
 ### Command Structure
 
-**File**: `agent/commands/acp.artifact-reference.md`
+**File**: `agent/commands/acp.artifact-reference.md`  
 
 **Metadata**:
 - Namespace: acp
@@ -98,7 +98,7 @@ Implement the `@acp.artifact-reference` command that creates reference guides fo
 - **External docs**: For CLI syntax, cite official documentation URLs
 
 **5. Create Reference Artifact**
-- Start from template: `agent/artifacts.template.md/reference.template.md`
+- Start from template: `agent/artifacts/reference.template.md`
 - Fill metadata block (Type, Created, Last Verified, Status, Confidence, Category, Sources)
 - Fill Purpose section (what this covers, when to use)
 - Fill Command-First Principle Check section (explicit reasoning)

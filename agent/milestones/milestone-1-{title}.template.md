@@ -1,9 +1,9 @@
 # Milestone {N}: {Descriptive Name}
 
-**Goal**: [One-line objective that clearly states what this milestone achieves]
-**Duration**: [Estimated time: e.g., "1-2 weeks", "3-5 days"]
-**Dependencies**: [List prerequisite milestones or external dependencies, or "None"]
-**Status**: Not Started | In Progress | Completed
+**Goal**: [One-line objective that clearly states what this milestone achieves]  
+**Duration**: [Estimated time: e.g., "1-2 weeks", "3-5 days"]  
+**Dependencies**: [List prerequisite milestones or external dependencies, or "None"]  
+**Status**: Not Started | In Progress | Completed  
 
 ---
 
@@ -11,7 +11,7 @@
 
 [Provide a comprehensive description of what this milestone accomplishes and why it's important to the project. Explain how it fits into the overall project roadmap.]
 
-**Example**: "This milestone establishes the foundational infrastructure for the project, including build system, database connections, and basic server setup. It creates the scaffolding that all future features will build upon."
+**Example**: "This milestone establishes the foundational infrastructure for the project, including build system, database connections, and basic server setup. It creates the scaffolding that all future features will build upon."  
 
 ---
 
@@ -201,6 +201,6 @@ NODE_ENV=development
 
 ---
 
-**Next Milestone**: [Link to next milestone: milestone-{N+1}-{name}.md]
-**Blockers**: [List any current blockers, or "None"]
-**Notes**: [Any additional context or considerations]
+**Next Milestone**: [Link to next milestone: milestone-{N+1}-{name}.md]  
+**Blockers**: [List any current blockers, or "None"]  
+**Notes**: [Any additional context or considerations]  

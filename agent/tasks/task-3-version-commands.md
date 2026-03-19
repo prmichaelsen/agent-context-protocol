@@ -1,9 +1,9 @@
 # Task 3: Implement Version Commands
 
-**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)
-**Estimated Time**: 2 hours
-**Dependencies**: Task 1 (Commands Infrastructure)
-**Status**: Not Started
+**Milestone**: [M1 - ACP Commands Infrastructure](../milestones/milestone-1-acp-commands.md)  
+**Estimated Time**: 2 hours  
+**Dependencies**: Task 1 (Commands Infrastructure)  
+**Status**: Not Started  
 
 ---
 
@@ -17,7 +17,7 @@ Implement the three version management commands: `@acp-version-check`, `@acp-ver
 
 ### 1. Create `acp/version-check.md`
 
-**Purpose**: Display current ACP version and basic info
+**Purpose**: Display current ACP version and basic info  
 
 **Steps to document**:
 1. Read AGENT.md header for version number
@@ -28,7 +28,7 @@ Implement the three version management commands: `@acp-version-check`, `@acp-ver
 
 ### 2. Create `acp/version-check-for-updates.md`
 
-**Purpose**: Check if ACP updates are available without applying them
+**Purpose**: Check if ACP updates are available without applying them  
 
 **Steps to document**:
 1. Run `./agent/scripts/acp.version-check-for-updates.sh`
@@ -39,7 +39,7 @@ Implement the three version management commands: `@acp-version-check`, `@acp-ver
 
 ### 3. Create `acp/version-update.md`
 
-**Purpose**: Update ACP files to latest version
+**Purpose**: Update ACP files to latest version  
 
 **Steps to document**:
 1. Run `./agent/scripts/acp.version-update.sh`
@@ -59,4 +59,4 @@ Implement the three version management commands: `@acp-version-check`, `@acp-ver
 
 ---
 
-**Next Task**: [Task 4: Update Documentation](task-4-update-documentation.md)
+**Next Task**: [Task 4: Update Documentation](task-4-update-documentation.md)  

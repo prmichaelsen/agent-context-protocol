@@ -1,8 +1,8 @@
 # Task 2: Implement Project CRUD
 
-**Status**: Not Started
-**Estimated Hours**: 2
-**Milestone**: M1 (MVP)
+**Status**: Not Started  
+**Estimated Hours**: 2  
+**Milestone**: M1 (MVP)  
 
 ## Objective
 

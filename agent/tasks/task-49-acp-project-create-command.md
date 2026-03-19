@@ -1,9 +1,9 @@
 # Task 49: @acp.project-create Command
 
-**Milestone**: M5 - Global Package Installation
-**Estimated Time**: 3-4 hours
-**Dependencies**: Task 29 (Global ACP Auto-Initialization)
-**Status**: Not Started
+**Milestone**: M5 - Global Package Installation  
+**Estimated Time**: 3-4 hours  
+**Dependencies**: Task 29 (Global ACP Auto-Initialization)  
+**Status**: Not Started  
 
 ---
 
@@ -19,9 +19,9 @@ Users currently have two ways to start new work:
 1. Run `acp.install.sh` in an existing directory (manual)
 2. Use `@acp.package-create` (creates **packages** with package.yaml, release branches, pre-commit hooks)
 
-**The Problem**: `@acp.package-create` creates **packages** designed for distribution (with package.yaml, publishing workflow, etc.). But users also need to create **generic projects** - applications, tools, or experiments that use ACP for development but aren't meant to be published as ACP packages.
+**The Problem**: `@acp.package-create` creates **packages** designed for distribution (with package.yaml, publishing workflow, etc.). But users also need to create **generic projects** - applications, tools, or experiments that use ACP for development but aren't meant to be published as ACP packages.  
 
-**The Solution**: `@acp.project-create` creates **generic ACP projects** without package-specific infrastructure.
+**The Solution**: `@acp.project-create` creates **generic ACP projects** without package-specific infrastructure.  
 
 ### Key Differences from @acp.package-create
 
@@ -63,7 +63,7 @@ Gather project metadata via chat:
 - **Author name** (for documentation)
 - **License** (default: MIT)
 
-**Note**: Projects always use the `local` namespace for project-specific commands. Namespace configuration is only available for packages (via `@acp.package-create`).
+**Note**: Projects always use the `local` namespace for project-specific commands. Namespace configuration is only available for packages (via `@acp.package-create`).  
 
 ### 2. Determine Target Directory
 
@@ -75,7 +75,7 @@ Calculate target directory path:
 - Validate directory doesn't already exist
 - If exists: Ask user to choose different name or confirm overwrite
 
-**Expected Outcome**: Target directory path determined
+**Expected Outcome**: Target directory path determined  
 
 ### 3. Create Project Directory
 
@@ -85,7 +85,7 @@ Create the project directory structure:
 - Create target directory: `mkdir -p ~/.acp/projects/{project-name}/`
 - Verify directory created successfully
 
-**Expected Outcome**: Empty project directory exists
+**Expected Outcome**: Empty project directory exists  
 
 ### 4. Install ACP
 
@@ -98,9 +98,9 @@ Run ACP installation in the new directory:
 - Verify AGENT.md and agent/ directory created
 - Verify all templates and scripts installed
 
-**Implementation Note**: The command is invoked from an ACP-installed directory, so `./agent/scripts/acp.install.sh` is always available. The script needs to be executed in the context of the new project directory.
+**Implementation Note**: The command is invoked from an ACP-installed directory, so `./agent/scripts/acp.install.sh` is always available. The script needs to be executed in the context of the new project directory.  
 
-**Expected Outcome**: Full ACP installation in project directory
+**Expected Outcome**: Full ACP installation in project directory  
 
 ### 5. Create Project README.md
 
@@ -144,7 +144,7 @@ See [AGENT.md](./AGENT.md) for complete documentation.
 {License}
 ```
 
-**Expected Outcome**: README.md created with project metadata
+**Expected Outcome**: README.md created with project metadata  
 
 ### 6. Create .gitignore
 
@@ -160,7 +160,7 @@ Create appropriate .gitignore for project:
   - ACP local files (agent/reports/, agent/clarifications/, agent/feedback/)
 - Include project-type-specific patterns
 
-**Expected Outcome**: .gitignore created
+**Expected Outcome**: .gitignore created  
 
 ### 7. Initialize Git Repository
 
@@ -172,7 +172,7 @@ Set up version control:
 - Run: `git commit -m "chore: initialize project with ACP"`
 - Verify git repository initialized
 
-**Expected Outcome**: Git repository initialized with initial commit
+**Expected Outcome**: Git repository initialized with initial commit  
 
 ### 8. Create Initial progress.yaml
 
@@ -189,7 +189,7 @@ Create minimal progress.yaml for project:
 - Leave milestones and tasks empty (to be planned later)
 - Save to agent/progress.yaml
 
-**Expected Outcome**: progress.yaml created with project metadata
+**Expected Outcome**: progress.yaml created with project metadata  
 
 ### 9. Display Success Message
 
@@ -225,7 +225,7 @@ ACP Commands available:
 Happy building! 🚀
 ```
 
-**Expected Outcome**: User knows project was created and how to proceed
+**Expected Outcome**: User knows project was created and how to proceed  
 
 ---
 
@@ -347,7 +347,7 @@ Each type can have:
 
 ---
 
-**Next Task**: TBD
-**Estimated Completion**: 3-4 hours
-**Priority**: Medium
-**Complexity**: Medium (similar to @acp.package-create but simpler)
+**Next Task**: TBD  
+**Estimated Completion**: 3-4 hours  
+**Priority**: Medium  
+**Complexity**: Medium (similar to @acp.package-create but simpler)  

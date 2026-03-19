@@ -1,9 +1,9 @@
 # Task 97: Create Unified E2E Test Runner
 
-**Milestone**: M13 — Cross-Platform CI
-**Status**: Not Started
-**Estimated Hours**: 1-2
-**Dependencies**: task-96 (tests must have reliable exit codes)
+**Milestone**: M13 — Cross-Platform CI  
+**Status**: Not Started  
+**Estimated Hours**: 1-2  
+**Dependencies**: task-96 (tests must have reliable exit codes)  
 
 ---
 

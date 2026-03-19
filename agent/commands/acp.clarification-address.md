@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp-clarification-address NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 2.0.0
-**Created**: 2026-03-14
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 2.0.0  
+**Created**: 2026-03-14  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Address clarification responses by researching, exploring code/web, using tools, and presenting recommendations
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Address clarification responses by researching, exploring code/web, using tools, and presenting recommendations  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -93,7 +93,7 @@ Find the clarification file to process.
   - Prefer "Awaiting Responses" status, but also accept "Completed"
 - Verify the file exists and is readable
 
-**Expected Outcome**: A single clarification file path is identified
+**Expected Outcome**: A single clarification file path is identified  
 
 ### 2. Read and Parse the Clarification
 
@@ -113,7 +113,7 @@ Read the entire clarification document and build a structured understanding of i
   4. **Comment-block question** — user has written a new open question or feedback inside an HTML comment block (`<!-- ... -->`) that needs a response
 - Build the full list of addressable items
 
-**Expected Outcome**: Structured parse of all question-response pairs with classifications
+**Expected Outcome**: Structured parse of all question-response pairs with classifications  
 
 ### 3. Report Scan Results
 
@@ -131,16 +131,16 @@ Display a summary of what was found.
     ⬚ Empty (skipped):             {count}
 ```
 
-**If `--shallow`**: Also note which items will be skipped due to shallow mode:
+**If `--shallow`**: Also note which items will be skipped due to shallow mode:  
 ```
   ℹ️  Shallow mode: {answered-count} user answers will be skipped (use --deep for full analysis)
 ```
 
-**If `--dry-run`**: Display the summary above and stop. Do not proceed to Step 4.
+**If `--dry-run`**: Display the summary above and stop. Do not proceed to Step 4.  
 
 **If nothing to address** (all empty, no research directives, no comment-block questions): Report that there is nothing to address and stop.
 
-**Expected Outcome**: User sees what will be addressed; dry-run exits here
+**Expected Outcome**: User sees what will be addressed; dry-run exits here  
 
 ### 4. Address Each Item
 
@@ -166,7 +166,7 @@ For items classified as **research directives**:
   - Do not speculate beyond what the code shows
   - Keep answers concise but complete
 
-**Expected Outcome**: Research compiled for each directive
+**Expected Outcome**: Research compiled for each directive  
 
 **4b. Analyze User Answers** (`--deep` only)
 
@@ -183,9 +183,9 @@ For items classified as **answered**:
 - Only generate a comment block if the agent has something substantive to add (tradeoff analysis, recommendation, code reference, follow-up question)
 - Do NOT generate comment blocks that merely restate or acknowledge the user's answer
 
-**In `--shallow` mode**: Skip all "answered" items entirely. Do not analyze, do not generate comment blocks.
+**In `--shallow` mode**: Skip all "answered" items entirely. Do not analyze, do not generate comment blocks.  
 
-**Expected Outcome**: Substantive analysis generated where warranted
+**Expected Outcome**: Substantive analysis generated where warranted  
 
 **4c. Respond to Comment-Block Questions** (both `--deep` and `--shallow`)
 
@@ -194,7 +194,7 @@ Content in comment blocks is only ever authored by you.
 **Actions**:
 - Read the comment content
 
-**Expected Outcome**: All user comment-block questions addressed
+**Expected Outcome**: All user comment-block questions addressed  
 
 ### 5. Present Tradeoffs and Recommendations (`--deep` only)
 
@@ -210,9 +210,9 @@ For any question where the user's response surfaces a meaningful tradeoff or whe
 - If the agent cannot recommend: state that clearly and explain what additional information would help
 - Frame recommendations in terms of the project's existing patterns and architecture
 
-**In `--shallow` mode**: Skip this step entirely.
+**In `--shallow` mode**: Skip this step entirely.  
 
-**Expected Outcome**: Tradeoffs and recommendations documented where relevant
+**Expected Outcome**: Tradeoffs and recommendations documented where relevant  
 
 ### 6. Write Comment Blocks to File
 
@@ -261,7 +261,7 @@ Insert agent responses into the clarification document.
 - Do NOT modify any user-written comment blocks
 - Do NOT change the clarification's `Status:` field
 
-**Expected Outcome**: Clarification file updated with agent comment blocks, each followed by a blank `>` response line
+**Expected Outcome**: Clarification file updated with agent comment blocks, each followed by a blank `>` response line  
 
 ### 7. Report Results
 
@@ -285,7 +285,7 @@ Mode: {--deep|--shallow}
   Status unchanged — review agent comments, then capture or continue.
 ```
 
-**Expected Outcome**: User sees a summary of what was addressed and knows what's next
+**Expected Outcome**: User sees a summary of what was addressed and knows what's next  
 
 ---
 
@@ -371,11 +371,11 @@ Mode: {--deep|--shallow}
 > Prompt user
 
 <!-- [Agent Analysis]
-**Tradeoff**: Output destination
+**Tradeoff**: Output destination  
 - Disk (agent/reports/): Pro: persistent, shareable, version-controlled. Con: extra file to manage.
 - Chat: Pro: immediate, no file cleanup. Con: lost when context ends, can't be referenced later.
 
-**Recommendation**: Prompt user (as specified) — both options have clear use cases. The prompt should default to chat for quick handoffs and offer disk for complex ones.
+**Recommendation**: Prompt user (as specified) — both options have clear use cases. The prompt should default to chat for quick handoffs and offer disk for complex ones.  
 
 Would you like to accept this recommendation? (yes/no)
 -->
@@ -389,43 +389,43 @@ Would you like to accept this recommendation? (yes/no)
 
 ### Example 1: Address Latest Clarification (Deep, Default)
 
-**Context**: Just finished answering questions in a clarification, want the agent to analyze responses
+**Context**: Just finished answering questions in a clarification, want the agent to analyze responses  
 
-**Invocation**: `@acp.clarification-address`
+**Invocation**: `@acp.clarification-address`  
 
-**Result**: Auto-detects the latest clarification, reads all user responses, researches directives, presents tradeoffs where relevant, and writes analysis as comment blocks.
+**Result**: Auto-detects the latest clarification, reads all user responses, researches directives, presents tradeoffs where relevant, and writes analysis as comment blocks.  
 
 ### Example 2: Shallow Pass for Research Directives
 
-**Context**: Left "research this" on several questions, want quick codebase answers before reviewing
+**Context**: Left "research this" on several questions, want quick codebase answers before reviewing  
 
-**Invocation**: `@acp.clarification-address --shallow`
+**Invocation**: `@acp.clarification-address --shallow`  
 
-**Result**: Finds research directives, explores the codebase, writes `[Agent — Researched]` comment blocks. Skips user answers entirely — no tradeoffs, no web research.
+**Result**: Finds research directives, explores the codebase, writes `[Agent — Researched]` comment blocks. Skips user answers entirely — no tradeoffs, no web research.  
 
 ### Example 3: Address with Web Research (Deep)
 
-**Context**: Clarification has questions where user responded "look into this" about an external API
+**Context**: Clarification has questions where user responded "look into this" about an external API  
 
-**Invocation**: `@acp.clarification-address --deep`
+**Invocation**: `@acp.clarification-address --deep`  
 
-**Result**: Agent finds research directives, uses WebSearch/WebFetch to research external APIs, writes findings as `[Agent — Researched]` comment blocks.
+**Result**: Agent finds research directives, uses WebSearch/WebFetch to research external APIs, writes findings as `[Agent — Researched]` comment blocks.  
 
 ### Example 4: Dry Run
 
-**Context**: Want to preview what would be addressed before modifying the file
+**Context**: Want to preview what would be addressed before modifying the file  
 
-**Invocation**: `@acp.clarification-address agent/clarifications/clarification-5-foo.md --dry-run`
+**Invocation**: `@acp.clarification-address agent/clarifications/clarification-5-foo.md --dry-run`  
 
-**Result**: Shows count of items to address by type, without modifying the file.
+**Result**: Shows count of items to address by type, without modifying the file.  
 
 ### Example 5: Respond to User Feedback in Comment Blocks
 
-**Context**: User reviewed agent's previous comment blocks and left follow-up questions in their own comment blocks
+**Context**: User reviewed agent's previous comment blocks and left follow-up questions in their own comment blocks  
 
-**Invocation**: `@acp.clarification-address`
+**Invocation**: `@acp.clarification-address`  
 
-**Result**: Agent detects user comment blocks containing questions, researches and responds with new comment blocks below each.
+**Result**: Agent detects user comment blocks containing questions, researches and responds with new comment blocks below each.  
 
 ---
 
@@ -442,35 +442,35 @@ Would you like to accept this recommendation? (yes/no)
 
 ### Issue 1: No clarifications found
 
-**Symptom**: "No clarification files found"
+**Symptom**: "No clarification files found"  
 
-**Cause**: No clarification files exist or all have been captured
+**Cause**: No clarification files exist or all have been captured  
 
-**Solution**: Create a new clarification with `@acp.clarification-create` or provide a specific file path
+**Solution**: Create a new clarification with `@acp.clarification-create` or provide a specific file path  
 
 ### Issue 2: No items to address
 
-**Symptom**: "Nothing to address — all response lines are empty"
+**Symptom**: "Nothing to address — all response lines are empty"  
 
-**Cause**: User hasn't answered any questions yet
+**Cause**: User hasn't answered any questions yet  
 
-**Solution**: Fill out the clarification first, then re-run this command
+**Solution**: Fill out the clarification first, then re-run this command  
 
 ### Issue 3: MCP tool not available (--deep only)
 
-**Symptom**: Agent cannot invoke a requested MCP tool
+**Symptom**: Agent cannot invoke a requested MCP tool  
 
-**Cause**: The MCP server isn't configured or the tool name is incorrect
+**Cause**: The MCP server isn't configured or the tool name is incorrect  
 
-**Solution**: Check MCP server configuration. The agent will note the failure in its comment block and suggest manual resolution.
+**Solution**: Check MCP server configuration. The agent will note the failure in its comment block and suggest manual resolution.  
 
 ### Issue 4: Web research blocked (--deep only)
 
-**Symptom**: WebSearch/WebFetch calls fail
+**Symptom**: WebSearch/WebFetch calls fail  
 
-**Cause**: Network restrictions or tool permissions
+**Cause**: Network restrictions or tool permissions  
 
-**Solution**: Agent will note "Unable to research — manual answer needed" in the comment block. User can fill in manually.
+**Solution**: Agent will note "Unable to research — manual answer needed" in the comment block. User can fill in manually.  
 
 ---
 
@@ -504,11 +504,11 @@ Would you like to accept this recommendation? (yes/no)
 
 ---
 
-**Namespace**: acp
-**Command**: clarification-address
-**Version**: 2.0.0
-**Created**: 2026-03-14
-**Last Updated**: 2026-03-17
-**Status**: Active
-**Compatibility**: ACP 6.0.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: clarification-address  
+**Version**: 2.0.0  
+**Created**: 2026-03-14  
+**Last Updated**: 2026-03-17  
+**Status**: Active  
+**Compatibility**: ACP 6.0.0+  
+**Author**: ACP Project  

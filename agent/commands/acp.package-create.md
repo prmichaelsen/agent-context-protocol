@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 2.0.0
-**Created**: 2026-02-20
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Scripts**: acp.package-create.sh, acp.common.sh, acp.yaml-parser.sh
+**Namespace**: acp  
+**Version**: 2.0.0  
+**Created**: 2026-02-20  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Scripts**: acp.package-create.sh, acp.common.sh, acp.yaml-parser.sh  
 
 ---
 
-**Purpose**: Create a new ACP package with full ACP installation, release branch configuration, and pre-commit hooks
-**Category**: Creation
-**Frequency**: Once per package
+**Purpose**: Create a new ACP package with full ACP installation, release branch configuration, and pre-commit hooks  
+**Category**: Creation  
+**Frequency**: Once per package  
 
 ---
 
@@ -65,7 +65,7 @@ This happens automatically - no manual setup required.
 
 ### 1. Gather Package Information via Chat
 
-**IMPORTANT**: Collect all information from the user via chat BEFORE executing the script.
+**IMPORTANT**: Collect all information from the user via chat BEFORE executing the script.  
 
 **Actions**:
 1. Explain what information is needed and why
@@ -126,7 +126,7 @@ This happens automatically - no manual setup required.
 - Note: Package will be created in the specified directory
 - Rationale: `~/.acp/projects/` is for development work, while `~/.acp/packages/` is reserved for installed packages from remote repositories
 
-**Expected Outcome**: All metadata collected and validated
+**Expected Outcome**: All metadata collected and validated  
 
 **Example Chat Interaction**:
 ```
@@ -261,7 +261,7 @@ EOF
 - Relative paths resolved from current directory
 - Absolute paths used as-is
 
-**Expected Outcome**: Script executes successfully and creates complete package structure
+**Expected Outcome**: Script executes successfully and creates complete package structure  
 
 **Script Output to Display**:
 ```
@@ -374,7 +374,7 @@ After script execution completes, display the next steps for the user.
 - Explain how to add content
 - Remind about package.yaml maintenance
 
-**Expected Outcome**: User knows exactly what to do next
+**Expected Outcome**: User knows exactly what to do next  
 
 **Instructions Display**:
 ```
@@ -469,7 +469,7 @@ Check that all files were created correctly.
 - Confirm package.yaml is valid
 - Verify pre-commit hook installed
 
-**Expected Outcome**: Package is ready for content addition
+**Expected Outcome**: Package is ready for content addition  
 
 **Verification Commands**:
 ```bash
@@ -623,9 +623,9 @@ Initializing Git Repository
 
 ### Example 1: Creating Firebase Package
 
-**Context**: Want to share Firebase patterns with community
+**Context**: Want to share Firebase patterns with community  
 
-**Invocation**: `@acp.package-create`
+**Invocation**: `@acp.package-create`  
 
 **Interaction**:
 ```
@@ -640,13 +640,13 @@ Release branch [main]:
 Target directory [.]: 
 ```
 
-**Result**: Complete ACP package with full installation, ready to add Firebase patterns
+**Result**: Complete ACP package with full installation, ready to add Firebase patterns  
 
 ### Example 2: Creating MCP Integration Package
 
-**Context**: Want to package MCP server integration patterns
+**Context**: Want to package MCP server integration patterns  
 
-**Invocation**: `@acp.package-create`
+**Invocation**: `@acp.package-create`  
 
 **Interaction**:
 ```
@@ -661,13 +661,13 @@ Release branch [main]: mainline
 Target directory [.]: ~/projects
 ```
 
-**Result**: Package created in ~/projects/acp-mcp-integration/ with Apache-2.0 license and mainline release branch
+**Result**: Package created in ~/projects/acp-mcp-integration/ with Apache-2.0 license and mainline release branch  
 
 ### Example 3: Creating OAuth Package with Custom Branch
 
-**Context**: Want to share OAuth 2.0 implementation patterns, using release branch
+**Context**: Want to share OAuth 2.0 implementation patterns, using release branch  
 
-**Invocation**: `@acp.package-create`
+**Invocation**: `@acp.package-create`  
 
 **Interaction**:
 ```
@@ -682,7 +682,7 @@ Release branch [main]: release
 Target directory [.]: 
 ```
 
-**Result**: Package with release branch configured for publishing
+**Result**: Package with release branch configured for publishing  
 
 ---
 
@@ -703,9 +703,9 @@ Target directory [.]:
 
 ### Issue 1: Directory already exists
 
-**Symptom**: Error "Directory acp-{name} already exists"
+**Symptom**: Error "Directory acp-{name} already exists"  
 
-**Cause**: Package directory already created
+**Cause**: Package directory already created  
 
 **Solution**: 
 - Choose a different package name
@@ -714,9 +714,9 @@ Target directory [.]:
 
 ### Issue 2: Git not installed
 
-**Symptom**: Error "git: command not found"
+**Symptom**: Error "git: command not found"  
 
-**Cause**: Git not installed on system
+**Cause**: Git not installed on system  
 
 **Solution**: 
 - Install git: https://git-scm.com/downloads
@@ -724,9 +724,9 @@ Target directory [.]:
 
 ### Issue 3: Invalid package name
 
-**Symptom**: Warning about package name format
+**Symptom**: Warning about package name format  
 
-**Cause**: Package name contains spaces or special characters
+**Cause**: Package name contains spaces or special characters  
 
 **Solution**: 
 - Use lowercase letters, numbers, and hyphens only
@@ -735,9 +735,9 @@ Target directory [.]:
 
 ### Issue 4: ACP installation failed
 
-**Symptom**: Error during ACP installation step
+**Symptom**: Error during ACP installation step  
 
-**Cause**: Network issues or repository unavailable
+**Cause**: Network issues or repository unavailable  
 
 **Solution**:
 - Check internet connection
@@ -747,9 +747,9 @@ Target directory [.]:
 
 ### Issue 5: Pre-commit hook not working
 
-**Symptom**: Hook doesn't run or validation fails
+**Symptom**: Hook doesn't run or validation fails  
 
-**Cause**: Hook not executable or validation script missing
+**Cause**: Hook not executable or validation script missing  
 
 **Solution**:
 - Make hook executable: `chmod +x .git/hooks/pre-commit`
@@ -885,11 +885,11 @@ If you have packages created with v1.0.0:
 
 ---
 
-**Namespace**: acp
-**Command**: package-create
-**Version**: 2.0.0
-**Created**: 2026-02-20
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 2.8.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: package-create  
+**Version**: 2.0.0  
+**Created**: 2026-02-20  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 2.8.0+  
+**Author**: ACP Project  

@@ -1,9 +1,9 @@
 # Task 78: Implement @acp.proceed Autonomous Completion Arguments
 
-**Milestone**: M10 - Command Enhancements
-**Estimated Time**: 8-12 hours
-**Dependencies**: None
-**Status**: Completed
+**Milestone**: M10 - Command Enhancements  
+**Estimated Time**: 8-12 hours  
+**Dependencies**: None  
+**Status**: Completed  
 
 ---
 
@@ -72,7 +72,7 @@ Core autonomous completion loop:
 5. Display progress indicator with bar graph between tasks
 6. Repeat until milestone complete or blocker encountered
 
-**Task selection**: Based on progress.yaml, next steps, previously defined priorities, and chat context (not strictly lowest-ID-first).
+**Task selection**: Based on progress.yaml, next steps, previously defined priorities, and chat context (not strictly lowest-ID-first).  
 
 **Stopping conditions**:
 - All tasks in milestone completed (success)
@@ -180,16 +180,16 @@ If user interrupts mid-run:
 ## Common Issues and Solutions
 
 ### Issue 1: Context window exhaustion during long autonomous runs
-**Symptom**: Agent loses context after many tasks
-**Solution**: Each task should be self-contained; re-read progress.yaml and task files at start of each iteration
+**Symptom**: Agent loses context after many tasks  
+**Solution**: Each task should be self-contained; re-read progress.yaml and task files at start of each iteration  
 
 ### Issue 2: Commit conflicts during autonomous run
-**Symptom**: Git commit fails mid-run
-**Solution**: Halt and seek user intervention; do not attempt to auto-resolve
+**Symptom**: Git commit fails mid-run  
+**Solution**: Halt and seek user intervention; do not attempt to auto-resolve  
 
 ### Issue 3: Natural language parsing too aggressive
-**Symptom**: Agent enters autonomous mode unintentionally
-**Solution**: Always show confirmation prompt before starting; require explicit "yes" to proceed
+**Symptom**: Agent enters autonomous mode unintentionally  
+**Solution**: Always show confirmation prompt before starting; require explicit "yes" to proceed  
 
 ---
 
@@ -212,6 +212,6 @@ If user interrupts mid-run:
 
 ---
 
-**Next Task**: TBD
-**Related Design Docs**: agent/clarifications/clarification-2-proceed-args.md
-**Estimated Completion Date**: TBD
+**Next Task**: TBD  
+**Related Design Docs**: agent/clarifications/clarification-2-proceed-args.md  
+**Estimated Completion Date**: TBD  

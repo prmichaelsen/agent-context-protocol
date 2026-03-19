@@ -1,9 +1,9 @@
 # Milestone 16: Design Reference System
 
-**Goal**: Ensure tasks have complete design document coverage so agents can implement from the task alone
-**Duration**: 1-2 weeks
-**Dependencies**: M15 (Clarification Capture System — provides shared directive pattern)
-**Status**: Not Started
+**Goal**: Ensure tasks have complete design document coverage so agents can implement from the task alone  
+**Duration**: 1-2 weeks  
+**Dependencies**: M15 (Clarification Capture System — provides shared directive pattern)  
+**Status**: Not Started  
 
 ---
 
@@ -92,6 +92,6 @@ agent/
 
 ---
 
-**Next Milestone**: TBD
-**Blockers**: None
-**Notes**: Future work includes `@acp.task-validate` for retroactive completeness checking (not in this milestone scope)
+**Next Milestone**: TBD  
+**Blockers**: None  
+**Notes**: Future work includes `@acp.task-validate` for retroactive completeness checking (not in this milestone scope)  

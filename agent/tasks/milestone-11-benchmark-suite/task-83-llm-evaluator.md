@@ -1,9 +1,9 @@
 # Task 83: LLM Evaluator Implementation
 
-**Milestone**: M11 - ACP Benchmark Suite
-**Estimated Time**: 4-6 hours
-**Dependencies**: Task 79 (runner infrastructure), Tasks 80-82 (at least one benchmark task to evaluate)
-**Status**: Not Started
+**Milestone**: M11 - ACP Benchmark Suite  
+**Estimated Time**: 4-6 hours  
+**Dependencies**: Task 79 (runner infrastructure), Tasks 80-82 (at least one benchmark task to evaluate)  
+**Status**: Not Started  
 
 ---
 
@@ -62,4 +62,4 @@ The design spec calls for a separate Claude Code invocation that evaluates the w
 
 ---
 
-**Related Design Docs**: agent/design/local.benchmark-suite.md (LLM Evaluator)
+**Related Design Docs**: agent/design/local.benchmark-suite.md (LLM Evaluator)  

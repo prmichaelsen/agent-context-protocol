@@ -1,8 +1,8 @@
 # E2E Testing Pattern for Shell Scripts
 
-**Category**: Testing
-**Applicable To**: Shell script projects, ACP packages, CLI tools
-**Status**: Stable
+**Category**: Testing  
+**Applicable To**: Shell script projects, ACP packages, CLI tools  
+**Status**: Stable  
 
 ---
 
@@ -210,7 +210,7 @@ echo "=========================================="
 
 ### Example 1: Testing Installation Script
 
-**Scenario**: Test that package installation creates correct files
+**Scenario**: Test that package installation creates correct files  
 
 ```bash
 test_install_creates_files() {
@@ -232,10 +232,10 @@ EOF
     
     cat > "$pkg_dir/agent/commands/test.cmd.md" << 'EOF'
 # Command: cmd
-**Namespace**: test
-**Version**: 1.0.0
-**Status**: Active
-**Scripts**: None
+**Namespace**: test  
+**Version**: 1.0.0  
+**Status**: Active  
+**Scripts**: None  
 EOF
     
     # Execute installation
@@ -255,7 +255,7 @@ EOF
 
 ### Example 2: Testing with set -e
 
-**Scenario**: Script uses `set -e`, need to test error cases
+**Scenario**: Script uses `set -e`, need to test error cases  
 
 ```bash
 test_error_handling() {
@@ -280,7 +280,7 @@ test_error_handling() {
 
 ### Example 3: Debug Script Usage
 
-**Scenario**: E2E tests failing, need to debug
+**Scenario**: E2E tests failing, need to debug  
 
 **Workflow**:
 1. Create `debug.sh` with failing test scenario
@@ -328,12 +328,12 @@ Systematic test scenarios (happy path, error cases, edge cases, experimental fea
 ## Trade-offs
 
 ### 1. Test Execution Time
-**Downside**: Creating temporary directories and running full installations for each test adds overhead (2-3 minutes for 8 tests).
-**Mitigation**: Run tests in parallel where possible. Use debug.sh for rapid iteration during development.
+**Downside**: Creating temporary directories and running full installations for each test adds overhead (2-3 minutes for 8 tests).  
+**Mitigation**: Run tests in parallel where possible. Use debug.sh for rapid iteration during development.  
 
 ### 2. Maintenance Burden
-**Downside**: E2E tests need updates when script behavior changes.
-**Mitigation**: Keep tests focused on behavior, not implementation. Use helper functions to reduce duplication.
+**Downside**: E2E tests need updates when script behavior changes.  
+**Mitigation**: Keep tests focused on behavior, not implementation. Use helper functions to reduce duplication.  
 
 ---
 
@@ -341,11 +341,11 @@ Systematic test scenarios (happy path, error cases, edge cases, experimental fea
 
 ### ❌ Anti-Pattern 1: Testing Implementation Details
 
-**Description**: Tests that check internal variables or implementation specifics rather than observable behavior.
+**Description**: Tests that check internal variables or implementation specifics rather than observable behavior.  
 
-**Why it's bad**: Tests break when refactoring, even if behavior is unchanged.
+**Why it's bad**: Tests break when refactoring, even if behavior is unchanged.  
 
-**Instead, do this**: Test observable outcomes (files created, exit codes, output messages).
+**Instead, do this**: Test observable outcomes (files created, exit codes, output messages).  
 
 ```bash
 # ❌ Bad: Testing internal variable
@@ -365,11 +365,11 @@ test_good() {
 
 ### ❌ Anti-Pattern 2: Shared State Between Tests
 
-**Description**: Tests that depend on previous tests or share directories/files.
+**Description**: Tests that depend on previous tests or share directories/files.  
 
-**Why it's bad**: Tests fail in isolation, order-dependent, hard to debug.
+**Why it's bad**: Tests fail in isolation, order-dependent, hard to debug.  
 
-**Instead, do this**: Each test creates its own temporary directory and cleans up after.
+**Instead, do this**: Each test creates its own temporary directory and cleans up after.  
 
 ```bash
 # ❌ Bad: Shared directory
@@ -399,11 +399,11 @@ test_2() {
 
 ### ❌ Anti-Pattern 3: No Debug Workflow
 
-**Description**: Running full E2E suite repeatedly during debugging, waiting minutes for each iteration.
+**Description**: Running full E2E suite repeatedly during debugging, waiting minutes for each iteration.  
 
-**Why it's bad**: Wastes time, slows down debugging, frustrating workflow.
+**Why it's bad**: Wastes time, slows down debugging, frustrating workflow.  
 
-**Instead, do this**: Create debug.sh that reproduces failing scenario with extra output.
+**Instead, do this**: Create debug.sh that reproduces failing scenario with extra output.  
 
 ```bash
 # ❌ Bad: Debugging by running full suite
@@ -541,7 +541,7 @@ $ bash e2e/feature.test.sh
 
 ### Pitfall 1: Functions Returning Non-Zero
 
-**Problem**: Function returns non-zero exit code, script exits
+**Problem**: Function returns non-zero exit code, script exits  
 
 ```bash
 #!/bin/bash
@@ -558,7 +558,7 @@ get_value() {
 value=$(get_value)  # Script exits if file doesn't exist
 ```
 
-**Solution**: Return 0 or handle error
+**Solution**: Return 0 or handle error  
 
 ```bash
 get_value() {
@@ -572,7 +572,7 @@ get_value() {
 
 ### Pitfall 2: Grep with No Matches
 
-**Problem**: `grep` returns 1 when no matches, script exits
+**Problem**: `grep` returns 1 when no matches, script exits  
 
 ```bash
 #!/bin/bash
@@ -581,7 +581,7 @@ set -e
 result=$(grep "pattern" file.txt)  # ← Exits if no match
 ```
 
-**Solution**: Add `|| true`
+**Solution**: Add `|| true`  
 
 ```bash
 result=$(grep "pattern" file.txt || true)  # ← Fixed
@@ -589,7 +589,7 @@ result=$(grep "pattern" file.txt || true)  # ← Fixed
 
 ### Pitfall 3: Command in Loop Fails
 
-**Problem**: Command in loop fails, entire script exits
+**Problem**: Command in loop fails, entire script exits  
 
 ```bash
 #!/bin/bash
@@ -600,7 +600,7 @@ for item in "${ARRAY[@]}"; do
 done
 ```
 
-**Solution**: Handle errors in loop
+**Solution**: Handle errors in loop  
 
 ```bash
 for item in "${ARRAY[@]}"; do
@@ -638,9 +638,9 @@ done
 
 ## Real-World Example: Task 69 Debugging
 
-**Context**: Script-command binding E2E tests failing (7/28 passing, 25%)
+**Context**: Script-command binding E2E tests failing (7/28 passing, 25%)  
 
-**Problem**: Scripts not being installed during package installation
+**Problem**: Scripts not being installed during package installation  
 
 **Debug Workflow**:
 
@@ -655,13 +655,13 @@ done
 9. **Ran ./debug.sh** → all scripts installed!
 10. **Ran E2E suite** → 28/28 passing (100%)
 
-**Time**: 4 hours total (including finding 3 other bugs)
+**Time**: 4 hours total (including finding 3 other bugs)  
 
-**Key Success Factor**: debug.sh enabled rapid iteration (seconds per test) vs. full E2E suite (minutes per test)
+**Key Success Factor**: debug.sh enabled rapid iteration (seconds per test) vs. full E2E suite (minutes per test)  
 
 ---
 
-**Status**: Production Ready
-**Recommendation**: Use this pattern for all shell script E2E testing
-**Last Updated**: 2026-02-25
-**Contributors**: ACP Project (learned from Task 69)
+**Status**: Production Ready  
+**Recommendation**: Use this pattern for all shell script E2E testing  
+**Last Updated**: 2026-02-25  
+**Contributors**: ACP Project (learned from Task 69)  

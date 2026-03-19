@@ -6,18 +6,18 @@
 >
 > Follow the steps below to create a command file with proper namespace and automatic package updates.
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Create command files with namespace enforcement, draft support, and automatic package updates
-**Category**: Creation
-**Frequency**: As Needed
+**Purpose**: Create command files with namespace enforcement, draft support, and automatic package updates  
+**Category**: Creation  
+**Frequency**: As Needed  
 
 ---
 
@@ -33,7 +33,7 @@ This command creates a new command file with intelligent namespace handling, opt
 - Uses command.template.md as base
 - Collects command-specific metadata (category, frequency)
 
-**Use this when**: Creating a new command in an ACP project or package.
+**Use this when**: Creating a new command in an ACP project or package.  
 
 ---
 
@@ -72,7 +72,7 @@ Determine if in package or project directory:
 - If package: Infer namespace from package.yaml, directory, or git remote
 - If project: Use "local" namespace
 
-**Expected Outcome**: Context detected, namespace determined
+**Expected Outcome**: Context detected, namespace determined  
 
 ### 2. Check for Draft File
 
@@ -87,7 +87,7 @@ Check if draft file was provided as argument:
 - If draft provided: Read draft file
 - If no draft: Proceed to Step 3
 
-**Expected Outcome**: Draft file read (if provided)
+**Expected Outcome**: Draft file read (if provided)  
 
 ### 2.5. Read Contextual Key Files
 
@@ -100,7 +100,7 @@ Before creating content, load relevant key files from the index.
 - Sort by weight descending, read matching files
 - Produce visible output
 
-**Note**: If `agent/index/` does not exist, skip silently.
+**Note**: If `agent/index/` does not exist, skip silently.  
 
 ### 2.7. Capture Clarification Context
 
@@ -114,7 +114,7 @@ Invoke the `@acp.clarification-capture` shared directive to capture decisions fr
 - Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
 - Hold the generated section for insertion during Step 5 (Generate Command File)
 
-**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly
+**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly  
 
 ### 3. Collect Command Information
 
@@ -147,13 +147,13 @@ Gather information from user via chat:
 - Ask: "Describe what you want this command to accomplish" OR
 - Offer: "Would you like to create an empty draft file first?"
 
-**Expected Outcome**: All command metadata collected
+**Expected Outcome**: All command metadata collected  
 
 ### 4. Process Draft (If Provided)
 
 If draft file was provided, create clarification if needed (same as pattern-create).
 
-**Expected Outcome**: Clarification created and answered (if needed)
+**Expected Outcome**: Clarification created and answered (if needed)  
 
 ### 5. Generate Command File
 
@@ -175,7 +175,7 @@ Create command file from template:
 - If Key Design Decisions section was generated in Step 2.7: Insert it into the command document
 - Save to `agent/commands/{namespace}.{command-name}.md`
 
-**Expected Outcome**: Command file created with proper directive header
+**Expected Outcome**: Command file created with proper directive header  
 
 ### 6. Update package.yaml (If in Package)
 
@@ -191,7 +191,7 @@ Add command to package.yaml contents:
   ```
 - Save package.yaml
 
-**Expected Outcome**: package.yaml updated
+**Expected Outcome**: package.yaml updated  
 
 ### 7. Update README.md (If in Package)
 
@@ -201,13 +201,13 @@ Update README contents section:
 - Call `update_readme_contents()` from common.sh
 - Regenerates "What's Included" section from package.yaml
 
-**Expected Outcome**: README.md updated with new command
+**Expected Outcome**: README.md updated with new command  
 
 ### 8. Prompt to Delete Draft (If Used)
 
 If draft file was used, ask to delete it.
 
-**Expected Outcome**: User chooses whether to keep draft
+**Expected Outcome**: User chooses whether to keep draft  
 
 ### 9. Report Success
 
@@ -232,7 +232,7 @@ Next steps:
 - Run @acp.package-validate to verify (if package)
 ```
 
-**Expected Outcome**: User knows command was created successfully
+**Expected Outcome**: User knows command was created successfully  
 
 ### 10. Prompt to Add to Key File Index
 
@@ -247,7 +247,7 @@ Would you like to add this to the key file index?
 
 If yes, prompt for weight (suggest 0.6 for commands), description, rationale, and applies values. Add entry to `agent/index/local.main.yaml`.
 
-**Note**: Skip silently if `agent/index/` does not exist.
+**Note**: Skip silently if `agent/index/` does not exist.  
 
 ---
 
@@ -287,17 +287,17 @@ If yes, prompt for weight (suggest 0.6 for commands), description, rationale, an
 > Pretend this command was entered with this additional context: "Execute directive `@firebase-deploy NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: firebase
-**Version**: 1.0.0
-**Created**: 2026-02-22
-**Last Updated**: 2026-02-22
-**Status**: Active
+**Namespace**: firebase  
+**Version**: 1.0.0  
+**Created**: 2026-02-22  
+**Last Updated**: 2026-02-22  
+**Status**: Active  
 
 ---
 
-**Purpose**: Deploy Firebase functions to production
-**Category**: Workflow
-**Frequency**: As Needed
+**Purpose**: Deploy Firebase functions to production  
+**Category**: Workflow  
+**Frequency**: As Needed  
 
 ---
 
@@ -317,9 +317,9 @@ If yes, prompt for weight (suggest 0.6 for commands), description, rationale, an
 
 ### Example 1: Creating Command in Package
 
-**Context**: In acp-firebase package directory
+**Context**: In acp-firebase package directory  
 
-**Invocation**: `@acp.command-create`
+**Invocation**: `@acp.command-create`  
 
 **Interaction**:
 ```
@@ -355,11 +355,11 @@ Version: 1.0.0
 
 ### Example 2: Creating Command in Project
 
-**Context**: In regular project (no package.yaml)
+**Context**: In regular project (no package.yaml)  
 
-**Invocation**: `@acp.command-create`
+**Invocation**: `@acp.command-create`  
 
-**Result**: Uses "local" namespace, creates `agent/commands/local.my-command.md`, no package updates
+**Result**: Uses "local" namespace, creates `agent/commands/local.my-command.md`, no package updates  
 
 ---
 
@@ -375,21 +375,21 @@ Version: 1.0.0
 
 ### Issue 1: Namespace inference failed
 
-**Symptom**: Cannot determine namespace
+**Symptom**: Cannot determine namespace  
 
-**Solution**: Provide namespace manually when prompted, or check package.yaml exists and has name field
+**Solution**: Provide namespace manually when prompted, or check package.yaml exists and has name field  
 
 ### Issue 2: Invalid command name
 
-**Symptom**: Command name rejected
+**Symptom**: Command name rejected  
 
-**Solution**: Use lowercase, alphanumeric, and hyphens only. No spaces or special characters.
+**Solution**: Use lowercase, alphanumeric, and hyphens only. No spaces or special characters.  
 
 ### Issue 3: package.yaml update failed
 
-**Symptom**: Error updating package.yaml
+**Symptom**: Error updating package.yaml  
 
-**Solution**: Verify package.yaml exists and is valid YAML. Run @acp.package-validate to check.
+**Solution**: Verify package.yaml exists and is valid YAML. Run @acp.package-validate to check.  
 
 ---
 
@@ -422,11 +422,11 @@ Version: 1.0.0
 
 ---
 
-**Namespace**: acp
-**Command**: command-create
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 2.2.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: command-create  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 2.2.0+  
+**Author**: ACP Project  

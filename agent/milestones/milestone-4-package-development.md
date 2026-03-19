@@ -1,10 +1,10 @@
 # Milestone 4: ACP Package Development System
 
-**Goal**: Implement complete package development workflow with entity creation, validation, and publishing
-**Duration**: 6-8 weeks
-**Dependencies**: Milestone 3 (ACP Package Management System)
-**Status**: Not Started
-**Design Document**: [`agent/design/acp-package-development-system.md`](../design/acp-package-development-system.md)
+**Goal**: Implement complete package development workflow with entity creation, validation, and publishing  
+**Duration**: 6-8 weeks  
+**Dependencies**: Milestone 3 (ACP Package Management System)  
+**Status**: Not Started  
+**Design Document**: [`agent/design/acp-package-development-system.md`](../design/acp-package-development-system.md)  
 
 ---
 
@@ -155,9 +155,9 @@ agent-context-protocol/
 ### Phase 1: Infrastructure (Tasks 14-16)
 
 #### Task 14: YAML Schema System
-**Estimated**: 6-8 hours
-**Priority**: High
-**File**: [`agent/tasks/task-14-yaml-schema-system.md`](../tasks/task-14-yaml-schema-system.md)
+**Estimated**: 6-8 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-14-yaml-schema-system.md`](../tasks/task-14-yaml-schema-system.md)  
 
 **Deliverables**:
 - Research YAML schema standards
@@ -167,9 +167,9 @@ agent-context-protocol/
 - Test with valid/invalid package.yaml files
 
 #### Task 15: Namespace Utilities
-**Estimated**: 3-4 hours
-**Priority**: High
-**File**: [`agent/tasks/task-15-namespace-utilities.md`](../tasks/task-15-namespace-utilities.md)
+**Estimated**: 3-4 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-15-namespace-utilities.md`](../tasks/task-15-namespace-utilities.md)  
 
 **Deliverables**:
 - Add is_acp_package() to common.sh
@@ -179,9 +179,9 @@ agent-context-protocol/
 - Test namespace detection and validation
 
 #### Task 16: README Update Utilities
-**Estimated**: 3-4 hours
-**Priority**: Medium
-**File**: [`agent/tasks/task-16-readme-update-utilities.md`](../tasks/task-16-readme-update-utilities.md)
+**Estimated**: 3-4 hours  
+**Priority**: Medium  
+**File**: [`agent/tasks/task-16-readme-update-utilities.md`](../tasks/task-16-readme-update-utilities.md)  
 
 **Deliverables**:
 - Add update_readme_contents() to common.sh
@@ -193,9 +193,9 @@ agent-context-protocol/
 ### Phase 2: Entity Creation Commands (Tasks 17-19)
 
 #### Task 17: @acp.pattern-create Command
-**Estimated**: 6-8 hours
-**Priority**: High
-**File**: [`agent/tasks/task-17-pattern-create-command.md`](../tasks/task-17-pattern-create-command.md)
+**Estimated**: 6-8 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-17-pattern-create-command.md`](../tasks/task-17-pattern-create-command.md)  
 
 **Deliverables**:
 - Create acp.pattern-create.md command documentation
@@ -209,9 +209,9 @@ agent-context-protocol/
 - Namespace enforcement
 
 #### Task 18: @acp.command-create Command
-**Estimated**: 5-6 hours
-**Priority**: High
-**File**: [`agent/tasks/task-18-command-create-command.md`](../tasks/task-18-command-create-command.md)
+**Estimated**: 5-6 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-18-command-create-command.md`](../tasks/task-18-command-create-command.md)  
 
 **Deliverables**:
 - Create acp.command-create.md command documentation
@@ -221,9 +221,9 @@ agent-context-protocol/
 - Update package.yaml and README.md
 
 #### Task 19: @acp.design-create Command
-**Estimated**: 4-5 hours
-**Priority**: Medium
-**File**: [`agent/tasks/task-19-design-create-command.md`](../tasks/task-19-design-create-command.md)
+**Estimated**: 4-5 hours  
+**Priority**: Medium  
+**File**: [`agent/tasks/task-19-design-create-command.md`](../tasks/task-19-design-create-command.md)  
 
 **Deliverables**:
 - Create acp.design-create.md command documentation
@@ -234,9 +234,9 @@ agent-context-protocol/
 ### Phase 3: Validation System (Tasks 20-21)
 
 #### Task 20: @acp.package-validate Command
-**Estimated**: 7-9 hours
-**Priority**: High
-**File**: [`agent/tasks/task-20-package-validate-command.md`](../tasks/task-20-package-validate-command.md)
+**Estimated**: 7-9 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-20-package-validate-command.md`](../tasks/task-20-package-validate-command.md)  
 
 **Deliverables**:
 - Create acp.package-validate.md command documentation
@@ -249,9 +249,9 @@ agent-context-protocol/
 - Comprehensive reporting
 
 #### Task 21: Enhanced @acp.validate
-**Estimated**: 3-4 hours
-**Priority**: Medium
-**File**: [`agent/tasks/task-21-enhanced-acp-validate.md`](../tasks/task-21-enhanced-acp-validate.md)
+**Estimated**: 3-4 hours  
+**Priority**: Medium  
+**File**: [`agent/tasks/task-21-enhanced-acp-validate.md`](../tasks/task-21-enhanced-acp-validate.md)  
 
 **Deliverables**:
 - Add namespace checking to @acp.validate
@@ -262,9 +262,9 @@ agent-context-protocol/
 ### Phase 4: Publishing System (Task 22)
 
 #### Task 22: @acp.package-publish Command
-**Estimated**: 8-10 hours
-**Priority**: High
-**File**: [`agent/tasks/task-22-package-publish-command.md`](../tasks/task-22-package-publish-command.md)
+**Estimated**: 8-10 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-22-package-publish-command.md`](../tasks/task-22-package-publish-command.md)  
 
 **Deliverables**:
 - Create acp.package-publish.md command documentation
@@ -282,9 +282,9 @@ agent-context-protocol/
 ### Phase 5: Package Creation Rewrite (Task 23)
 
 #### Task 23: Rewrite @acp.package-create
-**Estimated**: 6-8 hours
-**Priority**: High
-**File**: [`agent/tasks/task-23-package-create-rewrite.md`](../tasks/task-23-package-create-rewrite.md)
+**Estimated**: 6-8 hours  
+**Priority**: High  
+**File**: [`agent/tasks/task-23-package-create-rewrite.md`](../tasks/task-23-package-create-rewrite.md)  
 
 **Deliverables**:
 - Update acp.package-create.md documentation
@@ -299,9 +299,9 @@ agent-context-protocol/
 ### Phase 6: Pre-Commit Hooks (Task 24)
 
 #### Task 24: Pre-Commit Hook System
-**Estimated**: 3-4 hours
-**Priority**: Medium
-**File**: [`agent/tasks/task-24-precommit-hook-system.md`](../tasks/task-24-precommit-hook-system.md)
+**Estimated**: 3-4 hours  
+**Priority**: Medium  
+**File**: [`agent/tasks/task-24-precommit-hook-system.md`](../tasks/task-24-precommit-hook-system.md)  
 
 **Deliverables**:
 - Create pre-commit hook template
@@ -367,7 +367,7 @@ agent-context-protocol/
 ## Risks & Mitigations
 
 ### Risk 1: YAML Schema Validation Complexity
-**Risk**: Pure bash YAML schema validation may be complex to implement
+**Risk**: Pure bash YAML schema validation may be complex to implement  
 
 **Mitigation**:
 - Start with basic validation (required fields, types)
@@ -376,7 +376,7 @@ agent-context-protocol/
 - Research existing bash YAML validators
 
 ### Risk 2: LLM Availability
-**Risk**: Some features require LLM (CHANGELOG generation, content validation)
+**Risk**: Some features require LLM (CHANGELOG generation, content validation)  
 
 **Mitigation**:
 - Shell validation works without LLM
@@ -385,7 +385,7 @@ agent-context-protocol/
 - Document LLM requirements
 
 ### Risk 3: Git Hook Conflicts
-**Risk**: Users may have existing pre-commit hooks
+**Risk**: Users may have existing pre-commit hooks  
 
 **Mitigation**:
 - Check for existing hooks before installing
@@ -394,7 +394,7 @@ agent-context-protocol/
 - Provide uninstall instructions
 
 ### Risk 4: Namespace Inference Ambiguity
-**Risk**: Multiple inference methods may give different results
+**Risk**: Multiple inference methods may give different results  
 
 **Mitigation**:
 - Clear priority order
@@ -403,7 +403,7 @@ agent-context-protocol/
 - Validate inferred namespace
 
 ### Risk 5: Scope Creep
-**Risk**: Feature requests may expand scope
+**Risk**: Feature requests may expand scope  
 
 **Mitigation**:
 - Stick to design document
@@ -512,7 +512,7 @@ None required for this milestone.
 
 ## Next Milestone
 
-**Milestone 5**: ACP Package Ecosystem (Future)
+**Milestone 5**: ACP Package Ecosystem (Future)  
 - Create example packages (acp-firebase, acp-mcp-integration, acp-oauth)
 - Publish to GitHub with acp-package topic
 - Test end-to-end workflows
@@ -521,11 +521,11 @@ None required for this milestone.
 
 ---
 
-**Status**: Ready to begin
-**Estimated Duration**: 6-8 weeks
-**Estimated Effort**: 45-58 hours
-**Priority**: High
-**Dependencies**: Milestone 3 complete ✓
+**Status**: Ready to begin  
+**Estimated Duration**: 6-8 weeks  
+**Estimated Effort**: 45-58 hours  
+**Priority**: High  
+**Dependencies**: Milestone 3 complete ✓  
 
 **Related Documents**:
 - [`agent/design/acp-package-development-system.md`](../design/acp-package-development-system.md)

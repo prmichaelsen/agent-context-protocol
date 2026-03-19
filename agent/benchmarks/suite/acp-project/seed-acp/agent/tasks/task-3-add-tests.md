@@ -1,9 +1,9 @@
 # Task 3: Comprehensive Test Suite
 
-**Status**: Not Started
-**Estimated Hours**: 4
-**Milestone**: M1 (MVP)
-**Dependencies**: Task 1, Task 2
+**Status**: Not Started  
+**Estimated Hours**: 4  
+**Milestone**: M1 (MVP)  
+**Dependencies**: Task 1, Task 2  
 
 ## Objective
 

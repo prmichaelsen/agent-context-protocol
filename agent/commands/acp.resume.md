@@ -4,18 +4,18 @@
 > Pretend this command was entered with this additional context: "Execute directive `@{namespace}-{command-name} NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
-**Namespace**: acp
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Scripts**: None
+**Namespace**: acp  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Scripts**: None  
 
 ---
 
-**Purpose**: Resume work on a project by initializing context, reviewing recent progress, and continuing with the next task
-**Category**: Workflow
-**Frequency**: Per Session
+**Purpose**: Resume work on a project by initializing context, reviewing recent progress, and continuing with the next task  
+**Category**: Workflow  
+**Frequency**: Per Session  
 
 ---
 
@@ -27,7 +27,7 @@ This command is a convenient alias that combines three essential workflow comman
 2. **Review Recent Work** - Reads the latest session report to understand what was done
 3. **Continue Work** - Proceeds with the current/next task via `@acp.proceed`
 
-**Use this when**: Starting a new session or returning to a project after a break.
+**Use this when**: Starting a new session or returning to a project after a break.  
 
 ---
 
@@ -54,7 +54,7 @@ Run the initialization workflow to load complete project context.
 - Update stale documentation
 - Refresh progress tracking
 
-**Expected Outcome**: Complete project context loaded (including key file index)
+**Expected Outcome**: Complete project context loaded (including key file index)  
 
 ### 2. Read Latest Session Report
 
@@ -67,7 +67,7 @@ Find and read the most recent session report to understand what was accomplished
 - Summarize key accomplishments
 - Note any blockers or issues mentioned
 
-**Expected Outcome**: Recent work understood
+**Expected Outcome**: Recent work understood  
 
 ### 3. Proceed with Current/Next Task
 
@@ -80,7 +80,7 @@ Continue work by executing the current or next task.
 - **START IMPLEMENTING immediately**
 - Update progress tracking
 
-**Expected Outcome**: Task implementation in progress
+**Expected Outcome**: Task implementation in progress  
 
 ---
 
@@ -147,9 +147,9 @@ Objective: Create ~/.acp/ directory structure with AGENT.md and manifest.yaml
 
 ### Example 1: Resuming After Break
 
-**Context**: Haven't worked on project in a few days
+**Context**: Haven't worked on project in a few days  
 
-**Invocation**: `@acp.resume`
+**Invocation**: `@acp.resume`  
 
 **Result**: 
 - Loads complete context
@@ -159,9 +159,9 @@ Objective: Create ~/.acp/ directory structure with AGENT.md and manifest.yaml
 
 ### Example 2: Starting New Session
 
-**Context**: Beginning work for the day
+**Context**: Beginning work for the day  
 
-**Invocation**: `@acp.resume`
+**Invocation**: `@acp.resume`  
 
 **Result**:
 - Initializes context
@@ -170,9 +170,9 @@ Objective: Create ~/.acp/ directory structure with AGENT.md and manifest.yaml
 
 ### Example 3: Switching Agents
 
-**Context**: Different AI agent picking up the project
+**Context**: Different AI agent picking up the project  
 
-**Invocation**: `@acp.resume`
+**Invocation**: `@acp.resume`  
 
 **Result**:
 - Complete onboarding via @acp.init
@@ -194,27 +194,27 @@ Objective: Create ~/.acp/ directory structure with AGENT.md and manifest.yaml
 
 ### Issue 1: No reports found
 
-**Symptom**: Warning "No session reports found"
+**Symptom**: Warning "No session reports found"  
 
-**Cause**: No reports in agent/reports/ directory
+**Cause**: No reports in agent/reports/ directory  
 
-**Solution**: This is fine for new projects. The command will skip report review and proceed to task execution.
+**Solution**: This is fine for new projects. The command will skip report review and proceed to task execution.  
 
 ### Issue 2: Context initialization fails
 
-**Symptom**: Error during @acp.init
+**Symptom**: Error during @acp.init  
 
-**Cause**: Missing agent/ directory or corrupted files
+**Cause**: Missing agent/ directory or corrupted files  
 
-**Solution**: Run `@acp.init` separately to see detailed error, fix issues, then run `@acp.resume` again
+**Solution**: Run `@acp.init` separately to see detailed error, fix issues, then run `@acp.resume` again  
 
 ### Issue 3: No current task
 
-**Symptom**: Error "No current task found"
+**Symptom**: Error "No current task found"  
 
-**Cause**: All tasks completed or progress.yaml doesn't have current task
+**Cause**: All tasks completed or progress.yaml doesn't have current task  
 
-**Solution**: Review progress.yaml, create new tasks, or mark a task as in_progress
+**Solution**: Review progress.yaml, create new tasks, or mark a task as in_progress  
 
 ---
 
@@ -229,11 +229,11 @@ Objective: Create ~/.acp/ directory structure with AGENT.md and manifest.yaml
 
 ---
 
-**Namespace**: acp
-**Command**: resume
-**Version**: 1.0.0
-**Created**: 2026-02-21
-**Last Updated**: 2026-02-21
-**Status**: Active
-**Compatibility**: ACP 3.7.0+
-**Author**: ACP Project
+**Namespace**: acp  
+**Command**: resume  
+**Version**: 1.0.0  
+**Created**: 2026-02-21  
+**Last Updated**: 2026-02-21  
+**Status**: Active  
+**Compatibility**: ACP 3.7.0+  
+**Author**: ACP Project  
