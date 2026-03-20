@@ -362,6 +362,25 @@ milestones:
       - 5 tasks (115-119): Templates, Research Command, Glossary Command, Reference Command, Integration
       - Design: agent/design/local.artifact-commands-system.md
 
+  M18:
+    name: Index Semantic Entry Types
+    priority: 2
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 1
+    tasks_completed: 0
+    tasks_total: 1
+    file: agent/milestones/milestone-18-index-semantic-entry-types.md
+    notes: |
+      📋 Milestone 18: Index Semantic Entry Types
+      - Extend agent/index schema to support path: null inline entries
+      - Two new kind values: note (factual context), directive (behavioral instruction)
+      - Collapse requirements kind into design (backward compat alias)
+      - 1 task (120): Implement all changes
+      - Design: agent/design/local.index-semantic-entry-types.md
+
 tasks:
   M1:
     - id: task-1
@@ -2305,6 +2324,20 @@ progress:
   M15: 100
   M16: 100
   M17: 100
+
+  M18:
+    - id: task-120
+      name: Implement Index Semantic Entry Types
+      priority: 2
+      status: not_started
+      file: agent/tasks/milestone-18-index-semantic-entry-types/task-120-implement-index-semantic-entry-types.md
+      estimated_hours: 1-2
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Implement path: null support, new kind enum values (note, directive),
+        collapse requirements into design. Update validate, init, proceed, plan commands.
 
 recent_work:
   - date: 2026-03-01
