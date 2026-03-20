@@ -5,6 +5,11 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.7] - 2026-03-20
+
+### Added
+- Unified E2E test runner (`run-e2e-tests.sh`) — discovers and runs all `e2e/*.test.sh` suites with per-suite PASS/FAIL, output tail on failure, summary table, filter argument, and proper exit codes
+
 ## [5.28.6] - 2026-03-20
 
 ### Fixed

@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 6.0.5
+  version: 6.0.6
   started: 2026-02-16
   status: in_progress
   current_milestone: M13
@@ -269,7 +269,7 @@ milestones:
     started: 2026-03-20
     completed: null
     estimated_weeks: 1
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 3
     notes: |
       📋 Milestone 13: Cross-Platform CI
@@ -1835,12 +1835,20 @@ tasks:
     - id: task-97
       name: Create Unified E2E Test Runner
       priority: 5
-      status: not_started
+      status: completed
+      started: 2026-03-20T12:10:00Z
       file: agent/tasks/milestone-13-cross-platform-ci/task-97-e2e-test-runner.md
       estimated_hours: 1-2
-      completed_date: null
+      actual_hours: 0.1
+      completed_date: 2026-03-20T12:15:00Z
       notes: |
-        run-e2e-tests.sh — discover, run, report on all e2e/*.test.sh files
+        ✅ Created run-e2e-tests.sh at project root
+        - Discovers all e2e/*.test.sh files via glob
+        - Per-suite PASS/FAIL with exit code
+        - Shows last 20 lines of output on failure
+        - Summary table with counts
+        - Filter argument (substring match)
+        - Exits 0 on all pass, 1 on any failure
 
     - id: task-98
       name: Create GitHub Actions CI Workflow
