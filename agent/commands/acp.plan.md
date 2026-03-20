@@ -90,12 +90,15 @@ Before planning, load relevant key files from the index.
 
 **Display format**:
 ```
-📑 Reading Key Files (acp.plan)...
+📑 Reading Key Files & Context (acp.plan)...
   ✓ agent/design/acp-commands-design.md (weight: 0.9, design)
   ✓ agent/design/local.key-file-index-system.md (weight: 0.7, design)
+  📝 "Migration files MUST be numbered sequentia..." (weight: 1.0, note)
 
-  2 key files read for acp.plan context
+  2 files read, 1 inline entry loaded
 ```
+
+**Inline entries** (`path: null`): Display truncated description in quotes. Use 📝 for `kind: note`, ⚡ for `kind: directive`.
 
 **Note**: If `agent/index/` does not exist, skip silently.  
 

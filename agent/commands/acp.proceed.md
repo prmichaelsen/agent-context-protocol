@@ -229,12 +229,16 @@ Before implementing, load relevant key files from the index.
 
 **Display format**:
 ```
-📑 Reading Key Files (acp.proceed)...
+📑 Reading Key Files & Context (acp.proceed)...
   ✓ agent/patterns/local.e2e-testing.md (weight: 0.8, pattern)
   ✓ agent/patterns/local.tracked-untracked-directories.md (weight: 0.7, pattern)
+  📝 "Migration files MUST be numbered sequentia..." (weight: 1.0, note)
+  ⚡ "Never modify files in src/legacy/ without..." (weight: 0.9, directive)
 
-  2 key files read for acp.proceed context
+  2 files read, 2 inline entries loaded
 ```
+
+**Inline entries** (`path: null`): Display truncated description in quotes. Use 📝 for `kind: note`, ⚡ for `kind: directive`.
 
 **Note**: If `agent/index/` does not exist, skip silently. Do NOT spend excessive time here — read files quickly and move to implementation.  
 

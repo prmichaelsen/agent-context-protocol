@@ -94,12 +94,32 @@ local:                    # namespace (matches first segment of filename)
 
 | Field | Required | Type | Description |
 |-------|----------|------|-------------|
-| `path` | Yes | string | Explicit path to file (no globs) |
+| `path` | Yes | string or null | Explicit path to file, or `null` for inline entries (no globs) |
 | `weight` | Yes | float | 0.0 - 1.0 importance (1.0 = always read) |
-| `kind` | Yes | enum | `pattern`, `command`, `design`, `requirements` |
-| `description` | Yes | string | What the file contains and why it matters |
-| `rationale` | Yes | string | Why this file is in the index |
-| `applies` | Yes | string | Comma-separated list of fully qualified command names (e.g., `acp.init`, `core-sdk.bootstrap`) where this file is relevant |
+| `kind` | Yes | enum | `pattern`, `command`, `design`, `note`, `directive` |
+| `description` | Yes | string | What the file contains (file entries) OR the inline content itself (`path: null` entries) |
+| `rationale` | Yes | string | Why this entry is in the index |
+| `applies` | Yes | string | Comma-separated list of fully qualified command names (e.g., `acp.init`, `core-sdk.bootstrap`) where this entry is relevant |
+
+**Kind values**:
+- `pattern` — read a pattern document (requires `path`)
+- `command` — read a command document (requires `path`)
+- `design` — read a design or requirements document (requires `path`). `requirements` is accepted as a deprecated alias.
+- `note` — factual context the agent needs to know (requires `path: null`). The `description` IS the content.
+- `directive` — behavioral instruction the agent must follow (requires `path: null`). The `description` IS the content. Weight captures severity: 0.6 = soft preference, 1.0 = hard constraint.
+
+**Inline entry example** (`path: null`):
+```yaml
+    - path: null
+      weight: 1.0
+      kind: note
+      description: |
+        Migration files MUST be numbered sequentially with zero-padded
+        4-digit prefixes (e.g. 0037_feature_name.sql).
+      rationale: |
+        Parallel worktree sessions collided on migration numbers.
+      applies: acp.proceed, acp.plan, acp.task-create
+```
 
 ### No Glob Patterns
 

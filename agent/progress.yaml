@@ -365,12 +365,12 @@ milestones:
   M18:
     name: Index Semantic Entry Types
     priority: 2
-    status: not_started
-    progress: 0
-    started: null
-    completed: null
+    status: completed
+    progress: 100
+    started: 2026-03-20
+    completed: 2026-03-20
     estimated_weeks: 1
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 1
     file: agent/milestones/milestone-18-index-semantic-entry-types.md
     notes: |
@@ -2329,17 +2329,30 @@ progress:
     - id: task-120
       name: Implement Index Semantic Entry Types
       priority: 2
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-18-index-semantic-entry-types/task-120-implement-index-semantic-entry-types.md
       estimated_hours: 1-2
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-03-20T12:00:00Z
+      completed_date: 2026-03-20T12:30:00Z
+      actual_hours: 0.5
       notes: |
         Implement path: null support, new kind enum values (note, directive),
         collapse requirements into design. Update validate, init, proceed, plan commands.
 
 recent_work:
+  - date: 2026-03-20
+    description: |
+      ✅ Task 120 Complete: Implement Index Semantic Entry Types
+      M18 complete. Extended index schema with path: null inline entries.
+    items:
+      - "✅ Added kind: note and kind: directive for path: null entries"
+      - "✅ Collapsed kind: requirements into kind: design (deprecated alias)"
+      - "✅ Updated @acp.validate with path/kind consistency rules"
+      - "✅ Updated display formats in @acp.init, @acp.proceed, @acp.plan"
+      - "✅ Updated parent design doc (local.key-file-index-system.md)"
+      - "✅ Created design doc: local.index-semantic-entry-types.md"
+      - "📋 Milestone M18: 100% complete (1/1 tasks)"
+
   - date: 2026-03-01
     description: |
       ✅ Task 91 Complete: Sessions Infrastructure

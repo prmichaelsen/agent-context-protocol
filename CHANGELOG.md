@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.29.0] - 2026-03-20
+
+### Added
+- Index semantic entry types: `path: null` entries with `kind: note` (factual context) and `kind: directive` (behavioral instructions) in agent/index/*.yaml
+- Inline entries use the `description` field as content, with same `weight`/`applies` filtering as file entries
+- Display icons in init/proceed/plan: 📝 for notes, ⚡ for directives
+- Validation rules for path/kind consistency in @acp.validate
+
+### Changed
+- Collapsed `requirements` kind into `design` (accepted as deprecated alias)
+- Section header broadened from "Reading Key Files" to "Reading Key Files & Context"
+- Updated kind enum from 4 values to 5: `pattern`, `command`, `design`, `note`, `directive`
+
 ## [5.28.9] - 2026-03-20
 
 ### Added
