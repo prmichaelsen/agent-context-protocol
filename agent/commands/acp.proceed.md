@@ -81,6 +81,16 @@ This command supports both CLI-style flags and natural language arguments.
 | `--parallel` | Spin up sub-agents on separate git worktrees to work on tasks concurrently |
 | `--yes` | Skip the confirmation prompt (A2) and begin execution immediately |
 | `--dry-run` | Preview what tasks would be completed without executing |
+| `--noworktreemerge` | Do not auto-merge worktrees when sub-agents complete; prompt for permission before each merge (see A10) |
+
+#### `--noworktreemerge` Aliases (all equivalent)
+
+| Flag | Description |
+|------|-------------|
+| `--noworktreemerge` | Canonical form |
+| `--holdmerge` | Short form — "hold the merge until I say go" |
+| `--safemerge` | Emphasizes safety of sequential merging |
+| `--safe` | Shortest form — not overloaded, well-documented |
 
 ### Combo Flags
 
@@ -106,10 +116,14 @@ The agent should detect autonomous intent from natural language following `@acp.
 | `@acp.proceed --dry-run` | Dry-Run |
 | `@acp.proceed --turbo` | Autonomous (parallel, no confirm, contextual task) |
 | `@acp.proceed --yolo` | Same as `--turbo` |
+| `@acp.proceed --yolo --safe` | Autonomous parallel, but prompt before each worktree merge |
+| `@acp.proceed --yolo hold merge` | Same as `--yolo --safe` (NLP) |
+| `@acp.proceed --yolo wait before merging` | Same as `--yolo --safe` (NLP) |
 | `@acp.proceed` | Single-Task (default) |
 
 **Matching rules**:
 - Look for keywords: `complete`, `finish`, `auto`, `autonomous`, `all tasks`, `everything`, `milestone`, `turbo`, `yolo`
+- Look for `--noworktreemerge` keywords: `safe`, `hold merge`, `wait before merging`, `pause before merge`, `defer merge`, `don't auto-merge`, `gate merge`, `prompt before merge`, `no auto merge`
 - Be generous with matching — if the user's intent is clearly "do everything", enter autonomous mode
 - When in doubt, **always show the confirmation prompt** before starting autonomous execution
 - Never enter autonomous mode silently — the confirmation gate is mandatory
@@ -123,6 +137,8 @@ The agent should detect autonomous intent from natural language following `@acp.
 | `--complete --parallel` | Autonomous completion with parallel worktree sub-agents |
 | `--complete --this` | Autonomous completion starting from contextual task |
 | `--turbo` / `--yolo` | `--auto --this --parallel --yes` (full autonomous, no confirm, parallel, contextual) |
+| `--yolo --safe` | Full autonomous parallel, but prompt user before each worktree merge |
+| `--complete --parallel --safe` | Autonomous parallel with merge gating |
 | `--complete --dry-run` | Preview task list, no execution |
 | `--dry-run` (alone) | Preview next task only |
 | `--commit` (alone) | Single-task mode, commit after completion |
@@ -656,6 +672,48 @@ If the user sends a message during autonomous execution:
 - If the user wants to stop → halt gracefully (show summary report)
 - If unclear → ask the user what they'd like to do
 - **Never ignore user messages** during autonomous execution
+
+### A10. Worktree Merge Gating (`--noworktreemerge` / `--safe`)
+
+When `--noworktreemerge` (or any alias: `--holdmerge`, `--safemerge`, `--safe`) is active, the agent **does NOT auto-merge worktrees** when sub-agents complete. Instead, it queues completed worktrees and prompts the user before each merge.
+
+**Why this exists**: When multiple Claude CLI instances run `--yolo` in parallel across overlapping feature areas, concurrent worktree merges create destructive conflicts. Git worktree merges involve intensive, relatively destructive commands — two inflight merges will constantly collide, produce spurious merge conflicts, and leave each agent seeing state that is inconsistent with its context. `--safe` ensures only one merge happens at a time, controlled by the user.
+
+**Behavior**:
+
+1. **Sub-agents work normally** on their worktrees — no change to task execution
+2. **When a sub-agent completes**, instead of immediately merging:
+   - Mark the worktree as `merge-ready` in the agent's internal tracking
+   - Display a notification:
+     ```
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       Worktree ready to merge (--safe mode)
+
+       Task {id}: {name}
+       Branch: {worktree-branch}
+       Files changed: {N}
+
+       Other agents may be running. Merge when ready:
+         → Reply "merge" to merge this worktree now
+         → Reply "merge all" to merge all ready worktrees
+         → Reply "skip" to defer this merge
+
+       Pending merges: {N} ready, {N} still running
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ```
+3. **Wait for user permission** before executing any merge
+4. **On "merge"**: Execute the worktree merge for the specified task, then report result
+5. **On "merge all"**: Merge all `merge-ready` worktrees sequentially (one at a time, in completion order)
+6. **On "skip"**: Leave the worktree unmerged; user can merge manually or later
+
+**Without `--safe`** (default `--parallel` behavior): worktrees auto-merge as soon as each sub-agent completes. This is fine when only one agent is running, but risky with concurrent agents.
+
+**`--safe` does NOT change**:
+- How sub-agents are spawned or how they work
+- The task loop, commit flow, or progress tracking
+- The confirmation prompt (A2) or summary report (A6)
+
+**`--safe` only gates the final worktree-to-main merge step.**
 
 ---
 
