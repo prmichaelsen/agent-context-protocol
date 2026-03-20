@@ -3,7 +3,7 @@
 
 project:
   name: agent-context-protocol
-  version: 6.0.7
+  version: 6.0.8
   started: 2026-02-16
   status: in_progress
   current_milestone: M6

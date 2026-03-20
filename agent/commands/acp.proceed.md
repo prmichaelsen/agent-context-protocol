@@ -17,6 +17,7 @@
 > - If `--yes`, `--turbo`, or `--yolo` is present, skip the confirmation prompt (A2).
 > - If `--this` is present (or implied by `--turbo`/`--yolo`), use the task from chat context rather than scanning progress.yaml.
 > - If `--parallel` is present (or implied by `--turbo`/`--yolo`), spin up sub-agents on separate worktrees.
+> - If `--noworktreemerge` / `--holdmerge` / `--safemerge` / `--safe` is present, do NOT auto-merge worktrees; prompt user before each merge (see A10).
 > - Do NOT start implementing individual tasks until confirmation is received (unless `--yes`).
 >
 > **If `--dry-run` detected:**
@@ -882,11 +883,19 @@ Estimated: 3 hours
 
 ### Example 6: Single-Task with Commit
 
-**Context**: You want to implement one task and commit  
+**Context**: You want to implement one task and commit
 
-**Invocation**: `@acp.proceed --commit`  
+**Invocation**: `@acp.proceed --commit`
 
-**Result**: Implements next task, runs `@git.commit` after completion  
+**Result**: Implements next task, runs `@git.commit` after completion
+
+### Example 7: Yolo with Safe Merge (Multiple Agents)
+
+**Context**: You have 3 Claude CLI instances working on different milestones. You want parallel worktree execution but need to control when merges happen to avoid collisions.
+
+**Invocation**: `@acp.proceed --yolo --safe`
+
+**Result**: Sub-agents spin up on worktrees and work in parallel. When each finishes, instead of auto-merging, the agent notifies you and waits. You reply "merge" when no other agent is mid-merge, ensuring clean sequential merges.
 
 ---
 

@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.9] - 2026-03-20
+
+### Added
+- `--noworktreemerge` / `--holdmerge` / `--safemerge` / `--safe` flag for @acp.proceed — gates worktree merges in parallel mode, prompting user before each merge to prevent concurrent merge collisions across multiple CLI instances
+- Example 7 (Yolo with Safe Merge) in @acp.proceed documentation
+- Directive header updated with `--safe` flag detection
+- A10 section: Worktree Merge Gating behavior specification
+
 ## [5.28.8] - 2026-03-20
 
 ### Added
