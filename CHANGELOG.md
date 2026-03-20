@@ -5,6 +5,12 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.8] - 2026-03-20
+
+### Added
+- GitHub Actions E2E CI workflow (`.github/workflows/e2e-tests.yaml`) — runs all E2E tests on ubuntu-latest and macos-latest on push to mainline and PRs
+- M13 (Cross-Platform CI) complete: macOS test fixes, unified test runner, GitHub Actions workflow
+
 ## [5.28.7] - 2026-03-20
 
 ### Added

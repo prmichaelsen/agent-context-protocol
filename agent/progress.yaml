@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 6.0.6
+  version: 6.0.7
   started: 2026-02-16
   status: in_progress
-  current_milestone: M13
+  current_milestone: M6
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-16 complete. Milestone 17 in progress: Artifact Commands System
@@ -264,12 +264,12 @@ milestones:
   M13:
     name: Cross-Platform CI
     priority: 5
-    status: in_progress
-    progress: 0
+    status: completed
+    progress: 100
     started: 2026-03-20
-    completed: null
+    completed: 2026-03-20
     estimated_weeks: 1
-    tasks_completed: 2
+    tasks_completed: 3
     tasks_total: 3
     notes: |
       📋 Milestone 13: Cross-Platform CI
@@ -1853,12 +1853,19 @@ tasks:
     - id: task-98
       name: Create GitHub Actions CI Workflow
       priority: 5
-      status: not_started
+      status: completed
+      started: 2026-03-20T12:15:00Z
       file: agent/tasks/milestone-13-cross-platform-ci/task-98-github-actions-workflow.md
       estimated_hours: 1-2
-      completed_date: null
+      actual_hours: 0.1
+      completed_date: 2026-03-20T12:20:00Z
       notes: |
-        .github/workflows/e2e-tests.yaml — matrix: ubuntu-latest, macos-latest
+        ✅ Created .github/workflows/e2e-tests.yaml
+        - Triggers on push to mainline and PRs
+        - Matrix: ubuntu-latest + macos-latest
+        - fail-fast: false (both platforms run to completion)
+        - Git config for test commits
+        - 30-minute timeout
 
   M14:
     - id: task-99
