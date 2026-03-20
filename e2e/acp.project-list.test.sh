@@ -9,7 +9,7 @@ source "${SCRIPT_DIR}/../agent/scripts/acp.common.sh"
 
 # Test setup
 setup() {
-    export HOME="/tmp/acp-test-$$-$(date +%N)"
+    export HOME="/tmp/acp-test-$$-$RANDOM"
     mkdir -p "$HOME/.acp"
     export SCRIPT_PATH="${SCRIPT_DIR}/../agent/scripts/acp.project-list.sh"
 }
@@ -169,3 +169,4 @@ test_invalid_filter_option
 
 echo ""
 print_test_summary
+exit $?

@@ -9,7 +9,7 @@ source "${SCRIPT_DIR}/../agent/scripts/acp.common.sh"
 
 # Test setup
 setup() {
-    export HOME="/tmp/acp-test-$$-$(date +%N)"
+    export HOME="/tmp/acp-test-$$-$RANDOM"
     mkdir -p "$HOME/.acp"
     export SCRIPT_PATH="${SCRIPT_DIR}/../agent/scripts/acp.project-update.sh"
 }
@@ -201,3 +201,4 @@ test_no_project_name
 
 echo ""
 print_test_summary
+exit $?

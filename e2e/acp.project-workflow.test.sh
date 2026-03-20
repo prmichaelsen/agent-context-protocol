@@ -472,3 +472,4 @@ main() {
 
 # Run tests
 main
+exit $?

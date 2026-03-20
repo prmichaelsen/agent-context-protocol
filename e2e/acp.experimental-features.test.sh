@@ -270,7 +270,8 @@ test_validation_missing_file_metadata() {
     create_test_package "$package_dir"
     
     # Change experimental-command to Active status
-    sed -i 's/\*\*Status\*\*: Experimental/\*\*Status\*\*: Active/' "$package_dir/agent/commands/test-experimental.experimental-command.md"
+    # Portable sed -i (works on both GNU and BSD/macOS)
+    sed 's/\*\*Status\*\*: Experimental/\*\*Status\*\*: Active/' "$package_dir/agent/commands/test-experimental.experimental-command.md" > "$package_dir/agent/commands/test-experimental.experimental-command.md.tmp" && mv "$package_dir/agent/commands/test-experimental.experimental-command.md.tmp" "$package_dir/agent/commands/test-experimental.experimental-command.md"
     
     # Run validation
     cd "$package_dir"
@@ -301,7 +302,8 @@ test_validation_missing_yaml_field() {
     create_test_package "$package_dir"
     
     # Remove experimental flag from package.yaml
-    sed -i '/experimental: true/d' "$package_dir/package.yaml"
+    # Portable sed -i (works on both GNU and BSD/macOS)
+    sed '/experimental: true/d' "$package_dir/package.yaml" > "$package_dir/package.yaml.tmp" && mv "$package_dir/package.yaml.tmp" "$package_dir/package.yaml"
     
     # Run validation
     cd "$package_dir"

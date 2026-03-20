@@ -3,10 +3,10 @@
 
 project:
   name: agent-context-protocol
-  version: 6.0.4
+  version: 6.0.5
   started: 2026-02-16
   status: in_progress
-  current_milestone: M17
+  current_milestone: M13
   description: |
     Agent Context Protocol (ACP) - A documentation-first development methodology
     for AI agents. Milestones 1-16 complete. Milestone 17 in progress: Artifact Commands System
@@ -264,12 +264,12 @@ milestones:
   M13:
     name: Cross-Platform CI
     priority: 5
-    status: not_started
+    status: in_progress
     progress: 0
-    started: null
+    started: 2026-03-20
     completed: null
     estimated_weeks: 1
-    tasks_completed: 0
+    tasks_completed: 1
     tasks_total: 3
     notes: |
       📋 Milestone 13: Cross-Platform CI
@@ -1821,12 +1821,16 @@ tasks:
     - id: task-96
       name: Fix macOS Compatibility in E2E Tests
       priority: 5
-      status: not_started
+      status: completed
+      started: 2026-03-20T12:00:00Z
       file: agent/tasks/milestone-13-cross-platform-ci/task-96-fix-macos-e2e-tests.md
       estimated_hours: 2-3
-      completed_date: null
+      actual_hours: 0.2
+      completed_date: 2026-03-20T12:10:00Z
       notes: |
-        Fix sed -i (3 files), date +%N (3 files), exit code reliability (4 files)
+        ✅ Fixed sed -i (3 calls in 2 files): portable sed+mv pattern
+        ✅ Fixed date +%N (3 files): replaced with $RANDOM
+        ✅ Fixed exit code (4 files): added exit $? after print_test_summary
 
     - id: task-97
       name: Create Unified E2E Test Runner

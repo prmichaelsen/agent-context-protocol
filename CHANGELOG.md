@@ -5,6 +5,13 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.6] - 2026-03-20
+
+### Fixed
+- Fix macOS compatibility in E2E tests: replace GNU `sed -i` with portable sed+mv pattern (2 files, 3 calls)
+- Fix `date +%N` (unsupported on macOS) with `$RANDOM` for unique temp dirs (3 files)
+- Fix exit code propagation: add `exit $?` after `print_test_summary` in 4 test files
+
 ## [5.28.5] - 2026-03-20
 
 ### Changed

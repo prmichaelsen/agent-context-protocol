@@ -256,7 +256,19 @@ test_tilde_expansion() {
   mkdir -p "$project3_dir"
   
   # Add project with tilde path to registry (insert before registry_version)
-  sed -i '/^registry_version:/i\  project3:\n    path: ~/project3\n    type: cli-tool\n    description: Test project 3\n    created: 2026-02-24T12:00:00Z\n    last_modified: 2026-02-24T12:00:00Z\n    last_accessed: 2026-02-24T12:00:00Z\n    status: active\n' "${TEST_DIR}/.acp/projects.yaml"
+  # Use portable approach instead of GNU sed -i with \n
+  local tmpfile="${TEST_DIR}/.acp/projects.yaml.tmp"
+  awk '/^registry_version:/{
+    print "  project3:"
+    print "    path: ~/project3"
+    print "    type: cli-tool"
+    print "    description: Test project 3"
+    print "    created: 2026-02-24T12:00:00Z"
+    print "    last_modified: 2026-02-24T12:00:00Z"
+    print "    last_accessed: 2026-02-24T12:00:00Z"
+    print "    status: active"
+    print ""
+  }{print}' "${TEST_DIR}/.acp/projects.yaml" > "$tmpfile" && mv "$tmpfile" "${TEST_DIR}/.acp/projects.yaml"
   
   # Run project-set (capture exit code properly)
   set +e
