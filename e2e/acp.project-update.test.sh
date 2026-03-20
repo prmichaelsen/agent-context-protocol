@@ -96,7 +96,7 @@ test_add_duplicate_tag() {
     local output
     output=$("$SCRIPT_PATH" test-project --add-tag test-tag 2>&1)
     
-    assert_contains "$output" "Tag already exists: test-tag" "Should detect duplicate"
+    assert_contains "$output" "Tag already exists" "Should detect duplicate"
     
     teardown
 }

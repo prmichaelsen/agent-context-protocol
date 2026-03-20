@@ -202,12 +202,11 @@ main() {
   # Add tags
   if [ ${#ADD_TAGS[@]} -gt 0 ]; then
     for tag in "${ADD_TAGS[@]}"; do
-      # Get current tags
-      local current_tags
-      current_tags=$(yaml_query ".projects.${PROJECT_NAME}.tags" 2>/dev/null || echo "")
-      
-      # Check if tag already exists
-      if [ -n "$current_tags" ] && [ "$current_tags" != "null" ] && echo "$current_tags" | grep -q "^${tag}$"; then
+      # Check if tag already exists by searching the raw YAML file
+      # (yaml_query can't reliably return array element values)
+      local registry_path
+      registry_path=$(get_projects_registry_path)
+      if grep -A 50 "^  ${PROJECT_NAME}:" "$registry_path" | grep -q "^      - .*${tag}"; then
         echo "⊘ Tag already exists: ${tag}"
       else
         # Ensure tags field exists (create empty array if missing)
