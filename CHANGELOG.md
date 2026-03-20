@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.28.5] - 2026-03-20
+
+### Changed
+- Harden `@acp.proceed` to aggressively set start/end timestamps and status transitions on both tasks AND milestones
+- Step 1: mandatory milestone `status: in_progress` and `started` date when first task begins
+- Step 4: mandatory milestone `completed` date and `status: completed` when last task finishes, auto-advance `current_milestone`
+- Autonomous loop Steps 2 & 6: same mandatory status/timestamp updates applied to autonomous mode
+
 ## [5.28.4] - 2026-03-20
 
 ### Changed

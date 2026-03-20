@@ -186,8 +186,14 @@ When you invoke `@acp.proceed --complete` (or equivalent):
 - Read `agent/progress.yaml`
 - Find first task with status `in_progress` or `not_started` in the current milestone
 - Read the task document
-- If the task's status is `not_started`, set it to `in_progress` in progress.yaml
-- **Set `started` timestamp**: If the task's `started` field is `null` or missing, set it to the current ISO 8601 timestamp (e.g., `2026-03-14T10:30:00Z`). Do NOT overwrite an existing `started` value.
+
+**🚨 MANDATORY STATUS UPDATES (do these NOW, not later):**
+- **Task status**: If task status is `not_started`, set it to `in_progress` in progress.yaml immediately
+- **Task `started`**: If the task's `started` field is `null` or missing, set it to the current ISO 8601 timestamp (e.g., `2026-03-20T10:30:00Z`). Do NOT overwrite an existing `started` value.
+- **Milestone status**: If the milestone's `status` is `not_started`, set it to `in_progress` immediately
+- **Milestone `started`**: If the milestone's `started` field is `null` or missing, set it to today's date (e.g., `2026-03-20`). Do NOT overwrite an existing `started` value.
+
+These updates MUST be written to progress.yaml before moving to Step 2. Do not defer them.
 
 **DO NOT spend time analyzing or planning. MOVE TO STEP 2 IMMEDIATELY.**
 
@@ -313,13 +319,26 @@ Design Context: No design document found for this task.
 ### 4. Update Progress Tracking
 
 **Only after verifying all deliverables**, update `agent/progress.yaml`:
-- Mark task as `completed` (if done) or `in_progress` (if partial)
-- Add completion date (if done)
-- **Set `completed_date`** to the current ISO 8601 timestamp (e.g., `2026-03-14T14:45:00Z`)
+
+**🚨 MANDATORY TASK UPDATES:**
+- Mark task `status` as `completed` (if done) or leave as `in_progress` (if partial)
+- **Set `completed_date`** to the current ISO 8601 timestamp (e.g., `2026-03-20T14:45:00Z`). This is MANDATORY for completed tasks.
 - **Auto-compute `actual_hours`**: If both `started` and `completed_date` are set, calculate `actual_hours = (completed_date - started)` in hours, rounded to 1 decimal place. If `started` is missing, set `actual_hours` to `null`.
-- Update milestone progress percentage
+- Increment `tasks_completed` on the milestone
+
+**🚨 MANDATORY MILESTONE UPDATES:**
+- Update milestone `progress` percentage: `(tasks_completed / tasks_total) * 100`
+- **If this was the LAST task in the milestone** (all tasks now completed):
+  - Set milestone `status` to `completed`
+  - Set milestone `completed` to today's date (e.g., `2026-03-20`)
+  - Set milestone `progress` to `100`
+  - Update `current_milestone` to the next incomplete milestone (if any)
+
+**Additional updates:**
 - Add `recent_work` entry describing what was IMPLEMENTED
 - Update `next_steps`
+
+**Do NOT skip timestamp or status updates. Every completed task MUST have a `completed_date`. Every completed milestone MUST have a `completed` date.**
 
 ### 5. Report What Was IMPLEMENTED (Not What Will Be Done)
 
@@ -403,6 +422,9 @@ FOR each remaining task in planned order:
 
   2. READ task document, key files, and design context
      - Re-read progress.yaml at start of each iteration (context freshness)
+     - Set task `status` to `in_progress` and set task `started` timestamp if null — IMMEDIATELY
+     - If milestone `status` is `not_started`, set it to `in_progress` and set milestone `started` to today's date — IMMEDIATELY
+     - Write these updates to progress.yaml NOW before continuing
      - Read contextual key files from agent/index/ (filter by acp.proceed applies)
      - Read the task file
      - Load design context: If task has Design Reference field with a link, read that
@@ -428,12 +450,14 @@ FOR each remaining task in planned order:
      - If E2E tests fail → HALT (see A8)
      - Do NOT commit partial work
 
-  6. UPDATE progress tracking
-     - Mark task as completed in progress.yaml
-     - Set `completed_date` to current ISO 8601 timestamp
+  6. UPDATE progress tracking (🚨 ALL fields mandatory — do not skip any)
+     - Mark task `status` as `completed`
+     - Set `completed_date` to current ISO 8601 timestamp — MANDATORY
      - If `started` is `null` or missing, set `started` to current timestamp (same as completed_date)
      - Auto-compute `actual_hours` from `(completed_date - started)` in hours
-     - Update milestone progress percentage
+     - Increment milestone `tasks_completed`
+     - Update milestone `progress` percentage: `(tasks_completed / tasks_total) * 100`
+     - If this was the LAST task: set milestone `status` to `completed`, set milestone `completed` to today's date, update `current_milestone` to next incomplete milestone
      - Add recent_work entry
 
   7. RUN @git.commit subroutine
