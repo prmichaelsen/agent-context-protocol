@@ -55,6 +55,7 @@ This command creates a new pattern file with intelligent namespace handling, opt
 | `--from-chat-context` | `--from-chat` | Capture decisions from chat conversation |
 | `--from-context` | (none) | Shorthand for all sources (clarifications + chat) |
 | `--include-clarifications` | (none) | Alias for `--from-clars` |
+| `--no-commit` | (none) | Skip the automatic commit step after creation |
 
 **Default behavior** (no flags): Auto-detect clarifications and context in session.
 
@@ -238,7 +239,23 @@ Would you like to add this to the key file index?
 
 If yes, prompt for weight (suggest 0.8 for patterns), description, rationale, and applies values. Add entry to `agent/index/local.main.yaml`.
 
-**Note**: Skip silently if `agent/index/` does not exist.  
+**Note**: Skip silently if `agent/index/` does not exist.
+
+### 11. Commit Created Artifacts (MANDATORY unless `--no-commit`)
+
+> **⚠️ CRITICAL**: This step is NOT optional unless `--no-commit` was specified. You MUST commit created artifacts before finishing. Do NOT skip this step. Do NOT ask the user whether to commit. Do NOT defer the commit to a later time. If `--no-commit` was passed, skip this step silently.
+
+**Actions**:
+- Stage all files created or modified during pattern creation:
+  - Pattern file (`agent/patterns/{namespace}.{pattern-name}.md`)
+  - `package.yaml` (if updated)
+  - `README.md` (if updated)
+  - Key file index (`agent/index/*.yaml`) if updated
+- Do NOT stage clarification files (`agent/clarifications/*.md`) — these are not committed
+- Invoke `@git.commit` with a message summarizing what was created (e.g., `feat(pattern): create {namespace}.{pattern-name} pattern`)
+- Verify the commit succeeded
+
+**Expected Outcome**: All pattern artifacts committed to version control.
 
 ---
 
@@ -253,6 +270,7 @@ If yes, prompt for weight (suggest 0.8 for patterns), description, rationale, an
 - [ ] README.md updated (if package)
 - [ ] Pattern follows template structure
 - [ ] All metadata filled in correctly
+- [ ] **Pattern artifacts committed via `@git.commit` (MANDATORY — do not skip)**
 
 ---
 

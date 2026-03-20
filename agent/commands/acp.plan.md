@@ -27,6 +27,7 @@ This command supports both CLI-style and natural language arguments:
 - `--milestone <id>` - Plan specific milestone
 - `--task <id>` - Plan specific task
 - `--draft <path>` - Use specific draft file
+- `--no-commit` - Skip the automatic commit step after planning
 
 **Natural Language Arguments**:
 - `@acp.plan for milestone 6` - Plan specific milestone
@@ -333,9 +334,9 @@ Next Steps:
 
 **Expected Outcome**: User understands what was created  
 
-### 9. Commit Planning Artifacts (MANDATORY)
+### 9. Commit Planning Artifacts (MANDATORY unless `--no-commit`)
 
-> **⚠️ CRITICAL**: This step is NOT optional. You MUST commit planning artifacts before proceeding to Step 10. Do NOT skip this step. Do NOT ask the user whether to commit. Do NOT defer the commit to a later time. Planning is not complete until artifacts are committed.
+> **⚠️ CRITICAL**: This step is NOT optional unless `--no-commit` was specified. You MUST commit planning artifacts before proceeding to Step 10. Do NOT skip this step. Do NOT ask the user whether to commit. Do NOT defer the commit to a later time. Planning is not complete until artifacts are committed. If `--no-commit` was passed, skip this step silently.
 
 Commit all created planning documents and progress.yaml updates.
 
@@ -345,8 +346,8 @@ Commit all created planning documents and progress.yaml updates.
   - Task documents (`agent/tasks/**/task-*.md`)
   - Design documents (`agent/design/*.md`) if created
   - Draft files (`agent/drafts/*.md`) if created
-  - Clarification files (`agent/clarifications/*.md`) if created
   - `agent/progress.yaml`
+- Do NOT stage clarification files (`agent/clarifications/*.md`) — these are not committed
 - Invoke `@git.commit` with a message summarizing what was planned (e.g., `plan(M18): create milestone and 5 tasks for Feature X`)
 - Verify the commit succeeded before moving to Step 10
 

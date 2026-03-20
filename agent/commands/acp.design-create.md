@@ -55,6 +55,7 @@ This command creates a new design document with intelligent namespace handling, 
 | `--from-chat-context` | `--from-chat` | Capture decisions from chat conversation |
 | `--from-context` | (none) | Shorthand for all sources (clarifications + chat) |
 | `--include-clarifications` | (none) | Alias for `--from-clars` |
+| `--no-commit` | (none) | Skip the automatic commit step after creation |
 
 **Default behavior** (no flags): Auto-detect clarifications and context in session.
 
@@ -184,7 +185,23 @@ If yes:
 - Prompt for weight (suggest 0.7 for designs), description, rationale, and applies values
 - Add entry to `agent/index/local.main.yaml` (create file from template if it doesn't exist)
 
-**Note**: If `agent/index/` does not exist, skip this step.  
+**Note**: If `agent/index/` does not exist, skip this step.
+
+### 11. Commit Created Artifacts (MANDATORY unless `--no-commit`)
+
+> **⚠️ CRITICAL**: This step is NOT optional unless `--no-commit` was specified. You MUST commit created artifacts before finishing. Do NOT skip this step. Do NOT ask the user whether to commit. Do NOT defer the commit to a later time. If `--no-commit` was passed, skip this step silently.
+
+**Actions**:
+- Stage all files created or modified during design creation:
+  - Design file (`agent/design/{namespace}.{design-name}.md`)
+  - `package.yaml` (if updated)
+  - `README.md` (if updated)
+  - Key file index (`agent/index/*.yaml`) if updated
+- Do NOT stage clarification files (`agent/clarifications/*.md`) — these are not committed
+- Invoke `@git.commit` with a message summarizing what was created (e.g., `feat(design): create {namespace}.{design-name} design document`)
+- Verify the commit succeeded
+
+**Expected Outcome**: All design artifacts committed to version control.
 
 ---
 
@@ -199,6 +216,7 @@ If yes:
 - [ ] README.md updated (if package)
 - [ ] Design follows template structure
 - [ ] All metadata filled in correctly
+- [ ] **Design artifacts committed via `@git.commit` (MANDATORY — do not skip)**
 
 ---
 
