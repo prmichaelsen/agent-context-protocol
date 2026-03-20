@@ -84,3 +84,15 @@ local:
         the command-first principle (executable directives vs passive info),
         and maintaining quality standards for permanent reference material.
       applies: acp.design-create, acp.plan, acp.proceed, acp.task-create
+
+    - path: agent/design/local.index-semantic-entry-types.md
+      weight: 0.8
+      kind: design
+      description: |
+        Design for extending index entries to support path: null inline
+        content (notes and directives) with no schema migration. Defines
+        the updated kind enum and loading behavior.
+      rationale: |
+        Required context when implementing or modifying the index system,
+        especially for path: null entry support.
+      applies: acp.proceed, acp.plan, acp.task-create
