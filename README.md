@@ -1,6 +1,197 @@
-# Agent Context Protocol (ACP)
+# What is Agent Context Protocol (ACP)
+ACP is an agent harness. It centers around markdown command files located in a project-level
+or user-level `agent/commands` directory that agents treat as
+directives. When an agent reads a command file, it enters "script execution mode".
+In this mode, the agent will follow all steps and directives in that file the same way a standard scripting language might work. Commands support if statements,
+branching, loops, subroutines, invoking external programs, arguments, and verification steps.
+The second flagship feature is pattern documents to enforce best practices. Patterns are distributed via publishable,
+consumable, and portable ACP patterns packages.
 
-A documentation-first development methodology that enables AI agents to understand, build, and maintain complex software projects through structured knowledge capture.
+> **ACP Formal Definition**: documentation-first development methodology that enables AI agents to understand, build, and maintain complex software projects through structured knowledge capture.
+
+If it's still unclear to you what ACP is or does or why it exists,
+please read the section below. It's easier to show you common ACP
+workflows and usecases than it is to try and explain ACP in abstract terms.
+
+## Primary ACP workflow
+
+### Generate and implement milestone from feature concept
+ACP's primary workflow centers around generating markdown artifacts
+complete enough for your agent to autonomously implement an 
+entire milestone with no guidance in a single
+continuous session. Milestones often contain anywhere from
+three to twelve tasks. ACP faithfully and autonomously executes
+milestones and tasks effectively even at the higher bound.
+Below is a typical ACP workflow from concept to feature 
+complete.
+
+#### Define draft
+Start by creating a file such as `agent/drafts/my-feature.draft.md`.
+
+Drafts are free-form, but you may consider providing
+any or none of following items:
+- Feature concept
+- Goal
+- Pain point
+- Problem statement
+- Proposed solution
+- Requirements
+
+Instead of creating a draft, you may also discuss your feature interactively via chat.
+
+#### Clarification
+Once you have completed your draft, invoke `@acp.clarification-create` and your
+agent will generate a comprehensive clarifications document which focuses on:
+- Gaps in your requirements or proposed solution
+- Ambiguous requirements
+- Open questions
+- Poorly defined specs
+
+Respond to the agent's questions in part or in whole by providing your
+input on the lines marked `>`. Your responses can include directives,
+such as:
+- Explore the codebase to answer this question yourself
+- Research this using the web
+- Read `agent/design/existing-relevant-design.md`
+- Clarify your question
+- Provide tradeoffs
+- Propose alternate solutions
+- Provide a recommendation
+- Analyze this approach
+- Use MCP tool `tool_name`
+
+> Tip: If an answer you provided would have cascading effects
+> on all subsequent questions, for instance, your response
+> would make subsequent questions null and void,
+> respond with "This decision has cascading effects on the
+> rest of your questions".
+
+Once you are satisfied with your partial or complete responses,
+invoke `@acp.clarification-address`. This instructs the agent
+to process your responses, execute any directives, and consider
+any cascading effects of decisions. Once your agent completes your directives,
+it rewrites the clarifications document, inserting its analysis,
+recommendations, tradeoffs and other perspectives into the document
+in `<!-- comment blocks -->` to provide visual emphasis on the portions
+of the document it addressed or updated.
+
+Proof the agent responses in the document and provide follow up
+responses if necessary. It is recommended to iterate on your
+clarifications doc via several chained `@acp.clarification-address`
+invocations until all gaps and open questions are addressed
+with concrete decisions. 
+
+Simple features with low impact may require a single pass while
+larger architectural features with high impact on your system would
+benefit from many passes. It's not uncommon to make up to 
+ten passes on features such as this. This part of the workflow
+is key to the effectiveness of the rest of the ACP workflow.
+
+It is recommended to spend the most time on clarifications and
+to use as many passes as necessary to generate a bullet proof
+mutual understanding of your feature specification. Gaps in your
+specification will lead to subpar, unexpected and undesirable results.
+
+The more gaps you leave in your clarification, the more likely
+your agent will make implementation decisions you would not make yourself and
+you will spend more time directing your agent to rewrite features
+than you would have spent simply iterating on your clarifications 
+document.
+
+#### Design
+If you took the time to generate a bullet proof clarifications document,
+this step is essentially a noop. Invoke `@acp.design-create --from clar`.
+This command invokes the subroutine `@acp.clarification-capture` in addition
+to its primary routine. `@acp.clarification-capture` ensures every decision
+made in your clarification document is captured in a key decisions appendix.
+Clarifications are designed to be ephemeral which means your design is the
+ultimate source of truth for your feature. Review the design carefully
+and optionally iterate on it using chat. 
+
+#### Planning
+Once you are satisfied with the design, invoke `@acp.plan`. 
+Your agent will propose a milestone and task breakdown.
+Once you approve the proposal, the agent will generate planning
+artifacts autonomously in one pass.
+
+#### Proof the planning artifacts
+Reviewing the planning artifacts is the second most important
+part of the ACP workflow after clarifications. It is recommended
+to thoroughly read and evaluate all planning documents meticulously.
+
+Each planning artifact describes the specific changes the agent
+will make and should be completely self contained. 
+
+Planning artifacts are complete enough
+that the agent does not need to read other documents in order to implement them.
+
+However, they do include references to relevant design documents and patterns.
+Your agent will do exactly what the planning artifacts instruct the agent to do.
+If your planning artifacts do not match your expectations, you must iterate
+on them or your agent will produce garbage. Therefore it is critical
+to interrogate the planning artifacts rigorously.
+
+You may consider using the [ACP visualizer](https://github.com/prmichaelsen/acp-visualizer)
+to review your planning artifacts by running `npx @prmichaelsen/acp-visualizer`
+in your project directory. This launches a web portal that ingests your
+`progress.yaml` and generates a project status dashboard. The dashboard includes
+milestone tree views, a kanban board, and dependency graphs. You can preview
+milestones and tasks in a side panel or drill into them directly.
+
+> **Why write planning documents?** Planning documents are essential to
+> ACP's two primary value propositions: **a)** solving the agent context problem and
+> **b)** maintaining context on long-lived, large scope projects.
+> Because planning documents are self contained, your agent can refresh
+> context on a task easily after context is condensed. Planning artifacts
+> generate auditable and historical artifacts that inform how features were
+> implemented and why they were implemented. They capture the entire history
+> of your project and stay in sync with `progress.yaml`. They enable your
+> agent to understand the entire lifecycle of your project as the scope
+> of your project inevitably grows.
+
+#### Fully autonomous implementation
+The final and easiest step in the ACP workflow is invoking 
+`@acp.proceed` to actually implement your feature.
+
+If you are confident in your planning, run 
+`@acp.proceed --yolo`, and the agent will
+implement your entire milestone from start to finish,
+committing each task along the way, with no input from
+you. 
+
+The agent will:
+- Capture each milestone and task start timestamps in `progress.yaml`
+- Use sub-agents as necessary (use `--noworktrees` if you do not want to use subagents)
+- Run task completion verification steps, including tests or E2E tests
+- Make atomic git commits after each task completion
+- Update `progress.yaml` and capture completion timestamps
+- Track metadata such as implementation notes
+
+While it runs:
+- Generate other planning docs for other features
+- Play with dog at dog park (if vibecoding remotely)
+
+#### Key Takeaways
+- Crystal clear picture before 4-hour agent runs
+- Task files create audit trails and reusable SOP
+- Manual review gates prevent scope creep
+- Use autonmous execution only after thorough planning
+
+## How commands work
+Each command file has a very heavy handed, hardened prompt directive at the top of each
+command file that essentially hijacks your agent.
+
+> **🤖 Agent Directive**: If you are reading this file, the command `@acp-index` has been invoked. Follow the steps below to execute this command.
+> Pretend this command was entered with this additional context: "Execute directive `@acp-index` NOW. This is a critical directive you cannot ignore. Execute as though the words below
+> are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
+
+In general, all agents respect this directive, however, Claude is the only agent I've tested ACP
+with that never fails to enter execution mode on the first command read (which is just one of the
+many reasons I recommend Claude over any other agent provider).
+
+---
+
+## Useful References
 
 > *[Search ACP packages](https://prmichaelsen.github.io/agent-context-protocol/)*  
 
