@@ -63,6 +63,26 @@ This command creates a new design document with intelligent namespace handling, 
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.design-create
+  Create design documents with namespace enforcement, draft support, and automatic package updates
+
+  Usage:
+    @acp.design-create                             Guided design creation
+    @acp.design-create @my-draft.md                Create from draft file
+    @acp.design-create --from-context              Capture from all sources
+    @acp.design-create --no-commit                 Skip automatic commit
+
+  Related:
+    @acp.pattern-create    Create patterns
+    @acp.command-create    Create commands
+    @acp.package-validate  Validate package after creation
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Detect Context
 
 Determine if in package or project directory:

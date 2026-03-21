@@ -99,6 +99,26 @@ This happens automatically - no manual setup required.
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-install
+  Install third-party command packages from git repositories
+
+  Usage:
+    @acp.package-install                           Install package (prompted for repo)
+    @acp.package-install --global                  Install to ~/.acp/ globally
+    @acp.package-install --list                    Preview files without installing
+    @acp.package-install --patterns                Install only patterns
+    @acp.package-install --commands                Install only commands
+    @acp.package-install --experimental            Include experimental features
+
+  Related:
+    @acp.validate              Validate installed commands
+    @acp.version-update        Update core ACP commands
+    @acp.status                View project status
+```
+
 ### 1. Choose Installation Mode
 
 Decide what to install from the package.

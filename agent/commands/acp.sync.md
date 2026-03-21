@@ -39,6 +39,21 @@ Unlike `@acp.update` which updates progress tracking, `@acp.sync` focuses on kee
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.sync
+  Synchronize documentation with source code by identifying and updating stale documentation
+
+  Related:
+    @acp.update    Update progress tracking (not documentation)
+    @acp.validate  Validate documentation structure and consistency
+    @acp.init      Includes sync as part of initialization
+    @acp.report    Generate report including documentation status
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Read Design Documents
 
 Load all design documents to understand documented architecture.

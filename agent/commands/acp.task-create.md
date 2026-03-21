@@ -65,6 +65,27 @@ This command creates a new task file with proper structure, milestone linking, a
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.task-create
+  Create task files with proper structure, milestone linking, and automatic progress.yaml updates
+
+  Usage:
+    @acp.task-create                               Guided task creation
+    @acp.task-create @my-draft.md                  Create from draft file
+    @acp.task-create --from-clar <file>            Capture from specific clarification
+    @acp.task-create --from-context                Capture from all sources
+
+  Related:
+    @acp.pattern-create    Create patterns
+    @acp.command-create    Create commands
+    @acp.design-create     Create designs
+    @acp.proceed           Start working on created task
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Detect Current Milestone
 
 Determine which milestone this task belongs to:

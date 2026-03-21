@@ -41,6 +41,19 @@ Unlike manual publishing which is error-prone and time-consuming, this command p
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-publish
+  Automated package publishing with validation and testing
+
+  Related:
+    @acp.package-validate      Validate package before publishing
+    @acp.package-create        Create new package
+    @acp.pattern-create        Add patterns to package
+    @acp.command-create        Add commands to package
+```
+
 ### 1. Run Non-Destructive Validation
 
 Validate package before making any changes.

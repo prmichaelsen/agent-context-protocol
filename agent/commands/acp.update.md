@@ -38,6 +38,21 @@ Unlike `@acp.sync` which updates documentation based on code changes, `@acp.upda
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.update
+  Update progress.yaml with latest project status, task completion, and recent work
+
+  Related:
+    @acp.status    View current status before updating
+    @acp.proceed   Automatically updates progress after tasks
+    @acp.sync      Update documentation based on code changes
+    @acp.report    Generate comprehensive progress report
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Read Current Progress
 
 Read `agent/progress.yaml` to understand current state.

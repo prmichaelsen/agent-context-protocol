@@ -44,6 +44,20 @@ This command intelligently detects if changes represent a version change, determ
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @git.commit
+  Automate version detection, changelog updates, and git commits with proper semantic versioning
+
+  Related:
+    @acp.version-check    Check current version
+    @acp.version-update   Update ACP itself
+    @acp.status           Check project status before committing
+```
+
 ### 1. Analyze Changes for Version Impact
 
 Review the staged/unstaged changes and determine:

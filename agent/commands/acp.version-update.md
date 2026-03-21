@@ -39,6 +39,20 @@ Unlike `@acp-version-check-for-updates` which only checks, this command actually
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.version-update
+  Update ACP files (AGENT.md, templates, scripts) to the latest version
+
+  Related:
+    @acp.version-check-for-updates   Check before updating
+    @acp.version-check               Verify version after updating
+    @acp.init                        Reload context after updating
+```
+
 ### 1. Verify Prerequisites
 
 Check that update can proceed safely.

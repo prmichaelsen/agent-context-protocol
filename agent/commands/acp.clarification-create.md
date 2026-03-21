@@ -58,6 +58,26 @@ Use this command when you need to gather detailed information about ambiguous re
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.clarification-create
+  Create clarification documents from file input or chat to gather detailed requirements
+
+  Usage:
+    @acp.clarification-create                      Interactive mode
+    @acp.clarification-create --file <path>        Analyze source file
+    @acp.clarification-create -t <title>           Set clarification title
+    @acp.clarification-create --auto               Auto-generate questions
+
+  Related:
+    @acp.clarification-address  Address responses with research and recommendations
+    @acp.design-create          Create design documents (often follows clarification)
+    @acp.task-create             Create tasks (may use clarification answers)
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Determine Next Clarification Number
 
 Find the next available clarification number:

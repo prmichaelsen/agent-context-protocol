@@ -204,6 +204,27 @@ When you invoke `@acp.proceed --complete` (or equivalent):
 
 ### 🚨 CRITICAL: These are IMPLEMENTATION steps, not planning steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.proceed
+  Implement tasks — single-task (default) or autonomous milestone completion (with arguments)
+
+  Usage:
+    @acp.proceed                                   Implement next task (single-task)
+    @acp.proceed --complete                        Complete all remaining tasks
+    @acp.proceed --turbo                           Autonomous, no confirm, contextual
+    @acp.proceed --parallel --worktrees            Parallel sub-agents with worktrees
+    @acp.proceed --dry-run                         Preview what would be done
+
+  Related:
+    @acp.init      Load full project context first
+    @acp.status    Check which task is current
+    @git.commit    Git commit (used per-task in autonomous)
+```
+
 ### 1. Identify Current Task (30 seconds max)
 
 **Actions**:

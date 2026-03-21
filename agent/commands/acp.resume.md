@@ -41,6 +41,21 @@ This command is a convenient alias that combines three essential workflow comman
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.resume
+  Resume work by initializing context, reviewing progress, and continuing next task
+
+  Related:
+    @acp.init      Initialize context only
+    @acp.proceed   Proceed with task only
+    @acp.status    Check status without proceeding
+    @acp.report    Generate session report
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Initialize Agent Context
 
 Run the initialization workflow to load complete project context.

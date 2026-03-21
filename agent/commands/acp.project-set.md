@@ -44,6 +44,22 @@ After running this command, all subsequent file operations will be relative to t
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.project-set
+  Switch to a different project in the global registry
+
+  Usage:
+    @acp.project-set <project-name>                Switch to project
+
+  Related:
+    @acp.project-list        List all projects
+    @acp.project-info        Show project details
+    @acp.project-create      Create new project
+    @acp.init                Load project context
+```
+
 ### 1. Run Shell Script
 
 Execute the project-set script with the project name.

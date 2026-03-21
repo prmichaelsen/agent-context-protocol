@@ -39,6 +39,27 @@ Unlike `@acp.version-update` which updates ACP itself, this command updates thir
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-update
+  Update installed ACP packages to latest versions
+
+  Usage:
+    @acp.package-update                            Update all packages
+    @acp.package-update <package-name>             Update specific package
+    @acp.package-update --check                    Preview available updates
+    @acp.package-update --skip-modified            Skip locally modified files
+    @acp.package-update --force                    Overwrite modified files
+    @acp.package-update --global                   Update global packages
+
+  Related:
+    @acp.package-install       Install packages
+    @acp.package-list          List installed packages
+    @acp.package-info          Show package details
+    @acp.version-update        Update ACP itself (not packages)
+```
+
 ### 1. Choose Update Mode
 
 Decide what to update.

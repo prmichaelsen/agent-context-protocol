@@ -36,6 +36,25 @@ Lists all projects registered in `~/.acp/projects.yaml` with their metadata. Sho
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.project-list
+  List all projects registered in global workspace
+
+  Usage:
+    @acp.project-list                              List all projects
+    @acp.project-list --type <type>                Filter by project type
+    @acp.project-list --status <status>            Filter by status
+
+  Related:
+    @acp.project-create      Create new project
+    @acp.project-set         Switch to project
+    @acp.projects-sync       Discover unregistered projects
+    @acp.project-info        Show project details
+    @acp.projects-restore    Restore projects from git origins
+```
+
 ### 1. Run Shell Script
 
 Execute the project list script with optional filters.

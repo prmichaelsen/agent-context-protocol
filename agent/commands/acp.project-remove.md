@@ -45,6 +45,24 @@ The command includes safety features:
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.project-remove
+  Remove a project from the global registry with optional directory deletion
+
+  Usage:
+    @acp.project-remove <name>                     Remove from registry only
+    @acp.project-remove <name> --delete-files       Also delete project directory
+    @acp.project-remove <name> -y                   Skip confirmation prompts
+
+  Related:
+    @acp.project-list        List all projects
+    @acp.project-set         Switch to another project
+    @acp.project-info        Show project details
+    @acp.project-update      Update project metadata
+```
+
 ### 1. Run Shell Script
 
 Execute the project-remove script with the project name and options.

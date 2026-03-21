@@ -42,6 +42,24 @@ This command reads `~/.acp/projects.yaml` and clones any missing project directo
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.projects-restore
+  Restore/clone missing projects from their registered git origins
+
+  Usage:
+    @acp.projects-restore                          Restore all missing projects
+    @acp.projects-restore --dry-run                Preview what would be cloned
+    @acp.projects-restore --install-acp            Restore and install ACP
+
+  Related:
+    @acp.projects-sync       Discover and register unregistered projects
+    @acp.project-list        List all registered projects
+    @acp.project-info        View project details including git info
+    @acp.project-update      Manually set git_origin/git_branch
+```
+
 ### 1. Execute Restore Script
 
 Run the shell script to restore missing projects.

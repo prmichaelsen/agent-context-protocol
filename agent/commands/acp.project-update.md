@@ -36,6 +36,28 @@ Unlike [`@acp.project-info`](acp.project-info.md:1) which displays information, 
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.project-update
+  Update project metadata in the global registry
+
+  Usage:
+    @acp.project-update <name> --status <status>   Update project status
+    @acp.project-update <name> --description "..."  Update description
+    @acp.project-update <name> --add-tag <tag>      Add a tag
+    @acp.project-update <name> --remove-tag <tag>   Remove a tag
+    @acp.project-update <name> --git-origin <url>   Set git origin URL
+    @acp.project-update <name> --add-related <name> Link related project
+
+  Related:
+    @acp.project-info        View project details before updating
+    @acp.project-list        List all projects
+    @acp.project-set         Switch to a project
+    @acp.projects-sync       Sync registry with filesystem
+    @acp.projects-restore    Restore projects from git origins
+```
+
 ### 1. Parse Arguments
 
 Extract project name and update options.

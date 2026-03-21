@@ -43,6 +43,20 @@ This command scans the `~/.acp/projects/` directory for ACP projects (directorie
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.projects-sync
+  Discover unregistered ACP projects and add them to the registry
+
+  Related:
+    @acp.project-list        List all registered projects
+    @acp.project-info        View project details
+    @acp.project-set         Switch to a project
+    @acp.project-create      Create new project (auto-registers)
+    @acp.projects-restore    Restore projects from git origins
+```
+
 ### 1. Execute Sync Script
 
 Run the shell script to scan for unregistered projects.

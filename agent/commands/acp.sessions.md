@@ -73,6 +73,27 @@ Use this command when you want to see what other agents are working on, check if
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.sessions
+  Manage and view active agent sessions across projects
+
+  Usage:
+    @acp.sessions                                  List all active sessions
+    @acp.sessions clean                            Remove stale sessions
+    @acp.sessions deregister                       End current session
+    @acp.sessions count                            Output active session count
+    @acp.sessions --project <name>                 Filter by project name
+
+  Related:
+    @acp.init      Registers session at start
+    @acp.status    Shows session count in status
+    @acp.report    Deregisters session at end
+```
+
 ### 1. Parse Arguments
 
 Determine the requested action from CLI flags or natural language.

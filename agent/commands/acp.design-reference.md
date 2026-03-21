@@ -62,6 +62,15 @@ This directive dynamically discovers design documents relevant to the current ta
 
 ## Steps
 
+### 0. Display Directive Header
+
+```
+⚡ @acp.design-reference
+  Discover and cross-reference design documents to ensure tasks have complete implementation detail
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Determine Topic
 
 Extract topic keywords from the calling context to form a search query.

@@ -36,6 +36,24 @@ Use this command when you no longer need a package, want to clean up unused depe
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-remove
+  Remove installed ACP packages and clean up manifest
+
+  Usage:
+    @acp.package-remove <package-name>             Remove package (prompted)
+    @acp.package-remove -y <package-name>          Remove without confirmation
+    @acp.package-remove --keep-modified <name>     Keep locally modified files
+
+  Related:
+    @acp.package-install       Install packages
+    @acp.package-list          List installed packages
+    @acp.package-info          Show package details
+    @acp.package-update        Update packages
+```
+
 ### 1. Run Package Remove Script
 
 Execute the remove script with the package name.

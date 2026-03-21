@@ -36,6 +36,23 @@ Use this command when you need detailed information about a package (local or gl
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-info
+  Display detailed information about an installed package
+
+  Usage:
+    @acp.package-info <package-name>               Show local package info
+    @acp.package-info --global <package-name>      Show global package info
+
+  Related:
+    @acp.package-list          List all installed packages
+    @acp.package-update        Update package
+    @acp.package-remove        Remove package
+    @acp.package-install       Install package
+```
+
 ### 1. Run Package Info Script
 
 Execute the info script with the package name.

@@ -72,6 +72,15 @@ The directive is called internally by create commands after context detection an
 
 ## Steps
 
+### 0. Display Directive Header
+
+```
+⚡ @acp.clarification-capture
+  Capture decisions from ephemeral clarification files and chat context into permanent entity documents
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Detect Context Sources
 
 Determine which sources to capture from based on arguments or auto-detection.

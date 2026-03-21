@@ -36,6 +36,19 @@ Unlike `@acp-version-check-for-updates` which checks for newer versions, this co
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.version-check
+  Display current ACP version and compatibility information
+
+  Related:
+    @acp.version-check-for-updates   Check if newer version available
+    @acp.version-update              Update to latest version
+```
+
 ### 1. Run Version Script
 
 Execute the version check script.

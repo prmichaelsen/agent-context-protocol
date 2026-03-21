@@ -60,6 +60,19 @@ This command creates a new **generic ACP project** (not a package) with full ACP
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.project-create
+  Create a new generic ACP project with full installation and guided setup
+
+  Related:
+    @acp.package-create      Create distributable ACP packages
+    @acp.init                Initialize context in created project
+    @acp.plan                Plan milestones and tasks
+    @acp.projects-restore    Restore projects from git origins
+```
+
 ### 1. Collect Project Information
 
 Gather project metadata via chat:

@@ -38,6 +38,25 @@ Use this command when you want to discover available ACP packages, find packages
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-search
+  Discover ACP packages on GitHub using the GitHub API
+
+  Usage:
+    @acp.package-search <query>                    Search by keyword
+    @acp.package-search --tag <tag>                Filter by tag
+    @acp.package-search --user <username>          Search user's packages
+    @acp.package-search --sort updated             Sort by recently updated
+    @acp.package-search --limit <n>                Limit results
+
+  Related:
+    @acp.package-install       Install discovered packages
+    @acp.package-list          List installed packages
+    @acp.package-info          Show package details
+```
+
 ### 1. Run Package Search Script
 
 Execute the search script with your query.

@@ -63,6 +63,26 @@ This command creates a new command file with intelligent namespace handling, opt
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.command-create
+  Create command files with namespace enforcement, draft support, and automatic package updates
+
+  Usage:
+    @acp.command-create                            Guided command creation
+    @acp.command-create @my-draft.md               Create from draft file
+    @acp.command-create --from-clar <file>         Capture from specific clarification
+    @acp.command-create --from-context             Capture from all sources
+
+  Related:
+    @acp.pattern-create    Create patterns
+    @acp.design-create     Create designs
+    @acp.package-validate  Validate package after creation
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Detect Context
 
 Determine if in package or project directory:

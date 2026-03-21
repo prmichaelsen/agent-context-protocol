@@ -70,6 +70,25 @@ Unlike `@acp-status` which only reads progress.yaml, or `@acp-proceed` which foc
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.init
+  Initialize agent context by loading documentation, reviewing source code, and preparing for work
+
+  Usage:
+    @acp.init                                      Full initialization
+    @acp.init --quick                              Skip version checks, files, sync
+    @acp.init --skip <items>                       Skip specific steps
+
+  Related:
+    @acp.proceed                     Start working on current task
+    @acp.status                      Quick status check without full init
+    @acp.version-check-for-updates   Part of init process
+```
+
 ### 1. Check for ACP Updates
 
 **Skip item**: `checks` | **Skipped by**: `--quick`  

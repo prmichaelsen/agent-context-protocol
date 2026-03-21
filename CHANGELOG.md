@@ -5,6 +5,17 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.30.0] - 2026-03-21
+
+### Added
+- Step 0 (Display Command Header) added to all 46 command files — shows purpose, usage/args, and related commands on invocation
+- Step 0 added to command.template.md as the default for new commands
+
+### Changed
+- @acp.plan steps renumbered (0→11) to accommodate new Step 0 header before existing Step 0 (Read Contextual Key Files)
+- @acp.proceed --parallel no longer implies worktrees; --worktrees is now explicit opt-in
+- @acp.proceed --turbo/--yolo no longer expand to --parallel
+
 ## [5.29.0] - 2026-03-20
 
 ### Added

@@ -56,6 +56,23 @@ The report is written to be understandable by any agent, though ACP-aware agents
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.handoff
+  Generate a context-aware handoff report for transferring work to another agent context
+
+  Usage:
+    @acp.handoff                          Infer target from context
+    @acp.handoff --to <project>           Handoff to a named project or path
+
+  Related:
+    @acp.report    Generate session reports (same project)
+    @acp.status    Check current project status
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Identify Target Project
 
 Determine where the handoff is going.

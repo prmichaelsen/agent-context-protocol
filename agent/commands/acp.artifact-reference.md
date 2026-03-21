@@ -72,6 +72,27 @@ Reference artifacts are appropriate for:
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.artifact-reference
+  Create reference guides for passive information after command-first principle check
+
+  Usage:
+    @acp.artifact-reference <topic>                Create reference for topic
+    @acp.artifact-reference --type <type>          Specify reference type
+    @acp.artifact-reference --from-clarification <f> Pull topic from clarification
+    @acp.artifact-reference --skip-check           Skip command-first principle check
+    @acp.artifact-reference --no-commit            Skip auto-commit, leave staged
+
+  Related:
+    @acp.artifact-research    Create research artifacts
+    @acp.artifact-glossary    Create terminology glossaries
+    @acp.command-create       Create commands (if content is executable)
+```
+
 ### 1. Determine Reference Topic
 
 Identify what reference to create.

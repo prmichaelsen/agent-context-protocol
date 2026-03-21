@@ -71,6 +71,29 @@ See also: `agent/design/local.key-file-index-system.md`
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.index
+  Manage the key file index — list, add, remove, explore, and show indexed key files
+
+  Usage:
+    @acp.index                     List all indexed key files
+    @acp.index add <path>          Add a file to the index
+    @acp.index remove <path>       Remove a file from the index
+    @acp.index explore             Scan codebase and suggest key files
+    @acp.index show                Show full metadata for all entries
+
+  Related:
+    @acp.init            Reads key files during initialization
+    @acp.proceed         Reads contextual key files before tasks
+    @acp.validate        Validates index file paths and schema
+    @acp.design-create   Prompts to add new designs to index
+    @acp.pattern-create  Prompts to add new patterns to index
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Check Index Directory
 
 **Actions**:

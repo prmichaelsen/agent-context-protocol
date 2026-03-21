@@ -69,6 +69,26 @@ All findings require exact citations with confidence scores (1-10) and reproduci
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.artifact-research
+  Create long-lived research artifacts via systematic investigation with web/MCP integration and quality standards
+
+  Usage:
+    @acp.artifact-research <topic>                 Research a specific topic
+    @acp.artifact-research --from-clarification <f> Pull topic from clarification file
+    @acp.artifact-research --shallow               Skip web research, codebase only
+    @acp.artifact-research --no-commit             Skip auto-commit, leave staged
+
+  Related:
+    @acp.artifact-glossary    Create terminology glossaries
+    @acp.artifact-reference   Create reference guides
+    @acp.audit                Deep-dive investigation (ephemeral)
+```
+
 ### 1. Determine Research Topic
 
 Identify what to research.

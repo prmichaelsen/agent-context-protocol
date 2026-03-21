@@ -80,6 +80,26 @@ Use `--shallow` for a quick pass when you've left "research this" or "agent: ...
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.clarification-address
+  Address clarification responses by researching, exploring code/web, and presenting recommendations
+
+  Usage:
+    @acp.clarification-address                     Address latest (deep, default)
+    @acp.clarification-address <file>              Address a specific file
+    @acp.clarification-address --shallow           Quick codebase-only pass
+    @acp.clarification-address --dry-run           Preview without modifying
+
+  Related:
+    @acp.clarification-create   Create clarification documents
+    @acp.clarification-capture  Capture decisions into design docs / tasks
+    @acp.design-create          Create design documents
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Locate Clarification File
 
 Find the clarification file to process.

@@ -40,6 +40,20 @@ Unlike `@acp.validate` which validates general ACP documentation, `@acp.package-
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-validate
+  Comprehensive package validation with auto-fix
+
+  Related:
+    @acp.validate              General ACP validation
+    @acp.package-publish       Publish package (runs validation first)
+    @acp.pattern-create        Create patterns
+    @acp.command-create        Create commands
+    @acp.design-create         Create designs
+```
+
 ### 1. Detect Package Context
 
 Verify this is a package directory.

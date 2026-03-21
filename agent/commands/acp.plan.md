@@ -75,7 +75,33 @@ This command helps agents systematically plan project milestones and tasks. It s
 
 ## Steps
 
-### 0. Read Contextual Key Files
+### 0. Display Command Header
+
+When invoked, immediately display a brief informational header before proceeding.
+
+**Display format**:
+```
+⚡ @acp.plan
+  Plan milestones OR tasks for undefined items or new requirements
+
+  Usage:
+    @acp.plan                              Scan and plan undefined items interactively
+    @acp.plan --batch                      Plan all undefined items without prompting
+    @acp.plan --milestone <id>             Plan specific milestone
+    @acp.plan --task <id>                  Plan specific task
+    @acp.plan --draft <path>               Use specific draft file
+    @acp.plan --no-commit                  Skip automatic commit after planning
+
+  Related:
+    @acp.task-create     Create individual task documents
+    @acp.design-create   Create design documents
+    @acp.proceed         Start implementing planned tasks
+    @acp.status          Check current project status
+```
+
+**Expected Outcome**: User sees at a glance what the command does, how to customize it, and what else is available
+
+### 1. Read Contextual Key Files
 
 Before planning, load relevant key files from the index.
 
@@ -102,7 +128,7 @@ Before planning, load relevant key files from the index.
 
 **Note**: If `agent/index/` does not exist, skip silently.  
 
-### 1. Scan for Undefined Planning Items
+### 2. Scan for Undefined Planning Items
 
 Automatically scan progress.yaml for items needing planning:
 
@@ -118,7 +144,7 @@ Automatically scan progress.yaml for items needing planning:
 
 **Expected Outcome**: List of undefined items identified  
 
-### 2. Present Planning Options
+### 3. Present Planning Options
 
 Show user what can be planned and offer choices:
 
@@ -159,7 +185,7 @@ What would you like to do?
 
 **Expected Outcome**: User selects planning path  
 
-### 3. Gather Requirements
+### 4. Gather Requirements
 
 Based on user selection, gather requirements:
 
@@ -221,7 +247,7 @@ Based on user selection, gather requirements:
 
 **Expected Outcome**: Requirements gathered and clarified  
 
-### 4. Determine Planning Scope
+### 5. Determine Planning Scope
 
 Decide what to create based on requirements:
 
@@ -234,7 +260,7 @@ Decide what to create based on requirements:
 
 **Expected Outcome**: Planning scope agreed upon  
 
-### 5. Create Milestone Documents
+### 6. Create Milestone Documents
 
 For each milestone to plan:
 
@@ -252,7 +278,7 @@ For each milestone to plan:
 
 **Expected Outcome**: Milestone document(s) created  
 
-### 6. Create Task Documents
+### 7. Create Task Documents
 
 For each task in milestone:
 
@@ -273,7 +299,7 @@ For each task in milestone:
 
 **Expected Outcome**: Task documents created and organized by milestone  
 
-### 7. Update progress.yaml
+### 8. Update progress.yaml
 
 Update progress tracking with new planning items:
 
@@ -289,7 +315,7 @@ Update progress tracking with new planning items:
 
 **Expected Outcome**: progress.yaml fully updated  
 
-### 8. Generate Planning Report
+### 9. Generate Planning Report
 
 Create visual summary of what was planned:
 
@@ -337,7 +363,7 @@ Next Steps:
 
 **Expected Outcome**: User understands what was created  
 
-### 9. Commit Planning Artifacts (MANDATORY unless `--no-commit`)
+### 10. Commit Planning Artifacts (MANDATORY unless `--no-commit`)
 
 > **⚠️ CRITICAL**: This step is NOT optional unless `--no-commit` was specified. You MUST commit planning artifacts before proceeding to Step 10. Do NOT skip this step. Do NOT ask the user whether to commit. Do NOT defer the commit to a later time. Planning is not complete until artifacts are committed. If `--no-commit` was passed, skip this step silently.
 
@@ -356,7 +382,7 @@ Commit all created planning documents and progress.yaml updates.
 
 **Expected Outcome**: All planning artifacts committed to version control. `git status` shows clean working tree for planned files.  
 
-### 10. Offer Next Actions
+### 11. Offer Next Actions
 
 Prompt user for next action:
 

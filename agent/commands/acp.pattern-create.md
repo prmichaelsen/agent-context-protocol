@@ -63,6 +63,26 @@ This command creates a new pattern file with intelligent namespace handling, opt
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.pattern-create
+  Create pattern files with namespace enforcement, draft support, and automatic package updates
+
+  Usage:
+    @acp.pattern-create                            Guided pattern creation
+    @acp.pattern-create @my-draft.md               Create from draft file
+    @acp.pattern-create --from-context             Capture from all sources
+    @acp.pattern-create --no-commit                Skip automatic commit
+
+  Related:
+    @acp.command-create    Create commands
+    @acp.design-create     Create designs
+    @acp.package-validate  Validate package after creation
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Detect Context
 
 Determine if in package or project directory:

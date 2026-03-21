@@ -36,6 +36,21 @@ Unlike `@acp-init` which performs a full context load and updates documentation,
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.status
+  Display current project status including milestone progress, current task, recent work, and next steps
+
+  Related:
+    @acp.init      Full context initialization at session start
+    @acp.proceed   Continue with current task
+    @acp.update    Update progress.yaml after completing work
+    @acp.sync      Sync documentation with code changes
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Read Progress Tracking
 
 Read the `agent/progress.yaml` file to get current project state.

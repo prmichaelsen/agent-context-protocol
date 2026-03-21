@@ -42,6 +42,19 @@ The command is smart about .gitignore - it evaluates your project to determine w
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @git.init
+  Initialize a git repository with intelligent .gitignore based on project type
+
+  Related:
+    @git.commit   Make your first commit after init
+    @acp.init     Initialize ACP structure after git init
+```
+
 ### 1. Evaluate Project Type
 
 Analyze the project structure to determine the technology stack and project type.

@@ -36,6 +36,23 @@ Unlike [`@acp.project-list`](acp.project-list.md:1) which shows all projects in 
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.project-info
+  Display detailed information about a specific project
+
+  Usage:
+    @acp.project-info <project-name>               Show project details
+
+  Related:
+    @acp.project-list        List all projects in registry
+    @acp.project-set         Switch to a project
+    @acp.project-update      Update project metadata
+    @acp.projects-sync       Sync registry with filesystem
+    @acp.projects-restore    Restore projects from git origins
+```
+
 ### 1. Validate Arguments
 
 Check that project name is provided.

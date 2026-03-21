@@ -38,6 +38,19 @@ Unlike `@acp-version-update` which applies updates immediately, this command onl
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.version-check-for-updates
+  Check if newer version of ACP is available without applying updates
+
+  Related:
+    @acp.version-check    Show current version only
+    @acp.version-update   Apply updates if available
+```
+
 ### 1. Run Update Check Script
 
 Execute the check-for-updates script.

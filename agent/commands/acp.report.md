@@ -39,6 +39,21 @@ Unlike `@acp.status` which provides a quick console summary, `@acp.report` gener
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.report
+  Generate a comprehensive project status report including progress, accomplishments, and next steps
+
+  Related:
+    @acp.status    Quick console status (not a full report)
+    @acp.update    Update progress before generating report
+    @acp.validate  Validate documentation before reporting
+    @acp.sync      Sync docs before generating report
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Read Project Information
 
 Load basic project details from progress.yaml.

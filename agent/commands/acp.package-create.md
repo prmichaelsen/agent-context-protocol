@@ -63,6 +63,20 @@ This happens automatically - no manual setup required.
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-create
+  Create a new ACP package with full installation and hooks
+
+  Related:
+    @acp.pattern-create        Create patterns in package
+    @acp.command-create        Create commands in package
+    @acp.design-create         Create designs in package
+    @acp.package-validate      Validate package before publishing
+    @acp.package-publish       Publish package to GitHub
+```
+
 ### 1. Gather Package Information via Chat
 
 **IMPORTANT**: Collect all information from the user via chat BEFORE executing the script.  

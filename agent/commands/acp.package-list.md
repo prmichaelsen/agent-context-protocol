@@ -47,6 +47,26 @@ This happens automatically - no manual setup required.
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.package-list
+  List installed ACP packages with versions and details
+
+  Usage:
+    @acp.package-list                              List local packages
+    @acp.package-list --global                     List global packages
+    @acp.package-list --verbose                    Show detailed information
+    @acp.package-list --outdated                   Show packages with updates
+    @acp.package-list --modified                   Show packages with local changes
+
+  Related:
+    @acp.package-install       Install packages
+    @acp.package-update        Update packages
+    @acp.package-info          Show detailed package info
+    @acp.package-remove        Remove packages
+```
+
 ### 1. Run Package List Script
 
 Execute the list script with desired options.

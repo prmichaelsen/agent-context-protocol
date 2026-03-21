@@ -59,6 +59,25 @@ Use this when you need a thorough understanding of a subject before acting — r
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.audit
+  Deep-dive investigation of a subject, producing a structured report
+
+  Usage:
+    @acp.audit                     Infer subject from context
+    @acp.audit <subject>           Audit a named subject or path
+    @acp.audit --output <path>     Custom report output path
+
+  Related:
+    @acp.init      Broad context loading (not deep dives)
+    @acp.status    Quick status snapshot
+    @acp.validate  Schema and consistency validation
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Parse Subject
 
 Determine what to audit from the user's invocation.

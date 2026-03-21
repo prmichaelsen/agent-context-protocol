@@ -39,6 +39,22 @@ Unlike `@acp.sync` which compares docs to code, `@acp.validate` checks the inter
 
 ## Steps
 
+### 0. Display Command Header
+
+```
+⚡ @acp.validate
+  Validate all ACP documents for structure, consistency, correctness, and namespace conventions
+
+  Related:
+    @acp.package-validate  Package-specific validation
+    @acp.sync              Sync documentation with code
+    @acp.update            Update progress tracking
+    @acp.report            Generate report with validation results
+    @acp.init              Can include validation during init
+```
+
+This step is informational only — do not wait for user input.
+
 ### 1. Validate Directory Structure
 
 Check that all required directories and files exist.

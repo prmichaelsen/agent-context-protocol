@@ -68,6 +68,28 @@ Unlike research artifacts (external knowledge) or reference artifacts (passive i
 
 ## Steps
 
+### 0. Display Command Header
+
+Display the following informational header, then continue immediately:
+
+```
+⚡ @acp.artifact-glossary
+  Create and maintain project glossaries through auto-extraction and interactive refinement
+
+  Usage:
+    @acp.artifact-glossary                         Create or update glossary (auto-detect)
+    @acp.artifact-glossary --create                Force create new glossary
+    @acp.artifact-glossary --update                Update existing glossary
+    @acp.artifact-glossary --scope <path>          Limit extraction to directory
+    @acp.artifact-glossary --interactive           Prompt for every term
+    @acp.artifact-glossary --auto                  Accept all inferred definitions
+
+  Related:
+    @acp.artifact-research    Create research artifacts
+    @acp.artifact-reference   Create reference guides
+    @acp.sync                 Detect glossary staleness
+```
+
 ### 1. Determine Mode
 
 Decide whether to create or update a glossary.
