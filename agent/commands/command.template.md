@@ -96,6 +96,39 @@ The agent infers intent from context. "Show me global packages" maps to `--globa
 
 [Detailed, sequential steps the agent should follow:]
 
+### 0. Display Command Header (Default)
+
+When the command is invoked, immediately display a brief informational header before proceeding with execution. This step does NOT block execution — the agent prints it and continues into Step 1 without pausing.
+
+**Actions**:
+- Print the command's **Purpose** (from the metadata above)
+- Print a one-line summary of what this invocation will do
+- Print a **Usage** block listing available arguments and flags
+- Print a **Related Commands** block listing related commands with one-line descriptions
+
+**Display format**:
+```
+⚡ @{namespace}.{command-name}
+  {Purpose line from metadata}
+
+  Usage:
+    @{namespace}.{command-name}                    {default behavior}
+    @{namespace}.{command-name} --flag             {what --flag does}
+    @{namespace}.{command-name} --option <value>   {what --option does}
+
+  Related:
+    @{namespace}.{related-1}   {one-line description}
+    @{namespace}.{related-2}   {one-line description}
+```
+
+**Notes**:
+- If the command has no arguments, omit the Usage block
+- If the command has no related commands, omit the Related block
+- Keep descriptions short (under 60 characters)
+- This step is informational only — do not wait for user input
+
+**Expected Outcome**: User sees at a glance what the command does, how to customize it, and what else is available
+
 ### 1. [Step Name]
 
 [Description of what to do in this step]
