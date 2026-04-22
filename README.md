@@ -355,6 +355,7 @@ This will:
 - **`@acp.pattern-create`** - Create pattern files
 - **`@acp.design-create`** - Create design documents
 - **`@acp.task-create`** - Create task files
+- **`@acp.spec`** - Generate spec from clarification, design, draft, requirements, or interactive
 
 **Version Commands**:
 - **`@acp.version-check`** - Show current ACP version

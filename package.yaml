@@ -2,7 +2,7 @@
 # This file defines the Agent Context Protocol core package
 
 name: acp-core
-version: 4.7.0
+version: 4.8.0
 description: Agent Context Protocol - Core commands, patterns, and utilities for AI agent development
 author: Patrick Michaelsen
 license: MIT
@@ -137,6 +137,10 @@ contents:
       description: Create new ACP projects
       scripts:
         - acp.install.sh
+
+    - name: acp.spec.md
+      description: Generate a specification document from a clarification, design, draft, requirements doc, or interactive input
+      scripts: []
     
     # Workflow Commands (LLM-based, no scripts)
     - name: acp.init.md

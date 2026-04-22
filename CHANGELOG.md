@@ -5,6 +5,21 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.31.0] - 2026-04-22
+
+### Added
+- `@acp.spec` command — generate a specification document from a clarification, design, draft, requirements doc, or interactive input (sources are mutually exclusive: `--from-clar`, `--from-design`, `--from-draft`, `--from-req`, `-i`/`--interactive`)
+- `agent/specs/` directory convention for storing specification documents
+- `agent/specs/spec.template.md` — spec template with Purpose, Source, Scope, Requirements, Interfaces/Data Shapes, Behavior, Acceptance Criteria, Tests (Base Cases + Edge Cases), Non-Goals, Open Questions, Key Design Decisions, Related Artifacts
+- Tests section convention: language-agnostic `Given`/`When`/`Then` format with kebab-case test names, short-slug assertion identifiers, support for single-sentence or bulleted `Given`/`When`, and multiple assertions per test
+- Comprehensive-coverage requirement for specs: all four dimensions (happy path, bad path, positive assertions, negative assertions) must be represented across Base + Edge Cases combined
+- Concurrency-probe requirement in interactive spec mode: the agent must explicitly ask about mutex/locks, async operations, event queues, background workers, and transactions (each with their own hazard-class edge-case tests)
+- Spec-as-proof principle documented in `@acp.spec`: the complete spec defines the end-system behavior exactly, enabling the user to proof scenarios before code is written and making TDD mechanical
+
+### Changed
+- `package.yaml` version 4.7.0 → 4.8.0 (new command added to `contents.commands`)
+- `README.md` Entity Creation section lists `@acp.spec`
+
 ## [5.30.0] - 2026-03-21
 
 ### Added
