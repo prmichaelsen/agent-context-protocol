@@ -50,6 +50,44 @@ Numbered, testable requirements. Each must be concrete enough that an implemente
 
 ---
 
+## Behavior Table
+
+The reviewer's scannable proofing surface. One row per scenario. The reviewer scrolls top-to-bottom and flags any row whose `Expected Behavior` doesn't match their expectation, or any scenario they care about that is missing.
+
+**`undefined` rows are REQUIRED** for any scenario the source artifacts did not resolve. These are the highest-value rows for catching misunderstandings before code is written — do NOT silently guess.
+
+| # | Scenario | Expected Behavior | Tests |
+|---|----------|-------------------|-------|
+| 1 | [short plain-English trigger / input class] | [short plain-English outcome] | `<test-name>` |
+| 2 | [another scenario] | [outcome] | `<test-name>`, `<another-test>` |
+| 3 | [scenario source did not resolve] | `undefined` | → [OQ-1](#open-questions) |
+
+**Example** (remove before committing):
+
+| # | Scenario | Expected Behavior | Tests |
+|---|----------|-------------------|-------|
+| 1 | Valid credentials | Returns 200 with a 24h JWT | `login-with-valid-credentials` |
+| 2 | Missing email field | Returns 400 with `missing_field`; no DB query | `login-rejects-missing-email` |
+| 3 | Wrong password for existing email | Returns 401 with `invalid_credentials` | `login-rejects-invalid-credentials-without-enumeration` |
+| 4 | Login attempt for nonexistent email | Returns 401 with `invalid_credentials` (identical to wrong-password) | `login-rejects-invalid-credentials-without-enumeration` |
+| 5 | Empty request body | Returns 400; error prioritizes `email` over `password` | `login-with-empty-body` |
+| 6 | Email in alternate Unicode normalization | Lookup succeeds; returns 200 | `login-with-unicode-email` |
+| 7 | Three rapid successive valid logins | All return 200 with distinct tokens; no extra user writes | `repeated-login-is-idempotent-on-state` |
+| 8 | User account is disabled/suspended | `undefined` | → [OQ-1](#open-questions) |
+| 9 | Password field exceeds max length (e.g., 10KB) | `undefined` | → [OQ-2](#open-questions) |
+| 10 | Login during a password rotation window | `undefined` | → [OQ-3](#open-questions) |
+
+**Rules for the Behavior Table**:
+- Exactly four columns: `#`, `Scenario`, `Expected Behavior`, `Tests`
+- Keep text short and plain-English; no code, no schemas (those live in the Tests section below)
+- `Expected Behavior` must be either a concrete outcome OR the literal bolded word `undefined`
+- `Tests` column: comma-separated kebab-case test names from the Tests section, OR `→ [OQ-N](#open-questions)` for undefined rows, OR `—` if truly N/A
+- Every test defined below MUST appear in at least one row's `Tests` column
+- Every `undefined` row MUST have a matching Open Question
+- Row order: happy path, then bad path, then edge cases, then `undefined` rows last (or whatever ordering scans best)
+
+---
+
 ## Interfaces / Data Shapes
 
 Concrete schemas, signatures, and wire formats. Use whatever notation is clearest (TypeScript-like, JSON Schema, OpenAPI fragment, pseudo-code). Language-agnostic intent is fine — implementers adapt to their stack.
@@ -283,8 +321,13 @@ Unresolved items that must be answered before or during implementation. Link to 
 - [ ] [Open question 2]
 
 **Example**:
+- [ ] **OQ-1**: How should login behave for disabled/suspended user accounts? (401 like invalid credentials? 403 with an explicit code? 200 followed by a separate disabled-session signal?) — ties to Behavior Table row #8
+- [ ] **OQ-2**: What is the maximum password length the endpoint accepts, and what is the rejection mode beyond it? (413? 400 with a specific error code? truncation?) — ties to Behavior Table row #9
+- [ ] **OQ-3**: What behavior do concurrent logins see during a password rotation window? (accept old password until window closes? reject both? race-dependent?) — ties to Behavior Table row #10
 - [ ] Should invalid-credentials responses include a `Retry-After` header on repeated failures? — [`clarification-18-auth-rate-limiting.md`](../clarifications/clarification-18-auth-rate-limiting.md)
 - [ ] What is the configured JWT secret rotation cadence? Infrastructure decision, owned by @infra.
+
+**Numbering convention**: Use `OQ-N` identifiers so Behavior Table rows can link directly via `→ [OQ-N](#open-questions)`. Keep numbers stable once assigned.
 
 ---
 

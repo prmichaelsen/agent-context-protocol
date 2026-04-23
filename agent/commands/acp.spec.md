@@ -57,7 +57,7 @@ A design captures the *what* and *why* (architecture, rationale, tradeoffs). A s
 
 ### Core Principle: The Spec Defines the End-System Behavior Exactly
 
-A complete spec MUST describe the exact observable behavior of the finished system — not a sketch, not a happy-path summary. The Tests section is the executable proof of the contract. A reader who knows nothing about the implementation should be able to predict, from the spec alone, what the system does for any reasonable input.
+A complete spec MUST describe the exact observable behavior of the finished system — not a sketch, not a happy-path summary. The **Behavior Table** is the reviewer's scannable proofing surface (one row per scenario, including `undefined` rows for scenarios the source did not resolve), and the **Tests** section is the executable proof of the contract. A reader who knows nothing about the implementation should be able to predict, from the spec alone, what the system does for any reasonable input — or, where behavior is genuinely undecided, find it flagged as `undefined` rather than silently guessed.
 
 This is valuable for two reasons:
 
@@ -218,6 +218,7 @@ Create the spec file.
   - **Scope** (in-scope and out-of-scope bullets)
   - **Requirements** (numbered, testable)
   - **Interfaces / Data Shapes** (schemas, signatures, API shapes, where applicable)
+  - **Behavior Table** (REQUIRED — scannable catalog of every scenario, including `undefined` rows; see format below)
   - **Behavior** (step-by-step)
   - **Acceptance Criteria** (verifiable checklist)
   - **Tests** (language-agnostic test cases — REQUIRED section; see format below)
@@ -234,6 +235,35 @@ Create the spec file.
   - `--interactive`: build from user-collected answers in Step 5
 - If a "Key Design Decisions" section was generated in Step 4, insert it above "Related Artifacts"
 - Save the file
+
+**Behavior Table format** (REQUIRED — the reviewer's proofing surface):
+
+The Behavior Table is a scannable catalog of every scenario the spec covers. The reviewer reads it top-to-bottom and flags any row whose `Expected Behavior` doesn't match their expectation, or any scenario they care about that isn't present. It is designed for **low cognitive load**: short rows, plain English, no jargon, no code.
+
+Every scenario the agent considered MUST appear as a row — including scenarios the agent could not resolve from the input artifacts. Unresolved scenarios are marked `undefined` in the `Expected Behavior` column and linked to an Open Question. This is the whole point: surfacing "we don't know" explicitly is more valuable than quietly guessing.
+
+```markdown
+## Behavior Table
+
+| # | Scenario | Expected Behavior | Tests |
+|---|----------|-------------------|-------|
+| 1 | <short plain-English trigger/input> | <short plain-English outcome> | `<test-name-1>`, `<test-name-2>` |
+| 2 | <another scenario> | <outcome> | `<test-name-3>` |
+| 3 | <scenario source did not resolve> | `undefined` | → [OQ-1](#open-questions) |
+| 4 | <edge-case scenario> | <outcome> | `<edge-test-name>` |
+```
+
+**Rules for the Behavior Table**:
+- Exactly four columns: `#`, `Scenario`, `Expected Behavior`, `Tests`
+- One row per distinct scenario the spec covers
+- `Scenario` is a short plain-English description of the trigger or input class (≤ ~12 words; no code, no schemas — those live in the Tests section)
+- `Expected Behavior` is a short plain-English description of what the system does (≤ ~15 words) OR the literal bolded word `undefined` if the behavior has not been decided
+- `Tests` lists the kebab-case test names from the Tests section (comma-separated), OR `→ [OQ-N](#open-questions)` for undefined rows (linking to the corresponding Open Question), OR `—` if truly N/A
+- Every test in the Tests section MUST appear in at least one row's `Tests` column (no orphan tests)
+- Every row with `undefined` MUST have a matching Open Question (no orphan undefineds)
+- Add `undefined` rows aggressively for anything the source artifacts did not resolve — these are the highest-value rows for catching misunderstandings before code is written
+- The table is not a replacement for the Tests section — it is a scannable index. Tests hold the rigorous Given/When/Then; the table points at them.
+- Row order: typically happy-path rows first, then bad-path rows, then edge-case rows, then `undefined` rows last — but any ordering that aids scanning is fine
 
 **Tests section format** (REQUIRED — language-agnostic; implementations translate these into their test framework):
 
@@ -396,11 +426,15 @@ After successful creation, offer to add the new spec to the index (if `agent/ind
 - [ ] Spec file created at `agent/specs/{namespace}.{spec-name}.md`
 - [ ] Directive header present and correctly filled in
 - [ ] Source and unresolved items captured in Open Questions
+- [ ] **Behavior Table present with four columns (`#`, `Scenario`, `Expected Behavior`, `Tests`) and one row per scenario**
+- [ ] Every test in the Tests section appears in at least one Behavior Table row (no orphan tests)
+- [ ] Every `undefined` row has a matching Open Question (no orphan undefineds)
+- [ ] Unresolved scenarios are marked `undefined` in the table — never guessed
 - [ ] **Tests section present, language-agnostic, with both `### Base Cases` and `### Edge Cases` subsections**
 - [ ] Each test has `Given` / `When` / `Then` and ≥1 assertion; multi-assertion tests used where appropriate
 - [ ] **Coverage spans all four dimensions: happy path, bad path, positive assertions, negative assertions**
 - [ ] Every Requirement is covered by ≥1 test via `(covers Rn)` annotation; every test traces back to a requirement
-- [ ] Behaviors the agent could not confidently derive are in Open Questions, NOT guessed into tests
+- [ ] Behaviors the agent could not confidently derive are in Open Questions AND flagged as `undefined` rows in the Behavior Table, NOT guessed into tests
 - [ ] `package.yaml` updated (if package)
 - [ ] `README.md` updated (if applicable)
 - [ ] Spec artifacts committed via `@git.commit` (MANDATORY — skip only if `--no-commit`)
@@ -568,7 +602,8 @@ Next steps:
 - Unresolved items from the source are carried into **Open Questions** rather than guessed — preserving the distinction between "decided" and "undecided" is the whole point of a spec
 - The **Tests** section is the executable contract of the spec: language-agnostic, Given/When/Then, one or more named assertions per test. Implementations in any language (Python, TypeScript, Go, Rust, shell, etc.) must be able to translate each test and each assertion directly into their own test framework without re-interpreting intent.
 - Prefer **multiple assertions per test** when a single action produces multiple observable outcomes — splitting them into separate tests duplicates setup and obscures that the outcomes come from the same operation
-- The spec is meant to be **proofed** by the user before any code is written — the user reads each test and confirms "yes, that is what I want to happen." If a scenario the user cares about isn't in the Tests section, the spec is incomplete. Fix the spec before starting implementation; that is the entire point.
+- The spec is meant to be **proofed** by the user before any code is written. The **Behavior Table** is the primary proofing surface — the user scrolls through the rows, confirms each `Expected Behavior` matches what they want, and flags any row that doesn't. `undefined` rows are the most valuable: they surface gaps the agent could not resolve, exactly where the user's judgment is needed. Only after the Behavior Table is approved does the reviewer dive into the Tests section for rigor.
+- If a scenario the user cares about isn't in the Behavior Table, the spec is incomplete. Fix the spec before starting implementation; that is the entire point.
 - Once the user has signed off, **TDD from the spec is mechanical**: translate each `#### Test:` into a test function in the target framework, translate each assertion slug into an `assert`/`expect` call with the same name, run the suite, watch it fail, implement, watch it pass. No design decisions happen during coding — they have all been made in the spec.
 - A spec that only covers the happy path is a draft. The Base/Edge split and the happy/bad/positive/negative coverage requirements exist specifically to prevent happy-path-only specs from shipping.
 

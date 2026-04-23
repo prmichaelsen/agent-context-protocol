@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.32.0] - 2026-04-23
+
+### Added
+- **Behavior Table** section added to the `@acp.spec` default structure and `agent/specs/spec.template.md` — a scannable 4-column catalog (`#`, `Scenario`, `Expected Behavior`, `Tests`) that serves as the reviewer's primary proofing surface
+- `` `undefined` `` convention (code-literal) for Behavior Table rows where the source artifacts did not resolve a scenario — surfaces ambiguity explicitly instead of silently guessing
+- `OQ-N` Open Question identifiers, cross-referenced from Behavior Table rows via `→ [OQ-N](#open-questions)` links
+- Behavior Table integrity rules: every test in the Tests section must appear in at least one row's `Tests` column (no orphan tests); every `undefined` row must have a matching Open Question (no orphan undefineds)
+- Full worked example in the template showing 7 defined rows + 3 `undefined` rows for a login endpoint, demonstrating happy → bad → edge → undefined row-ordering convention
+
+### Changed
+- `@acp.spec` Core Principle now frames the Behavior Table as the reviewer's primary proofing surface and the Tests section as the executable proof of the contract
+- Verification checklist in `@acp.spec` enforces Behavior Table presence, orphan-test prevention, and orphan-`undefined` prevention
+
 ## [5.31.0] - 2026-04-22
 
 ### Added
