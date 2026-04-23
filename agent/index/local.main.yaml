@@ -96,3 +96,15 @@ local:
         Required context when implementing or modifying the index system,
         especially for path: null entry support.
       applies: acp.proceed, acp.plan, acp.task-create
+
+    - path: agent/design/local.acp-code-design.md
+      weight: 0.7
+      kind: design
+      description: |
+        Design specification for acp-code — a proposed Python fork of ACP
+        with SQLite + events.jsonl persistence, VSCode-style plugin system,
+        library-first with MCP/CLI/REST adapters.
+      rationale: |
+        Required context for any work bootstrapping or evolving acp-code.
+        Synthesizes all decisions from clarification-14.
+      applies: acp.design-create, acp.plan, acp.proceed, acp.task-create
