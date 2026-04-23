@@ -16,7 +16,7 @@ The document covers ACP's enforcement mechanism, methodology, supporting infrast
 
 If you've watched an AI agent build code unattended for more than an hour, you've probably watched it confidently build the wrong thing. Hour one is great. By hour three, somehow half the codebase uses Postgres and the other half uses SQLite, and the agent doesn't remember why. The model didn't get dumber — its state did.
 
-This is the problem **agent harnesses** exist to solve, and most developers haven't heard of the category yet. This document introduces it through one specific harness, the **Agent Context Protocol** (ACP). The point isn't to sell ACP — it's to use ACP as a concrete example of what an agent harness is and what it's for.
+This document introduces **agent harnesses** — the category of tooling that exists to solve this, and one most developers haven't heard of — and uses one specific harness, the **Agent Context Protocol** (ACP), as a concrete example of what one is and what it's for.
 
 ---
 
@@ -188,3 +188,21 @@ The agent harness category exists because long-running agents need durable, stru
 That bet rests on a deeper one: **the bottleneck in agent-driven development is not the agent's capability — it's the human's clarity.** When an autonomous agent ships the wrong thing, it's almost always because nobody specified the right thing precisely enough. ACP front-loads almost all of its machinery against that bottleneck — clarification documents, designs, specs with Behavior Tables, planning artifacts that are self-contained capsules — so that by the time `@acp.proceed` runs, the agent is executing a contract, not improvising.
 
 This reframes the AI-coding debate productively. *"Is my agent good enough?"* becomes *"is my spec good enough?"* — a question developers have been answering, with steadily improving tools, for half a century. Agent harnesses are the next move in that tradition. ACP is one opinionated answer to what that move should look like.
+
+---
+
+## Footnote
+
+As laid out in the prophetic *Office Space*, software is primarily a function of translating customer requirements into a hardened spec, and then translating that spec into machine-executable scripts:
+
+> **Bob Slydell**: *"What you do at Initech is you take the specifications from the customer and bring them down to the software engineers?"*
+>
+> **Tom**: *"Yes, yes that's right."*
+
+> **Bob Porter**: *"Well then I just have to ask, why can't the customers take them directly to the software people?"*
+>
+> **Tom**: *"Well, I'll tell you why, because... engineers are not good at dealing with customers."*
+
+> **Tom**: *"I deal with the gosh darn customers so the engineers don't have to! I have people skills! I am good at dealing with people! Can't you understand that?! What the heck is wrong with you people?!"*
+
+Twenty-seven years on, an agent harness defines a modern requirements translation workflow — and the agent is the engineer who is handed the spec. From there, the task is context-loss-proof orchestration.
