@@ -5,6 +5,15 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.33.0] - 2026-04-23
+
+### Changed
+- `@acp.clarification-create` now instructs the agent to **default to a strong recommendation in yes/no form** on every question it can take a stance on. Old guidance said recommendations were optional and "do NOT force a recommendation when neither option is clearly better" — new guidance flips this: a confident recommendation the user rejects with one keystroke (`n`) is cheaper than a neutral question that forces them to write a sentence. Wishy-washy hedging is explicitly banned; if a rationale takes more than one clause, the question belongs in `@acp.clarification-address` for research instead.
+- **Answer-effort principle** added to `@acp.clarification-create`: long clarifications are fine, but long *user replies* mean the questions were authored poorly. Goal is that the user can work through the whole document typing mostly just `y` / `n`, writing prose only where they want to override the recommendation.
+- Multi-option per-item clarification format now requires an explicit `recommend: yes` / `recommend: no` on each bullet so users can accept or override each independently with a single keystroke.
+- Prose-answer questions now explicitly reserved for genuinely open-ended fields (names, descriptions, free-text context); anything else should be re-framed as y/n with a recommendation.
+- `@acp.clarification-create` version bumped 1.0.0 → 1.1.0 to reflect the behavior change.
+
 ## [5.32.0] - 2026-04-23
 
 ### Added
