@@ -108,3 +108,16 @@ local:
         Required context for any work bootstrapping or evolving acp-code.
         Synthesizes all decisions from clarification-14.
       applies: acp.design-create, acp.plan, acp.proceed, acp.task-create
+
+    - path: agent/specs/local.acp-code-plugin-api.md
+      weight: 0.8
+      kind: spec
+      description: |
+        Spec for the acp-code PluginAPI contract — the capability object
+        plugins receive, four-hook lifecycle, identity binding, table
+        namespacing, scoped queries, and event write path.
+      rationale: |
+        Required reading before implementing any plugin-framework code
+        in acp-code. Defines the contract that every plugin author
+        codes against.
+      applies: acp.spec, acp.task-create, acp.proceed, acp.plan
