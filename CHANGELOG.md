@@ -5,6 +5,23 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.34.0] - 2026-04-24
+
+### Added
+- **`--stacked` flag** for `@acp.proceed` — completes an entire milestone using a chain of stacked worktrees. Task N's worktree branches from Task N-1's worktree, building up changes incrementally. Nothing merges to main until the user approves at the end, giving the user a single approval gate for the whole milestone
+- Branch naming convention for stacked worktrees: `acp/stack/{milestone-slug}/task-{id}`
+- Worktree directory convention: `.claude/worktrees/stack/{milestone-slug}/task-{id}/` (follows Claude Code's existing `<repo>/.claude/worktrees/` convention)
+- Section A11 (Stacked Worktree Mode) in `@acp.proceed`: full workflow covering chain creation, per-task `@git.commit`, final merge approval prompt (`merge` / `diff` / `abort`), cleanup after merge, and halt-and-preserve on failure
+- `--dag` / `--graph` future flags documented (parallel-within-stack using `@acp.plan` dependencies) — not yet implemented
+- NLP matching for stacked mode: `stack`, `stacked`, `stack the milestone`, `chain worktrees` keywords
+- Examples 8-9 in `@acp.proceed`: stacked mode, stacked + yolo
+
+### Changed
+- `@acp.proceed` version 2.0.0 → 2.1.0 (new execution mode)
+- `--stacked` implies `--complete --worktrees` and is mutually exclusive with `--parallel` (stacked is inherently sequential)
+- Final merge to main uses regular merge (preserves per-task atomic commits) — explicitly not squash
+- Failure mid-stack halts execution and **preserves the entire worktree chain** so the user can inspect or resume
+
 ## [5.33.0] - 2026-04-23
 
 ### Changed

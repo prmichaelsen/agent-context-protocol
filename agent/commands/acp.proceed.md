@@ -21,6 +21,13 @@
 > - If `--noworktreemerge` / `--holdmerge` / `--safemerge` / `--safe` is present, do NOT auto-merge worktrees; prompt user before each merge (see A10). Only relevant with `--worktrees`.
 > - Do NOT start implementing individual tasks until confirmation is received (unless `--yes`).
 >
+> **If `--stacked` detected:**
+> - Follow **Stacked Worktree Mode** section (A11).
+> - Implies `--complete` (full milestone) and `--worktrees` (isolation).
+> - Tasks execute sequentially in a chain of stacked worktrees — each task branches from the previous task's worktree.
+> - **Never merges to main until the entire stack is complete and the user approves.**
+> - Combinable with `--yolo` (skip confirmation).
+>
 > **If `--dry-run` detected:**
 > - Follow **Autonomous Mode > Dry-Run** section.
 > - Show what would be done, then exit.
@@ -33,9 +40,9 @@
 > **This is an ACTION command, not a STATUS command.**
 
 **Namespace**: acp  
-**Version**: 2.0.0  
+**Version**: 2.1.0  
 **Created**: 2026-02-16  
-**Last Updated**: 2026-02-28  
+**Last Updated**: 2026-04-24  
 **Status**: Active  
 **Scripts**: None  
 
@@ -86,6 +93,14 @@ This command supports both CLI-style flags and natural language arguments.
 | `--yes` | Skip the confirmation prompt (A2) and begin execution immediately |
 | `--dry-run` | Preview what tasks would be completed without executing |
 | `--noworktreemerge` | Do not auto-merge worktrees when sub-agents complete; prompt for permission before each merge (see A10). Only meaningful with `--worktrees` |
+| `--stacked` | Complete entire milestone using stacked worktrees — each task branches from the previous. Never merges to main until user approves. Implies `--complete --worktrees`. See **Stacked Worktree Mode** (A11) |
+
+#### Future Flags (not yet implemented)
+
+| Flag | Description |
+|------|-------------|
+| `--dag` | Parallel-within-stack using plan dependencies. Same stacked worktree model but independent tasks fan out concurrently. Requires `@acp.plan` dependency graph |
+| `--graph` | Same as `--dag` |
 
 #### `--noworktreemerge` Aliases (all equivalent)
 
@@ -124,12 +139,16 @@ The agent should detect autonomous intent from natural language following `@acp.
 | `@acp.proceed --yolo --worktrees --safe` | Autonomous parallel worktrees, prompt before each merge |
 | `@acp.proceed --yolo hold merge` | Same as `--yolo --worktrees --safe` (NLP) |
 | `@acp.proceed --yolo wait before merging` | Same as `--yolo --worktrees --safe` (NLP) |
+| `@acp.proceed --stacked` | Stacked worktree mode (full milestone) |
+| `@acp.proceed --yolo --stacked` | Stacked worktree mode, skip confirmation |
+| `@acp.proceed stack the milestone` | Stacked worktree mode (NLP) |
 | `@acp.proceed` | Single-Task (default) |
 
 **Matching rules**:
 - Look for keywords: `complete`, `finish`, `auto`, `autonomous`, `all tasks`, `everything`, `milestone`, `turbo`, `yolo`
 - Look for `--worktrees` keywords: `worktree`, `worktrees`, `use worktrees`, `with worktrees`
 - Look for `--noworktreemerge` keywords: `safe`, `hold merge`, `wait before merging`, `pause before merge`, `defer merge`, `don't auto-merge`, `gate merge`, `prompt before merge`, `no auto merge` — these **imply `--worktrees`** (you can't gate merges without worktrees)
+- Look for `--stacked` keywords: `stack`, `stacked`, `stack the milestone`, `stacked worktrees`, `use stacked`, `chain worktrees` — these imply `--complete --worktrees`
 - Be generous with matching — if the user's intent is clearly "do everything", enter autonomous mode
 - When in doubt, **always show the confirmation prompt** before starting autonomous execution
 - Never enter autonomous mode silently — the confirmation gate is mandatory
@@ -147,6 +166,9 @@ The agent should detect autonomous intent from natural language following `@acp.
 | `--yolo --parallel --worktrees` | Full autonomous parallel with worktree sub-agents |
 | `--yolo --worktrees --safe` | Autonomous parallel worktrees, but prompt user before each merge |
 | `--complete --parallel --worktrees --safe` | Autonomous parallel worktrees with merge gating |
+| `--stacked` | Stacked worktree mode — sequential tasks, each branching from previous, no merge to main until approved |
+| `--yolo --stacked` | Stacked worktree mode, skip confirmation |
+| `--stacked --dry-run` | Preview stacked task list, no execution |
 | `--complete --dry-run` | Preview task list, no execution |
 | `--dry-run` (alone) | Preview next task only |
 | `--commit` (alone) | Single-task mode, commit after completion |
@@ -750,6 +772,121 @@ When `--noworktreemerge` (or any alias: `--holdmerge`, `--safemerge`, `--safe`) 
 
 **`--safe` only gates the final worktree-to-main merge step.**
 
+### A11. Stacked Worktree Mode (`--stacked`)
+
+When `--stacked` is active, the agent completes the entire milestone using a chain of stacked worktrees. Each task branches from the previous task's worktree, building up changes incrementally. **Nothing merges to main until the full stack is complete and the user approves.**
+
+**What `--stacked` implies**: `--complete` (full milestone) + `--worktrees` (isolation). You cannot use `--stacked` with `--parallel` (stacked is inherently sequential; `--dag`/`--graph` will add parallel-within-stack in the future).
+
+**Why this exists**: Stacked mode lets the user proof the entire milestone's work before it touches main. Each task gets its own atomic commit, the worktree chain preserves full history, and the user has a single approval gate before anything lands.
+
+#### Worktree Chain Structure
+
+```
+main (untouched)
+ └─ acp/stack/{milestone-slug}/task-{id-1}     ← Task 1 branches from main
+     └─ acp/stack/{milestone-slug}/task-{id-2}  ← Task 2 branches from Task 1
+         └─ acp/stack/{milestone-slug}/task-{id-3}  ← Task 3 branches from Task 2
+             └─ ...
+```
+
+**Branch naming**: `acp/stack/{milestone-slug}/task-{id}` (e.g., `acp/stack/m6-preferences/task-37`)
+
+**Worktree directory**: `.claude/worktrees/stack/{milestone-slug}/task-{id}/`
+
+#### Stacked Task Loop
+
+```
+1. SCAN remaining tasks in current milestone (same as A1)
+
+2. SHOW confirmation prompt (same as A2, with "Stacked Worktree Mode" label)
+   - If --yolo, skip confirmation
+
+3. CREATE first worktree branching from current branch:
+   - git worktree add .claude/worktrees/stack/{milestone-slug}/task-{id-1} -b acp/stack/{milestone-slug}/task-{id-1}
+
+4. FOR each remaining task in planned order:
+
+   a. If this is NOT the first task:
+      - CREATE worktree branching from the PREVIOUS task's branch:
+        git worktree add .claude/worktrees/stack/{milestone-slug}/task-{id-N} -b acp/stack/{milestone-slug}/task-{id-N} acp/stack/{milestone-slug}/task-{id-N-1}
+
+   b. IMPLEMENT the task in its worktree
+      - Same implementation approach as A3 steps 2-4 (implement, verify, check failure)
+      - All file operations happen in the worktree directory
+
+   c. RUN @git.commit in the worktree
+      - Version bump, changelog, progress updates — identical to normal autonomous mode
+      - Commit lands on the task's branch within the worktree
+
+   d. DISPLAY progress indicator (same as A5, with "stacked" label)
+
+   e. CONTINUE to next task
+
+END FOR
+```
+
+#### Final Merge Approval
+
+After all tasks complete, the tip of the stack (last task's branch) contains the cumulative result of the entire milestone.
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Stacked Worktree Mode — Stack Complete
+
+  M{X}: {Milestone Name}
+  Tasks completed: {N}/{N}
+  Commits: {N} (on stacked branches, not on main)
+
+  Stack tip: acp/stack/{milestone-slug}/task-{last-id}
+  Worktree: .claude/worktrees/stack/{milestone-slug}/task-{last-id}/
+
+  Main branch is untouched. To land these changes:
+    → Reply "merge" to merge the stack into main
+    → Reply "diff" to review the cumulative diff first
+    → Reply "abort" to discard the entire stack
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**On "merge"**: Merge the tip-of-stack branch into main (regular merge, preserving all per-task atomic commits). Then clean up all stacked worktrees and branches.
+
+**On "diff"**: Show `git diff main...acp/stack/{milestone-slug}/task-{last-id}` so the user can review the full cumulative change. Then re-prompt for merge/abort.
+
+**On "abort"**: Remove all stacked worktrees and delete all stacked branches. Main is untouched.
+
+#### Cleanup
+
+After a successful merge to main:
+1. Remove all worktree directories: `git worktree remove .claude/worktrees/stack/{milestone-slug}/task-{id}` for each task
+2. Delete all stacked branches: `git branch -d acp/stack/{milestone-slug}/task-{id}` for each task
+3. Report cleanup complete
+
+#### Failure Handling
+
+If a task fails mid-stack:
+1. **HALT** — do not continue to the next task
+2. **Preserve the entire worktree chain** — do not clean up
+3. Display the summary report (A6) with stacked context:
+   ```
+   ⚠️  Stacked run halted at Task {id}: {name}
+
+   Reason: {clear explanation}
+
+   Completed in stack (not on main):
+     ✅ Task {id}: {name} — acp/stack/{slug}/task-{id}
+     ✅ Task {id}: {name} — acp/stack/{slug}/task-{id}
+
+   Failed:
+     ❌ Task {id}: {name} — .claude/worktrees/stack/{slug}/task-{id}/
+
+   The worktree chain is preserved. You can:
+     → Inspect the failed worktree at the path above
+     → Reply "resume" to retry the failed task
+     → Reply "abort" to discard the entire stack
+   ```
+4. Wait for user guidance
+
 ---
 
 ## Verification
@@ -780,6 +917,20 @@ When `--noworktreemerge` (or any alias: `--holdmerge`, `--safemerge`, `--safe`) 
 - [ ] No push until end of run
 - [ ] Summary report displayed at end
 - [ ] Halted correctly on any failures (no partial commits)
+
+### Stacked Worktree Mode
+- [ ] `--stacked` detected (flag or NLP)
+- [ ] First worktree created branching from current branch
+- [ ] Each subsequent worktree branches from the previous task's branch
+- [ ] Branch naming follows `acp/stack/{milestone-slug}/task-{id}` pattern
+- [ ] Worktrees created in `.claude/worktrees/stack/{milestone-slug}/task-{id}/`
+- [ ] Tasks executed sequentially in their respective worktrees
+- [ ] `@git.commit` ran per-task within each worktree
+- [ ] Main branch untouched throughout entire run
+- [ ] Final merge approval prompt shown after all tasks complete
+- [ ] Merge preserves atomic per-task commits (no squash)
+- [ ] All worktrees and branches cleaned up after successful merge
+- [ ] On failure: halted, worktree chain preserved, user prompted
 
 ---
 
@@ -931,6 +1082,22 @@ Estimated: 3 hours
 
 **Result**: Sub-agents spin up on worktrees and work in parallel. When each finishes, instead of auto-merging, the agent notifies you and waits. You reply "merge" when no other agent is mid-merge, ensuring clean sequential merges.
 
+### Example 8: Stacked Worktree Mode
+
+**Context**: Milestone M6 has 8 tasks. You want the agent to complete them all, but nothing should touch main until you've reviewed the result.
+
+**Invocation**: `@acp.proceed --stacked`
+
+**Result**: Agent creates a chain of worktrees — Task 37 branches from main, Task 38 branches from Task 37, etc. Each task gets an atomic commit in its worktree. After all 8 tasks complete, the agent shows the stack summary and waits. You reply "diff" to review, then "merge" to land all 8 commits on main. Worktrees and branches are cleaned up automatically.
+
+### Example 9: Stacked Yolo
+
+**Context**: Same as above, but you trust the agent and don't need the confirmation prompt.
+
+**Invocation**: `@acp.proceed --yolo --stacked`
+
+**Result**: Skips confirmation, immediately starts the stacked worktree chain. Still waits for merge approval at the end — `--yolo` skips the start confirmation, not the final merge gate.
+
 ---
 
 ## Related Commands
@@ -1000,7 +1167,7 @@ Estimated: 3 hours
 ### File Access
 - **Reads**: `agent/progress.yaml`, task documents, design documents, AGENT.md, CHANGELOG.md
 - **Writes**: `agent/progress.yaml`, task-specific files, AGENT.md (version), CHANGELOG.md (entries)
-- **Executes**: May execute commands as specified in task steps (e.g., `npm test`, `npm run build`), git commands for commits
+- **Executes**: May execute commands as specified in task steps (e.g., `npm test`, `npm run build`), git commands for commits and worktree management (`git worktree add/remove`, `git branch -d`)
 
 ### Network Access
 - **APIs**: May make API calls if task requires it
@@ -1022,6 +1189,8 @@ Estimated: 3 hours
 - **Context freshness**: Agent re-reads progress.yaml at start of each task iteration
 - **Interruption**: Agent infers user intent from any messages received during autonomous run
 - **Error policy**: Halt on any failure, never commit partial work, always seek user guidance
+- **`--stacked` mode**: Complete milestone in stacked worktrees — each task branches from the previous, nothing merges to main until user approves. Implies `--complete --worktrees`
+- **`--stacked` is mutually exclusive with `--parallel`**: Stacked is sequential. Future `--dag`/`--graph` flags will add parallel-within-stack using plan dependencies
 - Task execution may create, modify, or delete files as specified in task documents
 - Use `@acp.status` first to see which task is current
 - Update progress.yaml manually if command doesn't complete successfully
@@ -1030,9 +1199,9 @@ Estimated: 3 hours
 
 **Namespace**: acp  
 **Command**: proceed  
-**Version**: 2.0.0  
+**Version**: 2.1.0  
 **Created**: 2026-02-16  
-**Last Updated**: 2026-02-28  
+**Last Updated**: 2026-04-24  
 **Status**: Active  
 **Compatibility**: ACP 5.0.0+  
 **Author**: ACP Project  

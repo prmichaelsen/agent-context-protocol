@@ -39,7 +39,15 @@
       "Bash(git log:*)",
       "Bash(mkdir -p agent/artifacts)",
       "Bash(mv agent/artifacts.template.md/*.md agent/artifacts/)",
-      "Bash(rmdir agent/artifacts.template.md)"
+      "Bash(rmdir agent/artifacts.template.md)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//home/prmichaelsen/.acp/projects/agent-context-protocol/**)",
+      "Bash(done)",
+      "Bash(git stash:*)",
+      "Bash(gh run:*)",
+      "Bash(gh auth *)",
+      "Bash(git -C /home/prmichaelsen/.acp/projects/acp-code log --oneline -5)"
     ]
   }
 }
