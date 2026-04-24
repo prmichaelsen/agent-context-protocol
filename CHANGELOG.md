@@ -5,6 +5,21 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.35.0] - 2026-04-24
+
+### Added
+- **`-i` / `--interactive` flag** for `@acp.clarification-create` — one-question-at-a-time chat mode, distinct from the default chat-based mode that still generates a file
+- Explicit "Interactive Mode" section documenting the transient-by-default behavior
+
+### Changed
+- `@acp.clarification-create` interactive mode is now **transient by default** — no file gets written unless the user explicitly asks ("save this as a clar", "write the file", "persist this"). Clarifications feed directly into the next command via chat context
+- Step 5 (Generate Questions) now branches three ways: file-based (`--file`), chat-based (default, generates file), interactive (`-i`, no file unless requested)
+- `@acp.clarification-create` version 1.1.0 → 1.2.0 (new mode)
+
+### Rationale
+- Pre-generating 20+ questions forces the user to context-switch through the whole document before any feedback loop. One-at-a-time lets the agent adapt — if an answer reveals a misunderstanding, the agent can correct course on the next question instead of committing everything to a file
+- Most clarifications are transient (used once to reach alignment, then consumed by the next command), so default file-generation is wasted work
+
 ## [5.34.0] - 2026-04-24
 
 ### Added

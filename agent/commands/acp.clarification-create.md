@@ -5,9 +5,9 @@
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
 **Namespace**: acp  
-**Version**: 1.1.0  
+**Version**: 1.2.0  
 **Created**: 2026-02-25  
-**Last Updated**: 2026-04-23  
+**Last Updated**: 2026-04-24  
 **Status**: Active  
 
 ---
@@ -24,17 +24,43 @@
 - `--file <path>` or `-f <path>` - Path to source file to analyze for clarifications
 - `--title <title>` or `-t <title>` - Title for the clarification document
 - `--auto` or `-a` - Automatically generate questions without user review
+- `--interactive` or `-i` - **One-question-at-a-time chat mode** (see "Interactive Mode" below). Can be combined with a topic string: `-i "topic description"`
 
 **Natural Language Arguments**:
 - `@acp.clarification-create from draft file` - Analyze draft and create clarifications
 - `@acp.clarification-create for feature X` - Create clarifications about feature X
-- `@acp.clarification-create` - Interactive mode (no file)
+- `@acp.clarification-create` - Chat-based mode (agent asks for topic, then generates full file)
+- `@acp.clarification-create -i "topic"` - One-question-at-a-time interactive mode
 
 **Argument Mapping**:
 The agent infers intent from context:
-- If file path mentioned → Read and analyze that file
-- If topic mentioned → Create clarifications about that topic
-- If no arguments → Interactive chat-based clarification creation
+- If `-i` or `--interactive` present → **One-question-at-a-time mode** (see below). Do NOT generate the file upfront.
+- If file path mentioned → Read and analyze that file, generate full file
+- If topic mentioned (no `-i`) → Create clarifications about that topic, generate full file
+- If no arguments → Chat-based mode (asks for topic, generates full file)
+
+### Interactive Mode (`-i` / `--interactive`) — One Question at a Time
+
+**Critical behavior**: In interactive mode, the agent does **NOT** generate a clarification file. Clarifications are transient by default — the Q&A happens in chat and the answers feed directly into whatever comes next (impl, design update, task creation).
+
+1. The agent presents **one question at a time in chat**, each with a strong y/n recommendation (per the Answer-effort principle).
+2. The user answers with `y`, `n`, or a short override in prose.
+3. Based on the answer, the agent either:
+   - Asks the next question (may branch based on previous answers)
+   - Drills deeper into a sub-decision the previous answer raised
+   - Summarizes accumulated answers and awaits direction
+4. The agent **does NOT write a file unless the user explicitly asks** ("save this as a clar", "write the file", "persist this", etc.). Skip Step 6 (Create Clarification File) by default.
+
+**Why this mode exists**: Pre-generating 20+ questions forces the user to context-switch through the whole document before any feedback loop. One-at-a-time lets the agent adapt — if the user's answer reveals a misunderstanding, the agent can correct course on the next question instead of committing everything to a file. And since most clarifications are transient (used once to reach alignment, then consumed by the next command), there's no value in writing a file by default.
+
+**What NOT to do in interactive mode**:
+- ❌ Generate the clarification file first, then "discuss" it
+- ❌ Generate the file at the end unless the user explicitly asks
+- ❌ Batch multiple questions into one chat turn
+- ❌ Skip the recommendation — each question must still lead with a y/n recommendation
+- ❌ Ask open-ended "what do you think about X?" questions when a y/n with a recommendation is possible
+
+**When to write the file**: Only when the user explicitly says to persist the clarification ("save this", "write the file", "make a clar out of this"). Otherwise, the accumulated answers live in chat context and get applied directly to the user's next request.
 
 ---
 
@@ -67,7 +93,8 @@ Use this command when you need to gather detailed information about ambiguous re
   Create clarification documents from file input or chat to gather detailed requirements
 
   Usage:
-    @acp.clarification-create                      Interactive mode
+    @acp.clarification-create                      Chat-based mode (asks topic, generates file)
+    @acp.clarification-create -i "topic"           One-question-at-a-time in chat
     @acp.clarification-create --file <path>        Analyze source file
     @acp.clarification-create -t <title>           Set clarification title
     @acp.clarification-create --auto               Auto-generate questions
@@ -227,12 +254,23 @@ Create structured questions organized by topic:
 - Organize by logical topic areas
 - Reference specific sections of source file
 
-**If interactive mode**:
+**If chat-based mode (no `-i` flag)**:
 - Ask user: "What topics need clarification?"
 - Generate questions based on user's description
 - Aim for 5-15 questions initially
+- Write the full file when questions are ready
 
-**Expected Outcome**: Structured questions generated  
+**If interactive mode (`-i` / `--interactive`)** — one question at a time, transient by default:
+- Do NOT generate the file. Do NOT batch questions.
+- Present **one question per chat turn**, each with a strong y/n recommendation
+- Branch based on answers: if an answer opens a sub-decision, drill into it before returning to the main thread
+- Keep a running internal list of accumulated Q&A in chat context
+- After ~8-20 questions (or when the user says "that's enough" / "go"), summarize accumulated answers and await direction
+- **Skip Step 6 (Create Clarification File) by default** — clarifications are transient; the Q&A feeds directly into the user's next request
+- Only write the file if the user explicitly asks ("save this as a clar", "write the file", "persist this")
+- Questions still follow the y/n recommendation format — interactive mode is not permission to ask open-ended questions
+
+**Expected Outcome**: Structured questions generated (chat-based / file-based) OR accumulated transient Q&A from interactive session (no file unless requested)  
 
 ### 6. Create Clarification File
 
@@ -454,9 +492,9 @@ Status: Awaiting Responses
 
 **Namespace**: acp  
 **Command**: clarification-create  
-**Version**: 1.1.0  
+**Version**: 1.2.0  
 **Created**: 2026-02-25  
-**Last Updated**: 2026-04-23  
+**Last Updated**: 2026-04-24  
 **Status**: Active  
 **Compatibility**: ACP 4.0.0+  
 **Author**: ACP Project  
