@@ -67,6 +67,42 @@ Load all design documents to understand documented architecture.
 
 **Expected Outcome**: Documented architecture understood  
 
+### 1.5. Read Spec Documents
+
+Load all formal specifications to understand the requirement surface.
+
+**Actions**:
+- Check if `agent/specs/` directory exists. If not, skip this step silently.
+- Read all files in `agent/specs/`.
+- For each spec:
+  - Parse the `## Requirements` section. Extract every `R<N>` with its one-line description.
+  - Parse the `## Behavior Table` (or `## Behavior`) section if present. Extract named scenarios.
+  - Parse the `## Tests` section if present.
+- Build an inventory of every R<N> requirement across all specs, keyed by spec path.
+
+**Expected Outcome**: Complete spec requirement inventory (list of every R<N> in every spec)  
+
+### 1.6. Cross-Reference Specs with Task Claims
+
+Determine which spec requirements are claimed by which tasks, and flag unclaimed ones.
+
+**Actions**:
+- For each task in `agent/tasks/**/*.md`, parse its `## Spec Coverage` section (if present). Extract:
+  - The `Source:` spec path
+  - Every `R<N>` listed under "Covered requirements"
+  - Every behavior scenario listed under "Covered behaviors"
+- Build a claims inventory: `{ spec_path → { R<N>: [task_paths] } }`
+- Compare against the requirement inventory from Step 1.5. Classify each R<N> as:
+  - **Claimed** — at least one task claims it in its Spec Coverage
+  - **Unclaimed** — in the spec but in no task's Spec Coverage
+  - **Duplicated** — claimed by more than one task (possibly intentional; flag for review)
+- Classify each claimed requirement further:
+  - **Implemented** — a grep or code inspection finds an implementation
+  - **Unimplemented** — claimed by a completed task but no matching implementation in code
+  - **Partial** — some aspects implemented, others missing
+
+**Expected Outcome**: Traceability map of spec R<N> → task claims → implementation status  
+
 ### 2. Read Task Documents
 
 Review task documents to understand documented implementation approach.
@@ -129,8 +165,14 @@ Identify discrepancies between docs and code.
   - **Research artifacts**: Verify findings still apply (technology versions, benchmarks, recommendations)
   - **Glossary artifacts**: Check for new terms in code not in glossary, verify existing definitions
   - **Reference artifacts**: Verify config tables, standards, schemas match current code
+- **Compare spec requirements with implementation** (using the claims map from Step 1.6):
+  - **Unclaimed requirements**: R<N> exists in `agent/specs/` but no task claims it in Spec Coverage. This is a *planning gap* — either a task should be created, or the requirement should be explicitly marked as deferred/out-of-scope in the spec itself.
+  - **Unimplemented claims**: R<N> claimed by a completed task but no implementation found in code. This is *completion drift* — the task was marked done without satisfying the claim.
+  - **Partial claims**: R<N> has some implementation but not all MUST clauses are satisfied.
+  - **Drifted implementations**: Implementation exists and differs from the spec's MUST language (e.g., spec says "must use formula X", code uses formula Y).
+  - **Stale requirements**: Requirement text in spec no longer matches current behavior (spec itself needs updating).
 
-**Expected Outcome**: Documentation drift identified (including implementation details and artifact staleness)  
+**Expected Outcome**: Documentation drift identified (including implementation details, artifact staleness, and spec/task/code traceability gaps)  
 
 ### 6. Identify Stale Documentation
 
@@ -148,9 +190,14 @@ Determine which documents need updates.
   - Glossary artifacts missing new terms from codebase
   - Reference artifacts with incorrect config tables, standards, or schemas
   - Artifacts with Last Verified > 6 months ago
+- **Flag spec drift** (using findings from Step 5):
+  - List every **unclaimed requirement** — these are planning gaps the user should resolve (create a task, defer in spec, or remove if out-of-scope)
+  - List every **unimplemented claim** — these are completion drifts that should re-open their owning task
+  - List every **drifted implementation** — these need a decision: update the spec or update the code
+  - Do NOT auto-update the spec to match drifted code — spec is the source of truth; drift means the code is wrong until the user says otherwise
 - Prioritize updates by importance
 
-**Expected Outcome**: Update priorities established (including artifact refresh needs)  
+**Expected Outcome**: Update priorities established (including artifact refresh needs and spec drift findings)  
 
 ### 7. Update Design Documents
 
@@ -299,6 +346,18 @@ Comparing documentation vs reality...
   1. auth-design.md: Documented OAuth, implemented API keys
   2. data-pattern.md: Example code outdated
   3. api-design.md: Missing /health endpoint documentation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Spec traceability (agent/specs/ ↔ task Spec Coverage ↔ code)...
+✓ 18/23 requirements claimed by tasks and implemented
+⚠️  3 unclaimed requirements (planning gap):
+  - local.gamification.md R20 (Help System) — no task claims it
+  - local.gamification.md R24 (Loot Boxes) — deferred to M11 per notes
+  - local.gamification.md R30 (Notification Limits) — no task claims it
+❌ 2 unimplemented claims (completion drift):
+  - task-18 claims R12 but letter frequency enforcement not found in code
+  - task-21 claims R18a but voice_id is a placeholder, not real ElevenLabs ID
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

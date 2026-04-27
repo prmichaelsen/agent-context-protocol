@@ -5,6 +5,20 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.37.0] - 2026-04-27
+
+### Added
+- **Task template** — new required `User-Observable Acceptance` section in every task. At least one acceptance criterion describing what a user can observe after task completion, or a justified `N/A —` line (≥10 chars of reason) for pure refactors/internal work. Feature tasks must not be N/A.
+- **Task template** — new conditional `Spec Coverage` section. Populated automatically by `@acp.task-create` when a matching spec exists in `agent/specs/`. Lists the `R<N>` requirements this task claims, with each requirement's description copied verbatim from the spec so sub-agents have inline requirement text (no need to open the spec file).
+- **`@acp.task-create` Step 5.6** — cross-references `agent/specs/` for matching specs. Extracts requirement IDs, behaviors, and test names scoped to the task topic.
+- **`@acp.sync` Step 1.5 / 1.6** — reads `agent/specs/` and builds a traceability map: every `R<N>` → which tasks claim it → whether the claim is implemented in code. Steps 5 and 6 now surface unclaimed requirements (planning gaps), unimplemented claims (completion drift), and drifted implementations (code/spec mismatch).
+- **AGENT.md** — new "Specs" core component section (#2), `agent/specs/` added to directory tree, `@acp.spec` mentioned in the new-project workflow.
+
+### Changed
+- **`@acp.proceed` Step 3.5 (Post-Completion Audit)** — substantially expanded from 5 bullet points to a 7-part mechanical audit: (A) re-read task doc, (B) file checks, (C) walk verification checklist with claim verification, (D) audit `User-Observable Acceptance`, (E) audit `Spec Coverage`, (F) produce traceability report, (G) decide with drift-remediation protocol. Orchestrator must not trust sub-agent "done" reports — every claim is mechanically verified.
+- **Drift remediation protocol** — when Step 3.5 finds drift, the orchestrator must: (1) update the task document with a `## Drift Remediation` section listing every drifted item, (2) spawn a mandatory remediation sub-agent with verbatim drift list, (3) re-run Step 3.5 from scratch after the sub-agent reports done. No inline drift fixes; drift becomes a durable artifact in the task doc.
+- **Self-Contained Task Principle** in `@acp.task-create` strengthened from advisory to mandatory: every snippet, requirement, interface, schema, example, and edge case relevant to a task MUST be inlined verbatim. Sub-agents do not read design docs, specs, or hunt for context — they read only the task file. Duplication is intentional and is the cost of sub-agent reliability.
+
 ## [5.36.0] - 2026-04-27
 
 ### Added

@@ -214,6 +214,38 @@ Invoke the `@acp.design-reference` shared directive to discover and extract desi
 
 **Expected Outcome**: Design elements extracted and ready for task generation, or skipped cleanly with warning  
 
+### 5.6. Cross-Reference Spec Documents
+
+Discover and extract requirements from any matching spec in `agent/specs/`.
+
+**Actions**:
+- Check if `agent/specs/` directory exists. If not, skip silently.
+- Scan `agent/specs/*.md` for files whose title, `## Scope`, or `## Requirements` section matches the task topic (keywords from task name + milestone name + design document name if one was found in Step 5.5).
+- For each matching spec:
+  1. Parse the `## Requirements` section. Each requirement has an ID like `R1`, `R2`, ..., `R<N>`. Extract ID + one-line description.
+  2. Parse the `## Behavior Table` / `## Behavior` section if present. Extract scenario rows that belong to this task's scope (match by keywords and by which requirements they cover).
+  3. Extract relevant test names from the `## Tests` section.
+- Narrow the extracted requirements to those the task should cover. Use judgment: a task about pen pal unlock claims R10 (pen pal system), R11 (collectibles), maybe R12 (adaptive frequency) — NOT every requirement in the spec.
+- Produce structured data:
+  ```yaml
+  spec_path: agent/specs/local.feature-name.md
+  claimed_requirements:
+    - id: R10
+      description: "Each of 8 regions MUST have one unique pen pal character..."
+    - id: R11
+      description: "Each pen pal MUST send themed collectible gifts..."
+  claimed_behaviors:
+    - name: pen-pal-unlock
+      description: "User completes Tier 2 regional quest → pen pal created..."
+  ```
+- Hold this data for use in Step 6.
+
+**If no spec found**: Skip silently. The `Spec Coverage` section in the task file is omitted entirely (not left as scaffolding). Proceed to Step 6.  
+
+**Expected Outcome**: Spec requirements extracted and scoped to this task, or skipped cleanly when no spec applies  
+
+**Note**: This is a narrower cross-reference than Step 5.5. Designs describe *how*; specs define *what must be true*. Both can exist for the same feature, and both should be consulted.
+
 ### 6. Generate Task File
 
 Create task file from template:
@@ -253,11 +285,43 @@ Create task file from template:
     - Include format verification (output matches specified format)
     - Include integration verification (affected commands updated correctly)
     - If the design has a Testing Strategy section, map each test scenario to a verification item
+  - **User-Observable Acceptance** — REQUIRED section in every task:
+    - Write at least one acceptance criterion describing what a user can observe after the task is done — in a browser session, CLI invocation, API response, or file on disk.
+    - Backend-only "it compiles" is not observable. "Tests pass" is not observable. "Table exists with new column" IS observable (via a DB query).
+    - If the task genuinely has no user-observable outcome (pure refactor, internal rename, dev tooling, test-only changes), replace the checklist with a single line: `N/A — <one-sentence reason>`. The justification must be >= 10 characters.
+    - Feature work should never be N/A. If you are creating a task for a user-visible feature and you find yourself writing N/A, stop and identify the observable effect first.
+    - This section is validated by `@acp.proceed` after task completion. Tasks with empty or unjustified N/A will block completion.
+  - **Spec Coverage** — CONDITIONAL section:
+    - Include this section ONLY if Step 5.6 found a matching spec in `agent/specs/`.
+    - Populate it with the spec path and the scoped R<N> requirements from Step 5.6, copying each requirement's short description verbatim from the spec so the implementing sub-agent has the full requirement text inline:
+      ```markdown
+      ## Spec Coverage
+
+      **Source**: agent/specs/{namespace}.{name}.md
+
+      Covered requirements:
+      - [ ] R10: Each of 8 regions MUST have one unique pen pal character unlockable via Tier 2 regional quest
+      - [ ] R11: Each pen pal MUST send themed collectible gifts matching their personality
+      ...
+
+      Covered behaviors:
+      - [ ] pen-pal-unlock: User completes Tier 2 Berlin quest → pen pal created, first letter scheduled
+      ...
+      ```
+    - If no spec was found, OMIT the `## Spec Coverage` section entirely. Do not leave empty scaffolding.
   - If Key Design Decisions section was generated in Step 2.7: Insert it into the task document
   - If Step 5.5 returned design decisions (from the design doc's Key Design Decisions section): Carry relevant decisions into the task's Key Design Decisions section
 - Save to appropriate path (milestone subdirectory or unassigned/)
 
-> **Self-Contained Task Principle**: After generating the task, verify that an agent reading ONLY this task file could implement the feature without needing to read the design document. If any design element is missing from the task, add it before saving.
+> **🚨 Self-Contained Task Principle (NON-NEGOTIABLE)**:
+>
+> Sub-agents implementing tasks do not read the design document. They do not read the spec. They do not hunt through the repository for context. They read THIS TASK FILE and only this task file.
+>
+> That means every snippet, requirement, interface, type signature, SQL schema, example, formula, or edge case that is relevant to this task MUST be inlined into the task document — verbatim — even when it duplicates content that exists elsewhere. Yes, this creates duplication. Yes, that is intentional. Duplication is the cost of sub-agent reliability.
+>
+> When Step 5.5 returns design elements, copy them into the task. When Step 5.6 returns spec requirements, copy them into the task. Do not link. Do not summarize. Do not say "see design doc for details."
+>
+> **Verification before saving**: Re-read the generated task and answer: "If I hand this file to a sub-agent who has never seen this project and has no other context, can they implement it correctly?" If the answer is anything less than yes, keep inlining until it is.
 
 **Note**: Older tasks may use flat structure (`agent/tasks/task-{N}-{name}.md`) for historical reasons. New tasks should use milestone subdirectories.  
 
@@ -354,6 +418,9 @@ If yes, prompt for weight, description, rationale, and applies values. Add entry
 - [ ] Task follows template structure
 - [ ] All metadata filled in correctly
 - [ ] Task linked to correct milestone
+- [ ] `User-Observable Acceptance` section present and populated (at least one criterion OR justified N/A)
+- [ ] `Spec Coverage` section present if a matching spec was found in Step 5.6; absent otherwise
+- [ ] Spec requirements (when present) copied verbatim from `agent/specs/` — not paraphrased
 
 ---
 

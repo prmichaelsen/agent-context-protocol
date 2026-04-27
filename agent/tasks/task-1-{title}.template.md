@@ -127,6 +127,59 @@ Create TypeScript configuration, build scripts, and other config files.
 
 ---
 
+## User-Observable Acceptance
+
+<!-- REQUIRED. At least one user-observable acceptance criterion, OR an
+     N/A line with a justification of >= 10 characters.
+
+     An observable criterion is something you could check in a fresh
+     browser session, CLI invocation, API call, or file on disk AFTER
+     the task is complete. Backend-only "it compiles" is not observable.
+
+     If the task genuinely has no user-observable outcome (pure refactor,
+     internal rename, dev tooling, test-only changes), explicitly say so:
+
+         N/A — <one-sentence reason, e.g. "internal refactor; no behavior change">
+
+     Feature work should NEVER be N/A. If you're writing an N/A for a
+     feature, stop and identify the observable effect.
+
+     acp.proceed validates this section after the task is marked complete. -->
+
+- [ ] In a fresh session, the user can [specific observable thing]
+- [ ] [Observable change in UI / output / API response]
+
+**Example**:
+- [ ] In a fresh browser session, hovering any German word in an Iris message shows a popover with article, gloss, and CEFR level
+- [ ] `GET /api/word?q=Abfahrt&lang=de` returns JSON matching the schema in Step 2
+- [ ] `agent/tasks/milestone-N/task-M-foo.md` file exists on disk with the content from Step 6
+
+---
+
+## Spec Coverage (Optional)
+
+<!-- Populated automatically by @acp.task-create when a spec at
+     agent/specs/ matches the task topic. Lists the specific requirement
+     IDs (R<N>) and behavior table rows this task implements.
+
+     Leave this section out entirely if no spec applies — acp.proceed
+     does NOT require it. When present, each item should be checked
+     off or explicitly deferred before marking the task complete.
+
+     Format:
+
+         **Source**: agent/specs/local.feature-name.md
+
+         Covered requirements:
+         - [ ] R<N>: <short description copied verbatim from spec>
+         - [ ] R<M>: <short description>
+
+         Covered behaviors (from Behavior Table):
+         - [ ] <scenario name / row id>
+-->
+
+---
+
 ## Verification
 
 [Provide a checklist of items to verify the task is complete. Each item should be objectively verifiable.]

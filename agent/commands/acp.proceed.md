@@ -369,23 +369,104 @@ Design Context: No design document found for this task.
 - Providing status updates
 - Asking questions that could be answered by reading docs
 
-### 3.5. Verify All Deliverables Exist
+### 3.5. Verify All Deliverables Exist (Post-Completion Audit)
 
-**Before marking a task complete, you MUST verify every expected deliverable:**
+**Before marking a task complete, you MUST verify every expected deliverable. Sub-agents always say they are done. The orchestrator must mechanically verify that they actually are.**
 
-1. **Re-read the task document** — specifically the "Expected Output", "Acceptance Criteria", and "Verification" sections
-2. **Check file existence** — for every file listed in "Files Created", verify it exists on disk (ls or stat)
-3. **Check file content** — for files with specific content requirements (README, docs, configs), verify they contain the required sections
-4. **Check modifications** — for every file listed in "Files Modified", verify the expected changes are present
-5. **Walk the verification checklist** — go through each checkbox item and confirm it passes
+This step is NON-NEGOTIABLE. Run it whether you implemented the task yourself (Single-Task Mode) or a sub-agent reported completion (Autonomous/Parallel Mode). In either case, trust nothing: re-read the task doc and check every claim against reality.
 
-**If ANY deliverable is missing:**
-- DO NOT mark the task complete
-- DO NOT move to progress update
-- Create the missing deliverable first, then re-verify
-- Only proceed to Step 4 when ALL deliverables confirmed
+#### Step A — Re-read the task document
 
-**This step is NON-NEGOTIABLE.** A task with passing tests but missing files is NOT complete.
+Load the full task file fresh from disk. Do not rely on memory of what the task said. Specifically re-read:
+- `Objective` and `Context` (to remind yourself what the task is supposed to accomplish)
+- `Expected Output` — `Files Created`, `Files Modified`
+- `Verification` checklist
+- `User-Observable Acceptance` (REQUIRED section in every task)
+- `Spec Coverage` (present only when a spec applies)
+
+#### Step B — Mechanical file checks
+
+For every entry in `Files Created`:
+- Confirm the file exists on disk (`ls`, `stat`, or Read tool).
+- If the task specified exact content (schemas, README sections, config shape), confirm that content is present.
+
+For every entry in `Files Modified`:
+- Confirm the file exists.
+- Confirm `git diff` shows the expected changes.
+- For modifications that are claimed to be additive (new function, new section), confirm the new content is present.
+
+Any file that is missing or empty is a HARD FAILURE — halt immediately.
+
+#### Step C — Walk the `Verification` checklist
+
+For each checkbox in the Verification section, evaluate whether the claim holds:
+- File-existence claims → `ls`/`stat` (already done in Step B; cross-reference)
+- Test claims ("all tests pass", "X new tests added") → run `npm test` / project equivalent and confirm the counts match
+- Schema/DB claims → inspect the migration file or query the database
+- Behavioral claims ("handler returns 400 on empty input") → inspect the code at the claimed location
+- Integration claims ("tool registered in X") → grep for the registration
+
+Do NOT mechanically check boxes without verifying the underlying claim. A checked box that fails verification is drift.
+
+#### Step D — Audit `User-Observable Acceptance`
+
+This section is required in every task. It describes what a user can observe after the task is done.
+
+For each criterion:
+- **UI claims** → `grep` the client files for the rendered text/component/label. If the claim is "hover shows popover with CEFR badge", confirm a `word-popover-cefr` class exists in the rendered output.
+- **API claims** → construct a mental `curl`. If the claim is "GET /api/word returns JSON with `gloss` field", verify the handler returns that shape.
+- **DB claims** → confirm the table/column exists and that writing to it works.
+- **File claims** → confirm the file exists with the specified content (Step B already covers this).
+
+If the task has `N/A — <reason>` instead of acceptance criteria, verify the justification is at least 10 characters and is coherent. If a feature task tries to escape with `N/A`, reject it — the task has an observable effect; go find it.
+
+An unverifiable acceptance claim is drift. Log it.
+
+#### Step E — Audit `Spec Coverage` (when present)
+
+For each `R<N>` requirement claimed:
+- Find where it is implemented. This is typically code (a function, a handler, a schema) and optionally a test.
+- Verify the implementation actually satisfies the requirement's MUST/SHOULD/MAY language. If R10 says "MUST create a user_pen_pals row on Tier 2 quest completion", confirm that row creation actually happens in the code path.
+- For each `Covered behaviors` test case, confirm the test file exists and actually runs the specified scenario.
+
+If a claimed R<N> has no implementation, that is drift. If a test case is missing, that is drift.
+
+#### Step F — Produce the traceability table
+
+Emit a written report showing coverage at a glance:
+
+```
+Task: task-<N>-<name>.md
+Deliverables: X/Y files present
+Verification: X/Y checklist items pass
+User-Observable Acceptance: X/Y criteria verified
+Spec Coverage (R<range>): X/Y requirements implemented
+
+Drift detected:
+  ⚠️ R12 → claimed but implementation missing letter frequency enforcement
+  ❌ "Help button visible in character conversation" → no evidence in client code
+```
+
+Any ✗ / ❌ / ⚠️ items must be resolved before the task is marked complete.
+
+#### Step G — Decide
+
+- **All checks pass** → proceed to Step 4 (Update Progress Tracking), mark task complete.
+- **Drift detected, fixable** → do the following in order (do NOT skip straight to a fix):
+  1. **Update the task document** to record the drift verbatim. Add a `## Drift Remediation` section to the task doc listing each drifted item (unchecked checklist items, unmet acceptance criteria, missing spec requirements). This makes the drift a first-class durable artifact, not a memory hole.
+  2. **Spawn a mandatory remediation sub-agent** with a precise scope. The sub-agent's brief must (a) paste the `## Drift Remediation` section verbatim as its task list, (b) state that the sub-agent must NOT mark complete until every drift item is resolved, (c) require the sub-agent to re-run its own Step 3.5 audit before reporting done. If the current LLM provider does not support sub-agents, halt instead and ask the user to spawn one manually — do NOT fix drift inline in the orchestrator loop.
+  3. **Re-run this entire Step 3.5 audit** on the task after the sub-agent reports done. The orchestrator still does not trust the sub-agent's "done" — audit again from scratch.
+- **Drift detected, deferred** → if the user has explicitly agreed to defer specific items to a later milestone, update the task to record those deferrals verbatim (with target milestone) before marking complete. Do NOT silently mark drift as done.
+- **Drift that shouldn't be deferred** → HALT. Present the traceability table to the user. Ask for guidance.
+
+**Forbidden shortcuts:**
+- Do NOT trust a sub-agent's "done" report without this audit.
+- Do NOT check the `Verification` boxes without verifying the underlying claims.
+- Do NOT skip `User-Observable Acceptance` — every task has it.
+- Do NOT skip `Spec Coverage` when it's present.
+- Do NOT mark a task complete with outstanding drift.
+
+A task with passing tests but a missing user-observable outcome is NOT complete. A task with satisfied verification but unmet spec requirements is NOT complete. "Sub-agent said done" is not complete.
 
 ### 4. Update Progress Tracking
 

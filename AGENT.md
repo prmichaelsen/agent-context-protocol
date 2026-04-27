@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.36.0
+**Version**: 5.37.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -43,11 +43,12 @@ The **Agent Context Protocol (ACP)** is a comprehensive documentation and planni
 
 The **Agent Context Protocol (ACP)** is a **documentation-first development methodology** that creates a parallel knowledge base alongside your source code. It consists of:
 
-1. **Design Documents** - Architectural decisions, patterns, and technical specifications
-2. **Milestones** - Project phases with clear deliverables and success criteria
-3. **Tasks** - Granular, actionable work items with verification steps
-4. **Patterns** - Reusable architectural and coding patterns
-5. **Progress Tracking** - YAML-based progress monitoring and status updates
+1. **Design Documents** - Architectural decisions, how-it-works rationale, technical approach
+2. **Specs** - Formal specifications: explicit requirements (R<N> IDs), behavior tables, test cases. The source of truth for *what must be true* about a feature
+3. **Milestones** - Project phases with clear deliverables and success criteria
+4. **Tasks** - Granular, actionable work items with verification steps. Tasks can claim specific spec requirements via their `Spec Coverage` section
+5. **Patterns** - Reusable architectural and coding patterns
+6. **Progress Tracking** - YAML-based progress monitoring and status updates
 
 This pattern enables:
 - **Agent Continuity**: New agents can pick up where previous agents left off
@@ -97,12 +98,16 @@ project-root/
 │   │   ├── acp.status.md           # @acp-status
 │   │   └── ...                     # More commands
 │   │
-│   ├── design/                     # Design documents
+│   ├── design/                     # Design documents (how-it-works, rationale)
 │   │   ├── .gitkeep
 │   │   ├── requirements.md         # Core requirements
 │   │   ├── {feature}-design.md    # Feature specifications
 │   │   ├── {pattern}-pattern.md   # Design patterns
 │   │   └── ...
+│   │
+│   ├── specs/                      # Formal specifications (what must be true)
+│   │   ├── {namespace}.{name}.md   # R<N> requirements, behavior tables, tests
+│   │   └── ...                     # Created by @acp.spec, consumed by @acp.task-create
 │   │
 │   ├── milestones/                 # Project milestones
 │   │   ├── .gitkeep
@@ -182,7 +187,51 @@ What are the downsides or limitations?
 **Recommendation**: What should be done
 ```
 
-### 2. Milestones (`agent/milestones/`)
+### 2. Specs (`agent/specs/`)
+
+**Purpose**: Formal, testable specifications. Where design documents describe *how* a feature works and *why* it was designed that way, specs define *what must be true* about the finished feature — unambiguous requirements, precise behavior, concrete test cases.
+
+Specs complement design documents; both can exist for the same feature. Design is the rationale, spec is the contract.
+
+**Structure**:
+```markdown
+# Specification: {Feature Name}
+
+## Requirements
+
+### R1: {Short requirement title}
+{One-paragraph requirement statement. MUST / SHOULD / MAY language.}
+
+### R2: {...}
+...
+
+## Behavior Table
+
+| # | Scenario | Expected Behavior | Tests |
+|---|----------|-------------------|-------|
+| 1 | User does X | System returns Y | `test-name-1` |
+| 2 | ... | ... | ... |
+
+## Tests
+
+### Base Cases
+...
+
+### Edge Cases
+...
+
+## Open Questions
+...
+```
+
+**When to Create**: Use `@acp.spec` when a feature is complex enough that informal descriptions drift. Specs are especially valuable for:
+- Multi-task features where each task owns a subset of requirements
+- Features with non-obvious edge cases
+- Features where the distinction between "works" and "specified correctly" matters
+
+**How Tasks Use Specs**: When `@acp.task-create` finds a matching spec in `agent/specs/`, it pulls relevant R<N> requirements verbatim into the task's `Spec Coverage` section. Sub-agents implement against the inline requirements; the spec file itself remains the source of truth for audits and drift detection via `@acp.sync`.
+
+### 3. Milestones (`agent/milestones/`)
 
 **Purpose**: Define project phases with clear deliverables and success criteria.
 
@@ -219,7 +268,7 @@ List of files/directories this milestone produces
 **Blockers**: Current obstacles
 ```
 
-### 3. Tasks (`agent/tasks/`)
+### 4. Tasks (`agent/tasks/`)
 
 **Purpose**: Break milestones into actionable, verifiable work items.
 
@@ -252,7 +301,7 @@ What this task accomplishes
 **Next Task**: Link to next task
 ```
 
-### 4. Patterns (`agent/patterns/`)
+### 5. Patterns (`agent/patterns/`)
 
 **Purpose**: Document reusable architectural and coding patterns.
 
@@ -284,7 +333,7 @@ What NOT to do
 **Recommendation**: When to use this pattern
 ```
 
-### 5. Progress Tracking (`agent/progress.yaml`)
+### 6. Progress Tracking (`agent/progress.yaml`)
 
 **Purpose**: Machine-readable progress tracking and status monitoring.
 
@@ -369,8 +418,8 @@ current_blockers:
 
 1. **Create Agent Directory Structure**
    ```bash
-   mkdir -p agent/{design,milestones,patterns,tasks}
-   touch agent/{design,milestones,patterns,tasks}/.gitkeep
+   mkdir -p agent/{design,specs,milestones,patterns,tasks}
+   touch agent/{design,specs,milestones,patterns,tasks}/.gitkeep
    ```
 
 2. **Create Requirements Document**
@@ -382,16 +431,22 @@ current_blockers:
    - Each milestone should be 1-3 weeks of work
    - Clear deliverables and success criteria
 
-4. **Create Initial Tasks**
+4. **(Optional) Create Specs for Complex Features**
+   - Invoke [`@acp.spec`](agent/commands/acp.spec.md) and follow directives defined in that file
+   - Use for features with many requirements, edge cases, or where "works" vs "specified correctly" matters
+   - Specs define *what must be true*; tasks claim subsets of spec requirements via `Spec Coverage`
+
+5. **Create Initial Tasks**
    - Invoke [`@acp.task-create`](agent/commands/acp.task-create.md) and follow directives defined in that file
    - Break first milestone into concrete tasks
+   - If a matching spec exists, `@acp.task-create` auto-populates the task's `Spec Coverage` section
 
-5. **Initialize Progress Tracking**
+6. **Initialize Progress Tracking**
    - Create `agent/progress.yaml`
    - Set up milestone and task tracking
    - Document initial status
 
-6. **Document Patterns**
+7. **Document Patterns**
    - Invoke [`@acp.pattern-create`](agent/commands/acp.pattern-create.md) and follow directives defined in that file
    - Document architectural decisions as patterns
 
