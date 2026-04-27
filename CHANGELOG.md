@@ -5,6 +5,30 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.36.0] - 2026-04-27
+
+### Added
+- **Phase 12: Interactive OQ Resolution** for `@acp.spec` — after spec generation, summarizes results, reports Open Questions and `undefined` Behavior Table rows, and offers interactive resolution session
+- Concept block workflow: groups related OQs by shared invariant/pattern, orders by blast radius, presents with problem statement + options + recommendation
+- Single-keystroke decision prompts (a/b/c/d) with freeform override support
+- Line-by-line mode for per-item nuanced decisions (option d)
+- Batch editing: moves OQs to Resolved, updates Behavior Table, adds tests, commits at session close
+- `--resolve-oqs` flag to opt-in for `--from-*` modes
+- `--no-interactive` flag to skip Phase 12 entirely
+- Failure handling: detects contradictions, flags cross-block conflicts, supports `/revise <block>`
+
+### Changed
+- `@acp.spec` version 1.0.0 → 1.1.0 (new Phase 12)
+- Phase 12 runs by default (unless `--no-interactive`), enabled for `-i`, opt-in for `--from-*`
+- Package version 4.12.0 → 4.13.0
+- Project version 6.1.0 → 6.2.0
+
+### Rationale
+- Based on proven scenecraft pattern: 13 blocks in 90 minutes closed ~110 OQs
+- Provides guided path through Open Question resolution that was previously missing
+- Clustering related OQs reduces cognitive load and ensures policy decisions close multiple OQs at once
+- Blast radius ordering means early decisions cascade and close downstream OQs, reducing total work
+
 ## [5.35.0] - 2026-04-24
 
 ### Added
