@@ -5,9 +5,9 @@
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document."
 
 **Namespace**: acp  
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Created**: 2026-04-22  
-**Last Updated**: 2026-04-22  
+**Last Updated**: 2026-04-27  
 **Status**: Active  
 **Scripts**: None  
 
@@ -33,6 +33,10 @@
 - `--from-context` - Shorthand for all sources (clarifications + chat)
 - `--include-clarifications` - Alias for `--from-clars`
 - `--no-commit` - Skip the automatic commit step after creation
+
+**CLI-Style Arguments** (interactive OQ resolution, optional):
+- `--resolve-oqs` - Enable interactive OQ resolution after spec generation (Phase 12). Default: enabled for `-i`/`--interactive`, disabled for `--from-*` modes
+- `--no-interactive` - Skip Phase 12 (interactive OQ resolution) entirely
 
 **Natural Language Arguments**:
 - `@acp.spec @my-draft.md` - Treated as `--from-draft @my-draft.md`
@@ -114,6 +118,8 @@ When the command is invoked, immediately display a brief informational header be
     @acp.spec @my-draft.md                         Generate from draft (shorthand)
     @acp.spec --from-req <file>                    Generate from requirements
     @acp.spec --no-commit                          Skip automatic commit
+    @acp.spec --resolve-oqs                        Enable interactive OQ resolution
+    @acp.spec --no-interactive                     Skip OQ resolution phase
 
   Related:
     @acp.design-create         Create design documents (what/why)
@@ -414,6 +420,284 @@ After successful creation, offer to add the new spec to the index (if `agent/ind
 
 **Expected Outcome**: All spec artifacts committed.
 
+### 12. Interactive OQ Resolution (Phase 12)
+
+> **🎯 Purpose**: Summarize spec generation results, report Open Questions and `undefined` rows, and offer interactive resolution session.
+
+**When this phase runs**:
+- **Always runs** unless `--no-interactive` was explicitly passed
+- First prints a summary of what was generated and any OQs/undefined rows
+- Then prompts user whether to start a resolution session
+- If user declines, exits Phase 12 cleanly
+
+**Skip conditions** (skip the entire phase if):
+- `--no-interactive` flag was explicitly passed
+
+**Actions**:
+
+#### A. Display Phase 12 Summary
+
+Print a summary of spec generation results:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Spec Generation Summary
+
+Spec(s) created:
+  - agent/specs/<namespace>.<spec-name>.md
+
+Coverage:
+  Requirements: X
+  Base Cases: Y tests
+  Edge Cases: Z tests
+  Behavior Table rows: N
+
+Open items:
+  Open Questions: A
+  Undefined rows: B
+  Total undecided scenarios: A+B
+
+Status: <"Ready for implementation" if A+B=0, else "Requires proofing">
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+#### B. Prompt for Resolution Session
+
+If there are any Open Questions or `undefined` rows (total > 0):
+
+```
+Start interactive OQ resolution session? [y/N]
+
+This will:
+  - Group related OQs into concept blocks
+  - Present each block with options and recommendations
+  - Update the spec(s) with your decisions
+  - Commit all changes in one batch
+
+Type 'y' to start, or 'N' to finish now (you can resolve OQs later).
+```
+
+**If user types `N` or skips**:
+- Print: "Skipping OQ resolution. You can resolve OQs later by running `@acp.spec --resolve-oqs` or manually editing the spec."
+- Exit Phase 12
+
+**If user types `y`**:
+- Continue to Step C (Cluster OQs into Concept Blocks)
+
+**If no OQs or undefined rows exist** (total = 0):
+- Print: "✅ No Open Questions or undefined rows. Spec is ready for implementation."
+- Exit Phase 12
+
+#### C. Detect OQs and Undefined Rows
+
+Scan the spec file(s) just generated:
+- Extract all items from `## Open Questions` section
+- Extract all rows from the Behavior Table where `Expected Behavior` column is `undefined`
+- Count total OQs (Open Questions + undefined rows)
+- Proceed to clustering (Step D)
+
+#### D. Cluster OQs into Concept Blocks
+
+Group related OQs into concept blocks. A block is defined by a shared invariant, entity lifecycle, UX pattern, or policy surface.
+
+**Clustering rules**:
+- One block = one underlying policy decision that resolves multiple related OQs
+- Cross-spec blocks are encouraged (when `--resolve-oqs` targets multiple specs)
+- Target 3-8 OQs per block; avoid single-OQ blocks (those go to line-by-line mode directly)
+- Blocks are named with a concept noun (e.g., "Backend concurrency policy", "Token expiry behavior"), NOT a question
+
+**Ordering rule**: Sort blocks by blast radius descending — decisions affecting the most specs/OQs go first. Early decisions often cascade and close downstream OQs, reducing total work.
+
+#### E. Present Each Block Interactively
+
+For each block, display:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Block N of M: <Block Name>
+
+OQs: X (across Y specs)
+Affected specs: <spec-1>, <spec-2>, ...
+
+Problem:
+  <2-4 sentence abstract problem statement in plain English>
+  <Describes what the system does today, why OQs exist, whether they are real code risks or cosmetic gaps>
+
+Concrete failure mode:
+  <Optional: one worked example of how a user trips an OQ and visible symptom>
+  <Skip for purely theoretical OQs>
+
+Options:
+  (a) <Rule statement>
+      Touch points: <code areas>
+      Effort: ~Xh
+
+  (b) <Rule statement>
+      Touch points: <code areas>
+      Effort: ~Yh
+
+  (c) <Rule statement>
+      Touch points: <code areas>
+      Effort: ~Zh
+
+  (d) Line-by-line — drill into each OQ individually (when block has ≥4 OQs)
+
+Recommendation: (a) — <one-sentence rationale tied to project constraints>
+
+a / b / c / d?
+```
+
+**Accept**:
+- Single keystroke: `a`, `b`, `c`, `d`
+- Combinations: `a,b` (apply both options)
+- Freeform override: user types replacement text; agent confirms/restates before committing
+- `skip` or `defer` — leaves OQs unresolved with `**Deferred**: <reason>` annotation
+
+**Freeform override flow**:
+- User types: `add validation but skip logging changes`
+- Agent responds: "Understood. I'll apply option (a) validation rules to <touch-points> but skip the logging updates. Does this match your intent? [y/N]"
+- On `y`: proceed; on `N`: re-prompt
+
+#### F. Apply Decisions to Spec(s)
+
+For each decision in a block:
+
+1. **Move resolved OQs** from `## Open Questions` into a new `### Resolved` subsection under `## Open Questions`:
+   ```markdown
+   ## Open Questions
+
+   ### Resolved
+
+   **OQ-3: Token expiry duration** — Resolved 2026-04-27
+   - **Decision**: 24-hour sliding window with refresh support
+   - **Rationale**: Balances security (short-lived tokens) with UX (low re-auth friction)
+   ```
+
+2. **Update Behavior Table**: For each `undefined` row that was resolved:
+   - Change `Expected Behavior` from `undefined` to the new expected behavior (short plain-English)
+   - Change `Tests` column from `→ [OQ-N]` to the new test name(s)
+
+3. **Add new tests** under `### Base Cases` or `### Edge Cases`:
+   - Each resolved OQ becomes ≥1 new test
+   - Follow the existing test format: `Given / When / Then` with assertions
+   - Name tests in kebab-case (`token-expiry-24h`, `reject-expired-token`)
+   - Annotate with `(covers R<n>)` if the decision introduced new requirements
+
+4. **Add new Requirements** (if the decision introduces them):
+   - Append to `## Requirements` section
+   - Number sequentially (R8, R9, ...)
+
+5. **Do NOT commit yet** — batch all decisions across all blocks into a single commit at session close (Step E)
+
+#### G. Line-by-Line Mode (when user selects `(d)`)
+
+If a block has ≥4 OQs and the user wants per-item nuance:
+
+**Display format**:
+```
+Line-by-line mode for "<Block Name>"
+
+OQ 1 of X: <OQ title>
+  Context: <one-sentence description>
+
+  Options:
+    (a) <option>
+    (b) <option>
+    (c) <option>
+    (e) Skip this OQ
+    (f) Back to block view
+
+  a / b / c / e / f?
+```
+
+**Rules**:
+- Present OQs one at a time
+- `(e)` defers the OQ; `(f)` returns to block view
+- Completed items marked with `✓` in the list
+- After all items complete (or user returns via `(f)`), print block summary
+
+#### H. Block-Close Summary
+
+After each block is resolved, print:
+
+```
+✓ Block N of M closed: <block name>
+
+  Decisions:
+    - <one-line summary per decision>
+
+  OQs resolved: X
+  OQs deferred: Y
+  Specs updated: <spec-1>, <spec-2>, ...
+  Estimated work: ~Nh
+
+  Progress: N/M blocks complete • X total OQs closed • Y deferred
+```
+
+#### I. Session-Close Summary and Commit Prompt
+
+After all blocks are processed:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Spec proofing complete.
+
+Blocks resolved: N
+OQs closed: X (Y fixes, Z documentation-only)
+OQs deferred: W
+Specs updated: <spec-1>, <spec-2>, ...
+Follow-up design docs created: <list or "none">
+Total estimated implementation work: ~Nh
+
+Commit all changes? [y/N]
+```
+
+**On `y`**:
+- Stage all modified spec files
+- Create one commit with message:
+  ```
+  docs(specs): resolve N OQs across <block-list>
+
+  <block-1>:
+  - <decision 1>
+  - <decision 2>
+
+  <block-2>:
+  - <decision 3>
+
+  Deferred OQs: <list or "none">
+  ```
+- Deferred OQs stay in `## Open Questions` with a `**Deferred**: <reason>` annotation
+
+**On `N`**:
+- Leave spec file(s) modified but unstaged
+- Print: "Changes not committed. Review and commit manually when ready."
+
+#### J. Failure Modes Phase 12 Must Handle
+
+**User contradicts an earlier decision**:
+- Warn: "This contradicts Block N decision (<decision text>). Revise Block N or keep both?"
+- Offer: `(a) Revise Block N`, `(b) Keep both`, `(c) Cancel this decision`
+
+**Cross-block impact**:
+- Before moving to the next block, check if the decision conflicts with any prior block's decisions
+- Flag conflicts immediately, not after the session
+
+**User wants to re-run a block**:
+- Support `/revise <block-number>` command within the session
+- Re-display the block with current decisions shown
+- Allow the user to change their answer
+
+**Pause/resume** (intentionally out of scope for v1):
+- Single-session only for the first implementation
+- Future: `@acp.oq-resolve --resume` to continue across sessions
+
+**Expected Outcome**: Open Questions triaged (resolved or deferred); Behavior Table has no `undefined` rows; new tests added; all changes committed (or staged for manual commit).
+
 ---
 
 ## Verification
@@ -438,6 +722,9 @@ After successful creation, offer to add the new spec to the index (if `agent/ind
 - [ ] `package.yaml` updated (if package)
 - [ ] `README.md` updated (if applicable)
 - [ ] Spec artifacts committed via `@git.commit` (MANDATORY — skip only if `--no-commit`)
+- [ ] Phase 12 summary displayed (unless `--no-interactive`)
+- [ ] User prompted for OQ resolution session (if OQs/undefined rows exist and not `--no-interactive`)
+- [ ] If Phase 12 resolution session ran: OQs triaged (resolved or deferred), `undefined` rows updated, new tests added, all changes committed or staged
 
 ---
 
@@ -606,14 +893,15 @@ Next steps:
 - If a scenario the user cares about isn't in the Behavior Table, the spec is incomplete. Fix the spec before starting implementation; that is the entire point.
 - Once the user has signed off, **TDD from the spec is mechanical**: translate each `#### Test:` into a test function in the target framework, translate each assertion slug into an `assert`/`expect` call with the same name, run the suite, watch it fail, implement, watch it pass. No design decisions happen during coding — they have all been made in the spec.
 - A spec that only covers the happy path is a draft. The Base/Edge split and the happy/bad/positive/negative coverage requirements exist specifically to prevent happy-path-only specs from shipping.
+- **Phase 12 (Interactive OQ Resolution)** runs by default at the end of spec generation unless `--no-interactive` is passed. It summarizes what was generated, reports any Open Questions or `undefined` Behavior Table rows, and offers to start an interactive resolution session. The resolution session groups related OQs into concept blocks, presents each with options and a recommendation, and batch-edits all affected specs with the user's decisions. This workflow was proven in the scenecraft project: 13 blocks in 90 minutes closed ~110 OQs. Users can decline the session and resolve OQs manually later.
 
 ---
 
 **Namespace**: acp  
 **Command**: spec  
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Created**: 2026-04-22  
-**Last Updated**: 2026-04-22  
+**Last Updated**: 2026-04-27  
 **Status**: Active  
 **Compatibility**: ACP 3.13.0+  
 **Author**: ACP Project  
