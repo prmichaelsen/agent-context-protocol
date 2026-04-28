@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.39.0
+**Version**: 5.40.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -525,6 +525,26 @@ Output is a flat stream of `file:` / `kind:` / `key:` lines, with `---` between 
 - Markers are auto-populated by creation commands at file creation (`@acp.task-create`, `@acp.spec`, `@acp.design-create`, etc.).
 - Hand-authored edits are welcome. `@acp.sync` updates `updated:` timestamps when it detects content changes.
 - `@acp.sync` can backfill markers into legacy files (prompts for user confirmation; never silently writes).
+
+### Markers supersede prose frontmatter
+
+Markers are the **source of truth** for any field they carry — they do not coexist with a parallel prose copy. Templates have been stripped of the duplicated fields:
+
+| Field | Carried in marker | Prose removed from |
+|---|---|---|
+| `status` | all kinds | spec, task, design, milestone, pattern, clarification, research/glossary/reference |
+| `updated` (was **Last Updated**) | all kinds | spec |
+| `last_verified` | artifact | research/glossary/reference |
+| `confidence` | artifact | research/glossary/reference |
+| `milestone` | task | task |
+| `depends_on` (was **Dependencies**) | task, milestone, spec, design | task, milestone |
+| `applies_to` (was **Applicable To**) | pattern | pattern |
+
+Prose fields that remain are content-specific and structural, not machine-tracked state: `**Namespace**`, `**Version**`, `**Created**` (immutable dates), `**Design Reference**`, `**Estimated Time**`, `**Goal**`, `**Concept**`, `**Purpose**`, `**Category**`, `**Type**`, `**Sources**`, `**Total Terms**`.
+
+Task lifecycle (Not Started / In Progress / Completed) is tracked in `agent/progress.yaml` — that's authoritative for task-completion state; the marker's `status` field reflects the document's own state (draft/active/deprecated), not the work-item state.
+
+If a pre-marker file still carries a duplicated prose field (`**Status**`, `**Last Updated**`, etc.), `@acp.sync` Step 1.4 flags it and proposes removal.
 
 ---
 

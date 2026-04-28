@@ -10,9 +10,6 @@ updated: {YYYY-MM-DD}
 
 **Type**: glossary
 **Created**: YYYY-MM-DD
-**Last Verified**: YYYY-MM-DD
-**Status**: Active | Stale | Deprecated
-**Confidence**: High (9-10/10) | Medium (5-8/10) | Low (1-4/10)
 **Category**: Terminology
 **Total Terms**: N
 

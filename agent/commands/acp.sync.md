@@ -88,25 +88,48 @@ Run the canonical marker parser once and hold its output for the rest of the syn
 
 **Expected Outcome**: Marker inventory available as structured data for Steps 1.4, 1.5, 1.6, 5, and 6.  
 
-### 1.4. Backfill Missing Markers
+### 1.4. Backfill Markers and Remove Superseded Prose Frontmatter
 
-For files in marker-eligible directories that don't have an `@acp.meta.*` block, propose one and prompt the user for confirmation. Never silently write.
+Two passes over marker-eligible files: (A) add markers where missing, (B) strip prose frontmatter fields that the marker now supersedes. Never silently write in either pass — always prompt per file with a diff-like preview.
 
-**Actions**:
+**Pass A — Add missing markers**:
 - For each directory in `agent/{specs,design,tasks,milestones,patterns,clarifications,artifacts}/`, list the files.
 - Subtract the files already in the marker inventory from Step 1.3.
 - For each remaining file (has no marker):
-  1. Derive a proposed marker from the filename, the first-level heading (`# ...`), and any obvious metadata bullets at the top (e.g., `**Type**: ...`, `**Status**: ...`).
+  1. Derive a proposed marker from the filename, the first-level heading (`# ...`), and any obvious metadata bullets at the top (e.g., `**Type**: ...`, `**Status**: ...`, `**Last Verified**: ...`).
   2. Display the proposed marker block in a diff-like preview.
   3. Ask: "Add this marker to `<path>`? (y/n/edit/skip all)"
   4. On `y`: insert the marker block immediately after the top-level heading.
   5. On `edit`: open the proposed block for user modification, then insert.
-  6. On `skip all`: abort this step for the remainder of the sync cycle.
+  6. On `skip all`: abort this pass for the remainder of the sync cycle.
 - Re-run Step 1.3 if any markers were added so downstream steps see the new entries.
 
-**Expected Outcome**: Every marker-eligible file either has a marker or was explicitly skipped by the user.
+**Pass B — Remove superseded prose frontmatter**:
 
-**If no files need backfill**: skip silently.
+Markers are the source of truth. When a file carries both a marker AND a prose field that the marker supersedes, the prose field is stale and must be removed. The following prose fields are superseded by marker fields and should be stripped:
+
+| Prose field | Superseded by marker field | Applies to |
+|---|---|---|
+| `**Status**: ...` | `status:` | spec, task, design, milestone, pattern, clarification, research/glossary/reference |
+| `**Last Updated**: ...` | `updated:` | spec |
+| `**Last Verified**: ...` | `last_verified:` | research/glossary/reference |
+| `**Confidence**: ...` | `confidence:` | research/glossary/reference |
+| `**Milestone**: ...` (if marker `milestone:` present and matches) | `milestone:` | task |
+| `**Dependencies**: ...` | `depends_on:` | task, milestone |
+| `**Applicable To**: ...` | `applies_to:` | pattern |
+
+- For every file in the marker inventory (Step 1.3), grep its prose for any of the superseded fields above.
+- For each hit, display a diff showing the proposed deletion.
+- Ask: "Remove superseded `**<Field>**: <value>` from `<path>`? The marker's `<field>: <value>` supersedes it. (y/n/skip all)"
+- On `y`: delete the prose line.
+- On `n`: leave it (user will address manually).
+- On `skip all`: abort this pass.
+
+Fields that remain in prose (not superseded, do NOT strip): `**Namespace**`, `**Version**`, `**Created**` (immutable), `**Design Reference**`, `**Estimated Time**`, `**Duration**`, `**Goal**`, `**Concept**`, `**Purpose**`, `**Category**`, `**Type**`, `**Sources**`, `**Total Terms**`.
+
+**Expected Outcome**: Every marker-eligible file has a marker (or was explicitly skipped) AND contains no superseded prose frontmatter fields.
+
+**If no files need either pass**: skip silently.
 
 ### 1.5. Build Spec Inventory from Markers
 

@@ -11,8 +11,6 @@ updated: {YYYY-MM-DD}
 **Namespace**: {namespace}  
 **Version**: 1.0.0  
 **Created**: YYYY-MM-DD  
-**Last Updated**: YYYY-MM-DD  
-**Status**: Draft | Active | Deprecated  
 
 ---
 

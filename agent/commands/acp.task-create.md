@@ -280,8 +280,7 @@ Create task file from template:
   - Milestone link
   - **Design Reference**: If Step 5.5 found a design document, link to it: `[{Design Name}](../design/{namespace}.{design-name}.md)`. If none found, set to `None`.
   - Estimated time
-  - Dependencies
-  - Status: "Not Started"
+  - Do NOT add `**Status**` or `**Dependencies**` prose fields. The marker supersedes them (`status:` and `depends_on:`). Task lifecycle state is in `progress.yaml`.
 - Fill in sections:
   - Objective (from collected info)
   - Context (from collected info or draft)
@@ -392,7 +391,6 @@ File: agent/tasks/milestone-{N}-{title}/task-{M}-{name}.md
 Task Number: {M}
 Milestone: M{X} - {Milestone Name}
 Estimated Time: {hours}
-Status: Not Started
 
 ✓ Task file created
 ✓ progress.yaml updated
@@ -493,7 +491,6 @@ File: agent/tasks/milestone-3-package-management/task-11-package-search-command.
 Task Number: 11
 Milestone: M3 - ACP Package Management System
 Estimated Time: 6-8 hours
-Status: Not Started
 
 ✓ Task file created
 ✓ progress.yaml updated

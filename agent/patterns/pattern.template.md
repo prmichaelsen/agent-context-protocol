@@ -9,8 +9,6 @@ updated: {YYYY-MM-DD}
 @acp.meta.end -->
 
 **Category**: [Architecture | Design | Code | Testing | Deployment]  
-**Applicable To**: [What types of projects or components this pattern applies to]  
-**Status**: [Stable | Experimental | Deprecated]  
 
 ---
 

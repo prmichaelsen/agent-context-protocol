@@ -10,9 +10,6 @@ updated: {YYYY-MM-DD}
 
 **Type**: research
 **Created**: YYYY-MM-DD
-**Last Verified**: YYYY-MM-DD
-**Status**: Active | Stale | Deprecated
-**Confidence**: High (9-10/10) | Medium (5-8/10) | Low (1-4/10)
 **Category**: [Domain-specific category, e.g., "API Integration", "Infrastructure", "Security"]
 **Sources**: [List of primary sources with access dates]
 

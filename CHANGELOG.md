@@ -5,6 +5,29 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.40.0] - 2026-04-28
+
+### Changed
+- **Markers supersede prose frontmatter.** Templates no longer carry prose fields that duplicate marker fields. The marker is the single source of truth; prose no longer mirrors it.
+- **Fields removed from templates** (now lived only in the marker):
+  - `**Status**` — removed from spec, task, design, milestone, pattern, clarification, research, glossary, reference templates
+  - `**Last Updated**` — removed from spec template (use marker `updated:`)
+  - `**Last Verified**` — removed from research/glossary/reference templates (use marker `last_verified:`)
+  - `**Confidence**` — removed from research/glossary/reference templates (use marker `confidence:`)
+  - `**Milestone**` — not applicable; stayed in task template (as a link, not a status field)
+  - `**Dependencies**` — removed from task, milestone templates (use marker `depends_on:`)
+  - `**Applicable To**` — removed from pattern template (use marker `applies_to:`)
+- **Fields kept in prose** (not duplicated by markers): `**Namespace**`, `**Version**`, `**Created**` (immutable), `**Design Reference**`, `**Estimated Time**`, `**Duration**`, `**Goal**`, `**Concept**`, `**Purpose**`, `**Category**`, `**Type**`, `**Sources**`, `**Total Terms**`.
+- **Creation commands updated** (`acp.task-create`, `acp.clarification-create`) to NOT write `**Status**` prose fields. Example outputs no longer show `Status: ...` lines.
+- **`acp.sync` Step 1.4** split into two passes: (A) add missing markers, (B) remove superseded prose frontmatter from files that already have markers. Both prompt per file with diff-like preview; never silently writes.
+- **AGENT.md "Metadata Markers" section** adds a "Markers supersede prose frontmatter" subsection documenting the supersession table and authoritative sources (marker for document state, `progress.yaml` for task-lifecycle state).
+
+### Motivation
+v5.38.0 + v5.39.0 shipped markers alongside the existing prose frontmatter, leaving `status` (and a few other fields) duplicated. Duplication drifts — one place says "Active," the other says "Draft," and neither is obviously authoritative. v5.40.0 resolves this by making the marker the only source and removing the prose copies.
+
+### Migration (for existing ACP projects)
+Run `@acp.sync` once. Step 1.4 Pass A backfills missing markers; Pass B prompts to remove superseded prose fields per file. No silent rewrites. Users can approve, edit, or skip each change.
+
 ## [5.39.0] - 2026-04-28
 
 ### Changed

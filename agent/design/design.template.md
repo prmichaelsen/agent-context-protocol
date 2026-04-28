@@ -11,7 +11,6 @@ updated: {YYYY-MM-DD}
 
 **Concept**: [One-line description of what this design addresses]  
 **Created**: YYYY-MM-DD  
-**Status**: Proposal | Design Specification | Implemented  
 
 ---
 

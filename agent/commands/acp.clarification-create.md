@@ -285,7 +285,7 @@ Generate clarification document from template:
   - Clarification number and title
   - Purpose
   - Created date
-  - Status: "Awaiting Responses"
+  - Do NOT add a `**Status**` prose field. The marker supersedes it via `status:` and `resolved:`.
 - Fill in Items and Questions sections with generated questions
 - Include "How to Use This Document" section from template
 - **Populate the `@acp.meta.clarification` marker block** — the template ships with `{placeholder}` values; replace every one:
@@ -311,10 +311,10 @@ File: agent/clarifications/clarification-{N}-{title}.md
 Number: {N}
 Title: {title}
 Questions: {count} questions across {item-count} topics
-Status: Awaiting Responses
 
 ✓ Clarification file created
 ✓ {count} questions generated
+✓ @acp.meta.clarification marker populated (resolved: false)
 
 Next steps:
 - Review the clarification file
@@ -369,7 +369,6 @@ File: agent/clarifications/clarification-7-auth-system-requirements.md
 Number: 7
 Title: auth-system-requirements
 Questions: 25 questions across 4 topics
-Status: Awaiting Responses
 
 Topics covered:
 - Authentication Methods (8 questions)
@@ -411,7 +410,6 @@ File: agent/clarifications/clarification-8-payment-integration-requirements.md
 Number: 8
 Title: payment-integration-requirements
 Questions: 12 questions across 4 topics
-Status: Awaiting Responses
 
 ✓ Clarification file created
 ✓ 12 questions generated

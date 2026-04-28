@@ -11,8 +11,6 @@ updated: {YYYY-MM-DD}
 
 **Goal**: [One-line objective that clearly states what this milestone achieves]  
 **Duration**: [Estimated time: e.g., "1-2 weeks", "3-5 days"]  
-**Dependencies**: [List prerequisite milestones or external dependencies, or "None"]  
-**Status**: Not Started | In Progress | Completed  
 
 ---
 
