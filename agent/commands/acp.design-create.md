@@ -162,6 +162,14 @@ Create design file from template:
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
 - If Key Design Decisions section was generated in Step 2.7: Insert it into the design document
+- **Populate the `@acp.meta.design` marker block** — the template ships with `{placeholder}` values; every one MUST be replaced before saving:
+  - `topic:` — comma-separated keywords from the design name + user description
+  - `description:` — one-line summary, <=150 chars (truncate with `…` if needed)
+  - `informs:` — if the user named a spec this design derived (or will derive) into, use that spec path; otherwise omit the line
+  - `depends_on:` — other design paths referenced (if any); otherwise omit
+  - `status:` — literal `draft`
+  - `updated:` — today's ISO date
+  - No `{placeholder}` text may remain.
 - Save to `agent/design/{namespace}.{design-name}.md`
 
 **Expected Outcome**: Design file created  

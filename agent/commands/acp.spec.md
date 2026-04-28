@@ -217,7 +217,9 @@ Create the spec file.
 - Ensure `agent/specs/` exists; create it if not
 - If `agent/specs/spec.template.md` exists, use it as the base
 - Otherwise, use this default structure:
-  - Title and directive header (template-style)
+  - Title
+  - **`@acp.meta.spec` marker block** (immediately after the title — see population rules below)
+  - Directive header (template-style)
   - Metadata block (Namespace, Version, Created, Last Updated, Status)
   - **Purpose** (one line)
   - **Source** (mode and source file path)
@@ -240,6 +242,13 @@ Create the spec file.
   - `--from-requirements`: carry requirements forward verbatim where possible; expand each into acceptance criteria
   - `--interactive`: build from user-collected answers in Step 5
 - If a "Key Design Decisions" section was generated in Step 4, insert it above "Related Artifacts"
+- **Populate the `@acp.meta.spec` marker block** (if `spec.template.md` supplied one, replace its `{placeholder}` values; otherwise insert a fresh block):
+  - `topic:` — comma-separated keywords derived from the spec title + user-provided scope keywords from Step 5
+  - `description:` — one-line summary from the spec's `## Purpose` section, <=150 chars (truncate with `…` if needed)
+  - `requirements:` — computed from the final `## Requirements` count. If the spec has N sequential requirements R1..R<N>, write `R1..R<N>`. If the requirement IDs are non-contiguous (rare), enumerate them: `R1, R3, R7`.
+  - `status:` — literal `draft`
+  - `updated:` — today's ISO date (`YYYY-MM-DD`)
+  - No `{placeholder}` text must remain in the marker block.
 - Save the file
 
 **Behavior Table format** (REQUIRED — the reviewer's proofing surface):

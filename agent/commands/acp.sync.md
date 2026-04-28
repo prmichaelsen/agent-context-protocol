@@ -67,41 +67,77 @@ Load all design documents to understand documented architecture.
 
 **Expected Outcome**: Documented architecture understood  
 
-### 1.5. Read Spec Documents
+### 1.3. Scan Metadata Markers
 
-Load all formal specifications to understand the requirement surface.
+Run the canonical marker parser once and hold its output for the rest of the sync cycle. Every subsequent step that needs spec/task/code/design metadata consumes this stream instead of re-reading files.
 
 **Actions**:
-- Check if `agent/specs/` directory exists. If not, skip this step silently.
-- Read all files in `agent/specs/`.
-- For each spec:
-  - Parse the `## Requirements` section. Extract every `R<N>` with its one-line description.
-  - Parse the `## Behavior Table` (or `## Behavior`) section if present. Extract named scenarios.
-  - Parse the `## Tests` section if present.
-- Build an inventory of every R<N> requirement across all specs, keyed by spec path.
+- Invoke the parser:
+  ```sh
+  ./agent/scripts/acp.meta-scan.sh agent/
+  ```
+- Parse the flat `file:` / `kind:` / `key:` stream into an in-memory structure indexed by `kind`:
+  ```
+  specs:    { file_path → { topic, description, requirements, status, updated, ... } }
+  tasks:    { file_path → { topic, milestone, spec, covers, status, updated, ... } }
+  designs:  { file_path → { topic, informs, status, updated, ... } }
+  code:     { file_path → { topic, implements, spec, file_role, status, updated, ... } }
+  others:   { file_path → { kind, topic, ... } }  (clarifications, patterns, artifacts, milestones)
+  ```
+- If `acp.meta-scan.sh` returns empty output, no markers exist yet. Continue without the marker data; Step 1.4 will prompt the user to backfill.
 
-**Expected Outcome**: Complete spec requirement inventory (list of every R<N> in every spec)  
+**Expected Outcome**: Marker inventory available as structured data for Steps 1.4, 1.5, 1.6, 5, and 6.  
 
-### 1.6. Cross-Reference Specs with Task Claims
+### 1.4. Backfill Missing Markers
+
+For files in marker-eligible directories that don't have an `@acp.meta.*` block, propose one and prompt the user for confirmation. Never silently write.
+
+**Actions**:
+- For each directory in `agent/{specs,design,tasks,milestones,patterns,clarifications,artifacts}/`, list the files.
+- Subtract the files already in the marker inventory from Step 1.3.
+- For each remaining file (has no marker):
+  1. Derive a proposed marker from the filename, the first-level heading (`# ...`), and any obvious metadata bullets at the top (e.g., `**Type**: ...`, `**Status**: ...`).
+  2. Display the proposed marker block in a diff-like preview.
+  3. Ask: "Add this marker to `<path>`? (y/n/edit/skip all)"
+  4. On `y`: insert the marker block immediately after the top-level heading.
+  5. On `edit`: open the proposed block for user modification, then insert.
+  6. On `skip all`: abort this step for the remainder of the sync cycle.
+- Re-run Step 1.3 if any markers were added so downstream steps see the new entries.
+
+**Expected Outcome**: Every marker-eligible file either has a marker or was explicitly skipped by the user.
+
+**If no files need backfill**: skip silently.
+
+### 1.5. Build Spec Inventory from Markers
+
+Source the spec requirement surface from the marker stream (Step 1.3) instead of re-reading every spec file.
+
+**Actions**:
+- From `specs:` in the Step 1.3 inventory, extract each spec's `requirements:` field (e.g., `R1..R30` or `R1, R3, R7`).
+- Expand range notation: `R1..R30` → `R1, R2, ..., R30`.
+- Build the requirement inventory: `{ spec_path → [R1, R2, ..., R<N>] }`.
+- For behavior scenarios and test names, fall back to reading the `## Behavior Table` and `## Tests` sections of each spec file — markers don't carry these (by design; they'd balloon). Only open each spec once, not per-task.
+
+**Expected Outcome**: Complete spec requirement inventory keyed by spec path.
+
+### 1.6. Cross-Reference Specs with Task Claims (Marker-Driven)
 
 Determine which spec requirements are claimed by which tasks, and flag unclaimed ones.
 
 **Actions**:
-- For each task in `agent/tasks/**/*.md`, parse its `## Spec Coverage` section (if present). Extract:
-  - The `Source:` spec path
-  - Every `R<N>` listed under "Covered requirements"
-  - Every behavior scenario listed under "Covered behaviors"
-- Build a claims inventory: `{ spec_path → { R<N>: [task_paths] } }`
+- From `tasks:` in the Step 1.3 inventory, extract each task's `spec:` and `covers:` fields.
+- Skip tasks with no `covers:` (they claim no spec requirements).
+- Build the claims inventory: `{ spec_path → { R<N>: [task_paths] } }`.
 - Compare against the requirement inventory from Step 1.5. Classify each R<N> as:
-  - **Claimed** — at least one task claims it in its Spec Coverage
-  - **Unclaimed** — in the spec but in no task's Spec Coverage
+  - **Claimed** — at least one task's `covers:` field contains it
+  - **Unclaimed** — in the spec's `requirements:` but no task claims it
   - **Duplicated** — claimed by more than one task (possibly intentional; flag for review)
-- Classify each claimed requirement further:
-  - **Implemented** — a grep or code inspection finds an implementation
-  - **Unimplemented** — claimed by a completed task but no matching implementation in code
-  - **Partial** — some aspects implemented, others missing
+- Classify each claimed requirement further using the `code:` inventory from Step 1.3:
+  - **Implemented** — at least one code marker's `implements:` field contains this R<N> AND references the same spec
+  - **Unimplemented** — claimed by a completed task (`status: complete`) but no code marker implements it
+  - **Partial** — claimed by a task and some but not all sub-clauses are covered by code markers (judgment call; flag for review)
 
-**Expected Outcome**: Traceability map of spec R<N> → task claims → implementation status  
+**Expected Outcome**: Traceability map of spec R<N> → task claims → code implementation status, derived from marker data in one pass.  
 
 ### 2. Read Task Documents
 

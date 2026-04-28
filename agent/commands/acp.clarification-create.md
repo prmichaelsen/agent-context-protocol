@@ -288,6 +288,13 @@ Generate clarification document from template:
   - Status: "Awaiting Responses"
 - Fill in Items and Questions sections with generated questions
 - Include "How to Use This Document" section from template
+- **Populate the `@acp.meta.clarification` marker block** — the template ships with `{placeholder}` values; replace every one:
+  - `topic:` — comma-separated keywords from the clarification title + source file topic
+  - `resolves:` — path to the task/design/spec this clarification targets (from Step 2 or Step 3)
+  - `resolved:` — literal `false`
+  - `status:` — literal `draft`
+  - `updated:` — today's ISO date
+  - No `{placeholder}` text may remain.
 - Save to `agent/clarifications/clarification-{N}-{title}.md`
 
 **Expected Outcome**: Clarification file created  

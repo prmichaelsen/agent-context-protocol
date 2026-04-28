@@ -5,6 +5,34 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.39.0] - 2026-04-28
+
+### Changed
+- **`@acp.task-create` Step 5.6** — now invokes `./agent/scripts/acp.meta-scan.sh --kind spec agent/specs/` to narrow candidate specs via marker `topic:` keywords, then opens only the 1-3 relevant specs to extract verbatim R<N> descriptions. Replaces "scan every spec file by filename and section content." Falls back to legacy filename scanning if no spec markers exist yet (warns user to backfill via `@acp.sync` Step 1.4).
+- **`@acp.task-create` Step 6** — now explicitly populates the `@acp.meta.task` marker block fields (topic, description, milestone, spec, covers, depends_on, status, updated) at file creation, replacing the template's `{placeholder}` values. Report Success step confirms no placeholder text remains.
+- **`@acp.spec` Step 6** — now populates the `@acp.meta.spec` marker block (topic, description, requirements range R1..R<N>, status, updated) at file creation.
+- **`@acp.design-create` Step 5** — populates `@acp.meta.design` marker (topic, description, informs, depends_on, status, updated).
+- **`@acp.pattern-create` Step 5** — populates `@acp.meta.pattern` marker (topic, description, applies_to, status, updated).
+- **`@acp.clarification-create` Step 6** — populates `@acp.meta.clarification` marker (topic, resolves, resolved=false, status, updated).
+- **`@acp.sync` new Step 1.3** — runs `./agent/scripts/acp.meta-scan.sh agent/` once and caches the marker inventory for the rest of the sync cycle. Steps 1.5, 1.6, 5, and 6 consume this cached stream instead of reading files repeatedly.
+- **`@acp.sync` new Step 1.4 (Backfill)** — for files in marker-eligible directories without markers, proposes a marker derived from filename + headings and prompts user for confirmation. Never silently writes. User can accept, edit, skip, or skip-all-remaining.
+- **`@acp.sync` Steps 1.5 / 1.6** — rewritten to drive off marker data: spec inventory comes from marker `requirements:` fields (expanding `R1..R30` range notation), task claims come from marker `covers:` fields, code implementation status from code marker `implements:` fields. One pass across all markers instead of N passes across N files.
+
+### Added
+- Marker-based cross-referencing now detects, during sync:
+  - **Unclaimed requirements** (spec R<N> in no task's `covers:`) — planning gap
+  - **Unimplemented claims** (task `covers: R<N>` marked `status: complete` but no code `implements: R<N>`) — completion drift
+  - **Duplicated claims** (R<N> in multiple tasks' `covers:`) — flagged for review
+  - **Stale markers** (`status: complete` but `updated:` > 6 months old) — possibly out-of-date
+
+### Motivation
+v5.38.0 shipped the marker system foundation. Without this wiring, the markers were interoperable-by-hand but not automatic. v5.39.0 makes the spec→task→code traceability chain run by itself: every new task automatically claims the right requirements, every sync cycle surfaces every gap.
+
+### Out of scope (deferred)
+- Frontmatter consolidation (duplicated `status` between marker and prose) — deferred.
+- `acp.validate` task-inlining check — deferred, noted in memory.
+- Retroactive marker population in ACP's own existing files — hand-curated as needed.
+
 ## [5.38.0] - 2026-04-28
 
 ### Added

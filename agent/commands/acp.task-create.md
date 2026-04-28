@@ -216,13 +216,18 @@ Invoke the `@acp.design-reference` shared directive to discover and extract desi
 
 ### 5.6. Cross-Reference Spec Documents
 
-Discover and extract requirements from any matching spec in `agent/specs/`.
+Discover and extract requirements from any matching spec in `agent/specs/`, using the canonical marker parser script.
 
 **Actions**:
 - Check if `agent/specs/` directory exists. If not, skip silently.
-- Scan `agent/specs/*.md` for files whose title, `## Scope`, or `## Requirements` section matches the task topic (keywords from task name + milestone name + design document name if one was found in Step 5.5).
-- For each matching spec:
-  1. Parse the `## Requirements` section. Each requirement has an ID like `R1`, `R2`, ..., `R<N>`. Extract ID + one-line description.
+- Invoke the marker scanner:
+  ```sh
+  ./agent/scripts/acp.meta-scan.sh --kind spec agent/specs/
+  ```
+  This emits a flat stream of `file:` / `kind:` / `key:` lines (see `AGENT.md` "Metadata Markers" for the format), grouped by `---`. For each spec block, read its `topic:` and `description:` fields.
+- Match each spec's `topic:` keywords against the current task's topic (task name + milestone name + design document name from Step 5.5). A spec is a candidate if at least one keyword overlaps.
+- **Open only the candidate specs** (typically 1-3 out of however many exist). For each candidate:
+  1. Parse the `## Requirements` section verbatim. Each requirement has an ID like `R1`, `R2`, ..., `R<N>`. Extract ID + one-line description.
   2. Parse the `## Behavior Table` / `## Behavior` section if present. Extract scenario rows that belong to this task's scope (match by keywords and by which requirements they cover).
   3. Extract relevant test names from the `## Tests` section.
 - Narrow the extracted requirements to those the task should cover. Use judgment: a task about pen pal unlock claims R10 (pen pal system), R11 (collectibles), maybe R12 (adaptive frequency) — NOT every requirement in the spec.
@@ -240,9 +245,11 @@ Discover and extract requirements from any matching spec in `agent/specs/`.
   ```
 - Hold this data for use in Step 6.
 
-**If no spec found**: Skip silently. The `Spec Coverage` section in the task file is omitted entirely (not left as scaffolding). Proceed to Step 6.  
+**If `acp.meta-scan.sh` returns no output**: No specs have markers. Fall back to the legacy path (scan `agent/specs/*.md` by filename and `## Requirements` sections) and warn the user that spec markers should be backfilled via `@acp.sync` Step 1.4.
 
-**Expected Outcome**: Spec requirements extracted and scoped to this task, or skipped cleanly when no spec applies  
+**If no spec matches the task topic**: Skip silently. The `Spec Coverage` section in the task file is omitted entirely (not left as scaffolding). Proceed to Step 6.  
+
+**Expected Outcome**: Spec requirements extracted and scoped to this task, or skipped cleanly when no spec applies. Only relevant spec files were opened — no broad directory scan.  
 
 **Note**: This is a narrower cross-reference than Step 5.5. Designs describe *how*; specs define *what must be true*. Both can exist for the same feature, and both should be consulted.
 
@@ -258,6 +265,16 @@ Create task file from template:
   - name = kebab-case version of task name
 - Create milestone subdirectory if it doesn't exist
 - Copy from task template (agent/tasks/task-1-{title}.template.md)
+- **Populate the `@acp.meta.task` marker block at the top** — the template ships with `{placeholder}` values; every one of them MUST be replaced before saving:
+  - `topic:` — comma-separated keywords derived from task name + milestone name (reuse the keywords computed for Step 5.5/5.6)
+  - `description:` — user-provided task description from Step 4, one line, <=150 chars (truncate with `…` if needed)
+  - `milestone:` — milestone ID string (e.g. `M10`) from Step 1. If no milestone, omit the line entirely.
+  - `spec:` — the spec path from Step 5.6 if a matching spec was found, otherwise OMIT the line entirely
+  - `covers:` — comma-separated R-IDs from Step 5.6 (e.g. `R10, R11, R12`), otherwise OMIT the line entirely
+  - `depends_on:` — task IDs from Step 4 dependencies (e.g. `task-17, task-19`), otherwise OMIT the line entirely
+  - `status:` — literal `draft`
+  - `updated:` — today's ISO date (`YYYY-MM-DD`)
+  - **Do not leave any `{placeholder}` text in the marker block.** An incomplete marker is worse than no marker — it pollutes the parser stream.
 - Fill in metadata:
   - Task number and name
   - Milestone link
@@ -379,6 +396,7 @@ Status: Not Started
 
 ✓ Task file created
 ✓ progress.yaml updated
+✓ @acp.meta.task marker populated (verified no {placeholder} text remains)
 ✓ Draft file deleted (if requested)
 
 Next steps:
@@ -421,6 +439,8 @@ If yes, prompt for weight, description, rationale, and applies values. Add entry
 - [ ] `User-Observable Acceptance` section present and populated (at least one criterion OR justified N/A)
 - [ ] `Spec Coverage` section present if a matching spec was found in Step 5.6; absent otherwise
 - [ ] Spec requirements (when present) copied verbatim from `agent/specs/` — not paraphrased
+- [ ] `@acp.meta.task` marker block fully populated — every `{placeholder}` replaced, `updated:` is today's date, optional lines (`spec:`, `covers:`, `depends_on:`) omitted if not applicable
+- [ ] Running `./agent/scripts/acp.meta-scan.sh --kind task <task-path>` returns the task's metadata correctly
 
 ---
 

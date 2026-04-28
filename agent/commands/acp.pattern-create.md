@@ -181,6 +181,13 @@ Create pattern file from template:
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
 - If Key Design Decisions section was generated in Step 2.7: Insert it into the pattern document
+- **Populate the `@acp.meta.pattern` marker block** — the template ships with `{placeholder}` values; replace every one:
+  - `topic:` — comma-separated keywords from the pattern name + description
+  - `description:` — one-line summary, <=150 chars
+  - `applies_to:` — comma-separated contexts (e.g. `data-access, auth, testing`) — from Step 3 user input
+  - `status:` — literal `active`
+  - `updated:` — today's ISO date
+  - No `{placeholder}` text may remain.
 - Save to `agent/patterns/{namespace}.{pattern-name}.md`
 
 **Expected Outcome**: Pattern file created  
