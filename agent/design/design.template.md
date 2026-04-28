@@ -1,5 +1,14 @@
 # {Feature/Pattern Name}
 
+<!-- @acp.meta.design
+topic: {comma-separated keywords}
+description: {one-line summary, <=150 chars}
+informs: {agent/specs/{namespace}.{spec-name}.md or omit if no derived spec yet}
+depends_on: {other design paths or omit}
+status: draft
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Concept**: [One-line description of what this design addresses]  
 **Created**: YYYY-MM-DD  
 **Status**: Proposal | Design Specification | Implemented  

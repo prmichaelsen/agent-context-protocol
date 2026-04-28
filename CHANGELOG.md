@@ -5,6 +5,24 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.38.0] - 2026-04-28
+
+### Added
+- **Language-agnostic `@acp.meta.*` marker system** — documents (and optionally source code files) carry machine-readable metadata markers that let orchestrators map the repo in one awk pass instead of reading every file. Markers work in markdown, TypeScript, Python, Rust, SQL, shell, YAML — any file where comments can host two sentinels (`@acp.meta.<kind>` opening, `@acp.meta.end` closing).
+- **Parser script** `agent/scripts/acp.meta-scan.sh` — single source of truth for marker discovery and parsing. Supports `--kind spec|task|code|...` filtering. Output is a flat `file:` / `kind:` / `key:` stream with `---` between blocks, consumable by downstream shell, another awk pass, or an LLM prompt.
+- **Eight marker kinds**: `spec`, `task`, `design`, `milestone`, `pattern`, `clarification`, `artifact`, `code`. Each has a documented field catalog (required + optional) in AGENT.md.
+- **`code` marker** — NEW. Source files can declare which spec requirements they implement via `implements: R10, R11`. Enables spec→task→code traceability in one awk pass: a task `covers:` an R-ID, a code file `implements:` it, an orchestrator grep correlates them without opening any file.
+- **Template stubs** — every document template now includes a pre-filled `@acp.meta.*` marker block: spec, task, design, milestone, pattern, clarification, and all three artifact templates (research, glossary, reference).
+- **AGENT.md "Metadata Markers" section** — documents sentinel syntax, per-language comment forms, field catalog per kind, and the parser script.
+
+### Motivation
+During Iris's M10 milestone, six sub-agents independently reported "done," but a post-hoc audit caught 8 integration bugs and a missing UX slice (character bubble attribution, help button). Spec requirement R20 (help system) was in the spec but no task claimed it — nothing flagged it until after shipping. Markers make that failure mode mechanical to detect: awk over the whole repo, diff task `covers:` against spec `requirements:`, surface gaps immediately.
+
+### Planned (follow-up, not in this release)
+- Creation commands (`@acp.task-create`, `@acp.spec`, `@acp.design-create`, etc.) auto-populating markers at file creation — partially wired; full integration deferred to 5.39.0.
+- `@acp.sync` consuming the marker stream for cross-reference traceability (Steps 1.5 / 1.6 already describe the goal; consuming the script output wired in 5.39.0).
+- Frontmatter consolidation — `status` and a few other fields now live in BOTH the marker block AND the prose frontmatter. Migration deferred to a later release.
+
 ## [5.37.0] - 2026-04-27
 
 ### Added

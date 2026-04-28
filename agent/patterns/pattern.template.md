@@ -1,5 +1,13 @@
 # {Pattern Name}
 
+<!-- @acp.meta.pattern
+topic: {comma-separated keywords}
+description: {one-line summary, <=150 chars}
+applies_to: {comma-separated contexts — e.g. data-access, auth, testing}
+status: active
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Category**: [Architecture | Design | Code | Testing | Deployment]  
 **Applicable To**: [What types of projects or components this pattern applies to]  
 **Status**: [Stable | Experimental | Deprecated]  

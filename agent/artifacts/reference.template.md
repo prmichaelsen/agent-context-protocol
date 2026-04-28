@@ -1,5 +1,13 @@
 # [Reference Title]
 
+<!-- @acp.meta.artifact
+topic: {comma-separated keywords}
+last_verified: {YYYY-MM-DD}
+confidence: high
+status: active
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Type**: reference
 **Created**: YYYY-MM-DD
 **Last Verified**: YYYY-MM-DD

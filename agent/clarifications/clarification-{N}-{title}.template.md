@@ -1,5 +1,13 @@
 # Clarification {N}: {Title}
 
+<!-- @acp.meta.clarification
+topic: {comma-separated keywords}
+resolves: {path to the task/design/spec this clarification targets}
+resolved: false
+status: draft
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Purpose**: [One-line description of what needs clarification and why]  
 **Created**: YYYY-MM-DD  
 **Status**: Awaiting Responses  

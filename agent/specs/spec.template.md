@@ -1,5 +1,13 @@
 # Spec: {Spec Name}
 
+<!-- @acp.meta.spec
+topic: {comma-separated keywords — e.g. auth, sessions, tokens}
+description: {one-line summary, <=150 chars}
+requirements: {R1..R<N> or R1, R3, R7}
+status: draft
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Namespace**: {namespace}  
 **Version**: 1.0.0  
 **Created**: YYYY-MM-DD  

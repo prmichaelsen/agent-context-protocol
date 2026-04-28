@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.37.0
+**Version**: 5.38.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -14,20 +14,21 @@
 3. [Why This Pattern Exists](#why-this-pattern-exists)
 4. [Directory Structure](#directory-structure)
 5. [Core Components](#core-components)
-6. [How to Use the Agent Pattern](#how-to-use-the-agent-pattern)
-7. [Pattern Significance & Impact](#pattern-significance--impact)
-8. [Problems This Pattern Solves](#problems-this-pattern-solves)
-9. [Key File Index](#key-file-index)
-10. [Instructions for Future Agents](#instructions-for-future-agents)
-11. [Best Practices](#best-practices)
+6. [Metadata Markers](#metadata-markers)
+7. [How to Use the Agent Pattern](#how-to-use-the-agent-pattern)
+8. [Pattern Significance & Impact](#pattern-significance--impact)
+9. [Problems This Pattern Solves](#problems-this-pattern-solves)
+10. [Key File Index](#key-file-index)
+11. [Instructions for Future Agents](#instructions-for-future-agents)
+12. [Best Practices](#best-practices)
     - [Critical Rules](#critical-rules)
     - [Workflow Best Practices](#workflow-best-practices)
     - [Documentation Best Practices](#documentation-best-practices)
     - [Organization Best Practices](#organization-best-practices)
     - [Progress Tracking Best Practices](#progress-tracking-best-practices)
     - [Quality Best Practices](#quality-best-practices)
-12. [What NOT to Do](#what-not-to-do)
-13. [Keeping ACP Updated](#keeping-acp-updated)
+13. [What NOT to Do](#what-not-to-do)
+14. [Keeping ACP Updated](#keeping-acp-updated)
 
 ---
 
@@ -409,6 +410,121 @@ current_blockers:
   - Blocker 1
   - Blocker 2
 ```
+
+---
+
+## Metadata Markers
+
+ACP documents (and optionally source code files) carry machine-readable **metadata markers** that let orchestrators map the repo in one pass instead of reading every file. A single awk script parses markers across any language — markdown, TypeScript, Python, Rust, SQL, shell, YAML — so spec→task→code traceability works uniformly.
+
+### Sentinel syntax
+
+Every marker has two literal sentinels:
+
+- **Opening**: `@acp.meta.<kind>` where `<kind>` is one of: `spec`, `task`, `design`, `milestone`, `pattern`, `clarification`, `artifact`, `code`
+- **Closing**: `@acp.meta.end`
+
+Authors wrap both sentinels and each body line in the host language's comment syntax. The parser strips the comment characters before extracting fields.
+
+### Per-language forms
+
+Same marker, five languages:
+
+**Markdown** (`<!-- ... -->`):
+```markdown
+<!-- @acp.meta.task
+topic: wire awk parser into sync
+milestone: M3
+covers: R31, R32
+status: in_progress
+updated: 2026-04-27
+@acp.meta.end -->
+```
+
+**TypeScript / JS / Rust / Go** (`// ...`):
+```ts
+// @acp.meta.code
+// topic: marker parser util
+// implements: R31, R32
+// spec: agent/specs/local.marker-system.md
+// file_role: util
+// status: implemented
+// updated: 2026-04-27
+// @acp.meta.end
+```
+
+**Python / Shell / YAML** (`# ...`):
+```python
+# @acp.meta.code
+# topic: backfill legacy files
+# implements: R40
+# file_role: cli
+# status: draft
+# updated: 2026-04-27
+# @acp.meta.end
+```
+
+**SQL / Haskell** (`-- ...`):
+```sql
+-- @acp.meta.code
+-- topic: migration for spec_coverage table
+-- implements: R42
+-- file_role: migration
+-- status: implemented
+-- updated: 2026-04-27
+-- @acp.meta.end
+```
+
+**Lisp / Clojure** (`;; ...`) and **OCaml / Elm** (`(* ... *)`) follow the same pattern.
+
+### Body fields
+
+Each field is `key: value` on its own line. List values use comma-separated inline form (`covers: R10, R11, R12`). No YAML block syntax — keep the parser trivial.
+
+### Field catalog per kind
+
+| kind | required | optional |
+|---|---|---|
+| `spec` | topic, description, requirements, status, updated | phases, supersedes, depends_on |
+| `task` | topic, description, milestone, spec, covers, status, updated | depends_on |
+| `design` | topic, description, informs, status, updated | depends_on |
+| `milestone` | topic, description, tasks, status, updated | spec |
+| `pattern` | topic, description, applies_to, status, updated | — |
+| `clarification` | topic, resolves, status, updated | resolved |
+| `artifact` | topic, last_verified, confidence, status, updated | — |
+| `code` | topic, implements, spec, file_role, status, updated | — |
+
+`status` enum (shared): `draft | active | in_progress | complete | deprecated | superseded` (plus `implemented | verified` for code). `updated` is ISO 8601 date.
+
+### The parser
+
+[`agent/scripts/acp.meta-scan.sh`](agent/scripts/acp.meta-scan.sh) is the single source of truth. Commands invoke it rather than reimplementing awk inline.
+
+```bash
+# Scan everything
+./agent/scripts/acp.meta-scan.sh agent/
+
+# Filter by kind
+./agent/scripts/acp.meta-scan.sh --kind task agent/tasks/
+./agent/scripts/acp.meta-scan.sh --kind spec,code .
+```
+
+Output is a flat stream of `file:` / `kind:` / `key:` lines, with `---` between blocks. Any downstream consumer (another awk, shell, or an LLM prompt) parses it directly.
+
+### What markers enable
+
+- **`@acp.task-create`** invokes the scanner to find a matching spec for a new task and auto-populates the task's `Spec Coverage` section from the spec's declared `requirements:` range.
+- **`@acp.sync`** invokes the scanner to build a spec ↔ task ↔ code cross-reference map in one pass, surfacing:
+  - Unclaimed requirements (spec R<N> with no task `covers:` it) → planning gap
+  - Unimplemented claims (task `covers: R<N>` but no code `implements: R<N>`) → completion drift
+  - Stale markers (`status: complete` but `updated:` > 6 months ago) → possibly out-of-date
+- **Code markers** are opt-in. Only source files claiming to implement a spec requirement need one. A file may carry multiple `kind: code` blocks (one per function/module implementing a separate requirement).
+
+### Authoring
+
+- Markers are auto-populated by creation commands at file creation (`@acp.task-create`, `@acp.spec`, `@acp.design-create`, etc.).
+- Hand-authored edits are welcome. `@acp.sync` updates `updated:` timestamps when it detects content changes.
+- `@acp.sync` can backfill markers into legacy files (prompts for user confirmation; never silently writes).
 
 ---
 

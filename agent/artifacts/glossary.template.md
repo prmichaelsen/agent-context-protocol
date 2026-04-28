@@ -1,5 +1,13 @@
 # [Project Name] Glossary
 
+<!-- @acp.meta.artifact
+topic: glossary, terminology
+last_verified: {YYYY-MM-DD}
+confidence: high
+status: active
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Type**: glossary
 **Created**: YYYY-MM-DD
 **Last Verified**: YYYY-MM-DD

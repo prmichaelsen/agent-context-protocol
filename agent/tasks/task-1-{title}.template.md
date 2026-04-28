@@ -1,5 +1,16 @@
 # Task {N}: {Descriptive Task Name}
 
+<!-- @acp.meta.task
+topic: {comma-separated keywords}
+description: {one-line summary, <=150 chars}
+milestone: M{N}
+spec: {agent/specs/{namespace}.{spec-name}.md or omit line if no spec}
+covers: {R10, R11 — R-IDs claimed from the spec, or omit if no spec}
+depends_on: {task-17, task-19 or omit if none}
+status: draft
+updated: {YYYY-MM-DD}
+@acp.meta.end -->
+
 **Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)  
 **Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None  
 **Estimated Time**: [e.g., "2 hours", "4 hours", "1 day"]  
