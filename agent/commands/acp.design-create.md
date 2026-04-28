@@ -162,11 +162,19 @@ Create design file from template:
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
 - If Key Design Decisions section was generated in Step 2.7: Insert it into the design document
+- **Label atomic design units with D-IDs.** As you write the design, assign `D<N>` IDs to every atomic, addressable chunk (key decisions, code/schema snippets, interfaces, algorithms, formulas, key invariants, diagrams — anything a task might later inline verbatim). Number sequentially across the whole document. Use one of these forms:
+  - `### D1: Use SM-2 for scheduling` (for decisions / major sections)
+  - `**D2: user_study_list table**` above a fenced SQL/TS block (for code/schema snippets)
+  - `**D3: Effective priority formula**` as a standalone paragraph label (for algorithms / rules)
+
+  Prose context surrounding a D-ID is just context — do NOT assign D-IDs to every paragraph. Only atomic units get IDs.
+
 - **Populate the `@acp.meta.design` marker block** — the template ships with `{placeholder}` values; every one MUST be replaced before saving:
   - `topic:` — comma-separated keywords from the design name + user description
   - `description:` — one-line summary, <=150 chars (truncate with `…` if needed)
   - `informs:` — if the user named a spec this design derived (or will derive) into, use that spec path; otherwise omit the line
   - `depends_on:` — other design paths referenced (if any); otherwise omit
+  - `decisions:` — list or range of D-IDs in the design. Use range form (`D1..D5`) when IDs are contiguous; list form (`D1, D3, D7`) otherwise. OMIT this line entirely if the design has no D-IDs (tiny designs may not need any).
   - `status:` — literal `draft`
   - `updated:` — today's ISO date
   - No `{placeholder}` text may remain.

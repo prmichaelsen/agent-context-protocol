@@ -209,6 +209,7 @@ Invoke the `@acp.design-reference` shared directive to discover and extract desi
   4. Flag any design gaps (suggest clarification if needed)
   5. Return structured data: design elements, gaps, and paths
 - Hold the returned design elements for use in Step 6
+- **Record D-ID incorporation.** As you extract atomic design units, note their `D<N>` IDs. If the design uses D-IDs (look for `\*\*D\d+[:\s*]` bold-prefix or `### D\d+:` heading forms), record the specific D-IDs you intend to inline in the task body. These become the `incorporates:` field in the task's `@acp.meta.task` marker during Step 6. If the design has no D-IDs (legacy, pre-v5.41), skip this; validate will warn and suggest backfilling D-IDs via `@acp.sync`.
 
 **If no design found**: The directive warns and returns empty. Proceed to Step 6 with available context only (user input, draft, clarifications).  
 
@@ -271,6 +272,8 @@ Create task file from template:
   - `milestone:` — milestone ID string (e.g. `M10`) from Step 1. If no milestone, omit the line entirely.
   - `spec:` — the spec path from Step 5.6 if a matching spec was found, otherwise OMIT the line entirely
   - `covers:` — comma-separated R-IDs from Step 5.6 (e.g. `R10, R11, R12`), otherwise OMIT the line entirely
+  - `design:` — the design path from Step 5.5 if a design was found, otherwise OMIT the line entirely
+  - `incorporates:` — comma-separated D-IDs from the design that this task actually inlines (e.g. `D1, D3, D7`). When Step 5.5 extracts design content for inlining, record the specific `D<N>` IDs of the atomic units being copied into the task body. If the design has D-IDs but none are being inlined, OMIT the line. If the design has no D-IDs yet (legacy), OMIT; validate will fall back to a holistic check and may suggest running `@acp.sync` to backfill D-IDs.
   - `depends_on:` — task IDs from Step 4 dependencies (e.g. `task-17, task-19`), otherwise OMIT the line entirely
   - `status:` — literal `draft`
   - `updated:` — today's ISO date (`YYYY-MM-DD`)

@@ -114,7 +114,7 @@ Check milestone document structure.
 
 ### 5. Validate Task Documents
 
-Check task document structure.
+Check task document structure and self-containment.
 
 **Actions**:
 - Read all files in `agent/tasks/`
@@ -123,8 +123,90 @@ Check task document structure.
 - Validate milestone references
 - Verify verification items are checkboxes
 - Check for proper formatting
+- Run **Self-Containment Probes** on every task with marker `status:` of `draft`, `in_progress`, or `not_started` (skip tasks marked `complete` — retroactive probing is noise)
 
-**Expected Outcome**: Task docs are valid  
+**Expected Outcome**: Task docs are structurally valid AND incomplete tasks have verified self-containment  
+
+#### 5.1. Self-Containment Probes
+
+The Self-Contained Task Principle requires every relevant design excerpt, spec requirement, and clarification decision to be inlined verbatim in the task body so sub-agents have all the context they need without opening other files. These probes confirm the task actually did the inlining.
+
+All three probes are **reading-comprehension checks**: you (as validate's executing agent) read the task file and the referenced files, then judge whether the claimed content is meaningfully reflected in the task body. No fingerprints, no thresholds — you compare.
+
+All findings are **soft warnings**. They never hard-fail validate; they appear in the Self-Containment section of Step 12's report and the user decides whether each is deliberate scoping or missed inlining.
+
+**Probe 1 — Spec inlining**
+
+For each incomplete task with `@acp.meta.task` marker fields `spec:` + `covers:`:
+
+1. Read the spec file from `spec:`.
+2. Locate each `R<N>` listed in `covers:`.
+3. For each R-ID: does the task body reflect R<N>'s substance — its MUST/SHOULD language, its constraint, its short description — somewhere in Steps, Context, or a `## Spec Coverage` section? A `- [ ] R<N>: <description>` line counts. So does a paraphrase that captures the constraint.
+4. For each R-ID that is NOT reflected in the body, emit a finding:
+   ```
+   ⚠️ <task_path>  (<status>)
+      Probe 1 (spec): covers: <R-ID> but <R-ID>'s text not reflected in body
+      → Inline from <spec_path> under Spec Coverage
+   ```
+
+Deferral phrasing (e.g., "R11 deferred to task-19", "R13 scoped out — handled by milestone M11") is NOT a finding — recognize it and skip.
+
+**Probe 2 — Design inlining**
+
+For each incomplete task with `**Design Reference**: [name](path) | None` resolving to a real file:
+
+1. Read the design file. Locate every D-ID in it (look for `\*\*D\d+[:\s*]` bold-prefix form or `### D\d+:` heading form).
+2. Three sub-cases:
+   - **Design has D-IDs AND task marker has `incorporates:` listing some of them**: for each D-ID in `incorporates:`, confirm that D-ID's atomic unit (the decision text, code snippet, schema, algorithm, interface, rule, or diagram) is reflected verbatim or faithfully paraphrased in the task body. Flag specific missing D-IDs with their short title:
+     ```
+     ⚠️ <task_path>  (<status>)
+        Probe 2 (design): incorporates: <D-ID> but <D-ID> (<short title>) not found in body
+        → Inline from <design_path>
+     ```
+   - **Design has D-IDs but task marker has no `incorporates:` field**: soft-warn:
+     ```
+     ⚠️ <task_path>  (<status>)
+        Probe 2 (design): design <design_path> has D<min>..D<max> but task
+        marker has no `incorporates:` field.
+        → Add `incorporates:` for relevant D-IDs, or justify the omission in the task body
+          (e.g., "scoped-out: D2-D4 handled by task-19")
+     ```
+   - **Design has no D-IDs (legacy, pre-v5.41)**: fall back to a holistic judgment: "does the task body contain substantive content from the design?" Scan for atomic units in the design (fenced code blocks, definition lists, key invariants in the Implementation / Solution / Edge Cases / Interfaces sections) that appear uncovered. Flag with a snippet:
+     ```
+     ⚠️ <task_path>  (<status>)
+        Probe 2 (design, legacy): design <design_path> has no D-IDs and task
+        body doesn't reflect substantive design content.
+        Missing likely: <snippet from unreflected section>
+        → Consider backfilling D-IDs in the design (run @acp.sync), then claim
+          specific D-IDs in this task's `incorporates:` field
+     ```
+
+Deferral phrasing is NOT a finding, as in Probe 1.
+
+**Probe 3 — Clarification inlining**
+
+Invoke:
+```sh
+./agent/scripts/acp.meta-scan.sh --kind clarification agent/clarifications/
+```
+
+For each clarification block with `resolves:` matching the task's path AND `resolved: true`:
+
+1. Read the clarification file. Identify the resolved decisions (typically in the answers, resolutions, or a "Resolved Decisions" subsection).
+2. For each resolved decision, check the task body reflects it — either in Steps, Context, or Key Design Decisions.
+3. For each unreflected decision, emit a finding:
+   ```
+   ⚠️ <task_path>  (<status>)
+      Probe 3 (clarification): <clarification_path> resolved
+      '<short summary of decision>' but not inlined in task
+      → Inline the decision under Steps or Key Design Decisions
+   ```
+
+#### Self-Containment vs structural validation
+
+Structural findings (missing `## Verification`, malformed milestone link, etc.) remain **errors** that fail validate.
+
+Self-containment findings are **warnings** that do NOT fail validate. If a task has only self-containment warnings and no structural errors, the overall status in Step 12 is "passed with warnings."
 
 ### 6. Validate Pattern Documents
 
@@ -299,12 +381,48 @@ Summarize validation results.
 
 **Actions**:
 - Count total documents validated
-- List any errors found
-- List any warnings
+- List any errors found (structural issues — these fail validate)
+- List any warnings, including a dedicated **Self-Containment** section populated by Step 5.1 probes
 - Provide recommendations
 - Suggest fixes for issues
+- Compute overall status:
+  - **Passed** — no errors, no warnings
+  - **Passed with warnings** — no errors, but at least one warning (including self-containment)
+  - **Failed** — at least one structural error
 
-**Expected Outcome**: Validation report generated  
+Self-containment warnings do NOT fail validate; they appear as warnings. The author decides whether each warning is deliberate scoping or missed inlining.
+
+**Expected Outcome**: Validation report generated with structural results AND self-containment findings clearly separated.  
+
+**Report format**:
+
+```
+Validation Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Overall: <Passed | Passed with warnings | Failed>
+
+Structural:
+  ✓ 12 design documents valid
+  ✓ 34 task documents valid (structural)
+  ...
+  <any ERROR findings>
+
+Self-Containment (incomplete tasks only):
+  ⚠️ agent/tasks/milestone-7/task-2-session-freshness-injector.md  (not_started)
+     - Probe 1 (spec): covers: R31 but R31's text not reflected in body
+       → Inline from agent/specs/local.freshness.md under Spec Coverage
+
+  ⚠️ agent/tasks/milestone-10/task-4-character-grading.md  (in_progress)
+     - Probe 2 (design): Design agent/design/local.gamification.md has D1..D8
+       but task marker has no `incorporates:` field.
+       → Add `incorporates:` for relevant D-IDs or justify the omission
+     - Probe 3 (clarification): clarification-12-grading.md resolved
+       'Karl uses fluency-weighted formula' but not inlined in task body
+
+Cross-References:
+  <any broken links or cross-ref issues>
+```
 
 ---
 
@@ -315,7 +433,9 @@ Summarize validation results.
 - [ ] progress.yaml has all required fields
 - [ ] All design documents are well-formed
 - [ ] All milestone documents are valid
-- [ ] All task documents are valid
+- [ ] All task documents are valid (structural)
+- [ ] Self-Containment probes ran for every incomplete task (draft / in_progress / not_started)
+- [ ] Probe findings appear in Step 12 report as warnings (not errors)
 - [ ] All pattern documents are valid
 - [ ] All command documents are valid
 - [ ] All artifact documents are valid

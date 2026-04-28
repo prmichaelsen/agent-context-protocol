@@ -5,6 +5,36 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.41.0] - 2026-04-28
+
+### Added
+- **D-IDs for designs** — designs now carry `D<N>` labels on atomic, addressable units (decisions, code snippets, schemas, interfaces, algorithms, formulas, key invariants, diagrams). This gives designs the same exact-reference surface that specs already have with `R<N>`. Tasks declare which design units they inline via `incorporates: D1, D3` in their task marker (mirroring `covers: R10, R11` for specs).
+- **Marker schema additions**:
+  - `decisions:` on design markers — records the D-ID range or list (e.g. `D1..D8` or `D1, D3, D7`)
+  - `design:` + `incorporates:` on task markers — path to the referenced design, and the specific D-IDs the task inlines
+- **`@acp.validate` Step 5.1 (Self-Containment Probes)** — three reading-comprehension checks run on every incomplete task (status `draft | in_progress | not_started`; completed tasks skipped). Validate is LLM-executed, so probes judge content, not regex fingerprints.
+  - **Probe 1 (spec inlining)**: for each R-ID in task's `covers:`, confirm the R-ID's requirement text is reflected in the task body. Flag missing R-IDs with specific suggestions.
+  - **Probe 2 (design inlining)**: for each D-ID in task's `incorporates:`, confirm the D-ID's atomic unit (code snippet, decision, schema, etc.) is in the task body. If the design has D-IDs but the task has no `incorporates:` field, soft-warn. Legacy designs without D-IDs get a holistic "does the task reflect substantive design content" check.
+  - **Probe 3 (clarification inlining)**: for each clarification with `resolves:` pointing at this task and `resolved: true`, confirm the resolved decisions appear in the task body.
+- **Validate Step 12 report** gains a "Self-Containment" section. All probe findings are **soft warnings** — overall status becomes "Passed with warnings" rather than "Failed" when only self-containment issues exist.
+- **`@acp.sync` Step 1.4 Pass C** — backfill D-IDs in legacy designs. Scans each design for candidate atomic units (headings, fenced code blocks, tables, definition paragraphs), proposes D-ID labels for user approval. Never silent.
+
+### Changed
+- **`@acp.task-create` Step 5.5** — now records which D-IDs the task inlines. When extracting design content, the agent notes the specific `D<N>` IDs of the atomic units copied into the task body; Step 6 writes them into the task marker's `incorporates:` field.
+- **`@acp.task-create` Step 6** — populates `design:` and `incorporates:` marker fields (both optional; omit when no design applies).
+- **`@acp.design-create` Step 5** — during design generation, the agent labels atomic units with `D<N>` IDs and populates the marker's `decisions:` field with the resulting range/list.
+- **Design template** — D-ID labeling guidance block at the top of the template with per-unit-type examples. Marker stub gains `decisions:` field.
+- **Task template** — marker stub gains `design:` and `incorporates:` fields.
+- **AGENT.md "Metadata Markers"** section gains a "D-IDs for designs" subsection with labeling conventions, numbering rules, and migration guidance. Field catalog updated.
+
+### Motivation
+v5.40.0 made markers authoritative but didn't enforce the Self-Contained Task Principle — a task could still claim `covers: R12` in its marker and ship without R12's text in the body. Validate probes close that loop. D-IDs extend the same rigor to designs: tasks that need a specific design decision or code snippet can now reference it by exact ID and validate confirms the inlining.
+
+### Migration (for existing ACP projects)
+1. Run `@acp.sync` once — Pass C proposes D-IDs for legacy designs; user approves per candidate.
+2. Run `@acp.validate` — Probe findings appear as warnings for any incomplete task whose inlining drifted from its claims.
+3. New designs created with `@acp.design-create` get D-IDs automatically.
+
 ## [5.40.0] - 2026-04-28
 
 ### Changed

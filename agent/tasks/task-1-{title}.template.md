@@ -6,6 +6,8 @@ description: {one-line summary, <=150 chars}
 milestone: M{N}
 spec: {agent/specs/{namespace}.{spec-name}.md or omit line if no spec}
 covers: {R10, R11 — R-IDs claimed from the spec, or omit if no spec}
+design: {agent/design/{namespace}.{name}.md or omit if no design}
+incorporates: {D1, D3 — D-IDs incorporated from the design, or omit if none}
 depends_on: {task-17, task-19 or omit if none}
 status: draft
 updated: {YYYY-MM-DD}

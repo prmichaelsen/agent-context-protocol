@@ -1,7 +1,7 @@
 # Agent Context Protocol (ACP)
 
 **Also Known As**: The Agent Directory Pattern
-**Version**: 5.40.0
+**Version**: 5.41.0
 **Created**: 2026-02-11
 **Status**: Production Pattern
 
@@ -486,8 +486,8 @@ Each field is `key: value` on its own line. List values use comma-separated inli
 | kind | required | optional |
 |---|---|---|
 | `spec` | topic, description, requirements, status, updated | phases, supersedes, depends_on |
-| `task` | topic, description, milestone, spec, covers, status, updated | depends_on |
-| `design` | topic, description, informs, status, updated | depends_on |
+| `task` | topic, description, milestone, spec, covers, status, updated | design, incorporates, depends_on |
+| `design` | topic, description, informs, status, updated | decisions, depends_on |
 | `milestone` | topic, description, tasks, status, updated | spec |
 | `pattern` | topic, description, applies_to, status, updated | — |
 | `clarification` | topic, resolves, status, updated | resolved |
@@ -495,6 +495,13 @@ Each field is `key: value` on its own line. List values use comma-separated inli
 | `code` | topic, implements, spec, file_role, status, updated | — |
 
 `status` enum (shared): `draft | active | in_progress | complete | deprecated | superseded` (plus `implemented | verified` for code). `updated` is ISO 8601 date.
+
+**Requirement IDs and Design IDs.** Specs and designs both carry addressable units:
+
+- `R<N>` (specs): each requirement in `## Requirements` has an ID like `R1`, `R2`, ..., `R<N>`. Tasks declare which requirements they implement via `covers: R10, R11` in the task marker. The spec's marker `requirements:` field records the ID range.
+- `D<N>` (designs): any atomic, addressable design unit — a key decision, code snippet, schema, interface, algorithm, formula, key invariant, or diagram — gets a `D<N>` label. Tasks declare which design units they inline via `incorporates: D1, D3`. The design's marker `decisions:` field records the ID range.
+
+See "D-IDs for designs" below for labeling conventions.
 
 ### The parser
 
@@ -519,6 +526,27 @@ Output is a flat stream of `file:` / `kind:` / `key:` lines, with `---` between 
   - Unimplemented claims (task `covers: R<N>` but no code `implements: R<N>`) → completion drift
   - Stale markers (`status: complete` but `updated:` > 6 months ago) → possibly out-of-date
 - **Code markers** are opt-in. Only source files claiming to implement a spec requirement need one. A file may carry multiple `kind: code` blocks (one per function/module implementing a separate requirement).
+
+### D-IDs for designs
+
+Designs carry **atomic, addressable units** labeled `D<N>` so tasks can reference them exactly (mirroring how tasks `covers: R10, R11` specific requirements in specs).
+
+**What gets a D-ID:**
+
+- **Key decisions** — `### D1: Use SM-2 for scheduling`
+- **Code / schema snippets** — `**D2: user_study_list table**` above a fenced SQL/TS block
+- **Interfaces / type signatures** — `**D3: WordDefinition contract**`
+- **Algorithms / formulas** — `**D4: Effective priority calculation**`
+- **Key invariants or rules** — `**D5: Markers supersede prose frontmatter**`
+- **Diagrams** — `**D6: Character switching flow**` above an ASCII / mermaid / image block
+
+The rule is functional: if a chunk is atomic enough that a task could legitimately inline it verbatim and reference it by ID, give it a D-ID. Prose context around an atomic unit does NOT need a D-ID.
+
+**Numbering:** sequential (`D1, D2, D3, ...`) across the whole document, regardless of section.
+
+**Task incorporation:** when `@acp.task-create` inlines design content, it records the specific D-IDs in the task marker's `incorporates:` field. `@acp.validate` then confirms each claimed D-ID is actually reflected in the task body.
+
+**Migration:** legacy designs don't have D-IDs. `@acp.sync` Pass C scans each design for candidate atomic units and proposes D-ID labels for user approval. Never silent.
 
 ### Authoring
 

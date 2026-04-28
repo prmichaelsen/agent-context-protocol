@@ -127,9 +127,31 @@ Markers are the source of truth. When a file carries both a marker AND a prose f
 
 Fields that remain in prose (not superseded, do NOT strip): `**Namespace**`, `**Version**`, `**Created**` (immutable), `**Design Reference**`, `**Estimated Time**`, `**Duration**`, `**Goal**`, `**Concept**`, `**Purpose**`, `**Category**`, `**Type**`, `**Sources**`, `**Total Terms**`.
 
-**Expected Outcome**: Every marker-eligible file has a marker (or was explicitly skipped) AND contains no superseded prose frontmatter fields.
+**Pass C — Backfill D-IDs in legacy designs**:
 
-**If no files need either pass**: skip silently.
+Designs created before v5.41.0 don't have D-IDs. Tasks can't claim `incorporates:` against them, so the validate Probe 2 falls back to a holistic check. Backfilling D-IDs restores exact traceability.
+
+- For each design file in the marker inventory (kind: design) whose marker has no `decisions:` field OR whose body contains no D-ID patterns (`**D\d+[:\s*]` or `### D\d+:`):
+  1. Read the design file.
+  2. Identify candidate atomic units: headings under `## Key Decisions`, fenced code blocks (SQL, TS, Python, YAML), standalone tables, definition paragraphs introduced by `**Term**:`, or short `### SubHeading` sections that contain a single atomic idea.
+  3. For each candidate, propose a D-ID label and a short title derived from the content (e.g. `D2: user_study_list table` for a SQL block following a "Data Model" heading).
+  4. Display a list of proposed D-ID additions:
+     ```
+     Design: agent/design/local.gamification.md
+       D1: Use SM-2 for vocab scheduling (from ### heading)
+       D2: user_study_list table (from SQL block)
+       D3: Attention score formula (from code paragraph)
+       D4: Letter frequency mapping (from table)
+       ...
+     Apply all / edit / skip all?
+     ```
+  5. On approval: insert D-ID labels into the design body at the identified locations, and update the marker's `decisions:` field with the resulting range or list.
+  6. On edit: let the user remove specific candidates from the proposal before applying.
+  7. Never silently writes.
+
+**Expected Outcome**: Every marker-eligible file has a marker (or was explicitly skipped) AND contains no superseded prose frontmatter fields AND (for designs) has D-IDs on atomic units where applicable.
+
+**If no files need any pass**: skip silently.
 
 ### 1.5. Build Spec Inventory from Markers
 
