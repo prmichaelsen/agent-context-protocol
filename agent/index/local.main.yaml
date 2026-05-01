@@ -121,3 +121,18 @@ local:
         in acp-code. Defines the contract that every plugin author
         codes against.
       applies: acp.spec, acp.task-create, acp.proceed, acp.plan
+
+    - path: agent/design/local.pluggable-driver-system.md
+      weight: 0.8
+      kind: design
+      description: |
+        Design for the ACP pluggable driver system — agent/driver.yaml
+        bindings file, three ext-point IDs (marker.mint, query.run,
+        workflow.run), workflow-as-command-override, capabilities.watcher,
+        override-with-fallback routing, and validation rules.
+      rationale: |
+        Required reading before any task that touches driver.yaml,
+        ext-point routing, marker stamping, query dispatch, workflow
+        override directives, or @acp.validate's binding-validation
+        extension. Defines the v1 contract for any driver integration.
+      applies: acp.task-create, acp.proceed, acp.plan, acp.design-create
