@@ -381,6 +381,32 @@ milestones:
       - 1 task (120): Implement all changes
       - Design: agent/design/local.index-semantic-entry-types.md
 
+  M19:
+    name: Pluggable Driver System
+    priority: 3
+    status: not_started
+    progress: 0
+    started: null
+    completed: null
+    estimated_weeks: 2-3
+    tasks_completed: 0
+    tasks_total: 9
+    file: agent/milestones/milestone-19-pluggable-driver-system.md
+    notes: |
+      📋 Milestone 19: Pluggable Driver System v1
+      - agent/driver.yaml schema: zero or one bound MCP-server driver per project
+      - 3 ext points: marker.mint, query.run, workflow.run
+      - workflow-as-command-override on 3 pilot commands (acp.task-create, acp.plan, acp.init)
+      - Override-with-fallback routing: bound role → driver MCP tool; unbound → acp.core default
+      - capabilities.watcher flag for driver-declared data freshness
+      - @acp.validate extended to verify bindings + single-MCP-server + mint/query pairing
+      - Backward compat invariant: absent driver.yaml ≡ today's behavior
+      - Design: agent/design/local.pluggable-driver-system.md (D1..D15)
+      - 9 tasks (121-129): Schema/Parser, Validate Extension, Routing Pattern, Mint Wiring,
+        Query Wiring, Workflow Pilot, Watcher Consultation, Integration Tests, Documentation
+      - Out of scope (explicit non-goals, not deferrals): multi-driver, driver-to-driver deps,
+        migration tooling, additional ext points, full ~37-command override rollout
+
 tasks:
   M1:
     - id: task-1
@@ -2324,6 +2350,7 @@ progress:
   M15: 100
   M16: 100
   M17: 100
+  M19: 0
 
   M18:
     - id: task-120
@@ -2339,7 +2366,144 @@ progress:
         Implement path: null support, new kind enum values (note, directive),
         collapse requirements into design. Update validate, init, proceed, plan commands.
 
+  M19:
+    - id: task-121
+      name: Driver YAML Schema and Parser Support
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-121-driver-yaml-schema-and-parser.md
+      estimated_hours: 3-4
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Define agent/driver.yaml schema; extend yaml-parser with helpers
+        for present/get-binding/get-workflow/get-capability. Covers D1, D15.
+
+    - id: task-122
+      name: '@acp.validate Driver-Bindings Extension'
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-122-validate-driver-bindings-extension.md
+      estimated_hours: 4-6
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Extend @acp.validate to verify bindings, single-MCP-server constraint,
+        mint/query pairing, server reachability. Runtime adapter for MCP catalog
+        introspection (target Claude Code initially). Covers D6, D8.
+
+    - id: task-123
+      name: Override-with-Fallback Routing Pattern
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-123-override-fallback-routing-pattern.md
+      estimated_hours: 2-3
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Author the canonical reusable directive snippet consumer commands embed
+        for ext-point dispatch. Document pattern; pilot on one command. Covers D7.
+
+    - id: task-124
+      name: marker.mint Wiring Across 6 Stamping Commands
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-124-marker-mint-wiring.md
+      estimated_hours: 3-5
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Embed dispatch snippet in task-create, spec, design-create, pattern-create,
+        command-create, clarification-create. Agent stamps directly using mint output.
+        Covers D2, D9, D12.
+
+    - id: task-125
+      name: query.run Wiring Across 3 Query-Using Commands
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-125-query-run-wiring.md
+      estimated_hours: 3-5
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Embed dispatch snippet in validate, sync, proceed. Bound path → query.run;
+        unbound path → existing grep/awk pipeline. Covers D3, D12.
+
+    - id: task-126
+      name: Workflow-as-Command-Override Pilot (3 Commands)
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-126-workflow-override-pilot.md
+      estimated_hours: 2-3
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Add top-of-file override directive to acp.task-create, acp.plan, acp.init.
+        Pilot dispatch-then-stop reliability across 5+ sessions. Covers D4, D5, D12.
+        Highest-risk task in M19; schedule before integration tests.
+
+    - id: task-127
+      name: capabilities.watcher Consultation
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-127-capabilities-watcher-consultation.md
+      estimated_hours: 1-2
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Consumer commands check capabilities.watcher; surface stale-data guidance
+        when false/absent. ACP never auto-refreshes. Covers D15.
+
+    - id: task-128
+      name: Integration Tests + Backward-Compat Verification
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-128-integration-and-backward-compat-tests.md
+      estimated_hours: 4-6
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Build mock MCP server. 4 fixture categories. Bound + unbound + failure
+        injection. Backward-compat regression suite (full existing tests pass
+        unchanged). Reliability evidence for workflow override.
+
+    - id: task-129
+      name: Documentation Updates
+      priority: 3
+      status: not_started
+      file: agent/tasks/milestone-19-pluggable-driver-system/task-129-documentation-updates.md
+      estimated_hours: 2-3
+      started: null
+      completed_date: null
+      actual_hours: null
+      notes: |
+        Update AGENT.md (new Pluggable Drivers section), README.md (brief mention),
+        CHANGELOG.md (M19 release entry). No private-driver names in docs.
+
 recent_work:
+  - date: 2026-05-01
+    description: |
+      📋 Milestone 19 Planned: Pluggable Driver System v1
+      Design captured (D1..D15), milestone document + 9 tasks created.
+    items:
+      - "✅ Created agent/design/local.pluggable-driver-system.md (D1..D15, committed)"
+      - "✅ Indexed in agent/index/local.main.yaml (weight 0.8)"
+      - "✅ Created agent/milestones/milestone-19-pluggable-driver-system.md"
+      - "✅ Created 9 task documents (task-121 through task-129) under agent/tasks/milestone-19-pluggable-driver-system/"
+      - "✅ Task breakdown: schema/parser, validate ext, routing pattern, mint wiring, query wiring, workflow pilot, watcher, integration tests, docs"
+      - "📋 v1 scope: agent/driver.yaml, 3 ext points (marker.mint, query.run, workflow.run), workflow override on 3 pilot commands, backward-compat invariant"
+      - "📋 Estimated 22-34 hours; ~2-3 weeks"
+      - "📋 Highest-risk task: task-126 (LLM 'STOP' reliability for workflow override directive)"
+      - "📋 Out of scope (explicit non-goals): multi-driver, driver-to-driver deps, migration tooling, additional ext points, full ~37-command override rollout"
+
   - date: 2026-03-20
     description: |
       ✅ Task 120 Complete: Implement Index Semantic Entry Types
@@ -4024,6 +4188,14 @@ recent_work:
       - 🎊 ACP Commands v1.1.0 fully complete!
 
 next_steps:
+  - "📋 New: Milestone 19 Planned — Pluggable Driver System v1 (9 tasks, 22-34 hours)"
+  - "Begin: Task 121 — Driver YAML Schema and Parser Support (3-4 hours, no deps)"
+  - "Then: Task 122 — @acp.validate Driver-Bindings Extension (4-6 hours, depends on 121)"
+  - "Then: Task 123 — Override-with-Fallback Routing Pattern (2-3 hours, depends on 121)"
+  - "Then: Tasks 124, 125 — Mint and Query wiring (depend on 121, 123)"
+  - "Then: Task 126 — Workflow Override Pilot (highest risk; gather LLM-STOP reliability evidence)"
+  - "Then: Tasks 127, 128, 129 — Watcher consultation, integration tests, documentation"
+  - "📋 Stale prior steps for Milestone 7 superseded — M7 is complete (100%)"
   - "📋 Continue Milestone 7: Global ACP Project Registry (56% complete)"
   - Next: Task 57 - @acp.project-remove Command (1-2 hours)
   - Then: Task 58 - @acp.projects-sync Command (2-3 hours)
