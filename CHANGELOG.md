@@ -5,6 +5,76 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0] - 2026-05-04 — Pluggable Driver System v1
+
+### Headline
+
+ACP gains a **pluggable driver system**: a project may bind exactly one external MCP-server driver via `agent/driver.yaml` to override marker authoring, structured queries, and workflow execution per-project. Backward-compatible by construction — projects without `agent/driver.yaml` see zero behavior change.
+
+This release marks **M19 (Pluggable Driver System) v1 — Static Deliverables Complete**. Schema, parser, validate extension, dispatch/override patterns, and command wirings across 11 consumer commands are all in place. Runtime reliability validation (mock MCP server, end-to-end dispatch flows, LLM STOP-semantic metrics across multiple sessions) remains the only outstanding M19 work — tracked under task-128 and deferred until MCP runtime test infrastructure is available.
+
+### Why a major bump
+
+The driver system is a substantial new extension surface — a meaningful capability addition that reshapes how external tooling integrates with ACP. The semver-orthodox argument for a minor bump (no breaking changes) is technically correct but understates the magnitude of what shipped. 7.0.0 marks the line.
+
+### What landed in M19
+
+**Architecture & schema:**
+- `agent/schemas/driver.schema.yaml` — formal schema for `agent/driver.yaml`
+- `agent/driver.template.yaml` — annotated template
+- `agent/scripts/acp.driver-yaml.sh` — parser with 8 helpers (project-local + global fallback, all ext-point lookups, list helpers)
+- 18 shell tests covering the parser end-to-end (`e2e/acp.driver-yaml.test.sh`)
+
+**Patterns:**
+- `agent/patterns/local.driver-dispatch-directive.md` — canonical in-step ext-point dispatch directive (driver-agnostic indirection through `bindings.<id>`, strict-binding-first, explicit-error fallthrough, workflow-execution-loop semantic)
+- `agent/patterns/local.workflow-override-directive.md` — canonical top-of-file workflow-override directive
+
+**Three ext points wired into 11 consumer commands:**
+- `marker.mint` → `acp.task-create`, `acp.spec`, `acp.design-create`, `acp.pattern-create`, `acp.clarification-create` (5 commands; `acp.command-create` skipped — current state has no `@acp.meta.command` stamping step)
+- `query.run` → `acp.sync` step 1.3, `acp.proceed` step 1, `acp.validate` Probe 3 (3 commands)
+- `workflow.run` (top-of-file override) → `acp.task-create`, `acp.plan`, `acp.init` (v1 pilot; v1.1 will roll out to remaining ~37 commands once reliability data is in)
+
+**Validation:**
+- `@acp.validate` Step 11.5 — Driver Bindings section with all 4 DR6 rules (tool resolution, single MCP server, mint/query pairing, server reachability) plus paired pre-condition (`workflows:` non-empty requires `bindings.workflow.run`)
+- Workflow names validated lazily by the driver at invocation, not pre-flight (DR4)
+
+**`capabilities.watcher`:**
+- Watcher Capability Check directive in `acp.sync`, `acp.validate`, `acp.proceed` — surfaces stale-data guidance when driver does not auto-sync (conservative default per DR15)
+- ACP never auto-invokes refresh tools
+
+**Documentation:**
+- `AGENT.md` Pluggable Drivers section (~1.5 pages, between Key File Index and Sample Prompts)
+- `README.md` Pluggable Drivers subsection with pointers
+- This CHANGELOG documenting the release across 5.42.0 → 7.0.0
+
+### Backward-compatibility invariant
+
+Verified: every dispatch directive's first check is "is `agent/driver.yaml` present and is the relevant binding set?" When no, the directive falls through to the existing markdown step. Projects without `agent/driver.yaml` see zero behavior change. All existing tests pass unchanged.
+
+### Version reconciliation
+
+Prior to this release, `AGENT.md` version (6.4.0) and `package.yaml` version (5.4.0) tracked separately, drifting by ~1 major over the project's lifetime. As of 7.0.0, both are reconciled — `AGENT.md` and `package.yaml` will bump together going forward, eliminating the dual-track confusion.
+
+### What's deferred (task-128)
+
+- Mock MCP server build (Python or TypeScript)
+- End-to-end integration tests across all 3 ext points with the mock bound
+- Failure-injection tests (unreachable server, bad bindings, workflow.run errors)
+- Reliability metrics for the workflow-override directive across multiple LLM sessions
+
+These need a running MCP runtime, not pure shell. Tracked in `agent/tasks/milestone-19-pluggable-driver-system/task-128-integration-and-backward-compat-tests.md` (status: in_progress).
+
+### Out of v1 scope (not deferrals — these are decisions)
+
+- Multi-driver projects / per-ext-point binding to different drivers
+- Driver-to-driver dependencies / driver inheritance / driver composition
+- Migration tooling for `@acp.meta.*` → driver-format markers
+- Additional ext points beyond the three v1 ext points
+- Auto-invocation of driver refresh tools
+- Full ~37-command override-directive rollout
+
+See design doc `agent/design/local.pluggable-driver-system.md` (Future Considerations → Explicit non-goals) for the rationale on each.
+
 ## [6.4.0] - 2026-05-04
 
 ### Added
