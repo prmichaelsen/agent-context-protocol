@@ -534,12 +534,21 @@ A task with passing tests but a missing user-observable outcome is NOT complete.
 
 ### A1. Scan Remaining Tasks
 
-**Actions**:
-- Read `agent/progress.yaml`
-- Identify the current milestone (from `current_milestone` field)
-- Collect all tasks in that milestone with status `not_started` or `in_progress`
+> **🔌 Driver Dispatch — `query.run`**
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.query.run` is unset, jump to step 4 (fallback).
+> 2. Invoke the MCP tool named by `bindings.query.run` with input: a query that returns the current milestone's incomplete tasks (`status` ∈ {`not_started`, `in_progress`}) ordered by id, with each task's status, started timestamp, file path, dependencies, and priority. Pass intent in natural language (e.g., `{intent: "current milestone's incomplete tasks ordered by id with status, started, file, dependencies, priority"}`); the bound tool's MCP description specifies the exact input shape it accepts. Inspect the response:
+>    - **One-shot result** — the response is the row set. Use it for the task ordering and selection logic below.
+>    - **Workflow start** — if the response is a workflow handle, enter the workflow execution loop per `agent/patterns/local.driver-dispatch-directive.md` Core Principle 6.
+> 3. **Error handling:**
+>    - If the tool call returns a JSON object with an `"error"` key, surface and STOP. Do NOT fall through.
+>    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
+> 4. **Fallback (only when `bindings.query.run` is unset or `agent/driver.yaml` is absent):** Read `agent/progress.yaml` directly, identify the current milestone (from `current_milestone` field), and collect all tasks in that milestone with status `not_started` or `in_progress`.
+> 5. **Missing-state guard:** if step 4's `agent/progress.yaml` is missing AND `bindings.query.run` is unset, surface a clear, actionable error: `"Cannot scan remaining tasks: no driver bound (query.run unset) AND agent/progress.yaml missing. Bind a driver, or restore agent/progress.yaml."`
+
+**Actions** (use the task list from the dispatch above — bound or unbound path):
 - Read each task document to understand scope
-- Order tasks based on: progress.yaml order, next steps, previously defined priorities, and chat context
+- Order tasks based on: progress.yaml order (or driver-side ordering), next steps, previously defined priorities, and chat context
 
 **Task selection is NOT strictly lowest-ID-first.** Use judgment based on:
 - Dependencies between tasks

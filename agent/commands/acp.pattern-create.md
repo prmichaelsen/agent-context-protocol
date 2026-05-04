@@ -186,6 +186,7 @@ Create pattern file from template:
 >
 > 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.pattern` stamping below).
 > 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "pattern", context: {name: "<from earlier in this step>", description: "<from earlier in this step>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
+>    - **Filename**: Use the response's `id` verbatim as the new file's basename (e.g., `id: "pattern.repository-pattern~e5f6a7b8"` → file `pattern.repository-pattern~e5f6a7b8.md`). Place the file under `agent/patterns/`. **Do NOT compute a `local.<slug>.md` filename** — when `marker.mint` is bound, the driver owns the namespace and chooses the canonical id (typically with a uuid suffix for collision avoidance).
 >    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
 >    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints.
 >    - Assemble the marker block by comment-wrapping `marker_open` + fields + `marker_close` for markdown (`<!-- ... -->`).

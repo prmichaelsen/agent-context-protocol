@@ -58,6 +58,7 @@ fi
 
 # Find files that contain at least one marker. grep -l short-circuits per file.
 # Skip node_modules, .git, dist, build, and other common vendor dirs.
+# agent/drivers/ is reserved for driver-managed state (design DR16); never recurse into it.
 files=$(grep -rl \
     --exclude-dir=node_modules \
     --exclude-dir=.git \
@@ -66,6 +67,7 @@ files=$(grep -rl \
     --exclude-dir=.next \
     --exclude-dir=.wrangler \
     --exclude-dir=coverage \
+    --exclude-dir=drivers \
     '@acp\.meta\.' "$root" 2>/dev/null || true)
 
 if [ -z "$files" ]; then

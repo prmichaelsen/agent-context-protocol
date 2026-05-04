@@ -167,26 +167,41 @@ Create TypeScript configuration, build scripts, and other config files.
 
 ---
 
-## Spec Coverage (Optional)
+## Functional Requirements Covered (Optional)
 
 <!-- Populated automatically by @acp.task-create when a spec at
-     agent/specs/ matches the task topic. Lists the specific requirement
-     IDs (R<N>) and behavior table rows this task implements.
+     agent/specs/ matches the task topic. Lists the specific functional
+     requirement IDs (FR<N>) and behavior table rows this task implements.
 
      Leave this section out entirely if no spec applies — acp.proceed
      does NOT require it. When present, each item should be checked
      off or explicitly deferred before marking the task complete.
 
-     Format:
+     Two reference formats supported:
 
-         **Source**: agent/specs/local.feature-name.md
+     1. **Bare format** (default for non-driver-bound projects):
 
-         Covered requirements:
-         - [ ] FR<N>: <short description copied verbatim from spec>
-         - [ ] FR<M>: <short description>
+            **Source**: agent/specs/local.feature-name.md
 
-         Covered behaviors (from Behavior Table):
-         - [ ] <scenario name / row id>
+            Covered requirements:
+            - [ ] FR<N>: <short description copied verbatim from spec>
+            - [ ] FR<M>: <short description>
+
+            Covered behaviors (from Behavior Table):
+            - [ ] <scenario name / row id>
+
+     2. **Fully-qualified format** (recommended when a driver is bound;
+        spec files are uuid-suffixed via marker.mint, so refs include
+        the spec's id to disambiguate across designs/specs that may
+        share FR-IDs):
+
+            Covered requirements:
+            - [ ] spec.detector-validation~a1b2c3d4#FR-5: <description>
+            - [ ] spec.detector-validation~a1b2c3d4#FR-8: <description>
+
+     The bare format remains valid for v1 — driver-bound projects MAY
+     use the fully-qualified format and SHOULD when their spec ids carry
+     uuid suffixes that make bare FR-IDs ambiguous.
 -->
 
 ---
@@ -231,14 +246,50 @@ project-root/
 
 ---
 
-## Key Design Requirements (Optional)
+## Design Requirements Covered (Optional)
 
-<!-- This section is populated by @acp.clarification-capture when
-     create commands are invoked with --from-clar, --from-chat, or
-     --from-context. It can also be manually authored.
-     Omit this section entirely if no design requirements to capture.
+<!-- Populated automatically by @acp.task-create when the task incorporates
+     design requirements (DR<N>) from a referenced design document.
 
-     Group design requirements by agent-inferred category using tables:
+     This section is the design-side counterpart to "Functional Requirements
+     Covered" above. Use it to declare which atomic design units (decisions,
+     code snippets, schemas, formulas, etc.) this task inlines from the
+     design.
+
+     Two reference formats supported:
+
+     1. **Bare format** (default for non-driver-bound projects):
+
+            **Source**: agent/design/local.feature-name.md
+
+            Covered design requirements:
+            - [ ] DR<N>: <short description / atomic-unit summary>
+            - [ ] DR<M>: <short description>
+
+     2. **Fully-qualified format** (recommended when a driver is bound;
+        design files are uuid-suffixed via marker.mint, so refs include
+        the design's id to disambiguate):
+
+            Covered design requirements:
+            - [ ] design.auth-flow~c9d8e7f6#DR-1: <description>
+            - [ ] design.auth-flow~c9d8e7f6#DR-3: <description>
+
+     This section supersedes the older "Key Design Requirements" section
+     name. The marker field `incorporates:` lists the same DR-IDs in
+     compact form for query purposes. -->
+
+---
+
+## Key Design Requirements (Optional, legacy)
+
+<!-- Legacy section name retained for backward-compat with tasks created
+     before v7.0.0. New tasks should prefer "Design Requirements Covered"
+     above. This section is also populated by @acp.clarification-capture
+     when create commands are invoked with --from-clar / --from-chat /
+     --from-context — the clarification-capture flow appends category-
+     grouped decision tables here.
+
+     Group decisions by agent-inferred category using tables:
 
 ### {Category}
 

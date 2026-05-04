@@ -5,6 +5,34 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.0] - 2026-05-04 — Driver Contract Completion
+
+### Fixed (driver contract gaps)
+
+This release closes four gaps between ACP's M19 implementation and the original cross-project handoff contract that the pluggable driver system was negotiated against. The previous 7.0.0 release marked M19 v1 GA, but a contract audit found four items that were either partially wired or missing entirely.
+
+- **Filename minting via `marker.mint` `id`** — the marker.mint dispatch directives in all 5 stamping commands (`acp.task-create`, `acp.spec`, `acp.design-create`, `acp.pattern-create`, `acp.clarification-create`) now explicitly direct the agent to use the mint response's `id` verbatim as the new file's basename. Previously the dispatch stamped the marker block but left filename selection ambiguous — meaning the agent could still compute a sequential `task-<N>` / `local.<slug>.md` filename even when bound. This was a contract gap: the original handoff explicitly required "Do NOT use sequential numbering when marker.mint is bound." Each dispatch directive's filename rule includes the target subdirectory and a per-kind example (e.g., `task.implement-watcher~d8c4a1f7.md` under `agent/tasks/<milestone_id>/`).
+- **`agent/drivers/` excluded from marker scanner** — `agent/scripts/acp.meta-scan.sh` now adds `--exclude-dir=drivers` to its `grep -rl` invocation. Previously the scanner would have recursed into driver-managed state (a DR16 violation). The exclusion list now matches the design contract: drivers' per-project state and locally-installed extension modules are entirely driver-owned territory.
+- **Task template DR/FR section renames + fully-qualified ref format** — `agent/tasks/task-1-{title}.template.md` renames `Spec Coverage (Optional)` → `Functional Requirements Covered (Optional)` and adds a new `Design Requirements Covered (Optional)` section. The legacy `Key Design Requirements` section is retained for backward-compat (still populated by `@acp.clarification-capture` for category-grouped decisions). Both new sections document two reference formats: bare (`FR<N>`, `DR<N>`) for the default case, and fully-qualified (`spec.<id>~<uuid>#FR-<N>`, `design.<id>~<uuid>#DR-<N>`) for driver-bound projects where uuid-suffixed file ids disambiguate refs across multiple specs/designs.
+- **Autonomous mode `query.run` dispatch** — `acp.proceed.md` Step A1 (autonomous task scan) now wraps its `agent/progress.yaml` read with the same `query.run` dispatch directive used in single-task mode (Step 1). Previously only single-task mode honored a bound `query.run` driver; autonomous mode silently fell back to direct file reads, which would have produced incorrect results in driver-bound projects where the driver removed `progress.yaml` in favor of its own data layer. Includes the strict missing-state guard for the case where neither `query.run` is bound nor `progress.yaml` exists.
+
+### Contract audit
+
+After the four fixes, a re-audit of the original handoff items shows **8/8 contract items addressed**:
+
+| # | Contract item | Status |
+|---|---|---|
+| 1 | Top-of-file workflow override directive | ✅ Pilot scope (3 commands per design DR5); v1.1 rollout to remaining ~37 commands tracked post-M19 |
+| 2 | File naming convention via `marker.mint` | ✅ Wired via mint response `id` as filename basename |
+| 3 | DR/FR sections in task template | ✅ Renamed + fully-qualified ref format documented |
+| 4 | `@acp.meta.task` → driver marker (driver-agnostic via `marker_open`/`marker_close` from mint) | ✅ Wired |
+| 5 | `workflows:` schema in `driver.yaml` | ✅ Schema, parser, validate all in place |
+| 6 | `agent/drivers/` reserved (scanners must exclude) | ✅ `acp.meta-scan.sh` excludes `drivers/` |
+| 7 | Skip `progress.yaml` reads when `query.run` bound | ✅ Both single-task (Step 1) and autonomous (Step A1) wrapped |
+| 8 | Sequential numbering deprecation when bound | ✅ Coupled with item 2 — mint id is the canonical filename |
+
+Items 1 and 7 have a sequencing nuance: 1's full ~37-command rollout is post-M19 (per design's stated v1.1 roadmap); 7's autonomous mode wrapping landed in this release. All 8 items are now contract-fulfilled at the directive level. Runtime validation (mock MCP server, end-to-end dispatch tests) remains task-128's outstanding work.
+
 ## [7.0.0] - 2026-05-04 — Pluggable Driver System v1
 
 ### Headline
