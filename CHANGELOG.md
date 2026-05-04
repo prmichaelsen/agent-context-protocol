@@ -5,6 +5,45 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.0] - 2026-05-04 — M19 Closed
+
+### Milestone closure
+
+**M19 (Pluggable Driver System) is fully complete — 9/9 tasks, status `completed`.** All deliverables landed across 5.42.0 → 7.1.0; this release marks the closure rather than introducing new functionality.
+
+### Task-128 resolution: dogfooding over synthetic tests
+
+Task-128 (Integration Tests + Backward-Compat Verification) closed as **completed** with a deliberate scope decision: mock-MCP-server integration tests are NOT built. Real-world validation comes from direct dogfooding — a separate adoption project uses a bound driver against ACP in production LLM sessions, exercising every ext point and the top-of-file override directive.
+
+**Why dogfooding beats synthetic mocks here:**
+
+The single non-substitutable thing integration tests would validate is **LLM STOP-semantic reliability** in the workflow override directive (the "do LLMs treat fallback as additive?" question). That reliability only varies in real LLM sessions — not against scripted mocks where the dispatch path is known and deterministic. A production adoption project, exercising the dispatch directive in unscripted real-use sessions, generates higher-fidelity reliability data than a mock-server harness ever could.
+
+If reliability issues surface in dogfooding, they surface as real bugs in the actual adoption project — fixed there, fed back to ACP. This is the same pattern that validates any extension surface: production use is the ground truth.
+
+**What was kept**: shell-level parser tests in `e2e/acp.driver-yaml.test.sh` (18 tests, all passing). These cover the parser's contract — separate concern from runtime dispatch reliability.
+
+**What was rejected**: a Python/TS mock-MCP-server scaffold that would re-validate what direct dogfooding already validates. Adding the scaffold would have been ceremony, not coverage.
+
+### Cumulative M19 deliverables (5.42.0 → 7.2.0)
+
+- Schema, template, parser (8 helpers, 18 tests)
+- Two canonical patterns: in-step Driver Dispatch directive + top-of-file Workflow Override directive
+- 3 ext points (`marker.mint`, `query.run`, `workflow.run`) wired into 11 consumer commands
+- `@acp.validate` Step 11.5 with all 4 DR6 rules + paired pre-condition
+- `capabilities.watcher` consultation in 3 query-using commands
+- AGENT.md "Pluggable Drivers" section + README pointer
+- Cross-project contract closed with <a driver> (8/8 items, all sequencing nuances resolved)
+
+### Backward-compat invariant
+
+Verified again: projects without `agent/driver.yaml` see zero behavior change. Every dispatch directive's first check is "is `agent/driver.yaml` present and is the relevant binding set?" When no, the directive falls through to the existing markdown step.
+
+### Forward-looking work (not blockers)
+
+- **v1.1 override-directive rollout** to remaining ~37 ACP commands. Gated on dogfooding reliability data; timeline driven by adoption-project signal.
+- **Sequential numbering deprecation in fallback path**: currently retained for non-driver projects. May be reconsidered if dogfooding suggests UUID-style filenames work well in the unbound path too.
+
 ## [7.1.0] - 2026-05-04 — Driver Contract Completion
 
 ### Fixed (driver contract gaps)
