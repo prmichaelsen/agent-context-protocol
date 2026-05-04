@@ -48,7 +48,9 @@
       "Bash(gh run:*)",
       "Bash(gh auth *)",
       "Bash(git -C /home/prmichaelsen/.acp/projects/acp-code log --oneline -5)",
-      "Bash(awk 'NR>=2129 && NR<=2322' agent/progress.yaml)"
+      "Bash(awk 'NR>=2129 && NR<=2322' agent/progress.yaml)",
+      "Bash(mkdir -p /tmp/test-driver-yaml/agent)",
+      "Bash(rm -rf /tmp/test-driver-yaml)"
     ]
   }
 }

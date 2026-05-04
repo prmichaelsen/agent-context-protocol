@@ -375,6 +375,75 @@ Validate links between documents.
 
 **Expected Outcome**: All links are valid  
 
+### 11.5. Validate Driver Bindings (if `agent/driver.yaml` present)
+
+Verify the project's driver-binding configuration. Skip silently when `agent/driver.yaml` is absent — backward-compat invariant: projects without a driver bound see zero behavior change in validate output.
+
+**Actions**:
+
+1. **Detect presence**:
+   ```sh
+   ./agent/scripts/acp.driver-yaml.sh present
+   ```
+   If output is `false`, skip this entire step and proceed to step 12.
+
+2. **Read the binding manifest**:
+   ```sh
+   ./agent/scripts/acp.driver-yaml.sh list-bindings
+   ./agent/scripts/acp.driver-yaml.sh list-workflows
+   ./agent/scripts/acp.driver-yaml.sh get-driver-name
+   ```
+   Hold the parsed `(ext_point, tool_name)` pairs and `(command_name, workflow_name)` pairs in memory for the rules below.
+
+3. **Apply Rule 1 — Tool resolution** (DR6.1): every `tool_name` from `list-bindings` must resolve in the agent runtime's MCP catalog. Mechanism is runtime-specific:
+   - **Claude Code** (v1 target): the LLM consults its own tool catalog. MCP tools appear with the prefix convention `mcp__<server>__<tool>`. For each unprefixed `tool_name` from the binding, search the catalog for an entry matching `mcp__*__<tool_name>` (any server). If found, record `(tool_name → server_name)`. If not found, surface a Rule 1 error.
+   - **Other runtimes** (Cursor, Claude Desktop, etc.): use the runtime's tool-listing mechanism if available. If the runtime offers no introspection, degrade gracefully: emit a Rule 1 *warning* (not error) — `"Could not verify <tool_name> resolves in MCP catalog (runtime introspection unavailable). Assuming binding is valid."`
+
+   Rule 1 error format:
+   ```
+   ✗ <ext_point>: <tool_name> — NOT FOUND in MCP catalog
+     Fix: ensure <tool_name> is exposed by a registered MCP server, or update agent/driver.yaml
+   ```
+
+4. **Apply Rule 2 — Single MCP server** (DR8): all bound tools must come from the same MCP server. Using the `(tool_name → server_name)` map from Rule 1, count distinct `server_name` values. If more than one, surface:
+   ```
+   ✗ Bindings span multiple MCP servers: <tool-A> from <server-1>, <tool-B> from <server-2>.
+     One driver per project — pick one server.
+   ```
+   Skip Rule 2 entirely if Rule 1 emitted any warnings (resolution unverifiable; can't classify single-vs-multi).
+
+5. **Apply Rule 3 — Mint/query pairing** (DR2 ↔ DR3): if `query.run` appears in `list-bindings` but `marker.mint` does not, surface:
+   ```
+   ✗ query.run is bound but marker.mint is not.
+     A driver indexing markers must be able to produce them in canonical format.
+     Either bind marker.mint or remove the query.run binding.
+   ```
+   The reverse (mint bound, query unbound) is allowed — drivers may stamp markers without exposing query.
+
+6. **Apply Rule 4 — Server reachability**: the MCP server hosting the bound tools (resolved in Rule 1) must be currently registered and reachable. For Claude Code: presence in the tool catalog already implies registration; reachability is implicit because tools the LLM can see are tools the runtime can call. For runtimes where this distinction matters (e.g., a registered server that's offline), surface:
+   ```
+   ✗ MCP server '<server-name>' is unreachable.
+     Ensure it's registered with your agent runtime and the process is running.
+   ```
+   If introspection cannot determine reachability, emit a *warning* not an error.
+
+7. **Workflow names are NOT validated here**: per DR4 (lazy resolution), workflow names in `workflows:` are validated at invocation time by the driver itself. Validate only confirms `bindings.workflow.run` is bound IF `workflows:` is non-empty (a paired pre-condition):
+
+   If `list-workflows` returns any rows but `get-binding workflow.run` returns empty, surface:
+   ```
+   ✗ workflows: section is non-empty but bindings.workflow.run is unset.
+     Workflow overrides require workflow.run to be bound. Either bind workflow.run
+     or remove the workflows: section.
+   ```
+
+   Otherwise, leave the workflow names alone — driver will surface unknown-workflow errors at invocation time.
+
+8. **Compose findings**: collect all Rule 1–4 errors and warnings into a structured list. Errors block validate (`Failed` status); warnings do not (`Passed with warnings`).
+
+**Expected Outcome**: When `agent/driver.yaml` is present, every binding is verified against the runtime's MCP catalog; pairing and single-server invariants enforced; workflow names left for lazy validation.
+
+**Note on the report format**: Step 12 (below) renders the Driver Bindings findings as a dedicated section in the validation report. See the report-format example after step 12 for the rendering convention.
+
 ### 12. Generate Validation Report
 
 Summarize validation results.
@@ -422,7 +491,31 @@ Self-Containment (incomplete tasks only):
 
 Cross-References:
   <any broken links or cross-ref issues>
+
+Driver Bindings (only when agent/driver.yaml is present):
+  Driver: @example-org/example-driver
+  ✓ marker.mint: example_mint (resolved in mcp.example-driver)
+  ✓ query.run: example_sql (resolved in mcp.example-driver)
+  ✓ workflow.run: example_workflow (resolved in mcp.example-driver)
+  ✓ All bound tools from a single MCP server (mcp.example-driver)
+  ✓ marker.mint paired with query.run
+  ✓ MCP server reachable
+  ✓ workflows: section non-empty AND workflow.run is bound
 ```
+
+**Driver Bindings — failure example**:
+
+```
+Driver Bindings:
+  Driver: @example-org/example-driver
+  ✗ query.run: foo_tool — NOT FOUND in MCP catalog
+    Fix: ensure foo_tool is exposed by a registered MCP server, or update agent/driver.yaml
+  ✗ query.run is bound but marker.mint is not.
+    A driver indexing markers must be able to produce them in canonical format.
+    Either bind marker.mint or remove the query.run binding.
+```
+
+Driver-binding errors block validate (`Failed`). Driver-binding warnings (e.g., "could not verify resolution because runtime introspection unavailable") do not block — they appear in the report and contribute to `Passed with warnings`.
 
 ---
 

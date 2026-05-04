@@ -2,7 +2,7 @@
 # This file defines the Agent Context Protocol core package
 
 name: acp-core
-version: 5.1.0
+version: 5.2.0
 description: Agent Context Protocol - Core commands, patterns, and utilities for AI agent development
 author: Patrick Michaelsen
 license: MIT
@@ -181,7 +181,8 @@ contents:
     
     - name: acp.validate.md
       description: Validate ACP structure
-      scripts: []
+      scripts:
+        - acp.driver-yaml.sh
 
     - name: acp.handoff.md
       description: Generate cross-context task handoff reports

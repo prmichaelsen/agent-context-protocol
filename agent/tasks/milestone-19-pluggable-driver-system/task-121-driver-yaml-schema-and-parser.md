@@ -6,8 +6,10 @@ description: Define agent/driver.yaml schema and extend yaml-parser to load it; 
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR1, DR15
-status: draft
-updated: 2026-05-01
+status: completed
+started: 2026-05-04T07:00:00Z
+completed: 2026-05-04T07:20:00Z
+updated: 2026-05-04
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)

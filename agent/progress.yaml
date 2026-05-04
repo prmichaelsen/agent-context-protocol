@@ -385,11 +385,11 @@ milestones:
     name: Pluggable Driver System
     priority: 3
     status: in_progress
-    progress: 22
+    progress: 44
     started: 2026-05-04
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 2
+    tasks_completed: 4
     tasks_total: 9
     file: agent/milestones/milestone-19-pluggable-driver-system.md
     notes: |
@@ -2370,29 +2370,39 @@ progress:
     - id: task-121
       name: Driver YAML Schema and Parser Support
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-121-driver-yaml-schema-and-parser.md
       estimated_hours: 3-4
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T07:00:00Z
+      completed_date: 2026-05-04T07:20:00Z
+      actual_hours: 0.3
       notes: |
-        Define agent/driver.yaml schema; extend yaml-parser with helpers
-        for present/get-binding/get-workflow/get-capability. Covers DR1, DR15.
+        Schema (agent/schemas/driver.schema.yaml), template
+        (agent/driver.template.yaml), and parser (agent/scripts/acp.driver-yaml.sh)
+        all in place. Parser implements 8 helpers: present, path,
+        get-driver-name, get-binding <ext-point>, get-workflow <command>,
+        get-capability <name>, list-bindings, list-workflows. Project-local
+        path takes precedence over global ~/.acp/agent/driver.yaml fallback.
+        POSIX-portable awk used (no gawk-specific syntax). Covers DR1, DR15.
 
     - id: task-122
       name: '@acp.validate Driver-Bindings Extension'
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-122-validate-driver-bindings-extension.md
       estimated_hours: 4-6
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T07:20:00Z
+      completed_date: 2026-05-04T07:40:00Z
+      actual_hours: 0.3
       notes: |
-        Extend @acp.validate to verify bindings, single-MCP-server constraint,
-        mint/query pairing, server reachability. Runtime adapter for MCP catalog
-        introspection (target Claude Code initially). Covers DR6, DR8.
+        Added Step 11.5 "Validate Driver Bindings" to acp.validate.md with
+        all 4 DR6 rules: tool resolution (Claude Code MCP catalog target),
+        single-MCP-server (DR8), mint/query pairing (DR2 ↔ DR3), server
+        reachability. Plus paired pre-condition: workflows: non-empty
+        requires bindings.workflow.run. Workflow names NOT validated here
+        per DR4 (lazy resolution). Report format extended with Driver
+        Bindings section (success + failure examples). Backward-compat:
+        absent driver.yaml → no behavior change. Covers DR6, DR8.
 
     - id: task-123
       name: Override-with-Fallback Routing Pattern

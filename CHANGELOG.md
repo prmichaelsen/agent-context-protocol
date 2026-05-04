@@ -5,6 +5,26 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.0] - 2026-05-04
+
+### Added
+
+- **`agent/scripts/acp.driver-yaml.sh` parser implementation** — completes M19 task-121 (Driver YAML Schema and Parser Support). Eight helpers: `present`, `path`, `get-driver-name`, `get-binding <ext-point>`, `get-workflow <command-name>`, `get-capability <name>`, `list-bindings`, `list-workflows`. Project-local `agent/driver.yaml` takes precedence over global `~/.acp/agent/driver.yaml` fallback (drivers commonly install once and apply across projects; per-project file fully overrides — no merging). POSIX-portable awk parsing (no GNU-specific syntax).
+- **`@acp.validate` Step 11.5: Validate Driver Bindings** — completes M19 task-122. New validation step that runs only when `agent/driver.yaml` is present (backward-compatible by construction). Enforces all four DR6 rules:
+  - **Rule 1 — Tool resolution**: every tool name in `bindings:` resolves in the agent runtime's MCP catalog. v1 targets Claude Code's catalog; other runtimes degrade gracefully to a warning when introspection is unavailable.
+  - **Rule 2 — Single MCP server (DR8)**: all bound tools come from one MCP server. Cross-server bindings fail with an actionable error.
+  - **Rule 3 — Mint/query pairing**: `query.run` requires `marker.mint` (a driver indexing markers must be able to produce them).
+  - **Rule 4 — Server reachability**: the MCP server hosting the bound tools must be registered and reachable.
+  - Plus a paired pre-condition: `workflows:` non-empty requires `bindings.workflow.run`.
+  - Workflow names are NOT validated (lazy resolution per DR4 — driver returns its own error at invocation time).
+- **Validation report format extended** with a dedicated "Driver Bindings" section showing per-rule findings; success and failure examples documented in `acp.validate.md`.
+- **`package.yaml` declares acp.validate.md → acp.driver-yaml.sh** dependency.
+
+### M19 Status
+
+- 4/9 tasks complete: task-121 (Schema/Parser), task-122 (Validate Extension), task-123 (Routing Pattern + sync.md pilot), task-126 (Workflow Override Pilot).
+- Remaining: task-124 (marker.mint wiring, 6 commands), task-125 (query.run wiring for validate + proceed), task-127 (capabilities.watcher), task-128 (integration tests), task-129 (documentation).
+
 ## [6.1.0] - 2026-05-04
 
 ### Added
