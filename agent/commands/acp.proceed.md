@@ -301,7 +301,7 @@ Load the design document for supplementary implementation context.
   - If field contains a markdown link (e.g., `[Design Name](../design/local.feature.md)`): Extract the path and read that design document
   - If field is `None`: Invoke `@acp.design-reference` directive ([`agent/commands/acp.design-reference.md`](acp.design-reference.md)) to dynamically search by topic keywords from the task name and milestone
   - If field is missing (older task without the field): Invoke `@acp.design-reference` directive to dynamically search
-- If a design document was found, read it and note key sections: Solution, Implementation, Key Design Decisions, Trade-offs
+- If a design document was found, read it and note key sections: Solution, Implementation, Key Design Requirements, Trade-offs
 - Hold this context for use during implementation
 
 **Display**:
@@ -309,7 +309,7 @@ Load the design document for supplementary implementation context.
 When design loaded:
 ```
 Design Context: Loaded local.design-reference-system.md
-  Sections: Solution, Implementation, Key Design Decisions, Trade-offs
+  Sections: Solution, Implementation, Key Design Requirements, Trade-offs
   Use as supplementary context during implementation.
 ```
 
@@ -424,12 +424,12 @@ An unverifiable acceptance claim is drift. Log it.
 
 #### Step E — Audit `Spec Coverage` (when present)
 
-For each `R<N>` requirement claimed:
+For each `FR<N>` requirement claimed:
 - Find where it is implemented. This is typically code (a function, a handler, a schema) and optionally a test.
-- Verify the implementation actually satisfies the requirement's MUST/SHOULD/MAY language. If R10 says "MUST create a user_pen_pals row on Tier 2 quest completion", confirm that row creation actually happens in the code path.
+- Verify the implementation actually satisfies the requirement's MUST/SHOULD/MAY language. If FR10 says "MUST create a user_pen_pals row on Tier 2 quest completion", confirm that row creation actually happens in the code path.
 - For each `Covered behaviors` test case, confirm the test file exists and actually runs the specified scenario.
 
-If a claimed R<N> has no implementation, that is drift. If a test case is missing, that is drift.
+If a claimed FR<N> has no implementation, that is drift. If a test case is missing, that is drift.
 
 #### Step F — Produce the traceability table
 
@@ -443,7 +443,7 @@ User-Observable Acceptance: X/Y criteria verified
 Spec Coverage (R<range>): X/Y requirements implemented
 
 Drift detected:
-  ⚠️ R12 → claimed but implementation missing letter frequency enforcement
+  ⚠️ FR12 → claimed but implementation missing letter frequency enforcement
   ❌ "Help button visible in character conversation" → no evidence in client code
 ```
 

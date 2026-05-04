@@ -5,14 +5,14 @@ topic: capabilities-watcher, data-freshness, consumer-commands, no-auto-refresh
 description: Consumer commands consult capabilities.watcher and surface stale-data guidance to the user when the driver does not auto-sync
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D15
+incorporates: DR15
 depends_on: task-121, task-123
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D15 (capabilities.watcher)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR15 (capabilities.watcher)
 **Estimated Time**: 1-2 hours
 
 ---
@@ -25,7 +25,7 @@ Wire the `capabilities.watcher` flag from `agent/driver.yaml` into the consumer 
 
 ## Context
 
-Per D15, `capabilities.watcher: true` tells consumer commands "the driver's data layer auto-syncs with disk; trust query results." When false or absent, consumer commands MAY surface guidance: "if results seem stale, ask the driver to refresh via its scan/surface tool." The flag is a hint, not a contract; ACP does not verify it via MCP probe.
+Per DR15, `capabilities.watcher: true` tells consumer commands "the driver's data layer auto-syncs with disk; trust query results." When false or absent, consumer commands MAY surface guidance: "if results seem stale, ask the driver to refresh via its scan/surface tool." The flag is a hint, not a contract; ACP does not verify it via MCP probe.
 
 This task is small (1-2 hours) but matters because the difference between "queries auto-fresh" and "queries possibly stale" is invisible to the user without an explicit signal. The default conservative behavior (assume `watcher: false` if absent) ensures the user is prompted when in doubt.
 
@@ -69,9 +69,9 @@ Position it near the top, after the workflow-override directive (task 126) but b
 
 ### 4. Documentation
 
-In `agent/design/local.pluggable-driver-system.md` (D15), no changes needed — the design already covers this.
+In `agent/design/local.pluggable-driver-system.md` (DR15), no changes needed — the design already covers this.
 
-In the modified consumer command files, add a one-liner in their notes section pointing at D15.
+In the modified consumer command files, add a one-liner in their notes section pointing at DR15.
 
 ---
 
@@ -103,7 +103,7 @@ In the modified consumer command files, add a one-liner in their notes section p
 - `agent/commands/acp.proceed.md`
 
 **Files Modified (small)**:
-- Notes section additions in modified commands pointing at D15 reference
+- Notes section additions in modified commands pointing at DR15 reference
 
 ---
 

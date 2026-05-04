@@ -45,7 +45,7 @@ The **Agent Context Protocol (ACP)** is a comprehensive documentation and planni
 The **Agent Context Protocol (ACP)** is a **documentation-first development methodology** that creates a parallel knowledge base alongside your source code. It consists of:
 
 1. **Design Documents** - Architectural decisions, how-it-works rationale, technical approach
-2. **Specs** - Formal specifications: explicit requirements (R<N> IDs), behavior tables, test cases. The source of truth for *what must be true* about a feature
+2. **Specs** - Formal specifications: explicit requirements (FR<N> IDs), behavior tables, test cases. The source of truth for *what must be true* about a feature
 3. **Milestones** - Project phases with clear deliverables and success criteria
 4. **Tasks** - Granular, actionable work items with verification steps. Tasks can claim specific spec requirements via their `Spec Coverage` section
 5. **Patterns** - Reusable architectural and coding patterns
@@ -107,7 +107,7 @@ project-root/
 │   │   └── ...
 │   │
 │   ├── specs/                      # Formal specifications (what must be true)
-│   │   ├── {namespace}.{name}.md   # R<N> requirements, behavior tables, tests
+│   │   ├── {namespace}.{name}.md   # FR<N> requirements, behavior tables, tests
 │   │   └── ...                     # Created by @acp.spec, consumed by @acp.task-create
 │   │
 │   ├── milestones/                 # Project milestones
@@ -200,10 +200,10 @@ Specs complement design documents; both can exist for the same feature. Design i
 
 ## Requirements
 
-### R1: {Short requirement title}
+### FR1: {Short requirement title}
 {One-paragraph requirement statement. MUST / SHOULD / MAY language.}
 
-### R2: {...}
+### FR2: {...}
 ...
 
 ## Behavior Table
@@ -230,7 +230,7 @@ Specs complement design documents; both can exist for the same feature. Design i
 - Features with non-obvious edge cases
 - Features where the distinction between "works" and "specified correctly" matters
 
-**How Tasks Use Specs**: When `@acp.task-create` finds a matching spec in `agent/specs/`, it pulls relevant R<N> requirements verbatim into the task's `Spec Coverage` section. Sub-agents implement against the inline requirements; the spec file itself remains the source of truth for audits and drift detection via `@acp.sync`.
+**How Tasks Use Specs**: When `@acp.task-create` finds a matching spec in `agent/specs/`, it pulls relevant FR<N> requirements verbatim into the task's `Spec Coverage` section. Sub-agents implement against the inline requirements; the spec file itself remains the source of truth for audits and drift detection via `@acp.sync`.
 
 ### 3. Milestones (`agent/milestones/`)
 
@@ -435,7 +435,7 @@ Same marker, five languages:
 <!-- @acp.meta.task
 topic: wire awk parser into sync
 milestone: M3
-covers: R31, R32
+covers: FR31, FR32
 status: in_progress
 updated: 2026-04-27
 @acp.meta.end -->
@@ -445,7 +445,7 @@ updated: 2026-04-27
 ```ts
 // @acp.meta.code
 // topic: marker parser util
-// implements: R31, R32
+// implements: FR31, FR32
 // spec: agent/specs/local.marker-system.md
 // file_role: util
 // status: implemented
@@ -457,7 +457,7 @@ updated: 2026-04-27
 ```python
 # @acp.meta.code
 # topic: backfill legacy files
-# implements: R40
+# implements: FR40
 # file_role: cli
 # status: draft
 # updated: 2026-04-27
@@ -468,7 +468,7 @@ updated: 2026-04-27
 ```sql
 -- @acp.meta.code
 -- topic: migration for spec_coverage table
--- implements: R42
+-- implements: FR42
 -- file_role: migration
 -- status: implemented
 -- updated: 2026-04-27
@@ -479,7 +479,7 @@ updated: 2026-04-27
 
 ### Body fields
 
-Each field is `key: value` on its own line. List values use comma-separated inline form (`covers: R10, R11, R12`). No YAML block syntax — keep the parser trivial.
+Each field is `key: value` on its own line. List values use comma-separated inline form (`covers: FR10, FR11, FR12`). No YAML block syntax — keep the parser trivial.
 
 ### Field catalog per kind
 
@@ -498,10 +498,10 @@ Each field is `key: value` on its own line. List values use comma-separated inli
 
 **Requirement IDs and Design IDs.** Specs and designs both carry addressable units:
 
-- `R<N>` (specs): each requirement in `## Requirements` has an ID like `R1`, `R2`, ..., `R<N>`. Tasks declare which requirements they implement via `covers: R10, R11` in the task marker. The spec's marker `requirements:` field records the ID range.
-- `D<N>` (designs): any atomic, addressable design unit — a key decision, code snippet, schema, interface, algorithm, formula, key invariant, or diagram — gets a `D<N>` label. Tasks declare which design units they inline via `incorporates: D1, D3`. The design's marker `decisions:` field records the ID range.
+- `FR<N>` (specs): each requirement in `## Requirements` has an ID like `FR1`, `FR2`, ..., `FR<N>`. Tasks declare which requirements they implement via `covers: FR10, FR11` in the task marker. The spec's marker `functional_requirements:` field records the ID range.
+- `DR<N>` (designs): any atomic, addressable design unit — a key decision, code snippet, schema, interface, algorithm, formula, key invariant, or diagram — gets a `DR<N>` label. Tasks declare which design units they inline via `incorporates: DR1, DR3`. The design's marker `design_requirements:` field records the ID range.
 
-See "D-IDs for designs" below for labeling conventions.
+See "DR-IDs for designs" below for labeling conventions.
 
 ### The parser
 
@@ -520,33 +520,33 @@ Output is a flat stream of `file:` / `kind:` / `key:` lines, with `---` between 
 
 ### What markers enable
 
-- **`@acp.task-create`** invokes the scanner to find a matching spec for a new task and auto-populates the task's `Spec Coverage` section from the spec's declared `requirements:` range.
+- **`@acp.task-create`** invokes the scanner to find a matching spec for a new task and auto-populates the task's `Spec Coverage` section from the spec's declared `functional_requirements:` range.
 - **`@acp.sync`** invokes the scanner to build a spec ↔ task ↔ code cross-reference map in one pass, surfacing:
-  - Unclaimed requirements (spec R<N> with no task `covers:` it) → planning gap
-  - Unimplemented claims (task `covers: R<N>` but no code `implements: R<N>`) → completion drift
+  - Unclaimed requirements (spec FR<N> with no task `covers:` it) → planning gap
+  - Unimplemented claims (task `covers: FR<N>` but no code `implements: FR<N>`) → completion drift
   - Stale markers (`status: complete` but `updated:` > 6 months ago) → possibly out-of-date
 - **Code markers** are opt-in. Only source files claiming to implement a spec requirement need one. A file may carry multiple `kind: code` blocks (one per function/module implementing a separate requirement).
 
-### D-IDs for designs
+### DR-IDs for designs
 
-Designs carry **atomic, addressable units** labeled `D<N>` so tasks can reference them exactly (mirroring how tasks `covers: R10, R11` specific requirements in specs).
+Designs carry **atomic, addressable units** labeled `DR<N>` so tasks can reference them exactly (mirroring how tasks `covers: FR10, FR11` specific requirements in specs).
 
-**What gets a D-ID:**
+**What gets a DR-ID:**
 
-- **Key decisions** — `### D1: Use SM-2 for scheduling`
-- **Code / schema snippets** — `**D2: user_study_list table**` above a fenced SQL/TS block
-- **Interfaces / type signatures** — `**D3: WordDefinition contract**`
-- **Algorithms / formulas** — `**D4: Effective priority calculation**`
-- **Key invariants or rules** — `**D5: Markers supersede prose frontmatter**`
-- **Diagrams** — `**D6: Character switching flow**` above an ASCII / mermaid / image block
+- **Key decisions** — `### DR1: Use SM-2 for scheduling`
+- **Code / schema snippets** — `**DR2: user_study_list table**` above a fenced SQL/TS block
+- **Interfaces / type signatures** — `**DR3: WordDefinition contract**`
+- **Algorithms / formulas** — `**DR4: Effective priority calculation**`
+- **Key invariants or rules** — `**DR5: Markers supersede prose frontmatter**`
+- **Diagrams** — `**DR6: Character switching flow**` above an ASCII / mermaid / image block
 
-The rule is functional: if a chunk is atomic enough that a task could legitimately inline it verbatim and reference it by ID, give it a D-ID. Prose context around an atomic unit does NOT need a D-ID.
+The rule is functional: if a chunk is atomic enough that a task could legitimately inline it verbatim and reference it by ID, give it a DR-ID. Prose context around an atomic unit does NOT need a DR-ID.
 
-**Numbering:** sequential (`D1, D2, D3, ...`) across the whole document, regardless of section.
+**Numbering:** sequential (`DR1, DR2, DR3, ...`) across the whole document, regardless of section.
 
-**Task incorporation:** when `@acp.task-create` inlines design content, it records the specific D-IDs in the task marker's `incorporates:` field. `@acp.validate` then confirms each claimed D-ID is actually reflected in the task body.
+**Task incorporation:** when `@acp.task-create` inlines design content, it records the specific DR-IDs in the task marker's `incorporates:` field. `@acp.validate` then confirms each claimed DR-ID is actually reflected in the task body.
 
-**Migration:** legacy designs don't have D-IDs. `@acp.sync` Pass C scans each design for candidate atomic units and proposes D-ID labels for user approval. Never silent.
+**Migration:** legacy designs don't have DR-IDs. `@acp.sync` Pass C scans each design for candidate atomic units and proposes DR-ID labels for user approval. Never silent.
 
 ### Authoring
 
@@ -1513,7 +1513,7 @@ This is equivalent to running `@acp.init` steps 2-2.8 followed by resuming the c
 ### When You Encounter Problems
 
 1. **Check design documents**
-   - Look for relevant design decisions
+   - Look for relevant design requirements
    - Understand constraints
    - Follow established patterns
 

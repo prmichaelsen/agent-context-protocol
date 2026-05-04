@@ -100,7 +100,7 @@ acp:
         entity documents. Called by create commands, not directly by users.
       rationale: |
         Ensures design rationale is preserved in entities. Agents must
-        understand conflict resolution and Key Design Decisions format.
+        understand conflict resolution and Key Design Requirements format.
       applies: acp.command-create, acp.design-create, acp.task-create, acp.pattern-create
 
     - path: agent/commands/acp.design-reference.md

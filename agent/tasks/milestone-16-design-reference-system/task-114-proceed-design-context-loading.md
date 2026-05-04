@@ -43,7 +43,7 @@ Document the following actions:
 
 2. **Read design document**: If a design document was found (via link or search):
    - Read the full document
-   - Note key sections: Solution, Implementation, Key Design Decisions, Trade-offs
+   - Note key sections: Solution, Implementation, Key Design Requirements, Trade-offs
    - Hold this context for use during implementation
 
 3. **Report**:
@@ -51,7 +51,7 @@ Document the following actions:
    **When design loaded**:
    ```
    Design Context: Loaded local.design-reference-system.md
-     Sections: Solution, Implementation, Key Design Decisions, Trade-offs
+     Sections: Solution, Implementation, Key Design Requirements, Trade-offs
      Use as supplementary context during implementation.
    ```
 

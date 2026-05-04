@@ -280,7 +280,7 @@ No migration needed — this is a greenfield project in a new repository.
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Scope
 

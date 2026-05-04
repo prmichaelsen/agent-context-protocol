@@ -1,0 +1,104 @@
+# Schema for agent/driver.yaml
+# DRAFT — sketch for review before parser implementation lands (task-121)
+#
+# References:
+#   agent/design/local.pluggable-driver-system.md (D1, D15)
+#   agent/clarifications/clarification-15-pluggable-driver-system.md
+#
+# This schema describes the SHAPE of agent/driver.yaml only. Pairing
+# invariants (e.g., marker.mint required if query.run bound) are NOT
+# enforced here — they belong in @acp.validate (task-122, D6).
+
+schema:
+  required: []
+  unknown_keys: warn  # @acp.validate emits warnings for top-level keys outside this schema (Q3)
+
+  fields:
+    driver:
+      type: string
+      pattern: "^@?[a-zA-Z0-9][a-zA-Z0-9._/-]*$"
+      description: |
+        Informational identifier for the bound driver. Format: "@<org>/<name>"
+        (npm-scoped style) or unscoped "<name>". Not validated against any
+        registry; the agent runtime's MCP catalog is the authority on whether
+        the driver's tools resolve. Optional — present mostly for diff
+        readability and validate's reporting.
+      required: false
+
+    capabilities:
+      type: object
+      description: |
+        Driver-declared guarantees (D15). Each capability is a hint surfaced
+        to consumer commands; ACP does not verify them via MCP probe.
+      required: false
+      schema:
+        fields:
+          watcher:
+            type: boolean
+            description: |
+              True iff the driver's data layer auto-syncs with disk. Consumer
+              commands skip stale-data prompts when true. Defaults to false
+              when absent (conservative — over-prompt rather than mislead).
+            required: false
+
+    bindings:
+      type: object
+      description: |
+        Map of ext-point ID → MCP tool name. Tool names are unprefixed (e.g.
+        "my_tool", not "mcp__server__my_tool"); the agent translates to its
+        runtime's naming convention. Only the three ext-point keys below are
+        recognized; unknown keys fail @acp.validate.
+      required: false
+      schema:
+        fields:
+          marker.mint:
+            type: string
+            pattern: "^[^\\s]+$"
+            description: |
+              MCP tool that issues a canonical marker ID + field schema with
+              per-field instructions. Required if query.run is bound (D6).
+            required: false
+
+          query.run:
+            type: string
+            pattern: "^[^\\s]+$"
+            description: |
+              MCP tool that answers structured queries against the driver's
+              data layer. Returns rows. Requires marker.mint (D6).
+            required: false
+
+          workflow.run:
+            type: string
+            pattern: "^[^\\s]+$"
+            description: |
+              MCP tool that executes driver-defined workflow steps. Required
+              if any entry exists in workflows: section.
+            required: false
+
+    workflows:
+      type: object
+      description: |
+        Map of ACP command name → driver workflow name. When an ACP command
+        with the override directive runs, it dispatches to workflow.run with
+        the mapped workflow name (D5). Keys are open (any ACP command name);
+        validation that workflow names resolve to real workflows happens
+        lazily at invocation time, not at validate time (D4).
+      required: false
+      # Free-form: keys are arbitrary ACP command names (e.g. "acp.task-create"),
+      # values are driver workflow names. No fixed sub-schema.
+
+  # RESOLVED design questions (decisions logged here for task-122 to honor):
+  #
+  # Q1 (closed bindings keys): RESOLVED — closed enum, only marker.mint /
+  #     query.run / workflow.run recognized. New ext points justify a
+  #     schema bump.
+  #
+  # Q2 (workflows value pattern): RESOLVED — no pattern constraint.
+  #     Driver-defined names; no universal regex fits.
+  #
+  # Q3 (unknown top-level keys): RESOLVED — warn (see unknown_keys: warn
+  #     above). @acp.validate emits a warning per unknown top-level key,
+  #     does not fail validation.
+  #
+  # Q4 (driver field required): RESOLVED — optional. File existence is
+  #     sufficient signal of driver intent; field is informational only.

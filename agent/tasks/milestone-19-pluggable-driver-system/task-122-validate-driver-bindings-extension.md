@@ -5,21 +5,21 @@ topic: acp-validate, driver-bindings, single-mcp-server, mint-query-pairing, mcp
 description: Extend @acp.validate to verify agent/driver.yaml bindings, single-MCP-server constraint, mint/query pairing, and tool reachability
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D6, D8
+incorporates: DR6, DR8
 depends_on: task-121
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D6 (validation rules), D8 (single-MCP-server enforcement)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR6 (validation rules), DR8 (single-MCP-server enforcement)
 **Estimated Time**: 4-6 hours
 
 ---
 
 ## Objective
 
-Extend `@acp.validate` (`agent/commands/acp.validate.md`) to detect and validate `agent/driver.yaml` when present. Validation must enforce all four rules from D6: tool resolution, single-MCP-server, mint/query pairing, and reachability.
+Extend `@acp.validate` (`agent/commands/acp.validate.md`) to detect and validate `agent/driver.yaml` when present. Validation must enforce all four rules from DR6: tool resolution, single-MCP-server, mint/query pairing, and reachability.
 
 ---
 
@@ -27,7 +27,7 @@ Extend `@acp.validate` (`agent/commands/acp.validate.md`) to detect and validate
 
 `agent/driver.yaml` is user-edited; mistakes are inevitable (typo in tool name, bound tools from two different MCP servers, query bound without mint, MCP server not running). Catching them at validate time turns silent runtime failures into clear errors.
 
-Workflow names in `workflows:` are NOT validated here — per design (D4 lazy resolution), workflow name correctness is checked at invocation time by the driver itself.
+Workflow names in `workflows:` are NOT validated here — per design (DR4 lazy resolution), workflow name correctness is checked at invocation time by the driver itself.
 
 ---
 
@@ -39,15 +39,15 @@ Update `agent/commands/acp.validate.md` to include a new validation section that
 
 If absent, skip silently — backward-compat invariant.
 
-### 2. Implement validation rules (D6)
+### 2. Implement validation rules (DR6)
 
 For each rule, surface a clear error with file path + line context:
 
 **Rule 1 — Tool resolution**: every tool name in `bindings:` must resolve in the agent's MCP catalog. Mechanism is runtime-specific (see step 3); validate uses whatever introspection the runtime provides.
 
-**Rule 2 — Single MCP server (D8)**: all bound tool names must come from the same MCP server. Cross-server bindings fail with: `"Bindings span multiple MCP servers: <tool-A> from <server-1>, <tool-B> from <server-2>. One driver per project — pick one server."`
+**Rule 2 — Single MCP server (DR8)**: all bound tool names must come from the same MCP server. Cross-server bindings fail with: `"Bindings span multiple MCP servers: <tool-A> from <server-1>, <tool-B> from <server-2>. One driver per project — pick one server."`
 
-**Rule 3 — Mint/query pairing (D2 ↔ D3)**: if `query.run` is bound, `marker.mint` must also be bound. Failure: `"query.run is bound but marker.mint is not. A driver indexing markers must be able to produce them in canonical format."`
+**Rule 3 — Mint/query pairing (DR2 ↔ DR3)**: if `query.run` is bound, `marker.mint` must also be bound. Failure: `"query.run is bound but marker.mint is not. A driver indexing markers must be able to produce them in canonical format."`
 
 **Rule 4 — Server reachability**: the MCP server hosting bound tools must be currently registered and reachable. Failure: `"MCP server '<server-name>' is unreachable. Ensure it's registered with your agent runtime and the process is running."`
 
@@ -100,9 +100,9 @@ On error:
 
 ## Verification
 
-- [ ] All 4 D6 rules implemented and tested
-- [ ] Single-MCP-server constraint (D8) enforced
-- [ ] Workflow name validation explicitly NOT done here (lazy resolution per D4)
+- [ ] All 4 DR6 rules implemented and tested
+- [ ] Single-MCP-server constraint (DR8) enforced
+- [ ] Workflow name validation explicitly NOT done here (lazy resolution per DR4)
 - [ ] Runtime-adapter pattern in place (target Claude Code initially; degrade gracefully for unknown runtimes)
 - [ ] Validate's output format extended cleanly without breaking existing sections
 - [ ] Backward-compat: `agent/driver.yaml` absent → no behavior change
@@ -124,7 +124,7 @@ On error:
 
 ## Notes
 
-- This task does NOT validate workflow names in `workflows:` — that's lazy per D4. Adding such validation would require a contract with the driver (action="list") that we explicitly chose not to require.
+- This task does NOT validate workflow names in `workflows:` — that's lazy per DR4. Adding such validation would require a contract with the driver (action="list") that we explicitly chose not to require.
 - Server reachability is a soft check — if introspection fails for environmental reasons (sandboxed shell, etc.), warn rather than fail. Don't block the user when validate can't talk to the runtime.
 - The runtime adapter for MCP catalog introspection is the load-bearing complexity here. Picking Claude Code as the v1 target is pragmatic; document the adapter contract so future runtimes can plug in.
 

@@ -5,7 +5,7 @@ topic: {comma-separated keywords}
 description: {one-line summary, <=150 chars}
 informs: {agent/specs/{namespace}.{spec-name}.md or omit if no derived spec yet}
 depends_on: {other design paths or omit}
-decisions: {D1..D<N> or D1, D3, D7 — omit if this design has no atomic units worth labeling}
+design_requirements: {DR1..DR<N> or DR1, DR3, DR7 — omit if this design has no atomic units worth labeling}
 status: draft
 updated: {YYYY-MM-DD}
 @acp.meta.end -->
@@ -13,18 +13,18 @@ updated: {YYYY-MM-DD}
 **Concept**: [One-line description of what this design addresses]  
 **Created**: YYYY-MM-DD  
 
-> **D-IDs — atomic design units.** Label any atomic, addressable chunk of this design with `D<N>` so tasks can reference it exactly. Label:
+> **DR-IDs — atomic design units (Design Requirements).** Label any atomic, addressable chunk of this design with `DR<N>` so tasks can reference it exactly. Label:
 >
-> - **Key decisions**: `### D1: Use SM-2 for scheduling`
-> - **Code / schema snippets**: `**D2: user_study_list table**` above a SQL/TS block
-> - **Interfaces / type signatures**: `**D3: WordDefinition contract**`
-> - **Algorithms / formulas**: `**D4: Effective priority calculation**`
-> - **Key invariants or rules**: `**D5: Markers supersede prose frontmatter**`
-> - **Diagrams**: `**D6: Character switching flow**` above an ASCII / mermaid / image block
+> - **Key decisions**: `### DR1: Use SM-2 for scheduling`
+> - **Code / schema snippets**: `**DR2: user_study_list table**` above a SQL/TS block
+> - **Interfaces / type signatures**: `**DR3: WordDefinition contract**`
+> - **Algorithms / formulas**: `**DR4: Effective priority calculation**`
+> - **Key invariants or rules**: `**DR5: Markers supersede prose frontmatter**`
+> - **Diagrams**: `**DR6: Character switching flow**` above an ASCII / mermaid / image block
 >
-> Prose context around an atomic unit does NOT need a D-ID — only the atomic unit itself. D-IDs are what tasks `incorporates:` in their marker.
+> Prose context around an atomic unit does NOT need a DR-ID — only the atomic unit itself. DR-IDs are what tasks `incorporates:` in their marker.
 >
-> Keep numbering sequential (`D1, D2, D3, ...`) across the whole document, regardless of section. Populate the marker's `decisions:` field with `D1..D<N>` (range) or `D1, D3, D7` (list).
+> Keep numbering sequential (`DR1, DR2, DR3, ...`) across the whole document, regardless of section. Populate the marker's `design_requirements:` field with `DR1..DR<N>` (range) or `DR1, DR3, DR7` (list).
 
 ---
 
@@ -144,20 +144,20 @@ class DataService {
 
 ---
 
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 <!-- This section is populated by @acp.clarification-capture when
      create commands are invoked with --from-clar, --from-chat, or
      --from-context. It can also be manually authored.
-     Omit this section entirely if no decisions to capture.
+     Omit this section entirely if no design requirements to capture.
 
-     Group decisions by agent-inferred category using tables:
+     Group design requirements by agent-inferred category using tables:
 
 ### {Category}
 
-| Decision | Choice | Rationale |
+| Design Requirement | Choice | Rationale |
 |---|---|---|
-| {decision} | {choice} | {rationale} |
+| {design requirement} | {choice} | {rationale} |
 -->
 
 ---

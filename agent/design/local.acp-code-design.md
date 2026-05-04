@@ -262,7 +262,7 @@ A project is **either bash-ACP or acp-code**, never both simultaneously. The mar
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Architecture
 

@@ -1,0 +1,39 @@
+# agent/driver.yaml — bind a pluggable driver to this project.
+#
+# Drop this file into agent/driver.yaml and edit the placeholders below.
+# Run `@acp.validate` to verify your bindings resolve in your agent runtime's
+# MCP catalog. ABSENT FILE = pure acp.core behavior (no driver).
+#
+# Schema: agent/schemas/driver.schema.yaml
+# Design: agent/design/local.pluggable-driver-system.md
+
+# Informational. Format: "@<org>/<driver-name>" or "<driver-name>".
+# Used for diff readability and validate's reporting; not checked against any registry.
+driver: "@<org>/<driver-name>"
+
+# Optional. Driver-declared guarantees. Each capability is a hint to consumer
+# commands; ACP does NOT verify these via MCP probe.
+capabilities:
+  # true iff the driver auto-syncs its data layer with disk. When false or
+  # absent, consumer commands MAY surface stale-data guidance to the user.
+  # Default when absent: false (conservative).
+  watcher: false
+
+# Optional. Map of ext-point ID → MCP tool name (unprefixed).
+# Pairing invariants enforced by @acp.validate:
+#   - marker.mint required if query.run is bound (and vice versa)
+#   - workflow.run required if `workflows:` section is non-empty
+#   - all bound tools must come from a single MCP server
+bindings:
+  marker.mint: <mint-tool-name>          # issues canonical marker ID + field schema
+  query.run: <query-tool-name>           # structured query against driver's data layer
+  workflow.run: <workflow-tool-name>     # executes driver-defined workflow steps
+
+# Optional. Map of ACP command name → driver workflow name.
+# Listed ACP commands dispatch to workflow.run instead of executing their own
+# markdown steps. Workflow names are validated lazily (at invocation time, by
+# the driver) — not at @acp.validate time.
+workflows:
+  acp.task-create: <workflow-name-1>
+  acp.plan: <workflow-name-2>
+  acp.init: <workflow-name-3>

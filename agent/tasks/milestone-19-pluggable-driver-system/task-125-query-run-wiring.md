@@ -5,14 +5,14 @@ topic: query-run, dispatch, validate, sync, proceed
 description: Wire query.run dispatch into validate, sync, and proceed commands; route through driver when bound, fall back to grep/awk when unbound
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D3, D12
+incorporates: DR3, DR12
 depends_on: task-121, task-123
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D3 (query.run contract), D12 (commands updated)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR3 (query.run contract), DR12 (commands updated)
 **Estimated Time**: 3-5 hours
 
 ---
@@ -25,7 +25,7 @@ Embed the driver-dispatch snippet (from task 123) into the 3 ACP commands that q
 
 ## Context
 
-Per D3, `query.run` is the structured-query ext point. Driver-defined input shape (SQL string, JSON-DSL, structured filter — driver's choice); array-of-rows output. The 3 consumer commands that need queries today (validate, sync, proceed) currently use `acp.meta-scan.sh` + grep + awk to find marker hits and project state. Under the driver model, when bound, those queries route to the driver's tool instead.
+Per DR3, `query.run` is the structured-query ext point. Driver-defined input shape (SQL string, JSON-DSL, structured filter — driver's choice); array-of-rows output. The 3 consumer commands that need queries today (validate, sync, proceed) currently use `acp.meta-scan.sh` + grep + awk to find marker hits and project state. Under the driver model, when bound, those queries route to the driver's tool instead.
 
 Important: this task does NOT replace the marker-scanning step entirely. It adds dispatch around the existing scan-based queries. When unbound, scan + grep continues to work as today.
 
@@ -72,6 +72,27 @@ Per command, exercise both paths:
 - **Unbound**: existing behavior preserved — grep/awk pipeline runs, command produces same output as today
 - **Bound (mock MCP server)**: dispatch invokes the mock; mock returns mock rows; command processes them and produces equivalent output
 
+### 6. Failure semantics for progress-state reads (added per prior cross-project handoff)
+
+A driver may remove ACP-owned state files when bound — notably `progress.yaml`,
+which `a driver's init step` deletes outright in favor of project.db. Consumer commands
+that today read `progress.yaml` directly must follow strict binding-first
+order:
+
+1. **Check `query.run` binding first.** If bound, use it. Period. Do NOT also
+   read `progress.yaml` "for safety" — the file may not exist, and reading it
+   silently risks divergence from the driver's authoritative state.
+2. **Fall back to `progress.yaml` only when `query.run` is unbound.** This is
+   the today-behavior path.
+3. **Surface a clear error if neither path is viable** — i.e., `query.run`
+   unbound AND `progress.yaml` missing. Do NOT silently produce empty results
+   or fail with an opaque "file not found" trace. The error message should
+   point the user at the resolution: bind a driver via `agent/driver.yaml`,
+   or restore `agent/progress.yaml` from `agent/progress.template.yaml`.
+
+The directive language embedded by the dispatch snippet (task 123) should
+make this ordering and failure path explicit, not leave it to LLM judgment.
+
 ### 6. Index updates
 
 If `acp.validate.md`, `acp.sync.md`, or `acp.proceed.md` are referenced in `agent/index/local.main.yaml` or `agent/index/acp.core.yaml`, ensure descriptions/rationales are current.
@@ -94,7 +115,7 @@ If `acp.validate.md`, `acp.sync.md`, or `acp.proceed.md` are referenced in `agen
 - [ ] Approach A (natural-language intent) used unless pilot shows it unreliable
 - [ ] Both paths (bound, unbound) tested per command
 - [ ] Existing test fixtures (without driver.yaml) pass unchanged
-- [ ] Mint pairing invariant (D6) held: if `query.run` is bound, the test fixtures also have `marker.mint` bound
+- [ ] Mint pairing invariant (DR6) held: if `query.run` is bound, the test fixtures also have `marker.mint` bound
 - [ ] Pilot command (`acp.validate`) signed off before sync and proceed are touched
 
 ---

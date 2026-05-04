@@ -5,14 +5,14 @@ topic: override-fallback, routing-pattern, directive-snippet, ext-point-dispatch
 description: Establish the reusable directive snippet consumer commands embed at the top of their files to dispatch to the bound driver tool or fall back to ACP defaults
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D7
+incorporates: DR7
 depends_on: task-121
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D7 (override-with-fallback routing)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR7 (override-with-fallback routing)
 **Estimated Time**: 2-3 hours
 
 ---
@@ -25,7 +25,7 @@ Author the canonical reusable directive snippet that consumer commands embed (in
 
 ## Context
 
-ACP commands are markdown directives interpreted by an LLM. The override-with-fallback model (D7) requires a small, repeatable snippet the LLM can embed in any consumer command directive: "for ext-point X, check `agent/driver.yaml` for a binding; if bound, invoke that MCP tool; if unbound, do the existing thing."
+ACP commands are markdown directives interpreted by an LLM. The override-with-fallback model (DR7) requires a small, repeatable snippet the LLM can embed in any consumer command directive: "for ext-point X, check `agent/driver.yaml` for a binding; if bound, invoke that MCP tool; if unbound, do the existing thing."
 
 Without a clean snippet, every consumer command would re-invent the dispatch logic. This task establishes the canonical pattern, names it, and validates it against one real command before tasks 124–126 deploy it across many.
 
@@ -49,10 +49,22 @@ Draft pattern (for reference; refine in execution):
 > Read `agent/driver.yaml`. If `bindings.<EXT_POINT_ID>` is set:
 >   - Invoke the named MCP tool with input: <INPUT_SHAPE>
 >   - Use the tool's output as the result of this step.
+>   - **Do NOT also perform the fallback path "for safety"** — a bound
+>     driver may have removed the file/state the fallback reads.
 > If `bindings.<EXT_POINT_ID>` is unset (or `agent/driver.yaml` absent):
 >   - Perform the fallback: <FALLBACK_ACTION>
-> Either way, proceed to the next step with the result.
+> If the bound tool errors AND the binding is set:
+>   - Surface the error to the user. Do NOT silently fall through to
+>     the fallback — a failed dispatch is NOT permission to use the
+>     fallback path.
+> If `<EXT_POINT_ID>` is unbound AND the fallback's required state is
+> unavailable (e.g., the file the fallback would read does not exist):
+>   - Surface a clear, actionable error explaining BOTH paths are
+>     unavailable and pointing at resolution (bind a driver, or
+>     restore the missing state).
 ```
+
+The clauses about NOT silently falling through and NOT silently producing empty results are baked into every instance of the snippet, not parameterized. Task-125's notes section 6 codifies the same rule for the specific case of `query.run` + missing `progress.yaml`; the snippet template encodes the rule generically.
 
 ### 2. Document the snippet
 

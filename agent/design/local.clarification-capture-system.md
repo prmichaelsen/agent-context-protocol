@@ -10,7 +10,7 @@
 
 The Clarification Capture System ensures that decisions made during clarification workflows are preserved in the entity documents they inform. Clarifications are ephemeral workflow files -- they are not committed to version control. Without explicit capture, design rationale documented in clarifications is permanently lost when the session ends or the working tree is cleaned.
 
-This system introduces `@acp.clarification-capture` as a shared directive invoked by create commands (`design-create`, `task-create`, `pattern-create`, `command-create`). It synthesizes clarification responses and chat context into a "Key Design Decisions" section in the created entity document.
+This system introduces `@acp.clarification-capture` as a shared directive invoked by create commands (`design-create`, `task-create`, `pattern-create`, `command-create`). It synthesizes clarification responses and chat context into a "Key Design Requirements" section in the created entity document.
 
 ---
 
@@ -18,7 +18,7 @@ This system introduces `@acp.clarification-capture` as a shared directive invoke
 
 ### Current Issues
 
-1. **Decision Loss**: Clarifications capture critical design decisions but are never committed. Once a session ends, those decisions vanish.
+1. **Decision Loss**: Clarifications capture critical design requirements but are never committed. Once a session ends, those decisions vanish.
 2. **No Context Propagation**: Create commands have no mechanism to inspect what clarifications or context led to the entity being created.
 3. **Disconnected Workflow**: A user may run `@acp.clarification-create`, answer 20+ questions, then invoke `@acp.design-create` -- but the design document has no record of those decisions.
 4. **Reproducibility Gap**: Future developers (human or agent) reading the entity document have no access to the "why" behind design choices.
@@ -47,7 +47,7 @@ User: @acp.design-create --from-clar --from-chat
                 ├── Step 1: Detect context sources (clarifications, chat)
                 ├── Step 2: Read and synthesize clarification responses
                 ├── Step 3: Resolve conflicts (flag for user if needed)
-                ├── Step 4: Generate "Key Design Decisions" section
+                ├── Step 4: Generate "Key Design Requirements" section
                 ├── Step 5: Embed in created entity document
                 └── Step 6: Update clarification status to "Captured"
 ```
@@ -62,13 +62,13 @@ Create commands accept these NLP-style arguments for specifying context sources:
 | `--from-clarifications` | `--from-clars` | Capture from all recent clarifications |
 | `--from-chat-context` | `--from-chat` | Capture decisions from chat conversation |
 | `--from-context` | (none) | Shorthand for all sources |
-| `--include-clarifications` | (none) | Alias for `--from-clars`, enforces Key Design Decisions section |
+| `--include-clarifications` | (none) | Alias for `--from-clars`, enforces Key Design Requirements section |
 
 **Default behavior** (no flags): Auto-detect clarifications and context in the session. Equivalent to implicit `--from-context`.
 
 ### Conflict Resolution
 
-When multiple clarifications contain conflicting decisions:
+When multiple clarifications contain conflicting design_requirements:
 1. Flag the conflict to the user
 2. Present the conflicting positions
 3. User resolves (can accept "most recent wins" as a valid resolution)
@@ -82,14 +82,14 @@ When synthesizing from multiple clarifications, more recent responses supersede 
 
 ## Implementation
 
-### Key Design Decisions Section
+### Key Design Requirements Section
 
 Added as an **optional** section in entity templates (design, task, pattern, command). The agent infers whether to include it based on available context -- it may be populated from clarifications, chat loops, or other session context.
 
 **Format**: Summary tables grouped by agent-inferred category.  
 
 ```markdown
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 ### Architecture
 
@@ -123,7 +123,7 @@ The directive is embedded in create commands as a shared step sequence:
 4. **Warn about partial clarifications**: If any clarification has unanswered questions, warn the user before proceeding
 5. **Resolve conflicts**: If multiple sources conflict, flag for user resolution
 6. **Synthesize decisions**: Extract decision/choice/rationale triples, group by inferred category
-7. **Generate section**: Produce "Key Design Decisions" markdown section
+7. **Generate section**: Produce "Key Design Requirements" markdown section
 8. **Update clarification status**: Set captured clarifications to status "Captured"
 
 ### Affected Commands
@@ -133,7 +133,7 @@ The directive is embedded in create commands as a shared step sequence:
 | `@acp.design-create` | Yes | Primary use case |
 | `@acp.task-create` | Yes | Captures scope/approach decisions |
 | `@acp.pattern-create` | Yes | Captures pattern rationale |
-| `@acp.command-create` | Yes | Captures command design decisions |
+| `@acp.command-create` | Yes | Captures command design requirements |
 | `@acp.clarification-create` | No | Should check existing clars to avoid duplicates |
 | `@acp.project-create` | No | Scaffold command, no design rationale |
 | `@acp.package-create` | No | Scaffold command, no design rationale |
@@ -183,14 +183,14 @@ When creating a new clarification, the command should:
 ## Dependencies
 
 - Existing create commands: `design-create`, `task-create`, `pattern-create`, `command-create`
-- Entity templates (need optional "Key Design Decisions" section added)
+- Entity templates (need optional "Key Design Requirements" section added)
 - Clarification file format (existing, no changes needed)
 
 ---
 
 ## Testing Strategy
 
-- **Unit scenarios**: Create command with `--from-clar` produces correct Key Design Decisions section
+- **Unit scenarios**: Create command with `--from-clar` produces correct Key Design Requirements section
 - **Auto-detect scenario**: Create command with no flags still detects and offers to capture session clarifications
 - **Conflict scenario**: Two clarifications with conflicting answers triggers user prompt
 - **Partial scenario**: Clarification with unanswered questions triggers warning
@@ -202,7 +202,7 @@ When creating a new clarification, the command should:
 ## Migration Path
 
 1. Create `@acp.clarification-capture` shared directive document
-2. Add optional "Key Design Decisions" section to entity templates (design, task, pattern, command)
+2. Add optional "Key Design Requirements" section to entity templates (design, task, pattern, command)
 3. Update `design-create`, `task-create`, `pattern-create`, `command-create` to reference the shared directive
 4. Update `clarification-create` with duplicate-awareness logic
 
@@ -211,13 +211,13 @@ When creating a new clarification, the command should:
 ## Future Considerations
 
 - **Cross-session capture**: If sessions system tracks clarification history, future agents could access decisions from prior sessions
-- **Decision search**: A command to search across all Key Design Decisions sections in entity docs
+- **Decision search**: A command to search across all Key Design Requirements sections in entity docs
 - **Decision index**: Automatic aggregation of decisions for project-wide decision log
 - **Clarification templates**: Pre-built question sets for common entity types
 
 ---
 
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 ### Architecture
 
@@ -238,7 +238,7 @@ When creating a new clarification, the command should:
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| Section name | "Key Design Decisions" | Clear, standard terminology |
+| Section name | "Key Design Requirements" | Clear, standard terminology |
 | Decision format | Summary table: `Decision / Choice / Rationale` | Concise, scannable, structured |
 | Grouping | By agent-inferred category | Flexible; no predefined category list needed |
 | Clarification references | None in output | Clarifications are ephemeral; numbers are volatile across checkouts |

@@ -15,7 +15,7 @@ Create the `@acp.clarification-capture` shared directive document. This is not a
 
 ## Context
 
-Clarifications are ephemeral workflow files that capture design decisions but are never committed. The capture directive provides a standardized process for extracting these decisions and embedding them in permanent entity documents.
+Clarifications are ephemeral workflow files that capture design requirements but are never committed. The capture directive provides a standardized process for extracting these decisions and embedding them in permanent entity documents.
 
 ---
 
@@ -31,7 +31,7 @@ Clarifications are ephemeral workflow files that capture design decisions but ar
    - Synthesize decisions into category-grouped tables (`Decision | Choice | Rationale`)
    - Categories are agent-inferred, not predefined
    - No clarification file references in output (clarifications are ephemeral)
-   - Generate "Key Design Decisions" markdown section
+   - Generate "Key Design Requirements" markdown section
    - Update captured clarification status to "Captured"
 3. Define the warning UX for uncaptured decisions detected in session
 4. Document argument table with all `--from-*` variants and aliases

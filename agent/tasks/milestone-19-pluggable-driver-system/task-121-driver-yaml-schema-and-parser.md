@@ -5,13 +5,13 @@ topic: driver-yaml, schema, yaml-parser, capabilities-watcher
 description: Define agent/driver.yaml schema and extend yaml-parser to load it; cover bindings, workflows, and capabilities.watcher
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D1, D15
+incorporates: DR1, DR15
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D1 (driver.yaml schema), D15 (capabilities.watcher)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR1 (driver.yaml schema), DR15 (capabilities.watcher)
 **Estimated Time**: 3-4 hours
 
 ---
@@ -39,7 +39,7 @@ Create `agent/schemas/driver.schema.yaml` mirroring the existing `agent/schemas/
 driver: string                # informational, format: "@<org>/<name>" or "<name>"
 capabilities:                 # optional
   watcher: bool               # default false
-bindings:                     # optional, but invariants apply (D6)
+bindings:                     # optional, but invariants apply (DR6)
   marker.mint: string         # MCP tool name, unprefixed
   query.run: string
   workflow.run: string

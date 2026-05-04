@@ -316,7 +316,7 @@ Code pointers: 15
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Scope
 

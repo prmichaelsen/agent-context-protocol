@@ -77,10 +77,10 @@ Replace the current generic verification guidance with:
 - Include integration verification (affected commands updated correctly)
 - If the design has a Testing Strategy section, map each test scenario to a verification item
 
-### 5. Update Step 6: Generate Task File — Key Design Decisions
+### 5. Update Step 6: Generate Task File — Key Design Requirements
 
 Add instruction:
-- If the design document has a Key Design Decisions section, carry relevant decisions into the task's Key Design Decisions section
+- If the design document has a Key Design Requirements section, carry relevant decisions into the task's Key Design Requirements section
 - Focus on decisions that directly affect this task's implementation
 - Use the same table format: `Decision | Choice | Rationale`
 
@@ -107,7 +107,7 @@ Add a note to Step 6:
 - [ ] Step 6 steps instructions prohibit omitting design operations (grouping OK, omission not OK)
 - [ ] Step 6 verification instructions require 1:1 mapping with design requirements
 - [ ] Step 6 verification instructions require edge case coverage
-- [ ] Step 6 Key Design Decisions instructions carry relevant decisions from design
+- [ ] Step 6 Key Design Requirements instructions carry relevant decisions from design
 - [ ] Self-Containment Check note added
 - [ ] Plan delegates to task-create, so no separate plan changes needed
 

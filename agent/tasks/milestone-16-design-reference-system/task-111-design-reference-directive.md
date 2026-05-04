@@ -83,7 +83,7 @@ Parse the design document(s) and extract all actionable elements organized by th
 | Format specifications | Output structure, naming conventions, file format rules |
 | Integration points | Connections to other commands/systems, affected commands tables |
 | Lifecycle rules | Status transitions, cleanup behavior, ordering constraints |
-| Decision rationale | Why choices were made (from Key Design Decisions or inline) |
+| Decision rationale | Why choices were made (from Key Design Requirements or inline) |
 
 For each element, record:
 - The element content (preserve verbatim where possible)
@@ -116,7 +116,7 @@ The calling command uses these to:
 - Expand task steps with implementation detail
 - Add verification items for each design requirement
 - Set the Design Reference metadata field
-- Populate Key Design Decisions section
+- Populate Key Design Requirements section
 
 ### 8. Document the Argument Interface
 

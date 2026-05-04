@@ -5,14 +5,14 @@ topic: workflow-override, command-override-directive, pilot, llm-stop-reliabilit
 description: Add the top-of-file workflow-override directive to acp.task-create, acp.plan, acp.init; pilot dispatch-then-stop reliability before broader rollout
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D4, D5, D12
+incorporates: DR4, DR5, DR12
 depends_on: task-123
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D4 (workflow.run contract), D5 (workflow-as-command-override mechanism), D12 (commands updated)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR4 (workflow.run contract), DR5 (workflow-as-command-override mechanism), DR12 (commands updated)
 **Estimated Time**: 2-3 hours
 
 ---
@@ -25,14 +25,14 @@ Add the top-of-file workflow-override directive to 3 pilot ACP commands (task-cr
 
 ## Context
 
-Per design (D5), workflow override is the headline value-prop for any driver shipping a workflow runtime — replacing freeform LLM markdown execution with stateful, validated, between-step-enforcing workflows. The mechanism is a **top-of-file directive** in each ACP command file that:
+Per design (DR5), workflow override is the headline value-prop for any driver shipping a workflow runtime — replacing freeform LLM markdown execution with stateful, validated, between-step-enforcing workflows. The mechanism is a **top-of-file directive** in each ACP command file that:
 
 1. Checks `agent/driver.yaml` for a `workflows.<this-command-name>` mapping
 2. If present, invokes `workflow.run(action="run", workflow=<mapped-name>)` and **STOPS**
 3. If absent, executes the command's existing markdown steps as fallback
 4. On `workflow.run` failure: surfaces the error to the user; does NOT silently fall through to markdown steps
 
-The "STOP" semantic is the load-bearing reliability concern (D5, Trade-offs). LLMs sometimes treat fallback paths as additive. This pilot collects evidence on reliability before deploying the directive to all ~37 ACP commands (which is a separate, post-M19 effort).
+The "STOP" semantic is the load-bearing reliability concern (DR5, Trade-offs). LLMs sometimes treat fallback paths as additive. This pilot collects evidence on reliability before deploying the directive to all ~37 ACP commands (which is a separate, post-M19 effort).
 
 ---
 

@@ -75,7 +75,7 @@ Check that existing inline prompts (partial clarification warnings, uncaptured d
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Question Format
 

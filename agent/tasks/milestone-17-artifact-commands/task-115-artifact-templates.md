@@ -141,7 +141,7 @@ agent/
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|

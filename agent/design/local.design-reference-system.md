@@ -178,7 +178,7 @@ Insert new Step 5.5 between "Process Draft" and "Generate Task File":
    - Ensure argument tables, UX specs, and format specs appear in task steps
    - Map edge cases to verification items
    - Set the Design Reference metadata field
-   - Include decision rationale in Key Design Decisions section or inline in steps
+   - Include decision rationale in Key Design Requirements section or inline in steps
 
 ### Changes to `@acp.plan`
 
@@ -247,7 +247,7 @@ This is supplementary — the task is still the primary work artifact. The desig
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Architecture
 

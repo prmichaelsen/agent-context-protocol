@@ -29,7 +29,7 @@ Each create command needs a new step that invokes the shared capture directive. 
 2. Update `agent/commands/acp.task-create.md` (same pattern)
 3. Update `agent/commands/acp.pattern-create.md` (same pattern)
 4. Update `agent/commands/acp.command-create.md` (same pattern)
-5. Ensure each command's "Generate File" step includes the Key Design Decisions section when context is available
+5. Ensure each command's "Generate File" step includes the Key Design Requirements section when context is available
 6. Ensure each command's expected output mentions clarification capture when applicable
 
 ---

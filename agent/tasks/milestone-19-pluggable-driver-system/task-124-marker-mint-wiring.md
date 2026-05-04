@@ -5,14 +5,14 @@ topic: marker-mint, stamping, agent-stamps-directly, six-commands
 description: Wire marker.mint dispatch into the 6 ACP commands that stamp markers; agent stamps directly using mint output
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-incorporates: D2, D9, D12
+incorporates: DR2, DR9, DR12
 depends_on: task-121, task-123
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
-**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — D2 (mint contract), D9 (marker authority transfer), D12 (commands updated)
+**Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR2 (mint contract), DR9 (marker authority transfer), DR12 (commands updated)
 **Estimated Time**: 3-5 hours
 
 ---
@@ -25,7 +25,7 @@ Embed the driver-dispatch snippet (from task 123) into the 6 ACP commands that s
 
 ## Context
 
-Per design (D2), the driver issues canonical IDs and provides field schema with per-field instructions; the agent assembles the marker block and writes the file. Per D9, when a driver is bound, ACP does not stamp `@acp.meta.*` markers anywhere — the project speaks the driver's marker vocabulary exclusively. The 6 commands listed in D12 all hardcode `<!-- @acp.meta.<kind> ... -->` blocks today; this task replaces that with dispatch through `marker.mint` when bound.
+Per design (DR2), the driver issues canonical IDs and provides field schema with per-field instructions; the agent assembles the marker block and writes the file. Per DR9, when a driver is bound, ACP does not stamp `@acp.meta.*` markers anywhere — the project speaks the driver's marker vocabulary exclusively. The 6 commands listed in DR12 all hardcode `<!-- @acp.meta.<kind> ... -->` blocks today; this task replaces that with dispatch through `marker.mint` when bound.
 
 ---
 

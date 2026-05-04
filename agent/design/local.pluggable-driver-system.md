@@ -4,7 +4,7 @@
 topic: pluggable-driver, mcp-tools, marker-mint, query-run, workflow-run, command-override, agent-driver-yaml, override-fallback
 description: Lets external MCP-server runtimes override ACP marker stamping, queries, and workflow execution per-project via a small bindings file
 depends_on: agent/clarifications/clarification-15-pluggable-driver-system.md
-decisions: D1..D15
+design_requirements: DR1..DR16
 status: draft
 updated: 2026-05-01
 @acp.meta.end -->
@@ -40,10 +40,10 @@ Forking ACP per-driver creates ecosystem fragmentation and locks driver authors 
 
 A small four-part system. Each part is independently small; together they cover the use case.
 
-1. **`agent/driver.yaml`** — a project-level bindings file (D1). Absent → today's bash-ACP behavior unchanged. Present → the named driver overrides specific roles and commands.
-2. **Three ext-point IDs** — `marker.mint`, `query.run`, `workflow.run` (D2-D4). Each binds to one MCP tool name. ACP consumer commands route through these IDs when present, fall back to existing behavior when absent.
-3. **Workflow-as-command-override** — a `workflows:` section in `agent/driver.yaml` mapping ACP command names to driver workflow names, paired with a top-of-file directive (D5) on each ACP command file that checks for a mapping before executing its own steps.
-4. **Validation** — `@acp.validate` extended (D6) to verify bindings reference real MCP tools resolvable in the agent's catalog, all bound tools come from a single MCP server, mint is paired with query, and workflow names resolve via `action="list"` introspection.
+1. **`agent/driver.yaml`** — a project-level bindings file (DR1). Absent → today's bash-ACP behavior unchanged. Present → the named driver overrides specific roles and commands.
+2. **Three ext-point IDs** — `marker.mint`, `query.run`, `workflow.run` (DR2-DR4). Each binds to one MCP tool name. ACP consumer commands route through these IDs when present, fall back to existing behavior when absent.
+3. **Workflow-as-command-override** — a `workflows:` section in `agent/driver.yaml` mapping ACP command names to driver workflow names, paired with a top-of-file directive (DR5) on each ACP command file that checks for a mapping before executing its own steps.
+4. **Validation** — `@acp.validate` extended (DR6) to verify bindings reference real MCP tools resolvable in the agent's catalog, all bound tools come from a single MCP server, mint is paired with query, and workflow names resolve via `action="list"` introspection.
 
 The whole system rests on one architectural premise: **ACP commands are agent directives, and the LLM is the dispatcher.** No subprocess management, no JSON-RPC framing, no IPC layer. Drivers expose tools via MCP; the LLM reads `agent/driver.yaml`, picks the right tool, calls it. The framework owns the contract; the agent owns dispatch.
 
@@ -58,12 +58,12 @@ The whole system rests on one architectural premise: **ACP commands are agent di
 
 ## Implementation
 
-### D1: `agent/driver.yaml` schema
+### DR1: `agent/driver.yaml` schema
 
 ```yaml
 # agent/driver.yaml — present iff a driver is bound
 driver: "@<org>/<driver-name>"         # informational; identifies the driver
-capabilities:                          # driver-declared guarantees (see D15)
+capabilities:                          # driver-declared guarantees (see DR15)
   watcher: true                        # true = data layer auto-syncs with disk
 bindings:                              # ext-point ID → MCP tool name (unprefixed)
   marker.mint: <mint-tool-name>
@@ -75,11 +75,11 @@ workflows:                             # ACP command name → driver workflow na
   acp.init: <workflow-id-3>
 ```
 
-- All keys optional individually, but invariants apply (D6).
+- All keys optional individually, but invariants apply (DR6).
 - Tool names are **unprefixed**; the agent translates to its runtime's naming convention (e.g., Claude Code's `mcp__<server>__<tool>`).
 - Absent file or file with empty `bindings:` and `workflows:` ≡ pure `acp.core` behavior.
 
-### D2: `marker.mint` contract
+### DR2: `marker.mint` contract
 
 The driver issues canonical marker IDs and provides field schema with per-field instructions; the **agent assembles the marker block and writes the file**. Driver controls structure + identity (what LLMs are bad at); agent controls semantic content (what LLMs are good at).
 
@@ -89,8 +89,8 @@ The driver issues canonical marker IDs and provides field schema with per-field 
 ```json
 {
   "id": "design.auth-flow~c9d8e7f6",
-  "marker_open": "<!-- @example.doc",
-  "marker_close": "@example.doc.end -->",
+  "marker_open": "@example.doc",
+  "marker_close": "@example.doc.end",
   "fields": [
     {"name": "id", "value": "design.auth-flow~c9d8e7f6", "agent_fills": false},
     {"name": "kind", "value": "design", "agent_fills": false},
@@ -104,6 +104,8 @@ The driver issues canonical marker IDs and provides field schema with per-field 
 }
 ```
 
+**Marker tokens are bare** (no comment syntax). The agent wraps them in the comment style appropriate to the target file's language: `<!-- ... -->` for markdown/HTML, `# ... #` or `# ... ` for Python/shell/YAML, `// ... ` or `/* ... */` for C-family, etc. This keeps the mint contract portable across file types — the same mint output stamps correctly into any file the agent writes. The driver does NOT pre-bake markdown-style wrapping into the tokens.
+
 (`marker_open` / `marker_close` and the field set are entirely driver-defined; the example uses an illustrative `@example.doc` shape.)
 
 **Contract**:
@@ -111,7 +113,7 @@ The driver issues canonical marker IDs and provides field schema with per-field 
 - Each field declares either `value` (driver-supplied, agent_fills=false) or `type/required/instructions` (agent-supplied, agent_fills implied true).
 - `instructions` is the natural place to teach the agent what to write — richer than a static schema.
 
-### D3: `query.run` contract
+### DR3: `query.run` contract
 
 Structured query against the driver's data layer.
 
@@ -119,9 +121,9 @@ Structured query against the driver's data layer.
 
 **Output**: an array of row objects (or equivalent iterable result). Schema is driver-defined; consumer commands work against whatever the bound driver returns.
 
-**Pairing invariant**: `query.run` requires `marker.mint` (D6). A driver binding query implicitly claims authority over marker-state queries; without mint, there's no path to produce markers in the canonical format the driver indexes — the round-trip is broken.
+**Pairing invariant**: `query.run` requires `marker.mint` (DR6). A driver binding query implicitly claims authority over marker-state queries; without mint, there's no path to produce markers in the canonical format the driver indexes — the round-trip is broken.
 
-### D4: `workflow.run` contract
+### DR4: `workflow.run` contract
 
 Execute a driver-defined workflow step.
 
@@ -130,11 +132,11 @@ Execute a driver-defined workflow step.
 
 **Workflow name resolution is lazy.** Validation does not pre-emptively verify that names in `workflows:` correspond to real workflows the driver knows about. If a name is wrong, the driver returns an error at invocation time. No introspection action is required; ACP makes no assumptions about how (or whether) a driver lists its workflows.
 
-### D5: Workflow-as-command-override mechanism
+### DR5: Workflow-as-command-override mechanism
 
 Two parts:
 
-1. **`workflows:` section in `agent/driver.yaml`** (D1) maps ACP command names to driver workflow names.
+1. **`workflows:` section in `agent/driver.yaml`** (DR1) maps ACP command names to driver workflow names.
 
 2. **Top-of-file directive** in each ACP command file (the **command-override directive**):
 
@@ -153,20 +155,20 @@ Two parts:
 
 **Failure semantics**: explicit error surfacing on workflow invocation failure (not silent fallback). This design rejects silent fallback to avoid masking real failures — including the case where a workflow name in `workflows:` doesn't resolve to a real workflow on the driver side. The driver's error surfaces; the ACP markdown steps are not silently used as a substitute.
 
-### D6: Validation rules in `@acp.validate`
+### DR6: Validation rules in `@acp.validate`
 
 When `agent/driver.yaml` is present, validate enforces:
 
 1. All tool names in `bindings:` resolve in the agent's MCP catalog (the agent runtime can answer "is this tool registered and reachable?" via its tool-listing mechanism).
-2. All bound tools come from a **single MCP server** (D8). Mixing servers fails validation with a clear error.
-3. `marker.mint` is bound iff `query.run` is bound (D2 ↔ D3 pairing).
+2. All bound tools come from a **single MCP server** (DR8). Mixing servers fails validation with a clear error.
+3. `marker.mint` is bound iff `query.run` is bound (DR2 ↔ DR3 pairing).
 4. The MCP server hosting the bound tools is currently registered and reachable.
 
 **Not validated at this stage**: workflow names in `workflows:`. ACP does not require an introspection action on `workflow.run`; workflow names are resolved lazily at invocation time, with the driver returning an error if a name is unknown. The override directive surfaces that error rather than silently falling through to ACP's markdown steps.
 
 When `agent/driver.yaml` is absent, validate continues to use today's behavior unchanged.
 
-### D7: Override-with-fallback routing
+### DR7: Override-with-fallback routing
 
 Consumer commands implement the routing pattern:
 
@@ -178,23 +180,27 @@ function dispatch(role, args):
     return invoke acp.core's built-in handler for role with args
 ```
 
-For the workflow-override case, the dispatch happens at the command-file level (D5 directive) rather than per-role.
+For the workflow-override case, the dispatch happens at the command-file level (DR5 directive) rather than per-role.
 
-### D8: Single-MCP-server enforcement
+**Strict binding-first ordering**: when a binding exists for the role, consumer commands MUST dispatch through it and MUST NOT also read the corresponding ACP-owned state files "for safety." A bound driver may have removed those files outright (e.g., `progress.yaml` is deleted by `a driver's init step` in favor of project.db); reading them silently risks divergence from the driver's authoritative state.
 
-`@acp.validate` rejects `agent/driver.yaml` configurations where bound tool names span multiple MCP servers. This preserves the "one driver per project" invariant (D10) and prevents subtle cross-server state-sharing assumptions (e.g., one driver indexes markers, another runs queries against a different index — answers diverge silently).
+**No silent failure on missing state**: if a consumer command's primary path (binding) is unavailable AND its fallback path (file read) is also unavailable — e.g., `query.run` unbound AND `agent/progress.yaml` missing — the command MUST surface a clear, actionable error pointing the user to the resolution (bind a driver, or restore the file). Returning empty results or a raw "file not found" stack trace is considered a bug, not a recoverable state.
 
-### D9: Marker authority transfer
+### DR8: Single-MCP-server enforcement
+
+`@acp.validate` rejects `agent/driver.yaml` configurations where bound tool names span multiple MCP servers. This preserves the "one driver per project" invariant (DR10) and prevents subtle cross-server state-sharing assumptions (e.g., one driver indexes markers, another runs queries against a different index — answers diverge silently).
+
+### DR9: Marker authority transfer
 
 When a driver is bound and binds `marker.mint`, **`@acp.meta.*` markers are never stamped anywhere** in the project. Consumer commands that previously stamped `@acp.meta.task` now invoke `marker.mint(kind=task)` and stamp whatever the driver returns. The project's marker vocabulary is, in effect, the driver's marker vocabulary.
 
 Existing files with `@acp.meta.*` markers are unaffected at write time but invisible to the bound driver's scanner. Migration of existing files (rewriting `@acp.meta.<kind>` markers to whatever format the bound driver uses) is out of v1 scope; users can grep-and-replace or delegate to an LLM as a one-time operation.
 
-### D10: Zero-or-one driver per project
+### DR10: Zero-or-one driver per project
 
 A project has either no driver (`agent/driver.yaml` absent) or exactly one bound driver. This design does not support multi-driver projects, per-ext-point binding to different drivers, driver inheritance, or driver-to-driver dependencies. None of these are planned future additions; if real demand emerges, a separate design effort will revisit.
 
-### D11: v1 ext-point scope
+### DR11: v1 ext-point scope
 
 The three ext-point IDs (`marker.mint`, `query.run`, `workflow.run`) plus the `workflows:` override section are the entirety of v1. Explicitly **out of v1**:
 
@@ -205,11 +211,11 @@ The three ext-point IDs (`marker.mint`, `query.run`, `workflow.run`) plus the `w
 - `commands` (raw command override beyond workflow dispatch) — out of v1; use `workflows:` instead.
 - `scripts` — out of v1.
 
-### D12: ACP commands updated in v1
+### DR12: ACP commands updated in v1
 
 Two categories of changes:
 
-**Pilot commands receiving the override directive (D5)**:
+**Pilot commands receiving the override directive (DR5)**:
 - `agent/commands/acp.task-create.md`
 - `agent/commands/acp.plan.md`
 - `agent/commands/acp.init.md`
@@ -227,13 +233,13 @@ Two categories of changes:
 - `agent/commands/acp.sync.md`
 - `agent/commands/acp.proceed.md`
 
-`@acp.validate` itself receives the bindings-validation extension (D6).
+`@acp.validate` itself receives the bindings-validation extension (DR6).
 
-### D13: New ACP scripts
+### DR13: New ACP scripts
 
 A small helper script for dispatching to bound MCP tools is **not** needed — dispatch happens at the LLM level by reading `agent/driver.yaml` and invoking the bound tool directly. The framework-side change is purely directive-level updates to existing commands.
 
-### D14: No new ACP user-facing commands
+### DR14: No new ACP user-facing commands
 
 No `@acp.driver-register`, `@acp.driver-bind`, `@acp.driver-unbind`, `@acp.driver-list`, etc. The entire driver-management UX is:
 
@@ -243,7 +249,7 @@ No `@acp.driver-register`, `@acp.driver-bind`, `@acp.driver-unbind`, `@acp.drive
 
 Three steps, two of which already exist.
 
-### D15: `capabilities.watcher` — driver-declared data freshness
+### DR15: `capabilities.watcher` — driver-declared data freshness
 
 A bound driver MAY declare `capabilities.watcher: true` in `agent/driver.yaml`. The flag tells consumer commands "the driver's data layer auto-syncs with disk; queries reflect current state without explicit refresh."
 
@@ -254,6 +260,26 @@ A bound driver MAY declare `capabilities.watcher: true` in `agent/driver.yaml`. 
 **Default behavior when capability is absent**: treat as `watcher: false` (assume manual refresh may be needed). This is the conservative default — drivers that auto-sync are expected to declare it.
 
 The flag is a hint, not a contract; ACP does not verify it (no MCP probe). The driver's tool descriptions and documentation are the source of truth; the flag is shorthand for consumer commands that want a structured signal.
+
+### DR16: Reserved directory `agent/drivers/`
+
+`agent/drivers/` is reserved for bound drivers' per-project state and locally-installed extension modules. ACP scanners (`acp.meta-scan.sh`, `@acp.validate`, `@acp.sync`, marker discovery, key-file index walks) MUST NOT recurse into this directory. Its contents are entirely driver-managed; ACP makes no assumptions about what's there.
+
+Typical contents (driver-defined, not enforced):
+
+```
+agent/drivers/
+└── @<org>/<driver-name>/
+    ├── data/                # driver-managed state (typically committed)
+    ├── runtime/             # runtime artifacts (typically gitignored: logs, locks, caches)
+    ├── modules/             # locally-installed driver extension modules
+    │   └── @<org>/<module>/
+    └── .gitignore           # driver-managed
+```
+
+**This is NOT the driver's executable install path.** Driver code is installed via the driver's native ecosystem (uv, cargo, npm, brew, etc.) to system locations like `~/.local/share/uv/tools/<name>/`, `~/.cargo/bin/`, etc., and registered with the agent runtime as an MCP server. `agent/drivers/` exists purely for state + project-scoped module storage owned by the driver.
+
+Implementation requirement: existing scanners must explicitly exclude this directory the same way they currently exclude `node_modules/`, `.git/`, `dist/`, etc. Verified by task-128's backward-compat regression suite.
 
 ---
 
@@ -317,7 +343,7 @@ For ACP itself:
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Architecture
 
@@ -394,7 +420,7 @@ These are decisions, not deferrals. None of the following are roadmapped; if rea
 - **Driver-to-driver dependencies / driver inheritance / driver composition.** Drivers are independent worlds; ACP does not provide a dependency or inheritance mechanism between them.
 - **Migration tooling for `@acp.meta.*` → driver-format markers.** Out of scope. One-time migration is on the user (grep-and-replace, LLM-assisted rewrite, custom script).
 - **Additional ext points beyond `marker.mint`, `query.run`, `workflow.run`.** The ext-point set is intentionally small and final for this design. New roles (formatters, validators, rendering, etc.) would require a separate clar/design.
-- **Auto-invocation of driver refresh tools by ACP.** The `capabilities.watcher` flag (D15) is a hint surfaced to consumer commands; ACP itself never auto-calls a driver's scan/surface/refresh tool. That decision stays with the user / LLM.
+- **Auto-invocation of driver refresh tools by ACP.** The `capabilities.watcher` flag (DR15) is a hint surfaced to consumer commands; ACP itself never auto-calls a driver's scan/surface/refresh tool. That decision stays with the user / LLM.
 
 ---
 

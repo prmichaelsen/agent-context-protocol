@@ -168,7 +168,7 @@ Implement the `@acp.artifact-glossary` command that creates and maintains projec
 - [x] Related Commands section links to other artifact commands
 - [x] Troubleshooting section covers common issues
 - [x] Security Considerations section covers file/network access
-- [x] Key Design Decisions section captures rationale
+- [x] Key Design Requirements section captures rationale
 
 ### Validation Checks
 
@@ -201,7 +201,7 @@ Implement the `@acp.artifact-glossary` command that creates and maintains projec
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|

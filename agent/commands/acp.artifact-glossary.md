@@ -494,7 +494,7 @@ Next steps:
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Term Extraction
 

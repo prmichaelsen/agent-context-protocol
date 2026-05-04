@@ -69,22 +69,30 @@ Load all design documents to understand documented architecture.
 
 ### 1.3. Scan Metadata Markers
 
-Run the canonical marker parser once and hold its output for the rest of the sync cycle. Every subsequent step that needs spec/task/code/design metadata consumes this stream instead of re-reading files.
+Build the marker inventory once and hold it for the rest of the sync cycle. Every subsequent step that needs spec/task/code/design metadata consumes this inventory instead of re-reading files.
 
-**Actions**:
-- Invoke the parser:
-  ```sh
-  ./agent/scripts/acp.meta-scan.sh agent/
-  ```
-- Parse the flat `file:` / `kind:` / `key:` stream into an in-memory structure indexed by `kind`:
-  ```
-  specs:    { file_path → { topic, description, requirements, status, updated, ... } }
-  tasks:    { file_path → { topic, milestone, spec, covers, status, updated, ... } }
-  designs:  { file_path → { topic, informs, status, updated, ... } }
-  code:     { file_path → { topic, implements, spec, file_role, status, updated, ... } }
-  others:   { file_path → { kind, topic, ... } }  (clarifications, patterns, artifacts, milestones)
-  ```
-- If `acp.meta-scan.sh` returns empty output, no markers exist yet. Continue without the marker data; Step 1.4 will prompt the user to backfill.
+> **🔌 Driver Dispatch — `query.run`**
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.query.run` is unset, jump to step 4 (fallback).
+> 2. Invoke the MCP tool named by `bindings.query.run` with input: a query that returns the project's full marker inventory keyed by file path and grouped by kind (`spec`, `task`, `design`, `code`, `clarification`, `pattern`, `artifact`, `milestone`). Consult the bound tool's MCP description for its input DSL — SQL string, JSON-DSL, structured filter, or otherwise. Inspect the response:
+>    - **One-shot result (typical for `query.run`)** — the response is the row set. Populate the in-memory inventory described below and continue.
+>    - **Workflow start** — if the response is a workflow handle (e.g., `execution_id` + `instruction` + `input_shape`) rather than rows, this step is BLOCKED until the workflow terminates. Enter the workflow execution loop per the canonical Driver Dispatch directive (`agent/patterns/local.driver-dispatch-directive.md`, Core Principle 6): execute each `instruction`, return the requested output to the same MCP tool, repeat until the workflow signals completion. The workflow's final output should be the inventory rows; populate the in-memory structure and continue. If the workflow reports termination without producing rows, that is a workflow-level failure — surface and STOP.
+> 3. **Error handling:**
+>    - If the tool call returns a JSON object with an `"error"` key, surface that message to the user and STOP this step. Do NOT fall through to step 4 — a failed dispatch is NOT permission to use the fallback.
+>    - If the tool call raises an MCP infrastructure exception (server unreachable, timeout), surface the exception and STOP. Same rule: no fallthrough.
+> 4. **Fallback (only when `bindings.query.run` is unset or `agent/driver.yaml` is absent):** Run `./agent/scripts/acp.meta-scan.sh agent/` and parse its flat `file:` / `kind:` / `key:` stream into the same in-memory inventory structure.
+> 5. **Missing-state guard:** if step 4 cannot proceed (`acp.meta-scan.sh` is missing or returns a non-zero exit code unrelated to "no markers found"), surface a clear, actionable error explaining BOTH paths are unavailable. Point the user at: "bind a `query.run` driver in `agent/driver.yaml`, or restore `agent/scripts/acp.meta-scan.sh`." Do NOT continue with an empty inventory.
+
+The in-memory inventory structure (indexed by `kind`, populated by either path above):
+```
+specs:    { file_path → { topic, description, requirements, status, updated, ... } }
+tasks:    { file_path → { topic, milestone, spec, covers, status, updated, ... } }
+designs:  { file_path → { topic, informs, status, updated, ... } }
+code:     { file_path → { topic, implements, spec, file_role, status, updated, ... } }
+others:   { file_path → { kind, topic, ... } }  (clarifications, patterns, artifacts, milestones)
+```
+
+If the inventory is empty after a successful dispatch (driver returned zero rows) or a successful fallback (`acp.meta-scan.sh` exited 0 with no output), no markers exist yet. Continue without marker data; Step 1.4 will prompt the user to backfill.
 
 **Expected Outcome**: Marker inventory available as structured data for Steps 1.4, 1.5, 1.6, 5, and 6.  
 
@@ -127,29 +135,29 @@ Markers are the source of truth. When a file carries both a marker AND a prose f
 
 Fields that remain in prose (not superseded, do NOT strip): `**Namespace**`, `**Version**`, `**Created**` (immutable), `**Design Reference**`, `**Estimated Time**`, `**Duration**`, `**Goal**`, `**Concept**`, `**Purpose**`, `**Category**`, `**Type**`, `**Sources**`, `**Total Terms**`.
 
-**Pass C — Backfill D-IDs in legacy designs**:
+**Pass C — Backfill DR-IDs in legacy designs**:
 
-Designs created before v5.41.0 don't have D-IDs. Tasks can't claim `incorporates:` against them, so the validate Probe 2 falls back to a holistic check. Backfilling D-IDs restores exact traceability.
+Designs created before v5.41.0 don't have DR-IDs. Tasks can't claim `incorporates:` against them, so the validate Probe 2 falls back to a holistic check. Backfilling DR-IDs restores exact traceability.
 
-- For each design file in the marker inventory (kind: design) whose marker has no `decisions:` field OR whose body contains no D-ID patterns (`**D\d+[:\s*]` or `### D\d+:`):
+- For each design file in the marker inventory (kind: design) whose marker has no `design_requirements:` field OR whose body contains no DR-ID patterns (`**D\d+[:\s*]` or `### DR\d+:`):
   1. Read the design file.
   2. Identify candidate atomic units: headings under `## Key Decisions`, fenced code blocks (SQL, TS, Python, YAML), standalone tables, definition paragraphs introduced by `**Term**:`, or short `### SubHeading` sections that contain a single atomic idea.
-  3. For each candidate, propose a D-ID label and a short title derived from the content (e.g. `D2: user_study_list table` for a SQL block following a "Data Model" heading).
-  4. Display a list of proposed D-ID additions:
+  3. For each candidate, propose a DR-ID label and a short title derived from the content (e.g. `DR2: user_study_list table` for a SQL block following a "Data Model" heading).
+  4. Display a list of proposed DR-ID additions:
      ```
      Design: agent/design/local.gamification.md
-       D1: Use SM-2 for vocab scheduling (from ### heading)
-       D2: user_study_list table (from SQL block)
-       D3: Attention score formula (from code paragraph)
-       D4: Letter frequency mapping (from table)
+       DR1: Use SM-2 for vocab scheduling (from ### heading)
+       DR2: user_study_list table (from SQL block)
+       DR3: Attention score formula (from code paragraph)
+       DR4: Letter frequency mapping (from table)
        ...
      Apply all / edit / skip all?
      ```
-  5. On approval: insert D-ID labels into the design body at the identified locations, and update the marker's `decisions:` field with the resulting range or list.
+  5. On approval: insert DR-ID labels into the design body at the identified locations, and update the marker's `design_requirements:` field with the resulting range or list.
   6. On edit: let the user remove specific candidates from the proposal before applying.
   7. Never silently writes.
 
-**Expected Outcome**: Every marker-eligible file has a marker (or was explicitly skipped) AND contains no superseded prose frontmatter fields AND (for designs) has D-IDs on atomic units where applicable.
+**Expected Outcome**: Every marker-eligible file has a marker (or was explicitly skipped) AND contains no superseded prose frontmatter fields AND (for designs) has DR-IDs on atomic units where applicable.
 
 **If no files need any pass**: skip silently.
 
@@ -158,9 +166,9 @@ Designs created before v5.41.0 don't have D-IDs. Tasks can't claim `incorporates
 Source the spec requirement surface from the marker stream (Step 1.3) instead of re-reading every spec file.
 
 **Actions**:
-- From `specs:` in the Step 1.3 inventory, extract each spec's `requirements:` field (e.g., `R1..R30` or `R1, R3, R7`).
-- Expand range notation: `R1..R30` → `R1, R2, ..., R30`.
-- Build the requirement inventory: `{ spec_path → [R1, R2, ..., R<N>] }`.
+- From `specs:` in the Step 1.3 inventory, extract each spec's `requirements:` field (e.g., `FR1..FR30` or `FR1, FR3, FR7`).
+- Expand range notation: `FR1..FR30` → `FR1, FR2, ..., FR30`.
+- Build the requirement inventory: `{ spec_path → [FR1, FR2, ..., FR<N>] }`.
 - For behavior scenarios and test names, fall back to reading the `## Behavior Table` and `## Tests` sections of each spec file — markers don't carry these (by design; they'd balloon). Only open each spec once, not per-task.
 
 **Expected Outcome**: Complete spec requirement inventory keyed by spec path.
@@ -172,17 +180,17 @@ Determine which spec requirements are claimed by which tasks, and flag unclaimed
 **Actions**:
 - From `tasks:` in the Step 1.3 inventory, extract each task's `spec:` and `covers:` fields.
 - Skip tasks with no `covers:` (they claim no spec requirements).
-- Build the claims inventory: `{ spec_path → { R<N>: [task_paths] } }`.
-- Compare against the requirement inventory from Step 1.5. Classify each R<N> as:
+- Build the claims inventory: `{ spec_path → { FR<N>: [task_paths] } }`.
+- Compare against the requirement inventory from Step 1.5. Classify each FR<N> as:
   - **Claimed** — at least one task's `covers:` field contains it
   - **Unclaimed** — in the spec's `requirements:` but no task claims it
   - **Duplicated** — claimed by more than one task (possibly intentional; flag for review)
 - Classify each claimed requirement further using the `code:` inventory from Step 1.3:
-  - **Implemented** — at least one code marker's `implements:` field contains this R<N> AND references the same spec
+  - **Implemented** — at least one code marker's `implements:` field contains this FR<N> AND references the same spec
   - **Unimplemented** — claimed by a completed task (`status: complete`) but no code marker implements it
   - **Partial** — claimed by a task and some but not all sub-clauses are covered by code markers (judgment call; flag for review)
 
-**Expected Outcome**: Traceability map of spec R<N> → task claims → code implementation status, derived from marker data in one pass.  
+**Expected Outcome**: Traceability map of spec FR<N> → task claims → code implementation status, derived from marker data in one pass.  
 
 ### 2. Read Task Documents
 
@@ -247,9 +255,9 @@ Identify discrepancies between docs and code.
   - **Glossary artifacts**: Check for new terms in code not in glossary, verify existing definitions
   - **Reference artifacts**: Verify config tables, standards, schemas match current code
 - **Compare spec requirements with implementation** (using the claims map from Step 1.6):
-  - **Unclaimed requirements**: R<N> exists in `agent/specs/` but no task claims it in Spec Coverage. This is a *planning gap* — either a task should be created, or the requirement should be explicitly marked as deferred/out-of-scope in the spec itself.
-  - **Unimplemented claims**: R<N> claimed by a completed task but no implementation found in code. This is *completion drift* — the task was marked done without satisfying the claim.
-  - **Partial claims**: R<N> has some implementation but not all MUST clauses are satisfied.
+  - **Unclaimed requirements**: FR<N> exists in `agent/specs/` but no task claims it in Spec Coverage. This is a *planning gap* — either a task should be created, or the requirement should be explicitly marked as deferred/out-of-scope in the spec itself.
+  - **Unimplemented claims**: FR<N> claimed by a completed task but no implementation found in code. This is *completion drift* — the task was marked done without satisfying the claim.
+  - **Partial claims**: FR<N> has some implementation but not all MUST clauses are satisfied.
   - **Drifted implementations**: Implementation exists and differs from the spec's MUST language (e.g., spec says "must use formula X", code uses formula Y).
   - **Stale requirements**: Requirement text in spec no longer matches current behavior (spec itself needs updating).
 
@@ -433,11 +441,11 @@ Comparing documentation vs reality...
 Spec traceability (agent/specs/ ↔ task Spec Coverage ↔ code)...
 ✓ 18/23 requirements claimed by tasks and implemented
 ⚠️  3 unclaimed requirements (planning gap):
-  - local.gamification.md R20 (Help System) — no task claims it
-  - local.gamification.md R24 (Loot Boxes) — deferred to M11 per notes
-  - local.gamification.md R30 (Notification Limits) — no task claims it
+  - local.gamification.md FR20 (Help System) — no task claims it
+  - local.gamification.md FR24 (Loot Boxes) — deferred to M11 per notes
+  - local.gamification.md FR30 (Notification Limits) — no task claims it
 ❌ 2 unimplemented claims (completion drift):
-  - task-18 claims R12 but letter frequency enforcement not found in code
+  - task-18 claims FR12 but letter frequency enforcement not found in code
   - task-21 claims R18a but voice_id is a placeholder, not real ElevenLabs ID
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

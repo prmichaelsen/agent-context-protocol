@@ -131,10 +131,10 @@ Invoke the `@acp.clarification-capture` shared directive to capture decisions fr
 - Pass through any `--from-*` arguments from this command's invocation
 - If no `--from-*` flags specified: auto-detect clarifications in session (default behavior)
 - If uncaptured clarifications detected, show warning and ask user whether to include
-- Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
+- Directive returns a "Key Design Requirements" markdown section (or nothing if no context)
 - Hold the generated section for insertion during Step 5 (Generate Command File)
 
-**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly  
+**Expected Outcome**: Key Design Requirements section generated (if context available), or skipped cleanly  
 
 ### 3. Collect Command Information
 
@@ -192,7 +192,7 @@ Create command file from template:
 - If no arguments: Remove Arguments section from template
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
-- If Key Design Decisions section was generated in Step 2.7: Insert it into the command document
+- If Key Design Requirements section was generated in Step 2.7: Insert it into the command document
 - Save to `agent/commands/{namespace}.{command-name}.md`
 
 **Expected Outcome**: Command file created with proper directive header  

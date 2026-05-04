@@ -144,7 +144,7 @@ Parse the relevant design document(s) and extract all actionable elements organi
 | Format specifications | Output structure, naming conventions, file format rules, template formats | Implementation, Solution sections |
 | Integration points | Connections to other commands/systems, affected commands tables, which files are modified | Implementation section, "Affected Commands" subsections |
 | Lifecycle rules | Status transitions, cleanup behavior, ordering constraints, migration steps | Implementation, Migration Path sections |
-| Decision rationale | Why choices were made, alternatives rejected, trade-offs accepted | Key Design Decisions, Trade-offs, Benefits sections |
+| Decision rationale | Why choices were made, alternatives rejected, trade-offs accepted | Key Design Requirements, Trade-offs, Benefits sections |
 
 - For each element, record:
   - The element content (preserve verbatim where possible, especially tables and code blocks)
@@ -189,7 +189,7 @@ Pass the extracted data back to the calling command.
 - **design_names**: Human-readable name(s) of the design document(s)
 
 **The calling command uses this data to**:
-- **task-create**: Expand task steps with implementation detail from design elements; add verification items for each design requirement; set Design Reference metadata field; carry Key Design Decisions into the task
+- **task-create**: Expand task steps with implementation detail from design elements; add verification items for each design requirement; set Design Reference metadata field; carry Key Design Requirements into the task
 - **proceed**: Load design context as supplementary "why" information during implementation; consult when ambiguity or edge cases arise
 
 **Expected Outcome**: Calling command receives structured design data for integration  

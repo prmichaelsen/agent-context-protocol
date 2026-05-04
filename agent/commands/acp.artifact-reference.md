@@ -553,7 +553,7 @@ Next steps:
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Command-First Principle
 

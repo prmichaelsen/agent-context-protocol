@@ -132,10 +132,10 @@ Invoke the `@acp.clarification-capture` shared directive to capture decisions fr
 - Pass through any `--from-*` arguments from this command's invocation
 - If no `--from-*` flags specified: auto-detect clarifications in session (default behavior)
 - If uncaptured clarifications detected, show warning and ask user whether to include
-- Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
+- Directive returns a "Key Design Requirements" markdown section (or nothing if no context)
 - Hold the generated section for insertion during Step 6 (Generate Task File)
 
-**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly  
+**Expected Outcome**: Key Design Requirements section generated (if context available), or skipped cleanly  
 
 ### 3. Check for Draft File
 
@@ -209,7 +209,7 @@ Invoke the `@acp.design-reference` shared directive to discover and extract desi
   4. Flag any design gaps (suggest clarification if needed)
   5. Return structured data: design elements, gaps, and paths
 - Hold the returned design elements for use in Step 6
-- **Record D-ID incorporation.** As you extract atomic design units, note their `D<N>` IDs. If the design uses D-IDs (look for `\*\*D\d+[:\s*]` bold-prefix or `### D\d+:` heading forms), record the specific D-IDs you intend to inline in the task body. These become the `incorporates:` field in the task's `@acp.meta.task` marker during Step 6. If the design has no D-IDs (legacy, pre-v5.41), skip this; validate will warn and suggest backfilling D-IDs via `@acp.sync`.
+- **Record DR-ID incorporation.** As you extract atomic design units, note their `DR<N>` IDs. If the design uses DR-IDs (look for `\*\*DR\d+[:\s*]` bold-prefix or `### DR\d+:` heading forms), record the specific DR-IDs you intend to inline in the task body. These become the `incorporates:` field in the task's `@acp.meta.task` marker during Step 6. If the design has no DR-IDs (legacy, pre-v5.41), skip this; validate will warn and suggest backfilling DR-IDs via `@acp.sync`.
 
 **If no design found**: The directive warns and returns empty. Proceed to Step 6 with available context only (user input, draft, clarifications).  
 
@@ -228,17 +228,17 @@ Discover and extract requirements from any matching spec in `agent/specs/`, usin
   This emits a flat stream of `file:` / `kind:` / `key:` lines (see `AGENT.md` "Metadata Markers" for the format), grouped by `---`. For each spec block, read its `topic:` and `description:` fields.
 - Match each spec's `topic:` keywords against the current task's topic (task name + milestone name + design document name from Step 5.5). A spec is a candidate if at least one keyword overlaps.
 - **Open only the candidate specs** (typically 1-3 out of however many exist). For each candidate:
-  1. Parse the `## Requirements` section verbatim. Each requirement has an ID like `R1`, `R2`, ..., `R<N>`. Extract ID + one-line description.
+  1. Parse the `## Requirements` section verbatim. Each requirement has an ID like `FR1`, `FR2`, ..., `FR<N>`. Extract ID + one-line description.
   2. Parse the `## Behavior Table` / `## Behavior` section if present. Extract scenario rows that belong to this task's scope (match by keywords and by which requirements they cover).
   3. Extract relevant test names from the `## Tests` section.
-- Narrow the extracted requirements to those the task should cover. Use judgment: a task about pen pal unlock claims R10 (pen pal system), R11 (collectibles), maybe R12 (adaptive frequency) — NOT every requirement in the spec.
+- Narrow the extracted requirements to those the task should cover. Use judgment: a task about pen pal unlock claims FR10 (pen pal system), FR11 (collectibles), maybe FR12 (adaptive frequency) — NOT every requirement in the spec.
 - Produce structured data:
   ```yaml
   spec_path: agent/specs/local.feature-name.md
   claimed_requirements:
-    - id: R10
+    - id: FR10
       description: "Each of 8 regions MUST have one unique pen pal character..."
-    - id: R11
+    - id: FR11
       description: "Each pen pal MUST send themed collectible gifts..."
   claimed_behaviors:
     - name: pen-pal-unlock
@@ -271,9 +271,9 @@ Create task file from template:
   - `description:` — user-provided task description from Step 4, one line, <=150 chars (truncate with `…` if needed)
   - `milestone:` — milestone ID string (e.g. `M10`) from Step 1. If no milestone, omit the line entirely.
   - `spec:` — the spec path from Step 5.6 if a matching spec was found, otherwise OMIT the line entirely
-  - `covers:` — comma-separated R-IDs from Step 5.6 (e.g. `R10, R11, R12`), otherwise OMIT the line entirely
+  - `covers:` — comma-separated FR-IDs from Step 5.6 (e.g. `FR10, FR11, FR12`), otherwise OMIT the line entirely
   - `design:` — the design path from Step 5.5 if a design was found, otherwise OMIT the line entirely
-  - `incorporates:` — comma-separated D-IDs from the design that this task actually inlines (e.g. `D1, D3, D7`). When Step 5.5 extracts design content for inlining, record the specific `D<N>` IDs of the atomic units being copied into the task body. If the design has D-IDs but none are being inlined, OMIT the line. If the design has no D-IDs yet (legacy), OMIT; validate will fall back to a holistic check and may suggest running `@acp.sync` to backfill D-IDs.
+  - `incorporates:` — comma-separated DR-IDs from the design that this task actually inlines (e.g. `DR1, DR3, DR7`). When Step 5.5 extracts design content for inlining, record the specific `DR<N>` IDs of the atomic units being copied into the task body. If the design has DR-IDs but none are being inlined, OMIT the line. If the design has no DR-IDs yet (legacy), OMIT; validate will fall back to a holistic check and may suggest running `@acp.sync` to backfill DR-IDs.
   - `depends_on:` — task IDs from Step 4 dependencies (e.g. `task-17, task-19`), otherwise OMIT the line entirely
   - `status:` — literal `draft`
   - `updated:` — today's ISO date (`YYYY-MM-DD`)
@@ -312,15 +312,15 @@ Create task file from template:
     - This section is validated by `@acp.proceed` after task completion. Tasks with empty or unjustified N/A will block completion.
   - **Spec Coverage** — CONDITIONAL section:
     - Include this section ONLY if Step 5.6 found a matching spec in `agent/specs/`.
-    - Populate it with the spec path and the scoped R<N> requirements from Step 5.6, copying each requirement's short description verbatim from the spec so the implementing sub-agent has the full requirement text inline:
+    - Populate it with the spec path and the scoped FR<N> requirements from Step 5.6, copying each requirement's short description verbatim from the spec so the implementing sub-agent has the full requirement text inline:
       ```markdown
       ## Spec Coverage
 
       **Source**: agent/specs/{namespace}.{name}.md
 
       Covered requirements:
-      - [ ] R10: Each of 8 regions MUST have one unique pen pal character unlockable via Tier 2 regional quest
-      - [ ] R11: Each pen pal MUST send themed collectible gifts matching their personality
+      - [ ] FR10: Each of 8 regions MUST have one unique pen pal character unlockable via Tier 2 regional quest
+      - [ ] FR11: Each pen pal MUST send themed collectible gifts matching their personality
       ...
 
       Covered behaviors:
@@ -328,8 +328,8 @@ Create task file from template:
       ...
       ```
     - If no spec was found, OMIT the `## Spec Coverage` section entirely. Do not leave empty scaffolding.
-  - If Key Design Decisions section was generated in Step 2.7: Insert it into the task document
-  - If Step 5.5 returned design decisions (from the design doc's Key Design Decisions section): Carry relevant decisions into the task's Key Design Decisions section
+  - If Key Design Requirements section was generated in Step 2.7: Insert it into the task document
+  - If Step 5.5 returned design decisions (from the design doc's Key Design Requirements section): Carry relevant decisions into the task's Key Design Requirements section
 - Save to appropriate path (milestone subdirectory or unassigned/)
 
 > **🚨 Self-Contained Task Principle (NON-NEGOTIABLE)**:

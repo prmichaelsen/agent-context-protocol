@@ -311,7 +311,7 @@ See: `https://github.com/org/repo/blob/main/src/file.ts#L42`
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Artifact Document Type
 

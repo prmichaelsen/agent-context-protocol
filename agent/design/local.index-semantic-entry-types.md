@@ -231,7 +231,7 @@ No restrictions on which `kind` values packages can ship. Package weights should
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Schema Approach
 

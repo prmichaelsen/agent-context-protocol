@@ -237,7 +237,7 @@ Paste the contents of this file into your agent session in the target project.
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Report Content
 

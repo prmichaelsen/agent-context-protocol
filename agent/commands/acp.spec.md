@@ -178,9 +178,9 @@ Invoke the `@acp.clarification-capture` shared directive if additional context f
 - Read and follow the directive in [`agent/commands/acp.clarification-capture.md`](acp.clarification-capture.md)
 - Pass through `--from-chat-context`, `--from-context`, or `--include-clarifications` if present
 - If `--from-clar` was the primary source, the clarification is already loaded — do not re-capture it
-- Hold any generated "Key Design Decisions" section for insertion during Step 6
+- Hold any generated "Key Design Requirements" section for insertion during Step 6
 
-**Expected Outcome**: Key Design Decisions section generated (if extra context is available), or skipped cleanly.
+**Expected Outcome**: Key Design Requirements section generated (if extra context is available), or skipped cleanly.
 
 ### 5. Collect Spec Information
 
@@ -241,11 +241,11 @@ Create the spec file.
   - `--from-draft`: interpret free-form draft into the structured sections; flag ambiguities in Open Questions rather than guessing
   - `--from-requirements`: carry requirements forward verbatim where possible; expand each into acceptance criteria
   - `--interactive`: build from user-collected answers in Step 5
-- If a "Key Design Decisions" section was generated in Step 4, insert it above "Related Artifacts"
+- If a "Key Design Requirements" section was generated in Step 4, insert it above "Related Artifacts"
 - **Populate the `@acp.meta.spec` marker block** (if `spec.template.md` supplied one, replace its `{placeholder}` values; otherwise insert a fresh block):
   - `topic:` — comma-separated keywords derived from the spec title + user-provided scope keywords from Step 5
   - `description:` — one-line summary from the spec's `## Purpose` section, <=150 chars (truncate with `…` if needed)
-  - `requirements:` — computed from the final `## Requirements` count. If the spec has N sequential requirements R1..R<N>, write `R1..R<N>`. If the requirement IDs are non-contiguous (rare), enumerate them: `R1, R3, R7`.
+  - `functional_requirements:` — computed from the final `## Requirements` count. If the spec has N sequential requirements FR1..FR<N>, write `FR1..FR<N>`. If the requirement IDs are non-contiguous (rare), enumerate them: `FR1, FR3, FR7`.
   - `status:` — literal `draft`
   - `updated:` — today's ISO date (`YYYY-MM-DD`)
   - No `{placeholder}` text must remain in the marker block.
@@ -293,7 +293,7 @@ Each test is a named case with one or more assertions. Do NOT write code — des
 
 The core behavior contract: happy path, common bad paths, primary positive and negative assertions. A reader should be able to understand the normal operation of the system from this subsection alone.
 
-#### Test: <kebab-case-test-name> (covers R1, R2)
+#### Test: <kebab-case-test-name> (covers FR1, FR2)
 
 **Given**: <single-sentence precondition>  
 -- or --  
@@ -312,7 +312,7 @@ The core behavior contract: happy path, common bad paths, primary positive and n
 - **<assertion-id>**: <observable outcome 2>
 - **<assertion-id>**: <observable outcome 3>
 
-#### Test: <another-base-test> (covers R3)
+#### Test: <another-base-test> (covers FR3)
 
 ...
 
@@ -320,7 +320,7 @@ The core behavior contract: happy path, common bad paths, primary positive and n
 
 Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent behavior, resource exhaustion. Every edge case the agent or user can think of that is NOT in scope goes in **Non-Goals** instead; everything else is tested here.
 
-#### Test: <edge-case-name> (covers R4)
+#### Test: <edge-case-name> (covers FR4)
 
 **Given**: ...
 **When**: ...
@@ -335,7 +335,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 - Each test is a `####` heading and has a `Given` (setup), `When` (action), `Then` (assertions) block
 - `Given` and `When` may each be a single sentence or a bulleted list — pick whichever is clearest; mixing forms across tests is fine
 - Test names are kebab-case and describe the scenario, not the implementation (e.g., `rejects-empty-payload`, not `test_validate_empty`)
-- Each test SHOULD annotate which requirements it covers: `#### Test: <name> (covers R1, R3)`
+- Each test SHOULD annotate which requirements it covers: `#### Test: <name> (covers FR1, FR3)`
 
 *Assertions*
 - **At least one assertion per test is required; multiple assertions per test are the norm** — when a single action produces several observable outcomes, keep them together in one test
@@ -597,7 +597,7 @@ For each decision in a block:
 
 4. **Add new Requirements** (if the decision introduces them):
    - Append to `## Requirements` section
-   - Number sequentially (R8, R9, ...)
+   - Number sequentially (FR8, FR9, ...)
 
 5. **Do NOT commit yet** — batch all decisions across all blocks into a single commit at session close (Step E)
 
@@ -880,7 +880,7 @@ Next steps:
 
 ---
 
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 <!-- This section is populated by @acp.clarification-capture when
      create commands are invoked with --from-clar, --from-chat, or
@@ -900,7 +900,7 @@ Next steps:
 - Prefer **multiple assertions per test** when a single action produces multiple observable outcomes — splitting them into separate tests duplicates setup and obscures that the outcomes come from the same operation
 - The spec is meant to be **proofed** by the user before any code is written. The **Behavior Table** is the primary proofing surface — the user scrolls through the rows, confirms each `Expected Behavior` matches what they want, and flags any row that doesn't. `undefined` rows are the most valuable: they surface gaps the agent could not resolve, exactly where the user's judgment is needed. Only after the Behavior Table is approved does the reviewer dive into the Tests section for rigor.
 - If a scenario the user cares about isn't in the Behavior Table, the spec is incomplete. Fix the spec before starting implementation; that is the entire point.
-- Once the user has signed off, **TDD from the spec is mechanical**: translate each `#### Test:` into a test function in the target framework, translate each assertion slug into an `assert`/`expect` call with the same name, run the suite, watch it fail, implement, watch it pass. No design decisions happen during coding — they have all been made in the spec.
+- Once the user has signed off, **TDD from the spec is mechanical**: translate each `#### Test:` into a test function in the target framework, translate each assertion slug into an `assert`/`expect` call with the same name, run the suite, watch it fail, implement, watch it pass. No design requirements happen during coding — they have all been made in the spec.
 - A spec that only covers the happy path is a draft. The Base/Edge split and the happy/bad/positive/negative coverage requirements exist specifically to prevent happy-path-only specs from shipping.
 - **Phase 12 (Interactive OQ Resolution)** runs by default at the end of spec generation unless `--no-interactive` is passed. It summarizes what was generated, reports any Open Questions or `undefined` Behavior Table rows, and offers to start an interactive resolution session. The resolution session groups related OQs into concept blocks, presents each with options and a recommendation, and batch-edits all affected specs with the user's decisions. This workflow was proven in the scenecraft project: 13 blocks in 90 minutes closed ~110 OQs. Users can decline the session and resolve OQs manually later.
 

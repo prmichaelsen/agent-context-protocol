@@ -5,9 +5,9 @@ topic: {comma-separated keywords}
 description: {one-line summary, <=150 chars}
 milestone: M{N}
 spec: {agent/specs/{namespace}.{spec-name}.md or omit line if no spec}
-covers: {R10, R11 — R-IDs claimed from the spec, or omit if no spec}
+covers: {FR10, FR11 — FR-IDs (Functional Requirements) claimed from the spec, or omit if no spec}
 design: {agent/design/{namespace}.{name}.md or omit if no design}
-incorporates: {D1, D3 — D-IDs incorporated from the design, or omit if none}
+incorporates: {DR1, DR3 — DR-IDs (Design Requirements) incorporated from the design, or omit if none}
 depends_on: {task-17, task-19 or omit if none}
 status: draft
 updated: {YYYY-MM-DD}
@@ -182,8 +182,8 @@ Create TypeScript configuration, build scripts, and other config files.
          **Source**: agent/specs/local.feature-name.md
 
          Covered requirements:
-         - [ ] R<N>: <short description copied verbatim from spec>
-         - [ ] R<M>: <short description>
+         - [ ] FR<N>: <short description copied verbatim from spec>
+         - [ ] FR<M>: <short description>
 
          Covered behaviors (from Behavior Table):
          - [ ] <scenario name / row id>
@@ -231,14 +231,14 @@ project-root/
 
 ---
 
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 <!-- This section is populated by @acp.clarification-capture when
      create commands are invoked with --from-clar, --from-chat, or
      --from-context. It can also be manually authored.
-     Omit this section entirely if no decisions to capture.
+     Omit this section entirely if no design requirements to capture.
 
-     Group decisions by agent-inferred category using tables:
+     Group design requirements by agent-inferred category using tables:
 
 ### {Category}
 

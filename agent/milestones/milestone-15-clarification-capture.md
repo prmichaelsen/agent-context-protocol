@@ -16,7 +16,7 @@ Implement the Clarification Capture System — a shared directive (`@acp.clarifi
 ## Deliverables
 
 1. `@acp.clarification-capture` shared directive document
-2. "Key Design Decisions" optional section added to entity templates (design, task, pattern, command)
+2. "Key Design Requirements" optional section added to entity templates (design, task, pattern, command)
 3. Updated create commands (design-create, task-create, pattern-create, command-create) referencing the shared directive
 4. `--from-clar`, `--from-clars`, `--from-chat`, `--from-context` argument support in create commands
 5. Auto-detect and warning when uncaptured clarifications exist in session
@@ -28,8 +28,8 @@ Implement the Clarification Capture System — a shared directive (`@acp.clarifi
 ## Success Criteria
 
 - [ ] `@acp.clarification-capture` directive document exists and is referenced by create commands
-- [ ] Entity templates include optional "Key Design Decisions" section
-- [ ] `@acp.design-create --from-clar` produces entity doc with populated Key Design Decisions table
+- [ ] Entity templates include optional "Key Design Requirements" section
+- [ ] `@acp.design-create --from-clar` produces entity doc with populated Key Design Requirements table
 - [ ] Auto-detect mode (no flags) discovers and offers to capture session clarifications
 - [ ] Conflict resolution prompts user when multiple clarifications disagree
 - [ ] Partial clarification warning works (unanswered questions flagged)
@@ -44,7 +44,7 @@ Implement the Clarification Capture System — a shared directive (`@acp.clarifi
 | Task | Name | Est. Hours | Status |
 |------|------|-----------|--------|
 | 106 | Create @acp.clarification-capture Directive | 3-4h | Not Started |
-| 107 | Update Entity Templates with Key Design Decisions Section | 1-2h | Not Started |
+| 107 | Update Entity Templates with Key Design Requirements Section | 1-2h | Not Started |
 | 108 | Integrate Capture Directive into Create Commands | 3-4h | Not Started |
 | 109 | Add Duplicate Awareness to @acp.clarification-create | 1-2h | Not Started |
 
@@ -69,4 +69,4 @@ Implement the Clarification Capture System — a shared directive (`@acp.clarifi
 - This is a pure LLM-directive feature — no shell scripts needed
 - All changes are to markdown command/template files
 - Clarifications remain ephemeral and untracked by design
-- The "Key Design Decisions" section format uses category-grouped tables with Decision/Choice/Rationale columns
+- The "Key Design Requirements" section format uses category-grouped tables with Decision/Choice/Rationale columns

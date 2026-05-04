@@ -140,45 +140,45 @@ All findings are **soft warnings**. They never hard-fail validate; they appear i
 For each incomplete task with `@acp.meta.task` marker fields `spec:` + `covers:`:
 
 1. Read the spec file from `spec:`.
-2. Locate each `R<N>` listed in `covers:`.
-3. For each R-ID: does the task body reflect R<N>'s substance — its MUST/SHOULD language, its constraint, its short description — somewhere in Steps, Context, or a `## Spec Coverage` section? A `- [ ] R<N>: <description>` line counts. So does a paraphrase that captures the constraint.
-4. For each R-ID that is NOT reflected in the body, emit a finding:
+2. Locate each `FR<N>` listed in `covers:`.
+3. For each FR-ID: does the task body reflect FR<N>'s substance — its MUST/SHOULD language, its constraint, its short description — somewhere in Steps, Context, or a `## Spec Coverage` section? A `- [ ] FR<N>: <description>` line counts. So does a paraphrase that captures the constraint.
+4. For each FR-ID that is NOT reflected in the body, emit a finding:
    ```
    ⚠️ <task_path>  (<status>)
-      Probe 1 (spec): covers: <R-ID> but <R-ID>'s text not reflected in body
+      Probe 1 (spec): covers: <FR-ID> but <FR-ID>'s text not reflected in body
       → Inline from <spec_path> under Spec Coverage
    ```
 
-Deferral phrasing (e.g., "R11 deferred to task-19", "R13 scoped out — handled by milestone M11") is NOT a finding — recognize it and skip.
+Deferral phrasing (e.g., "FR11 deferred to task-19", "FR13 scoped out — handled by milestone M11") is NOT a finding — recognize it and skip.
 
 **Probe 2 — Design inlining**
 
 For each incomplete task with `**Design Reference**: [name](path) | None` resolving to a real file:
 
-1. Read the design file. Locate every D-ID in it (look for `\*\*D\d+[:\s*]` bold-prefix form or `### D\d+:` heading form).
+1. Read the design file. Locate every DR-ID in it (look for `\*\*DR\d+[:\s*]` bold-prefix form or `### DR\d+:` heading form).
 2. Three sub-cases:
-   - **Design has D-IDs AND task marker has `incorporates:` listing some of them**: for each D-ID in `incorporates:`, confirm that D-ID's atomic unit (the decision text, code snippet, schema, algorithm, interface, rule, or diagram) is reflected verbatim or faithfully paraphrased in the task body. Flag specific missing D-IDs with their short title:
+   - **Design has DR-IDs AND task marker has `incorporates:` listing some of them**: for each DR-ID in `incorporates:`, confirm that DR-ID's atomic unit (the decision text, code snippet, schema, algorithm, interface, rule, or diagram) is reflected verbatim or faithfully paraphrased in the task body. Flag specific missing DR-IDs with their short title:
      ```
      ⚠️ <task_path>  (<status>)
-        Probe 2 (design): incorporates: <D-ID> but <D-ID> (<short title>) not found in body
+        Probe 2 (design): incorporates: <DR-ID> but <DR-ID> (<short title>) not found in body
         → Inline from <design_path>
      ```
-   - **Design has D-IDs but task marker has no `incorporates:` field**: soft-warn:
+   - **Design has DR-IDs but task marker has no `incorporates:` field**: soft-warn:
      ```
      ⚠️ <task_path>  (<status>)
         Probe 2 (design): design <design_path> has D<min>..D<max> but task
         marker has no `incorporates:` field.
-        → Add `incorporates:` for relevant D-IDs, or justify the omission in the task body
-          (e.g., "scoped-out: D2-D4 handled by task-19")
+        → Add `incorporates:` for relevant DR-IDs, or justify the omission in the task body
+          (e.g., "scoped-out: DR2-DR4 handled by task-19")
      ```
-   - **Design has no D-IDs (legacy, pre-v5.41)**: fall back to a holistic judgment: "does the task body contain substantive content from the design?" Scan for atomic units in the design (fenced code blocks, definition lists, key invariants in the Implementation / Solution / Edge Cases / Interfaces sections) that appear uncovered. Flag with a snippet:
+   - **Design has no DR-IDs (legacy, pre-v5.41)**: fall back to a holistic judgment: "does the task body contain substantive content from the design?" Scan for atomic units in the design (fenced code blocks, definition lists, key invariants in the Implementation / Solution / Edge Cases / Interfaces sections) that appear uncovered. Flag with a snippet:
      ```
      ⚠️ <task_path>  (<status>)
-        Probe 2 (design, legacy): design <design_path> has no D-IDs and task
+        Probe 2 (design, legacy): design <design_path> has no DR-IDs and task
         body doesn't reflect substantive design content.
         Missing likely: <snippet from unreflected section>
-        → Consider backfilling D-IDs in the design (run @acp.sync), then claim
-          specific D-IDs in this task's `incorporates:` field
+        → Consider backfilling DR-IDs in the design (run @acp.sync), then claim
+          specific DR-IDs in this task's `incorporates:` field
      ```
 
 Deferral phrasing is NOT a finding, as in Probe 1.
@@ -193,13 +193,13 @@ Invoke:
 For each clarification block with `resolves:` matching the task's path AND `resolved: true`:
 
 1. Read the clarification file. Identify the resolved decisions (typically in the answers, resolutions, or a "Resolved Decisions" subsection).
-2. For each resolved decision, check the task body reflects it — either in Steps, Context, or Key Design Decisions.
+2. For each resolved decision, check the task body reflects it — either in Steps, Context, or Key Design Requirements.
 3. For each unreflected decision, emit a finding:
    ```
    ⚠️ <task_path>  (<status>)
       Probe 3 (clarification): <clarification_path> resolved
       '<short summary of decision>' but not inlined in task
-      → Inline the decision under Steps or Key Design Decisions
+      → Inline the decision under Steps or Key Design Requirements
    ```
 
 #### Self-Containment vs structural validation
@@ -410,13 +410,13 @@ Structural:
 
 Self-Containment (incomplete tasks only):
   ⚠️ agent/tasks/milestone-7/task-2-session-freshness-injector.md  (not_started)
-     - Probe 1 (spec): covers: R31 but R31's text not reflected in body
+     - Probe 1 (spec): covers: FR31 but FR31's text not reflected in body
        → Inline from agent/specs/local.freshness.md under Spec Coverage
 
   ⚠️ agent/tasks/milestone-10/task-4-character-grading.md  (in_progress)
-     - Probe 2 (design): Design agent/design/local.gamification.md has D1..D8
+     - Probe 2 (design): Design agent/design/local.gamification.md has DR1..DR8
        but task marker has no `incorporates:` field.
-       → Add `incorporates:` for relevant D-IDs or justify the omission
+       → Add `incorporates:` for relevant DR-IDs or justify the omission
      - Probe 3 (clarification): clarification-12-grading.md resolved
        'Karl uses fluency-weighted formula' but not inlined in task body
 

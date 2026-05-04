@@ -5,7 +5,7 @@
 >
 > **Do NOT invoke this directive directly.** It is called internally by create commands when context capture is needed.
 >
-> If you are a create command reading this file, follow the steps below to capture clarification context and generate a "Key Design Decisions" section for the entity being created.
+> If you are a create command reading this file, follow the steps below to capture clarification context and generate a "Key Design Requirements" section for the entity being created.
 
 **Namespace**: acp  
 **Version**: 1.0.0  
@@ -34,7 +34,7 @@ These arguments are passed through from the calling create command. The create c
 | `--from-clarifications` | `--from-clars` | Capture from all recent clarifications |
 | `--from-chat-context` | `--from-chat` | Capture decisions from chat conversation |
 | `--from-context` | (none) | Shorthand for all sources (clarifications + chat) |
-| `--include-clarifications` | (none) | Alias for `--from-clars`, enforces Key Design Decisions section |
+| `--include-clarifications` | (none) | Alias for `--from-clars`, enforces Key Design Requirements section |
 
 **Natural Language**:
 - `@acp.design-create --from-clar` → Capture from clarifications in session
@@ -48,7 +48,7 @@ These arguments are passed through from the calling create command. The create c
 
 ## What This Directive Does
 
-This directive captures design decisions from ephemeral sources (clarifications, chat conversation) and embeds them as a "Key Design Decisions" section in the entity document being created. This prevents loss of design rationale — clarifications are workflow-only files that are never committed to version control.
+This directive captures design requirements from ephemeral sources (clarifications, chat conversation) and embeds them as a "Key Design Requirements" section in the entity document being created. This prevents loss of design rationale — clarifications are workflow-only files that are never committed to version control.
 
 The directive is called internally by create commands after context detection and key file reading, but before entity file generation. It produces a markdown section that the create command inserts into the generated entity document.
 
@@ -164,13 +164,13 @@ If multiple clarifications contain conflicting decisions, flag for user resoluti
 If chat context is a source (`--from-chat` or auto-detect), extract decisions from the conversation.
 
 **Actions**:
-- Review chat history for design decisions, preferences, and requirements expressed by the user
+- Review chat history for design requirements, preferences, and requirements expressed by the user
 - Extract decision/choice/rationale triples from conversational context
 - Merge with clarification decisions (chat context has equal weight to clarifications)
 
 **Expected Outcome**: Chat decisions extracted and merged  
 
-### 6. Generate Key Design Decisions Section
+### 6. Generate Key Design Requirements Section
 
 Create the markdown section for embedding in the entity document.
 
@@ -180,7 +180,7 @@ Create the markdown section for embedding in the entity document.
 - Format as category-grouped tables:
 
 ```markdown
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 ### {Category 1}
 
@@ -199,7 +199,7 @@ Create the markdown section for embedding in the entity document.
 - **Do NOT include clarification file references** — clarifications are ephemeral and volatile. File numbers will not match across different developer checkouts.
 - If no decisions to capture, omit the section entirely
 
-**Expected Outcome**: Key Design Decisions markdown section generated  
+**Expected Outcome**: Key Design Requirements markdown section generated  
 
 ### 7. Update Clarification Status
 
@@ -215,7 +215,7 @@ After successful capture, update the status of captured clarification files.
 
 ### 8. Return Section to Calling Command
 
-Pass the generated Key Design Decisions section back to the create command for insertion into the entity document.
+Pass the generated Key Design Requirements section back to the create command for insertion into the entity document.
 
 **Expected Outcome**: Create command receives the section and inserts it into the generated entity file  
 
@@ -237,7 +237,7 @@ When a create command detects clarifications in the session but the user hasn't 
 ```
 
 - If yes: Proceed with capture (equivalent to `--from-clars`)
-- If no: Skip capture, create entity without Key Design Decisions section
+- If no: Skip capture, create entity without Key Design Requirements section
 
 This warning is **mandatory** when uncaptured clarifications exist. It ensures the user is aware that decisions may be lost.
 
@@ -250,7 +250,7 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 - [ ] Partial clarifications warned about
 - [ ] Conflicts flagged and resolved (never silently merged)
 - [ ] Chat context synthesized (if applicable)
-- [ ] Key Design Decisions section generated with category-grouped tables
+- [ ] Key Design Requirements section generated with category-grouped tables
 - [ ] No clarification file references in output
 - [ ] Clarification statuses updated to "Captured"
 - [ ] Section returned to calling create command
@@ -261,7 +261,7 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 
 ### Generated Section (inserted into entity document)
 ```markdown
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 ### Architecture
 
@@ -282,10 +282,10 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
   ✓ Read clarification-6-create-command-context-capture.md (20 questions, 20 answered)
   ✓ Synthesized chat context (3 additional decisions)
   ✓ No conflicts detected
-  ✓ Generated Key Design Decisions (4 categories, 13 decisions)
+  ✓ Generated Key Design Requirements (4 categories, 13 decisions)
   ✓ Updated clarification-6 status → Captured
 
-  Key Design Decisions section ready for embedding.
+  Key Design Requirements section ready for embedding.
 ```
 
 ---
@@ -314,7 +314,7 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 
 **Context**: User invokes `@acp.design-create` with no prior clarifications or design discussion  
 
-**Flow**: Directive finds no context sources, skips capture silently, entity created without Key Design Decisions section  
+**Flow**: Directive finds no context sources, skips capture silently, entity created without Key Design Requirements section  
 
 ---
 
@@ -336,7 +336,7 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 
 **Cause**: No clarification files exist or all have status "Captured"  
 
-**Solution**: This is normal. Entity will be created without Key Design Decisions section. If you expected clarifications, check `agent/clarifications/` directory.  
+**Solution**: This is normal. Entity will be created without Key Design Requirements section. If you expected clarifications, check `agent/clarifications/` directory.  
 
 ### Issue 2: Clarification has no answered questions
 
@@ -368,7 +368,7 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 - **Repositories**: None
 
 ### Sensitive Data
-- **Secrets**: Never include secrets in Key Design Decisions
+- **Secrets**: Never include secrets in Key Design Requirements
 - **Credentials**: Never include credentials in captured output
 
 ---
@@ -381,7 +381,7 @@ This warning is **mandatory** when uncaptured clarifications exist. It ensures t
 - Categories in the output tables are agent-inferred, not predefined
 - The directive never deletes clarification files and never prompts to delete them
 - Conflict resolution always involves the user — never silently merge
-- The Key Design Decisions section is optional — omit if no decisions to capture
+- The Key Design Requirements section is optional — omit if no decisions to capture
 
 ---
 

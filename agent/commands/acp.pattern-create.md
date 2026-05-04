@@ -131,10 +131,10 @@ Invoke the `@acp.clarification-capture` shared directive to capture decisions fr
 - Pass through any `--from-*` arguments from this command's invocation
 - If no `--from-*` flags specified: auto-detect clarifications in session (default behavior)
 - If uncaptured clarifications detected, show warning and ask user whether to include
-- Directive returns a "Key Design Decisions" markdown section (or nothing if no context)
+- Directive returns a "Key Design Requirements" markdown section (or nothing if no context)
 - Hold the generated section for insertion during Step 5 (Generate Pattern File)
 
-**Expected Outcome**: Key Design Decisions section generated (if context available), or skipped cleanly  
+**Expected Outcome**: Key Design Requirements section generated (if context available), or skipped cleanly  
 
 ### 3. Collect Pattern Information
 
@@ -180,7 +180,7 @@ Create pattern file from template:
 - Fill in metadata (name, version, date, description)
 - If draft/clarification provided: Incorporate content
 - If no draft: Create from template with user-provided description
-- If Key Design Decisions section was generated in Step 2.7: Insert it into the pattern document
+- If Key Design Requirements section was generated in Step 2.7: Insert it into the pattern document
 - **Populate the `@acp.meta.pattern` marker block** — the template ships with `{placeholder}` values; replace every one:
   - `topic:` — comma-separated keywords from the pattern name + description
   - `description:` — one-line summary, <=150 chars

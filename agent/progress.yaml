@@ -314,7 +314,7 @@ milestones:
     notes: |
       📋 Milestone 15: Clarification Capture System
       - Shared directive @acp.clarification-capture for embedding clarification decisions in entity docs
-      - "Key Design Decisions" optional section in entity templates
+      - "Key Design Requirements" optional section in entity templates
       - --from-clar, --from-chat, --from-context arguments for create commands
       - Auto-detect and warn about uncaptured clarifications
       - Duplicate awareness in @acp.clarification-create
@@ -401,7 +401,7 @@ milestones:
       - capabilities.watcher flag for driver-declared data freshness
       - @acp.validate extended to verify bindings + single-MCP-server + mint/query pairing
       - Backward compat invariant: absent driver.yaml ≡ today's behavior
-      - Design: agent/design/local.pluggable-driver-system.md (D1..D15)
+      - Design: agent/design/local.pluggable-driver-system.md (DR1..DR15)
       - 9 tasks (121-129): Schema/Parser, Validate Extension, Routing Pattern, Mint Wiring,
         Query Wiring, Workflow Pilot, Watcher Consultation, Integration Tests, Documentation
       - Out of scope (explicit non-goals, not deferrals): multi-driver, driver-to-driver deps,
@@ -2025,14 +2025,14 @@ tasks:
         Full argument table, warning UX, conflict resolution flow.
 
     - id: task-107
-      name: Update Entity Templates with Key Design Decisions Section
+      name: Update Entity Templates with Key Design Requirements Section
       priority: 5
       status: completed
       file: agent/tasks/milestone-15-clarification-capture/task-107-entity-template-key-decisions.md
       estimated_hours: 1-2
       completed_date: 2026-03-04
       notes: |
-        ✅ Added optional Key Design Decisions section to all 4 entity templates:
+        ✅ Added optional Key Design Requirements section to all 4 entity templates:
         design.template.md, task template, pattern.template.md, command.template.md.
         Section uses category-grouped tables with Decision/Choice/Rationale columns.
 
@@ -2047,7 +2047,7 @@ tasks:
         ✅ Updated all 4 create commands with capture step and arguments:
         design-create, task-create, pattern-create, command-create.
         Each gets: Arguments section, Step 2.7 (Capture Clarification Context),
-        Generate step updated to insert Key Design Decisions section.
+        Generate step updated to insert Key Design Requirements section.
 
     - id: task-109
       name: Add Duplicate Awareness to @acp.clarification-create
@@ -2378,7 +2378,7 @@ progress:
       actual_hours: null
       notes: |
         Define agent/driver.yaml schema; extend yaml-parser with helpers
-        for present/get-binding/get-workflow/get-capability. Covers D1, D15.
+        for present/get-binding/get-workflow/get-capability. Covers DR1, DR15.
 
     - id: task-122
       name: '@acp.validate Driver-Bindings Extension'
@@ -2392,7 +2392,7 @@ progress:
       notes: |
         Extend @acp.validate to verify bindings, single-MCP-server constraint,
         mint/query pairing, server reachability. Runtime adapter for MCP catalog
-        introspection (target Claude Code initially). Covers D6, D8.
+        introspection (target Claude Code initially). Covers DR6, DR8.
 
     - id: task-123
       name: Override-with-Fallback Routing Pattern
@@ -2405,7 +2405,7 @@ progress:
       actual_hours: null
       notes: |
         Author the canonical reusable directive snippet consumer commands embed
-        for ext-point dispatch. Document pattern; pilot on one command. Covers D7.
+        for ext-point dispatch. Document pattern; pilot on one command. Covers DR7.
 
     - id: task-124
       name: marker.mint Wiring Across 6 Stamping Commands
@@ -2419,7 +2419,7 @@ progress:
       notes: |
         Embed dispatch snippet in task-create, spec, design-create, pattern-create,
         command-create, clarification-create. Agent stamps directly using mint output.
-        Covers D2, D9, D12.
+        Covers DR2, DR9, DR12.
 
     - id: task-125
       name: query.run Wiring Across 3 Query-Using Commands
@@ -2432,7 +2432,7 @@ progress:
       actual_hours: null
       notes: |
         Embed dispatch snippet in validate, sync, proceed. Bound path → query.run;
-        unbound path → existing grep/awk pipeline. Covers D3, D12.
+        unbound path → existing grep/awk pipeline. Covers DR3, DR12.
 
     - id: task-126
       name: Workflow-as-Command-Override Pilot (3 Commands)
@@ -2445,7 +2445,7 @@ progress:
       actual_hours: null
       notes: |
         Add top-of-file override directive to acp.task-create, acp.plan, acp.init.
-        Pilot dispatch-then-stop reliability across 5+ sessions. Covers D4, D5, D12.
+        Pilot dispatch-then-stop reliability across 5+ sessions. Covers DR4, DR5, DR12.
         Highest-risk task in M19; schedule before integration tests.
 
     - id: task-127
@@ -2459,7 +2459,7 @@ progress:
       actual_hours: null
       notes: |
         Consumer commands check capabilities.watcher; surface stale-data guidance
-        when false/absent. ACP never auto-refreshes. Covers D15.
+        when false/absent. ACP never auto-refreshes. Covers DR15.
 
     - id: task-128
       name: Integration Tests + Backward-Compat Verification
@@ -2492,9 +2492,9 @@ recent_work:
   - date: 2026-05-01
     description: |
       📋 Milestone 19 Planned: Pluggable Driver System v1
-      Design captured (D1..D15), milestone document + 9 tasks created.
+      Design captured (DR1..DR15), milestone document + 9 tasks created.
     items:
-      - "✅ Created agent/design/local.pluggable-driver-system.md (D1..D15, committed)"
+      - "✅ Created agent/design/local.pluggable-driver-system.md (DR1..DR15, committed)"
       - "✅ Indexed in agent/index/local.main.yaml (weight 0.8)"
       - "✅ Created agent/milestones/milestone-19-pluggable-driver-system.md"
       - "✅ Created 9 task documents (task-121 through task-129) under agent/tasks/milestone-19-pluggable-driver-system/"

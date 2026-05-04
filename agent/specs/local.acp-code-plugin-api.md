@@ -49,29 +49,29 @@ Define the contract between the acp-code framework and plugins: the `PluginAPI` 
 
 ## Requirements
 
-1. **R1** — Plugins receive a `PluginAPI` instance as the first argument to `install`, `activate`, and `uninstall` hooks. Plugins never construct `PluginAPI` themselves; the framework instantiates it and passes it in.
+1. **FR1** — Plugins receive a `PluginAPI` instance as the first argument to `install`, `activate`, and `uninstall` hooks. Plugins never construct `PluginAPI` themselves; the framework instantiates it and passes it in.
 
-2. **R2** — The `PluginAPI` instance has immutable `name: str` and `version: str` attributes bound at framework-side construction. Attempting to mutate either raises `AttributeError`.
+2. **FR2** — The `PluginAPI` instance has immutable `name: str` and `version: str` attributes bound at framework-side construction. Attempting to mutate either raises `AttributeError`.
 
-3. **R3** — `api.db` is a read-write SQLite connection object whose write operations are permitted **only** against tables with physical name `<api.name>__*`. Attempts to `CREATE`, `ALTER`, `DROP`, `INSERT INTO`, `UPDATE`, or `DELETE FROM` any table not matching that prefix raise `PermissionError` from the framework write-wrapper without reaching SQLite.
+3. **FR3** — `api.db` is a read-write SQLite connection object whose write operations are permitted **only** against tables with physical name `<api.name>__*`. Attempts to `CREATE`, `ALTER`, `DROP`, `INSERT INTO`, `UPDATE`, or `DELETE FROM` any table not matching that prefix raise `PermissionError` from the framework write-wrapper without reaching SQLite.
 
-4. **R4** — `api.query_readonly(sql: str, params: tuple = ()) -> list[Row]` executes read-only queries scoped to the plugin's own tables. Queries referencing any table not matching `<api.name>__*` raise `PermissionError`. The connection underneath is opened with SQLite `mode=ro`.
+4. **FR4** — `api.query_readonly(sql: str, params: tuple = ()) -> list[Row]` executes read-only queries scoped to the plugin's own tables. Queries referencing any table not matching `<api.name>__*` raise `PermissionError`. The connection underneath is opened with SQLite `mode=ro`.
 
-5. **R5** — `api.register_table(name: str, migrations: list[Migration]) -> None` creates a table whose physical name is `<api.name>__<name>` and applies all supplied migrations in order. The `name` argument is a logical name (e.g. `"tasks"`); the plugin cannot supply a fully-qualified name and cannot bypass the prefix. There is no other API path that executes DDL.
+5. **FR5** — `api.register_table(name: str, migrations: list[Migration]) -> None` creates a table whose physical name is `<api.name>__<name>` and applies all supplied migrations in order. The `name` argument is a logical name (e.g. `"tasks"`); the plugin cannot supply a fully-qualified name and cannot bypass the prefix. There is no other API path that executes DDL.
 
-6. **R6** — `api.register_command(name: str, handler: Callable, mcp_description: str) -> None` registers a command addressable across the system as `<api.name>.<name>`. The handler is callable by (a) other plugins via `api.call_command(...)`, (b) the MCP adapter as a tool, (c) the CLI adapter as a subcommand, (d) the REST adapter as an endpoint. Registering the same `name` twice within one plugin raises `ValueError`.
+6. **FR6** — `api.register_command(name: str, handler: Callable, mcp_description: str) -> None` registers a command addressable across the system as `<api.name>.<name>`. The handler is callable by (a) other plugins via `api.call_command(...)`, (b) the MCP adapter as a tool, (c) the CLI adapter as a subcommand, (d) the REST adapter as an endpoint. Registering the same `name` twice within one plugin raises `ValueError`.
 
-7. **R7** — `api.register_event_handler(event_kind: str, handler: Callable) -> None` subscribes a handler to one of the four closed-enum event kinds (`state_transition`, `edit`, `automation`, `custom`). The handler is invoked synchronously for every event matching the kind, regardless of which plugin emitted the event.
+7. **FR7** — `api.register_event_handler(event_kind: str, handler: Callable) -> None` subscribes a handler to one of the four closed-enum event kinds (`state_transition`, `edit`, `automation`, `custom`). The handler is invoked synchronously for every event matching the kind, regardless of which plugin emitted the event.
 
-8. **R8** — `api.events.record(kind, entities, op, before, after, meta) -> str` is the **only** write path to `events.jsonl`. The framework auto-stamps `id` (UUIDv7), `ts` (ISO-8601 UTC), `plugin_name` (equal to `api.name`), and `plugin_version` (equal to `api.version`). The returned `str` is the event `id`. Any plugin-supplied values for `id`, `ts`, `plugin_name`, or `plugin_version` (e.g. in `meta`) are ignored and overwritten.
+8. **FR8** — `api.events.record(kind, entities, op, before, after, meta) -> str` is the **only** write path to `events.jsonl`. The framework auto-stamps `id` (UUIDv7), `ts` (ISO-8601 UTC), `plugin_name` (equal to `api.name`), and `plugin_version` (equal to `api.version`). The returned `str` is the event `id`. Any plugin-supplied values for `id`, `ts`, `plugin_name`, or `plugin_version` (e.g. in `meta`) are ignored and overwritten.
 
-9. **R9** — `api.config.get(key: str, default: Any = None) -> Any` reads plugin-scoped configuration (keyed by `api.name`). Missing keys return `default`. The returned value is never shared across plugins.
+9. **FR9** — `api.config.get(key: str, default: Any = None) -> Any` reads plugin-scoped configuration (keyed by `api.name`). Missing keys return `default`. The returned value is never shared across plugins.
 
-10. **R10** — `api.logger` is a `logging.Logger` instance named `acp_code.plugin.<api.name>`. All emitted records include `api.name` in the logger name hierarchy.
+10. **FR10** — `api.logger` is a `logging.Logger` instance named `acp_code.plugin.<api.name>`. All emitted records include `api.name` in the logger name hierarchy.
 
-11. **R11** — `PluginContext` has a single mutable attribute `subscriptions: list[Disposable]`. Plugins append disposables during `install` / `activate`; the framework calls `.dispose()` on each in **reverse insertion order** during `deactivate` / `uninstall`. A disposable raising during `.dispose()` does not prevent subsequent disposables from being disposed; the exception is logged and collection continues.
+11. **FR11** — `PluginContext` has a single mutable attribute `subscriptions: list[Disposable]`. Plugins append disposables during `install` / `activate`; the framework calls `.dispose()` on each in **reverse insertion order** during `deactivate` / `uninstall`. A disposable raising during `.dispose()` does not prevent subsequent disposables from being disposed; the exception is logged and collection continues.
 
-12. **R12** — Plugins implement four lifecycle hooks as module-level functions:
+12. **FR12** — Plugins implement four lifecycle hooks as module-level functions:
     - `install(api: PluginAPI, context: PluginContext) -> None` — called exactly once per install, before any activate.
     - `activate(api: PluginAPI, context: PluginContext) -> None` — called at most once per session, lazily on first invocation of any contributed command or matching event.
     - `deactivate(context: PluginContext) -> None` — called exactly once per session if and only if `activate` completed successfully.
@@ -79,9 +79,9 @@ Define the contract between the acp-code framework and plugins: the `PluginAPI` 
     
     Any hook may be omitted; the framework treats a missing hook as a no-op.
 
-13. **R13** — Activation is **lazy**: successful `install` does not trigger `activate`. The first call to any contributed command (`<api.name>.*`) or delivery of any event the plugin subscribed to triggers `activate`; subsequent calls/events find the plugin already activated.
+13. **FR13** — Activation is **lazy**: successful `install` does not trigger `activate`. The first call to any contributed command (`<api.name>.*`) or delivery of any event the plugin subscribed to triggers `activate`; subsequent calls/events find the plugin already activated.
 
-14. **R14** — Registration methods (`register_table`, `register_command`, `register_event_handler`) are only callable during `install` or `activate`. Calling them during `deactivate` or `uninstall`, or from within a command handler after activation has completed, raises `RuntimeError`.
+14. **FR14** — Registration methods (`register_table`, `register_command`, `register_event_handler`) are only callable during `install` or `activate`. Calling them during `deactivate` or `uninstall`, or from within a command handler after activation has completed, raises `RuntimeError`.
 
 ---
 
@@ -233,7 +233,7 @@ class EventKind(str, Enum):
 
 ### Base Cases
 
-#### Test: register-table-creates-namespaced-table (covers R5, happy path, positive)
+#### Test: register-table-creates-namespaced-table (covers FR5, happy path, positive)
 
 **Given**: A fresh project with plugin `myplugin` v1.0.0 installed but not yet activated; `myplugin__tasks` does not exist.  
 **When**: Framework calls `install(api, context)`; plugin calls `api.register_table("tasks", migrations=[CreateTasksTable])`.  
@@ -242,7 +242,7 @@ class EventKind(str, Enum):
 - **no-unprefixed-table**: No table named `tasks` exists at the bare name.
 - **migration-recorded**: Framework's `_migrations` table contains a row with `plugin_name="myplugin"`, `migration_number=1`.
 
-#### Test: register-table-records-migration (covers R5)
+#### Test: register-table-records-migration (covers FR5)
 
 **Given**: Plugin `myplugin` with two migrations `[m1, m2]`.  
 **When**: Plugin calls `api.register_table("tasks", migrations=[m1, m2])` during install.  
@@ -251,7 +251,7 @@ class EventKind(str, Enum):
 - **both-recorded**: `_migrations` table has two rows for `myplugin`, numbers 1 and 2.
 - **up-events-emitted**: Two `automation` events recorded with `op="migration.up"`, `plugin_name="myplugin"`.
 
-#### Test: register-command-available-cross-adapter (covers R6, happy path)
+#### Test: register-command-available-cross-adapter (covers FR6, happy path)
 
 **Given**: Plugin `myplugin` registered command `sync` with handler `do_sync` during `activate`.  
 **When**:
@@ -264,7 +264,7 @@ class EventKind(str, Enum):
 - **mcp-tool-advertised**: The MCP adapter's tool list includes `myplugin.sync` with the `mcp_description` supplied to `register_command`.
 - **cli-subcommand-available**: Running `acp myplugin.sync --help` prints the command's description and does not error.
 
-#### Test: events-record-autostamps-identity (covers R8, positive)
+#### Test: events-record-autostamps-identity (covers FR8, positive)
 
 **Given**: Plugin `myplugin` v1.0.0 activated.  
 **When**: Plugin calls `api.events.record(kind="edit", entities=[{"type":"task","id":"t1"}], op="task.update", before={"status":"todo"}, after={"status":"done"}, meta={"foo":"bar"})`.  
@@ -277,7 +277,7 @@ class EventKind(str, Enum):
 - **plugin-version-matches**: The parsed `plugin_version` equals `"1.0.0"`.
 - **payload-preserved**: `kind`, `entities`, `op`, `before`, `after`, `meta.foo` round-trip unchanged.
 
-#### Test: events-record-returns-uuid7 (covers R8, positive)
+#### Test: events-record-returns-uuid7 (covers FR8, positive)
 
 **Given**: Plugin is activated.  
 **When**: Plugin calls `api.events.record(...)` three times in rapid succession.  
@@ -285,7 +285,7 @@ class EventKind(str, Enum):
 - **three-distinct-ids**: The three returned ids are distinct.
 - **ids-monotonically-ordered**: Sorting the three ids lexicographically yields the same order as call order (UUIDv7 property).
 
-#### Test: event-handler-invoked-on-matching-kind (covers R7, happy path)
+#### Test: event-handler-invoked-on-matching-kind (covers FR7, happy path)
 
 **Given**:
 - Plugin `myplugin` subscribed to `event_kind="state_transition"` via `register_event_handler(kind, handler)`.
@@ -297,7 +297,7 @@ class EventKind(str, Enum):
 - **handler-received-event**: Argument passed to handler is the full event record (id, ts, plugin_name, plugin_version, kind, entities, op, before, after, meta).
 - **unrelated-kinds-not-delivered**: If another plugin emits `kind="edit"`, `handler` is not invoked a second time.
 
-#### Test: query-readonly-reads-own-table (covers R4, happy path)
+#### Test: query-readonly-reads-own-table (covers FR4, happy path)
 
 **Given**: Plugin `myplugin` has table `myplugin__tasks` with two rows.  
 **When**: Plugin calls `api.query_readonly("SELECT id, status FROM myplugin__tasks ORDER BY id")`.  
@@ -305,7 +305,7 @@ class EventKind(str, Enum):
 - **returns-two-rows**: Return value has length 2.
 - **columns-match**: Each row contains exactly the two requested columns.
 
-#### Test: lazy-activation-on-first-command (covers R13, happy path)
+#### Test: lazy-activation-on-first-command (covers FR13, happy path)
 
 **Given**: Plugin `myplugin` is installed (install hook ran). `activate` has not been called.  
 **When**: Someone invokes `@myplugin.sync` for the first time.  
@@ -314,7 +314,7 @@ class EventKind(str, Enum):
 - **handler-called-after-activate**: `handler` for `sync` was invoked after `activate` returned.
 - **activate-not-re-called-on-second-invoke**: A second invocation of `@myplugin.sync` runs the handler without calling `activate` again.
 
-#### Test: activate-not-called-on-install (covers R13, negative)
+#### Test: activate-not-called-on-install (covers FR13, negative)
 
 **Given**: Plugin `myplugin` has just been added via `@acp.plugin-install`.  
 **When**: `install(api, context)` completes successfully and no contributed command has yet been invoked.  
@@ -322,7 +322,7 @@ class EventKind(str, Enum):
 - **activate-not-called**: The plugin's `activate` hook was not called. (negative)
 - **no-activate-disposables**: `context.subscriptions` contains only disposables appended during `install`, none from `activate`.
 
-#### Test: subscriptions-disposed-in-reverse-order (covers R11, happy path)
+#### Test: subscriptions-disposed-in-reverse-order (covers FR11, happy path)
 
 **Given**: Plugin's `activate` appends disposables `[d1, d2, d3]` to `context.subscriptions` in that order.  
 **When**: Session ends and framework calls `deactivate(context)`.  
@@ -330,7 +330,7 @@ class EventKind(str, Enum):
 - **dispose-order**: `d3.dispose()`, `d2.dispose()`, `d1.dispose()` invoked in that sequence.
 - **deactivate-returned**: Framework's deactivate loop returns only after all three disposals complete.
 
-#### Test: deactivate-runs-once (covers R12, happy path)
+#### Test: deactivate-runs-once (covers FR12, happy path)
 
 **Given**: Plugin `myplugin` activated during session, then session ends.  
 **When**: Framework shuts down.  
@@ -338,7 +338,7 @@ class EventKind(str, Enum):
 - **deactivate-called-once**: `deactivate(context)` invoked exactly once.
 - **deactivate-not-called-for-inactive-plugin**: A second plugin that was installed but never activated does NOT receive a `deactivate` call. (negative)
 
-#### Test: uninstall-after-deactivate (covers R12, happy path)
+#### Test: uninstall-after-deactivate (covers FR12, happy path)
 
 **Given**: Plugin `myplugin` is active in session.  
 **When**: User invokes `@acp.plugin-uninstall myplugin`.  
@@ -347,7 +347,7 @@ class EventKind(str, Enum):
 - **uninstall-called-once**: `uninstall` invoked exactly once.
 - **install-dir-removed-after**: The plugin's install directory is removed AFTER `uninstall` returns, not before.
 
-#### Test: plugin-identity-immutable (covers R2, negative)
+#### Test: plugin-identity-immutable (covers FR2, negative)
 
 **Given**: Plugin `myplugin` v1.0.0 is active; it holds a reference to `api`.  
 **When**: Plugin executes `api.name = "otherplugin"`.  
@@ -356,7 +356,7 @@ class EventKind(str, Enum):
 - **name-unchanged**: Reading `api.name` afterward still returns `"myplugin"`.
 - **version-immutable-same**: Repeating the test with `api.version = "2.0.0"` also raises `AttributeError`.
 
-#### Test: events-record-rejects-forged-identity (covers R8, negative)
+#### Test: events-record-rejects-forged-identity (covers FR8, negative)
 
 **Given**: Plugin `myplugin` v1.0.0 is active.  
 **When**: Plugin calls `api.events.record(kind="edit", entities=[...], op="x", before=None, after=None, meta={"plugin_name": "otherplugin", "plugin_version": "9.9.9"})`.  
@@ -368,7 +368,7 @@ class EventKind(str, Enum):
 
 ### Edge Cases
 
-#### Test: query-readonly-rejects-cross-plugin-read (covers R4, negative, edge)
+#### Test: query-readonly-rejects-cross-plugin-read (covers FR4, negative, edge)
 
 **Given**: Plugins `myplugin` and `otherplugin` both installed; both have tables.  
 **When**: `myplugin` calls `api.query_readonly("SELECT * FROM otherplugin__things")`.  
@@ -377,7 +377,7 @@ class EventKind(str, Enum):
 - **no-sqlite-query-issued**: No query reached SQLite. (negative — verified by instrumenting the connection wrapper)
 - **no-event-emitted**: No `events.jsonl` line was written as a side effect. (negative)
 
-#### Test: db-write-rejects-cross-plugin-write (covers R3, negative, edge)
+#### Test: db-write-rejects-cross-plugin-write (covers FR3, negative, edge)
 
 **Given**: Plugin `myplugin` active.  
 **When**: `myplugin` calls `api.db.execute("INSERT INTO otherplugin__things (id) VALUES ('x')")`.  
@@ -385,7 +385,7 @@ class EventKind(str, Enum):
 - **permission-error-raised**: `PermissionError` raised.
 - **no-row-inserted**: `otherplugin__things` row count is unchanged after the call. (negative)
 
-#### Test: db-write-rejects-raw-ddl (covers R3, R5, negative, edge)
+#### Test: db-write-rejects-raw-ddl (covers FR3, FR5, negative, edge)
 
 **Given**: Plugin `myplugin` active.  
 **When**: `myplugin` calls `api.db.execute("CREATE TABLE myplugin__rogue (id INTEGER)")`.  
@@ -393,7 +393,7 @@ class EventKind(str, Enum):
 - **permission-error-raised**: `PermissionError` raised (DDL through `api.db` is not permitted; `register_table` is the only DDL path).
 - **no-table-created**: SQLite schema does NOT contain `myplugin__rogue`. (negative)
 
-#### Test: register-command-rejected-after-activation (covers R14, negative, edge)
+#### Test: register-command-rejected-after-activation (covers FR14, negative, edge)
 
 **Given**: Plugin `myplugin` has completed `activate`; it then runs a command handler that attempts further registration.  
 **When**: Inside a command handler, plugin calls `api.register_command("late", handler, "...")`.  
@@ -401,7 +401,7 @@ class EventKind(str, Enum):
 - **runtime-error-raised**: `RuntimeError` raised with message indicating registration is install/activate-only.
 - **command-not-registered**: `myplugin.late` is NOT callable afterward. (negative)
 
-#### Test: register-command-rejects-duplicate-name (covers R6, negative, edge)
+#### Test: register-command-rejects-duplicate-name (covers FR6, negative, edge)
 
 **Given**: Plugin `myplugin` in `activate` successfully calls `api.register_command("sync", handler_a, "A")`.  
 **When**: Plugin calls `api.register_command("sync", handler_b, "B")` in the same activate.  
@@ -409,7 +409,7 @@ class EventKind(str, Enum):
 - **value-error-raised**: `ValueError` raised with message `"duplicate command: sync"`.
 - **first-handler-retained**: Invoking `myplugin.sync` afterward calls `handler_a`, not `handler_b`.
 
-#### Test: disposable-exception-does-not-halt-cleanup (covers R11, edge)
+#### Test: disposable-exception-does-not-halt-cleanup (covers FR11, edge)
 
 **Given**: Plugin's `activate` appends disposables `[d1, d2, d3]`; `d2.dispose()` is configured to raise `RuntimeError("boom")`.  
 **When**: Framework invokes `deactivate(context)`.  
@@ -419,7 +419,7 @@ class EventKind(str, Enum):
 - **d1-disposed**: `d1.dispose()` still invoked after d2 raised.
 - **deactivate-completed**: Framework considers deactivate complete (does not retry or abort).
 
-#### Test: install-failure-prevents-activate (covers R12, edge)
+#### Test: install-failure-prevents-activate (covers FR12, edge)
 
 **Given**: Plugin `myplugin` has an `install` hook that raises `RuntimeError` after registering one table but before completing.  
 **When**: Framework runs `install(api, context)`.  
@@ -429,7 +429,7 @@ class EventKind(str, Enum):
 - **activate-never-called**: No invocation of `myplugin.*` triggers `activate`; it raises `PluginNotInstalledError` instead. (negative)
 - **partial-table-state**: Any tables registered before the raise are marked `partially_migrated` in line with the migration spec.
 
-#### Test: empty-plugin-installs-and-idles (covers R12, edge)
+#### Test: empty-plugin-installs-and-idles (covers FR12, edge)
 
 **Given**: A plugin with `install(api, context) -> None: pass`, no `activate`, no tables, no commands, no event handlers.  
 **When**: `@acp.plugin-install empty-plugin` runs; nothing further.  
@@ -438,7 +438,7 @@ class EventKind(str, Enum):
 - **no-activate-ever**: No `activate` is ever triggered (no contributed surface to trigger on). (negative)
 - **no-tables-created**: No `empty_plugin__*` tables exist. (negative)
 
-#### Test: many-migrations-apply-in-order (covers R5, edge)
+#### Test: many-migrations-apply-in-order (covers FR5, edge)
 
 **Given**: Plugin has 50 migrations `[m1..m50]` in order.  
 **When**: `install` calls `api.register_table("tasks", migrations=[m1..m50])`.  
@@ -446,7 +446,7 @@ class EventKind(str, Enum):
 - **all-fifty-recorded**: `_migrations` table has 50 rows for this plugin.
 - **ordering-preserved**: The `ts` column of those rows is monotonically non-decreasing across numbers 1..50.
 
-#### Test: events-record-meta-cannot-inject-framework-fields (covers R8, edge, negative)
+#### Test: events-record-meta-cannot-inject-framework-fields (covers FR8, edge, negative)
 
 **Given**: Plugin active.  
 **When**: Plugin calls `api.events.record(..., meta={"id": "aaaa", "ts": "1970-01-01T00:00:00Z"})`.  
@@ -482,7 +482,7 @@ class EventKind(str, Enum):
 
 ---
 
-## Key Design Decisions
+## Key Design Requirements
 
 ### Isolation model
 

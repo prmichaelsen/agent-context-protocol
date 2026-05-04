@@ -1,4 +1,4 @@
-# Task 107: Update Entity Templates with Key Design Decisions Section
+# Task 107: Update Entity Templates with Key Design Requirements Section
 
 **Milestone**: M15 - Clarification Capture System  
 **Status**: Not Started  
@@ -9,25 +9,25 @@
 
 ## Objective
 
-Add an optional "Key Design Decisions" section to all entity templates that support clarification capture: design, task, pattern, and command templates.
+Add an optional "Key Design Requirements" section to all entity templates that support clarification capture: design, task, pattern, and command templates.
 
 ---
 
 ## Context
 
-The Key Design Decisions section provides a permanent home for design rationale captured from ephemeral clarification files. It uses category-grouped summary tables.
+The Key Design Requirements section provides a permanent home for design rationale captured from ephemeral clarification files. It uses category-grouped summary tables.
 
 ---
 
 ## Steps
 
-1. Update `agent/design/design.template.md` - add optional Key Design Decisions section
-2. Update `agent/tasks/task-1-{title}.template.md` - add optional Key Design Decisions section
-3. Update `agent/patterns/pattern.template.md` - add optional Key Design Decisions section
-4. Update `agent/commands/command.template.md` - add optional Key Design Decisions section
+1. Update `agent/design/design.template.md` - add optional Key Design Requirements section
+2. Update `agent/tasks/task-1-{title}.template.md` - add optional Key Design Requirements section
+3. Update `agent/patterns/pattern.template.md` - add optional Key Design Requirements section
+4. Update `agent/commands/command.template.md` - add optional Key Design Requirements section
 5. Section format in each template:
    ```markdown
-   ## Key Design Decisions (Optional)
+   ## Key Design Requirements (Optional)
 
    <!-- This section is populated by @acp.clarification-capture when
         create commands are invoked with --from-clar, --from-chat, or
@@ -43,9 +43,9 @@ The Key Design Decisions section provides a permanent home for design rationale 
 
 ## Verification
 
-- [ ] design.template.md updated with optional Key Design Decisions section
-- [ ] task template updated with optional Key Design Decisions section
-- [ ] pattern.template.md updated with optional Key Design Decisions section
-- [ ] command.template.md updated with optional Key Design Decisions section
+- [ ] design.template.md updated with optional Key Design Requirements section
+- [ ] task template updated with optional Key Design Requirements section
+- [ ] pattern.template.md updated with optional Key Design Requirements section
+- [ ] command.template.md updated with optional Key Design Requirements section
 - [ ] Section clearly marked as optional
 - [ ] Format matches design spec (category-grouped tables, no clar references)

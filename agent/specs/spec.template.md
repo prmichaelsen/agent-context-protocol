@@ -3,7 +3,7 @@
 <!-- @acp.meta.spec
 topic: {comma-separated keywords — e.g. auth, sessions, tokens}
 description: {one-line summary, <=150 chars}
-requirements: {R1..R<N> or R1, R3, R7}
+functional_requirements: {FR1..FR<N> or FR1, FR3, FR7}
 status: draft
 updated: {YYYY-MM-DD}
 @acp.meta.end -->
@@ -45,14 +45,14 @@ updated: {YYYY-MM-DD}
 
 Numbered, testable requirements. Each must be concrete enough that an implementer can know when they're done, and every requirement must be covered by at least one test in the Tests section.
 
-1. **R1** — [Requirement statement. Must be observable and verifiable.]
-2. **R2** — [Requirement statement.]
-3. **R3** — [Requirement statement.]
+1. **FR1** — [Requirement statement. Must be observable and verifiable.]
+2. **FR2** — [Requirement statement.]
+3. **FR3** — [Requirement statement.]
 
 **Example**:
-1. **R1** — The system MUST reject login requests with missing `email` or `password` fields and return HTTP 400.
-2. **R2** — On successful login, the system MUST issue a JWT signed with the configured secret, valid for 24 hours.
-3. **R3** — On invalid credentials, the system MUST return HTTP 401 with a generic error message (no enumeration of which field was wrong).
+1. **FR1** — The system MUST reject login requests with missing `email` or `password` fields and return HTTP 400.
+2. **FR2** — On successful login, the system MUST issue a JWT signed with the configured secret, valid for 24 hours.
+3. **FR3** — On invalid credentials, the system MUST return HTTP 401 with a generic error message (no enumeration of which field was wrong).
 
 ---
 
@@ -170,7 +170,7 @@ If you cannot decide the expected behavior for a plausible scenario, put it in *
 
 The core behavior contract: happy path, common bad paths, primary positive and negative assertions. A reader should understand normal operation from this subsection alone.
 
-#### Test: {kebab-case-test-name} (covers R1, R2)
+#### Test: {kebab-case-test-name} (covers FR1, FR2)
 
 `Given` and `When` may each be a single sentence OR a bulleted list — pick whichever is clearest. Mix forms freely across tests.
 
@@ -181,7 +181,7 @@ The core behavior contract: happy path, common bad paths, primary positive and n
 - **{assertion-id}**: [Observable outcome 2]
 - **{assertion-id}**: [Observable outcome 3]
 
-#### Test: {test-with-multi-line-given-and-when} (covers R3)
+#### Test: {test-with-multi-line-given-and-when} (covers FR3)
 
 **Given**:
 - [Precondition 1]
@@ -199,7 +199,7 @@ The core behavior contract: happy path, common bad paths, primary positive and n
 
 Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent behavior, resource exhaustion. Anything that is explicitly out of scope goes in **Non-Goals** instead; everything else goes here.
 
-#### Test: {edge-case-test-name} (covers R4)
+#### Test: {edge-case-test-name} (covers FR4)
 
 **Given**: [...]  
 **When**: [...]  
@@ -213,7 +213,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 
 ### Base Cases
 
-#### Test: login-with-valid-credentials (covers R2, happy path, positive)
+#### Test: login-with-valid-credentials (covers FR2, happy path, positive)
 
 **Given**: A user exists with email `alice@example.com` and password hash matching `correct-horse-battery-staple`.  
 **When**: A client sends `POST /login` with `{ "email": "alice@example.com", "password": "correct-horse-battery-staple" }`.  
@@ -224,7 +224,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 - **token-expiry-24h**: The JWT `exp` claim is exactly `iat + 86400`.
 - **expires-at-matches**: The `expiresAt` field in the response equals the JWT `exp` in ISO-8601 form.
 
-#### Test: login-rejects-missing-email (covers R1, bad path, positive + negative)
+#### Test: login-rejects-missing-email (covers FR1, bad path, positive + negative)
 
 **Given**: No user lookup has occurred.  
 **When**: A client sends `POST /login` with `{ "password": "anything" }`.  
@@ -235,7 +235,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 - **no-db-query**: No user lookup query is issued to the database. *(negative: the system does NOT hit the DB for malformed input)*
 - **no-password-log**: The password value does not appear in any log line emitted during this request. *(negative)*
 
-#### Test: login-rejects-invalid-credentials-without-enumeration (covers R3, bad path, negative)
+#### Test: login-rejects-invalid-credentials-without-enumeration (covers FR3, bad path, negative)
 
 **Given**:
 - A user exists with email `alice@example.com` and a known password hash.
@@ -254,7 +254,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 
 ### Edge Cases
 
-#### Test: login-with-empty-body (covers R1, edge/bad path)
+#### Test: login-with-empty-body (covers FR1, edge/bad path)
 
 **Given**: Nothing specific.  
 **When**: A client sends `POST /login` with an empty body.  
@@ -263,7 +263,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 - **error-code**: The response body's `error` field equals `"missing_field"`.
 - **error-field-is-email**: Missing-field error prioritizes `email` over `password` when both are missing.
 
-#### Test: login-with-unicode-email (covers R2, edge/happy)
+#### Test: login-with-unicode-email (covers FR2, edge/happy)
 
 **Given**: A user exists with email `αlice@例え.jp` stored in NFC-normalized form.  
 **When**: A client sends `POST /login` with the same email in NFD form and the correct password.  
@@ -271,7 +271,7 @@ Boundaries, unusual inputs, concurrency, idempotency, ordering, time-dependent b
 - **status-200**: The response status is `200`.
 - **normalization-applied**: The lookup succeeds despite the unicode normalization difference between request and stored form.
 
-#### Test: repeated-login-is-idempotent-on-state (covers R2, edge/negative)
+#### Test: repeated-login-is-idempotent-on-state (covers FR2, edge/negative)
 
 **Given**: A user exists with email `alice@example.com` and matching password.  
 **When**: A client sends `POST /login` three times in rapid succession with the same valid credentials.  
@@ -337,7 +337,7 @@ Unresolved items that must be answered before or during implementation. Link to 
 
 ---
 
-## Key Design Decisions (Optional)
+## Key Design Requirements (Optional)
 
 <!-- This section is populated by @acp.clarification-capture when
      @acp.spec is invoked with --from-clar, --from-chat, or
