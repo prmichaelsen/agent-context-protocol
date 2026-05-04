@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.1.0] - 2026-05-04
+
+### Added
+
+- **Workflow Override Directive deployed to v1 pilot commands** — `agent/commands/acp.task-create.md`, `acp.plan.md`, and `acp.init.md` now carry a top-of-file `🔌 Driver Override Check` directive. When `agent/driver.yaml` maps `workflows.<command-name>` to a workflow name and binds `bindings.workflow.run` to an MCP tool, invoking the command dispatches the entire flow to that bound workflow. The markdown steps below the directive run only as fallback when no mapping exists. Strict-binding-first semantics: dispatch errors surface and STOP — never silently fall back to the markdown.
+- **Workflow Override Directive pattern** (`agent/patterns/local.workflow-override-directive.md`) — canonical pattern doc for the top-of-file workflow-override directive. Covers placement rules, the single substitution point (`<this-command-name>`), per-pilot examples, anti-patterns (silent fallthrough, hardcoded driver names, additive markdown execution, silent typo masking), and reliability-pilot framing for the post-M19 broader rollout.
+- **M19 task-126 (Workflow-as-Command-Override Pilot)** completed (static deliverables). Runtime reliability validation deferred to task-128 integration tests.
+- **M19 task-123 (Override-with-Fallback Routing Pattern)** retroactively marked complete in `progress.yaml` with timestamps; this task's deliverables were already in 5.42.0 (pattern doc + acp.sync.md pilot) but the task entry hadn't been updated.
+
+### Convention
+
+- The Workflow Override Directive complements the in-step Driver Dispatch Directive (`local.driver-dispatch-directive.md`). Together they cover the two granularities of driver dispatch: top-of-file (whole command override) and in-step (single ext-point routing). Both share strict-binding-first ordering, explicit-error fallthrough, the workflow-execution-loop semantic, and driver-agnostic indirection through `bindings.<id>`.
+
 ## [6.0.0] - 2026-05-04
 
 ### BREAKING

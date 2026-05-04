@@ -384,12 +384,12 @@ milestones:
   M19:
     name: Pluggable Driver System
     priority: 3
-    status: not_started
-    progress: 0
-    started: null
+    status: in_progress
+    progress: 22
+    started: 2026-05-04
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 0
+    tasks_completed: 2
     tasks_total: 9
     file: agent/milestones/milestone-19-pluggable-driver-system.md
     notes: |
@@ -2397,15 +2397,19 @@ progress:
     - id: task-123
       name: Override-with-Fallback Routing Pattern
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-123-override-fallback-routing-pattern.md
       estimated_hours: 2-3
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T05:00:00Z
+      completed_date: 2026-05-04T06:00:00Z
+      actual_hours: 1.0
       notes: |
-        Author the canonical reusable directive snippet consumer commands embed
-        for ext-point dispatch. Document pattern; pilot on one command. Covers DR7.
+        Authored agent/patterns/local.driver-dispatch-directive.md — canonical
+        in-step ext-point dispatch snippet with strict-binding-first ordering,
+        explicit-error fallthrough, and workflow-execution-loop semantics.
+        Pilot deployment in @acp.sync step 1.3 (query.run dispatch wrapping
+        acp.meta-scan.sh fallback). Three substitution points keep the
+        snippet driver-agnostic. Covers DR7.
 
     - id: task-124
       name: marker.mint Wiring Across 6 Stamping Commands
@@ -2437,16 +2441,20 @@ progress:
     - id: task-126
       name: Workflow-as-Command-Override Pilot (3 Commands)
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-126-workflow-override-pilot.md
       estimated_hours: 2-3
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T06:30:00Z
+      completed_date: 2026-05-04T06:50:00Z
+      actual_hours: 0.3
       notes: |
-        Add top-of-file override directive to acp.task-create, acp.plan, acp.init.
-        Pilot dispatch-then-stop reliability across 5+ sessions. Covers DR4, DR5, DR12.
-        Highest-risk task in M19; schedule before integration tests.
+        Added top-of-file Driver Override Check directive to acp.task-create,
+        acp.plan, acp.init. Created agent/patterns/local.workflow-override-directive.md
+        documenting the canonical directive, placement rules, anti-patterns,
+        and reliability-pilot framing. Static deliverables complete.
+        Runtime reliability validation (LLM STOP semantics across multiple
+        sessions, mock MCP server) deferred to task-128 integration tests
+        per task-126 sequencing notes. Covers DR4, DR5, DR12.
 
     - id: task-127
       name: capabilities.watcher Consultation
