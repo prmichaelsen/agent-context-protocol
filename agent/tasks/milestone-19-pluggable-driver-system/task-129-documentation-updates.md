@@ -70,7 +70,7 @@ Add an entry under the next release version describing M19. Follow existing CHAN
 Once all three docs are updated, read through them to ensure:
 - Cross-references between docs are correct (AGENT.md → design doc; README → AGENT.md)
 - Terminology is consistent (e.g., "driver" vs "plugin" — design uses "driver" consistently; documentation should too)
-- No specific-driver project references slip in (per project convention; see also the rename done earlier)
+- No specific-driver project names slip in (per project convention; all examples use placeholders like `@<org>/<driver-name>`)
 
 ### 5. Optional: examples directory
 
@@ -99,7 +99,7 @@ Skip this if it would add scope; the AGENT.md section + design doc cover the can
 - [ ] AGENT.md section is concise (1-2 pages, not 10)
 - [ ] README.md addition is brief (1-2 paragraphs)
 - [ ] CHANGELOG entry follows existing format conventions
-- [ ] No specific-driver names (any specific-driver project) in any doc
+- [ ] No specific-driver project names appear in any doc
 - [ ] Cross-references resolve correctly
 - [ ] Backward-compat invariant called out explicitly
 
@@ -121,7 +121,7 @@ Skip this if it would add scope; the AGENT.md section + design doc cover the can
 
 - This task depends on all earlier M19 tasks completing. The docs describe what shipped; if any task gets descoped during implementation, update the docs to match.
 - The design doc (`agent/design/local.pluggable-driver-system.md`) remains the authoritative reference. AGENT.md and README are summaries pointing at it.
-- Do not include any specific-driver project's tool names anywhere in the public docs (per project convention). All examples use placeholder names like `@<org>/<driver-name>` and `<mint-tool-name>`.
+- Do not include any specific-driver project tool names anywhere in the public docs (per project convention). All examples use placeholder names like `@<org>/<driver-name>` and `<mint-tool-name>`.
 
 ---
 

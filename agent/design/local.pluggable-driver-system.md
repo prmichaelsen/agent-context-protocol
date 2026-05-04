@@ -182,7 +182,7 @@ function dispatch(role, args):
 
 For the workflow-override case, the dispatch happens at the command-file level (DR5 directive) rather than per-role.
 
-**Strict binding-first ordering**: when a binding exists for the role, consumer commands MUST dispatch through it and MUST NOT also read the corresponding ACP-owned state files "for safety." A bound driver may have removed those files outright (e.g., `progress.yaml` is deleted by `a driver's init step` in favor of project.db); reading them silently risks divergence from the driver's authoritative state.
+**Strict binding-first ordering**: when a binding exists for the role, consumer commands MUST dispatch through it and MUST NOT also read the corresponding ACP-owned state files "for safety." A bound driver may have removed those files outright (e.g., `progress.yaml` may be deleted by a driver's init step in favor of its own data layer); reading them silently risks divergence from the driver's authoritative state.
 
 **No silent failure on missing state**: if a consumer command's primary path (binding) is unavailable AND its fallback path (file read) is also unavailable — e.g., `query.run` unbound AND `agent/progress.yaml` missing — the command MUST surface a clear, actionable error pointing the user to the resolution (bind a driver, or restore the file). Returning empty results or a raw "file not found" stack trace is considered a bug, not a recoverable state.
 

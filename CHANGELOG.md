@@ -5,6 +5,21 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.42.0] - 2026-05-04
+
+### Added
+- **Driver Dispatch Directive pattern** (`agent/patterns/local.driver-dispatch-directive.md`) — canonical reusable snippet for in-step ext-point dispatch through `agent/driver.yaml` bindings. Establishes strict-binding-first ordering, explicit-error fallthrough, and workflow-execution-loop semantics (one-shot result vs. workflow-start response shapes). Three substitution points (`<EXT_POINT_ID>`, `<INPUT_SHAPE>`, `<FALLBACK_ACTION>`) make the snippet driver-agnostic — consumer commands resolve through `bindings.<id>` rather than naming any specific driver tool.
+- **Pilot deployment in `@acp.sync`** — Step 1.3 (Scan Metadata Markers) now wraps the `acp.meta-scan.sh` invocation with the `query.run` dispatch snippet. Driver-bound projects route through the bound query tool; driver-less projects continue to call the scanner script unchanged. Backward-compatible by construction.
+- **Driver dispatch documentation guarantees** — pattern doc explicitly forbids hardcoding driver tool names, silent fallthrough on tool error, reading fallback state alongside a successful binding dispatch, and returning empty results when both paths are unavailable. Anti-patterns documented with concrete examples.
+
+### Changed
+- **Renamed requirement IDs** `R<N>` → `FR<N>` across specs, tasks, designs, commands, and templates. Functional-requirement prefix clarifies cross-document references and aligns with new design-requirement (DR) ID prefix. Affects: AGENT.md, all command files, design docs, specs, task documents, milestones, templates, progress.yaml.
+- **Renamed design IDs** `D<N>` → `DR<N>` across the same surfaces; marker field `decisions:` → `design_requirements:`. Aligns design-requirement labels with FR-style fully-qualified cross-references (e.g., `design.<id>#DR-3`).
+- **Pluggable Driver System design** (`agent/design/local.pluggable-driver-system.md`) refined — driver-agnostic indirection through `bindings.<id>` formalized; scope clarification on `@acp.validate`'s lazy workflow-name validation.
+
+### Convention
+- **Documentation must remain driver-agnostic.** Framework documentation (patterns, designs, command files, schemas) MUST NOT name any specific driver project or its tool names. All examples use placeholders like `@<org>/<driver-name>` and `<mint-tool-name>`. The `bindings:` indirection is the only mechanism consumer commands use to resolve driver tools at dispatch time.
+
 ## [5.41.0] - 2026-04-28
 
 ### Added

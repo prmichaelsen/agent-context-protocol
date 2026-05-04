@@ -56,7 +56,7 @@ After dispatch:
 
 ### 3. Handle input-shape variability
 
-Different drivers will accept different query shapes — some drivers take SQL, others may take JSON DSL or structured filters. The dispatch snippet should not hardcode a query shape. Two valid approaches:
+Different drivers will accept different query shapes — some take SQL, others may take JSON DSL or structured filters. The dispatch snippet should not hardcode a query shape. Two valid approaches:
 
 **Approach A (preferred)**: pass natural-language intent in the input. The driver's tool description tells the LLM what shape the tool expects; the LLM translates intent → shape. Example: `query.run({intent: "all tasks where status=in_progress", milestone: "M6"})`.
 
@@ -72,10 +72,11 @@ Per command, exercise both paths:
 - **Unbound**: existing behavior preserved — grep/awk pipeline runs, command produces same output as today
 - **Bound (mock MCP server)**: dispatch invokes the mock; mock returns mock rows; command processes them and produces equivalent output
 
-### 6. Failure semantics for progress-state reads (added per prior cross-project handoff)
+### 6. Failure semantics for progress-state reads
 
 A driver may remove ACP-owned state files when bound — notably `progress.yaml`,
-which `a driver's init step` deletes outright in favor of project.db. Consumer commands
+which a driver's init step may delete outright in favor of its own data layer
+(e.g., a project-scoped database). Consumer commands
 that today read `progress.yaml` directly must follow strict binding-first
 order:
 
