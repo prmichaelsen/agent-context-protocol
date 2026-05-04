@@ -5,6 +5,27 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - 2026-05-04
+
+### BREAKING
+
+- **Git history rewritten across `mainline` and active dev branches** to remove all references to a specific external driver project from commit content (per project convention that framework documentation must remain driver-agnostic). All commit SHAs on `mainline`, `dev/prmichaelsen/project-registry-commands`, and `dev/prmichaelsen/yaml-array-operations` have changed. **File state at each branch tip is identical to pre-rewrite** — only the historical record differs.
+
+  **Action required for anyone with a clone:**
+  ```
+  git fetch origin
+  git checkout mainline
+  git reset --hard origin/mainline
+  # repeat for any other branches you have checked out locally
+  ```
+  Do NOT `git pull` or `git rebase` against the rewritten branches without first resetting; doing so will reintroduce the old commits via merge.
+
+  Rollback safety net: the original commit graph is preserved on `backup/pre-<a driver>-scrub-2026-05-04` (local-only, 2026-05-04 snapshot at original `98c11b7`).
+
+### Changed
+
+- Version bump from 5.42.0 → 6.0.0 reflects the breaking history rewrite, not new functionality. No code, schema, or behavior changes accompany this release. The 5.42.0 changes (Driver Dispatch Directive pattern, R→FR / D→DR rename sweep) are preserved at the rewritten tip with their original semantics.
+
 ## [5.42.0] - 2026-05-04
 
 ### Added
