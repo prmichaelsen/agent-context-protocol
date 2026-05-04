@@ -436,6 +436,16 @@ See [AGENT.md](./AGENT.md#experimental-features) for complete documentation.
 
 ---
 
+## Pluggable Drivers
+
+ACP supports binding exactly one external **MCP-server driver** per project. A driver is an MCP server that overrides specific ACP roles (marker authoring, structured queries, workflow execution) and replaces specific ACP commands with driver-defined workflows. Bind one when you want SQL-backed indexing, validated workflow execution, custom marker formats, or stateful between-step enforcement.
+
+Three steps to bind: install the driver's MCP server in your agent runtime, drop an `agent/driver.yaml` at the project root with bindings, run `@acp.validate`. Projects without `agent/driver.yaml` see zero behavior change — the driver system is opt-in by construction.
+
+See [AGENT.md](./AGENT.md#pluggable-drivers) for the full schema, the three ext points (`marker.mint`, `query.run`, `workflow.run`), the workflow-override mechanism, validation rules, and out-of-scope decisions. The design doc at [`agent/design/local.pluggable-driver-system.md`](./agent/design/local.pluggable-driver-system.md) is the authoritative reference.
+
+---
+
 ## Key File Index
 
 ACP includes a weighted key file index (`agent/index/`) that ensures agents read critical project files before making decisions. Each entry declares a file path, priority weight, and which commands should read it.

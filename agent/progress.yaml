@@ -385,11 +385,11 @@ milestones:
     name: Pluggable Driver System
     priority: 3
     status: in_progress
-    progress: 78
+    progress: 89
     started: 2026-05-04
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 7
+    tasks_completed: 8
     tasks_total: 9
     file: agent/milestones/milestone-19-pluggable-driver-system.md
     notes: |
@@ -2497,29 +2497,44 @@ progress:
     - id: task-128
       name: Integration Tests + Backward-Compat Verification
       priority: 3
-      status: not_started
+      status: in_progress
       file: agent/tasks/milestone-19-pluggable-driver-system/task-128-integration-and-backward-compat-tests.md
       estimated_hours: 4-6
-      started: null
+      started: 2026-05-04T08:15:00Z
       completed_date: null
       actual_hours: null
       notes: |
-        Build mock MCP server. 4 fixture categories. Bound + unbound + failure
-        injection. Backward-compat regression suite (full existing tests pass
-        unchanged). Reliability evidence for workflow override.
+        Partial — pure-shell parser tests landed at e2e/acp.driver-yaml.test.sh
+        (18 tests passing). Covers all 8 driver-yaml.sh helpers, edge cases
+        (absent file, empty file, unbound ext points, unmapped workflows),
+        and project-local-vs-global precedence. Task remains in_progress
+        for the runtime portions: mock MCP server build, integration tests
+        across all 3 ext points with the mock bound, failure-injection
+        scenarios (unreachable server, bad bindings, workflow.run errors),
+        and full backward-compat regression suite. These need a running
+        MCP runtime and are deferred to a follow-up session with that
+        infrastructure available.
 
     - id: task-129
       name: Documentation Updates
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-129-documentation-updates.md
       estimated_hours: 2-3
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T08:30:00Z
+      completed_date: 2026-05-04T08:40:00Z
+      actual_hours: 0.2
       notes: |
-        Update AGENT.md (new Pluggable Drivers section), README.md (brief mention),
-        CHANGELOG.md (M19 release entry). No private-driver names in docs.
+        Added "Pluggable Drivers" section to AGENT.md (between Key File Index
+        and Sample Prompts) — covers what/when/how to bind, three ext points,
+        workflow override, capabilities.watcher, validation, backward-compat
+        invariant, out-of-scope decisions, reserved directory, and pattern
+        references. README.md gained a brief Pluggable Drivers section
+        between Experimental Features and Key File Index with pointers to
+        AGENT.md and the design doc. CHANGELOG entries already accumulated
+        across 5.42.0, 6.1.0, 6.2.0, 6.3.0 documenting each task's release.
+        All examples use placeholders (@<org>/<driver-name>); no specific-
+        driver project names per project convention.
 
 recent_work:
   - date: 2026-05-01

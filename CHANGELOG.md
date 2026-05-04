@@ -5,6 +5,19 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.4.0] - 2026-05-04
+
+### Added
+
+- **`AGENT.md` — new "Pluggable Drivers" section** (M19 task-129 completed). Comprehensive user-facing documentation covering what a driver is, when to bind one, the three-step binding flow, the `agent/driver.yaml` schema with placeholders, the three ext points (`marker.mint`, `query.run`, `workflow.run`), workflow-as-command-override, `capabilities.watcher`, validation rules, backward-compat invariant, explicit out-of-scope decisions, reserved `agent/drivers/` directory, and pointers to all M19 patterns/schemas/templates. All examples use abstract placeholders — no specific-driver project names.
+- **`README.md` — Pluggable Drivers subsection** with a brief one-paragraph introduction and pointers to AGENT.md and the design doc.
+- **`e2e/acp.driver-yaml.test.sh` — parser test suite** (M19 task-128 partial). 18 shell tests covering all 8 helpers in `agent/scripts/acp.driver-yaml.sh`: presence detection (absent/empty/valid file cases), `get-driver-name`, `get-binding` for each ext point, `get-workflow`, `get-capability`, `list-bindings`, `list-workflows`, project-local vs `~/.acp/agent/driver.yaml` global precedence. All passing. Provides backward-compat coverage for the parser.
+
+### M19 Status
+
+- **8/9 tasks complete** (89%): 121, 122, 123, 124, 125, 126, 127, 129. Task 128 in_progress (parser tests landed; mock MCP server + runtime integration tests deferred to a follow-up session with MCP runtime infrastructure available — those tests need a real running MCP server, not pure shell).
+- M19 is functionally complete from a static-deliverables standpoint. Runtime validation of LLM dispatch reliability and end-to-end mock-driver flows remains the only outstanding work.
+
 ## [6.3.0] - 2026-05-04
 
 ### Added

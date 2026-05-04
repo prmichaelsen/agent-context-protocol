@@ -6,8 +6,9 @@ description: End-to-end tests covering every ext point with a mock MCP server bo
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 depends_on: task-121, task-122, task-123, task-124, task-125, task-126, task-127
-status: draft
-updated: 2026-05-01
+status: in_progress
+started: 2026-05-04T08:15:00Z
+updated: 2026-05-04
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
