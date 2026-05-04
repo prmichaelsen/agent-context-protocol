@@ -288,6 +288,20 @@ Generate clarification document from template:
   - Do NOT add a `**Status**` prose field. The marker supersedes it via `status:` and `resolved:`.
 - Fill in Items and Questions sections with generated questions
 - Include "How to Use This Document" section from template
+
+> **🔌 Driver Dispatch — `marker.mint`**
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.clarification` stamping below).
+> 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "clarification", context: {title: "<from earlier in this step>", resolves: "<target file path from earlier in this step>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
+>    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
+>    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints.
+>    - Assemble the marker block by comment-wrapping `marker_open` + fields + `marker_close` for markdown (`<!-- ... -->`).
+>    - Stamp the assembled block at the top of the new clarification file. **Do NOT also stamp `@acp.meta.clarification`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
+> 3. **Error handling:**
+>    - If the response contains an `"error"` key, surface and STOP. Do NOT fall through to step 4.
+>    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
+> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@acp.meta.clarification` marker block as described in the bullet immediately below.
+
 - **Populate the `@acp.meta.clarification` marker block** — the template ships with `{placeholder}` values; replace every one:
   - `topic:` — comma-separated keywords from the clarification title + source file topic
   - `resolves:` — path to the task/design/spec this clarification targets (from Step 2 or Step 3)

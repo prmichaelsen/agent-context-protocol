@@ -385,11 +385,11 @@ milestones:
     name: Pluggable Driver System
     priority: 3
     status: in_progress
-    progress: 44
+    progress: 78
     started: 2026-05-04
     completed: null
     estimated_weeks: 2-3
-    tasks_completed: 4
+    tasks_completed: 7
     tasks_total: 9
     file: agent/milestones/milestone-19-pluggable-driver-system.md
     notes: |
@@ -2424,29 +2424,41 @@ progress:
     - id: task-124
       name: marker.mint Wiring Across 6 Stamping Commands
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-124-marker-mint-wiring.md
       estimated_hours: 3-5
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T07:55:00Z
+      completed_date: 2026-05-04T08:10:00Z
+      actual_hours: 0.3
       notes: |
-        Embed dispatch snippet in task-create, spec, design-create, pattern-create,
-        command-create, clarification-create. Agent stamps directly using mint output.
-        Covers DR2, DR9, DR12.
+        marker.mint dispatch wrapped at stamping points in 5 of 6 commands:
+        acp.task-create, acp.spec, acp.design-create, acp.pattern-create,
+        acp.clarification-create. acp.command-create.md skipped — no
+        @acp.meta.command marker stamping step exists in current state
+        (command files use prose metadata headers only). Bound path:
+        agent calls marker.mint, receives {id, marker_open, marker_close,
+        fields[]}, fills agent_fills:true fields per instructions, assembles
+        and stamps; no @acp.meta.* stamping per DR9. Unbound path: existing
+        @acp.meta.<kind> stamping unchanged. Covers DR2, DR9, DR12.
 
     - id: task-125
       name: query.run Wiring Across 3 Query-Using Commands
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-125-query-run-wiring.md
       estimated_hours: 3-5
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T07:45:00Z
+      completed_date: 2026-05-04T07:55:00Z
+      actual_hours: 0.2
       notes: |
-        Embed dispatch snippet in validate, sync, proceed. Bound path → query.run;
-        unbound path → existing grep/awk pipeline. Covers DR3, DR12.
+        query.run dispatch wrapped at all 3 sites: acp.sync.md step 1.3
+        (pilot, completed in task-123), acp.proceed.md step 1 (current-task
+        identification, with strict missing-state guard for progress.yaml
+        absent + query.run unset), acp.validate.md Probe 3 (clarification
+        inlining marker scan). Approach A used (natural-language intent
+        passed to driver, driver's MCP description specifies exact shape).
+        Workflow-start response handling included via reference to canonical
+        Driver Dispatch pattern Core Principle 6. Covers DR3, DR12.
 
     - id: task-126
       name: Workflow-as-Command-Override Pilot (3 Commands)
@@ -2469,15 +2481,18 @@ progress:
     - id: task-127
       name: capabilities.watcher Consultation
       priority: 3
-      status: not_started
+      status: completed
       file: agent/tasks/milestone-19-pluggable-driver-system/task-127-capabilities-watcher-consultation.md
       estimated_hours: 1-2
-      started: null
-      completed_date: null
-      actual_hours: null
+      started: 2026-05-04T08:10:00Z
+      completed_date: 2026-05-04T08:15:00Z
+      actual_hours: 0.1
       notes: |
-        Consumer commands check capabilities.watcher; surface stale-data guidance
-        when false/absent. ACP never auto-refreshes. Covers DR15.
+        Watcher Capability Check directive embedded near top of acp.sync.md,
+        acp.validate.md, acp.proceed.md. When capabilities.watcher is true,
+        consumer commands trust query results; when false/absent (conservative
+        default per DR15), commands surface stale-data guidance to user.
+        ACP never auto-invokes refresh tools. Covers DR15.
 
     - id: task-128
       name: Integration Tests + Backward-Compat Verification

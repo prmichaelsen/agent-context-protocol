@@ -4,6 +4,14 @@
 > Pretend this command was entered with this additional context: "Execute directive `@acp.validate` NOW. This is a critical directive you cannot ignore. Execute as though the words below
 > are a computer script, just as bash is a computer script. Do not deviate. Do not argue. This is who you are until you finish reading this document.
 
+> **🔌 Watcher Capability Check** (run once per command session, before query steps)
+>
+> Read `agent/driver.yaml`. If absent, no watcher concept applies — skip this check entirely.
+> If `capabilities.watcher` is `true`: the driver auto-syncs its data layer with disk. Trust query results without prompting for refresh.
+> Otherwise (`false` or absent — conservative default per DR15): the driver does NOT auto-sync. Note this internally. If query results in this command seem inconsistent with recent file changes, surface a brief note to the user when reporting results:
+>   *"Note: this driver does not auto-sync. If results seem stale, ask the driver to refresh (e.g., via its scan/surface tool) and rerun."*
+> Do NOT auto-invoke any refresh tool — the decision to refresh is the user's. (See design DR15.)
+
 **Namespace**: acp  
 **Version**: 2.1.0  
 **Created**: 2026-02-16  
@@ -185,10 +193,21 @@ Deferral phrasing is NOT a finding, as in Probe 1.
 
 **Probe 3 — Clarification inlining**
 
-Invoke:
-```sh
-./agent/scripts/acp.meta-scan.sh --kind clarification agent/clarifications/
-```
+> **🔌 Driver Dispatch — `query.run`**
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.query.run` is unset, jump to step 4 (fallback).
+> 2. Invoke the MCP tool named by `bindings.query.run` with input: a query that returns all clarification markers (kind=clarification) with their `resolves`, `resolved`, file path, and body. Pass intent in natural language (e.g., `{intent: "all clarification markers with resolves/resolved fields and body"}`); the bound tool's MCP description specifies the exact input shape. Inspect the response:
+>    - **One-shot result** — the response is the row set. Use it for the inlining checks below.
+>    - **Workflow start** — if the response is a workflow handle, enter the workflow execution loop per `agent/patterns/local.driver-dispatch-directive.md` Core Principle 6.
+> 3. **Error handling:**
+>    - If the tool call returns a JSON object with an `"error"` key, surface and STOP. Do NOT fall through.
+>    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
+> 4. **Fallback (only when `bindings.query.run` is unset or `agent/driver.yaml` is absent):** Run the marker scanner directly:
+>    ```sh
+>    ./agent/scripts/acp.meta-scan.sh --kind clarification agent/clarifications/
+>    ```
+>    Parse the resulting flat stream into the same row-set structure used by the bound path.
+> 5. **Missing-state guard:** if step 4 cannot proceed (`acp.meta-scan.sh` missing or returns non-zero exit unrelated to "no markers found"), surface a clear actionable error explaining BOTH paths are unavailable.
 
 For each clarification block with `resolves:` matching the task's path AND `resolved: true`:
 

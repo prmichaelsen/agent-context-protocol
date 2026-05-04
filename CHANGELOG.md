@@ -5,6 +5,29 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.3.0] - 2026-05-04
+
+### Added
+
+- **`query.run` dispatch wired into `@acp.proceed` and `@acp.validate`** (M19 task-125 completed). `acp.sync.md` step 1.3 was the pilot in 5.42.0; this release extends the pattern to:
+  - `acp.proceed.md` step 1 (current-task identification) — driver-bound projects route through `bindings.query.run` to identify the next task; driver-less projects continue to read `agent/progress.yaml` directly. Strict missing-state guard surfaces an actionable error when `query.run` is unset AND `progress.yaml` is missing (rather than silently producing empty results).
+  - `acp.validate.md` Probe 3 (clarification inlining) — driver-bound projects route through `bindings.query.run` to fetch clarification markers; driver-less projects continue to invoke `acp.meta-scan.sh`.
+  - Approach A used (natural-language intent passed to driver; driver's MCP tool description specifies the exact input shape).
+- **`marker.mint` dispatch wired into 5 stamping commands** (M19 task-124 completed). Each command's `@acp.meta.<kind>` stamping step is now wrapped with the canonical Driver Dispatch directive:
+  - `acp.task-create.md` (kind: task)
+  - `acp.spec.md` (kind: spec)
+  - `acp.design-create.md` (kind: design)
+  - `acp.pattern-create.md` (kind: pattern)
+  - `acp.clarification-create.md` (kind: clarification)
+  - When bound, the agent invokes `marker.mint`, receives `{id, marker_open, marker_close, fields[]}`, fills `agent_fills:true` fields per the per-field `instructions`, assembles and stamps the driver-defined block. **Per DR9, no `@acp.meta.*` stamping when bound** — the driver fully owns the marker vocabulary.
+  - `acp.command-create.md` skipped — current-state command files use prose metadata headers, not `@acp.meta.command` markers. No stamping step exists to wrap.
+- **`capabilities.watcher` consultation** wired into `acp.sync.md`, `acp.validate.md`, `acp.proceed.md` (M19 task-127 completed). New `🔌 Watcher Capability Check` directive runs once per command session, near the top of each query-using command. When `capabilities.watcher` is `true`, commands trust query results; when `false` or absent (conservative default per DR15), commands surface a brief stale-data note in their output. ACP never auto-invokes a refresh tool — the user (or LLM) decides when to refresh.
+
+### M19 Status
+
+- **7/9 tasks complete** (78%): task-121 (Schema/Parser), task-122 (Validate Extension), task-123 (Routing Pattern), task-124 (marker.mint Wiring), task-125 (query.run Wiring), task-126 (Workflow Override Pilot), task-127 (capabilities.watcher).
+- Remaining: task-128 (integration tests — needs mock MCP server runtime), task-129 (AGENT.md / README documentation).
+
 ## [6.2.0] - 2026-05-04
 
 ### Added

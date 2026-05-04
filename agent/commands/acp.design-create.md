@@ -169,6 +169,19 @@ Create design file from template:
 
   Prose context surrounding a DR-ID is just context — do NOT assign DR-IDs to every paragraph. Only atomic units get IDs.
 
+> **🔌 Driver Dispatch — `marker.mint`**
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.design` stamping below).
+> 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "design", context: {title: "<from earlier in this step>", design_requirements: "<DR-IDs collected during DR labeling>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
+>    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
+>    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints.
+>    - Assemble the marker block by comment-wrapping `marker_open` + fields + `marker_close` for markdown (`<!-- ... -->`).
+>    - Stamp the assembled block at the top of the new design file. **Do NOT also stamp `@acp.meta.design`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
+> 3. **Error handling:**
+>    - If the response contains an `"error"` key, surface and STOP. Do NOT fall through to step 4.
+>    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
+> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@acp.meta.design` marker block as described in the bullet immediately below.
+
 - **Populate the `@acp.meta.design` marker block** — the template ships with `{placeholder}` values; every one MUST be replaced before saving:
   - `topic:` — comma-separated keywords from the design name + user description
   - `description:` — one-line summary, <=150 chars (truncate with `…` if needed)

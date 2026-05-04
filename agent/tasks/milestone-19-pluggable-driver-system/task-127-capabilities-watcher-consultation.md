@@ -7,8 +7,10 @@ milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR15
 depends_on: task-121, task-123
-status: draft
-updated: 2026-05-01
+status: completed
+started: 2026-05-04T08:10:00Z
+completed: 2026-05-04T08:15:00Z
+updated: 2026-05-04
 @acp.meta.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)

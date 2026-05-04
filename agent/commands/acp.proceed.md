@@ -39,6 +39,14 @@
 >
 > **This is an ACTION command, not a STATUS command.**
 
+> **🔌 Watcher Capability Check** (run once per command session, before query steps)
+>
+> Read `agent/driver.yaml`. If absent, no watcher concept applies — skip this check entirely.
+> If `capabilities.watcher` is `true`: the driver auto-syncs its data layer with disk. Trust query results without prompting for refresh.
+> Otherwise (`false` or absent — conservative default per DR15): the driver does NOT auto-sync. Note this internally. If query results in this command seem inconsistent with recent file changes, surface a brief note to the user when reporting results:
+>   *"Note: this driver does not auto-sync. If results seem stale, ask the driver to refresh (e.g., via its scan/surface tool) and rerun."*
+> Do NOT auto-invoke any refresh tool — the decision to refresh is the user's. (See design DR15.)
+
 **Namespace**: acp  
 **Version**: 2.1.0  
 **Created**: 2026-02-16  
@@ -249,10 +257,21 @@ Display the following informational header, then continue immediately:
 
 ### 1. Identify Current Task (30 seconds max)
 
+> **🔌 Driver Dispatch — `query.run`**
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.query.run` is unset, jump to step 4 (fallback).
+> 2. Invoke the MCP tool named by `bindings.query.run` with input: a query that returns the current milestone's tasks ordered by ID with their status, started timestamp, and file path. Pass the agent's intent in natural language (e.g., `{intent: "current milestone's tasks ordered by id with status, started, file"}`); consult the bound tool's MCP description for the exact input shape it accepts (SQL string, JSON DSL, structured filter — driver-defined). Inspect the response:
+>    - **One-shot result (typical for `query.run`)** — the response is the row set. Find the first task with status `in_progress` or `not_started`. Continue to status-update actions below.
+>    - **Workflow start** — if the response is a workflow handle (`execution_id` + `instruction` + `input_shape`), this step is BLOCKED until the workflow terminates. Enter the workflow execution loop per `agent/patterns/local.driver-dispatch-directive.md` Core Principle 6.
+> 3. **Error handling:**
+>    - If the tool call returns a JSON object with an `"error"` key, surface that message to the user and STOP this step. Do NOT fall through to step 4 — a failed dispatch is NOT permission to use the fallback.
+>    - If the tool call raises an MCP infrastructure exception (server unreachable, timeout), surface the exception and STOP. Same rule.
+> 4. **Fallback (only when `bindings.query.run` is unset or `agent/driver.yaml` is absent):** Read `agent/progress.yaml` directly and find the first task with status `in_progress` or `not_started` in the current milestone.
+> 5. **Missing-state guard:** if `bindings.query.run` is unset AND `agent/progress.yaml` is missing, surface a clear, actionable error: `"Cannot identify current task: no driver bound (query.run unset in agent/driver.yaml) AND agent/progress.yaml missing. Bind a driver in agent/driver.yaml, or restore agent/progress.yaml from agent/progress.template.yaml."` Do NOT silently produce empty results or fail with an opaque "file not found" trace.
+
 **Actions**:
-- Read `agent/progress.yaml`
-- Find first task with status `in_progress` or `not_started` in the current milestone
-- Read the task document
+- Use the task identification from the dispatch above (bound path) OR the direct `agent/progress.yaml` read (unbound path). Both produce the same downstream interface: a task record with id, status, started, file path.
+- Read the task document at the identified file path.
 
 **🚨 MANDATORY STATUS UPDATES (do these NOW, not later):**
 - **Task status**: If task status is `not_started`, set it to `in_progress` in progress.yaml immediately

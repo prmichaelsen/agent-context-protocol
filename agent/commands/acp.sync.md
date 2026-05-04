@@ -2,6 +2,14 @@
 
 > **🤖 Agent Directive**: If you are reading this file, the command `@acp.sync` has been invoked. Follow the steps below to execute this command.
 
+> **🔌 Watcher Capability Check** (run once per command session, before query steps)
+>
+> Read `agent/driver.yaml`. If absent, no watcher concept applies — skip this check entirely.
+> If `capabilities.watcher` is `true`: the driver auto-syncs its data layer with disk. Trust query results without prompting for refresh.
+> Otherwise (`false` or absent — conservative default per DR15): the driver does NOT auto-sync. Note this internally. If query results in this command seem inconsistent with recent file changes, surface a brief note to the user when reporting results:
+>   *"Note: this driver does not auto-sync. If results seem stale, ask the driver to refresh (e.g., via its scan/surface tool) and rerun."*
+> Do NOT auto-invoke any refresh tool — the decision to refresh is the user's. (See design DR15.)
+
 **Namespace**: acp  
 **Version**: 1.2.0  
 **Created**: 2026-02-16  
