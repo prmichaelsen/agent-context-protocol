@@ -5,6 +5,14 @@ All notable changes to the Agent Context Protocol will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.1] - 2026-05-05
+
+### Fixed
+
+- Removed remaining references to a specific external driver project from `CHANGELOG.md` and `agent/progress.yaml` (per project convention that framework documentation must remain driver-agnostic). The CHANGELOG entry for 7.2.0 retroactively had two such references (one in the M19-closure summary, one in the rollback-safety-net pointer); progress.yaml's task-128 notes had one. All replaced with abstract phrasing ("an external driver", "a local backup branch").
+- Local rollback branch renamed from a specific-driver-named slug to a generic `backup/pre-history-scrub-2026-05-04` slug. Local-only branch; no published refs affected.
+- Redundant local `repair/*` branch deleted (was identical to `mainline` after the prior history-scrub merge).
+
 ## [7.2.0] - 2026-05-04 — M19 Closed
 
 ### Milestone closure
@@ -33,7 +41,7 @@ If reliability issues surface in dogfooding, they surface as real bugs in the ac
 - `@acp.validate` Step 11.5 with all 4 DR6 rules + paired pre-condition
 - `capabilities.watcher` consultation in 3 query-using commands
 - AGENT.md "Pluggable Drivers" section + README pointer
-- Cross-project contract closed with <a driver> (8/8 items, all sequencing nuances resolved)
+- Cross-project driver-collaboration contract closed (8/8 items, all sequencing nuances resolved)
 
 ### Backward-compat invariant
 
@@ -226,7 +234,7 @@ See design doc `agent/design/local.pluggable-driver-system.md` (Future Considera
   ```
   Do NOT `git pull` or `git rebase` against the rewritten branches without first resetting; doing so will reintroduce the old commits via merge.
 
-  Rollback safety net: the original commit graph is preserved on `backup/pre-<a driver>-scrub-2026-05-04` (local-only, 2026-05-04 snapshot at original `98c11b7`).
+  Rollback safety net: the original commit graph is preserved on a local backup branch (2026-05-04 snapshot at original `98c11b7`).
 
 ### Changed
 

@@ -2511,14 +2511,14 @@ progress:
         without driver.yaml.
 
         Mock-MCP-server integration tests intentionally NOT built. Real-
-        world validation comes from direct dogfooding: <a driver> is being used
-        as a bound driver in a separate project, exercising every ext point
-        (marker.mint, query.run, workflow.run) and the top-of-file override
-        directive in production LLM sessions. Production usage is a
-        higher-fidelity reliability signal than synthetic mock-server
-        tests would be — particularly for the LLM STOP-semantic concern
-        in the workflow override directive, which only varies in real
-        sessions, not against scripted mocks.
+        world validation comes from direct dogfooding: an external driver
+        is being bound in a separate adoption project, exercising every
+        ext point (marker.mint, query.run, workflow.run) and the top-of-
+        file override directive in production LLM sessions. Production
+        usage is a higher-fidelity reliability signal than synthetic
+        mock-server tests would be — particularly for the LLM STOP-
+        semantic concern in the workflow override directive, which only
+        varies in real sessions, not against scripted mocks.
 
         Resolution: rather than building a mock-server scaffold (which
         would only re-validate what direct dogfooding already validates),
