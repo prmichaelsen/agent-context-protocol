@@ -1,0 +1,38 @@
+# ACP Package Registry
+# Known ACP packages available for installation via `acp package install`.
+#
+# To register your package, open a PR adding an entry to this file.
+# Required fields: name, description, repo, tags
+# Optional fields: author, homepage
+
+version: "1.0"
+
+packages:
+  - name: acp-core
+    description: >-
+      Agent Context Protocol — core commands, patterns, and utilities for AI
+      agent development. Includes workflow directives (proceed, plan, status,
+      handoff), schema definitions, and AGENT.md methodology documentation.
+    repo: https://github.com/prmichaelsen/agent-context-protocol.git
+    author: Patrick Michaelsen
+    homepage: https://github.com/prmichaelsen/agent-context-protocol
+    tags:
+      - acp
+      - core
+      - commands
+      - patterns
+      - workflow
+      - agent
+
+  - name: acp-test-package
+    description: >-
+      Minimal test package for validating ACP package install/update/remove
+      flows. Useful for development and integration testing of Acp tooling.
+    repo: https://github.com/prmichaelsen/acp-test-package.git
+    author: Patrick Michaelsen
+    homepage: https://github.com/prmichaelsen/acp-test-package
+    tags:
+      - test
+      - example
+      - demo
+      - minimal
