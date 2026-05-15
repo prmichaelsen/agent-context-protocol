@@ -1,12 +1,17 @@
 # {Pattern Name}
 
-<!-- @acp.meta.pattern
-topic: {comma-separated keywords}
-description: {one-line summary, <=150 chars}
-applies_to: {comma-separated contexts — e.g. data-access, auth, testing}
+<!-- @scry.entry
+id: pattern.{name}~{hash}
+kind: pattern
+summary: {one-line summary, <=150 chars}
 status: active
+weight: 0.7
+tags: [{comma-separated "topic:keyword" strings}]
+rationale: ""
+applies: {comma-separated contexts — e.g. data-access, auth, testing}
+seeded_questions: []
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Category**: [Architecture | Design | Code | Testing | Deployment]  
 

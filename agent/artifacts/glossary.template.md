@@ -1,12 +1,19 @@
 # [Project Name] Glossary
 
-<!-- @acp.meta.artifact
-topic: glossary, terminology
+<!-- @scry.entry
+id: research.{name}-glossary~{hash}
+kind: research
+summary: {one-line description of what terminology this glossary covers}
+status: active
+weight: 0.6
+tags: ["topic:glossary", "topic:terminology"]
+rationale: ""
+applies: ""
+seeded_questions: []
 last_verified: {YYYY-MM-DD}
 confidence: high
-status: active
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Type**: glossary
 **Created**: YYYY-MM-DD

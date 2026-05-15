@@ -1,12 +1,19 @@
 # [Reference Title]
 
-<!-- @acp.meta.artifact
-topic: {comma-separated keywords}
+<!-- @scry.entry
+id: research.{name}-reference~{hash}
+kind: research
+summary: {one-line description of what this reference covers}
+status: active
+weight: 0.6
+tags: [{comma-separated "topic:keyword" strings}]
+rationale: ""
+applies: ""
+seeded_questions: []
 last_verified: {YYYY-MM-DD}
 confidence: high
-status: active
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Type**: reference
 **Created**: YYYY-MM-DD

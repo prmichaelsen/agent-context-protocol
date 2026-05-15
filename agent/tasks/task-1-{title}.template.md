@@ -1,17 +1,23 @@
 # Task {N}: {Descriptive Task Name}
 
-<!-- @acp.meta.task
-topic: {comma-separated keywords}
-description: {one-line summary, <=150 chars}
+<!-- @scry.entry
+id: task.{name}~{hash}
+kind: task
+summary: {one-line summary, <=150 chars}
+status: draft
+weight: 0.6
+tags: [{comma-separated "topic:keyword" strings}]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M{N}
 spec: {agent/specs/{namespace}.{spec-name}.md or omit line if no spec}
 covers: {FR10, FR11 — FR-IDs (Functional Requirements) claimed from the spec, or omit if no spec}
 design: {agent/design/{namespace}.{name}.md or omit if no design}
 incorporates: {DR1, DR3 — DR-IDs (Design Requirements) incorporated from the design, or omit if none}
-depends_on: {task-17, task-19 or omit if none}
-status: draft
+depends_on: []
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M{N} - Milestone Name](../milestones/milestone-{N}-{name}.md)  
 **Design Reference**: [{Design Name}](../design/{namespace}.{design-name}.md) | None  

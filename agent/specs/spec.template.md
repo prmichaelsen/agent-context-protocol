@@ -1,12 +1,18 @@
 # Spec: {Spec Name}
 
-<!-- @acp.meta.spec
-topic: {comma-separated keywords — e.g. auth, sessions, tokens}
-description: {one-line summary, <=150 chars}
-functional_requirements: {FR1..FR<N> or FR1, FR3, FR7}
+<!-- @scry.entry
+id: spec.{name}~{hash}
+kind: spec
+summary: {one-line summary, <=150 chars}
 status: draft
+weight: 0.8
+tags: [{comma-separated "topic:keyword" strings — e.g. "topic:auth", "topic:sessions"}]
+rationale: ""
+applies: ""
+seeded_questions: []
+functional_requirements: {FR1..FR<N> or FR1, FR3, FR7}
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Namespace**: {namespace}  
 **Version**: 1.0.0  

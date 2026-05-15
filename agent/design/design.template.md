@@ -1,14 +1,20 @@
 # {Feature/Pattern Name}
 
-<!-- @acp.meta.design
-topic: {comma-separated keywords}
-description: {one-line summary, <=150 chars}
-informs: {agent/specs/{namespace}.{spec-name}.md or omit if no derived spec yet}
-depends_on: {other design paths or omit}
-design_requirements: {DR1..DR<N> or DR1, DR3, DR7 — omit if this design has no atomic units worth labeling}
+<!-- @scry.entry
+id: design.{name}~{hash}
+kind: design
+summary: {one-line summary, <=150 chars}
 status: draft
+weight: 0.7
+tags: [{comma-separated "topic:keyword" strings}]
+rationale: ""
+applies: ""
+seeded_questions: []
+informs: {agent/specs/{namespace}.{spec-name}.md or omit if no derived spec yet}
+depends_on: []
+design_requirements: {DR1..DR<N> or DR1, DR3, DR7 — omit if this design has no atomic units worth labeling}
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Concept**: [One-line description of what this design addresses]  
 **Created**: YYYY-MM-DD  

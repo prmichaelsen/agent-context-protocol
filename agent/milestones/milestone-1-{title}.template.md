@@ -1,13 +1,19 @@
 # Milestone {N}: {Descriptive Name}
 
-<!-- @acp.meta.milestone
-topic: {comma-separated keywords}
-description: {one-line summary, <=150 chars}
+<!-- @scry.entry
+id: milestone.{name}~{hash}
+kind: milestone
+summary: {one-line summary, <=150 chars}
+status: draft
+weight: 0.75
+tags: [{comma-separated "topic:keyword" strings}]
+rationale: ""
+applies: ""
+seeded_questions: []
 tasks: task-{M}..task-{K} or task-17, task-18, task-19
 spec: {agent/specs/{namespace}.{spec-name}.md or omit line if no spec}
-status: draft
 updated: {YYYY-MM-DD}
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Goal**: [One-line objective that clearly states what this milestone achieves]  
 **Duration**: [Estimated time: e.g., "1-2 weeks", "3-5 days"]  
