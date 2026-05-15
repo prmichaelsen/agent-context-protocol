@@ -470,7 +470,7 @@ updated: 2026-04-27
 # id: code.backfill-legacy~c3d4e5f6
 # kind: code
 # summary: Backfill legacy ACP meta markers to scry-spec v1.0 format
-# status: draft
+# status: active
 # weight: 0.5
 # tags: ["topic:migration", "topic:legacy"]
 # rationale: ""
