@@ -828,6 +828,7 @@ Commands are markdown files in [`agent/commands/`](agent/commands/) that contain
 
 Core ACP commands use the `acp.` prefix and are available in [`agent/commands/`](agent/commands/):
 
+- **[`@acp.help`](agent/commands/acp.help.md)** — show the full command catalog (48 commands, 8 categories)
 - **[`@acp.init`](agent/commands/acp.init.md)** - Initialize agent context (replaces "AGENT.md: Initialize")
 - **[`@acp.proceed`](agent/commands/acp.proceed.md)** - Continue with next task (replaces "AGENT.md: Proceed")
 - **[`@acp.status`](agent/commands/acp.status.md)** - Display project status

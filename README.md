@@ -361,6 +361,8 @@ This will:
 
 ### Available Commands
 
+**`@acp.help`** — show this catalog at any time (48 commands total)
+
 **Workflow Commands**:
 - **`@acp.resume`** ⭐ - Resume work (init + report + proceed)
 - **`@acp.init`** - Initialize agent context
