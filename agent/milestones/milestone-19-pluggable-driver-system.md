@@ -1,12 +1,24 @@
 # Milestone 19: Pluggable Driver System v1
 
-<!-- @acp.meta.milestone
-topic: pluggable-driver, mcp-tools, marker-mint, query-run, workflow-run, command-override, agent-driver-yaml
-description: Implement v1 contract for pluggable MCP-server drivers — agent/driver.yaml, three ext points, workflow override on 3 pilot commands
+<!-- @scry.entry
+id: milestone.pluggable-driver-system~10ffffe3
+kind: milestone
+summary: >
+  Implement v1 contract for pluggable MCP-server drivers — agent/driver.yaml,
+  three ext points, workflow override on 3 pilot commands.
+status: active
+weight: 0.75
+tags: ["topic:pluggable-driver", "topic:mcp-tools", "topic:marker-mint", "topic:query-run", "topic:workflow-run", "topic:command-override"]
+rationale: >
+  Enables external runtimes (e.g., scry-mcp) to override ACP's built-in
+  marker stamping, query, and workflow behaviors without forking core.
+applies: reviewing M19 scope, implementing driver integrations
+seeded_questions:
+  - "What ext points does M19 define?"
+  - "How does a project bind a driver?"
 tasks: task-121..task-129
-status: draft
 updated: 2026-05-01
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Goal**: Ship the v1 pluggable driver system: a project may bind one MCP-server driver via `agent/driver.yaml` to override marker stamping, query, and workflow execution, with override-with-fallback to `acp.core` defaults.
 **Duration**: 2-3 weeks (~22-34 hours of focused implementation work)

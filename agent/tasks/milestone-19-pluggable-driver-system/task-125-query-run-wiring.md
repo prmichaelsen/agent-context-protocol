@@ -1,17 +1,25 @@
 # Task 125: `query.run` Wiring Across 3 Query-Using Commands
 
-<!-- @acp.meta.task
-topic: query-run, dispatch, validate, sync, proceed
-description: Wire query.run dispatch into validate, sync, and proceed commands; route through driver when bound, fall back to grep/awk when unbound
+<!-- @scry.entry
+id: task.query-run-wiring~7f09b65f
+kind: task
+summary: >
+  Wire query.run dispatch into validate, sync, and proceed commands; route
+  through driver when bound, fall back to grep/awk when unbound.
+status: completed
+weight: 0.6
+tags: ["topic:query-run", "topic:dispatch", "topic:validate", "topic:sync", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR3, DR12
-depends_on: task-121, task-123
-status: completed
+depends_on: [task-121, task-123]
 started: 2026-05-04T07:45:00Z
 completed: 2026-05-04T07:55:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR3 (query.run contract), DR12 (commands updated)

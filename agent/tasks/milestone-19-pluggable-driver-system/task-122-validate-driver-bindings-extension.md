@@ -1,17 +1,25 @@
 # Task 122: `@acp.validate` Driver-Bindings Extension
 
-<!-- @acp.meta.task
-topic: acp-validate, driver-bindings, single-mcp-server, mint-query-pairing, mcp-catalog
-description: Extend @acp.validate to verify agent/driver.yaml bindings, single-MCP-server constraint, mint/query pairing, and tool reachability
+<!-- @scry.entry
+id: task.validate-driver-bindings~938108c5
+kind: task
+summary: >
+  Extend @acp.validate to verify agent/driver.yaml bindings, single-MCP-server
+  constraint, mint/query pairing, and tool reachability.
+status: completed
+weight: 0.6
+tags: ["topic:acp-validate", "topic:driver-bindings", "topic:single-mcp-server", "topic:mint-query-pairing", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR6, DR8
-depends_on: task-121
-status: completed
+depends_on: [task-121]
 started: 2026-05-04T07:20:00Z
 completed: 2026-05-04T07:40:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR6 (validation rules), DR8 (single-MCP-server enforcement)

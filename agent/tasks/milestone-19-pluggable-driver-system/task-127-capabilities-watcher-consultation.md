@@ -1,17 +1,25 @@
 # Task 127: `capabilities.watcher` Consultation in Consumer Commands
 
-<!-- @acp.meta.task
-topic: capabilities-watcher, data-freshness, consumer-commands, no-auto-refresh
-description: Consumer commands consult capabilities.watcher and surface stale-data guidance to the user when the driver does not auto-sync
+<!-- @scry.entry
+id: task.capabilities-watcher-consultation~d991332f
+kind: task
+summary: >
+  Consumer commands consult capabilities.watcher and surface stale-data guidance
+  to the user when the driver does not auto-sync.
+status: completed
+weight: 0.6
+tags: ["topic:capabilities-watcher", "topic:data-freshness", "topic:consumer-commands", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR15
-depends_on: task-121, task-123
-status: completed
+depends_on: [task-121, task-123]
 started: 2026-05-04T08:10:00Z
 completed: 2026-05-04T08:15:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR15 (capabilities.watcher)

@@ -1,12 +1,26 @@
 # Workflow Override Directive
 
-<!-- @acp.meta.pattern
-topic: workflow-override, command-override-directive, top-of-file-dispatch, llm-stop-reliability, pluggable-driver
-description: Top-of-file directive consumer commands embed to dispatch the entire command to a bound workflow.run tool when agent/driver.yaml maps the command, with strict STOP semantics that prevent the markdown fallback from running alongside dispatch
-applies_to: agent-commands, command-level-override, workflow-dispatch
+<!-- @scry.entry
+id: pattern.workflow-override-directive~57f42742
+kind: pattern
+summary: >
+  Top-of-file directive consumer commands embed to dispatch the entire command to a bound
+  workflow.run tool, with strict STOP semantics that prevent the markdown fallback from
+  running alongside dispatch.
 status: active
+weight: 0.7
+tags: ["topic:workflow-override", "topic:command-override-directive", "topic:top-of-file-dispatch", "topic:llm-stop-reliability", "topic:pluggable-driver"]
+rationale: >
+  Provides a single canonical pattern for command-level workflow override that enforces
+  strict STOP semantics — critical for preventing half-driver, half-markdown execution
+  when a workflow is dispatched.
+applies: implementing command-level workflow override in ACP commands, pluggable-driver integration
+seeded_questions:
+  - "What are the strict STOP semantics this directive enforces?"
+  - "How does this differ from the driver-dispatch-directive?"
+  - "Which commands use the workflow-override-directive in v1?"
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Category**: Architecture
 

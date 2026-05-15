@@ -1,13 +1,26 @@
 # Pluggable Driver System
 
-<!-- @acp.meta.design
-topic: pluggable-driver, mcp-tools, marker-mint, query-run, workflow-run, command-override, agent-driver-yaml, override-fallback
-description: Lets external MCP-server runtimes override ACP marker stamping, queries, and workflow execution per-project via a small bindings file
-depends_on: agent/clarifications/clarification-15-pluggable-driver-system.md
+<!-- @scry.entry
+id: design.pluggable-driver-system~a4ad45e6
+kind: design
+summary: >
+  Lets external MCP-server runtimes override ACP marker stamping, queries, and workflow
+  execution per-project via a small bindings file (agent/driver.yaml).
+status: active
+weight: 0.8
+tags: ["topic:pluggable-driver", "topic:mcp-tools", "topic:marker-mint", "topic:query-run", "topic:workflow-run", "topic:command-override", "topic:agent-driver-yaml", "topic:override-fallback"]
+rationale: >
+  Defines the complete architecture and decision record for the pluggable driver system
+  (M19): three ext-points, the override-with-fallback routing contract, and all DR1..DR16.
+applies: implementing driver bindings, understanding marker.mint/query.run/workflow.run, reviewing M19
+seeded_questions:
+  - "What are the three ext-points and when is each used?"
+  - "What is the backward-compatibility invariant for projects without agent/driver.yaml?"
+  - "How does workflow-override differ from marker.mint dispatch?"
+depends_on: ["agent/clarifications/clarification-15-pluggable-driver-system.md"]
 design_requirements: DR1..DR16
-status: draft
 updated: 2026-05-01
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Concept**: A bindings file + three ext-point IDs + a workflow-override mechanism that lets a single MCP-server "driver" replace ACP's built-in marker authoring, querying, and workflow execution per-project, with override-with-fallback routing.
 **Created**: 2026-05-01

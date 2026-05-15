@@ -1,16 +1,24 @@
 # Task 129: Documentation Updates
 
-<!-- @acp.meta.task
-topic: documentation, agent-md, readme, changelog, driver-system-docs
-description: Update AGENT.md, README.md, CHANGELOG.md to document the v1 pluggable driver system
+<!-- @scry.entry
+id: task.documentation-updates-pluggable-driver~65006806
+kind: task
+summary: >
+  Update AGENT.md, README.md, CHANGELOG.md to document the v1 pluggable
+  driver system.
+status: completed
+weight: 0.6
+tags: ["topic:documentation", "topic:agent-md", "topic:readme", "topic:changelog", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-depends_on: task-121, task-122, task-123, task-124, task-125, task-126, task-127, task-128
-status: completed
+depends_on: [task-121, task-122, task-123, task-124, task-125, task-126, task-127, task-128]
 started: 2026-05-04T08:30:00Z
 completed: 2026-05-04T08:40:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Estimated Time**: 2-3 hours

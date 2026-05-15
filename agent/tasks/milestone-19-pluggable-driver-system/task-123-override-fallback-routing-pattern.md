@@ -1,17 +1,25 @@
 # Task 123: Override-with-Fallback Routing Pattern
 
-<!-- @acp.meta.task
-topic: override-fallback, routing-pattern, directive-snippet, ext-point-dispatch
-description: Establish the reusable directive snippet consumer commands embed at the top of their files to dispatch to the bound driver tool or fall back to ACP defaults
+<!-- @scry.entry
+id: task.override-fallback-routing~7e5e20b5
+kind: task
+summary: >
+  Establish the reusable directive snippet consumer commands embed to dispatch
+  to the bound driver tool or fall back to ACP defaults.
+status: completed
+weight: 0.6
+tags: ["topic:override-fallback", "topic:routing-pattern", "topic:directive-snippet", "topic:ext-point-dispatch", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR7
-depends_on: task-121
-status: completed
+depends_on: [task-121]
 started: 2026-05-04T05:00:00Z
 completed: 2026-05-04T06:00:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR7 (override-with-fallback routing)

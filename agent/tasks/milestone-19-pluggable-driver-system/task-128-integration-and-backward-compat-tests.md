@@ -1,16 +1,24 @@
 # Task 128: Integration Tests + Backward-Compat Verification
 
-<!-- @acp.meta.task
-topic: integration-tests, backward-compat, mock-mcp-server, failure-injection
-description: End-to-end tests covering every ext point with a mock MCP server bound; backward-compat verification with no driver.yaml present
+<!-- @scry.entry
+id: task.integration-backward-compat-tests~b4193794
+kind: task
+summary: >
+  End-to-end tests covering every ext point with a mock MCP server bound;
+  backward-compat verification with no driver.yaml present.
+status: completed
+weight: 0.6
+tags: ["topic:integration-tests", "topic:backward-compat", "topic:mock-mcp-server", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
-depends_on: task-121, task-122, task-123, task-124, task-125, task-126, task-127
-status: completed
+depends_on: [task-121, task-122, task-123, task-124, task-125, task-126, task-127]
 started: 2026-05-04T08:15:00Z
 completed: 2026-05-04T09:00:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — Testing Strategy section

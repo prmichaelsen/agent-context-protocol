@@ -1,12 +1,24 @@
 # Driver Dispatch Directive
 
-<!-- @acp.meta.pattern
-topic: driver-dispatch, override-fallback, ext-point-routing, agent-directive, pluggable-driver
-description: Reusable directive snippet consumer commands embed to route an ext-point through a bound MCP tool with strict binding-first ordering and explicit-error fallthrough
-applies_to: agent-commands, ext-point-dispatch, driver-binding-routing
+<!-- @scry.entry
+id: pattern.driver-dispatch-directive~92c038e8
+kind: pattern
+summary: >
+  Reusable directive snippet consumer commands embed to route an ext-point through
+  a bound MCP tool with strict binding-first ordering and explicit-error fallthrough.
 status: active
+weight: 0.7
+tags: ["topic:driver-dispatch", "topic:override-fallback", "topic:ext-point-routing", "topic:pluggable-driver"]
+rationale: >
+  Centralizes the override-with-fallback dispatch pattern so every consumer command
+  applies it identically — no per-command divergence in routing order or error semantics.
+applies: implementing ext-point dispatch in ACP commands, reviewing driver-binding-routing
+seeded_questions:
+  - "What is the strict binding-first ordering this directive enforces?"
+  - "When should I embed this directive vs. the workflow-override-directive?"
+  - "What happens when marker.mint returns an error?"
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Category**: Architecture
 

@@ -1,17 +1,25 @@
 # Task 126: Workflow-as-Command-Override Pilot (3 Commands)
 
-<!-- @acp.meta.task
-topic: workflow-override, command-override-directive, pilot, llm-stop-reliability
-description: Add the top-of-file workflow-override directive to acp.task-create, acp.plan, acp.init; pilot dispatch-then-stop reliability before broader rollout
+<!-- @scry.entry
+id: task.workflow-override-pilot~6f423c18
+kind: task
+summary: >
+  Add the top-of-file workflow-override directive to acp.task-create, acp.plan,
+  acp.init; pilot dispatch-then-stop reliability before broader rollout.
+status: completed
+weight: 0.6
+tags: ["topic:workflow-override", "topic:command-override-directive", "topic:pilot", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR4, DR5, DR12
-depends_on: task-123
-status: completed
+depends_on: [task-123]
 started: 2026-05-04T06:30:00Z
 completed: 2026-05-04T06:50:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR4 (workflow.run contract), DR5 (workflow-as-command-override mechanism), DR12 (commands updated)

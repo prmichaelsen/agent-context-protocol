@@ -1,16 +1,24 @@
 # Task 121: Driver YAML Schema and Parser Support
 
-<!-- @acp.meta.task
-topic: driver-yaml, schema, yaml-parser, capabilities-watcher
-description: Define agent/driver.yaml schema and extend yaml-parser to load it; cover bindings, workflows, and capabilities.watcher
+<!-- @scry.entry
+id: task.driver-yaml-schema-parser~791b7456
+kind: task
+summary: >
+  Define agent/driver.yaml schema and extend yaml-parser to load it;
+  cover bindings, workflows, and capabilities.watcher.
+status: completed
+weight: 0.6
+tags: ["topic:driver-yaml", "topic:schema", "topic:yaml-parser", "topic:capabilities-watcher", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR1, DR15
-status: completed
 started: 2026-05-04T07:00:00Z
 completed: 2026-05-04T07:20:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR1 (driver.yaml schema), DR15 (capabilities.watcher)

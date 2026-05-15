@@ -1,17 +1,25 @@
 # Task 124: `marker.mint` Wiring Across 6 Stamping Commands
 
-<!-- @acp.meta.task
-topic: marker-mint, stamping, agent-stamps-directly, six-commands
-description: Wire marker.mint dispatch into the 6 ACP commands that stamp markers; agent stamps directly using mint output
+<!-- @scry.entry
+id: task.marker-mint-wiring~287660a9
+kind: task
+summary: >
+  Wire marker.mint dispatch into the 6 ACP commands that stamp markers;
+  agent stamps directly using mint output.
+status: completed
+weight: 0.6
+tags: ["topic:marker-mint", "topic:stamping", "topic:six-commands", "scope:m19"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M19
 design: agent/design/local.pluggable-driver-system.md
 incorporates: DR2, DR9, DR12
-depends_on: task-121, task-123
-status: completed
+depends_on: [task-121, task-123]
 started: 2026-05-04T07:55:00Z
 completed: 2026-05-04T08:10:00Z
 updated: 2026-05-04
-@acp.meta.end -->
+@scry.entry.end -->
 
 **Milestone**: [M19 - Pluggable Driver System](../../milestones/milestone-19-pluggable-driver-system.md)
 **Design Reference**: [Pluggable Driver System](../../design/local.pluggable-driver-system.md) — DR2 (mint contract), DR9 (marker authority transfer), DR12 (commands updated)
