@@ -6,6 +6,18 @@
 >
 > Follow the steps below to create a command file with proper namespace and automatic package updates.
 
+> **🔌 Driver Override Check** (TOP-OF-FILE — runs BEFORE any other step in this file)
+>
+> 1. Read `agent/driver.yaml`. If the file does not exist OR there is no `workflows.acp.command-create` mapping, jump to step 5 (fallback to the markdown steps below).
+> 2. Look up `bindings.workflow.run` — the MCP tool name this driver uses for workflow dispatch. If the mapping exists but `workflow.run` is unbound, surface a clear configuration error (`"workflows.acp.command-create is mapped but bindings.workflow.run is unset in agent/driver.yaml"`) and STOP.
+> 3. Invoke that MCP tool with input `{action: "start", workflow: <mapped-value>, args: <user-arguments-from-this-invocation>}`. The command is now BLOCKED — execute the workflow loop per the canonical pattern (`agent/patterns/local.driver-dispatch-directive.md`, Core Principle 6): follow each returned `instruction`, return the requested output to the same MCP tool, repeat until the workflow signals completion or termination. The workflow's final output IS this command's output. **STOP. Do NOT execute any of the markdown steps below.**
+> 4. **Error handling** (one-shot AND every loop iteration):
+>    - If any tool response contains an `"error"` key, surface that message to the user and STOP. Do NOT fall through to the markdown steps below — a failed dispatch is NOT permission to use the fallback.
+>    - If the tool call raises an MCP infrastructure exception (server unreachable, timeout), surface the exception and STOP. Same rule.
+> 5. **Fallback (only when `workflows.acp.command-create` is unmapped or `agent/driver.yaml` is absent):** Proceed to the markdown steps below as written — they describe ACP's default behavior for this command.
+>
+> ⚠️  **The rest of this file is the unbound-case fallback.** If the override block above dispatched a workflow (whether it completed successfully or errored), do NOT also execute the steps below. They are "execute only if step 5 above is the path you took."
+
 **Namespace**: acp  
 **Version**: 1.0.0  
 **Created**: 2026-02-21  
