@@ -526,8 +526,8 @@ See "DR-IDs for designs" below for labeling conventions.
 
 ACP uses **scry-spec v1.0 compliant parsers** — not a custom awk script. Two reference implementations are available:
 
-- **[scry-parse-py](https://pypi.org/project/scry-parse-py/)** (`pip install scry-parse-py`) — Python parser
-- **[scry-parse-ts](https://www.npmjs.com/package/scry-parse-ts)** (`npm install scry-parse-ts`) — TypeScript/Node parser
+- **[scry-parse](https://pypi.org/project/scry-parse/)** (`pip install scry-parse`) — Python parser
+- **[@prmichaelsen/scry-parse](https://www.npmjs.com/package/@prmichaelsen/scry-parse)** (`npm install @prmichaelsen/scry-parse`) — TypeScript/Node parser
 
 When a scry MCP driver is bound (e.g., `@scry/scry-mcp`), use `scry_sql` to query the indexed marker database:
 

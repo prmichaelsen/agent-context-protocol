@@ -99,8 +99,8 @@ silently preserve these; they do not break conformance.
 
 Use the official scry parsers to scan ACP artifact markers:
 
-- **Python**: `scry-parse-py` — https://pypi.org/project/scry-parse-py
-- **TypeScript/Node**: `scry-parse-ts` — https://www.npmjs.com/package/scry-parse-ts
+- **Python**: `scry-parse` — https://pypi.org/project/scry-parse
+- **TypeScript/Node**: `@prmichaelsen/scry-parse` — https://www.npmjs.com/package/@prmichaelsen/scry-parse
 
 If your project is bound to the scry MCP driver, query via `scry_sql`:
 
