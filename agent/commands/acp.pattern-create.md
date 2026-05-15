@@ -184,23 +184,28 @@ Create pattern file from template:
 
 > **🔌 Driver Dispatch — `marker.mint`**
 >
-> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.pattern` stamping below).
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@scry.entry` stamping below).
 > 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "pattern", context: {name: "<from earlier in this step>", description: "<from earlier in this step>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
 >    - **Filename**: Use the response's `id` verbatim as the new file's basename (e.g., `id: "pattern.repository-pattern~e5f6a7b8"` → file `pattern.repository-pattern~e5f6a7b8.md`). Place the file under `agent/patterns/`. **Do NOT compute a `local.<slug>.md` filename** — when `marker.mint` is bound, the driver owns the namespace and chooses the canonical id (typically with a uuid suffix for collision avoidance).
 >    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
 >    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints.
 >    - Assemble the marker block by comment-wrapping `marker_open` + fields + `marker_close` for markdown (`<!-- ... -->`).
->    - Stamp the assembled block at the top of the new pattern file. **Do NOT also stamp `@acp.meta.pattern`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
+>    - Stamp the assembled block at the top of the new pattern file. **Do NOT also stamp `@scry.entry`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
 > 3. **Error handling:**
 >    - If the response contains an `"error"` key, surface and STOP. Do NOT fall through to step 4.
 >    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
-> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@acp.meta.pattern` marker block as described in the bullet immediately below.
+> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@scry.entry` marker block as described in the bullet immediately below.
 
-- **Populate the `@acp.meta.pattern` marker block** — the template ships with `{placeholder}` values; replace every one:
-  - `topic:` — comma-separated keywords from the pattern name + description
-  - `description:` — one-line summary, <=150 chars
-  - `applies_to:` — comma-separated contexts (e.g. `data-access, auth, testing`) — from Step 3 user input
+- **Populate the `@scry.entry` marker block** — the template ships with `{placeholder}` values; replace every one. Use `scry_mint_with_check` with `kind=doc` and `prefix=pattern.{kebab-name}` to get the `id`:
+  - `id:` — minted via `scry_mint_with_check` (e.g. `pattern.repository-pattern~e5f6a7b8`)
+  - `kind:` — literal `pattern`
+  - `summary:` — one-line summary, <=150 chars
   - `status:` — literal `active`
+  - `weight:` — `0.7`
+  - `tags:` — YAML list of `"topic:keyword"` strings from the pattern name + description
+  - `rationale:` — one sentence on why this pattern matters
+  - `applies:` — comma-separated contexts (e.g. `data-access, auth, testing`) — from Step 3 user input
+  - `seeded_questions:` — 1-3 questions someone would ask when deciding whether to use this pattern
   - `updated:` — today's ISO date
   - No `{placeholder}` text may remain.
 - Save to `agent/patterns/{namespace}.{pattern-name}.md`

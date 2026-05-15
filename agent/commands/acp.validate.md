@@ -145,7 +145,7 @@ All findings are **soft warnings**. They never hard-fail validate; they appear i
 
 **Probe 1 — Spec inlining**
 
-For each incomplete task with `@acp.meta.task` marker fields `spec:` + `covers:`:
+For each incomplete task with `@scry.entry` marker fields `spec:` + `covers:`:
 
 1. Read the spec file from `spec:`.
 2. Locate each `FR<N>` listed in `covers:`.

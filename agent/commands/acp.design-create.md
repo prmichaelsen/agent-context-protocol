@@ -171,25 +171,31 @@ Create design file from template:
 
 > **🔌 Driver Dispatch — `marker.mint`**
 >
-> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.design` stamping below).
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@scry.entry` stamping below).
 > 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "design", context: {title: "<from earlier in this step>", design_requirements: "<DR-IDs collected during DR labeling>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
 >    - **Filename**: Use the response's `id` verbatim as the new file's basename (e.g., `id: "design.auth-flow~c9d8e7f6"` → file `design.auth-flow~c9d8e7f6.md`). Place the file under `agent/design/`. **Do NOT compute a `local.<slug>.md` filename** — when `marker.mint` is bound, the driver owns the namespace and chooses the canonical id (typically with a uuid suffix for collision avoidance).
 >    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
 >    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints.
 >    - Assemble the marker block by comment-wrapping `marker_open` + fields + `marker_close` for markdown (`<!-- ... -->`).
->    - Stamp the assembled block at the top of the new design file. **Do NOT also stamp `@acp.meta.design`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
+>    - Stamp the assembled block at the top of the new design file. **Do NOT also stamp `@scry.entry`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
 > 3. **Error handling:**
 >    - If the response contains an `"error"` key, surface and STOP. Do NOT fall through to step 4.
 >    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
-> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@acp.meta.design` marker block as described in the bullet immediately below.
+> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@scry.entry` marker block as described in the bullet immediately below.
 
-- **Populate the `@acp.meta.design` marker block** — the template ships with `{placeholder}` values; every one MUST be replaced before saving:
-  - `topic:` — comma-separated keywords from the design name + user description
-  - `description:` — one-line summary, <=150 chars (truncate with `…` if needed)
-  - `informs:` — if the user named a spec this design derived (or will derive) into, use that spec path; otherwise omit the line
-  - `depends_on:` — other design paths referenced (if any); otherwise omit
-  - `design_requirements:` — list or range of DR-IDs in the design. Use range form (`DR1..DR5`) when IDs are contiguous; list form (`DR1, DR3, DR7`) otherwise. OMIT this line entirely if the design has no DR-IDs (tiny designs may not need any).
+- **Populate the `@scry.entry` marker block** — the template ships with `{placeholder}` values; every one MUST be replaced before saving. Use `scry_mint_with_check` with `kind=doc` and `prefix=design.{kebab-name}` to get the `id`:
+  - `id:` — minted via `scry_mint_with_check` (e.g. `design.auth-flow~c9d8e7f6`)
+  - `kind:` — literal `design`
+  - `summary:` — one-line summary, <=150 chars
   - `status:` — literal `draft`
+  - `weight:` — `0.7` (designs are high-priority reference)
+  - `tags:` — YAML list of `"topic:keyword"` strings from the design name + user description
+  - `rationale:` — one sentence on why this design exists
+  - `applies:` — when to read this design (e.g. `implementing <feature>`)
+  - `seeded_questions:` — 1-3 questions a reader would ask about this design
+  - `informs:` — if the user named a spec this design derives into, use that spec path; otherwise omit
+  - `depends_on:` — other design paths referenced (if any); otherwise `[]`
+  - `design_requirements:` — list or range of DR-IDs in the design. OMIT if no DR-IDs.
   - `updated:` — today's ISO date
   - No `{placeholder}` text may remain.
 - Save to `agent/design/{namespace}.{design-name}.md`

@@ -221,7 +221,7 @@ Invoke the `@acp.design-reference` shared directive to discover and extract desi
   4. Flag any design gaps (suggest clarification if needed)
   5. Return structured data: design elements, gaps, and paths
 - Hold the returned design elements for use in Step 6
-- **Record DR-ID incorporation.** As you extract atomic design units, note their `DR<N>` IDs. If the design uses DR-IDs (look for `\*\*DR\d+[:\s*]` bold-prefix or `### DR\d+:` heading forms), record the specific DR-IDs you intend to inline in the task body. These become the `incorporates:` field in the task's `@acp.meta.task` marker during Step 6. If the design has no DR-IDs (legacy, pre-v5.41), skip this; validate will warn and suggest backfilling DR-IDs via `@acp.sync`.
+- **Record DR-ID incorporation.** As you extract atomic design units, note their `DR<N>` IDs. If the design uses DR-IDs (look for `\*\*DR\d+[:\s*]` bold-prefix or `### DR\d+:` heading forms), record the specific DR-IDs you intend to inline in the task body. These become the `incorporates:` field in the task's `@scry.entry` marker during Step 6. If the design has no DR-IDs (legacy, pre-v5.41), skip this; validate will warn and suggest backfilling DR-IDs via `@acp.sync`.
 
 **If no design found**: The directive warns and returns empty. Proceed to Step 6 with available context only (user input, draft, clarifications).  
 
@@ -235,9 +235,10 @@ Discover and extract requirements from any matching spec in `agent/specs/`, usin
 - Check if `agent/specs/` directory exists. If not, skip silently.
 - Invoke the marker scanner:
   ```sh
-  ./agent/scripts/acp.meta-scan.sh --kind spec agent/specs/
+  # Query scry for spec markers (scry-spec v1.0 compliant)
+  scry_sql "SELECT id, summary, tags FROM scry__doc WHERE kind = 'spec'"
   ```
-  This emits a flat stream of `file:` / `kind:` / `key:` lines (see `AGENT.md` "Metadata Markers" for the format), grouped by `---`. For each spec block, read its `topic:` and `description:` fields.
+  For each spec entry, read its `summary` and `tags` fields. (Fallback if scry is unavailable: scan `agent/specs/*.md` by filename and `## Requirements` sections.)
 - Match each spec's `topic:` keywords against the current task's topic (task name + milestone name + design document name from Step 5.5). A spec is a candidate if at least one keyword overlaps.
 - **Open only the candidate specs** (typically 1-3 out of however many exist). For each candidate:
   1. Parse the `## Requirements` section verbatim. Each requirement has an ID like `FR1`, `FR2`, ..., `FR<N>`. Extract ID + one-line description.
@@ -258,7 +259,7 @@ Discover and extract requirements from any matching spec in `agent/specs/`, usin
   ```
 - Hold this data for use in Step 6.
 
-**If `acp.meta-scan.sh` returns no output**: No specs have markers. Fall back to the legacy path (scan `agent/specs/*.md` by filename and `## Requirements` sections) and warn the user that spec markers should be backfilled via `@acp.sync` Step 1.4.
+**If scry returns no spec entries**: No specs have scry markers. Fall back to scanning `agent/specs/*.md` by filename and `## Requirements` sections, and warn the user that spec markers should be migrated to `@scry.entry` format.
 
 **If no spec matches the task topic**: Skip silently. The `Spec Coverage` section in the task file is omitted entirely (not left as scaffolding). Proceed to Step 6.  
 
@@ -280,30 +281,36 @@ Create task file from template:
 - Copy from task template (agent/tasks/task-1-{title}.template.md)
 > **🔌 Driver Dispatch — `marker.mint`**
 >
-> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.task` stamping below).
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@scry.entry` stamping below).
 > 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "task", context: {milestone_id: "<from earlier in this step>", title: "<from earlier in this step>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
 >    - **Filename**: Use the response's `id` verbatim as the new file's basename (e.g., `id: "task.implement-watcher~d8c4a1f7"` → file `task.implement-watcher~d8c4a1f7.md`). Place the file under `agent/tasks/<milestone_id>/` (or `agent/tasks/unassigned/` if no milestone). **Do NOT compute a sequential `task-<N>` filename** — when `marker.mint` is bound, the driver owns the namespace and chooses the canonical id (typically with a uuid suffix for collision avoidance).
 >    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
 >    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints (the LLM generates semantic content — summary, rationale, weight, etc.).
 >    - Assemble the marker block by comment-wrapping `marker_open` + the fields + `marker_close` for the target language (markdown → `<!-- ... -->`).
->    - Stamp the assembled block at the top of the new task file. **Do NOT also stamp `@acp.meta.task`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
+>    - Stamp the assembled block at the top of the new task file. **Do NOT also stamp `@scry.entry`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
 > 3. **Error handling:**
 >    - If the response contains an `"error"` key, surface and STOP. Do NOT fall through to step 4.
 >    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
-> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@acp.meta.task` marker block as described in the bullet immediately below.
+> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@scry.entry` marker block as described in the bullet immediately below.
 
-- **Populate the `@acp.meta.task` marker block at the top** — the template ships with `{placeholder}` values; every one of them MUST be replaced before saving:
-  - `topic:` — comma-separated keywords derived from task name + milestone name (reuse the keywords computed for Step 5.5/5.6)
-  - `description:` — user-provided task description from Step 4, one line, <=150 chars (truncate with `…` if needed)
-  - `milestone:` — milestone ID string (e.g. `M10`) from Step 1. If no milestone, omit the line entirely.
-  - `spec:` — the spec path from Step 5.6 if a matching spec was found, otherwise OMIT the line entirely
-  - `covers:` — comma-separated FR-IDs from Step 5.6 (e.g. `FR10, FR11, FR12`), otherwise OMIT the line entirely
-  - `design:` — the design path from Step 5.5 if a design was found, otherwise OMIT the line entirely
-  - `incorporates:` — comma-separated DR-IDs from the design that this task actually inlines (e.g. `DR1, DR3, DR7`). When Step 5.5 extracts design content for inlining, record the specific `DR<N>` IDs of the atomic units being copied into the task body. If the design has DR-IDs but none are being inlined, OMIT the line. If the design has no DR-IDs yet (legacy), OMIT; validate will fall back to a holistic check and may suggest running `@acp.sync` to backfill DR-IDs.
-  - `depends_on:` — task IDs from Step 4 dependencies (e.g. `task-17, task-19`), otherwise OMIT the line entirely
+- **Populate the `@scry.entry` marker block at the top** — the template ships with `{placeholder}` values; every one of them MUST be replaced before saving. Use `scry_mint_with_check` with `kind=doc` and `prefix=task.{kebab-task-name}` to get the canonical `id`:
+  - `id:` — minted via `scry_mint_with_check` (e.g. `task.implement-auth~a1b2c3d4`)
+  - `kind:` — literal `task`
+  - `summary:` — user-provided task description from Step 4, one line, <=150 chars
   - `status:` — literal `draft`
+  - `weight:` — `0.6` (default for tasks; raise to 0.8 for critical-path tasks)
+  - `tags:` — YAML list of `"topic:keyword"` strings derived from task name + milestone name
+  - `rationale:` — one sentence explaining why this task is needed (or `""` if not obvious)
+  - `applies:` — `""` (tasks are looked up by ID, not by context trigger)
+  - `seeded_questions:` — `[]` (or add 1-3 questions that would help a sub-agent)
+  - `milestone:` — milestone ID string (e.g. `M10`) from Step 1. If no milestone, omit the line entirely.
+  - `spec:` — the spec path from Step 5.6 if a matching spec was found, otherwise OMIT
+  - `covers:` — comma-separated FR-IDs from Step 5.6 (e.g. `FR10, FR11, FR12`), otherwise OMIT
+  - `design:` — the design path from Step 5.5 if a design was found, otherwise OMIT
+  - `incorporates:` — comma-separated DR-IDs from the design that this task actually inlines (e.g. `DR1, DR3, DR7`). When Step 5.5 extracts design content for inlining, record the specific `DR<N>` IDs of the atomic units being copied into the task body. If the design has DR-IDs but none are being inlined, OMIT. If the design has no DR-IDs yet (legacy), OMIT.
+  - `depends_on:` — YAML list of task IDs (e.g. `[task-17, task-19]`), otherwise `[]`
   - `updated:` — today's ISO date (`YYYY-MM-DD`)
-  - **Do not leave any `{placeholder}` text in the marker block.** An incomplete marker is worse than no marker — it pollutes the parser stream.
+  - **Do not leave any `{placeholder}` text in the marker block.** An incomplete marker is worse than no marker — it breaks scry parsing.
 - Fill in metadata:
   - Task number and name
   - Milestone link
@@ -423,7 +430,7 @@ Estimated Time: {hours}
 
 ✓ Task file created
 ✓ progress.yaml updated
-✓ @acp.meta.task marker populated (verified no {placeholder} text remains)
+✓ @scry.entry marker populated (verified no {placeholder} text remains)
 ✓ Draft file deleted (if requested)
 
 Next steps:
@@ -466,8 +473,8 @@ If yes, prompt for weight, description, rationale, and applies values. Add entry
 - [ ] `User-Observable Acceptance` section present and populated (at least one criterion OR justified N/A)
 - [ ] `Spec Coverage` section present if a matching spec was found in Step 5.6; absent otherwise
 - [ ] Spec requirements (when present) copied verbatim from `agent/specs/` — not paraphrased
-- [ ] `@acp.meta.task` marker block fully populated — every `{placeholder}` replaced, `updated:` is today's date, optional lines (`spec:`, `covers:`, `depends_on:`) omitted if not applicable
-- [ ] Running `./agent/scripts/acp.meta-scan.sh --kind task <task-path>` returns the task's metadata correctly
+- [ ] `@scry.entry` marker block fully populated — every `{placeholder}` replaced, `id:` minted via `scry_mint_with_check`, `updated:` is today's date, optional lines (`spec:`, `covers:`, `depends_on:`) omitted if not applicable
+- [ ] Scry can parse the marker: `scry_sql "SELECT id, kind, summary FROM scry__doc WHERE id LIKE 'task.%'" ` returns this task's entry
 
 ---
 

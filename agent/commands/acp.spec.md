@@ -218,7 +218,7 @@ Create the spec file.
 - If `agent/specs/spec.template.md` exists, use it as the base
 - Otherwise, use this default structure:
   - Title
-  - **`@acp.meta.spec` marker block** (immediately after the title — see population rules below)
+  - **`@scry.entry` marker block** (immediately after the title — see population rules below)
   - Directive header (template-style)
   - Metadata block (Namespace, Version, Created, Last Updated, Status)
   - **Purpose** (one line)
@@ -245,23 +245,29 @@ Create the spec file.
 
 > **🔌 Driver Dispatch — `marker.mint`**
 >
-> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@acp.meta.spec` stamping below).
+> 1. Read `agent/driver.yaml`. If the file does not exist, OR `bindings.marker.mint` is unset, jump to step 4 (fallback to the `@scry.entry` stamping below).
 > 2. Invoke the MCP tool named by `bindings.marker.mint` with input: `{kind: "spec", context: {title: "<from earlier in this step>", scope: "<from earlier in this step>"}}`. The response is one-shot `{id, marker_open, marker_close, fields: [...]}` (or a workflow handle — handle per Core Principle 6 of `agent/patterns/local.driver-dispatch-directive.md`).
 >    - **Filename**: Use the response's `id` verbatim as the new file's basename (e.g., `id: "spec.detector-validation~a1b2c3d4"` → file `spec.detector-validation~a1b2c3d4.md`). Place the file under `agent/specs/`. **Do NOT compute a `local.<slug>.md` filename** — when `marker.mint` is bound, the driver owns the namespace and chooses the canonical id (typically with a uuid suffix for collision avoidance).
 >    - For each field with `agent_fills: false`: use the supplied `value` verbatim.
 >    - For each field with `agent_fills: true` (implied by `instructions`): read the field's `instructions` and produce a value matching its `type` and `required` constraints.
 >    - Assemble the marker block by comment-wrapping `marker_open` + fields + `marker_close` for markdown (`<!-- ... -->`).
->    - Stamp the assembled block at the top of the new spec file. **Do NOT also stamp `@acp.meta.spec`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
+>    - Stamp the assembled block at the top of the new spec file. **Do NOT also stamp `@scry.entry`** — per DR9, when `marker.mint` is bound, the driver owns the marker vocabulary exclusively.
 > 3. **Error handling:**
 >    - If the response contains an `"error"` key, surface and STOP. Do NOT fall through to step 4.
 >    - If the tool call raises an MCP infrastructure exception, surface and STOP. Same rule.
-> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@acp.meta.spec` marker block as described in the bullet immediately below.
+> 4. **Fallback (only when `bindings.marker.mint` is unset or `agent/driver.yaml` is absent):** Populate the `@scry.entry` marker block as described in the bullet immediately below.
 
-- **Populate the `@acp.meta.spec` marker block** (if `spec.template.md` supplied one, replace its `{placeholder}` values; otherwise insert a fresh block):
-  - `topic:` — comma-separated keywords derived from the spec title + user-provided scope keywords from Step 5
-  - `description:` — one-line summary from the spec's `## Purpose` section, <=150 chars (truncate with `…` if needed)
-  - `functional_requirements:` — computed from the final `## Requirements` count. If the spec has N sequential requirements FR1..FR<N>, write `FR1..FR<N>`. If the requirement IDs are non-contiguous (rare), enumerate them: `FR1, FR3, FR7`.
+- **Populate the `@scry.entry` marker block** (if `spec.template.md` supplied one, replace its `{placeholder}` values; otherwise insert a fresh block). Use `scry_mint_with_check` with `kind=doc` and `prefix=spec.{kebab-name}` to get the `id`:
+  - `id:` — minted via `scry_mint_with_check` (e.g. `spec.detector-validation~a1b2c3d4`)
+  - `kind:` — literal `spec`
+  - `summary:` — one-line summary from the spec's `## Purpose` section, <=150 chars
   - `status:` — literal `draft`
+  - `weight:` — `0.8` (specs are high-priority reference)
+  - `tags:` — YAML list of `"topic:keyword"` strings derived from the spec title + scope keywords
+  - `rationale:` — one sentence on why this spec exists
+  - `applies:` — when to read this spec (e.g. `implementing <feature>, adding <capability>`)
+  - `seeded_questions:` — 1-3 questions a sub-agent implementing this spec would ask
+  - `functional_requirements:` — computed from the final `## Requirements` count (`FR1..FR<N>` or enumerated)
   - `updated:` — today's ISO date (`YYYY-MM-DD`)
   - No `{placeholder}` text must remain in the marker block.
 - Save the file
