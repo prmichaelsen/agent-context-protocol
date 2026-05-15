@@ -206,7 +206,39 @@ many reasons I recommend Claude over any other agent provider).
 
 ## Quick Start
 
-### Requirements
+### Preferred: `acp` CLI (Python)
+
+Install the `acp` CLI via [uv](https://docs.astral.sh/uv/):
+
+```bash
+uv tool install agent-context-mcp
+```
+
+This registers the `acp` CLI command and the `agent-context-mcp` MCP server (auto-discovered by Claude Code and compatible MCP clients).
+
+**Requirements**: Python 3.10+, `git` 2.x+ on PATH.
+
+```bash
+# Bootstrap a new ACP project
+acp init .
+
+# Check if project is behind mainline
+acp version check
+
+# Refresh project templates from mainline
+acp version update
+
+# Search the package registry
+acp package search firebase
+```
+
+See the [acp-mcp README](https://github.com/prmichaelsen/acp-mcp) for full CLI and MCP documentation.
+
+### Alternative: Bash scripts (legacy)
+
+If you prefer not to install Python tooling, the bash install path still works:
+
+#### Requirements
 
 - **OS**: Linux or macOS
 - **Shell**: Bash 4+ (`bash --version` to check)
@@ -214,13 +246,13 @@ many reasons I recommend Claude over any other agent provider).
 
 > macOS note: The default `/bin/bash` on macOS is 3.2. Homebrew's bash (`/opt/homebrew/bin/bash` or `/usr/local/bin/bash`) is typically 5.x and works out of the box.
 
-### Bootstrap a New Project
+#### Bootstrap a New Project
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/prmichaelsen/agent-context-protocol/mainline/agent/scripts/acp.install.sh | bash
 ```
 
-### Update an Existing Project
+#### Update an Existing Project
 
 You can update an existing project via `@acp.version-update` command or by running the update script directly:
 
