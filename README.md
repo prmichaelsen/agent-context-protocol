@@ -651,6 +651,19 @@ Contributions are welcome! Please:
 
 ---
 
+## Scry spec v1.0 conformance
+
+ACP declares conformance to **[scry-spec v1.0](https://github.com/prmichaelsen/scry-spec)**.
+
+All ACP artifact markers use `@scry.entry` / `@scry.entry.end` sentinels with a YAML body
+conforming to the scry-spec v1.0 schema. ACP custom kinds (`clarification`) and custom fields
+(`milestone`, `design_requirements`, `incorporates`, `covers`) are carried as scry extension
+fields per spec FR 10–11.
+
+See [CONFORMANCE.md](./CONFORMANCE.md) for the full conformance declaration.
+
+---
+
 ## License
 
 MIT License - See [LICENSE](./LICENSE) for details

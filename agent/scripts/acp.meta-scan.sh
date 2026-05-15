@@ -1,4 +1,22 @@
 #!/usr/bin/env bash
+# DEPRECATED — acp.meta-scan.sh
+#
+# This script scanned for @acp.meta.* markers. That marker format has been
+# retired. ACP now uses @scry.entry markers (scry-spec v1.0) for all artifact
+# metadata.
+#
+# Replace with:
+#   scry-parse-py  — https://pypi.org/project/scry-parse-py
+#   scry-parse-ts  — https://www.npmjs.com/package/scry-parse-ts
+#
+# Or, if your project is bound to the scry MCP driver, query via scry_sql:
+#   SELECT id, kind, summary FROM scry__doc WHERE kind = 'task'
+#
+# This file is retained for historical reference only. It will not produce
+# useful output on a migrated codebase.
+#
+# ============================================================================
+# ORIGINAL DOCUMENTATION (historical):
 # acp.meta-scan.sh — find and parse @acp.meta.* markers across any file type.
 #
 # Markers are language-agnostic metadata blocks of the form:

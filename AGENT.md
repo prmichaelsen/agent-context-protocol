@@ -415,117 +415,140 @@ current_blockers:
 
 ## Metadata Markers
 
-ACP documents (and optionally source code files) carry machine-readable **metadata markers** that let orchestrators map the repo in one pass instead of reading every file. A single awk script parses markers across any language — markdown, TypeScript, Python, Rust, SQL, shell, YAML — so spec→task→code traceability works uniformly.
+ACP documents (and optionally source code files) carry machine-readable **metadata markers** conforming to **scry-spec v1.0**. Markers let agents and tools answer questions like "what tasks implement this requirement?" or "what spec covers this code?" by following lightweight pointers between source code and documentation. ACP declares conformance to scry-spec v1.0 — see `CONFORMANCE.md` for the full declaration.
 
 ### Sentinel syntax
 
-Every marker has two literal sentinels:
+Every marker is a `@scry.entry` block — the primary artifact marker from scry-spec v1.0:
 
-- **Opening**: `@acp.meta.<kind>` where `<kind>` is one of: `spec`, `task`, `design`, `milestone`, `pattern`, `clarification`, `artifact`, `code`
-- **Closing**: `@acp.meta.end`
+- **Opening**: `@scry.entry`
+- **Closing**: `@scry.entry.end`
 
-Authors wrap both sentinels and each body line in the host language's comment syntax. The parser strips the comment characters before extracting fields.
+Authors wrap both sentinels and each body line in the host language's comment syntax. Parsers strip comment characters before extracting the YAML body.
 
 ### Per-language forms
 
-Same marker, five languages:
+Same marker, three common languages:
 
 **Markdown** (`<!-- ... -->`):
 ```markdown
-<!-- @acp.meta.task
-topic: wire awk parser into sync
+<!-- @scry.entry
+id: task.wire-marker-parser~a1b2c3d4
+kind: task
+summary: Wire scry marker parser into sync and validate commands
+status: active
+weight: 0.6
+tags: ["topic:marker-parser", "topic:sync", "scope:m3"]
+rationale: ""
+applies: ""
+seeded_questions: []
 milestone: M3
 covers: FR31, FR32
-status: in_progress
 updated: 2026-04-27
-@acp.meta.end -->
+@scry.entry.end -->
 ```
 
 **TypeScript / JS / Rust / Go** (`// ...`):
 ```ts
-// @acp.meta.code
-// topic: marker parser util
-// implements: FR31, FR32
-// spec: agent/specs/local.marker-system.md
-// file_role: util
-// status: implemented
-// updated: 2026-04-27
-// @acp.meta.end
+// @scry.entry
+// id: code.marker-parser-util~b2c3d4e5
+// kind: code
+// summary: Marker parser utility — strips comment prefixes and extracts YAML body
+// status: active
+// weight: 0.5
+// tags: ["topic:marker-parser", "topic:util"]
+// rationale: ""
+// applies: ""
+// seeded_questions: []
+// implements: spec.marker-system~abcd1234#FR31
+// @scry.entry.end
 ```
 
 **Python / Shell / YAML** (`# ...`):
 ```python
-# @acp.meta.code
-# topic: backfill legacy files
-# implements: FR40
-# file_role: cli
+# @scry.entry
+# id: code.backfill-legacy~c3d4e5f6
+# kind: code
+# summary: Backfill legacy ACP meta markers to scry-spec v1.0 format
 # status: draft
-# updated: 2026-04-27
-# @acp.meta.end
+# weight: 0.5
+# tags: ["topic:migration", "topic:legacy"]
+# rationale: ""
+# applies: ""
+# seeded_questions: []
+# @scry.entry.end
 ```
 
-**SQL / Haskell** (`-- ...`):
-```sql
--- @acp.meta.code
--- topic: migration for spec_coverage table
--- implements: FR42
--- file_role: migration
--- status: implemented
--- updated: 2026-04-27
--- @acp.meta.end
-```
+### Body fields (scry-spec v1.0 schema)
 
-**Lisp / Clojure** (`;; ...`) and **OCaml / Elm** (`(* ... *)`) follow the same pattern.
+The marker body is YAML. Required fields for `@scry.entry`:
 
-### Body fields
-
-Each field is `key: value` on its own line. List values use comma-separated inline form (`covers: FR10, FR11, FR12`). No YAML block syntax — keep the parser trivial.
-
-### Field catalog per kind
-
-| kind | required | optional |
+| Field | Required | Description |
 |---|---|---|
-| `spec` | topic, description, requirements, status, updated | phases, supersedes, depends_on |
-| `task` | topic, description, milestone, spec, covers, status, updated | design, incorporates, depends_on |
-| `design` | topic, description, informs, status, updated | decisions, depends_on |
-| `milestone` | topic, description, tasks, status, updated | spec |
-| `pattern` | topic, description, applies_to, status, updated | — |
-| `clarification` | topic, resolves, status, updated | resolved |
-| `artifact` | topic, last_verified, confidence, status, updated | — |
-| `code` | topic, implements, spec, file_role, status, updated | — |
+| `id` | yes (non-empty) | Unique ID in `{kind}.{name}~{hash}` format — **always mint via `scry_mint_with_check`** |
+| `kind` | yes (non-empty) | Artifact type (see table below) |
+| `summary` | yes (non-empty) | One-line description |
+| `status` | yes (non-empty) | Lifecycle state |
+| `weight` | yes (empty OK) | Priority 0.0–1.0 (default 0.5 if omitted) |
+| `tags` | yes (empty OK) | YAML list e.g. `["topic:auth", "scope:m3"]` |
+| `rationale` | yes (empty OK) | Why this artifact exists |
+| `applies` | yes (empty OK) | When/where to use/read this |
+| `seeded_questions` | yes (empty OK) | Common questions this doc answers |
 
-`status` enum (shared): `draft | active | in_progress | complete | deprecated | superseded` (plus `implemented | verified` for code). `updated` is ISO 8601 date.
+Additional fields (`depends_on`, `implements`, `supersedes`, and ACP-specific fields like `covers`, `incorporates`, `milestone`, `functional_requirements`, `design_requirements`) are **custom fields preserved by spec-compliant parsers**.
 
-**Requirement IDs and Design IDs.** Specs and designs both carry addressable units:
+### Kind catalog (scry-spec v1.0 baseline + ACP custom)
 
-- `FR<N>` (specs): each requirement in `## Requirements` has an ID like `FR1`, `FR2`, ..., `FR<N>`. Tasks declare which requirements they implement via `covers: FR10, FR11` in the task marker. The spec's marker `functional_requirements:` field records the ID range.
+| kind | use for |
+|---|---|
+| `spec` | Formal functional specifications |
+| `task` | Work items belonging to a milestone |
+| `design` | Architecture and design documents |
+| `milestone` | Project phase markers |
+| `pattern` | Reusable implementation patterns |
+| `clarification` | Q&A resolving design ambiguities (ACP custom kind) |
+| `research` | Reference and research artifacts |
+| `code` | Source file declarations |
+| `lesson` | Learned insights |
+| `report` | Status / wake reports |
+| `audit` | Validation findings |
+
+`status` enum: `draft | active | in_progress | completed | deprecated | superseded` (and any custom value — parsers preserve unknown statuses as-is).
+
+**Requirement IDs and Design IDs.** Specs and designs both carry addressable units stored as ACP custom fields:
+
+- `FR<N>` (specs): each requirement in `## Requirements` has an ID like `FR1`, `FR2`, ..., `FR<N>`. Tasks declare which requirements they implement via `covers: FR10, FR11`. The spec's marker `functional_requirements:` field records the ID range.
 - `DR<N>` (designs): any atomic, addressable design unit — a key decision, code snippet, schema, interface, algorithm, formula, key invariant, or diagram — gets a `DR<N>` label. Tasks declare which design units they inline via `incorporates: DR1, DR3`. The design's marker `design_requirements:` field records the ID range.
 
 See "DR-IDs for designs" below for labeling conventions.
 
-### The parser
+### The parsers
 
-[`agent/scripts/acp.meta-scan.sh`](agent/scripts/acp.meta-scan.sh) is the single source of truth. Commands invoke it rather than reimplementing awk inline.
+ACP uses **scry-spec v1.0 compliant parsers** — not a custom awk script. Two reference implementations are available:
 
-```bash
-# Scan everything
-./agent/scripts/acp.meta-scan.sh agent/
+- **[scry-parse-py](https://pypi.org/project/scry-parse-py/)** (`pip install scry-parse-py`) — Python parser
+- **[scry-parse-ts](https://www.npmjs.com/package/scry-parse-ts)** (`npm install scry-parse-ts`) — TypeScript/Node parser
 
-# Filter by kind
-./agent/scripts/acp.meta-scan.sh --kind task agent/tasks/
-./agent/scripts/acp.meta-scan.sh --kind spec,code .
+When a scry MCP driver is bound (e.g., `@scry/scry-mcp`), use `scry_sql` to query the indexed marker database:
+
+```sql
+-- All tasks for a milestone
+SELECT id, summary, tags FROM scry__doc WHERE kind = 'task' AND tags LIKE '%scope:m3%'
+
+-- All specs
+SELECT id, summary FROM scry__doc WHERE kind = 'spec'
 ```
 
-Output is a flat stream of `file:` / `kind:` / `key:` lines, with `---` between blocks. Any downstream consumer (another awk, shell, or an LLM prompt) parses it directly.
+Unbound fallback: use the parsers via CLI or API to scan the `agent/` directory. The legacy `agent/scripts/acp.meta-scan.sh` is retired — it parsed the old `@acp.meta.*` format and is no longer needed.
 
 ### What markers enable
 
-- **`@acp.task-create`** invokes the scanner to find a matching spec for a new task and auto-populates the task's `Spec Coverage` section from the spec's declared `functional_requirements:` range.
-- **`@acp.sync`** invokes the scanner to build a spec ↔ task ↔ code cross-reference map in one pass, surfacing:
+- **`@acp.task-create`** queries scry for a matching spec for a new task and auto-populates the task's `Spec Coverage` section from the spec's declared `functional_requirements:` range.
+- **`@acp.sync`** uses scry to build a spec ↔ task ↔ code cross-reference map, surfacing:
   - Unclaimed requirements (spec FR<N> with no task `covers:` it) → planning gap
   - Unimplemented claims (task `covers: FR<N>` but no code `implements: FR<N>`) → completion drift
-  - Stale markers (`status: complete` but `updated:` > 6 months ago) → possibly out-of-date
-- **Code markers** are opt-in. Only source files claiming to implement a spec requirement need one. A file may carry multiple `kind: code` blocks (one per function/module implementing a separate requirement).
+  - Stale markers (`status: completed` but `updated:` > 6 months ago) → possibly out-of-date
+- **Code markers** are opt-in. Only source files claiming to implement a spec requirement need one. A file may carry multiple `@scry.entry` blocks (one per function/module implementing a separate requirement).
 
 ### DR-IDs for designs
 
@@ -1307,7 +1330,7 @@ ACP supports binding exactly one external **MCP-server driver** per project. A d
 Bind a driver when you want behavior beyond bash-ACP's defaults:
 - **SQL-backed indexing of project markers** (instead of grep + awk)
 - **Validated workflow execution** (instead of freeform LLM markdown)
-- **Custom marker formats** (instead of `@acp.meta.*`)
+- **Custom marker formats** (extending beyond the default `@scry.entry` vocabulary)
 - **Stateful between-step enforcement** (instead of trusting the LLM to follow markdown)
 
 If your needs are met by ACP's default behavior, do not bind a driver. The default is the canonical experience.
@@ -1381,7 +1404,6 @@ These are decisions, not deferrals. None are roadmapped:
 
 - Multi-driver projects / per-ext-point binding to different drivers
 - Driver-to-driver dependencies / driver inheritance / driver composition
-- Migration tooling for `@acp.meta.*` → driver-format markers
 - Additional ext points beyond `marker.mint`, `query.run`, `workflow.run`
 - Auto-invocation of driver refresh tools by ACP (`capabilities.watcher` is a hint, not a contract)
 - Full ~37-command override-directive rollout (post-M19 effort once pilot reliability is validated)
@@ -1390,7 +1412,7 @@ See the design doc for the complete rationale on each: `agent/design/local.plugg
 
 ### Reserved directory
 
-`agent/drivers/` is reserved for bound drivers' per-project state and locally-installed extension modules. ACP scanners (`acp.meta-scan.sh`, `@acp.validate`, `@acp.sync`) MUST NOT recurse into this directory — its contents are entirely driver-managed.
+`agent/drivers/` is reserved for bound drivers' per-project state and locally-installed extension modules. ACP scanners (`@acp.validate`, `@acp.sync`) MUST NOT recurse into this directory — its contents are entirely driver-managed.
 
 This is NOT the driver's executable install path. Driver code installs via its native ecosystem to system locations (`~/.local/share/uv/tools/`, `~/.cargo/bin/`, etc.) and registers with the agent runtime as an MCP server. `agent/drivers/` exists purely for state + project-scoped module storage owned by the driver.
 
