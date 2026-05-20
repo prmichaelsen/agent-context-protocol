@@ -704,6 +704,15 @@ MIT License - See [LICENSE](./LICENSE) for details
 
 ---
 
+## Referenced forks
+
+- [ssucipto/acp-enhanced](https://github.com/ssucipto/acp-enhanced)
+  — a community fork of ACP adding a context-budget discipline
+  layer, multi-runtime IDE wiring (Copilot, opencode), and a
+  persona-based executor routing taxonomy.
+
+---
+
 ## Links
 
 - **Repository**: https://github.com/prmichaelsen/agent-context-protocol
